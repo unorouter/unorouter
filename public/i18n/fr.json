@@ -2587,6 +2587,174 @@
       "GOTCHA_1": "Choisissez le modèle dans la liste chargée plutôt que de le saisir. Un nom tapé à la main qui ne correspond pas exactement renvoie un 404.",
       "GOTCHA_2": "Les modèles gratuits sont partagés et limités en débit : ils conviennent plus aux tests qu'aux longues sessions. Passez à un modèle payant quand l'histoire compte.",
       "GOTCHA_3": "Pour le jeu de rôle, glm-5.2 raisonne par défaut. Ajouter -thinking ne fait que figer un comportement qu'il a déjà."
+    },
+    "CURSOR": {
+      "META": {
+        "TITLE": "Guide de configuration Cursor | {appName}",
+        "DESCRIPTION": "Utilisez les modèles de {appName} dans Cursor Chat et Agent avec votre propre clé API et le réglage Override OpenAI Base URL.",
+        "KEYWORDS": "Cursor, modèle personnalisé Cursor, URL de base OpenAI Cursor, Cursor BYOK, {appName} Cursor, clé API Cursor"
+      },
+      "BADGE": "Cursor",
+      "TITLE": "Guide de configuration Cursor",
+      "SUBTITLE": "Redirigez l'emplacement de clé OpenAI de Cursor vers {appName} et utilisez ses modèles dans Chat et Agent.",
+      "OVERVIEW_DESC": "Cursor vous permet de remplacer la clé OpenAI et l'URL de base par les vôtres. Les requêtes passent toujours par les serveurs de Cursor : il faut donc un forfait Cursor payant, et seuls Chat et Agent sont concernés.",
+      "STEP_1_TITLE": "Ouvrir les réglages des clés API",
+      "STEP_1_DESC": "Ouvrez Cursor Settings, allez dans Models, faites défiler vers le bas et dépliez API Keys.",
+      "STEP_2_TITLE": "Saisir la clé et l'URL de base",
+      "STEP_2_DESC": "Sous OpenAI API Key, collez votre clé {appName} et activez Use OpenAI API Key. Activez ensuite Override OpenAI Base URL et saisissez l'URL de base.",
+      "STEP_3_TITLE": "Ajouter les modèles",
+      "STEP_3_DESC": "Ajoutez chaque modèle avec son identifiant exact chez {appName}. Les identifiants qui commencent par claude- sont envoyés à l'emplacement de clé Anthropic de Cursor et échouent : choisissez ici des modèles d'autres familles.",
+      "STEP_4_TITLE": "Redémarrer et discuter",
+      "STEP_4_DESC": "Redémarrez Cursor, ouvrez une nouvelle conversation et choisissez le modèle dans Chat ou Agent.",
+      "GOTCHA_1": "Votre propre clé ne fonctionne que pour les modèles de chat dans Chat et Agent. La complétion Tab et les autres fonctions intégrées continuent d'utiliser les modèles de Cursor.",
+      "GOTCHA_2": "Le remplacement de l'URL de base s'applique à tous les modèles OpenAI de Cursor, y compris ceux de Cursor. Désactivez-le pour y revenir.",
+      "GOTCHA_3": "Cursor exige un forfait payant pour utiliser votre propre clé avec une URL de base personnalisée. Sur les forfaits d'équipe, un administrateur peut aussi désactiver les clés API personnelles."
+    },
+    "GITHUB_COPILOT": {
+      "META": {
+        "TITLE": "Guide de configuration GitHub Copilot dans VS Code | {appName}",
+        "DESCRIPTION": "Ajoutez {appName} à GitHub Copilot Chat dans VS Code comme modèle Custom Endpoint avec votre propre clé API.",
+        "KEYWORDS": "GitHub Copilot, modèle personnalisé Copilot VS Code, Copilot avec votre propre clé, Copilot Custom Endpoint, VS Code BYOK, {appName} Copilot"
+      },
+      "BADGE": "GitHub Copilot",
+      "TITLE": "Guide de configuration GitHub Copilot",
+      "SUBTITLE": "Utilisez les modèles de {appName} dans Copilot Chat de VS Code et en mode agent via un Custom Endpoint.",
+      "OVERVIEW_DESC": "VS Code permet à Copilot Chat d'utiliser des modèles avec votre propre clé. Le fournisseur Custom Endpoint accepte toute URL Chat Completions compatible OpenAI et fonctionne sans forfait Copilot.",
+      "STEP_1_TITLE": "Ouvrir Manage Language Models",
+      "STEP_1_DESC": "Lancez Chat: Manage Language Models depuis la Command Palette, ou ouvrez le sélecteur de modèle dans Chat et cliquez sur l'icône d'engrenage.",
+      "STEP_2_TITLE": "Ajouter un Custom Endpoint",
+      "STEP_2_DESC": "Cliquez sur Add Models et choisissez Custom Endpoint. Saisissez un nom de groupe, un nom d'affichage et votre clé {appName}, et laissez le type d'API sur Chat Completions.",
+      "STEP_3_TITLE": "Modifier la liste des modèles",
+      "STEP_3_DESC": "VS Code ouvre chatLanguageModels.json. Placez ces modèles dans le groupe créé, chacun avec l'URL chat completions complète. Laissez toolCalling activé pour le mode agent.",
+      "STEP_4_TITLE": "Choisir le modèle",
+      "STEP_4_DESC": "Choisissez le modèle dans le sélecteur de modèle de Chat. Redémarrez VS Code s'il n'apparaît pas.",
+      "GOTCHA_1": "Vos propres modèles couvrent le chat, le mode agent et les outils. Les complétions de code en ligne et les suggestions de prochaine modification exigent toujours une connexion GitHub et Copilot.",
+      "GOTCHA_2": "Sur Copilot Business et Enterprise, un administrateur devra peut-être d'abord activer la stratégie Bring Your Own Language Model Key.",
+      "GOTCHA_3": "L'ancien fournisseur OpenAI Compatible et le réglage customOAIModels sont obsolètes. Utilisez plutôt Custom Endpoint."
+    },
+    "N8N": {
+      "META": {
+        "TITLE": "Guide de configuration n8n | {appName}",
+        "DESCRIPTION": "Utilisez les modèles de {appName} dans les workflows n8n AI Agent et chaîne LLM via la Base URL des identifiants OpenAI.",
+        "KEYWORDS": "n8n, URL de base OpenAI n8n, LLM personnalisé n8n, n8n AI Agent, n8n compatible OpenAI, {appName} n8n"
+      },
+      "BADGE": "n8n",
+      "TITLE": "Guide de configuration n8n",
+      "SUBTITLE": "Pointez les identifiants OpenAI de n8n vers {appName} et utilisez n'importe quel modèle dans vos workflows AI Agent.",
+      "OVERVIEW_DESC": "Les identifiants OpenAI de n8n ont un champ Base URL. Renseignez-y {appName}, et le nœud OpenAI Chat Model peut piloter les nœuds AI Agent et Basic LLM Chain avec n'importe quel modèle.",
+      "STEP_1_TITLE": "Créer les identifiants",
+      "STEP_1_DESC": "Allez dans Credentials, créez des identifiants OpenAI et remplissez API Key et Base URL. Laissez Organization ID vide. L'enregistrement teste la connexion avec la liste des modèles.",
+      "STEP_2_TITLE": "Ajouter un OpenAI Chat Model",
+      "STEP_2_DESC": "Sur un nœud AI Agent ou Basic LLM Chain, ajoutez le sous-nœud OpenAI Chat Model et sélectionnez les nouveaux identifiants.",
+      "STEP_3_TITLE": "Choisir le modèle",
+      "STEP_3_DESC": "Choisissez un modèle via From List, ou passez à ID et saisissez l'identifiant du modèle.",
+      "STEP_4_TITLE": "Désactiver la Responses API",
+      "STEP_4_DESC": "Désactivez Use Responses API sur le nœud OpenAI Chat Model pour qu'il appelle Chat Completions, que tous les modèles de chat de {appName} prennent en charge.",
+      "GOTCHA_1": "L'opération Message a Model du nœud d'application OpenAI appelle toujours la Responses API, que la plupart des modèles de {appName} ne servent pas. Utilisez plutôt AI Agent ou Basic LLM Chain avec OpenAI Chat Model.",
+      "GOTCHA_2": "Les outils OpenAI intégrés comme Web Search, File Search et Code Interpreter exigent la Responses API et ne fonctionnent pas ici. Les outils que vous connectez au nœud AI Agent fonctionnent avec tout modèle qui prend en charge l'appel d'outils."
+    },
+    "DIFY": {
+      "META": {
+        "TITLE": "Guide de configuration Dify | {appName}",
+        "DESCRIPTION": "Connectez Dify à {appName} avec le plugin {appName} du Dify Marketplace ou le fournisseur OpenAI-API-compatible.",
+        "KEYWORDS": "Dify, fournisseur de modèles Dify, Dify OpenAI-API-compatible, plugin Dify, LLM personnalisé Dify, {appName} Dify"
+      },
+      "BADGE": "Dify",
+      "TITLE": "Guide de configuration Dify",
+      "SUBTITLE": "Ajoutez {appName} à Dify avec le plugin du Marketplace ou comme modèle OpenAI-API-compatible.",
+      "OVERVIEW_DESC": "Dify propose deux méthodes. Le plugin {appName} ne demande que votre clé et fournit des modèles prêts à l'emploi. Le fournisseur OpenAI-API-compatible accepte un modèle à la fois, avec ses propres réglages.",
+      "STEP_1_TITLE": "Installer le plugin {appName}",
+      "STEP_1_DESC": "Ouvrez Plugins, cherchez {appName} dans le Marketplace et installez-le, ou installez-le depuis sa page du Marketplace.",
+      "STEP_2_TITLE": "Ajouter votre clé",
+      "STEP_2_DESC": "Ouvrez Model Provider (sous Settings ou Integrations, selon votre version de Dify), trouvez {appName} et collez votre clé API. Pour un modèle absent de la liste, cliquez sur Add Model et saisissez son identifiant.",
+      "STEP_3_TITLE": "Ou utiliser OpenAI-API-compatible",
+      "STEP_3_DESC": "Installez plutôt le fournisseur OpenAI-API-compatible, cliquez sur Add Model sur sa carte et remplissez ces champs. Réglez Function Call Type sur Tool Call pour les agents, et n'activez Vision Support que pour les modèles qui acceptent les images.",
+      "STEP_4_TITLE": "Définir un modèle par défaut",
+      "STEP_4_DESC": "Sous Default Models, en haut à droite de Model Provider, choisissez un modèle de {appName} comme System Reasoning Model, puis utilisez-le dans vos applications.",
+      "GOTCHA_1": "Seuls les propriétaires et administrateurs de l'espace de travail peuvent ajouter des fournisseurs de modèles.",
+      "GOTCHA_2": "Le fournisseur OpenAI-API-compatible ne lit pas la liste des modèles et ne détecte pas leurs capacités. Ajoutez chaque modèle à la main et définissez vous-même sa taille de contexte et ses fonctions."
+    },
+    "JAN": {
+      "META": {
+        "TITLE": "Guide de configuration Jan | {appName}",
+        "DESCRIPTION": "Ajoutez {appName} à l'application de bureau Jan comme fournisseur personnalisé compatible OpenAI.",
+        "KEYWORDS": "Jan, Jan AI, fournisseur personnalisé Jan, Jan compatible OpenAI, modèles distants Jan, {appName} Jan"
+      },
+      "BADGE": "Jan",
+      "TITLE": "Guide de configuration Jan",
+      "SUBTITLE": "Ajoutez {appName} à Jan comme fournisseur personnalisé à côté de vos modèles locaux.",
+      "OVERVIEW_DESC": "Jan exécute des modèles locaux et se connecte aussi à des fournisseurs distants. Ajoutez {appName} comme fournisseur personnalisé compatible OpenAI et ses modèles apparaissent dans le même sélecteur.",
+      "STEP_1_TITLE": "Ouvrir Model Providers",
+      "STEP_1_DESC": "Ouvrez Settings, allez dans Model Providers et cliquez sur Add Provider.",
+      "STEP_2_TITLE": "Remplir le fournisseur",
+      "STEP_2_DESC": "Laissez API format sur OpenAI-compatible, saisissez un nom, l'URL de base avec /v1 et votre clé, puis cliquez sur Create. Jan charge aussitôt la liste des modèles.",
+      "STEP_3_TITLE": "Activer les capacités",
+      "STEP_3_DESC": "Jan ne détecte pas les capacités des fournisseurs personnalisés. Cliquez sur le crayon à côté d'un modèle et activez Tools ou Vision si le modèle les prend en charge.",
+      "STEP_4_TITLE": "Lancer une conversation",
+      "STEP_4_DESC": "Choisissez un modèle de {appName} dans une nouvelle conversation. Pour ajouter un identifiant manquant, utilisez le bouton plus dans la section Models du fournisseur.",
+      "GOTCHA_1": "L'URL de base doit se terminer par /v1, sinon la liste des modèles ne se charge pas.",
+      "GOTCHA_2": "Jan affiche une note indiquant que le fournisseur n'est peut-être pas entièrement pris en charge. C'est son avis standard pour tout fournisseur personnalisé."
+    },
+    "MSTY": {
+      "META": {
+        "TITLE": "Guide de configuration Msty Studio | {appName}",
+        "DESCRIPTION": "Ajoutez {appName} à Msty Studio comme fournisseur de modèles compatible OpenAI.",
+        "KEYWORDS": "Msty, Msty Studio, Msty compatible OpenAI, fournisseur distant Msty, modèle personnalisé Msty, {appName} Msty"
+      },
+      "BADGE": "Msty",
+      "TITLE": "Guide de configuration Msty Studio",
+      "SUBTITLE": "Ajoutez {appName} à Msty Studio comme fournisseur en ligne compatible OpenAI.",
+      "OVERVIEW_DESC": "Msty Studio fonctionne avec des modèles locaux et en ligne. Ajoutez {appName} comme fournisseur compatible OpenAI et récupérez sa liste de modèles.",
+      "STEP_1_TITLE": "Ouvrir Model Providers",
+      "STEP_1_DESC": "Dans Msty Studio 3, ouvrez Settings, puis Model Providers, et cliquez sur Add Provider. Dans la version 2 et l'application web, c'est sous Model Hub, puis Model Providers.",
+      "STEP_2_TITLE": "Remplir le fournisseur",
+      "STEP_2_DESC": "Choisissez le type de fournisseur OpenAI-compatible, collez votre clé et saisissez l'URL de base comme endpoint.",
+      "STEP_3_TITLE": "Charger les modèles",
+      "STEP_3_DESC": "Cliquez sur Fetch Models et cochez ceux que vous voulez, ou ajoutez un modèle par identifiant avec Add Custom Model. Enregistrez ensuite.",
+      "STEP_4_TITLE": "Choisir un modèle",
+      "STEP_4_DESC": "Ouvrez une conversation et choisissez le modèle dans le sélecteur sous la zone de message.",
+      "GOTCHA_1": "Les fournisseurs appartiennent à un espace de travail. Copiez-les ou synchronisez-les vers d'autres espaces depuis le formulaire du fournisseur.",
+      "GOTCHA_2": "Si les modèles manquent dans le sélecteur, vérifiez que Show in Model Selector est activé pour le fournisseur."
+    },
+    "OBSIDIAN_COPILOT": {
+      "META": {
+        "TITLE": "Guide de configuration Obsidian Copilot | {appName}",
+        "DESCRIPTION": "Ajoutez {appName} au plugin Copilot for Obsidian comme fournisseur BYOK personnalisé.",
+        "KEYWORDS": "Obsidian Copilot, Copilot for Obsidian, plugin IA Obsidian, fournisseur personnalisé Obsidian, Obsidian BYOK, {appName} Obsidian"
+      },
+      "BADGE": "Obsidian Copilot",
+      "TITLE": "Guide de configuration Obsidian Copilot",
+      "SUBTITLE": "Ajoutez {appName} comme fournisseur personnalisé dans Copilot for Obsidian et discutez avec vos notes.",
+      "OVERVIEW_DESC": "Copilot for Obsidian 4 dispose d'un onglet BYOK pour vos propres fournisseurs. Ajoutez {appName} comme fournisseur personnalisé. Aucune licence Copilot n'est nécessaire pour cela.",
+      "STEP_1_TITLE": "Ouvrir BYOK",
+      "STEP_1_DESC": "Ouvrez les paramètres d'Obsidian, allez dans Copilot, puis BYOK, et cliquez sur Add a provider.",
+      "STEP_2_TITLE": "Ajouter un fournisseur personnalisé",
+      "STEP_2_DESC": "Cliquez sur Add a custom provider en bas de la liste et remplissez ces champs. Cliquez sur Test jusqu'à ce que la clé affiche Verified.",
+      "STEP_3_TITLE": "Choisir les modèles",
+      "STEP_3_DESC": "Cochez des modèles dans la liste récupérée, ou ajoutez un identifiant de modèle exact dans le champ modèle, puis cliquez sur Save.",
+      "STEP_4_TITLE": "Commencer à discuter",
+      "STEP_4_DESC": "Choisissez le modèle dans Quick Chat. Agent Chat peut l'utiliser via l'agent OpenCode.",
+      "GOTCHA_1": "Si Test réussit mais que les messages ne partent pas, modifiez le fournisseur et activez Enable CORS. Les réponses arrivent alors d'un seul bloc au lieu d'être diffusées en continu.",
+      "GOTCHA_2": "Les clés sont stockées dans le trousseau Obsidian de chaque appareil et ne se synchronisent pas avec le coffre. Saisissez à nouveau la clé sur chaque appareil."
+    },
+    "AGNAI": {
+      "META": {
+        "TITLE": "Guide de configuration Agnai | {appName}",
+        "DESCRIPTION": "Connectez Agnai à {appName} comme fournisseur OpenAI Compat pour discuter avec des personnages sur n'importe quel modèle.",
+        "KEYWORDS": "Agnai, Agnaistic, Agnai compatible OpenAI, fournisseur personnalisé Agnai, proxy Agnai, {appName} Agnai"
+      },
+      "BADGE": "Agnai",
+      "TITLE": "Guide de configuration Agnai",
+      "SUBTITLE": "Ajoutez {appName} à Agnai comme fournisseur OpenAI Compat pour discuter avec des personnages.",
+      "OVERVIEW_DESC": "Agnai est une interface de discussion avec des personnages. Ajoutez {appName} comme fournisseur OpenAI Compat personnalisé et utilisez-le dans n'importe quel preset.",
+      "STEP_1_TITLE": "Créer un fournisseur",
+      "STEP_1_DESC": "Ouvrez Presets, passez à l'onglet Providers et cliquez sur New.",
+      "STEP_2_TITLE": "Remplir la connexion",
+      "STEP_2_DESC": "Sous Custom, choisissez OpenAI Compat. Saisissez un libellé, l'URL de base et votre clé, réglez Request Format sur OpenAI Compat (Chat), puis cliquez sur Test Connection et Create.",
+      "STEP_3_TITLE": "L'utiliser dans un preset",
+      "STEP_3_DESC": "Dans votre preset, choisissez le nouveau fournisseur sous Service, puis un modèle dans la liste, ou saisissez-en un sous Manual Model ID.",
+      "GOTCHA_1": "Sur agnai.chat, les requêtes viennent du serveur Agnai et non de votre navigateur. Cela fonctionne avec {appName} car son API est publique.",
+      "GOTCHA_2": "Agnai n'a publié aucune mise à jour depuis juin 2026. Si l'écran du fournisseur est différent, l'ancien service Third-Party avec le format OpenAI Compat (Chat) accepte la même URL et la même clé."
     }
   },
   "FOOTER": {

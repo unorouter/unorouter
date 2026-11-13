@@ -69,6 +69,11 @@ function guideColor(c: string): IntegrationColor {
   };
 }
 
+const FREE_GUIDE_MODEL = "glm-5.3-flash:free";
+const PAID_GUIDE_MODEL = "claude-sonnet-5-5";
+const GUIDE_MODEL_IDS = `${FREE_GUIDE_MODEL}
+${PAID_GUIDE_MODEL}`;
+
 export const SETUP_GUIDES: SetupGuide[] = [
   {
     slug: "librechat",
@@ -556,6 +561,242 @@ API Endpoint: ${env.apiUrl}/v1`,
     gotchaKeys: ["DOCS.BIG_AGI.TS_1_DESC", "DOCS.BIG_AGI.TS_2_DESC"],
   },
   {
+    slug: "jan",
+    href: { pathname: "/docs/integrations/[slug]", params: { slug: "jan" } },
+    i18nPrefix: "DOCS.JAN",
+    kind: "general",
+    category: "general",
+    titleKey: "DOCS.JAN.TITLE",
+    subtitleKey: "DOCS.JAN.SUBTITLE",
+    badgeKey: "DOCS.JAN.BADGE",
+    iconKey: "jan",
+    logoSrc: "/images/icons/jan.png",
+    color: guideColor("amber"),
+    baseUrl: `${env.apiUrl}/v1`,
+    compatibility: {
+      chatCompletions: true,
+      streaming: true,
+      toolCalling: true,
+    },
+    recommendedModels: [],
+    steps: [
+      {
+        titleKey: "DOCS.JAN.STEP_1_TITLE",
+        bodyKey: "DOCS.JAN.STEP_1_DESC",
+      },
+      {
+        titleKey: "DOCS.JAN.STEP_2_TITLE",
+        bodyKey: "DOCS.JAN.STEP_2_DESC",
+        code: {
+          lang: "text",
+          value: `API format: OpenAI-compatible
+Name: ${env.appName}
+Base URL: ${env.apiUrl}/v1
+API key: YOUR_API_KEY`,
+        },
+      },
+      {
+        titleKey: "DOCS.JAN.STEP_3_TITLE",
+        bodyKey: "DOCS.JAN.STEP_3_DESC",
+      },
+      {
+        titleKey: "DOCS.JAN.STEP_4_TITLE",
+        bodyKey: "DOCS.JAN.STEP_4_DESC",
+        code: { lang: "text", value: GUIDE_MODEL_IDS },
+      },
+    ],
+    gotchaKeys: ["DOCS.JAN.GOTCHA_1", "DOCS.JAN.GOTCHA_2"],
+  },
+  {
+    slug: "msty",
+    href: { pathname: "/docs/integrations/[slug]", params: { slug: "msty" } },
+    i18nPrefix: "DOCS.MSTY",
+    kind: "general",
+    category: "general",
+    titleKey: "DOCS.MSTY.TITLE",
+    subtitleKey: "DOCS.MSTY.SUBTITLE",
+    badgeKey: "DOCS.MSTY.BADGE",
+    iconKey: "msty",
+    logoSrc: "/images/icons/msty.png",
+    color: guideColor("cyan"),
+    baseUrl: `${env.apiUrl}/v1`,
+    compatibility: {
+      chatCompletions: true,
+      streaming: true,
+    },
+    recommendedModels: [],
+    steps: [
+      {
+        titleKey: "DOCS.MSTY.STEP_1_TITLE",
+        bodyKey: "DOCS.MSTY.STEP_1_DESC",
+      },
+      {
+        titleKey: "DOCS.MSTY.STEP_2_TITLE",
+        bodyKey: "DOCS.MSTY.STEP_2_DESC",
+        code: {
+          lang: "text",
+          value: `Provider: OpenAI-compatible
+API Key: YOUR_API_KEY
+Endpoint: ${env.apiUrl}/v1`,
+        },
+      },
+      {
+        titleKey: "DOCS.MSTY.STEP_3_TITLE",
+        bodyKey: "DOCS.MSTY.STEP_3_DESC",
+        code: { lang: "text", value: GUIDE_MODEL_IDS },
+      },
+      {
+        titleKey: "DOCS.MSTY.STEP_4_TITLE",
+        bodyKey: "DOCS.MSTY.STEP_4_DESC",
+      },
+    ],
+    gotchaKeys: ["DOCS.MSTY.GOTCHA_1", "DOCS.MSTY.GOTCHA_2"],
+  },
+  {
+    slug: "obsidian-copilot",
+    href: {
+      pathname: "/docs/integrations/[slug]",
+      params: { slug: "obsidian-copilot" },
+    },
+    i18nPrefix: "DOCS.OBSIDIAN_COPILOT",
+    kind: "general",
+    category: "general",
+    titleKey: "DOCS.OBSIDIAN_COPILOT.TITLE",
+    subtitleKey: "DOCS.OBSIDIAN_COPILOT.SUBTITLE",
+    badgeKey: "DOCS.OBSIDIAN_COPILOT.BADGE",
+    iconKey: "obsidian-copilot",
+    color: guideColor("violet"),
+    baseUrl: `${env.apiUrl}/v1`,
+    compatibility: {
+      chatCompletions: true,
+      streaming: true,
+    },
+    recommendedModels: [],
+    steps: [
+      {
+        titleKey: "DOCS.OBSIDIAN_COPILOT.STEP_1_TITLE",
+        bodyKey: "DOCS.OBSIDIAN_COPILOT.STEP_1_DESC",
+      },
+      {
+        titleKey: "DOCS.OBSIDIAN_COPILOT.STEP_2_TITLE",
+        bodyKey: "DOCS.OBSIDIAN_COPILOT.STEP_2_DESC",
+        code: {
+          lang: "text",
+          value: `Display name: ${env.appName}
+API key: YOUR_API_KEY
+Base URL: ${env.apiUrl}/v1`,
+        },
+      },
+      {
+        titleKey: "DOCS.OBSIDIAN_COPILOT.STEP_3_TITLE",
+        bodyKey: "DOCS.OBSIDIAN_COPILOT.STEP_3_DESC",
+        code: { lang: "text", value: GUIDE_MODEL_IDS },
+      },
+      {
+        titleKey: "DOCS.OBSIDIAN_COPILOT.STEP_4_TITLE",
+        bodyKey: "DOCS.OBSIDIAN_COPILOT.STEP_4_DESC",
+      },
+    ],
+    gotchaKeys: [
+      "DOCS.OBSIDIAN_COPILOT.GOTCHA_1",
+      "DOCS.OBSIDIAN_COPILOT.GOTCHA_2",
+    ],
+  },
+  {
+    slug: "n8n",
+    href: { pathname: "/docs/integrations/[slug]", params: { slug: "n8n" } },
+    i18nPrefix: "DOCS.N8N",
+    kind: "general",
+    category: "general",
+    titleKey: "DOCS.N8N.TITLE",
+    subtitleKey: "DOCS.N8N.SUBTITLE",
+    badgeKey: "DOCS.N8N.BADGE",
+    iconKey: "n8n",
+    color: guideColor("rose"),
+    baseUrl: `${env.apiUrl}/v1`,
+    compatibility: {
+      chatCompletions: true,
+      toolCalling: true,
+    },
+    recommendedModels: [],
+    steps: [
+      {
+        titleKey: "DOCS.N8N.STEP_1_TITLE",
+        bodyKey: "DOCS.N8N.STEP_1_DESC",
+        code: {
+          lang: "text",
+          value: `API Key: YOUR_API_KEY
+Base URL: ${env.apiUrl}/v1`,
+        },
+      },
+      {
+        titleKey: "DOCS.N8N.STEP_2_TITLE",
+        bodyKey: "DOCS.N8N.STEP_2_DESC",
+      },
+      {
+        titleKey: "DOCS.N8N.STEP_3_TITLE",
+        bodyKey: "DOCS.N8N.STEP_3_DESC",
+        code: { lang: "text", value: GUIDE_MODEL_IDS },
+      },
+      {
+        titleKey: "DOCS.N8N.STEP_4_TITLE",
+        bodyKey: "DOCS.N8N.STEP_4_DESC",
+      },
+    ],
+    gotchaKeys: ["DOCS.N8N.GOTCHA_1", "DOCS.N8N.GOTCHA_2"],
+  },
+  {
+    slug: "dify",
+    href: { pathname: "/docs/integrations/[slug]", params: { slug: "dify" } },
+    i18nPrefix: "DOCS.DIFY",
+    kind: "general",
+    category: "general",
+    titleKey: "DOCS.DIFY.TITLE",
+    subtitleKey: "DOCS.DIFY.SUBTITLE",
+    badgeKey: "DOCS.DIFY.BADGE",
+    iconKey: "dify",
+    color: guideColor("blue"),
+    baseUrl: `${env.apiUrl}/v1`,
+    compatibility: {
+      chatCompletions: true,
+      streaming: true,
+      toolCalling: true,
+    },
+    recommendedModels: [],
+    steps: [
+      {
+        titleKey: "DOCS.DIFY.STEP_1_TITLE",
+        bodyKey: "DOCS.DIFY.STEP_1_DESC",
+        code: {
+          lang: "text",
+          value: "https://marketplace.dify.ai/plugins/unorouter/unorouter",
+        },
+      },
+      {
+        titleKey: "DOCS.DIFY.STEP_2_TITLE",
+        bodyKey: "DOCS.DIFY.STEP_2_DESC",
+      },
+      {
+        titleKey: "DOCS.DIFY.STEP_3_TITLE",
+        bodyKey: "DOCS.DIFY.STEP_3_DESC",
+        code: {
+          lang: "text",
+          value: `Model Name: ${FREE_GUIDE_MODEL}
+API Key: YOUR_API_KEY
+API Base URL: ${env.apiUrl}/v1
+Model context size: 128000
+Upper bound for max tokens: 16000
+Function Call Type: Tool Call`,
+        },
+      },
+      {
+        titleKey: "DOCS.DIFY.STEP_4_TITLE",
+        bodyKey: "DOCS.DIFY.STEP_4_DESC",
+      },
+    ],
+    gotchaKeys: ["DOCS.DIFY.GOTCHA_1", "DOCS.DIFY.GOTCHA_2"],
+  },
+  {
     slug: "sillytavern",
     href: {
       pathname: "/docs/integrations/[slug]",
@@ -912,6 +1153,48 @@ API Key: YOUR_API_KEY`,
       "DOCS.NEVIKA.GOTCHA_2",
       "DOCS.NEVIKA.GOTCHA_3",
     ],
+  },
+  {
+    slug: "agnai",
+    href: { pathname: "/docs/integrations/[slug]", params: { slug: "agnai" } },
+    i18nPrefix: "DOCS.AGNAI",
+    kind: "rp",
+    category: "roleplay",
+    titleKey: "DOCS.AGNAI.TITLE",
+    subtitleKey: "DOCS.AGNAI.SUBTITLE",
+    badgeKey: "DOCS.AGNAI.BADGE",
+    iconKey: "agnai",
+    logoSrc: "/images/icons/agnai.png",
+    color: guideColor("sky"),
+    baseUrl: `${env.apiUrl}/v1`,
+    compatibility: {
+      chatCompletions: true,
+      streaming: true,
+    },
+    recommendedModels: [],
+    steps: [
+      {
+        titleKey: "DOCS.AGNAI.STEP_1_TITLE",
+        bodyKey: "DOCS.AGNAI.STEP_1_DESC",
+      },
+      {
+        titleKey: "DOCS.AGNAI.STEP_2_TITLE",
+        bodyKey: "DOCS.AGNAI.STEP_2_DESC",
+        code: {
+          lang: "text",
+          value: `Label: ${env.appName}
+URL: ${env.apiUrl}/v1
+API Key: YOUR_API_KEY
+Request Format: OpenAI Compat (Chat)`,
+        },
+      },
+      {
+        titleKey: "DOCS.AGNAI.STEP_3_TITLE",
+        bodyKey: "DOCS.AGNAI.STEP_3_DESC",
+        code: { lang: "text", value: GUIDE_MODEL_IDS },
+      },
+    ],
+    gotchaKeys: ["DOCS.AGNAI.GOTCHA_1", "DOCS.AGNAI.GOTCHA_2"],
   },
   {
     slug: "opencode",
@@ -1287,6 +1570,124 @@ model: openai/YOUR_MODEL_ID`,
       },
     ],
     gotchaKeys: ["DOCS.AIDER.GOTCHA_1", "DOCS.AIDER.GOTCHA_2"],
+  },
+  {
+    slug: "cursor",
+    href: { pathname: "/docs/integrations/[slug]", params: { slug: "cursor" } },
+    i18nPrefix: "DOCS.CURSOR",
+    kind: "general",
+    category: "coding",
+    titleKey: "DOCS.CURSOR.TITLE",
+    subtitleKey: "DOCS.CURSOR.SUBTITLE",
+    badgeKey: "DOCS.CURSOR.BADGE",
+    iconKey: "cursor",
+    color: guideColor("slate"),
+    baseUrl: `${env.apiUrl}/v1`,
+    compatibility: {
+      chatCompletions: true,
+      streaming: true,
+      toolCalling: true,
+    },
+    recommendedModels: [],
+    steps: [
+      {
+        titleKey: "DOCS.CURSOR.STEP_1_TITLE",
+        bodyKey: "DOCS.CURSOR.STEP_1_DESC",
+      },
+      {
+        titleKey: "DOCS.CURSOR.STEP_2_TITLE",
+        bodyKey: "DOCS.CURSOR.STEP_2_DESC",
+        code: {
+          lang: "text",
+          value: `OpenAI API Key: YOUR_API_KEY
+Override OpenAI Base URL: ${env.apiUrl}/v1`,
+        },
+      },
+      {
+        titleKey: "DOCS.CURSOR.STEP_3_TITLE",
+        bodyKey: "DOCS.CURSOR.STEP_3_DESC",
+        // Cursor routes any id starting with claude- to its Anthropic key slot.
+        code: { lang: "text", value: `${FREE_GUIDE_MODEL}\ngpt-5.5` },
+      },
+      {
+        titleKey: "DOCS.CURSOR.STEP_4_TITLE",
+        bodyKey: "DOCS.CURSOR.STEP_4_DESC",
+      },
+    ],
+    gotchaKeys: [
+      "DOCS.CURSOR.GOTCHA_1",
+      "DOCS.CURSOR.GOTCHA_2",
+      "DOCS.CURSOR.GOTCHA_3",
+    ],
+  },
+  {
+    slug: "github-copilot",
+    href: {
+      pathname: "/docs/integrations/[slug]",
+      params: { slug: "github-copilot" },
+    },
+    i18nPrefix: "DOCS.GITHUB_COPILOT",
+    kind: "general",
+    category: "coding",
+    titleKey: "DOCS.GITHUB_COPILOT.TITLE",
+    subtitleKey: "DOCS.GITHUB_COPILOT.SUBTITLE",
+    badgeKey: "DOCS.GITHUB_COPILOT.BADGE",
+    iconKey: "github-copilot",
+    color: guideColor("purple"),
+    baseUrl: `${env.apiUrl}/v1`,
+    apiPath: "/chat/completions",
+    compatibility: {
+      chatCompletions: true,
+      streaming: true,
+      toolCalling: true,
+    },
+    recommendedModels: [],
+    steps: [
+      {
+        titleKey: "DOCS.GITHUB_COPILOT.STEP_1_TITLE",
+        bodyKey: "DOCS.GITHUB_COPILOT.STEP_1_DESC",
+      },
+      {
+        titleKey: "DOCS.GITHUB_COPILOT.STEP_2_TITLE",
+        bodyKey: "DOCS.GITHUB_COPILOT.STEP_2_DESC",
+      },
+      {
+        titleKey: "DOCS.GITHUB_COPILOT.STEP_3_TITLE",
+        bodyKey: "DOCS.GITHUB_COPILOT.STEP_3_DESC",
+        code: {
+          lang: "json",
+          value: `"models": [
+  {
+    "id": "${FREE_GUIDE_MODEL}",
+    "name": "GLM 5.3 Flash (free)",
+    "url": "${env.apiUrl}/v1/chat/completions",
+    "toolCalling": true,
+    "vision": false,
+    "maxInputTokens": 128000,
+    "maxOutputTokens": 16000
+  },
+  {
+    "id": "${PAID_GUIDE_MODEL}",
+    "name": "Claude Sonnet 5.5",
+    "url": "${env.apiUrl}/v1/chat/completions",
+    "toolCalling": true,
+    "vision": true,
+    "maxInputTokens": 200000,
+    "maxOutputTokens": 32000
+  }
+]`,
+        },
+      },
+      {
+        titleKey: "DOCS.GITHUB_COPILOT.STEP_4_TITLE",
+        bodyKey: "DOCS.GITHUB_COPILOT.STEP_4_DESC",
+      },
+    ],
+    gotchaKeys: [
+      "DOCS.GITHUB_COPILOT.GOTCHA_1",
+      "DOCS.GITHUB_COPILOT.GOTCHA_2",
+      "DOCS.GITHUB_COPILOT.GOTCHA_3",
+    ],
   },
   {
     slug: "cc-switch",

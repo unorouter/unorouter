@@ -2587,6 +2587,174 @@
       "GOTCHA_1": "Pilih model dari dropdown yang termuat alih-alih mengetiknya. Nama yang diketik manual dan tidak sama persis akan menghasilkan 404.",
       "GOTCHA_2": "Model gratis dipakai bersama dan dibatasi lajunya, jadi lebih cocok untuk pengujian daripada sesi panjang. Beralihlah ke model berbayar saat cerita Anda penting.",
       "GOTCHA_3": "Untuk roleplay, glm-5.2 sudah bernalar secara bawaan. Menambahkan -thinking hanya mengunci perilaku yang sudah dimilikinya."
+    },
+    "CURSOR": {
+      "META": {
+        "TITLE": "Panduan Pengaturan Cursor | {appName}",
+        "DESCRIPTION": "Gunakan model {appName} di Cursor Chat dan Agent dengan kunci API Anda sendiri dan pengaturan Override OpenAI Base URL.",
+        "KEYWORDS": "Cursor, model kustom Cursor, Cursor OpenAI base URL, Cursor BYOK, {appName} Cursor, kunci API Cursor"
+      },
+      "BADGE": "Cursor",
+      "TITLE": "Panduan Pengaturan Cursor",
+      "SUBTITLE": "Arahkan slot kunci OpenAI di Cursor ke {appName} dan gunakan modelnya di Chat dan Agent.",
+      "OVERVIEW_DESC": "Cursor memungkinkan Anda mengganti kunci OpenAI dan base URL dengan milik Anda sendiri. Permintaan tetap melewati server Cursor, jadi ini memerlukan paket Cursor berbayar dan hanya berlaku untuk Chat dan Agent.",
+      "STEP_1_TITLE": "Buka pengaturan kunci API",
+      "STEP_1_DESC": "Buka Cursor Settings, masuk ke Models, gulir ke bawah, lalu bentangkan API Keys.",
+      "STEP_2_TITLE": "Masukkan kunci dan base URL",
+      "STEP_2_DESC": "Di bawah OpenAI API Key, tempel kunci {appName} Anda dan aktifkan Use OpenAI API Key. Lalu aktifkan Override OpenAI Base URL dan masukkan base URL.",
+      "STEP_3_TITLE": "Tambahkan model",
+      "STEP_3_DESC": "Tambahkan setiap model dengan id {appName} yang persis. Id yang diawali claude- dikirim ke slot kunci Anthropic di Cursor dan gagal, jadi pilih model dari keluarga lain di sini.",
+      "STEP_4_TITLE": "Mulai ulang dan mengobrol",
+      "STEP_4_DESC": "Mulai ulang Cursor, buka obrolan baru, lalu pilih model di Chat atau Agent.",
+      "GOTCHA_1": "Kunci Anda sendiri hanya berfungsi untuk model obrolan di Chat dan Agent. Pelengkapan Tab dan fitur bawaan lainnya tetap memakai model milik Cursor.",
+      "GOTCHA_2": "Penggantian base URL berlaku untuk semua model OpenAI di Cursor, termasuk model milik Cursor sendiri. Matikan untuk kembali ke model tersebut.",
+      "GOTCHA_3": "Cursor mewajibkan paket berbayar untuk memakai kunci sendiri dengan base URL kustom. Pada paket tim, admin juga dapat menonaktifkan kunci API pribadi."
+    },
+    "GITHUB_COPILOT": {
+      "META": {
+        "TITLE": "Panduan Pengaturan GitHub Copilot di VS Code | {appName}",
+        "DESCRIPTION": "Tambahkan {appName} ke GitHub Copilot Chat di VS Code sebagai model Custom Endpoint dengan kunci API Anda sendiri.",
+        "KEYWORDS": "GitHub Copilot, model kustom VS Code Copilot, Copilot pakai kunci sendiri, Copilot Custom Endpoint, VS Code BYOK, {appName} Copilot"
+      },
+      "BADGE": "GitHub Copilot",
+      "TITLE": "Panduan Pengaturan GitHub Copilot",
+      "SUBTITLE": "Gunakan model {appName} di VS Code Copilot Chat dan mode agen melalui Custom Endpoint.",
+      "OVERVIEW_DESC": "VS Code memungkinkan Copilot Chat memakai model dari kunci Anda sendiri. Penyedia Custom Endpoint menerima URL Chat Completions apa pun yang kompatibel dengan OpenAI dan berfungsi tanpa paket Copilot.",
+      "STEP_1_TITLE": "Buka Manage Language Models",
+      "STEP_1_DESC": "Jalankan Chat: Manage Language Models dari Command Palette, atau buka pemilih model di Chat dan klik ikon roda gigi.",
+      "STEP_2_TITLE": "Tambahkan Custom Endpoint",
+      "STEP_2_DESC": "Klik Add Models dan pilih Custom Endpoint. Masukkan nama grup, nama tampilan, dan kunci {appName} Anda, lalu biarkan tipe API pada Chat Completions.",
+      "STEP_3_TITLE": "Sunting daftar model",
+      "STEP_3_DESC": "VS Code membuka chatLanguageModels.json. Masukkan model berikut ke grup yang dibuatnya, masing-masing dengan URL chat completions lengkap. Biarkan toolCalling aktif untuk mode agen.",
+      "STEP_4_TITLE": "Pilih model",
+      "STEP_4_DESC": "Pilih model di pemilih model Chat. Mulai ulang VS Code jika model tidak muncul.",
+      "GOTCHA_1": "Model Anda sendiri mencakup obrolan, mode agen, dan alat. Pelengkapan kode inline dan saran suntingan berikutnya tetap memerlukan login GitHub dan Copilot.",
+      "GOTCHA_2": "Pada Copilot Business dan Enterprise, admin mungkin perlu mengaktifkan kebijakan Bring Your Own Language Model Key terlebih dahulu.",
+      "GOTCHA_3": "Penyedia OpenAI Compatible yang lama dan pengaturan customOAIModels sudah usang. Gunakan Custom Endpoint sebagai gantinya."
+    },
+    "N8N": {
+      "META": {
+        "TITLE": "Panduan Pengaturan n8n | {appName}",
+        "DESCRIPTION": "Gunakan model {appName} dalam alur kerja AI Agent dan rantai LLM di n8n melalui Base URL kredensial OpenAI.",
+        "KEYWORDS": "n8n, n8n OpenAI base URL, LLM kustom n8n, n8n AI Agent, n8n kompatibel OpenAI, {appName} n8n"
+      },
+      "BADGE": "n8n",
+      "TITLE": "Panduan Pengaturan n8n",
+      "SUBTITLE": "Arahkan kredensial OpenAI di n8n ke {appName} dan jalankan model apa pun dalam alur kerja AI Agent.",
+      "OVERVIEW_DESC": "Kredensial OpenAI di n8n punya kolom Base URL. Isi dengan {appName}, dan node OpenAI Chat Model dapat menjalankan node AI Agent dan Basic LLM Chain dengan model apa pun.",
+      "STEP_1_TITLE": "Buat kredensial",
+      "STEP_1_DESC": "Buka Credentials, buat kredensial OpenAI, lalu isi API Key dan Base URL. Biarkan Organization ID kosong. Saat disimpan, koneksi diuji terhadap daftar model.",
+      "STEP_2_TITLE": "Tambahkan OpenAI Chat Model",
+      "STEP_2_DESC": "Pada node AI Agent atau Basic LLM Chain, tambahkan sub node OpenAI Chat Model dan pilih kredensial baru tersebut.",
+      "STEP_3_TITLE": "Pilih model",
+      "STEP_3_DESC": "Pilih model From List, atau beralih ke ID dan ketik id model.",
+      "STEP_4_TITLE": "Matikan Responses API",
+      "STEP_4_DESC": "Matikan Use Responses API pada node OpenAI Chat Model agar node memanggil Chat Completions, yang didukung setiap model obrolan {appName}.",
+      "GOTCHA_1": "Operasi Message a Model pada node aplikasi OpenAI selalu memanggil Responses API, yang tidak dilayani sebagian besar model {appName}. Gunakan AI Agent atau Basic LLM Chain dengan OpenAI Chat Model sebagai gantinya.",
+      "GOTCHA_2": "Alat OpenAI bawaan seperti Web Search, File Search, dan Code Interpreter memerlukan Responses API dan tidak berfungsi di sini. Alat yang Anda hubungkan ke node AI Agent berfungsi dengan model apa pun yang mendukung pemanggilan alat."
+    },
+    "DIFY": {
+      "META": {
+        "TITLE": "Panduan Pengaturan Dify | {appName}",
+        "DESCRIPTION": "Hubungkan Dify ke {appName} dengan plugin {appName} dari Dify Marketplace atau penyedia OpenAI-API-compatible.",
+        "KEYWORDS": "Dify, penyedia model Dify, Dify OpenAI-API-compatible, plugin Dify, LLM kustom Dify, {appName} Dify"
+      },
+      "BADGE": "Dify",
+      "TITLE": "Panduan Pengaturan Dify",
+      "SUBTITLE": "Tambahkan {appName} ke Dify dengan plugin marketplace atau sebagai model OpenAI-API-compatible.",
+      "OVERVIEW_DESC": "Dify menawarkan dua cara. Plugin {appName} hanya memerlukan kunci Anda dan sudah dilengkapi model siap pakai. Penyedia OpenAI-API-compatible menerima satu model sekaligus dengan pengaturannya sendiri.",
+      "STEP_1_TITLE": "Pasang plugin {appName}",
+      "STEP_1_DESC": "Buka Plugins, cari {appName} di Marketplace lalu pasang, atau pasang dari halaman marketplace-nya.",
+      "STEP_2_TITLE": "Tambahkan kunci Anda",
+      "STEP_2_DESC": "Buka Model Provider (di bawah Settings atau Integrations, tergantung versi Dify Anda), cari {appName} dan tempel kunci API Anda. Untuk model yang tidak tercantum, klik Add Model dan masukkan id-nya.",
+      "STEP_3_TITLE": "Atau gunakan OpenAI-API-compatible",
+      "STEP_3_DESC": "Sebagai gantinya, pasang penyedia OpenAI-API-compatible, klik Add Model pada kartunya, lalu isi kolom berikut. Atur Function Call Type ke Tool Call untuk agen, dan aktifkan Vision Support hanya untuk model yang menerima gambar.",
+      "STEP_4_TITLE": "Atur model default",
+      "STEP_4_DESC": "Di bawah Default Models di kanan atas Model Provider, pilih model {appName} sebagai System Reasoning Model, lalu gunakan di aplikasi Anda.",
+      "GOTCHA_1": "Hanya pemilik dan admin workspace yang dapat menambahkan penyedia model.",
+      "GOTCHA_2": "Penyedia OpenAI-API-compatible tidak membaca daftar model dan tidak mendeteksi kemampuan. Tambahkan setiap model secara manual dan atur sendiri ukuran konteks serta fiturnya."
+    },
+    "JAN": {
+      "META": {
+        "TITLE": "Panduan Pengaturan Jan | {appName}",
+        "DESCRIPTION": "Tambahkan {appName} ke aplikasi desktop Jan sebagai penyedia kustom yang kompatibel dengan OpenAI.",
+        "KEYWORDS": "Jan, Jan AI, penyedia kustom Jan, Jan kompatibel OpenAI, model jarak jauh Jan, {appName} Jan"
+      },
+      "BADGE": "Jan",
+      "TITLE": "Panduan Pengaturan Jan",
+      "SUBTITLE": "Tambahkan {appName} ke Jan sebagai penyedia kustom di samping model lokal Anda.",
+      "OVERVIEW_DESC": "Jan menjalankan model lokal dan juga terhubung ke penyedia jarak jauh. Tambahkan {appName} sebagai penyedia kustom yang kompatibel dengan OpenAI dan modelnya akan muncul di pemilih yang sama.",
+      "STEP_1_TITLE": "Buka Model Providers",
+      "STEP_1_DESC": "Buka Settings, masuk ke Model Providers, lalu klik Add Provider.",
+      "STEP_2_TITLE": "Isi data penyedia",
+      "STEP_2_DESC": "Biarkan API format pada OpenAI-compatible, masukkan nama, base URL dengan /v1, dan kunci Anda, lalu klik Create. Jan langsung memuat daftar model.",
+      "STEP_3_TITLE": "Aktifkan kemampuan",
+      "STEP_3_DESC": "Jan tidak mendeteksi kemampuan untuk penyedia kustom. Klik ikon pensil di samping model dan aktifkan Tools atau Vision jika model mendukungnya.",
+      "STEP_4_TITLE": "Mulai obrolan",
+      "STEP_4_DESC": "Pilih model {appName} di obrolan baru. Untuk menambahkan id yang belum ada, gunakan tombol plus di bagian Models pada penyedia.",
+      "GOTCHA_1": "Base URL harus diakhiri /v1, jika tidak daftar model tidak akan dimuat.",
+      "GOTCHA_2": "Jan menampilkan catatan bahwa penyedia mungkin tidak didukung sepenuhnya. Itu pemberitahuan standarnya untuk setiap penyedia kustom."
+    },
+    "MSTY": {
+      "META": {
+        "TITLE": "Panduan Pengaturan Msty Studio | {appName}",
+        "DESCRIPTION": "Tambahkan {appName} ke Msty Studio sebagai penyedia model yang kompatibel dengan OpenAI.",
+        "KEYWORDS": "Msty, Msty Studio, Msty kompatibel OpenAI, penyedia jarak jauh Msty, model kustom Msty, {appName} Msty"
+      },
+      "BADGE": "Msty",
+      "TITLE": "Panduan Pengaturan Msty Studio",
+      "SUBTITLE": "Tambahkan {appName} ke Msty Studio sebagai penyedia online yang kompatibel dengan OpenAI.",
+      "OVERVIEW_DESC": "Msty Studio bekerja dengan model lokal dan online. Tambahkan {appName} sebagai penyedia yang kompatibel dengan OpenAI dan ambil daftar modelnya.",
+      "STEP_1_TITLE": "Buka Model Providers",
+      "STEP_1_DESC": "Di Msty Studio 3, buka Settings, lalu Model Providers, dan klik Add Provider. Di versi 2 dan aplikasi web, letaknya di Model Hub, lalu Model Providers.",
+      "STEP_2_TITLE": "Isi data penyedia",
+      "STEP_2_DESC": "Pilih tipe penyedia yang kompatibel dengan OpenAI, tempel kunci Anda, dan masukkan base URL sebagai endpoint.",
+      "STEP_3_TITLE": "Muat model",
+      "STEP_3_DESC": "Klik Fetch Models dan centang yang Anda inginkan, atau tambahkan model berdasarkan id dengan Add Custom Model. Lalu simpan.",
+      "STEP_4_TITLE": "Pilih model",
+      "STEP_4_DESC": "Buka percakapan dan pilih model di pemilih di bawah kotak pesan.",
+      "GOTCHA_1": "Penyedia terikat pada satu workspace. Salin atau sinkronkan ke workspace lain dari formulir penyedia.",
+      "GOTCHA_2": "Jika model tidak ada di pemilih, pastikan Show in Model Selector aktif untuk penyedia tersebut."
+    },
+    "OBSIDIAN_COPILOT": {
+      "META": {
+        "TITLE": "Panduan Pengaturan Obsidian Copilot | {appName}",
+        "DESCRIPTION": "Tambahkan {appName} ke plugin Copilot for Obsidian sebagai penyedia BYOK kustom.",
+        "KEYWORDS": "Obsidian Copilot, Copilot for Obsidian, plugin AI Obsidian, penyedia kustom Obsidian, Obsidian BYOK, {appName} Obsidian"
+      },
+      "BADGE": "Obsidian Copilot",
+      "TITLE": "Panduan Pengaturan Obsidian Copilot",
+      "SUBTITLE": "Tambahkan {appName} sebagai penyedia kustom di Copilot for Obsidian dan mengobrol dengan catatan Anda.",
+      "OVERVIEW_DESC": "Copilot for Obsidian 4 punya tab BYOK untuk penyedia Anda sendiri. Tambahkan {appName} sebagai penyedia kustom. Lisensi Copilot tidak diperlukan untuk itu.",
+      "STEP_1_TITLE": "Buka BYOK",
+      "STEP_1_DESC": "Buka pengaturan Obsidian, masuk ke Copilot, lalu BYOK, dan klik Add a provider.",
+      "STEP_2_TITLE": "Tambahkan penyedia kustom",
+      "STEP_2_DESC": "Klik Add a custom provider di bagian bawah daftar dan isi kolom berikut. Klik Test sampai kunci menampilkan Verified.",
+      "STEP_3_TITLE": "Pilih model",
+      "STEP_3_DESC": "Centang model di daftar yang diambil, atau tambahkan id model yang persis di kolom model, lalu klik Save.",
+      "STEP_4_TITLE": "Mulai mengobrol",
+      "STEP_4_DESC": "Pilih model di Quick Chat. Agent Chat dapat memakainya melalui agen OpenCode.",
+      "GOTCHA_1": "Jika Test berhasil tetapi pesan gagal terkirim, sunting penyedia dan aktifkan Enable CORS. Balasan lalu datang sekaligus, bukan secara streaming.",
+      "GOTCHA_2": "Kunci disimpan di keychain Obsidian pada setiap perangkat dan tidak disinkronkan dengan vault. Masukkan kunci lagi di setiap perangkat."
+    },
+    "AGNAI": {
+      "META": {
+        "TITLE": "Panduan Pengaturan Agnai | {appName}",
+        "DESCRIPTION": "Hubungkan Agnai ke {appName} sebagai penyedia OpenAI Compat untuk obrolan karakter dengan model apa pun.",
+        "KEYWORDS": "Agnai, Agnaistic, Agnai kompatibel OpenAI, penyedia kustom Agnai, proxy Agnai, {appName} Agnai"
+      },
+      "BADGE": "Agnai",
+      "TITLE": "Panduan Pengaturan Agnai",
+      "SUBTITLE": "Tambahkan {appName} ke Agnai sebagai penyedia OpenAI Compat untuk obrolan karakter.",
+      "OVERVIEW_DESC": "Agnai adalah frontend obrolan karakter. Tambahkan {appName} sebagai penyedia OpenAI Compat kustom dan gunakan di preset mana pun.",
+      "STEP_1_TITLE": "Buat penyedia",
+      "STEP_1_DESC": "Buka Presets, pindah ke tab Providers, lalu klik New.",
+      "STEP_2_TITLE": "Isi koneksi",
+      "STEP_2_DESC": "Di bawah Custom, pilih OpenAI Compat. Masukkan label, base URL, dan kunci Anda, atur Request Format ke OpenAI Compat (Chat), lalu klik Test Connection dan Create.",
+      "STEP_3_TITLE": "Gunakan di preset",
+      "STEP_3_DESC": "Di preset Anda, pilih penyedia baru di bawah Service, lalu pilih model dari daftar atau masukkan satu di Manual Model ID.",
+      "GOTCHA_1": "Di agnai.chat, permintaan berasal dari server Agnai, bukan dari browser Anda. Itu berfungsi dengan {appName} karena API-nya publik.",
+      "GOTCHA_2": "Agnai belum merilis pembaruan sejak Juni 2026. Jika layar penyedia terlihat berbeda, layanan Third-Party yang lebih lama dengan format OpenAI Compat (Chat) menerima URL dan kunci yang sama."
     }
   },
   "FOOTER": {

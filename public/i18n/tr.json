@@ -2587,6 +2587,174 @@
       "GOTCHA_1": "Modeli yazmak yerine yüklenen açılır listeden seçin. Birebir eşleşmeyen, elle yazılmış bir ad 404 döndürür.",
       "GOTCHA_2": "Ücretsiz modeller paylaşımlıdır ve hız sınırlıdır, bu yüzden uzun oturumlardan çok teste uygundur. Bir hikaye önemliyse ücretli bir modele geçin.",
       "GOTCHA_3": "Rol yapmada glm-5.2 varsayılan olarak akıl yürütür. -thinking eklemek yalnızca zaten var olan davranışı sabitler."
+    },
+    "CURSOR": {
+      "META": {
+        "TITLE": "Cursor Kurulum Kılavuzu | {appName}",
+        "DESCRIPTION": "{appName} modellerini kendi API anahtarınız ve Override OpenAI Base URL ayarıyla Cursor Chat ve Agent içinde kullanın.",
+        "KEYWORDS": "Cursor, Cursor özel model, Cursor OpenAI base URL, Cursor BYOK, {appName} Cursor, Cursor API anahtarı"
+      },
+      "BADGE": "Cursor",
+      "TITLE": "Cursor Kurulum Kılavuzu",
+      "SUBTITLE": "Cursor''daki OpenAI anahtar yuvasını {appName} adresine yönlendirin ve modellerini Chat ile Agent içinde kullanın.",
+      "OVERVIEW_DESC": "Cursor, OpenAI anahtarını ve temel URL'yi kendinizinkilerle değiştirmenize izin verir. İstekler yine Cursor sunucularından geçtiği için bu, ücretli bir Cursor planı gerektirir ve yalnızca Chat ile Agent için geçerlidir.",
+      "STEP_1_TITLE": "API anahtarı ayarlarını açın",
+      "STEP_1_DESC": "Cursor Settings'i açın, Models bölümüne gidin, aşağı kaydırın ve API Keys'i genişletin.",
+      "STEP_2_TITLE": "Anahtarı ve temel URL'yi girin",
+      "STEP_2_DESC": "OpenAI API Key altına {appName} anahtarınızı yapıştırın ve Use OpenAI API Key seçeneğini açın. Ardından Override OpenAI Base URL seçeneğini açın ve temel URL''yi girin.",
+      "STEP_3_TITLE": "Modelleri ekleyin",
+      "STEP_3_DESC": "Her modeli tam {appName} kimliğiyle ekleyin. claude- ile başlayan kimlikler Cursor''da Anthropic anahtar yuvasına gönderilir ve başarısız olur, bu yüzden burada başka ailelerden modeller seçin.",
+      "STEP_4_TITLE": "Yeniden başlatın ve sohbet edin",
+      "STEP_4_DESC": "Cursor'ı yeniden başlatın, yeni bir sohbet açın ve modeli Chat veya Agent içinde seçin.",
+      "GOTCHA_1": "Kendi anahtarınız yalnızca Chat ve Agent içindeki sohbet modellerinde çalışır. Tab tamamlama ve diğer yerleşik özellikler Cursor'ın kendi modellerini kullanmaya devam eder.",
+      "GOTCHA_2": "Temel URL geçersiz kılma, Cursor'ın kendi modelleri dahil Cursor'daki tüm OpenAI modellerine uygulanır. Onlara dönmek için kapatın.",
+      "GOTCHA_3": "Cursor, kendi anahtarınızı özel bir temel URL ile kullanmak için ücretli plan ister. Takım planlarında bir yönetici kişisel API anahtarlarını da kapatabilir."
+    },
+    "GITHUB_COPILOT": {
+      "META": {
+        "TITLE": "VS Code''da GitHub Copilot Kurulum Kılavuzu | {appName}",
+        "DESCRIPTION": "{appName} hizmetini kendi API anahtarınızla VS Code''daki GitHub Copilot Chat''e Custom Endpoint modeli olarak ekleyin.",
+        "KEYWORDS": "GitHub Copilot, VS Code Copilot özel model, Copilot kendi anahtarını getir, Copilot Custom Endpoint, VS Code BYOK, {appName} Copilot"
+      },
+      "BADGE": "GitHub Copilot",
+      "TITLE": "GitHub Copilot Kurulum Kılavuzu",
+      "SUBTITLE": "{appName} modellerini Custom Endpoint üzerinden VS Code Copilot Chat ve ajan modunda kullanın.",
+      "OVERVIEW_DESC": "VS Code, Copilot Chat'in kendi anahtarınızdaki modelleri kullanmasına izin verir. Custom Endpoint sağlayıcısı OpenAI uyumlu her Chat Completions URL'sini kabul eder ve Copilot planı olmadan çalışır.",
+      "STEP_1_TITLE": "Manage Language Models'i açın",
+      "STEP_1_DESC": "Command Palette'ten Chat: Manage Language Models komutunu çalıştırın ya da Chat'te model seçiciyi açıp dişli simgesine tıklayın.",
+      "STEP_2_TITLE": "Custom Endpoint ekleyin",
+      "STEP_2_DESC": "Add Models''a tıklayın ve Custom Endpoint seçin. Bir grup adı, görünen ad ve {appName} anahtarınızı girin, API türünü Chat Completions olarak bırakın.",
+      "STEP_3_TITLE": "Model listesini düzenleyin",
+      "STEP_3_DESC": "VS Code chatLanguageModels.json dosyasını açar. Bu modelleri oluşturduğu gruba, her biri için tam chat completions URL'siyle ekleyin. Ajan modu için toolCalling açık kalsın.",
+      "STEP_4_TITLE": "Modeli seçin",
+      "STEP_4_DESC": "Modeli Chat model seçicisinde seçin. Görünmezse VS Code'u yeniden başlatın.",
+      "GOTCHA_1": "Kendi modelleriniz sohbeti, ajan modunu ve araçları kapsar. Satır içi kod tamamlamaları ve sonraki düzenleme önerileri yine GitHub girişi ve Copilot gerektirir.",
+      "GOTCHA_2": "Copilot Business ve Enterprise'da bir yöneticinin önce Bring Your Own Language Model Key politikasını etkinleştirmesi gerekebilir.",
+      "GOTCHA_3": "Eski OpenAI Compatible sağlayıcısı ve customOAIModels ayarı kullanımdan kaldırıldı. Bunun yerine Custom Endpoint kullanın."
+    },
+    "N8N": {
+      "META": {
+        "TITLE": "n8n Kurulum Kılavuzu | {appName}",
+        "DESCRIPTION": "{appName} modellerini OpenAI kimlik bilgisinin Base URL alanı üzerinden n8n AI Agent ve LLM zinciri iş akışlarında kullanın.",
+        "KEYWORDS": "n8n, n8n OpenAI base URL, n8n özel LLM, n8n AI Agent, n8n OpenAI uyumlu, {appName} n8n"
+      },
+      "BADGE": "n8n",
+      "TITLE": "n8n Kurulum Kılavuzu",
+      "SUBTITLE": "n8n OpenAI kimlik bilgisini {appName} adresine yönlendirin ve AI Agent iş akışlarında her modeli çalıştırın.",
+      "OVERVIEW_DESC": "n8n''deki OpenAI kimlik bilgisinin bir Base URL alanı vardır. Bunu {appName} olarak ayarlayın, OpenAI Chat Model düğümü AI Agent ve Basic LLM Chain düğümlerini her modelle çalıştırabilsin.",
+      "STEP_1_TITLE": "Kimlik bilgisini oluşturun",
+      "STEP_1_DESC": "Credentials bölümüne gidin, bir OpenAI kimlik bilgisi oluşturun ve API Key ile Base URL alanlarını doldurun. Organization ID'yi boş bırakın. Kaydetmek, bağlantıyı model listesine karşı test eder.",
+      "STEP_2_TITLE": "OpenAI Chat Model ekleyin",
+      "STEP_2_DESC": "Bir AI Agent veya Basic LLM Chain düğümüne OpenAI Chat Model alt düğümünü ekleyin ve yeni kimlik bilgisini seçin.",
+      "STEP_3_TITLE": "Modeli seçin",
+      "STEP_3_DESC": "From List ile bir model seçin ya da ID'ye geçip model kimliğini yazın.",
+      "STEP_4_TITLE": "Responses API'yi kapatın",
+      "STEP_4_DESC": "OpenAI Chat Model düğümünde Use Responses API seçeneğini kapatın; böylece her {appName} sohbet modelinin desteklediği Chat Completions çağrılır.",
+      "GOTCHA_1": "OpenAI uygulama düğümünün Message a Model işlemi her zaman Responses API''yi çağırır ve çoğu {appName} modeli bunu sunmaz. Bunun yerine OpenAI Chat Model ile AI Agent veya Basic LLM Chain kullanın.",
+      "GOTCHA_2": "Web Search, File Search ve Code Interpreter gibi yerleşik OpenAI araçları Responses API gerektirir ve burada çalışmaz. AI Agent düğümüne bağladığınız araçlar, araç çağırmayı destekleyen her modelle çalışır."
+    },
+    "DIFY": {
+      "META": {
+        "TITLE": "Dify Kurulum Kılavuzu | {appName}",
+        "DESCRIPTION": "Dify''ı, Dify Marketplace''teki {appName} eklentisiyle veya OpenAI-API-compatible sağlayıcısıyla {appName} hizmetine bağlayın.",
+        "KEYWORDS": "Dify, Dify model sağlayıcı, Dify OpenAI-API-compatible, Dify eklentisi, Dify özel LLM, {appName} Dify"
+      },
+      "BADGE": "Dify",
+      "TITLE": "Dify Kurulum Kılavuzu",
+      "SUBTITLE": "{appName} hizmetini Dify''a marketplace eklentisiyle ya da OpenAI-API-compatible model olarak ekleyin.",
+      "OVERVIEW_DESC": "Dify iki yol sunar. {appName} eklentisi yalnızca anahtarınızı ister ve hazır modellerle gelir. OpenAI-API-compatible sağlayıcısı her seferinde kendi ayarlarıyla tek bir model alır.",
+      "STEP_1_TITLE": "{appName} eklentisini yükleyin",
+      "STEP_1_DESC": "Plugins''i açın, Marketplace''te {appName} araması yapın ve yükleyin ya da eklentiyi marketplace sayfasından yükleyin.",
+      "STEP_2_TITLE": "Anahtarınızı ekleyin",
+      "STEP_2_DESC": "Model Provider''ı açın (Dify sürümünüze göre Settings veya Integrations altında), {appName} sağlayıcısını bulun ve API anahtarınızı yapıştırın. Listede olmayan bir model için Add Model''e tıklayın ve kimliğini girin.",
+      "STEP_3_TITLE": "Ya da OpenAI-API-compatible kullanın",
+      "STEP_3_DESC": "Bunun yerine OpenAI-API-compatible sağlayıcısını yükleyin, kartındaki Add Model'e tıklayın ve bu alanları doldurun. Ajanlar için Function Call Type'ı Tool Call yapın, Vision Support'u yalnızca görsel kabul eden modellerde açın.",
+      "STEP_4_TITLE": "Varsayılan model belirleyin",
+      "STEP_4_DESC": "Model Provider''ın sağ üstündeki Default Models altında bir {appName} modelini System Reasoning Model olarak seçin, ardından uygulamalarınızda kullanın.",
+      "GOTCHA_1": "Model sağlayıcılarını yalnızca çalışma alanı sahipleri ve yöneticileri ekleyebilir.",
+      "GOTCHA_2": "OpenAI-API-compatible sağlayıcısı model listesini okumaz ve yetenekleri algılamaz. Her modeli elle ekleyin, bağlam boyutunu ve özelliklerini kendiniz ayarlayın."
+    },
+    "JAN": {
+      "META": {
+        "TITLE": "Jan Kurulum Kılavuzu | {appName}",
+        "DESCRIPTION": "{appName} hizmetini Jan masaüstü uygulamasına özel bir OpenAI uyumlu sağlayıcı olarak ekleyin.",
+        "KEYWORDS": "Jan, Jan AI, Jan özel sağlayıcı, Jan OpenAI uyumlu, Jan uzak modeller, {appName} Jan"
+      },
+      "BADGE": "Jan",
+      "TITLE": "Jan Kurulum Kılavuzu",
+      "SUBTITLE": "{appName} hizmetini yerel modellerinizin yanına Jan''da özel sağlayıcı olarak ekleyin.",
+      "OVERVIEW_DESC": "Jan yerel modelleri çalıştırır ve uzak sağlayıcılara da bağlanır. {appName} hizmetini özel bir OpenAI uyumlu sağlayıcı olarak ekleyin, modelleri aynı seçicide görünsün.",
+      "STEP_1_TITLE": "Model Providers'ı açın",
+      "STEP_1_DESC": "Settings'i açın, Model Providers bölümüne gidin ve Add Provider'a tıklayın.",
+      "STEP_2_TITLE": "Sağlayıcıyı doldurun",
+      "STEP_2_DESC": "API format'ı OpenAI-compatible olarak bırakın, bir ad, /v1 ile biten temel URL'yi ve anahtarınızı girin, ardından Create'e tıklayın. Jan model listesini hemen yükler.",
+      "STEP_3_TITLE": "Yetenekleri açın",
+      "STEP_3_DESC": "Jan özel sağlayıcılar için yetenekleri algılamaz. Bir modelin yanındaki kaleme tıklayın ve model destekliyorsa Tools veya Vision'ı açın.",
+      "STEP_4_TITLE": "Sohbet başlatın",
+      "STEP_4_DESC": "Yeni bir sohbette bir {appName} modeli seçin. Eksik bir kimliği eklemek için sağlayıcının Models bölümündeki artı düğmesini kullanın.",
+      "GOTCHA_1": "Temel URL /v1 ile bitmelidir, aksi halde model listesi yüklenmez.",
+      "GOTCHA_2": "Jan, sağlayıcının tam desteklenmeyebileceğine dair bir not gösterir. Bu, her özel sağlayıcı için gösterdiği standart uyarıdır."
+    },
+    "MSTY": {
+      "META": {
+        "TITLE": "Msty Studio Kurulum Kılavuzu | {appName}",
+        "DESCRIPTION": "{appName} hizmetini Msty Studio''ya OpenAI uyumlu bir model sağlayıcı olarak ekleyin.",
+        "KEYWORDS": "Msty, Msty Studio, Msty OpenAI uyumlu, Msty uzak sağlayıcı, Msty özel model, {appName} Msty"
+      },
+      "BADGE": "Msty",
+      "TITLE": "Msty Studio Kurulum Kılavuzu",
+      "SUBTITLE": "{appName} hizmetini Msty Studio''ya OpenAI uyumlu çevrimiçi sağlayıcı olarak ekleyin.",
+      "OVERVIEW_DESC": "Msty Studio yerel ve çevrimiçi modellerle çalışır. {appName} hizmetini OpenAI uyumlu sağlayıcı olarak ekleyin ve model listesini çekin.",
+      "STEP_1_TITLE": "Model Providers'ı açın",
+      "STEP_1_DESC": "Msty Studio 3'te Settings'i, ardından Model Providers'ı açın ve Add Provider'a tıklayın. Sürüm 2'de ve web uygulamasında Model Hub, ardından Model Providers altındadır.",
+      "STEP_2_TITLE": "Sağlayıcıyı doldurun",
+      "STEP_2_DESC": "OpenAI uyumlu sağlayıcı türünü seçin, anahtarınızı yapıştırın ve temel URL'yi uç nokta olarak girin.",
+      "STEP_3_TITLE": "Modelleri yükleyin",
+      "STEP_3_DESC": "Fetch Models'a tıklayın ve istediklerinizi işaretleyin ya da Add Custom Model ile kimliğe göre bir model ekleyin. Ardından kaydedin.",
+      "STEP_4_TITLE": "Bir model seçin",
+      "STEP_4_DESC": "Bir sohbet açın ve mesaj kutusunun altındaki seçiciden modeli seçin.",
+      "GOTCHA_1": "Sağlayıcılar bir çalışma alanına aittir. Sağlayıcı formundan diğer çalışma alanlarına kopyalayın veya eşitleyin.",
+      "GOTCHA_2": "Modeller seçicide yoksa sağlayıcı için Show in Model Selector seçeneğinin açık olduğunu kontrol edin."
+    },
+    "OBSIDIAN_COPILOT": {
+      "META": {
+        "TITLE": "Obsidian Copilot Kurulum Kılavuzu | {appName}",
+        "DESCRIPTION": "{appName} hizmetini Copilot for Obsidian eklentisine özel bir BYOK sağlayıcı olarak ekleyin.",
+        "KEYWORDS": "Obsidian Copilot, Copilot for Obsidian, Obsidian yapay zeka eklentisi, Obsidian özel sağlayıcı, Obsidian BYOK, {appName} Obsidian"
+      },
+      "BADGE": "Obsidian Copilot",
+      "TITLE": "Obsidian Copilot Kurulum Kılavuzu",
+      "SUBTITLE": "{appName} hizmetini Copilot for Obsidian''a özel sağlayıcı olarak ekleyin ve notlarınızla sohbet edin.",
+      "OVERVIEW_DESC": "Copilot for Obsidian 4, kendi sağlayıcılarınız için bir BYOK sekmesine sahiptir. {appName} hizmetini özel sağlayıcı olarak ekleyin. Bunun için Copilot lisansı gerekmez.",
+      "STEP_1_TITLE": "BYOK'u açın",
+      "STEP_1_DESC": "Obsidian ayarlarını açın, Copilot'a, ardından BYOK'a gidin ve Add a provider'a tıklayın.",
+      "STEP_2_TITLE": "Özel sağlayıcı ekleyin",
+      "STEP_2_DESC": "Listenin altındaki Add a custom provider'a tıklayın ve bu alanları doldurun. Anahtarda Verified görünene kadar Test'e tıklayın.",
+      "STEP_3_TITLE": "Modelleri seçin",
+      "STEP_3_DESC": "Çekilen listeden modelleri işaretleyin ya da model alanına tam bir model kimliği ekleyin, ardından Save'e tıklayın.",
+      "STEP_4_TITLE": "Sohbete başlayın",
+      "STEP_4_DESC": "Modeli Quick Chat'te seçin. Agent Chat onu OpenCode ajanı üzerinden kullanabilir.",
+      "GOTCHA_1": "Test başarılı olduğu halde mesajlar gönderilmiyorsa sağlayıcıyı düzenleyin ve Enable CORS'u açın. Yanıtlar o zaman akış yerine tek parça halinde gelir.",
+      "GOTCHA_2": "Anahtarlar her cihazın Obsidian anahtar zincirinde saklanır ve kasa ile eşitlenmez. Anahtarı her cihazda yeniden girin."
+    },
+    "AGNAI": {
+      "META": {
+        "TITLE": "Agnai Kurulum Kılavuzu | {appName}",
+        "DESCRIPTION": "Her modelle karakter sohbeti için Agnai''yi {appName} hizmetine OpenAI Compat sağlayıcı olarak bağlayın.",
+        "KEYWORDS": "Agnai, Agnaistic, Agnai OpenAI uyumlu, Agnai özel sağlayıcı, Agnai proxy, {appName} Agnai"
+      },
+      "BADGE": "Agnai",
+      "TITLE": "Agnai Kurulum Kılavuzu",
+      "SUBTITLE": "Karakter sohbeti için {appName} hizmetini Agnai''ye OpenAI Compat sağlayıcı olarak ekleyin.",
+      "OVERVIEW_DESC": "Agnai bir karakter sohbeti arayüzüdür. {appName} hizmetini özel bir OpenAI Compat sağlayıcı olarak ekleyin ve herhangi bir ön ayarda kullanın.",
+      "STEP_1_TITLE": "Bir sağlayıcı oluşturun",
+      "STEP_1_DESC": "Presets'i açın, Providers sekmesine geçin ve New'e tıklayın.",
+      "STEP_2_TITLE": "Bağlantıyı doldurun",
+      "STEP_2_DESC": "Custom altında OpenAI Compat seçin. Bir etiket, temel URL ve anahtarınızı girin, Request Format'ı OpenAI Compat (Chat) yapın, ardından Test Connection ve Create'e tıklayın.",
+      "STEP_3_TITLE": "Bir ön ayarda kullanın",
+      "STEP_3_DESC": "Ön ayarınızda Service altında yeni sağlayıcıyı seçin, ardından listeden bir model seçin ya da Manual Model ID altına bir tane girin.",
+      "GOTCHA_1": "agnai.chat üzerinde istekler tarayıcınızdan değil Agnai sunucusundan gelir. API''si herkese açık olduğu için bu, {appName} ile çalışır.",
+      "GOTCHA_2": "Agnai Haziran 2026'dan beri güncelleme yayınlamadı. Sağlayıcı ekranı farklı görünüyorsa, OpenAI Compat (Chat) biçimindeki eski Third-Party hizmeti aynı URL'yi ve anahtarı kabul eder."
     }
   },
   "FOOTER": {

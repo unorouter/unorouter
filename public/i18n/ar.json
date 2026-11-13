@@ -2587,6 +2587,174 @@
       "GOTCHA_1": "اختر النموذج من القائمة المحمّلة بدل كتابته. الاسم المكتوب يدويًا وغير المطابق تمامًا يعيد الخطأ 404.",
       "GOTCHA_2": "النماذج المجانية مشتركة ومحدودة المعدّل، فهي أنسب للاختبار من الجلسات الطويلة. انتقل إلى نموذج مدفوع حين تهمّك القصّة.",
       "GOTCHA_3": "في تقمّص الأدوار، يستدلّ glm-5.2 افتراضيًا. وإضافة ‎-thinking تثبّت سلوكًا يملكه أصلًا."
+    },
+    "CURSOR": {
+      "META": {
+        "TITLE": "دليل إعداد Cursor | {appName}",
+        "DESCRIPTION": "استخدم نماذج {appName} في Chat و Agent داخل Cursor بمفتاح API الخاص بك وإعداد Override OpenAI Base URL.",
+        "KEYWORDS": "Cursor, نموذج مخصص في Cursor, Cursor OpenAI base URL, Cursor BYOK, {appName} Cursor, مفتاح API في Cursor"
+      },
+      "BADGE": "Cursor",
+      "TITLE": "دليل إعداد Cursor",
+      "SUBTITLE": "وجّه خانة مفتاح OpenAI في Cursor إلى {appName} واستخدم نماذجه في Chat و Agent.",
+      "OVERVIEW_DESC": "يتيح لك Cursor استبدال مفتاح OpenAI والرابط الأساسي بمفتاحك ورابطك. تمر الطلبات رغم ذلك عبر خوادم Cursor، لذا يتطلب هذا خطة Cursor مدفوعة ويشمل Chat و Agent فقط.",
+      "STEP_1_TITLE": "افتح إعدادات مفتاح API",
+      "STEP_1_DESC": "افتح Cursor Settings، وانتقل إلى Models، ثم مرّر للأسفل ووسّع API Keys.",
+      "STEP_2_TITLE": "أدخل المفتاح والرابط الأساسي",
+      "STEP_2_DESC": "ضمن OpenAI API Key، الصق مفتاح {appName} وفعّل Use OpenAI API Key. ثم فعّل Override OpenAI Base URL وأدخل الرابط الأساسي.",
+      "STEP_3_TITLE": "أضف النماذج",
+      "STEP_3_DESC": "أضف كل نموذج بمعرّفه الدقيق في {appName}. المعرّفات التي تبدأ بـ claude- تُرسل إلى خانة مفتاح Anthropic في Cursor وتفشل، لذا اختر هنا نماذج من عائلات أخرى.",
+      "STEP_4_TITLE": "أعد التشغيل وابدأ المحادثة",
+      "STEP_4_DESC": "أعد تشغيل Cursor، وافتح محادثة جديدة واختر النموذج في Chat أو Agent.",
+      "GOTCHA_1": "يعمل مفتاحك الخاص مع نماذج المحادثة في Chat و Agent فقط. يظل إكمال Tab والميزات المدمجة الأخرى يستخدم نماذج Cursor الخاصة.",
+      "GOTCHA_2": "ينطبق تجاوز الرابط الأساسي على كل نماذج OpenAI في Cursor، بما فيها نماذج Cursor نفسه. أوقفه للعودة إليها.",
+      "GOTCHA_3": "يتطلب Cursor خطة مدفوعة لاستخدام مفتاحك مع رابط أساسي مخصص. وفي خطط الفرق يمكن للمسؤول أيضا تعطيل مفاتيح API الشخصية."
+    },
+    "GITHUB_COPILOT": {
+      "META": {
+        "TITLE": "دليل إعداد GitHub Copilot في VS Code | {appName}",
+        "DESCRIPTION": "أضف {appName} إلى GitHub Copilot Chat في VS Code كنموذج Custom Endpoint بمفتاح API الخاص بك.",
+        "KEYWORDS": "GitHub Copilot, نموذج مخصص في VS Code Copilot, Copilot بمفتاحك الخاص, Copilot Custom Endpoint, VS Code BYOK, {appName} Copilot"
+      },
+      "BADGE": "GitHub Copilot",
+      "TITLE": "دليل إعداد GitHub Copilot",
+      "SUBTITLE": "استخدم نماذج {appName} في Copilot Chat ووضع الوكيل في VS Code عبر Custom Endpoint.",
+      "OVERVIEW_DESC": "يتيح VS Code لـ Copilot Chat استخدام نماذج من مفتاحك الخاص. يقبل مزوّد Custom Endpoint أي رابط Chat Completions متوافق مع OpenAI ويعمل دون خطة Copilot.",
+      "STEP_1_TITLE": "افتح Manage Language Models",
+      "STEP_1_DESC": "شغّل Chat: Manage Language Models من Command Palette، أو افتح منتقي النماذج في Chat وانقر أيقونة الترس.",
+      "STEP_2_TITLE": "أضف Custom Endpoint",
+      "STEP_2_DESC": "انقر Add Models واختر Custom Endpoint. أدخل اسم مجموعة واسم عرض ومفتاح {appName}، وأبقِ نوع API على Chat Completions.",
+      "STEP_3_TITLE": "عدّل قائمة النماذج",
+      "STEP_3_DESC": "يفتح VS Code الملف chatLanguageModels.json. ضع هذه النماذج في المجموعة التي أنشأها، مع رابط chat completions الكامل لكل منها. أبقِ toolCalling مفعّلا لوضع الوكيل.",
+      "STEP_4_TITLE": "اختر النموذج",
+      "STEP_4_DESC": "اختر النموذج من منتقي النماذج في Chat. أعد تشغيل VS Code إذا لم يظهر.",
+      "GOTCHA_1": "تغطي نماذجك الخاصة المحادثة ووضع الوكيل والأدوات. أما إكمال الكود المضمّن واقتراحات التعديل التالي فما زالت تحتاج إلى تسجيل الدخول في GitHub و Copilot.",
+      "GOTCHA_2": "في Copilot Business و Enterprise قد يحتاج المسؤول إلى تفعيل سياسة Bring Your Own Language Model Key أولا.",
+      "GOTCHA_3": "مزوّد OpenAI Compatible القديم وإعداد customOAIModels مهملان. استخدم Custom Endpoint بدلا منهما."
+    },
+    "N8N": {
+      "META": {
+        "TITLE": "دليل إعداد n8n | {appName}",
+        "DESCRIPTION": "استخدم نماذج {appName} في سير عمل AI Agent وسلاسل LLM في n8n عبر حقل Base URL في بيانات اعتماد OpenAI.",
+        "KEYWORDS": "n8n, n8n OpenAI base URL, نموذج LLM مخصص في n8n, n8n AI Agent, n8n متوافق مع OpenAI, {appName} n8n"
+      },
+      "BADGE": "n8n",
+      "TITLE": "دليل إعداد n8n",
+      "SUBTITLE": "وجّه بيانات اعتماد OpenAI في n8n إلى {appName} وشغّل أي نموذج في سير عمل AI Agent.",
+      "OVERVIEW_DESC": "تحتوي بيانات اعتماد OpenAI في n8n على حقل Base URL. اضبطه على {appName}، وعندها يمكن لعقدة OpenAI Chat Model تشغيل عقد AI Agent و Basic LLM Chain بأي نموذج.",
+      "STEP_1_TITLE": "أنشئ بيانات الاعتماد",
+      "STEP_1_DESC": "انتقل إلى Credentials، وأنشئ بيانات اعتماد OpenAI واملأ API Key و Base URL. اترك Organization ID فارغا. عند الحفظ يُختبر الاتصال عبر قائمة النماذج.",
+      "STEP_2_TITLE": "أضف OpenAI Chat Model",
+      "STEP_2_DESC": "على عقدة AI Agent أو Basic LLM Chain، أضف العقدة الفرعية OpenAI Chat Model واختر بيانات الاعتماد الجديدة.",
+      "STEP_3_TITLE": "اختر النموذج",
+      "STEP_3_DESC": "اختر نموذجا من From List، أو بدّل إلى ID واكتب معرّف النموذج.",
+      "STEP_4_TITLE": "أوقف Responses API",
+      "STEP_4_DESC": "أوقف Use Responses API على عقدة OpenAI Chat Model لتستدعي Chat Completions، التي يدعمها كل نموذج محادثة في {appName}.",
+      "GOTCHA_1": "عملية Message a Model في عقدة تطبيق OpenAI تستدعي دائما Responses API، التي لا تقدمها معظم نماذج {appName}. استخدم بدلا منها AI Agent أو Basic LLM Chain مع OpenAI Chat Model.",
+      "GOTCHA_2": "أدوات OpenAI المدمجة مثل Web Search و File Search و Code Interpreter تحتاج إلى Responses API ولا تعمل هنا. أما الأدوات التي تربطها بعقدة AI Agent فتعمل مع أي نموذج يدعم استدعاء الأدوات."
+    },
+    "DIFY": {
+      "META": {
+        "TITLE": "دليل إعداد Dify | {appName}",
+        "DESCRIPTION": "اربط Dify بـ {appName} عبر إضافة {appName} من Dify Marketplace أو عبر مزوّد OpenAI-API-compatible.",
+        "KEYWORDS": "Dify, مزوّد نماذج Dify, Dify OpenAI-API-compatible, إضافة Dify, نموذج LLM مخصص في Dify, {appName} Dify"
+      },
+      "BADGE": "Dify",
+      "TITLE": "دليل إعداد Dify",
+      "SUBTITLE": "أضف {appName} إلى Dify عبر إضافة المتجر أو كنموذج OpenAI-API-compatible.",
+      "OVERVIEW_DESC": "يقدم Dify طريقتين. تحتاج إضافة {appName} إلى مفتاحك فقط وتأتي بنماذج جاهزة. أما مزوّد OpenAI-API-compatible فيأخذ نموذجا واحدا في كل مرة بإعداداته الخاصة.",
+      "STEP_1_TITLE": "ثبّت إضافة {appName}",
+      "STEP_1_DESC": "افتح Plugins، وابحث عن {appName} في Marketplace وثبّتها، أو ثبّتها من صفحتها في المتجر.",
+      "STEP_2_TITLE": "أضف مفتاحك",
+      "STEP_2_DESC": "افتح Model Provider (ضمن Settings أو Integrations حسب إصدار Dify)، وابحث عن {appName} والصق مفتاح API. لنموذج غير مدرج، انقر Add Model وأدخل معرّفه.",
+      "STEP_3_TITLE": "أو استخدم OpenAI-API-compatible",
+      "STEP_3_DESC": "ثبّت بدلا من ذلك مزوّد OpenAI-API-compatible، وانقر Add Model على بطاقته واملأ هذه الحقول. اضبط Function Call Type على Tool Call للوكلاء، وفعّل Vision Support فقط للنماذج التي تقبل الصور.",
+      "STEP_4_TITLE": "اضبط نموذجا افتراضيا",
+      "STEP_4_DESC": "ضمن Default Models أعلى يمين Model Provider، اختر نموذجا من {appName} ليكون System Reasoning Model، ثم استخدمه في تطبيقاتك.",
+      "GOTCHA_1": "يمكن لمالكي مساحة العمل ومسؤوليها فقط إضافة مزوّدي النماذج.",
+      "GOTCHA_2": "لا يقرأ مزوّد OpenAI-API-compatible قائمة النماذج ولا يكتشف القدرات. أضف كل نموذج يدويا واضبط حجم السياق والميزات بنفسك."
+    },
+    "JAN": {
+      "META": {
+        "TITLE": "دليل إعداد Jan | {appName}",
+        "DESCRIPTION": "أضف {appName} إلى تطبيق Jan لسطح المكتب كمزوّد مخصص متوافق مع OpenAI.",
+        "KEYWORDS": "Jan, Jan AI, مزوّد مخصص في Jan, Jan متوافق مع OpenAI, نماذج بعيدة في Jan, {appName} Jan"
+      },
+      "BADGE": "Jan",
+      "TITLE": "دليل إعداد Jan",
+      "SUBTITLE": "أضف {appName} إلى Jan كمزوّد مخصص بجانب نماذجك المحلية.",
+      "OVERVIEW_DESC": "يشغّل Jan نماذج محلية ويتصل أيضا بمزوّدين بعيدين. أضف {appName} كمزوّد مخصص متوافق مع OpenAI لتظهر نماذجه في المنتقي نفسه.",
+      "STEP_1_TITLE": "افتح Model Providers",
+      "STEP_1_DESC": "افتح Settings، وانتقل إلى Model Providers وانقر Add Provider.",
+      "STEP_2_TITLE": "املأ بيانات المزوّد",
+      "STEP_2_DESC": "أبقِ API format على OpenAI-compatible، وأدخل اسما والرابط الأساسي مع /v1 ومفتاحك، ثم انقر Create. يحمّل Jan قائمة النماذج فورا.",
+      "STEP_3_TITLE": "فعّل القدرات",
+      "STEP_3_DESC": "لا يكتشف Jan قدرات المزوّدين المخصصين. انقر القلم بجانب النموذج وفعّل Tools أو Vision عندما يدعمها النموذج.",
+      "STEP_4_TITLE": "ابدأ محادثة",
+      "STEP_4_DESC": "اختر نموذجا من {appName} في محادثة جديدة. لإضافة معرّف غير موجود، استخدم زر الإضافة في قسم Models الخاص بالمزوّد.",
+      "GOTCHA_1": "يجب أن ينتهي الرابط الأساسي بـ /v1، وإلا فلن تُحمَّل قائمة النماذج.",
+      "GOTCHA_2": "يعرض Jan ملاحظة بأن المزوّد قد لا يكون مدعوما بالكامل. هذا إشعاره المعتاد لكل مزوّد مخصص."
+    },
+    "MSTY": {
+      "META": {
+        "TITLE": "دليل إعداد Msty Studio | {appName}",
+        "DESCRIPTION": "أضف {appName} إلى Msty Studio كمزوّد نماذج متوافق مع OpenAI.",
+        "KEYWORDS": "Msty, Msty Studio, Msty متوافق مع OpenAI, مزوّد بعيد في Msty, نموذج مخصص في Msty, {appName} Msty"
+      },
+      "BADGE": "Msty",
+      "TITLE": "دليل إعداد Msty Studio",
+      "SUBTITLE": "أضف {appName} إلى Msty Studio كمزوّد عبر الإنترنت متوافق مع OpenAI.",
+      "OVERVIEW_DESC": "يعمل Msty Studio مع النماذج المحلية والنماذج عبر الإنترنت. أضف {appName} كمزوّد متوافق مع OpenAI واجلب قائمة نماذجه.",
+      "STEP_1_TITLE": "افتح Model Providers",
+      "STEP_1_DESC": "في Msty Studio 3، افتح Settings، ثم Model Providers، وانقر Add Provider. في الإصدار 2 وتطبيق الويب، تجده ضمن Model Hub ثم Model Providers.",
+      "STEP_2_TITLE": "املأ بيانات المزوّد",
+      "STEP_2_DESC": "اختر نوع المزوّد المتوافق مع OpenAI، والصق مفتاحك وأدخل الرابط الأساسي كنقطة نهاية.",
+      "STEP_3_TITLE": "حمّل النماذج",
+      "STEP_3_DESC": "انقر Fetch Models وحدد النماذج التي تريدها، أو أضف نموذجا بمعرّفه عبر Add Custom Model. ثم احفظ.",
+      "STEP_4_TITLE": "اختر نموذجا",
+      "STEP_4_DESC": "افتح محادثة واختر النموذج من المنتقي أسفل مربع الرسالة.",
+      "GOTCHA_1": "ينتمي المزوّدون إلى مساحة عمل. انسخهم أو زامنهم إلى مساحات عمل أخرى من نموذج المزوّد.",
+      "GOTCHA_2": "إذا لم تظهر النماذج في المنتقي، فتحقق من أن Show in Model Selector مفعّل للمزوّد."
+    },
+    "OBSIDIAN_COPILOT": {
+      "META": {
+        "TITLE": "دليل إعداد Obsidian Copilot | {appName}",
+        "DESCRIPTION": "أضف {appName} إلى إضافة Copilot لـ Obsidian كمزوّد BYOK مخصص.",
+        "KEYWORDS": "Obsidian Copilot, Copilot for Obsidian, إضافة ذكاء اصطناعي لـ Obsidian, مزوّد مخصص في Obsidian, Obsidian BYOK, {appName} Obsidian"
+      },
+      "BADGE": "Obsidian Copilot",
+      "TITLE": "دليل إعداد Obsidian Copilot",
+      "SUBTITLE": "أضف {appName} كمزوّد مخصص في Copilot for Obsidian وتحاور مع ملاحظاتك.",
+      "OVERVIEW_DESC": "يحتوي Copilot for Obsidian 4 على تبويب BYOK لمزوّديك الخاصين. أضف {appName} كمزوّد مخصص. لا يلزم ترخيص Copilot لذلك.",
+      "STEP_1_TITLE": "افتح BYOK",
+      "STEP_1_DESC": "افتح إعدادات Obsidian، وانتقل إلى Copilot ثم BYOK، وانقر Add a provider.",
+      "STEP_2_TITLE": "أضف مزوّدا مخصصا",
+      "STEP_2_DESC": "انقر Add a custom provider أسفل القائمة واملأ هذه الحقول. انقر Test حتى يظهر المفتاح بحالة Verified.",
+      "STEP_3_TITLE": "اختر النماذج",
+      "STEP_3_DESC": "حدد النماذج في القائمة التي جُلبت، أو أضف معرّف نموذج دقيقا في حقل النموذج، ثم انقر Save.",
+      "STEP_4_TITLE": "ابدأ المحادثة",
+      "STEP_4_DESC": "اختر النموذج في Quick Chat. ويمكن لـ Agent Chat استخدامه عبر وكيل OpenCode.",
+      "GOTCHA_1": "إذا نجح Test لكن فشل إرسال الرسائل، فعدّل المزوّد وفعّل Enable CORS. تصل الردود حينها دفعة واحدة بدلا من البث التدريجي.",
+      "GOTCHA_2": "تُحفظ المفاتيح في سلسلة مفاتيح Obsidian على كل جهاز ولا تتزامن مع الخزنة. أدخل المفتاح مجددا على كل جهاز."
+    },
+    "AGNAI": {
+      "META": {
+        "TITLE": "دليل إعداد Agnai | {appName}",
+        "DESCRIPTION": "اربط Agnai بـ {appName} كمزوّد OpenAI Compat لمحادثات الشخصيات بأي نموذج.",
+        "KEYWORDS": "Agnai, Agnaistic, Agnai متوافق مع OpenAI, مزوّد مخصص في Agnai, وسيط Agnai, {appName} Agnai"
+      },
+      "BADGE": "Agnai",
+      "TITLE": "دليل إعداد Agnai",
+      "SUBTITLE": "أضف {appName} إلى Agnai كمزوّد OpenAI Compat لمحادثات الشخصيات.",
+      "OVERVIEW_DESC": "Agnai واجهة لمحادثات الشخصيات. أضف {appName} كمزوّد OpenAI Compat مخصص واستخدمه في أي إعداد مسبق.",
+      "STEP_1_TITLE": "أنشئ مزوّدا",
+      "STEP_1_DESC": "افتح Presets، وانتقل إلى تبويب Providers وانقر New.",
+      "STEP_2_TITLE": "املأ بيانات الاتصال",
+      "STEP_2_DESC": "ضمن Custom، اختر OpenAI Compat. أدخل تسمية والرابط الأساسي ومفتاحك، واضبط Request Format على OpenAI Compat (Chat)، ثم انقر Test Connection و Create.",
+      "STEP_3_TITLE": "استخدمه في إعداد مسبق",
+      "STEP_3_DESC": "في إعدادك المسبق، اختر المزوّد الجديد ضمن Service، ثم اختر نموذجا من القائمة أو أدخل واحدا في Manual Model ID.",
+      "GOTCHA_1": "على agnai.chat تصدر الطلبات من خادم Agnai وليس من متصفحك. وهذا يعمل مع {appName} لأن واجهته البرمجية عامة.",
+      "GOTCHA_2": "لم يصدر Agnai أي تحديثات منذ يونيو 2026. إذا بدت شاشة المزوّد مختلفة، فخدمة Third-Party الأقدم بتنسيق OpenAI Compat (Chat) تقبل الرابط والمفتاح نفسيهما."
     }
   },
   "FOOTER": {

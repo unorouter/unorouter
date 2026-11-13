@@ -2587,6 +2587,174 @@
       "GOTCHA_1": "請從載入好的下拉選單挑選模型，而不是自己輸入。手打的名稱只要不完全相符就會回傳 404。",
       "GOTCHA_2": "免費模型是共用的且有速率限制，比較適合測試而不是長時間的對話。故事重要時請換成付費模型。",
       "GOTCHA_3": "在角色扮演情境中，glm-5.2 預設就會推理。加上 -thinking 只是固定它原本就有的行為。"
+    },
+    "CURSOR": {
+      "META": {
+        "TITLE": "Cursor 設定指南 | {appName}",
+        "DESCRIPTION": "用你自己的 API 金鑰和 Override OpenAI Base URL 設定，在 Cursor 的 Chat 與 Agent 中使用 {appName} 的模型。",
+        "KEYWORDS": "Cursor，Cursor 自訂模型，Cursor OpenAI 基礎 URL，Cursor BYOK，{appName} Cursor，Cursor API 金鑰"
+      },
+      "BADGE": "Cursor",
+      "TITLE": "Cursor 設定指南",
+      "SUBTITLE": "把 Cursor 的 OpenAI 金鑰欄位指向 {appName}，在 Chat 與 Agent 中使用它的模型。",
+      "OVERVIEW_DESC": "Cursor 可以讓你把 OpenAI 金鑰和基礎 URL 換成自己的。請求仍會經過 Cursor 的伺服器，因此需要 Cursor 付費方案，而且只適用於 Chat 與 Agent。",
+      "STEP_1_TITLE": "開啟 API 金鑰設定",
+      "STEP_1_DESC": "開啟 Cursor Settings，前往 Models，向下捲動並展開 API Keys。",
+      "STEP_2_TITLE": "輸入金鑰和基礎 URL",
+      "STEP_2_DESC": "在 OpenAI API Key 中貼上你的 {appName} 金鑰並開啟 Use OpenAI API Key。接著開啟 Override OpenAI Base URL 並輸入基礎 URL。",
+      "STEP_3_TITLE": "新增模型",
+      "STEP_3_DESC": "以 {appName} 的確切 ID 新增每個模型。以 claude- 開頭的 ID 會被送到 Cursor 的 Anthropic 金鑰欄位而失敗，所以這裡請選擇其他系列的模型。",
+      "STEP_4_TITLE": "重新啟動並開始聊天",
+      "STEP_4_DESC": "重新啟動 Cursor，開啟新聊天，在 Chat 或 Agent 中選擇模型。",
+      "GOTCHA_1": "你自己的金鑰只對 Chat 與 Agent 中的聊天模型有效。Tab 補全和其他內建功能仍使用 Cursor 自己的模型。",
+      "GOTCHA_2": "基礎 URL 覆寫會套用到 Cursor 中的所有 OpenAI 模型，包括 Cursor 自己的模型。關閉它即可切換回去。",
+      "GOTCHA_3": "要在自訂基礎 URL 下使用自己的金鑰，需要 Cursor 付費方案。在團隊方案中，管理員也可以關閉個人 API 金鑰。"
+    },
+    "GITHUB_COPILOT": {
+      "META": {
+        "TITLE": "VS Code 中的 GitHub Copilot 設定指南 | {appName}",
+        "DESCRIPTION": "用你自己的 API 金鑰，把 {appName} 以 Custom Endpoint 模型的形式加入 VS Code 的 GitHub Copilot Chat。",
+        "KEYWORDS": "GitHub Copilot，VS Code Copilot 自訂模型，Copilot 使用自己的金鑰，Copilot Custom Endpoint，VS Code BYOK，{appName} Copilot"
+      },
+      "BADGE": "GitHub Copilot",
+      "TITLE": "GitHub Copilot 設定指南",
+      "SUBTITLE": "透過 Custom Endpoint 在 VS Code 的 Copilot Chat 與代理程式模式中使用 {appName} 的模型。",
+      "OVERVIEW_DESC": "VS Code 可以讓 Copilot Chat 使用你自己金鑰下的模型。Custom Endpoint 供應商接受任何 OpenAI 相容的 Chat Completions URL，不需要 Copilot 方案也能使用。",
+      "STEP_1_TITLE": "開啟 Manage Language Models",
+      "STEP_1_DESC": "在 Command Palette 中執行 Chat: Manage Language Models，或在 Chat 中開啟模型選擇器並點選齒輪圖示。",
+      "STEP_2_TITLE": "新增 Custom Endpoint",
+      "STEP_2_DESC": "點選 Add Models 並選擇 Custom Endpoint。輸入群組名稱、顯示名稱和你的 {appName} 金鑰，API 類型維持 Chat Completions。",
+      "STEP_3_TITLE": "編輯模型清單",
+      "STEP_3_DESC": "VS Code 會開啟 chatLanguageModels.json。把這些模型放進它建立的群組，並為每個模型填入完整的 chat completions URL。為了代理程式模式，請讓 toolCalling 保持開啟。",
+      "STEP_4_TITLE": "選擇模型",
+      "STEP_4_DESC": "在 Chat 的模型選擇器中選擇該模型。如果沒有出現，請重新啟動 VS Code。",
+      "GOTCHA_1": "你自己的模型支援聊天、代理程式模式和工具。行內程式碼補全和下一步編輯建議仍需要登入 GitHub 並使用 Copilot。",
+      "GOTCHA_2": "在 Copilot Business 與 Enterprise 中，可能需要管理員先啟用 Bring Your Own Language Model Key 政策。",
+      "GOTCHA_3": "舊的 OpenAI Compatible 供應商和 customOAIModels 設定已淘汰。請改用 Custom Endpoint。"
+    },
+    "N8N": {
+      "META": {
+        "TITLE": "n8n 設定指南 | {appName}",
+        "DESCRIPTION": "透過 OpenAI 憑證的 Base URL，在 n8n 的 AI Agent 與 LLM 鏈工作流程中使用 {appName} 的模型。",
+        "KEYWORDS": "n8n，n8n OpenAI 基礎 URL，n8n 自訂 LLM，n8n AI Agent，n8n OpenAI 相容，{appName} n8n"
+      },
+      "BADGE": "n8n",
+      "TITLE": "n8n 設定指南",
+      "SUBTITLE": "把 n8n 的 OpenAI 憑證指向 {appName}，在 AI Agent 工作流程中執行任何模型。",
+      "OVERVIEW_DESC": "n8n 的 OpenAI 憑證有一個 Base URL 欄位。把它設為 {appName}，OpenAI Chat Model 節點就能用任何模型驅動 AI Agent 與 Basic LLM Chain 節點。",
+      "STEP_1_TITLE": "建立憑證",
+      "STEP_1_DESC": "前往 Credentials，建立 OpenAI 憑證並填入 API Key 與 Base URL。Organization ID 留空。儲存時會以模型清單測試連線。",
+      "STEP_2_TITLE": "新增 OpenAI Chat Model",
+      "STEP_2_DESC": "在 AI Agent 或 Basic LLM Chain 節點上新增 OpenAI Chat Model 子節點，並選擇新的憑證。",
+      "STEP_3_TITLE": "選擇模型",
+      "STEP_3_DESC": "從 From List 選擇模型，或切換到 ID 並輸入模型 ID。",
+      "STEP_4_TITLE": "關閉 Responses API",
+      "STEP_4_DESC": "在 OpenAI Chat Model 節點上關閉 Use Responses API，讓它呼叫 Chat Completions，所有 {appName} 聊天模型都支援這個介面。",
+      "GOTCHA_1": "OpenAI 應用程式節點的 Message a Model 操作一律呼叫 Responses API，而大多數 {appName} 模型不提供這個介面。請改用 AI Agent 或 Basic LLM Chain 搭配 OpenAI Chat Model。",
+      "GOTCHA_2": "Web Search、File Search 和 Code Interpreter 等 OpenAI 內建工具需要 Responses API，在這裡無法使用。你連接到 AI Agent 節點的工具可在任何支援工具呼叫的模型上使用。"
+    },
+    "DIFY": {
+      "META": {
+        "TITLE": "Dify 設定指南 | {appName}",
+        "DESCRIPTION": "透過 Dify Marketplace 中的 {appName} 外掛或 OpenAI-API-compatible 供應商，把 Dify 連到 {appName}。",
+        "KEYWORDS": "Dify，Dify 模型供應商，Dify OpenAI-API-compatible，Dify 外掛，Dify 自訂 LLM，{appName} Dify"
+      },
+      "BADGE": "Dify",
+      "TITLE": "Dify 設定指南",
+      "SUBTITLE": "透過市集外掛或以 OpenAI-API-compatible 模型的形式，把 {appName} 加入 Dify。",
+      "OVERVIEW_DESC": "Dify 提供兩種方式。{appName} 外掛只需要你的金鑰，並附帶現成的模型。OpenAI-API-compatible 供應商一次新增一個模型，每個模型各有自己的設定。",
+      "STEP_1_TITLE": "安裝 {appName} 外掛",
+      "STEP_1_DESC": "開啟 Plugins，在 Marketplace 中搜尋 {appName} 並安裝，或從它的市集頁面安裝。",
+      "STEP_2_TITLE": "加入金鑰",
+      "STEP_2_DESC": "開啟 Model Provider（依 Dify 版本位於 Settings 或 Integrations 下），找到 {appName} 並貼上你的 API 金鑰。若模型不在清單中，點選 Add Model 並輸入其 ID。",
+      "STEP_3_TITLE": "或使用 OpenAI-API-compatible",
+      "STEP_3_DESC": "改為安裝 OpenAI-API-compatible 供應商，在其卡片上點選 Add Model 並填寫以下欄位。為代理程式把 Function Call Type 設為 Tool Call，並且只為接受圖片的模型開啟 Vision Support。",
+      "STEP_4_TITLE": "設定預設模型",
+      "STEP_4_DESC": "在 Model Provider 右上角的 Default Models 中，選擇一個 {appName} 模型作為 System Reasoning Model，然後在你的應用程式中使用它。",
+      "GOTCHA_1": "只有工作區擁有者和管理員可以新增模型供應商。",
+      "GOTCHA_2": "OpenAI-API-compatible 供應商不會讀取模型清單，也不會偵測能力。請手動新增每個模型，並自行設定上下文大小與功能。"
+    },
+    "JAN": {
+      "META": {
+        "TITLE": "Jan 設定指南 | {appName}",
+        "DESCRIPTION": "把 {appName} 以自訂 OpenAI 相容供應商的形式加入 Jan 桌面應用程式。",
+        "KEYWORDS": "Jan，Jan AI，Jan 自訂供應商，Jan OpenAI 相容，Jan 遠端模型，{appName} Jan"
+      },
+      "BADGE": "Jan",
+      "TITLE": "Jan 設定指南",
+      "SUBTITLE": "把 {appName} 以自訂供應商的形式加入 Jan，與本機模型並列使用。",
+      "OVERVIEW_DESC": "Jan 可以執行本機模型，也能連接遠端供應商。把 {appName} 加為自訂 OpenAI 相容供應商，它的模型就會出現在同一個選擇器中。",
+      "STEP_1_TITLE": "開啟 Model Providers",
+      "STEP_1_DESC": "開啟 Settings，前往 Model Providers 並點選 Add Provider。",
+      "STEP_2_TITLE": "填寫供應商資訊",
+      "STEP_2_DESC": "API format 維持 OpenAI-compatible，輸入名稱、帶 /v1 的基礎 URL 和你的金鑰，然後點選 Create。Jan 會立即載入模型清單。",
+      "STEP_3_TITLE": "開啟能力",
+      "STEP_3_DESC": "Jan 不會偵測自訂供應商的能力。點選模型旁的鉛筆圖示，在模型支援時開啟 Tools 或 Vision。",
+      "STEP_4_TITLE": "開始聊天",
+      "STEP_4_DESC": "在新聊天中選擇一個 {appName} 模型。要新增缺少的 ID，請使用供應商 Models 區塊中的加號按鈕。",
+      "GOTCHA_1": "基礎 URL 必須以 /v1 結尾，否則模型清單無法載入。",
+      "GOTCHA_2": "Jan 會提示該供應商可能未獲完整支援。這是它對所有自訂供應商顯示的標準提示。"
+    },
+    "MSTY": {
+      "META": {
+        "TITLE": "Msty Studio 設定指南 | {appName}",
+        "DESCRIPTION": "把 {appName} 以 OpenAI 相容模型供應商的形式加入 Msty Studio。",
+        "KEYWORDS": "Msty，Msty Studio，Msty OpenAI 相容，Msty 遠端供應商，Msty 自訂模型，{appName} Msty"
+      },
+      "BADGE": "Msty",
+      "TITLE": "Msty Studio 設定指南",
+      "SUBTITLE": "把 {appName} 以 OpenAI 相容線上供應商的形式加入 Msty Studio。",
+      "OVERVIEW_DESC": "Msty Studio 同時支援本機模型與線上模型。把 {appName} 加為 OpenAI 相容供應商並取得它的模型清單。",
+      "STEP_1_TITLE": "開啟 Model Providers",
+      "STEP_1_DESC": "在 Msty Studio 3 中，依序開啟 Settings 和 Model Providers，然後點選 Add Provider。在版本 2 和網頁版中，它位於 Model Hub 下的 Model Providers。",
+      "STEP_2_TITLE": "填寫供應商資訊",
+      "STEP_2_DESC": "選擇 OpenAI 相容的供應商類型，貼上你的金鑰，並把基礎 URL 填為端點。",
+      "STEP_3_TITLE": "載入模型",
+      "STEP_3_DESC": "點選 Fetch Models 並勾選你要的模型，或用 Add Custom Model 依 ID 新增模型。然後儲存。",
+      "STEP_4_TITLE": "選擇模型",
+      "STEP_4_DESC": "開啟一個對話，在訊息框下方的選擇器中選擇模型。",
+      "GOTCHA_1": "供應商屬於某個工作區。可以從供應商表單將它複製或同步到其他工作區。",
+      "GOTCHA_2": "如果選擇器中沒有模型，請檢查該供應商的 Show in Model Selector 是否已開啟。"
+    },
+    "OBSIDIAN_COPILOT": {
+      "META": {
+        "TITLE": "Obsidian Copilot 設定指南 | {appName}",
+        "DESCRIPTION": "把 {appName} 以自訂 BYOK 供應商的形式加入 Obsidian 的 Copilot 外掛。",
+        "KEYWORDS": "Obsidian Copilot，Copilot for Obsidian，Obsidian AI 外掛，Obsidian 自訂供應商，Obsidian BYOK，{appName} Obsidian"
+      },
+      "BADGE": "Obsidian Copilot",
+      "TITLE": "Obsidian Copilot 設定指南",
+      "SUBTITLE": "在 Copilot for Obsidian 中把 {appName} 加為自訂供應商，與你的筆記對話。",
+      "OVERVIEW_DESC": "Copilot for Obsidian 4 有一個供自有供應商使用的 BYOK 分頁。把 {appName} 加為自訂供應商即可，這不需要 Copilot 授權。",
+      "STEP_1_TITLE": "開啟 BYOK",
+      "STEP_1_DESC": "開啟 Obsidian 設定，前往 Copilot，再進入 BYOK，然後點選 Add a provider。",
+      "STEP_2_TITLE": "新增自訂供應商",
+      "STEP_2_DESC": "點選清單底部的 Add a custom provider 並填寫以下欄位。點選 Test，直到金鑰顯示 Verified。",
+      "STEP_3_TITLE": "選擇模型",
+      "STEP_3_DESC": "在取得的清單中勾選模型，或在模型欄位中加入確切的模型 ID，然後點選 Save。",
+      "STEP_4_TITLE": "開始聊天",
+      "STEP_4_DESC": "在 Quick Chat 中選擇該模型。Agent Chat 可以透過 OpenCode 代理程式使用它。",
+      "GOTCHA_1": "如果 Test 通過但訊息傳送失敗，請編輯供應商並開啟 Enable CORS。之後回覆會一次完整送達，而不是串流輸出。",
+      "GOTCHA_2": "金鑰儲存在每台裝置的 Obsidian 鑰匙圈中，不會隨保管庫同步。請在每台裝置上重新輸入金鑰。"
+    },
+    "AGNAI": {
+      "META": {
+        "TITLE": "Agnai 設定指南 | {appName}",
+        "DESCRIPTION": "把 Agnai 當作 OpenAI Compat 供應商連到 {appName}，用任何模型進行角色聊天。",
+        "KEYWORDS": "Agnai，Agnaistic，Agnai OpenAI 相容，Agnai 自訂供應商，Agnai 代理伺服器，{appName} Agnai"
+      },
+      "BADGE": "Agnai",
+      "TITLE": "Agnai 設定指南",
+      "SUBTITLE": "把 {appName} 以 OpenAI Compat 供應商的形式加入 Agnai，用於角色聊天。",
+      "OVERVIEW_DESC": "Agnai 是一個角色聊天前端。把 {appName} 加為自訂 OpenAI Compat 供應商，就能在任何預設中使用。",
+      "STEP_1_TITLE": "建立供應商",
+      "STEP_1_DESC": "開啟 Presets，切換到 Providers 分頁並點選 New。",
+      "STEP_2_TITLE": "填寫連線資訊",
+      "STEP_2_DESC": "在 Custom 下選擇 OpenAI Compat。輸入標籤、基礎 URL 和你的金鑰，把 Request Format 設為 OpenAI Compat (Chat)，然後點選 Test Connection 和 Create。",
+      "STEP_3_TITLE": "在預設中使用",
+      "STEP_3_DESC": "在你的預設中，於 Service 下選擇新的供應商，然後從清單中選擇模型，或在 Manual Model ID 中輸入。",
+      "GOTCHA_1": "在 agnai.chat 上，請求來自 Agnai 伺服器，而不是你的瀏覽器。由於 {appName} 的 API 是公開的，這樣也能正常運作。",
+      "GOTCHA_2": "Agnai 自 2026 年 6 月以來沒有發布更新。如果供應商畫面看起來不一樣，舊的 Third-Party 服務搭配 OpenAI Compat (Chat) 格式可以使用相同的 URL 和金鑰。"
     }
   },
   "FOOTER": {

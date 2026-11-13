@@ -2587,6 +2587,174 @@
       "GOTCHA_1": "Escolha o modelo na lista carregada em vez de digitar. Um nome digitado à mão que não bata exatamente retorna 404.",
       "GOTCHA_2": "Modelos gratuitos são compartilhados e têm limite de requisições, então servem mais para testes do que para sessões longas. Troque para um modelo pago quando a história importar.",
       "GOTCHA_3": "Para roleplay, o glm-5.2 raciocina por padrão. Adicionar -thinking apenas fixa um comportamento que ele já tem."
+    },
+    "CURSOR": {
+      "META": {
+        "TITLE": "Guia de configuração do Cursor | {appName}",
+        "DESCRIPTION": "Use os modelos do {appName} no Cursor Chat e Agent com sua própria chave de API e a opção Override OpenAI Base URL.",
+        "KEYWORDS": "Cursor, modelo personalizado no Cursor, URL base da OpenAI no Cursor, Cursor BYOK, {appName} Cursor, chave de API do Cursor"
+      },
+      "BADGE": "Cursor",
+      "TITLE": "Guia de configuração do Cursor",
+      "SUBTITLE": "Aponte o espaço da chave OpenAI do Cursor para o {appName} e use os modelos dele no Chat e no Agent.",
+      "OVERVIEW_DESC": "O Cursor permite trocar a chave e a URL base da OpenAI pelas suas. As requisições continuam passando pelos servidores do Cursor, então é preciso um plano pago do Cursor e isso vale só para o Chat e o Agent.",
+      "STEP_1_TITLE": "Abrir as configurações de chaves de API",
+      "STEP_1_DESC": "Abra Cursor Settings, vá em Models, role para baixo e expanda API Keys.",
+      "STEP_2_TITLE": "Informar a chave e a URL base",
+      "STEP_2_DESC": "Em OpenAI API Key, cole sua chave do {appName} e ative Use OpenAI API Key. Depois ative Override OpenAI Base URL e informe a URL base.",
+      "STEP_3_TITLE": "Adicionar os modelos",
+      "STEP_3_DESC": "Adicione cada modelo pelo id exato no {appName}. Ids que começam com claude- vão para o espaço da chave Anthropic do Cursor e falham, então escolha aqui modelos de outras famílias.",
+      "STEP_4_TITLE": "Reiniciar e conversar",
+      "STEP_4_DESC": "Reinicie o Cursor, abra um novo chat e escolha o modelo no Chat ou no Agent.",
+      "GOTCHA_1": "Sua própria chave só funciona com modelos de chat no Chat e no Agent. O autocompletar Tab e os outros recursos integrados continuam usando os modelos do próprio Cursor.",
+      "GOTCHA_2": "A troca da URL base vale para todos os modelos da OpenAI no Cursor, inclusive os do próprio Cursor. Desative-a para voltar a eles.",
+      "GOTCHA_3": "O Cursor exige um plano pago para usar sua própria chave com uma URL base personalizada. Em planos de equipe, um administrador também pode desativar as chaves de API pessoais."
+    },
+    "GITHUB_COPILOT": {
+      "META": {
+        "TITLE": "Guia de configuração do GitHub Copilot no VS Code | {appName}",
+        "DESCRIPTION": "Adicione o {appName} ao GitHub Copilot Chat no VS Code como modelo Custom Endpoint com sua própria chave de API.",
+        "KEYWORDS": "GitHub Copilot, modelo personalizado no Copilot do VS Code, Copilot com sua própria chave, Copilot Custom Endpoint, VS Code BYOK, {appName} Copilot"
+      },
+      "BADGE": "GitHub Copilot",
+      "TITLE": "Guia de configuração do GitHub Copilot",
+      "SUBTITLE": "Use os modelos do {appName} no Copilot Chat do VS Code e no modo agente por meio de um Custom Endpoint.",
+      "OVERVIEW_DESC": "O VS Code permite que o Copilot Chat use modelos com sua própria chave. O provedor Custom Endpoint aceita qualquer URL de Chat Completions compatível com a OpenAI e funciona sem plano do Copilot.",
+      "STEP_1_TITLE": "Abrir Manage Language Models",
+      "STEP_1_DESC": "Execute Chat: Manage Language Models pela Command Palette, ou abra o seletor de modelos no Chat e clique no ícone de engrenagem.",
+      "STEP_2_TITLE": "Adicionar um Custom Endpoint",
+      "STEP_2_DESC": "Clique em Add Models e escolha Custom Endpoint. Informe um nome de grupo, um nome de exibição e sua chave do {appName}, e mantenha o tipo de API em Chat Completions.",
+      "STEP_3_TITLE": "Editar a lista de modelos",
+      "STEP_3_DESC": "O VS Code abre o chatLanguageModels.json. Coloque estes modelos no grupo criado, cada um com a URL completa de chat completions. Mantenha toolCalling ativado para o modo agente.",
+      "STEP_4_TITLE": "Escolher o modelo",
+      "STEP_4_DESC": "Escolha o modelo no seletor de modelos do Chat. Reinicie o VS Code se ele não aparecer.",
+      "GOTCHA_1": "Seus próprios modelos cobrem chat, modo agente e ferramentas. Os autocompletares de código inline e as sugestões de próxima edição ainda exigem login no GitHub e o Copilot.",
+      "GOTCHA_2": "No Copilot Business e Enterprise, talvez um administrador precise ativar antes a política Bring Your Own Language Model Key.",
+      "GOTCHA_3": "O antigo provedor OpenAI Compatible e a configuração customOAIModels estão obsoletos. Use o Custom Endpoint no lugar deles."
+    },
+    "N8N": {
+      "META": {
+        "TITLE": "Guia de configuração do n8n | {appName}",
+        "DESCRIPTION": "Use os modelos do {appName} em workflows do n8n com AI Agent e cadeias de LLM pela Base URL da credencial da OpenAI.",
+        "KEYWORDS": "n8n, URL base da OpenAI no n8n, LLM personalizado no n8n, n8n AI Agent, n8n compatível com OpenAI, {appName} n8n"
+      },
+      "BADGE": "n8n",
+      "TITLE": "Guia de configuração do n8n",
+      "SUBTITLE": "Aponte a credencial da OpenAI do n8n para o {appName} e rode qualquer modelo em workflows de AI Agent.",
+      "OVERVIEW_DESC": "A credencial da OpenAI no n8n tem um campo Base URL. Defina nele o {appName}, e o nó OpenAI Chat Model poderá acionar os nós AI Agent e Basic LLM Chain com qualquer modelo.",
+      "STEP_1_TITLE": "Criar a credencial",
+      "STEP_1_DESC": "Vá em Credentials, crie uma credencial da OpenAI e preencha API Key e Base URL. Deixe Organization ID vazio. Ao salvar, a conexão é testada com a lista de modelos.",
+      "STEP_2_TITLE": "Adicionar um OpenAI Chat Model",
+      "STEP_2_DESC": "Em um nó AI Agent ou Basic LLM Chain, adicione o subnó OpenAI Chat Model e selecione a nova credencial.",
+      "STEP_3_TITLE": "Escolher o modelo",
+      "STEP_3_DESC": "Escolha um modelo em From List, ou mude para ID e digite o id do modelo.",
+      "STEP_4_TITLE": "Desativar a Responses API",
+      "STEP_4_DESC": "Desative Use Responses API no nó OpenAI Chat Model para que ele chame Chat Completions, que todos os modelos de chat do {appName} suportam.",
+      "GOTCHA_1": "A operação Message a Model do nó do app OpenAI sempre chama a Responses API, que a maioria dos modelos do {appName} não atende. Use AI Agent ou Basic LLM Chain com OpenAI Chat Model no lugar.",
+      "GOTCHA_2": "Ferramentas integradas da OpenAI como Web Search, File Search e Code Interpreter exigem a Responses API e não funcionam aqui. As ferramentas que você conecta ao nó AI Agent funcionam com qualquer modelo que suporte chamada de ferramentas."
+    },
+    "DIFY": {
+      "META": {
+        "TITLE": "Guia de configuração do Dify | {appName}",
+        "DESCRIPTION": "Conecte o Dify ao {appName} com o plugin do {appName} no Dify Marketplace ou com o provedor OpenAI-API-compatible.",
+        "KEYWORDS": "Dify, provedor de modelos do Dify, Dify OpenAI-API-compatible, plugin do Dify, LLM personalizado no Dify, {appName} Dify"
+      },
+      "BADGE": "Dify",
+      "TITLE": "Guia de configuração do Dify",
+      "SUBTITLE": "Adicione o {appName} ao Dify com o plugin do Marketplace ou como modelo OpenAI-API-compatible.",
+      "OVERVIEW_DESC": "O Dify oferece dois caminhos. O plugin do {appName} só precisa da sua chave e já vem com modelos prontos. O provedor OpenAI-API-compatible recebe um modelo por vez, com configurações próprias.",
+      "STEP_1_TITLE": "Instalar o plugin do {appName}",
+      "STEP_1_DESC": "Abra Plugins, procure o {appName} no Marketplace e instale-o, ou instale-o pela página dele no Marketplace.",
+      "STEP_2_TITLE": "Adicionar sua chave",
+      "STEP_2_DESC": "Abra Model Provider (em Settings ou Integrations, conforme a sua versão do Dify), encontre o {appName} e cole sua chave de API. Para um modelo que não está na lista, clique em Add Model e informe o id dele.",
+      "STEP_3_TITLE": "Ou usar o OpenAI-API-compatible",
+      "STEP_3_DESC": "Instale o provedor OpenAI-API-compatible no lugar, clique em Add Model no card dele e preencha estes campos. Defina Function Call Type como Tool Call para agentes e ative Vision Support só para modelos que aceitam imagens.",
+      "STEP_4_TITLE": "Definir um modelo padrão",
+      "STEP_4_DESC": "Em Default Models, no canto superior direito de Model Provider, escolha um modelo do {appName} como System Reasoning Model e depois use-o nos seus apps.",
+      "GOTCHA_1": "Só proprietários e administradores do workspace podem adicionar provedores de modelos.",
+      "GOTCHA_2": "O provedor OpenAI-API-compatible não lê a lista de modelos nem detecta recursos. Adicione cada modelo à mão e defina você mesmo o tamanho de contexto e os recursos."
+    },
+    "JAN": {
+      "META": {
+        "TITLE": "Guia de configuração do Jan | {appName}",
+        "DESCRIPTION": "Adicione o {appName} ao app de desktop Jan como provedor personalizado compatível com a OpenAI.",
+        "KEYWORDS": "Jan, Jan AI, provedor personalizado no Jan, Jan compatível com OpenAI, modelos remotos no Jan, {appName} Jan"
+      },
+      "BADGE": "Jan",
+      "TITLE": "Guia de configuração do Jan",
+      "SUBTITLE": "Adicione o {appName} ao Jan como provedor personalizado ao lado dos seus modelos locais.",
+      "OVERVIEW_DESC": "O Jan roda modelos locais e também se conecta a provedores remotos. Adicione o {appName} como provedor personalizado compatível com a OpenAI e os modelos dele aparecem no mesmo seletor.",
+      "STEP_1_TITLE": "Abrir Model Providers",
+      "STEP_1_DESC": "Abra Settings, vá em Model Providers e clique em Add Provider.",
+      "STEP_2_TITLE": "Preencher o provedor",
+      "STEP_2_DESC": "Mantenha API format em OpenAI-compatible, informe um nome, a URL base com /v1 e sua chave, e clique em Create. O Jan carrega a lista de modelos na hora.",
+      "STEP_3_TITLE": "Ativar os recursos",
+      "STEP_3_DESC": "O Jan não detecta recursos em provedores personalizados. Clique no lápis ao lado de um modelo e ative Tools ou Vision quando o modelo tiver suporte.",
+      "STEP_4_TITLE": "Iniciar um chat",
+      "STEP_4_DESC": "Escolha um modelo do {appName} em um novo chat. Para adicionar um id que esteja faltando, use o botão de mais na seção Models do provedor.",
+      "GOTCHA_1": "A URL base precisa terminar em /v1, senão a lista de modelos não carrega.",
+      "GOTCHA_2": "O Jan mostra um aviso de que o provedor pode não ter suporte completo. É o aviso padrão dele para qualquer provedor personalizado."
+    },
+    "MSTY": {
+      "META": {
+        "TITLE": "Guia de configuração do Msty Studio | {appName}",
+        "DESCRIPTION": "Adicione o {appName} ao Msty Studio como provedor de modelos compatível com a OpenAI.",
+        "KEYWORDS": "Msty, Msty Studio, Msty compatível com OpenAI, provedor remoto no Msty, modelo personalizado no Msty, {appName} Msty"
+      },
+      "BADGE": "Msty",
+      "TITLE": "Guia de configuração do Msty Studio",
+      "SUBTITLE": "Adicione o {appName} ao Msty Studio como provedor online compatível com a OpenAI.",
+      "OVERVIEW_DESC": "O Msty Studio funciona com modelos locais e online. Adicione o {appName} como provedor compatível com a OpenAI e busque a lista de modelos dele.",
+      "STEP_1_TITLE": "Abrir Model Providers",
+      "STEP_1_DESC": "No Msty Studio 3, abra Settings, depois Model Providers, e clique em Add Provider. Na versão 2 e no app web, fica em Model Hub, depois Model Providers.",
+      "STEP_2_TITLE": "Preencher o provedor",
+      "STEP_2_DESC": "Escolha o tipo de provedor OpenAI-compatible, cole sua chave e informe a URL base como endpoint.",
+      "STEP_3_TITLE": "Carregar os modelos",
+      "STEP_3_DESC": "Clique em Fetch Models e marque os que quiser, ou adicione um modelo pelo id com Add Custom Model. Depois salve.",
+      "STEP_4_TITLE": "Escolher um modelo",
+      "STEP_4_DESC": "Abra uma conversa e escolha o modelo no seletor abaixo da caixa de mensagem.",
+      "GOTCHA_1": "Os provedores pertencem a um workspace. Copie ou sincronize-os com outros workspaces pelo formulário do provedor.",
+      "GOTCHA_2": "Se os modelos não aparecerem no seletor, confira se Show in Model Selector está ativado para o provedor."
+    },
+    "OBSIDIAN_COPILOT": {
+      "META": {
+        "TITLE": "Guia de configuração do Obsidian Copilot | {appName}",
+        "DESCRIPTION": "Adicione o {appName} ao plugin Copilot for Obsidian como provedor BYOK personalizado.",
+        "KEYWORDS": "Obsidian Copilot, Copilot for Obsidian, plugin de IA para Obsidian, provedor personalizado no Obsidian, Obsidian BYOK, {appName} Obsidian"
+      },
+      "BADGE": "Obsidian Copilot",
+      "TITLE": "Guia de configuração do Obsidian Copilot",
+      "SUBTITLE": "Adicione o {appName} como provedor personalizado no Copilot for Obsidian e converse com suas notas.",
+      "OVERVIEW_DESC": "O Copilot for Obsidian 4 tem uma aba BYOK para seus próprios provedores. Adicione o {appName} como provedor personalizado. Não é preciso licença do Copilot para isso.",
+      "STEP_1_TITLE": "Abrir BYOK",
+      "STEP_1_DESC": "Abra as configurações do Obsidian, vá em Copilot, depois BYOK, e clique em Add a provider.",
+      "STEP_2_TITLE": "Adicionar um provedor personalizado",
+      "STEP_2_DESC": "Clique em Add a custom provider no fim da lista e preencha estes campos. Clique em Test até a chave mostrar Verified.",
+      "STEP_3_TITLE": "Escolher os modelos",
+      "STEP_3_DESC": "Marque modelos na lista carregada, ou adicione um id de modelo exato no campo de modelo, e clique em Save.",
+      "STEP_4_TITLE": "Começar a conversar",
+      "STEP_4_DESC": "Escolha o modelo no Quick Chat. O Agent Chat pode usá-lo pelo agente OpenCode.",
+      "GOTCHA_1": "Se o Test passar mas as mensagens não forem enviadas, edite o provedor e ative Enable CORS. As respostas passam a chegar de uma vez, sem streaming.",
+      "GOTCHA_2": "As chaves ficam no chaveiro do Obsidian de cada dispositivo e não sincronizam com o cofre. Informe a chave de novo em cada dispositivo."
+    },
+    "AGNAI": {
+      "META": {
+        "TITLE": "Guia de configuração do Agnai | {appName}",
+        "DESCRIPTION": "Conecte o Agnai ao {appName} como provedor OpenAI Compat para conversar com personagens usando qualquer modelo.",
+        "KEYWORDS": "Agnai, Agnaistic, Agnai compatível com OpenAI, provedor personalizado no Agnai, proxy do Agnai, {appName} Agnai"
+      },
+      "BADGE": "Agnai",
+      "TITLE": "Guia de configuração do Agnai",
+      "SUBTITLE": "Adicione o {appName} ao Agnai como provedor OpenAI Compat para conversar com personagens.",
+      "OVERVIEW_DESC": "O Agnai é uma interface para conversar com personagens. Adicione o {appName} como provedor OpenAI Compat personalizado e use-o em qualquer preset.",
+      "STEP_1_TITLE": "Criar um provedor",
+      "STEP_1_DESC": "Abra Presets, mude para a aba Providers e clique em New.",
+      "STEP_2_TITLE": "Preencher a conexão",
+      "STEP_2_DESC": "Em Custom, escolha OpenAI Compat. Informe um rótulo, a URL base e sua chave, defina Request Format como OpenAI Compat (Chat) e clique em Test Connection e Create.",
+      "STEP_3_TITLE": "Usar em um preset",
+      "STEP_3_DESC": "No seu preset, escolha o novo provedor em Service e depois um modelo da lista, ou informe um em Manual Model ID.",
+      "GOTCHA_1": "No agnai.chat as requisições saem do servidor do Agnai, não do seu navegador. Isso funciona com o {appName} porque a API dele é pública.",
+      "GOTCHA_2": "O Agnai não lança atualizações desde junho de 2026. Se a tela do provedor estiver diferente, o antigo serviço Third-Party com o formato OpenAI Compat (Chat) aceita a mesma URL e a mesma chave."
     }
   },
   "FOOTER": {

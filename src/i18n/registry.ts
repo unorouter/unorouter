@@ -40,6 +40,14 @@ const GUIDE_DATES: Record<string, string> = {
   "roo-code": "2026-07-05",
   "continue-dev": "2026-07-05",
   aider: "2026-07-05",
+  cursor: "2026-11-13",
+  "github-copilot": "2026-11-13",
+  n8n: "2026-11-13",
+  dify: "2026-11-13",
+  jan: "2026-11-13",
+  msty: "2026-11-13",
+  "obsidian-copilot": "2026-11-13",
+  agnai: "2026-11-13",
 };
 
 function guideDate(slug: string): string {

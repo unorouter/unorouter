@@ -27,7 +27,15 @@ export type IntegrationIconKey =
   | "roo-code"
   | "zed"
   | "continue-dev"
-  | "aider";
+  | "aider"
+  | "cursor"
+  | "github-copilot"
+  | "n8n"
+  | "dify"
+  | "jan"
+  | "msty"
+  | "obsidian-copilot"
+  | "agnai";
 
 export type IntegrationColor = {
   accent: string;

@@ -5,11 +5,16 @@ import CherryStudio from "@lobehub/icons/es/CherryStudio";
 import ClaudeCode from "@lobehub/icons/es/ClaudeCode";
 import Cline from "@lobehub/icons/es/Cline";
 import Codex from "@lobehub/icons/es/Codex";
+import Cursor from "@lobehub/icons/es/Cursor";
+import Dify from "@lobehub/icons/es/Dify";
 import Gemini from "@lobehub/icons/es/Gemini";
+import GithubCopilot from "@lobehub/icons/es/GithubCopilot";
 import HermesAgent from "@lobehub/icons/es/HermesAgent";
 import KiloCode from "@lobehub/icons/es/KiloCode";
 import LobeHub from "@lobehub/icons/es/LobeHub";
 import MCP from "@lobehub/icons/es/MCP";
+import N8n from "@lobehub/icons/es/N8n";
+import Obsidian from "@lobehub/icons/es/Obsidian";
 import OpenClaw from "@lobehub/icons/es/OpenClaw";
 import OpenCode from "@lobehub/icons/es/OpenCode";
 import OpenWebUI from "@lobehub/icons/es/OpenWebUI";
@@ -42,6 +47,11 @@ const ICON_COMPONENTS: Partial<Record<IntegrationIconKey, LobeIcon>> = {
   openclaw: OpenClaw.Color,
   hermes: HermesAgent,
   mcp: MCP,
+  cursor: Cursor,
+  "github-copilot": GithubCopilot,
+  n8n: N8n.Color,
+  dify: Dify.Color,
+  "obsidian-copilot": Obsidian.Color,
 };
 
 export function GuideIcon(props: {

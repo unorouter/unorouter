@@ -2587,6 +2587,174 @@
       "GOTCHA_1": "モデルは手入力せず、読み込まれたドロップダウンから選んでください。完全一致しない手入力の名前は 404 になります。",
       "GOTCHA_2": "無料モデルは共有かつレート制限があるため、長いセッションよりテスト向きです。物語が大事な場面では有料モデルに切り替えてください。",
       "GOTCHA_3": "ロールプレイでは glm-5.2 が既定で推論します。-thinking を付けても、すでにある挙動を固定するだけです。"
+    },
+    "CURSOR": {
+      "META": {
+        "TITLE": "Cursor セットアップガイド | {appName}",
+        "DESCRIPTION": "自分の API キーと Override OpenAI Base URL 設定を使って、Cursor の Chat と Agent で {appName} のモデルを利用します。",
+        "KEYWORDS": "Cursor, Cursor カスタムモデル, Cursor OpenAI ベース URL, Cursor BYOK, {appName} Cursor, Cursor API キー"
+      },
+      "BADGE": "Cursor",
+      "TITLE": "Cursor セットアップガイド",
+      "SUBTITLE": "Cursor の OpenAI キー枠を {appName} に向け、Chat と Agent でそのモデルを使います。",
+      "OVERVIEW_DESC": "Cursor では OpenAI キーとベース URL を自分のものに置き換えられます。リクエストは引き続き Cursor のサーバーを経由するため、Cursor の有料プランが必要で、対象は Chat と Agent のみです。",
+      "STEP_1_TITLE": "API キー設定を開く",
+      "STEP_1_DESC": "Cursor Settings を開き、Models に移動して下へスクロールし、API Keys を展開します。",
+      "STEP_2_TITLE": "キーとベース URL を入力する",
+      "STEP_2_DESC": "OpenAI API Key に {appName} のキーを貼り付け、Use OpenAI API Key をオンにします。次に Override OpenAI Base URL をオンにしてベース URL を入力します。",
+      "STEP_3_TITLE": "モデルを追加する",
+      "STEP_3_DESC": "各モデルを {appName} の正確な ID で追加します。claude- で始まる ID は Cursor の Anthropic キー枠に送られて失敗するため、ここでは他のファミリーのモデルを選んでください。",
+      "STEP_4_TITLE": "再起動してチャットする",
+      "STEP_4_DESC": "Cursor を再起動し、新しいチャットを開いて Chat または Agent でモデルを選びます。",
+      "GOTCHA_1": "自分のキーが使えるのは Chat と Agent のチャットモデルだけです。Tab 補完やその他の組み込み機能は Cursor 独自のモデルを使い続けます。",
+      "GOTCHA_2": "ベース URL の上書きは、Cursor 独自のものも含め Cursor 内のすべての OpenAI モデルに適用されます。元に戻すにはオフにしてください。",
+      "GOTCHA_3": "カスタムのベース URL で自分のキーを使うには、Cursor の有料プランが必要です。チームプランでは管理者が個人の API キーを無効にすることもできます。"
+    },
+    "GITHUB_COPILOT": {
+      "META": {
+        "TITLE": "VS Code の GitHub Copilot セットアップガイド | {appName}",
+        "DESCRIPTION": "自分の API キーを使い、{appName} を VS Code の GitHub Copilot Chat に Custom Endpoint モデルとして追加します。",
+        "KEYWORDS": "GitHub Copilot, VS Code Copilot カスタムモデル, Copilot 自分のキーを使う, Copilot Custom Endpoint, VS Code BYOK, {appName} Copilot"
+      },
+      "BADGE": "GitHub Copilot",
+      "TITLE": "GitHub Copilot セットアップガイド",
+      "SUBTITLE": "Custom Endpoint を通じて、VS Code の Copilot Chat とエージェントモードで {appName} のモデルを使います。",
+      "OVERVIEW_DESC": "VS Code では、Copilot Chat で自分のキーのモデルを使えます。Custom Endpoint プロバイダーは OpenAI 互換の Chat Completions URL なら何でも受け付け、Copilot プランなしで動作します。",
+      "STEP_1_TITLE": "Manage Language Models を開く",
+      "STEP_1_DESC": "Command Palette から Chat: Manage Language Models を実行するか、Chat のモデル選択を開いて歯車アイコンをクリックします。",
+      "STEP_2_TITLE": "Custom Endpoint を追加する",
+      "STEP_2_DESC": "Add Models をクリックして Custom Endpoint を選びます。グループ名、表示名、{appName} のキーを入力し、API の種類は Chat Completions のままにします。",
+      "STEP_3_TITLE": "モデル一覧を編集する",
+      "STEP_3_DESC": "VS Code が chatLanguageModels.json を開きます。作成されたグループにこれらのモデルを、それぞれ完全な chat completions URL とともに入れます。エージェントモードのために toolCalling はオンのままにします。",
+      "STEP_4_TITLE": "モデルを選ぶ",
+      "STEP_4_DESC": "Chat のモデル選択でモデルを選びます。表示されない場合は VS Code を再起動してください。",
+      "GOTCHA_1": "自分のモデルはチャット、エージェントモード、ツールに対応します。インラインのコード補完と次の編集の提案には、引き続き GitHub へのサインインと Copilot が必要です。",
+      "GOTCHA_2": "Copilot Business と Enterprise では、先に管理者が Bring Your Own Language Model Key ポリシーを有効にする必要がある場合があります。",
+      "GOTCHA_3": "以前の OpenAI Compatible プロバイダーと customOAIModels 設定は非推奨です。代わりに Custom Endpoint を使ってください。"
+    },
+    "N8N": {
+      "META": {
+        "TITLE": "n8n セットアップガイド | {appName}",
+        "DESCRIPTION": "OpenAI 認証情報の Base URL を通じて、n8n の AI Agent や LLM チェーンのワークフローで {appName} のモデルを使います。",
+        "KEYWORDS": "n8n, n8n OpenAI ベース URL, n8n カスタム LLM, n8n AI Agent, n8n OpenAI 互換, {appName} n8n"
+      },
+      "BADGE": "n8n",
+      "TITLE": "n8n セットアップガイド",
+      "SUBTITLE": "n8n の OpenAI 認証情報を {appName} に向け、AI Agent ワークフローで任意のモデルを動かします。",
+      "OVERVIEW_DESC": "n8n の OpenAI 認証情報には Base URL フィールドがあります。これを {appName} に設定すると、OpenAI Chat Model ノードが任意のモデルで AI Agent ノードと Basic LLM Chain ノードを動かせます。",
+      "STEP_1_TITLE": "認証情報を作成する",
+      "STEP_1_DESC": "Credentials に移動して OpenAI 認証情報を作成し、API Key と Base URL を入力します。Organization ID は空のままにします。保存するとモデル一覧に対して接続がテストされます。",
+      "STEP_2_TITLE": "OpenAI Chat Model を追加する",
+      "STEP_2_DESC": "AI Agent ノードまたは Basic LLM Chain ノードに OpenAI Chat Model サブノードを追加し、新しい認証情報を選択します。",
+      "STEP_3_TITLE": "モデルを選ぶ",
+      "STEP_3_DESC": "From List からモデルを選ぶか、ID に切り替えてモデル ID を入力します。",
+      "STEP_4_TITLE": "Responses API をオフにする",
+      "STEP_4_DESC": "OpenAI Chat Model ノードの Use Responses API をオフにして、すべての {appName} チャットモデルが対応する Chat Completions を呼び出すようにします。",
+      "GOTCHA_1": "OpenAI アプリノードの Message a Model 操作は常に Responses API を呼び出しますが、{appName} のほとんどのモデルはこれに対応していません。代わりに AI Agent または Basic LLM Chain を OpenAI Chat Model と組み合わせて使ってください。",
+      "GOTCHA_2": "Web Search、File Search、Code Interpreter などの組み込み OpenAI ツールは Responses API が必要なため、ここでは動作しません。AI Agent ノードに接続したツールは、ツール呼び出しに対応したどのモデルでも動作します。"
+    },
+    "DIFY": {
+      "META": {
+        "TITLE": "Dify セットアップガイド | {appName}",
+        "DESCRIPTION": "Dify Marketplace の {appName} プラグイン、または OpenAI-API-compatible プロバイダーで Dify を {appName} に接続します。",
+        "KEYWORDS": "Dify, Dify モデルプロバイダー, Dify OpenAI-API-compatible, Dify プラグイン, Dify カスタム LLM, {appName} Dify"
+      },
+      "BADGE": "Dify",
+      "TITLE": "Dify セットアップガイド",
+      "SUBTITLE": "マーケットプレイスのプラグイン、または OpenAI-API-compatible モデルとして {appName} を Dify に追加します。",
+      "OVERVIEW_DESC": "Dify には 2 つの方法があります。{appName} プラグインはキーだけで使え、すぐ使えるモデルが付属します。OpenAI-API-compatible プロバイダーはモデルを 1 つずつ、それぞれの設定とともに追加します。",
+      "STEP_1_TITLE": "{appName} プラグインをインストールする",
+      "STEP_1_DESC": "Plugins を開いて Marketplace で {appName} を検索してインストールするか、そのマーケットプレイスページからインストールします。",
+      "STEP_2_TITLE": "キーを追加する",
+      "STEP_2_DESC": "Model Provider を開き（Dify のバージョンにより Settings または Integrations の下にあります）、{appName} を見つけて API キーを貼り付けます。一覧にないモデルは Add Model をクリックして ID を入力します。",
+      "STEP_3_TITLE": "または OpenAI-API-compatible を使う",
+      "STEP_3_DESC": "代わりに OpenAI-API-compatible プロバイダーをインストールし、そのカードの Add Model をクリックして以下のフィールドを入力します。エージェント用に Function Call Type を Tool Call に設定し、Vision Support は画像を受け付けるモデルでのみオンにします。",
+      "STEP_4_TITLE": "デフォルトモデルを設定する",
+      "STEP_4_DESC": "Model Provider の右上にある Default Models で {appName} のモデルを System Reasoning Model に選び、アプリで使います。",
+      "GOTCHA_1": "モデルプロバイダーを追加できるのはワークスペースのオーナーと管理者だけです。",
+      "GOTCHA_2": "OpenAI-API-compatible プロバイダーはモデル一覧を読み込まず、機能も検出しません。各モデルを手動で追加し、コンテキストサイズと機能を自分で設定してください。"
+    },
+    "JAN": {
+      "META": {
+        "TITLE": "Jan セットアップガイド | {appName}",
+        "DESCRIPTION": "{appName} を Jan デスクトップアプリにカスタムの OpenAI 互換プロバイダーとして追加します。",
+        "KEYWORDS": "Jan, Jan AI, Jan カスタムプロバイダー, Jan OpenAI 互換, Jan リモートモデル, {appName} Jan"
+      },
+      "BADGE": "Jan",
+      "TITLE": "Jan セットアップガイド",
+      "SUBTITLE": "ローカルモデルと並べて、{appName} を Jan にカスタムプロバイダーとして追加します。",
+      "OVERVIEW_DESC": "Jan はローカルモデルを実行し、リモートプロバイダーにも接続できます。{appName} をカスタムの OpenAI 互換プロバイダーとして追加すると、そのモデルが同じ選択欄に表示されます。",
+      "STEP_1_TITLE": "Model Providers を開く",
+      "STEP_1_DESC": "Settings を開き、Model Providers に移動して Add Provider をクリックします。",
+      "STEP_2_TITLE": "プロバイダーを入力する",
+      "STEP_2_DESC": "API format は OpenAI-compatible のままにし、名前、/v1 付きのベース URL、キーを入力して Create をクリックします。Jan はすぐにモデル一覧を読み込みます。",
+      "STEP_3_TITLE": "機能をオンにする",
+      "STEP_3_DESC": "Jan はカスタムプロバイダーの機能を検出しません。モデルの横の鉛筆アイコンをクリックし、モデルが対応している場合は Tools や Vision をオンにします。",
+      "STEP_4_TITLE": "チャットを始める",
+      "STEP_4_DESC": "新しいチャットで {appName} のモデルを選びます。足りない ID を追加するには、プロバイダーの Models セクションにあるプラスボタンを使います。",
+      "GOTCHA_1": "ベース URL は /v1 で終わる必要があります。そうでないとモデル一覧が読み込まれません。",
+      "GOTCHA_2": "Jan はプロバイダーが完全にはサポートされていない可能性があるという注意を表示します。これはすべてのカスタムプロバイダーに出る標準の通知です。"
+    },
+    "MSTY": {
+      "META": {
+        "TITLE": "Msty Studio セットアップガイド | {appName}",
+        "DESCRIPTION": "{appName} を Msty Studio に OpenAI 互換のモデルプロバイダーとして追加します。",
+        "KEYWORDS": "Msty, Msty Studio, Msty OpenAI 互換, Msty リモートプロバイダー, Msty カスタムモデル, {appName} Msty"
+      },
+      "BADGE": "Msty",
+      "TITLE": "Msty Studio セットアップガイド",
+      "SUBTITLE": "{appName} を Msty Studio に OpenAI 互換のオンラインプロバイダーとして追加します。",
+      "OVERVIEW_DESC": "Msty Studio はローカルモデルとオンラインモデルの両方で動作します。{appName} を OpenAI 互換プロバイダーとして追加し、モデル一覧を取得します。",
+      "STEP_1_TITLE": "Model Providers を開く",
+      "STEP_1_DESC": "Msty Studio 3 では Settings、Model Providers の順に開き、Add Provider をクリックします。バージョン 2 と Web アプリでは Model Hub、Model Providers の下にあります。",
+      "STEP_2_TITLE": "プロバイダーを入力する",
+      "STEP_2_DESC": "OpenAI 互換のプロバイダー種別を選び、キーを貼り付けて、エンドポイントにベース URL を入力します。",
+      "STEP_3_TITLE": "モデルを読み込む",
+      "STEP_3_DESC": "Fetch Models をクリックして使いたいモデルにチェックを入れるか、Add Custom Model で ID を指定してモデルを追加します。その後保存します。",
+      "STEP_4_TITLE": "モデルを選ぶ",
+      "STEP_4_DESC": "会話を開き、メッセージ欄の下の選択欄でモデルを選びます。",
+      "GOTCHA_1": "プロバイダーはワークスペースごとに属します。プロバイダーのフォームから他のワークスペースへコピーまたは同期してください。",
+      "GOTCHA_2": "選択欄にモデルが表示されない場合は、プロバイダーの Show in Model Selector がオンになっているか確認してください。"
+    },
+    "OBSIDIAN_COPILOT": {
+      "META": {
+        "TITLE": "Obsidian Copilot セットアップガイド | {appName}",
+        "DESCRIPTION": "{appName} を Obsidian の Copilot プラグインにカスタムの BYOK プロバイダーとして追加します。",
+        "KEYWORDS": "Obsidian Copilot, Copilot for Obsidian, Obsidian AI プラグイン, Obsidian カスタムプロバイダー, Obsidian BYOK, {appName} Obsidian"
+      },
+      "BADGE": "Obsidian Copilot",
+      "TITLE": "Obsidian Copilot セットアップガイド",
+      "SUBTITLE": "Copilot for Obsidian に {appName} をカスタムプロバイダーとして追加し、ノートについてチャットします。",
+      "OVERVIEW_DESC": "Copilot for Obsidian 4 には自分のプロバイダー用の BYOK タブがあります。{appName} をカスタムプロバイダーとして追加します。これに Copilot のライセンスは不要です。",
+      "STEP_1_TITLE": "BYOK を開く",
+      "STEP_1_DESC": "Obsidian の設定を開き、Copilot、BYOK の順に移動して Add a provider をクリックします。",
+      "STEP_2_TITLE": "カスタムプロバイダーを追加する",
+      "STEP_2_DESC": "一覧の一番下にある Add a custom provider をクリックし、以下のフィールドを入力します。キーに Verified と表示されるまで Test をクリックします。",
+      "STEP_3_TITLE": "モデルを選ぶ",
+      "STEP_3_DESC": "取得した一覧からモデルにチェックを入れるか、モデル欄に正確なモデル ID を追加して、Save をクリックします。",
+      "STEP_4_TITLE": "チャットを始める",
+      "STEP_4_DESC": "Quick Chat でモデルを選びます。Agent Chat では OpenCode エージェントを通じて使えます。",
+      "GOTCHA_1": "Test は通るのにメッセージが送れない場合は、プロバイダーを編集して Enable CORS をオンにします。その場合、返信はストリーミングではなく一度にまとめて届きます。",
+      "GOTCHA_2": "キーは各デバイスの Obsidian キーチェーンに保存され、ボールトとは同期されません。デバイスごとにキーを入力し直してください。"
+    },
+    "AGNAI": {
+      "META": {
+        "TITLE": "Agnai セットアップガイド | {appName}",
+        "DESCRIPTION": "Agnai を OpenAI Compat プロバイダーとして {appName} に接続し、任意のモデルでキャラクターチャットを楽しみます。",
+        "KEYWORDS": "Agnai, Agnaistic, Agnai OpenAI 互換, Agnai カスタムプロバイダー, Agnai プロキシ, {appName} Agnai"
+      },
+      "BADGE": "Agnai",
+      "TITLE": "Agnai セットアップガイド",
+      "SUBTITLE": "キャラクターチャット用に、{appName} を Agnai に OpenAI Compat プロバイダーとして追加します。",
+      "OVERVIEW_DESC": "Agnai はキャラクターチャットのフロントエンドです。{appName} をカスタムの OpenAI Compat プロバイダーとして追加し、どのプリセットでも使えます。",
+      "STEP_1_TITLE": "プロバイダーを作成する",
+      "STEP_1_DESC": "Presets を開き、Providers タブに切り替えて New をクリックします。",
+      "STEP_2_TITLE": "接続情報を入力する",
+      "STEP_2_DESC": "Custom で OpenAI Compat を選びます。ラベル、ベース URL、キーを入力し、Request Format を OpenAI Compat (Chat) に設定してから、Test Connection と Create をクリックします。",
+      "STEP_3_TITLE": "プリセットで使う",
+      "STEP_3_DESC": "プリセットの Service で新しいプロバイダーを選び、一覧からモデルを選ぶか Manual Model ID に入力します。",
+      "GOTCHA_1": "agnai.chat では、リクエストはブラウザーではなく Agnai のサーバーから送られます。{appName} の API は公開されているので、それでも動作します。",
+      "GOTCHA_2": "Agnai は 2026 年 6 月以降アップデートを出していません。プロバイダー画面の見た目が違う場合は、旧来の Third-Party サービスで OpenAI Compat (Chat) 形式を選べば同じ URL とキーが使えます。"
     }
   },
   "FOOTER": {

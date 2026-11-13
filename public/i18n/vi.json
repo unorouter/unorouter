@@ -2587,6 +2587,174 @@
       "GOTCHA_1": "Hãy chọn mô hình từ danh sách đã tải thay vì tự gõ. Một cái tên gõ tay không khớp chính xác sẽ trả về 404.",
       "GOTCHA_2": "Các mô hình miễn phí dùng chung và bị giới hạn tần suất, nên hợp với việc thử nghiệm hơn là các phiên dài. Khi câu chuyện quan trọng, hãy chuyển sang mô hình trả phí.",
       "GOTCHA_3": "Với nhập vai, glm-5.2 mặc định đã suy luận. Thêm -thinking chỉ cố định hành vi vốn đã có sẵn."
+    },
+    "CURSOR": {
+      "META": {
+        "TITLE": "Hướng dẫn cài đặt Cursor | {appName}",
+        "DESCRIPTION": "Dùng các mô hình {appName} trong Chat và Agent của Cursor với khóa API của riêng bạn và cài đặt Override OpenAI Base URL.",
+        "KEYWORDS": "Cursor, mô hình tùy chỉnh Cursor, Cursor OpenAI base URL, Cursor BYOK, {appName} Cursor, khóa API Cursor"
+      },
+      "BADGE": "Cursor",
+      "TITLE": "Hướng dẫn cài đặt Cursor",
+      "SUBTITLE": "Trỏ ô khóa OpenAI trong Cursor tới {appName} và dùng các mô hình của nó trong Chat và Agent.",
+      "OVERVIEW_DESC": "Cursor cho phép bạn thay khóa OpenAI và base URL bằng của riêng bạn. Yêu cầu vẫn đi qua máy chủ của Cursor, nên cần gói Cursor trả phí và chỉ áp dụng cho Chat và Agent.",
+      "STEP_1_TITLE": "Mở cài đặt khóa API",
+      "STEP_1_DESC": "Mở Cursor Settings, vào Models, cuộn xuống và mở rộng API Keys.",
+      "STEP_2_TITLE": "Nhập khóa và base URL",
+      "STEP_2_DESC": "Trong mục OpenAI API Key, dán khóa {appName} của bạn và bật Use OpenAI API Key. Sau đó bật Override OpenAI Base URL và nhập base URL.",
+      "STEP_3_TITLE": "Thêm các mô hình",
+      "STEP_3_DESC": "Thêm từng mô hình bằng đúng id {appName} của nó. Các id bắt đầu bằng claude- được gửi tới ô khóa Anthropic trong Cursor và sẽ lỗi, nên hãy chọn mô hình thuộc các họ khác ở đây.",
+      "STEP_4_TITLE": "Khởi động lại và trò chuyện",
+      "STEP_4_DESC": "Khởi động lại Cursor, mở một cuộc trò chuyện mới và chọn mô hình trong Chat hoặc Agent.",
+      "GOTCHA_1": "Khóa của riêng bạn chỉ dùng được cho các mô hình trò chuyện trong Chat và Agent. Tính năng hoàn thành Tab và các tính năng tích hợp khác vẫn dùng mô hình riêng của Cursor.",
+      "GOTCHA_2": "Việc ghi đè base URL áp dụng cho mọi mô hình OpenAI trong Cursor, kể cả mô hình của chính Cursor. Hãy tắt nó để quay lại dùng chúng.",
+      "GOTCHA_3": "Cursor yêu cầu gói trả phí để dùng khóa của riêng bạn với base URL tùy chỉnh. Trong gói nhóm, quản trị viên cũng có thể tắt khóa API cá nhân."
+    },
+    "GITHUB_COPILOT": {
+      "META": {
+        "TITLE": "Hướng dẫn cài đặt GitHub Copilot trong VS Code | {appName}",
+        "DESCRIPTION": "Thêm {appName} vào GitHub Copilot Chat trong VS Code dưới dạng mô hình Custom Endpoint với khóa API của riêng bạn.",
+        "KEYWORDS": "GitHub Copilot, mô hình tùy chỉnh VS Code Copilot, Copilot dùng khóa riêng, Copilot Custom Endpoint, VS Code BYOK, {appName} Copilot"
+      },
+      "BADGE": "GitHub Copilot",
+      "TITLE": "Hướng dẫn cài đặt GitHub Copilot",
+      "SUBTITLE": "Dùng các mô hình {appName} trong Copilot Chat và chế độ agent của VS Code thông qua Custom Endpoint.",
+      "OVERVIEW_DESC": "VS Code cho phép Copilot Chat dùng mô hình từ khóa của riêng bạn. Nhà cung cấp Custom Endpoint nhận mọi URL Chat Completions tương thích OpenAI và hoạt động mà không cần gói Copilot.",
+      "STEP_1_TITLE": "Mở Manage Language Models",
+      "STEP_1_DESC": "Chạy Chat: Manage Language Models từ Command Palette, hoặc mở bộ chọn mô hình trong Chat và nhấp vào biểu tượng bánh răng.",
+      "STEP_2_TITLE": "Thêm Custom Endpoint",
+      "STEP_2_DESC": "Nhấp Add Models và chọn Custom Endpoint. Nhập tên nhóm, tên hiển thị và khóa {appName} của bạn, giữ loại API là Chat Completions.",
+      "STEP_3_TITLE": "Sửa danh sách mô hình",
+      "STEP_3_DESC": "VS Code mở tệp chatLanguageModels.json. Đặt các mô hình này vào nhóm vừa được tạo, kèm URL chat completions đầy đủ cho từng mô hình. Giữ toolCalling bật cho chế độ agent.",
+      "STEP_4_TITLE": "Chọn mô hình",
+      "STEP_4_DESC": "Chọn mô hình trong bộ chọn mô hình của Chat. Khởi động lại VS Code nếu nó không hiện ra.",
+      "GOTCHA_1": "Mô hình của riêng bạn dùng được cho trò chuyện, chế độ agent và công cụ. Gợi ý hoàn thành mã nội dòng và gợi ý chỉnh sửa tiếp theo vẫn cần đăng nhập GitHub và Copilot.",
+      "GOTCHA_2": "Với Copilot Business và Enterprise, quản trị viên có thể cần bật chính sách Bring Your Own Language Model Key trước.",
+      "GOTCHA_3": "Nhà cung cấp OpenAI Compatible cũ và cài đặt customOAIModels đã bị loại bỏ dần. Hãy dùng Custom Endpoint thay thế."
+    },
+    "N8N": {
+      "META": {
+        "TITLE": "Hướng dẫn cài đặt n8n | {appName}",
+        "DESCRIPTION": "Dùng các mô hình {appName} trong quy trình AI Agent và chuỗi LLM của n8n thông qua Base URL của thông tin xác thực OpenAI.",
+        "KEYWORDS": "n8n, n8n OpenAI base URL, LLM tùy chỉnh n8n, n8n AI Agent, n8n tương thích OpenAI, {appName} n8n"
+      },
+      "BADGE": "n8n",
+      "TITLE": "Hướng dẫn cài đặt n8n",
+      "SUBTITLE": "Trỏ thông tin xác thực OpenAI của n8n tới {appName} và chạy mọi mô hình trong quy trình AI Agent.",
+      "OVERVIEW_DESC": "Thông tin xác thực OpenAI trong n8n có trường Base URL. Đặt nó thành {appName}, và nút OpenAI Chat Model có thể điều khiển các nút AI Agent và Basic LLM Chain với mọi mô hình.",
+      "STEP_1_TITLE": "Tạo thông tin xác thực",
+      "STEP_1_DESC": "Vào Credentials, tạo thông tin xác thực OpenAI và điền API Key cùng Base URL. Để trống Organization ID. Khi lưu, n8n sẽ kiểm tra kết nối bằng danh sách mô hình.",
+      "STEP_2_TITLE": "Thêm OpenAI Chat Model",
+      "STEP_2_DESC": "Trên nút AI Agent hoặc Basic LLM Chain, thêm nút con OpenAI Chat Model và chọn thông tin xác thực mới.",
+      "STEP_3_TITLE": "Chọn mô hình",
+      "STEP_3_DESC": "Chọn một mô hình From List, hoặc chuyển sang ID và nhập id mô hình.",
+      "STEP_4_TITLE": "Tắt Responses API",
+      "STEP_4_DESC": "Tắt Use Responses API trên nút OpenAI Chat Model để nó gọi Chat Completions, thứ mà mọi mô hình trò chuyện của {appName} đều hỗ trợ.",
+      "GOTCHA_1": "Thao tác Message a Model của nút ứng dụng OpenAI luôn gọi Responses API, mà hầu hết mô hình {appName} không phục vụ. Hãy dùng AI Agent hoặc Basic LLM Chain với OpenAI Chat Model thay thế.",
+      "GOTCHA_2": "Các công cụ OpenAI tích hợp như Web Search, File Search và Code Interpreter cần Responses API nên không hoạt động ở đây. Các công cụ bạn kết nối với nút AI Agent hoạt động với mọi mô hình hỗ trợ gọi công cụ."
+    },
+    "DIFY": {
+      "META": {
+        "TITLE": "Hướng dẫn cài đặt Dify | {appName}",
+        "DESCRIPTION": "Kết nối Dify với {appName} bằng plugin {appName} từ Dify Marketplace hoặc nhà cung cấp OpenAI-API-compatible.",
+        "KEYWORDS": "Dify, nhà cung cấp mô hình Dify, Dify OpenAI-API-compatible, plugin Dify, LLM tùy chỉnh Dify, {appName} Dify"
+      },
+      "BADGE": "Dify",
+      "TITLE": "Hướng dẫn cài đặt Dify",
+      "SUBTITLE": "Thêm {appName} vào Dify bằng plugin từ marketplace hoặc dưới dạng mô hình OpenAI-API-compatible.",
+      "OVERVIEW_DESC": "Dify có hai cách. Plugin {appName} chỉ cần khóa của bạn và đi kèm các mô hình sẵn dùng. Nhà cung cấp OpenAI-API-compatible nhận từng mô hình một với cài đặt riêng.",
+      "STEP_1_TITLE": "Cài plugin {appName}",
+      "STEP_1_DESC": "Mở Plugins, tìm {appName} trong Marketplace và cài đặt, hoặc cài từ trang marketplace của nó.",
+      "STEP_2_TITLE": "Thêm khóa của bạn",
+      "STEP_2_DESC": "Mở Model Provider (trong Settings hoặc Integrations, tùy phiên bản Dify), tìm {appName} và dán khóa API của bạn. Với mô hình không có trong danh sách, nhấp Add Model và nhập id của nó.",
+      "STEP_3_TITLE": "Hoặc dùng OpenAI-API-compatible",
+      "STEP_3_DESC": "Thay vào đó, cài nhà cung cấp OpenAI-API-compatible, nhấp Add Model trên thẻ của nó và điền các trường này. Đặt Function Call Type thành Tool Call cho agent, và chỉ bật Vision Support cho mô hình nhận hình ảnh.",
+      "STEP_4_TITLE": "Đặt mô hình mặc định",
+      "STEP_4_DESC": "Trong Default Models ở góc trên bên phải của Model Provider, chọn một mô hình {appName} làm System Reasoning Model, rồi dùng nó trong các ứng dụng của bạn.",
+      "GOTCHA_1": "Chỉ chủ sở hữu và quản trị viên workspace mới có thể thêm nhà cung cấp mô hình.",
+      "GOTCHA_2": "Nhà cung cấp OpenAI-API-compatible không đọc danh sách mô hình và không nhận diện khả năng. Hãy thêm từng mô hình thủ công và tự đặt kích thước ngữ cảnh cùng tính năng của nó."
+    },
+    "JAN": {
+      "META": {
+        "TITLE": "Hướng dẫn cài đặt Jan | {appName}",
+        "DESCRIPTION": "Thêm {appName} vào ứng dụng Jan trên máy tính dưới dạng nhà cung cấp tùy chỉnh tương thích OpenAI.",
+        "KEYWORDS": "Jan, Jan AI, nhà cung cấp tùy chỉnh Jan, Jan tương thích OpenAI, mô hình từ xa Jan, {appName} Jan"
+      },
+      "BADGE": "Jan",
+      "TITLE": "Hướng dẫn cài đặt Jan",
+      "SUBTITLE": "Thêm {appName} vào Jan làm nhà cung cấp tùy chỉnh bên cạnh các mô hình cục bộ của bạn.",
+      "OVERVIEW_DESC": "Jan chạy mô hình cục bộ và cũng kết nối với nhà cung cấp từ xa. Thêm {appName} làm nhà cung cấp tùy chỉnh tương thích OpenAI và các mô hình của nó sẽ xuất hiện trong cùng bộ chọn.",
+      "STEP_1_TITLE": "Mở Model Providers",
+      "STEP_1_DESC": "Mở Settings, vào Model Providers và nhấp Add Provider.",
+      "STEP_2_TITLE": "Điền thông tin nhà cung cấp",
+      "STEP_2_DESC": "Giữ API format là OpenAI-compatible, nhập tên, base URL có /v1 và khóa của bạn, rồi nhấp Create. Jan tải danh sách mô hình ngay lập tức.",
+      "STEP_3_TITLE": "Bật các khả năng",
+      "STEP_3_DESC": "Jan không nhận diện khả năng của nhà cung cấp tùy chỉnh. Nhấp biểu tượng bút chì cạnh mô hình và bật Tools hoặc Vision khi mô hình hỗ trợ.",
+      "STEP_4_TITLE": "Bắt đầu trò chuyện",
+      "STEP_4_DESC": "Chọn một mô hình {appName} trong cuộc trò chuyện mới. Để thêm id còn thiếu, dùng nút dấu cộng trong mục Models của nhà cung cấp.",
+      "GOTCHA_1": "Base URL phải kết thúc bằng /v1, nếu không danh sách mô hình sẽ không tải được.",
+      "GOTCHA_2": "Jan hiển thị ghi chú rằng nhà cung cấp có thể chưa được hỗ trợ đầy đủ. Đó là thông báo tiêu chuẩn của nó cho mọi nhà cung cấp tùy chỉnh."
+    },
+    "MSTY": {
+      "META": {
+        "TITLE": "Hướng dẫn cài đặt Msty Studio | {appName}",
+        "DESCRIPTION": "Thêm {appName} vào Msty Studio dưới dạng nhà cung cấp mô hình tương thích OpenAI.",
+        "KEYWORDS": "Msty, Msty Studio, Msty tương thích OpenAI, nhà cung cấp từ xa Msty, mô hình tùy chỉnh Msty, {appName} Msty"
+      },
+      "BADGE": "Msty",
+      "TITLE": "Hướng dẫn cài đặt Msty Studio",
+      "SUBTITLE": "Thêm {appName} vào Msty Studio làm nhà cung cấp trực tuyến tương thích OpenAI.",
+      "OVERVIEW_DESC": "Msty Studio làm việc với cả mô hình cục bộ và trực tuyến. Thêm {appName} làm nhà cung cấp tương thích OpenAI và tải danh sách mô hình của nó.",
+      "STEP_1_TITLE": "Mở Model Providers",
+      "STEP_1_DESC": "Trong Msty Studio 3, mở Settings, rồi Model Providers, và nhấp Add Provider. Ở phiên bản 2 và ứng dụng web, mục này nằm trong Model Hub, rồi Model Providers.",
+      "STEP_2_TITLE": "Điền thông tin nhà cung cấp",
+      "STEP_2_DESC": "Chọn loại nhà cung cấp tương thích OpenAI, dán khóa của bạn và nhập base URL làm endpoint.",
+      "STEP_3_TITLE": "Tải các mô hình",
+      "STEP_3_DESC": "Nhấp Fetch Models và đánh dấu các mô hình bạn muốn, hoặc thêm mô hình theo id bằng Add Custom Model. Sau đó lưu lại.",
+      "STEP_4_TITLE": "Chọn mô hình",
+      "STEP_4_DESC": "Mở một cuộc trò chuyện và chọn mô hình trong bộ chọn bên dưới ô nhập tin nhắn.",
+      "GOTCHA_1": "Nhà cung cấp thuộc về một workspace. Sao chép hoặc đồng bộ chúng sang workspace khác từ biểu mẫu nhà cung cấp.",
+      "GOTCHA_2": "Nếu các mô hình không có trong bộ chọn, hãy kiểm tra xem Show in Model Selector đã được bật cho nhà cung cấp chưa."
+    },
+    "OBSIDIAN_COPILOT": {
+      "META": {
+        "TITLE": "Hướng dẫn cài đặt Obsidian Copilot | {appName}",
+        "DESCRIPTION": "Thêm {appName} vào plugin Copilot cho Obsidian dưới dạng nhà cung cấp BYOK tùy chỉnh.",
+        "KEYWORDS": "Obsidian Copilot, Copilot for Obsidian, plugin AI Obsidian, nhà cung cấp tùy chỉnh Obsidian, Obsidian BYOK, {appName} Obsidian"
+      },
+      "BADGE": "Obsidian Copilot",
+      "TITLE": "Hướng dẫn cài đặt Obsidian Copilot",
+      "SUBTITLE": "Thêm {appName} làm nhà cung cấp tùy chỉnh trong Copilot for Obsidian và trò chuyện với ghi chú của bạn.",
+      "OVERVIEW_DESC": "Copilot for Obsidian 4 có thẻ BYOK cho các nhà cung cấp của riêng bạn. Thêm {appName} làm nhà cung cấp tùy chỉnh. Việc này không cần giấy phép Copilot.",
+      "STEP_1_TITLE": "Mở BYOK",
+      "STEP_1_DESC": "Mở cài đặt Obsidian, vào Copilot, rồi BYOK, và nhấp Add a provider.",
+      "STEP_2_TITLE": "Thêm nhà cung cấp tùy chỉnh",
+      "STEP_2_DESC": "Nhấp Add a custom provider ở cuối danh sách và điền các trường này. Nhấp Test cho đến khi khóa hiển thị Verified.",
+      "STEP_3_TITLE": "Chọn các mô hình",
+      "STEP_3_DESC": "Đánh dấu mô hình trong danh sách đã tải, hoặc thêm đúng id mô hình vào trường mô hình, rồi nhấp Save.",
+      "STEP_4_TITLE": "Bắt đầu trò chuyện",
+      "STEP_4_DESC": "Chọn mô hình trong Quick Chat. Agent Chat có thể dùng nó thông qua agent OpenCode.",
+      "GOTCHA_1": "Nếu Test thành công nhưng tin nhắn không gửi được, hãy sửa nhà cung cấp và bật Enable CORS. Khi đó câu trả lời sẽ đến một lần trọn vẹn thay vì truyền dần.",
+      "GOTCHA_2": "Khóa được lưu trong keychain Obsidian của từng thiết bị và không đồng bộ với vault. Hãy nhập lại khóa trên mỗi thiết bị."
+    },
+    "AGNAI": {
+      "META": {
+        "TITLE": "Hướng dẫn cài đặt Agnai | {appName}",
+        "DESCRIPTION": "Kết nối Agnai với {appName} dưới dạng nhà cung cấp OpenAI Compat để trò chuyện với nhân vật bằng mọi mô hình.",
+        "KEYWORDS": "Agnai, Agnaistic, Agnai tương thích OpenAI, nhà cung cấp tùy chỉnh Agnai, proxy Agnai, {appName} Agnai"
+      },
+      "BADGE": "Agnai",
+      "TITLE": "Hướng dẫn cài đặt Agnai",
+      "SUBTITLE": "Thêm {appName} vào Agnai làm nhà cung cấp OpenAI Compat để trò chuyện với nhân vật.",
+      "OVERVIEW_DESC": "Agnai là giao diện trò chuyện với nhân vật. Thêm {appName} làm nhà cung cấp OpenAI Compat tùy chỉnh và dùng nó trong bất kỳ preset nào.",
+      "STEP_1_TITLE": "Tạo nhà cung cấp",
+      "STEP_1_DESC": "Mở Presets, chuyển sang thẻ Providers và nhấp New.",
+      "STEP_2_TITLE": "Điền thông tin kết nối",
+      "STEP_2_DESC": "Trong mục Custom, chọn OpenAI Compat. Nhập nhãn, base URL và khóa của bạn, đặt Request Format thành OpenAI Compat (Chat), rồi nhấp Test Connection và Create.",
+      "STEP_3_TITLE": "Dùng trong preset",
+      "STEP_3_DESC": "Trong preset của bạn, chọn nhà cung cấp mới ở mục Service, rồi chọn một mô hình từ danh sách hoặc nhập mô hình vào Manual Model ID.",
+      "GOTCHA_1": "Trên agnai.chat, yêu cầu được gửi từ máy chủ Agnai chứ không phải từ trình duyệt của bạn. Điều đó vẫn hoạt động với {appName} vì API của nó là công khai.",
+      "GOTCHA_2": "Agnai không có bản cập nhật nào kể từ tháng 6 năm 2026. Nếu màn hình nhà cung cấp trông khác, dịch vụ Third-Party cũ với định dạng OpenAI Compat (Chat) nhận cùng URL và khóa."
     }
   },
   "FOOTER": {

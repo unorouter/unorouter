@@ -2587,6 +2587,174 @@
       "GOTCHA_1": "בחרו את המודל מהתפריט הנפתח שנטען במקום להקליד אותו. שם שהוקלד ידנית ואינו תואם במדויק מחזיר 404.",
       "GOTCHA_2": "מודלים חינמיים משותפים ומוגבלים בקצב, לכן הם מתאימים יותר לבדיקות מאשר לסשנים ארוכים. עברו למודל בתשלום כשהסיפור חשוב לכם.",
       "GOTCHA_3": "למשחקי תפקידים, glm-5.2 מבצע היסק כברירת מחדל. הוספת ‎-thinking רק מקבעת התנהגות שכבר קיימת בו."
+    },
+    "CURSOR": {
+      "META": {
+        "TITLE": "מדריך הגדרת Cursor | {appName}",
+        "DESCRIPTION": "השתמשו במודלים של {appName} ב-Chat וב-Agent של Cursor עם מפתח API משלכם וההגדרה Override OpenAI Base URL.",
+        "KEYWORDS": "Cursor, מודל מותאם ב-Cursor, Cursor OpenAI base URL, Cursor BYOK, {appName} Cursor, מפתח API ל-Cursor"
+      },
+      "BADGE": "Cursor",
+      "TITLE": "מדריך הגדרת Cursor",
+      "SUBTITLE": "כוונו את משבצת מפתח OpenAI ב-Cursor אל {appName} והשתמשו במודלים שלו ב-Chat וב-Agent.",
+      "OVERVIEW_DESC": "Cursor מאפשר להחליף את מפתח OpenAI ואת כתובת הבסיס במפתח ובכתובת משלכם. הבקשות עדיין עוברות דרך השרתים של Cursor, ולכן נדרשת תוכנית Cursor בתשלום וזה חל רק על Chat ו-Agent.",
+      "STEP_1_TITLE": "פתחו את הגדרות מפתח ה-API",
+      "STEP_1_DESC": "פתחו את Cursor Settings, עברו אל Models, גללו למטה והרחיבו את API Keys.",
+      "STEP_2_TITLE": "הזינו את המפתח ואת כתובת הבסיס",
+      "STEP_2_DESC": "תחת OpenAI API Key הדביקו את מפתח {appName} שלכם והפעילו את Use OpenAI API Key. לאחר מכן הפעילו את Override OpenAI Base URL והזינו את כתובת הבסיס.",
+      "STEP_3_TITLE": "הוסיפו את המודלים",
+      "STEP_3_DESC": "הוסיפו כל מודל לפי המזהה המדויק שלו ב-{appName}. מזהים שמתחילים ב-claude- נשלחים למשבצת מפתח Anthropic ב-Cursor ונכשלים, לכן בחרו כאן מודלים ממשפחות אחרות.",
+      "STEP_4_TITLE": "הפעילו מחדש והתחילו לשוחח",
+      "STEP_4_DESC": "הפעילו מחדש את Cursor, פתחו שיחה חדשה ובחרו את המודל ב-Chat או ב-Agent.",
+      "GOTCHA_1": "המפתח שלכם עובד רק עם מודלי שיחה ב-Chat וב-Agent. השלמת Tab ושאר התכונות המובנות ממשיכות להשתמש במודלים של Cursor עצמו.",
+      "GOTCHA_2": "עקיפת כתובת הבסיס חלה על כל מודלי OpenAI ב-Cursor, כולל המודלים של Cursor עצמו. כבו אותה כדי לחזור אליהם.",
+      "GOTCHA_3": "Cursor דורש תוכנית בתשלום כדי להשתמש במפתח משלכם עם כתובת בסיס מותאמת. בתוכניות צוות מנהל יכול גם לכבות מפתחות API אישיים."
+    },
+    "GITHUB_COPILOT": {
+      "META": {
+        "TITLE": "מדריך הגדרת GitHub Copilot ב-VS Code | {appName}",
+        "DESCRIPTION": "הוסיפו את {appName} ל-GitHub Copilot Chat ב-VS Code כמודל Custom Endpoint עם מפתח API משלכם.",
+        "KEYWORDS": "GitHub Copilot, מודל מותאם ב-VS Code Copilot, Copilot עם מפתח משלכם, Copilot Custom Endpoint, VS Code BYOK, {appName} Copilot"
+      },
+      "BADGE": "GitHub Copilot",
+      "TITLE": "מדריך הגדרת GitHub Copilot",
+      "SUBTITLE": "השתמשו במודלים של {appName} ב-Copilot Chat ובמצב סוכן של VS Code דרך Custom Endpoint.",
+      "OVERVIEW_DESC": "VS Code מאפשר ל-Copilot Chat להשתמש במודלים מהמפתח שלכם. הספק Custom Endpoint מקבל כל כתובת Chat Completions תואמת OpenAI ועובד בלי תוכנית Copilot.",
+      "STEP_1_TITLE": "פתחו את Manage Language Models",
+      "STEP_1_DESC": "הריצו את Chat: Manage Language Models מתוך Command Palette, או פתחו את בורר המודלים ב-Chat ולחצו על סמל גלגל השיניים.",
+      "STEP_2_TITLE": "הוסיפו Custom Endpoint",
+      "STEP_2_DESC": "לחצו על Add Models ובחרו Custom Endpoint. הזינו שם קבוצה, שם תצוגה ואת מפתח {appName} שלכם, והשאירו את סוג ה-API על Chat Completions.",
+      "STEP_3_TITLE": "ערכו את רשימת המודלים",
+      "STEP_3_DESC": "VS Code פותח את chatLanguageModels.json. הכניסו את המודלים האלה לקבוצה שנוצרה, עם כתובת chat completions המלאה לכל אחד. השאירו את toolCalling מופעל עבור מצב סוכן.",
+      "STEP_4_TITLE": "בחרו את המודל",
+      "STEP_4_DESC": "בחרו את המודל בבורר המודלים של Chat. הפעילו מחדש את VS Code אם הוא לא מופיע.",
+      "GOTCHA_1": "המודלים שלכם מכסים שיחה, מצב סוכן וכלים. השלמות קוד בשורה והצעות לעריכה הבאה עדיין דורשות התחברות ל-GitHub ו-Copilot.",
+      "GOTCHA_2": "ב-Copilot Business וב-Enterprise ייתכן שמנהל יצטרך קודם להפעיל את המדיניות Bring Your Own Language Model Key.",
+      "GOTCHA_3": "הספק הישן OpenAI Compatible וההגדרה customOAIModels הוצאו משימוש. השתמשו ב-Custom Endpoint במקומם."
+    },
+    "N8N": {
+      "META": {
+        "TITLE": "מדריך הגדרת n8n | {appName}",
+        "DESCRIPTION": "השתמשו במודלים של {appName} בתהליכי AI Agent ובשרשראות LLM של n8n דרך השדה Base URL של אישור OpenAI.",
+        "KEYWORDS": "n8n, n8n OpenAI base URL, LLM מותאם ב-n8n, n8n AI Agent, n8n תואם OpenAI, {appName} n8n"
+      },
+      "BADGE": "n8n",
+      "TITLE": "מדריך הגדרת n8n",
+      "SUBTITLE": "כוונו את אישור OpenAI של n8n אל {appName} והריצו כל מודל בתהליכי AI Agent.",
+      "OVERVIEW_DESC": "לאישור OpenAI ב-n8n יש שדה Base URL. הגדירו אותו ל-{appName}, וצומת OpenAI Chat Model יוכל להפעיל צמתי AI Agent ו-Basic LLM Chain עם כל מודל.",
+      "STEP_1_TITLE": "צרו את האישור",
+      "STEP_1_DESC": "עברו אל Credentials, צרו אישור OpenAI ומלאו את API Key ואת Base URL. השאירו את Organization ID ריק. השמירה בודקת את החיבור מול רשימת המודלים.",
+      "STEP_2_TITLE": "הוסיפו OpenAI Chat Model",
+      "STEP_2_DESC": "בצומת AI Agent או Basic LLM Chain, הוסיפו את תת הצומת OpenAI Chat Model ובחרו את האישור החדש.",
+      "STEP_3_TITLE": "בחרו את המודל",
+      "STEP_3_DESC": "בחרו מודל מתוך From List, או עברו ל-ID והקלידו את מזהה המודל.",
+      "STEP_4_TITLE": "כבו את Responses API",
+      "STEP_4_DESC": "כבו את Use Responses API בצומת OpenAI Chat Model כדי שיקרא ל-Chat Completions, שכל מודל שיחה של {appName} תומך בו.",
+      "GOTCHA_1": "הפעולה Message a Model של צומת אפליקציית OpenAI תמיד קוראת ל-Responses API, שרוב המודלים של {appName} לא מספקים. השתמשו במקום זאת ב-AI Agent או ב-Basic LLM Chain עם OpenAI Chat Model.",
+      "GOTCHA_2": "כלי OpenAI מובנים כמו Web Search, File Search ו-Code Interpreter דורשים את Responses API ולא עובדים כאן. כלים שאתם מחברים לצומת AI Agent עובדים עם כל מודל שתומך בקריאת כלים."
+    },
+    "DIFY": {
+      "META": {
+        "TITLE": "מדריך הגדרת Dify | {appName}",
+        "DESCRIPTION": "חברו את Dify אל {appName} עם התוסף של {appName} מ-Dify Marketplace או עם הספק OpenAI-API-compatible.",
+        "KEYWORDS": "Dify, ספק מודלים ב-Dify, Dify OpenAI-API-compatible, תוסף Dify, LLM מותאם ב-Dify, {appName} Dify"
+      },
+      "BADGE": "Dify",
+      "TITLE": "מדריך הגדרת Dify",
+      "SUBTITLE": "הוסיפו את {appName} ל-Dify עם התוסף מהחנות או כמודל OpenAI-API-compatible.",
+      "OVERVIEW_DESC": "Dify מציע שתי דרכים. התוסף של {appName} צריך רק את המפתח שלכם ומגיע עם מודלים מוכנים. הספק OpenAI-API-compatible מקבל מודל אחד בכל פעם עם הגדרות משלו.",
+      "STEP_1_TITLE": "התקינו את התוסף של {appName}",
+      "STEP_1_DESC": "פתחו את Plugins, חפשו את {appName} ב-Marketplace והתקינו אותו, או התקינו אותו מדף החנות שלו.",
+      "STEP_2_TITLE": "הוסיפו את המפתח שלכם",
+      "STEP_2_DESC": "פתחו את Model Provider (תחת Settings או Integrations, בהתאם לגרסת Dify), מצאו את {appName} והדביקו את מפתח ה-API שלכם. עבור מודל שלא מופיע ברשימה, לחצו על Add Model והזינו את המזהה שלו.",
+      "STEP_3_TITLE": "או השתמשו ב-OpenAI-API-compatible",
+      "STEP_3_DESC": "התקינו במקום זאת את הספק OpenAI-API-compatible, לחצו על Add Model בכרטיס שלו ומלאו את השדות האלה. הגדירו את Function Call Type ל-Tool Call עבור סוכנים, והפעילו את Vision Support רק במודלים שמקבלים תמונות.",
+      "STEP_4_TITLE": "הגדירו מודל ברירת מחדל",
+      "STEP_4_DESC": "תחת Default Models בפינה הימנית העליונה של Model Provider, בחרו מודל של {appName} בתור System Reasoning Model, ואז השתמשו בו באפליקציות שלכם.",
+      "GOTCHA_1": "רק בעלים ומנהלים של סביבת העבודה יכולים להוסיף ספקי מודלים.",
+      "GOTCHA_2": "הספק OpenAI-API-compatible לא קורא את רשימת המודלים ולא מזהה יכולות. הוסיפו כל מודל ידנית והגדירו בעצמכם את גודל ההקשר ואת התכונות שלו."
+    },
+    "JAN": {
+      "META": {
+        "TITLE": "מדריך הגדרת Jan | {appName}",
+        "DESCRIPTION": "הוסיפו את {appName} לאפליקציית Jan למחשב כספק מותאם תואם OpenAI.",
+        "KEYWORDS": "Jan, Jan AI, ספק מותאם ב-Jan, Jan תואם OpenAI, מודלים מרוחקים ב-Jan, {appName} Jan"
+      },
+      "BADGE": "Jan",
+      "TITLE": "מדריך הגדרת Jan",
+      "SUBTITLE": "הוסיפו את {appName} ל-Jan כספק מותאם לצד המודלים המקומיים שלכם.",
+      "OVERVIEW_DESC": "Jan מריץ מודלים מקומיים וגם מתחבר לספקים מרוחקים. הוסיפו את {appName} כספק מותאם תואם OpenAI והמודלים שלו יופיעו באותו בורר.",
+      "STEP_1_TITLE": "פתחו את Model Providers",
+      "STEP_1_DESC": "פתחו את Settings, עברו אל Model Providers ולחצו על Add Provider.",
+      "STEP_2_TITLE": "מלאו את פרטי הספק",
+      "STEP_2_DESC": "השאירו את API format על OpenAI-compatible, הזינו שם, את כתובת הבסיס עם /v1 ואת המפתח שלכם, ואז לחצו על Create. Jan טוען את רשימת המודלים מיד.",
+      "STEP_3_TITLE": "הפעילו יכולות",
+      "STEP_3_DESC": "Jan לא מזהה יכולות של ספקים מותאמים. לחצו על העיפרון ליד מודל והפעילו את Tools או Vision כשהמודל תומך בהם.",
+      "STEP_4_TITLE": "התחילו שיחה",
+      "STEP_4_DESC": "בחרו מודל של {appName} בשיחה חדשה. כדי להוסיף מזהה חסר, השתמשו בכפתור הפלוס באזור Models של הספק.",
+      "GOTCHA_1": "כתובת הבסיס חייבת להסתיים ב-/v1, אחרת רשימת המודלים לא תיטען.",
+      "GOTCHA_2": "Jan מציג הערה שייתכן שהספק לא נתמך במלואו. זו ההודעה הרגילה שלו לכל ספק מותאם."
+    },
+    "MSTY": {
+      "META": {
+        "TITLE": "מדריך הגדרת Msty Studio | {appName}",
+        "DESCRIPTION": "הוסיפו את {appName} ל-Msty Studio כספק מודלים תואם OpenAI.",
+        "KEYWORDS": "Msty, Msty Studio, Msty תואם OpenAI, ספק מרוחק ב-Msty, מודל מותאם ב-Msty, {appName} Msty"
+      },
+      "BADGE": "Msty",
+      "TITLE": "מדריך הגדרת Msty Studio",
+      "SUBTITLE": "הוסיפו את {appName} ל-Msty Studio כספק מקוון תואם OpenAI.",
+      "OVERVIEW_DESC": "Msty Studio עובד עם מודלים מקומיים ומקוונים. הוסיפו את {appName} כספק תואם OpenAI ומשכו את רשימת המודלים שלו.",
+      "STEP_1_TITLE": "פתחו את Model Providers",
+      "STEP_1_DESC": "ב-Msty Studio 3 פתחו את Settings, ואז Model Providers, ולחצו על Add Provider. בגרסה 2 ובאפליקציית הרשת זה נמצא תחת Model Hub, ואז Model Providers.",
+      "STEP_2_TITLE": "מלאו את פרטי הספק",
+      "STEP_2_DESC": "בחרו בסוג הספק התואם OpenAI, הדביקו את המפתח שלכם והזינו את כתובת הבסיס בתור נקודת הקצה.",
+      "STEP_3_TITLE": "טענו את המודלים",
+      "STEP_3_DESC": "לחצו על Fetch Models וסמנו את המודלים הרצויים, או הוסיפו מודל לפי מזהה עם Add Custom Model. לאחר מכן שמרו.",
+      "STEP_4_TITLE": "בחרו מודל",
+      "STEP_4_DESC": "פתחו שיחה ובחרו את המודל בבורר שמתחת לתיבת ההודעה.",
+      "GOTCHA_1": "ספקים שייכים לסביבת עבודה. העתיקו או סנכרנו אותם לסביבות עבודה אחרות מטופס הספק.",
+      "GOTCHA_2": "אם המודלים חסרים בבורר, בדקו ש-Show in Model Selector מופעל עבור הספק."
+    },
+    "OBSIDIAN_COPILOT": {
+      "META": {
+        "TITLE": "מדריך הגדרת Obsidian Copilot | {appName}",
+        "DESCRIPTION": "הוסיפו את {appName} לתוסף Copilot של Obsidian כספק BYOK מותאם.",
+        "KEYWORDS": "Obsidian Copilot, Copilot for Obsidian, תוסף AI ל-Obsidian, ספק מותאם ב-Obsidian, Obsidian BYOK, {appName} Obsidian"
+      },
+      "BADGE": "Obsidian Copilot",
+      "TITLE": "מדריך הגדרת Obsidian Copilot",
+      "SUBTITLE": "הוסיפו את {appName} כספק מותאם ב-Copilot for Obsidian ושוחחו עם הפתקים שלכם.",
+      "OVERVIEW_DESC": "ל-Copilot for Obsidian 4 יש לשונית BYOK לספקים משלכם. הוסיפו את {appName} כספק מותאם. לשם כך לא נדרש רישיון Copilot.",
+      "STEP_1_TITLE": "פתחו את BYOK",
+      "STEP_1_DESC": "פתחו את הגדרות Obsidian, עברו אל Copilot, ואז BYOK, ולחצו על Add a provider.",
+      "STEP_2_TITLE": "הוסיפו ספק מותאם",
+      "STEP_2_DESC": "לחצו על Add a custom provider בתחתית הרשימה ומלאו את השדות האלה. לחצו על Test עד שהמפתח מציג Verified.",
+      "STEP_3_TITLE": "בחרו את המודלים",
+      "STEP_3_DESC": "סמנו מודלים ברשימה שנמשכה, או הוסיפו מזהה מודל מדויק בשדה המודל, ואז לחצו על Save.",
+      "STEP_4_TITLE": "התחילו לשוחח",
+      "STEP_4_DESC": "בחרו את המודל ב-Quick Chat. Agent Chat יכול להשתמש בו דרך הסוכן OpenCode.",
+      "GOTCHA_1": "אם Test עובר אבל ההודעות לא נשלחות, ערכו את הספק והפעילו את Enable CORS. התשובות יגיעו אז בבת אחת במקום בהזרמה.",
+      "GOTCHA_2": "המפתחות נשמרים במחזיק המפתחות של Obsidian בכל מכשיר ולא מסונכרנים עם הכספת. הזינו את המפתח מחדש בכל מכשיר."
+    },
+    "AGNAI": {
+      "META": {
+        "TITLE": "מדריך הגדרת Agnai | {appName}",
+        "DESCRIPTION": "חברו את Agnai אל {appName} כספק OpenAI Compat לשיחות דמויות עם כל מודל.",
+        "KEYWORDS": "Agnai, Agnaistic, Agnai תואם OpenAI, ספק מותאם ב-Agnai, פרוקסי ל-Agnai, {appName} Agnai"
+      },
+      "BADGE": "Agnai",
+      "TITLE": "מדריך הגדרת Agnai",
+      "SUBTITLE": "הוסיפו את {appName} ל-Agnai כספק OpenAI Compat לשיחות דמויות.",
+      "OVERVIEW_DESC": "Agnai הוא ממשק לשיחות דמויות. הוסיפו את {appName} כספק OpenAI Compat מותאם והשתמשו בו בכל פריסט.",
+      "STEP_1_TITLE": "צרו ספק",
+      "STEP_1_DESC": "פתחו את Presets, עברו ללשונית Providers ולחצו על New.",
+      "STEP_2_TITLE": "מלאו את החיבור",
+      "STEP_2_DESC": "תחת Custom בחרו OpenAI Compat. הזינו תווית, את כתובת הבסיס ואת המפתח שלכם, הגדירו את Request Format ל-OpenAI Compat (Chat), ואז לחצו על Test Connection ועל Create.",
+      "STEP_3_TITLE": "השתמשו בו בפריסט",
+      "STEP_3_DESC": "בפריסט שלכם בחרו את הספק החדש תחת Service, ואז בחרו מודל מהרשימה או הזינו אחד תחת Manual Model ID.",
+      "GOTCHA_1": "ב-agnai.chat הבקשות יוצאות מהשרת של Agnai ולא מהדפדפן שלכם. זה עובד עם {appName} כי ה-API שלו ציבורי.",
+      "GOTCHA_2": "Agnai לא שחרר עדכונים מאז יוני 2026. אם מסך הספק נראה אחרת, שירות Third-Party הישן עם הפורמט OpenAI Compat (Chat) מקבל את אותה כתובת ואותו מפתח."
     }
   },
   "FOOTER": {
