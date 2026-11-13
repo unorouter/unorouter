@@ -2430,4 +2430,5 @@ export const FOOTER_TEXT_LINKS = [
   { href: "https://www.thebigdirectory.co.uk/", label: "The Big Directory UK" },
   { href: "https://agentgo.net", label: "AI Tools Directory" },
   { href: "https://antdirectory.com/", label: "Ant Directory" },
+  { href: "https://toolsaiapp.com/", label: "Featured on ToolsAIApp" },
 ] as const;
