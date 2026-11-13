@@ -21,6 +21,21 @@ export async function getCachedFreeChatModels(limit?: number) {
   return limit == null ? free : free.slice(0, limit);
 }
 
+// Only the full catalog carries metadata; models without a known window are left out.
+export async function getModelTokenLimits(names: string[]) {
+  const catalog = await getCatalog(true);
+  const limits = new Map<string, { context: number; output?: number }>();
+  for (const m of catalog.models) {
+    const context = m.metadata?.contextWindow;
+    if (!names.includes(m.model_name) || !context) continue;
+    limits.set(m.model_name, {
+      context,
+      output: m.metadata?.maxOutputTokens,
+    });
+  }
+  return limits;
+}
+
 export function getPlansData() {
   return Promise.all([
     getSubscriptionPlansSummary(),

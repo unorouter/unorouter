@@ -13,7 +13,11 @@ import { GuideIcon } from "@/components/pages/docs/guide-icon";
 import { Icon } from "@/components/ui/icon";
 import { Link } from "@/i18n/navigation";
 import { modelHref } from "@/lib/utils/base";
-import { getCachedFreeChatModels, getDocsApiKey } from "@/lib/api/page-data";
+import {
+  getCachedFreeChatModels,
+  getDocsApiKey,
+  getModelTokenLimits,
+} from "@/lib/api/page-data";
 import { APP_VALUES } from "@/lib/config/constants";
 import { OS } from "@/lib/types/enums";
 import type { TranslationKey } from "@/lib/config/constants";
@@ -128,8 +132,21 @@ ${t("DOCS.SETUP_GUIDE.API_KEY_LABEL")}: ${docs.placeholder}`;
     : null;
 
   // OpenCode needs every model spelled out in its config, so the sample block
-  // is filled with real ids rather than a placeholder.
-  const freeModelKeys = models.map((id) => `        "${id}": {}`).join(",\n");
+  // is filled with real ids rather than a placeholder. Without a limit it
+  // assumes a small window and compacts the session long before the real one.
+  const limits = guide.steps.some((s) =>
+    s.code?.value.includes("__FREE_MODEL_KEYS__"),
+  )
+    ? await getModelTokenLimits(models)
+    : new Map<string, { context: number; output?: number }>();
+  const freeModelKeys = models
+    .map((id) => {
+      const limit = limits.get(id);
+      if (!limit) return `        "${id}": {}`;
+      const output = limit.output ?? Math.min(limit.context, 32768);
+      return `        "${id}": { "limit": { "context": ${limit.context}, "output": ${output} } }`;
+    })
+    .join(",\n");
   const stepCode = (step: SetupStep) =>
     step.code
       ? step.code.value.replace("__FREE_MODEL_KEYS__", freeModelKeys)
