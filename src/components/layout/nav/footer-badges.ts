@@ -2271,6 +2271,20 @@ export const FOOTER_BADGES: {
     name: "SaaSDB",
     width: 80,
   },
+  {
+    href: "https://francesaas.fr/saas/unorouter",
+    src: "https://francesaas.fr/badge-francesaas.svg",
+    name: "FranceSaaS",
+    alt: "Badge FranceSaaS",
+    width: 109,
+  },
+  {
+    href: "https://www.les-ia.fr",
+    src: "https://www.les-ia.fr/brand-kit/les-ia-discover-fr-dark.svg",
+    name: "Les IA",
+    alt: "Découvrez Les IA",
+    width: 80,
+  },
 ] as const;
 
 export const FOOTER_TEXT_LINKS = [
