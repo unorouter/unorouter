@@ -492,7 +492,9 @@
       "BROWSE_ALL": "Sfoglia i modelli per fornitore",
       "AT_CAPACITY_HEADING": "Al momento occupati",
       "AT_CAPACITY_NOTE": "Tutti i provider di questi modelli hanno raggiunto il limite di richieste. Tornano disponibili automaticamente quando i limiti si azzerano.",
-      "AT_CAPACITY_BADGE": "Occupato"
+      "AT_CAPACITY_BADGE": "Occupato",
+      "SEO_TITLE": "Modelli API {vendor}: prezzi{free, select, yes { e piano gratuito} other {}}",
+      "SEO_DESC": "Modelli API {vendor} su {appName}: prezzo per token di input e output per ogni modello{free, select, yes {, piani gratuiti inclusi} other {}}. Funziona con qualsiasi SDK OpenAI tramite un'unica chiave."
     },
     "DISCORD": "Richiedi un modello su Discord",
     "DATA_POLICY": {
@@ -1468,8 +1470,8 @@
     "TRENDING_MODELS": "Modelli di tendenza questa settimana"
   },
   "MODEL_PAGE": {
-    "META_TITLE": "Prezzi API, contesto ed esempi di {name} | {appName}",
-    "META_DESC": "Usa {name} di {vendor} tramite un unico endpoint compatibile con OpenAI. Prezzi per token, finestra di contesto, endpoint ed esempi di codice pronti.",
+    "META_TITLE": "{name} API: {fixed, select, yes {prezzo per richiesta} other {prezzo per token}}, compatibile OpenAI | {appName}",
+    "META_DESC": "API {name} di {vendor}: {input} per 1M token di input, {output} per 1M token di output, nessun piano gratuito. Funziona con qualsiasi SDK OpenAI tramite un'unica chiave {appName}.",
     "META_KEYWORDS": "API {name}, prezzi {name}, finestra di contesto {name}, API {vendor}, {appName}",
     "PRICING_TITLE": "Prezzi",
     "INPUT_PRICE": "Prezzo di input",
@@ -1568,13 +1570,19 @@
     "PRICE_LOW_OFFLINE": "Offline",
     "PRICE_LOW_SEEN": "Più economico il {day}",
     "PRICE_LOW_CHART": "Prezzo di input più basso",
-    "META_TITLE_FREE": "API {name} gratuita: senza costi, compatibile OpenAI | {appName}",
-    "META_DESC_FREE": "Usa {name} di {vendor} gratis tramite un'API compatibile con OpenAI, in JanitorAI, SillyTavern o nel tuo codice. Limiti, contesto ed esempi da copiare.",
+    "META_TITLE_FREE": "{name} API: piano gratuito, {fixed, select, yes {prezzo per richiesta} other {prezzo per token}}, compatibile OpenAI | {appName}",
+    "META_DESC_FREE": "API {name} di {vendor} con piano gratuito; l'uso a pagamento costa {input} per 1M token di input e {output} per 1M token di output. Funziona con qualsiasi SDK OpenAI tramite un'unica chiave {appName}.",
     "META_KEYWORDS_FREE": "API {name} gratuita, {name} gratis, API {vendor} gratuita, API {name}, API IA gratuita, {appName}",
     "COMPARE_WITH_TITLE": "Confronta {model}",
     "USE_IN_TITLE": "Usa {model} in",
     "FAQ_FREE_Q": "{name} è gratis?",
-    "FAQ_FREE_A": "Sì. {name}:free è la versione gratuita su {appName}: non costa nulla, con un limite di circa una richiesta al minuto. La versione a pagamento di {name} non ha limiti al minuto."
+    "FAQ_FREE_A": "Sì. {name}:free è la versione gratuita su {appName}: non costa nulla, con un limite di circa una richiesta al minuto. La versione a pagamento di {name} non ha limiti al minuto.",
+    "META_TITLE_SHORT": "{name} API: {fixed, select, yes {prezzo per richiesta} other {prezzo per token}}",
+    "META_TITLE_FREE_SHORT": "{name} API: piano gratuito, {fixed, select, yes {prezzo per richiesta} other {prezzo per token}}",
+    "META_TITLE_FREE_ONLY": "{name} API: piano gratuito, compatibile OpenAI | {appName}",
+    "META_DESC_FREE_ONLY": "API {name} di {vendor} con piano gratuito: $0 per token, senza carta di credito. Funziona con qualsiasi SDK OpenAI tramite un'unica chiave {appName}.",
+    "META_DESC_FIXED": "API {name} di {vendor}: {price} per richiesta, {free, select, yes {piano gratuito disponibile} other {nessun piano gratuito}}. Funziona con qualsiasi SDK OpenAI tramite un'unica chiave {appName}.",
+    "META_DESC_TIERED": "API {name} di {vendor}: prezzo per token a scaglioni in base alla lunghezza del contesto, {free, select, yes {piano gratuito disponibile} other {nessun piano gratuito}}. Funziona con qualsiasi SDK OpenAI tramite un'unica chiave {appName}."
   },
   "PRICING": {
     "FEATURE": {

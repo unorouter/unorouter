@@ -492,7 +492,9 @@
       "BROWSE_ALL": "Parcourir les modèles par fournisseur",
       "AT_CAPACITY_HEADING": "Actuellement saturés",
       "AT_CAPACITY_NOTE": "Tous les fournisseurs de ces modèles ont atteint leur limite de requêtes. Ils redeviennent disponibles automatiquement dès que les limites sont levées.",
-      "AT_CAPACITY_BADGE": "Saturé"
+      "AT_CAPACITY_BADGE": "Saturé",
+      "SEO_TITLE": "Modèles API {vendor} : prix{free, select, yes { et offre gratuite} other {}}",
+      "SEO_DESC": "Modèles API {vendor} sur {appName} : prix par token en entrée et en sortie pour chaque modèle{free, select, yes {, offres gratuites incluses} other {}}. Fonctionne avec n'importe quel SDK OpenAI via une seule clé."
     },
     "DISCORD": "Demandez un modèle sur Discord",
     "DATA_POLICY": {
@@ -1468,8 +1470,8 @@
     "TRENDING_MODELS": "Modèles tendance cette semaine"
   },
   "MODEL_PAGE": {
-    "META_TITLE": "Tarification, contexte et exemples de l'API {name} | {appName}",
-    "META_DESC": "Utilisez {name} de {vendor} via un point d'accès unique compatible OpenAI. Tarif au jeton, fenêtre de contexte, points d'accès et exemples de code.",
+    "META_TITLE": "{name} API : {fixed, select, yes {prix par requête} other {prix par token}}, compatible OpenAI | {appName}",
+    "META_DESC": "API {name} de {vendor} : {input} par 1M tokens en entrée, {output} par 1M tokens en sortie, sans offre gratuite. Fonctionne avec n'importe quel SDK OpenAI via une seule clé {appName}.",
     "META_KEYWORDS": "API {name}, tarifs {name}, fenêtre de contexte {name}, API {vendor}, {appName}",
     "PRICING_TITLE": "Tarification",
     "INPUT_PRICE": "Prix en entrée",
@@ -1568,13 +1570,19 @@
     "PRICE_LOW_OFFLINE": "Hors ligne",
     "PRICE_LOW_SEEN": "Le moins cher le {day}",
     "PRICE_LOW_CHART": "Prix d'entrée le plus bas",
-    "META_TITLE_FREE": "API {name} gratuite : sans frais, compatible OpenAI | {appName}",
-    "META_DESC_FREE": "Utilisez {name} de {vendor} gratuitement via une API compatible OpenAI, dans JanitorAI, SillyTavern ou votre code. Limites, contexte et exemples.",
+    "META_TITLE_FREE": "{name} API : offre gratuite, {fixed, select, yes {prix par requête} other {prix par token}}, compatible OpenAI | {appName}",
+    "META_DESC_FREE": "API {name} de {vendor} avec offre gratuite ; l'usage payant coûte {input} par 1M tokens en entrée et {output} par 1M tokens en sortie. Fonctionne avec n'importe quel SDK OpenAI via une seule clé {appName}.",
     "META_KEYWORDS_FREE": "API {name} gratuite, {name} gratuit, API {vendor} gratuite, API {name}, API IA gratuite, {appName}",
     "COMPARE_WITH_TITLE": "Comparer {model}",
     "USE_IN_TITLE": "Utiliser {model} dans",
     "FAQ_FREE_Q": "{name} est-il gratuit ?",
-    "FAQ_FREE_A": "Oui. {name}:free est la version gratuite sur {appName} : elle ne coûte rien, avec une limite d''environ une requête par minute. La version payante de {name} n''a pas de limite par minute."
+    "FAQ_FREE_A": "Oui. {name}:free est la version gratuite sur {appName} : elle ne coûte rien, avec une limite d''environ une requête par minute. La version payante de {name} n''a pas de limite par minute.",
+    "META_TITLE_SHORT": "{name} API : {fixed, select, yes {prix par requête} other {prix par token}}",
+    "META_TITLE_FREE_SHORT": "{name} API : offre gratuite, {fixed, select, yes {prix par requête} other {prix par token}}",
+    "META_TITLE_FREE_ONLY": "{name} API : offre gratuite, compatible OpenAI | {appName}",
+    "META_DESC_FREE_ONLY": "API {name} de {vendor} en offre gratuite : 0 $ par token, sans carte bancaire. Fonctionne avec n'importe quel SDK OpenAI via une seule clé {appName}.",
+    "META_DESC_FIXED": "API {name} de {vendor} : {price} par requête, {free, select, yes {offre gratuite disponible} other {sans offre gratuite}}. Fonctionne avec n'importe quel SDK OpenAI via une seule clé {appName}.",
+    "META_DESC_TIERED": "API {name} de {vendor} : prix par token par paliers selon la longueur du contexte, {free, select, yes {offre gratuite disponible} other {sans offre gratuite}}. Fonctionne avec n'importe quel SDK OpenAI via une seule clé {appName}."
   },
   "PRICING": {
     "FEATURE": {

@@ -492,7 +492,9 @@
       "BROWSE_ALL": "제공업체별 모델 보기",
       "AT_CAPACITY_HEADING": "현재 혼잡",
       "AT_CAPACITY_NOTE": "이 모델의 모든 제공자가 요청 한도에 도달했습니다. 한도가 해제되면 자동으로 다시 사용할 수 있습니다.",
-      "AT_CAPACITY_BADGE": "혼잡"
+      "AT_CAPACITY_BADGE": "혼잡",
+      "SEO_TITLE": "{vendor} API 모델: 가격{free, select, yes { 및 무료 티어} other {}}",
+      "SEO_DESC": "{appName}의 {vendor} API 모델: 모델별 입력 및 출력 토큰당 가격{free, select, yes {, 무료 티어 포함} other {}}. 키 하나로 모든 OpenAI SDK에서 사용할 수 있습니다."
     },
     "DISCORD": "Discord에서 모델을 요청하세요",
     "DATA_POLICY": {
@@ -1468,8 +1470,8 @@
     "TRENDING_MODELS": "이번 주 인기 모델"
   },
   "MODEL_PAGE": {
-    "META_TITLE": "{name} API 요금, 컨텍스트 및 예제 | {appName}",
-    "META_DESC": "단일 OpenAI 호환 엔드포인트를 통해 {vendor}의 {name}을 사용하세요. 토큰당 요금, 컨텍스트 윈도우, 엔드포인트 및 복사 붙여넣기 코드 예제를 확인하세요.",
+    "META_TITLE": "{name} API: {fixed, select, yes {요청당 가격} other {토큰당 가격}}, OpenAI 호환 | {appName}",
+    "META_DESC": "{vendor}의 {name} API: 입력 100만 토큰당 {input}, 출력 100만 토큰당 {output}, 무료 티어 없음. {appName} 키 하나로 모든 OpenAI SDK에서 사용할 수 있습니다.",
     "META_KEYWORDS": "{name} API, {name} 요금, {name} 컨텍스트 윈도우, {vendor} API, {appName}",
     "PRICING_TITLE": "요금",
     "INPUT_PRICE": "입력 가격",
@@ -1568,13 +1570,19 @@
     "PRICE_LOW_OFFLINE": "오프라인",
     "PRICE_LOW_SEEN": "{day} 최저가",
     "PRICE_LOW_CHART": "최저 입력 가격",
-    "META_TITLE_FREE": "{name} 무료 API: 비용 없이 OpenAI 호환 | {appName}",
-    "META_DESC_FREE": "{vendor}의 {name}을 OpenAI 호환 API로 무료로 사용하세요. JanitorAI, SillyTavern, 내 코드에서 동작하며 제한, 컨텍스트 길이, 복사해 쓸 수 있는 예제를 제공합니다.",
+    "META_TITLE_FREE": "{name} API: 무료 티어, {fixed, select, yes {요청당 가격} other {토큰당 가격}}, OpenAI 호환 | {appName}",
+    "META_DESC_FREE": "{vendor}의 {name} API는 무료 티어를 제공합니다. 유료 사용 시 입력 100만 토큰당 {input}, 출력 100만 토큰당 {output}입니다. {appName} 키 하나로 모든 OpenAI SDK에서 사용할 수 있습니다.",
     "META_KEYWORDS_FREE": "{name} 무료 API, {name} 무료, {vendor} 무료 API, {name} API, 무료 AI API, {appName}",
     "COMPARE_WITH_TITLE": "{model} 비교",
     "USE_IN_TITLE": "{model} 사용 가능한 도구",
     "FAQ_FREE_Q": "{name}은(는) 무료인가요?",
-    "FAQ_FREE_A": "네. {name}:free는 {appName}의 무료 버전으로 비용이 들지 않으며, 분당 약 1회 요청으로 제한됩니다. 유료 {name}에는 분당 제한이 없습니다."
+    "FAQ_FREE_A": "네. {name}:free는 {appName}의 무료 버전으로 비용이 들지 않으며, 분당 약 1회 요청으로 제한됩니다. 유료 {name}에는 분당 제한이 없습니다.",
+    "META_TITLE_SHORT": "{name} API: {fixed, select, yes {요청당 가격} other {토큰당 가격}}",
+    "META_TITLE_FREE_SHORT": "{name} API: 무료 티어, {fixed, select, yes {요청당 가격} other {토큰당 가격}}",
+    "META_TITLE_FREE_ONLY": "{name} API: 무료 티어, OpenAI 호환 | {appName}",
+    "META_DESC_FREE_ONLY": "{vendor}의 {name} API 무료 티어: 토큰당 $0, 신용카드 불필요. {appName} 키 하나로 모든 OpenAI SDK에서 사용할 수 있습니다.",
+    "META_DESC_FIXED": "{vendor}의 {name} API: 요청당 {price}, {free, select, yes {무료 티어 제공} other {무료 티어 없음}}. {appName} 키 하나로 모든 OpenAI SDK에서 사용할 수 있습니다.",
+    "META_DESC_TIERED": "{vendor}의 {name} API: 컨텍스트 길이에 따른 구간별 토큰당 가격, {free, select, yes {무료 티어 제공} other {무료 티어 없음}}. {appName} 키 하나로 모든 OpenAI SDK에서 사용할 수 있습니다."
   },
   "PRICING": {
     "FEATURE": {

@@ -104,7 +104,7 @@ export async function pageMetadata(opts: {
   });
 }
 
-const TITLE_LIMIT = 60;
+export const TITLE_LIMIT = 60;
 
 // Search results cut titles near 60 characters. A long title drops its brand
 // suffix rather than its subject; the brand still ships as og:site_name.

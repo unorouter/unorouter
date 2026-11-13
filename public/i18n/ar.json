@@ -492,7 +492,9 @@
       "BROWSE_ALL": "تصفح النماذج حسب المزود",
       "AT_CAPACITY_HEADING": "مشغولة حاليًا",
       "AT_CAPACITY_NOTE": "وصل جميع مزودي هذه النماذج إلى حد الطلبات. تعود تلقائيًا بمجرد رفع الحدود.",
-      "AT_CAPACITY_BADGE": "مشغول"
+      "AT_CAPACITY_BADGE": "مشغول",
+      "SEO_TITLE": "نماذج API من {vendor}: الأسعار{free, select, yes { والفئة المجانية} other {}}",
+      "SEO_DESC": "نماذج API من {vendor} على {appName}: سعر token الإدخال والإخراج لكل نموذج{free, select, yes {، مع الفئات المجانية} other {}}. تعمل مع أي OpenAI SDK بمفتاح واحد."
     },
     "DISCORD": "اطلب نموذجًا على ديسكورد",
     "DATA_POLICY": {
@@ -1468,8 +1470,8 @@
     "TRENDING_MODELS": "النماذج الرائجة هذا الأسبوع"
   },
   "MODEL_PAGE": {
-    "META_TITLE": "أسعار API {name} والسياق والأمثلة | {appName}",
-    "META_DESC": "استخدم {name} من {vendor} عبر نقطة طرفية واحدة متوافقة مع OpenAI. اطّلع على أسعار كل token، ونافذة السياق، والنقاط الطرفية، وأمثلة كود جاهزة للنسخ.",
+    "META_TITLE": "{name} API: {fixed, select, yes {السعر لكل طلب} other {السعر لكل token}}، متوافقة مع OpenAI | {appName}",
+    "META_DESC": "واجهة API لـ {name} من {vendor}: {input} لكل مليون token إدخال، و{output} لكل مليون token إخراج، بدون فئة مجانية. تعمل مع أي OpenAI SDK بمفتاح {appName} واحد.",
     "META_KEYWORDS": "{name} API، أسعار {name}، نافذة سياق {name}، {vendor} API، {appName}",
     "PRICING_TITLE": "الأسعار",
     "INPUT_PRICE": "سعر الإدخال",
@@ -1568,13 +1570,19 @@
     "PRICE_LOW_OFFLINE": "غير متصل",
     "PRICE_LOW_SEEN": "الأرخص في {day}",
     "PRICE_LOW_CHART": "أدنى سعر إدخال",
-    "META_TITLE_FREE": "واجهة {name} المجانية: بلا تكلفة ومتوافقة مع OpenAI | {appName}",
-    "META_DESC_FREE": "استخدم {name} من {vendor} مجانًا عبر واجهة برمجة متوافقة مع OpenAI في JanitorAI وSillyTavern وكودك، مع الحدود ونافذة السياق وأمثلة جاهزة للنسخ.",
+    "META_TITLE_FREE": "{name} API: فئة مجانية، {fixed, select, yes {السعر لكل طلب} other {السعر لكل token}}، متوافقة مع OpenAI | {appName}",
+    "META_DESC_FREE": "واجهة API لـ {name} من {vendor} مع فئة مجانية؛ الاستخدام المدفوع بسعر {input} لكل مليون token إدخال و{output} لكل مليون token إخراج. تعمل مع أي OpenAI SDK بمفتاح {appName} واحد.",
     "META_KEYWORDS_FREE": "واجهة {name} مجانية, {name} مجانًا, واجهة {vendor} مجانية, {name} API, واجهة ذكاء اصطناعي مجانية, {appName}",
     "COMPARE_WITH_TITLE": "قارن {model}",
     "USE_IN_TITLE": "استخدم {model} في",
     "FAQ_FREE_Q": "هل {name} مجاني؟",
-    "FAQ_FREE_A": "نعم. {name}:free هو الإصدار المجاني على {appName}: لا يكلف شيئًا، مع حد يقارب طلبًا واحدًا في الدقيقة. أما {name} المدفوع فلا يوجد له حد في الدقيقة."
+    "FAQ_FREE_A": "نعم. {name}:free هو الإصدار المجاني على {appName}: لا يكلف شيئًا، مع حد يقارب طلبًا واحدًا في الدقيقة. أما {name} المدفوع فلا يوجد له حد في الدقيقة.",
+    "META_TITLE_SHORT": "{name} API: {fixed, select, yes {السعر لكل طلب} other {السعر لكل token}}",
+    "META_TITLE_FREE_SHORT": "{name} API: فئة مجانية، {fixed, select, yes {السعر لكل طلب} other {السعر لكل token}}",
+    "META_TITLE_FREE_ONLY": "{name} API: فئة مجانية، متوافقة مع OpenAI | {appName}",
+    "META_DESC_FREE_ONLY": "واجهة API لـ {name} من {vendor} بفئة مجانية: $0 لكل token، بدون بطاقة ائتمان. تعمل مع أي OpenAI SDK بمفتاح {appName} واحد.",
+    "META_DESC_FIXED": "واجهة API لـ {name} من {vendor}: {price} لكل طلب، {free, select, yes {تتوفر فئة مجانية} other {بدون فئة مجانية}}. تعمل مع أي OpenAI SDK بمفتاح {appName} واحد.",
+    "META_DESC_TIERED": "واجهة API لـ {name} من {vendor}: سعر متدرج لكل token حسب طول السياق، {free, select, yes {تتوفر فئة مجانية} other {بدون فئة مجانية}}. تعمل مع أي OpenAI SDK بمفتاح {appName} واحد."
   },
   "PRICING": {
     "FEATURE": {

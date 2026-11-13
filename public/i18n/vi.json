@@ -492,7 +492,9 @@
       "BROWSE_ALL": "Duyệt mô hình theo nhà cung cấp",
       "AT_CAPACITY_HEADING": "Hiện đang bận",
       "AT_CAPACITY_NOTE": "Tất cả nhà cung cấp cho các mô hình này đã đạt giới hạn yêu cầu. Chúng sẽ tự động hoạt động trở lại khi giới hạn được đặt lại.",
-      "AT_CAPACITY_BADGE": "Đang bận"
+      "AT_CAPACITY_BADGE": "Đang bận",
+      "SEO_TITLE": "Mô hình API {vendor}: giá{free, select, yes { và gói miễn phí} other {}}",
+      "SEO_DESC": "Mô hình API {vendor} trên {appName}: giá mỗi token đầu vào và đầu ra cho từng mô hình{free, select, yes {, kèm gói miễn phí} other {}}. Dùng được với mọi SDK OpenAI qua một key."
     },
     "DISCORD": "Yêu cầu một mô hình trên Discord",
     "DATA_POLICY": {
@@ -1468,8 +1470,8 @@
     "TRENDING_MODELS": "Mô hình thịnh hành tuần này"
   },
   "MODEL_PAGE": {
-    "META_TITLE": "Giá API {name}, ngữ cảnh và ví dụ | {appName}",
-    "META_DESC": "Sử dụng {name} từ {vendor} qua một endpoint tương thích OpenAI duy nhất. Xem giá mỗi token, cửa sổ ngữ cảnh, endpoint và ví dụ mã dán sẵn.",
+    "META_TITLE": "{name} API: {fixed, select, yes {giá mỗi yêu cầu} other {giá mỗi token}}, tương thích OpenAI | {appName}",
+    "META_DESC": "API {name} của {vendor}: {input} cho mỗi 1 triệu token đầu vào, {output} cho mỗi 1 triệu token đầu ra, không có gói miễn phí. Dùng được với mọi SDK OpenAI qua một key {appName}.",
     "META_KEYWORDS": "API {name}, giá {name}, cửa sổ ngữ cảnh {name}, API {vendor}, {appName}",
     "PRICING_TITLE": "Giá cả",
     "INPUT_PRICE": "Giá đầu vào",
@@ -1568,13 +1570,19 @@
     "PRICE_LOW_OFFLINE": "Ngoại tuyến",
     "PRICE_LOW_SEEN": "Rẻ nhất vào {day}",
     "PRICE_LOW_CHART": "Giá đầu vào thấp nhất",
-    "META_TITLE_FREE": "API {name} miễn phí: không tốn phí, tương thích OpenAI | {appName}",
-    "META_DESC_FREE": "Dùng {name} của {vendor} miễn phí qua API tương thích OpenAI trong JanitorAI, SillyTavern và mã của bạn, kèm giới hạn, cửa sổ ngữ cảnh và ví dụ mẫu.",
+    "META_TITLE_FREE": "{name} API: gói miễn phí, {fixed, select, yes {giá mỗi yêu cầu} other {giá mỗi token}}, tương thích OpenAI | {appName}",
+    "META_DESC_FREE": "API {name} của {vendor} có gói miễn phí; dùng trả phí là {input} cho mỗi 1 triệu token đầu vào và {output} cho mỗi 1 triệu token đầu ra. Dùng được với mọi SDK OpenAI qua một key {appName}.",
     "META_KEYWORDS_FREE": "API {name} miễn phí, {name} miễn phí, API {vendor} miễn phí, API {name}, API AI miễn phí, {appName}",
     "COMPARE_WITH_TITLE": "So sánh {model}",
     "USE_IN_TITLE": "Dùng {model} trong",
     "FAQ_FREE_Q": "{name} có miễn phí không?",
-    "FAQ_FREE_A": "Có. {name}:free là bản miễn phí trên {appName}: không mất phí, giới hạn khoảng một yêu cầu mỗi phút. Bản {name} trả phí không có giới hạn theo phút."
+    "FAQ_FREE_A": "Có. {name}:free là bản miễn phí trên {appName}: không mất phí, giới hạn khoảng một yêu cầu mỗi phút. Bản {name} trả phí không có giới hạn theo phút.",
+    "META_TITLE_SHORT": "{name} API: {fixed, select, yes {giá mỗi yêu cầu} other {giá mỗi token}}",
+    "META_TITLE_FREE_SHORT": "{name} API: gói miễn phí, {fixed, select, yes {giá mỗi yêu cầu} other {giá mỗi token}}",
+    "META_TITLE_FREE_ONLY": "{name} API: gói miễn phí, tương thích OpenAI | {appName}",
+    "META_DESC_FREE_ONLY": "API {name} của {vendor} ở gói miễn phí: $0 mỗi token, không cần thẻ tín dụng. Dùng được với mọi SDK OpenAI qua một key {appName}.",
+    "META_DESC_FIXED": "API {name} của {vendor}: {price} mỗi yêu cầu, {free, select, yes {có gói miễn phí} other {không có gói miễn phí}}. Dùng được với mọi SDK OpenAI qua một key {appName}.",
+    "META_DESC_TIERED": "API {name} của {vendor}: giá mỗi token theo bậc tùy độ dài ngữ cảnh, {free, select, yes {có gói miễn phí} other {không có gói miễn phí}}. Dùng được với mọi SDK OpenAI qua một key {appName}."
   },
   "PRICING": {
     "FEATURE": {

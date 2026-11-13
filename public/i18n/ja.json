@@ -492,7 +492,9 @@
       "BROWSE_ALL": "プロバイダー別にモデルを見る",
       "AT_CAPACITY_HEADING": "現在混雑中",
       "AT_CAPACITY_NOTE": "これらのモデルのすべてのプロバイダーがレート制限に達しています。制限が解除されると自動的に復旧します。",
-      "AT_CAPACITY_BADGE": "混雑中"
+      "AT_CAPACITY_BADGE": "混雑中",
+      "SEO_TITLE": "{vendor} API モデル：料金{free, select, yes {と無料枠} other {}}",
+      "SEO_DESC": "{appName} の {vendor} API モデル：各モデルの入力と出力のトークン単価{free, select, yes {、無料枠も掲載} other {}}。キー1つで、どの OpenAI SDK からも使えます。"
     },
     "DISCORD": "Discord でモデルをリクエスト",
     "DATA_POLICY": {
@@ -1468,8 +1470,8 @@
     "TRENDING_MODELS": "今週のトレンドモデル"
   },
   "MODEL_PAGE": {
-    "META_TITLE": "{name} API の料金、コンテキスト、サンプル | {appName}",
-    "META_DESC": "{vendor} の {name} をOpenAI互換エンドポイント1つで利用。トークン単価、コンテキスト長、コード例を掲載。",
+    "META_TITLE": "{name} API：{fixed, select, yes {リクエスト単価} other {トークン単価}}、OpenAI互換 | {appName}",
+    "META_DESC": "{vendor} の {name} API：入力は100万トークンあたり {input}、出力は100万トークンあたり {output}、無料枠なし。{appName} のキー1つで、どの OpenAI SDK からも使えます。",
     "META_KEYWORDS": "{name} API, {name} 料金, {name} コンテキストウィンドウ, {vendor} API, {appName}",
     "PRICING_TITLE": "料金",
     "INPUT_PRICE": "入力料金",
@@ -1568,13 +1570,19 @@
     "PRICE_LOW_OFFLINE": "オフライン",
     "PRICE_LOW_SEEN": "{day} に最安",
     "PRICE_LOW_CHART": "最安の入力価格",
-    "META_TITLE_FREE": "{name} 無料API：費用なし、OpenAI互換 | {appName}",
-    "META_DESC_FREE": "{vendor} の {name} をOpenAI互換APIで無料利用。JanitorAI、SillyTavern、コードで動作し、制限とコード例も掲載。",
+    "META_TITLE_FREE": "{name} API：無料枠あり、{fixed, select, yes {リクエスト単価} other {トークン単価}}、OpenAI互換 | {appName}",
+    "META_DESC_FREE": "{vendor} の {name} API は無料枠あり。有料利用は入力が100万トークンあたり {input}、出力が100万トークンあたり {output}。{appName} のキー1つで、どの OpenAI SDK からも使えます。",
     "META_KEYWORDS_FREE": "{name} 無料 API, {name} 無料, {vendor} 無料 API, {name} API, 無料AI API, {appName}",
     "COMPARE_WITH_TITLE": "{model} を比較",
     "USE_IN_TITLE": "{model} を使えるツール",
     "FAQ_FREE_Q": "{name} は無料ですか？",
-    "FAQ_FREE_A": "はい。{name}:free は {appName} の無料版で、料金はかかりません。上限はモデルごとに1分あたり約1リクエストです。有料の {name} には1分あたりの上限がありません。"
+    "FAQ_FREE_A": "はい。{name}:free は {appName} の無料版で、料金はかかりません。上限はモデルごとに1分あたり約1リクエストです。有料の {name} には1分あたりの上限がありません。",
+    "META_TITLE_SHORT": "{name} API：{fixed, select, yes {リクエスト単価} other {トークン単価}}",
+    "META_TITLE_FREE_SHORT": "{name} API：無料枠あり、{fixed, select, yes {リクエスト単価} other {トークン単価}}",
+    "META_TITLE_FREE_ONLY": "{name} API：無料枠あり、OpenAI互換 | {appName}",
+    "META_DESC_FREE_ONLY": "{vendor} の {name} API を無料枠で：トークン単価 $0、クレジットカード不要。{appName} のキー1つで、どの OpenAI SDK からも使えます。",
+    "META_DESC_FIXED": "{vendor} の {name} API：1リクエスト {price}、{free, select, yes {無料枠あり} other {無料枠なし}}。{appName} のキー1つで、どの OpenAI SDK からも使えます。",
+    "META_DESC_TIERED": "{vendor} の {name} API：コンテキスト長に応じた段階制のトークン単価、{free, select, yes {無料枠あり} other {無料枠なし}}。{appName} のキー1つで、どの OpenAI SDK からも使えます。"
   },
   "PRICING": {
     "FEATURE": {

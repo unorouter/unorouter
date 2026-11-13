@@ -492,7 +492,9 @@
       "BROWSE_ALL": "Modelleri sağlayıcıya göre inceleyin",
       "AT_CAPACITY_HEADING": "Şu anda meşgul",
       "AT_CAPACITY_NOTE": "Bu modellerin tüm sağlayıcıları istek sınırına ulaştı. Sınırlar kalktığında otomatik olarak geri gelirler.",
-      "AT_CAPACITY_BADGE": "Meşgul"
+      "AT_CAPACITY_BADGE": "Meşgul",
+      "SEO_TITLE": "{vendor} API modelleri: fiyatlar{free, select, yes { ve ücretsiz katman} other {}}",
+      "SEO_DESC": "{appName} üzerindeki {vendor} API modelleri: her model için girdi ve çıktı token başına fiyat{free, select, yes {, ücretsiz katmanlar dahil} other {}}. Tek bir anahtarla her OpenAI SDK ile çalışır."
     },
     "DISCORD": "Discord'da bir model iste",
     "DATA_POLICY": {
@@ -1468,8 +1470,8 @@
     "TRENDING_MODELS": "Bu haftanın popüler modelleri"
   },
   "MODEL_PAGE": {
-    "META_TITLE": "{name} API fiyatlandırma, context ve örnekler | {appName}",
-    "META_DESC": "{vendor} tarafından geliştirilen {name} modelini OpenAI uyumlu tek bir uç nokta ile kullanın. Token fiyatı, bağlam penceresi ve hazır kod örnekleri.",
+    "META_TITLE": "{name} API: {fixed, select, yes {istek başına fiyat} other {token başına fiyat}}, OpenAI uyumlu | {appName}",
+    "META_DESC": "{vendor} {name} API: 1M girdi tokenı başına {input}, 1M çıktı tokenı başına {output}, ücretsiz katman yok. Tek bir {appName} anahtarıyla her OpenAI SDK ile çalışır.",
     "META_KEYWORDS": "{name} API, {name} fiyatlandırma, {name} context penceresi, {vendor} API, {appName}",
     "PRICING_TITLE": "Fiyatlandırma",
     "INPUT_PRICE": "Girdi fiyatı",
@@ -1568,13 +1570,19 @@
     "PRICE_LOW_OFFLINE": "Çevrimdışı",
     "PRICE_LOW_SEEN": "En ucuz: {day}",
     "PRICE_LOW_CHART": "En düşük girdi fiyatı",
-    "META_TITLE_FREE": "Ücretsiz {name} API: masrafsız, OpenAI uyumlu | {appName}",
-    "META_DESC_FREE": "{vendor} tarafından geliştirilen {name} modelini OpenAI uyumlu API ile ücretsiz kullanın. JanitorAI, SillyTavern ve kodunuzda; limitler ve örneklerle.",
+    "META_TITLE_FREE": "{name} API: ücretsiz katman, {fixed, select, yes {istek başına fiyat} other {token başına fiyat}}, OpenAI uyumlu | {appName}",
+    "META_DESC_FREE": "{vendor} {name} API ücretsiz katman sunar; ücretli kullanım 1M girdi tokenı başına {input}, 1M çıktı tokenı başına {output}. Tek bir {appName} anahtarıyla her OpenAI SDK ile çalışır.",
     "META_KEYWORDS_FREE": "ücretsiz {name} API, {name} ücretsiz, ücretsiz {vendor} API, {name} API, ücretsiz yapay zeka API, {appName}",
     "COMPARE_WITH_TITLE": "{model} karşılaştır",
     "USE_IN_TITLE": "{model} modelini şurada kullan",
     "FAQ_FREE_Q": "{name} ücretsiz mi?",
-    "FAQ_FREE_A": "Evet. {name}:free, {appName} üzerindeki ücretsiz sürümdür: hiçbir ücreti yoktur, dakikada yaklaşık bir istek sınırı vardır. Ücretli {name} sürümünde dakikalık sınır yoktur."
+    "FAQ_FREE_A": "Evet. {name}:free, {appName} üzerindeki ücretsiz sürümdür: hiçbir ücreti yoktur, dakikada yaklaşık bir istek sınırı vardır. Ücretli {name} sürümünde dakikalık sınır yoktur.",
+    "META_TITLE_SHORT": "{name} API: {fixed, select, yes {istek başına fiyat} other {token başına fiyat}}",
+    "META_TITLE_FREE_SHORT": "{name} API: ücretsiz katman, {fixed, select, yes {istek başına fiyat} other {token başına fiyat}}",
+    "META_TITLE_FREE_ONLY": "{name} API: ücretsiz katman, OpenAI uyumlu | {appName}",
+    "META_DESC_FREE_ONLY": "{vendor} {name} API ücretsiz katmanda: token başına $0, kredi kartı gerekmez. Tek bir {appName} anahtarıyla her OpenAI SDK ile çalışır.",
+    "META_DESC_FIXED": "{vendor} {name} API: istek başına {price}, {free, select, yes {ücretsiz katman mevcut} other {ücretsiz katman yok}}. Tek bir {appName} anahtarıyla her OpenAI SDK ile çalışır.",
+    "META_DESC_TIERED": "{vendor} {name} API: bağlam uzunluğuna göre kademeli token başına fiyat, {free, select, yes {ücretsiz katman mevcut} other {ücretsiz katman yok}}. Tek bir {appName} anahtarıyla her OpenAI SDK ile çalışır."
   },
   "PRICING": {
     "FEATURE": {

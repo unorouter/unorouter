@@ -492,7 +492,9 @@
       "BROWSE_ALL": "Jelajahi model berdasarkan penyedia",
       "AT_CAPACITY_HEADING": "Sedang sibuk",
       "AT_CAPACITY_NOTE": "Semua penyedia untuk model ini telah mencapai batas permintaan. Model akan kembali otomatis setelah batas direset.",
-      "AT_CAPACITY_BADGE": "Sibuk"
+      "AT_CAPACITY_BADGE": "Sibuk",
+      "SEO_TITLE": "Model API {vendor}: harga{free, select, yes { dan tier gratis} other {}}",
+      "SEO_DESC": "Model API {vendor} di {appName}: harga per token input dan output untuk tiap model{free, select, yes {, termasuk tier gratis} other {}}. Bekerja dengan SDK OpenAI mana pun lewat satu key."
     },
     "DISCORD": "Minta model di Discord",
     "DATA_POLICY": {
@@ -1468,8 +1470,8 @@
     "TRENDING_MODELS": "Model populer minggu ini"
   },
   "MODEL_PAGE": {
-    "META_TITLE": "Harga API {name}, konteks dan contoh | {appName}",
-    "META_DESC": "Gunakan {name} dari {vendor} melalui satu endpoint kompatibel OpenAI. Lihat harga per token, jendela konteks, endpoint, dan contoh kode salin-tempel.",
+    "META_TITLE": "{name} API: {fixed, select, yes {harga per permintaan} other {harga per token}}, kompatibel OpenAI | {appName}",
+    "META_DESC": "API {name} dari {vendor}: {input} per 1M token input, {output} per 1M token output, tanpa tier gratis. Bekerja dengan SDK OpenAI mana pun lewat satu key {appName}.",
     "META_KEYWORDS": "{name} API, harga {name}, jendela konteks {name}, {vendor} API, {appName}",
     "PRICING_TITLE": "Harga",
     "INPUT_PRICE": "Harga input",
@@ -1568,13 +1570,19 @@
     "PRICE_LOW_OFFLINE": "Offline",
     "PRICE_LOW_SEEN": "Termurah pada {day}",
     "PRICE_LOW_CHART": "Harga input terendah",
-    "META_TITLE_FREE": "API {name} Gratis: tanpa biaya, kompatibel OpenAI | {appName}",
-    "META_DESC_FREE": "Pakai {name} dari {vendor} gratis lewat API kompatibel OpenAI di JanitorAI, SillyTavern, atau kode kamu, lengkap dengan batas, jendela konteks, dan contoh.",
+    "META_TITLE_FREE": "{name} API: tier gratis, {fixed, select, yes {harga per permintaan} other {harga per token}}, kompatibel OpenAI | {appName}",
+    "META_DESC_FREE": "API {name} dari {vendor} dengan tier gratis; pemakaian berbayar {input} per 1M token input dan {output} per 1M token output. Bekerja dengan SDK OpenAI mana pun lewat satu key {appName}.",
     "META_KEYWORDS_FREE": "API {name} gratis, {name} gratis, API {vendor} gratis, API {name}, API AI gratis, {appName}",
     "COMPARE_WITH_TITLE": "Bandingkan {model}",
     "USE_IN_TITLE": "Gunakan {model} di",
     "FAQ_FREE_Q": "Apakah {name} gratis?",
-    "FAQ_FREE_A": "Ya. {name}:free adalah versi gratis di {appName}: tanpa biaya, dengan batas sekitar satu permintaan per menit. {name} berbayar tidak punya batas per menit."
+    "FAQ_FREE_A": "Ya. {name}:free adalah versi gratis di {appName}: tanpa biaya, dengan batas sekitar satu permintaan per menit. {name} berbayar tidak punya batas per menit.",
+    "META_TITLE_SHORT": "{name} API: {fixed, select, yes {harga per permintaan} other {harga per token}}",
+    "META_TITLE_FREE_SHORT": "{name} API: tier gratis, {fixed, select, yes {harga per permintaan} other {harga per token}}",
+    "META_TITLE_FREE_ONLY": "{name} API: tier gratis, kompatibel OpenAI | {appName}",
+    "META_DESC_FREE_ONLY": "API {name} dari {vendor} di tier gratis: $0 per token, tanpa kartu kredit. Bekerja dengan SDK OpenAI mana pun lewat satu key {appName}.",
+    "META_DESC_FIXED": "API {name} dari {vendor}: {price} per permintaan, {free, select, yes {tier gratis tersedia} other {tanpa tier gratis}}. Bekerja dengan SDK OpenAI mana pun lewat satu key {appName}.",
+    "META_DESC_TIERED": "API {name} dari {vendor}: harga per token berjenjang sesuai panjang konteks, {free, select, yes {tier gratis tersedia} other {tanpa tier gratis}}. Bekerja dengan SDK OpenAI mana pun lewat satu key {appName}."
   },
   "PRICING": {
     "FEATURE": {

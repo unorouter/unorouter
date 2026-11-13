@@ -24,6 +24,7 @@ export async function ModelSchema(props: {
   // The page canonical: a :free page points at its paid sibling.
   canonical: { model_name: string; vendor: string };
   locale: Locale;
+  fallbackDescription: string;
   idSlug: string;
 }) {
   const model = props.model;
@@ -32,13 +33,7 @@ export async function ModelSchema(props: {
   const displayName = modelDisplayName(model);
   const vendorUrl = localeUrl(props.locale, vendorHref(model.vendor));
 
-  const description =
-    model.description ??
-    t("MODEL_PAGE.META_DESC", {
-      ...APP_VALUES,
-      name: model.model_name,
-      vendor: model.vendor,
-    });
+  const description = model.description ?? props.fallbackDescription;
 
   const contextTag = findContextTag(model);
   const faqEntries = [

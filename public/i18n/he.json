@@ -492,7 +492,9 @@
       "BROWSE_ALL": "עיון במודלים לפי ספק",
       "AT_CAPACITY_HEADING": "עמוסים כרגע",
       "AT_CAPACITY_NOTE": "כל הספקים של הדגמים האלה הגיעו למגבלת הבקשות. הם חוזרים אוטומטית ברגע שהמגבלות מתאפסות.",
-      "AT_CAPACITY_BADGE": "עמוס"
+      "AT_CAPACITY_BADGE": "עמוס",
+      "SEO_TITLE": "מודלי API של {vendor}: מחירים{free, select, yes { ושכבה חינמית} other {}}",
+      "SEO_DESC": "מודלי API של {vendor} ב{appName}: מחיר לטוקן קלט ופלט לכל מודל{free, select, yes {, כולל שכבות חינמיות} other {}}. עובד עם כל SDK של OpenAI דרך מפתח אחד."
     },
     "DISCORD": "בקש מודל בדיסקורד",
     "DATA_POLICY": {
@@ -1468,8 +1470,8 @@
     "TRENDING_MODELS": "המודלים הפופולריים השבוע"
   },
   "MODEL_PAGE": {
-    "META_TITLE": "תמחור API של {name}, הקשר ודוגמאות | {appName}",
-    "META_DESC": "השתמשו ב-{name} מ-{vendor} דרך נקודת קצה אחת תואמת OpenAI. ראו תמחור לפי טוקן, חלון הקשר, נקודות קצה ודוגמאות קוד להעתקה.",
+    "META_TITLE": "{name} API: {fixed, select, yes {מחיר לבקשה} other {מחיר לטוקן}}, תואם OpenAI | {appName}",
+    "META_DESC": "API של {name} מבית {vendor}: {input} למיליון טוקני קלט, {output} למיליון טוקני פלט, ללא שכבה חינמית. עובד עם כל SDK של OpenAI דרך מפתח {appName} אחד.",
     "META_KEYWORDS": "{name} API, תמחור {name}, חלון הקשר {name}, {vendor} API, {appName}",
     "PRICING_TITLE": "תמחור",
     "INPUT_PRICE": "מחיר קלט",
@@ -1568,13 +1570,19 @@
     "PRICE_LOW_OFFLINE": "לא מקוון",
     "PRICE_LOW_SEEN": "הזול ביותר ב-{day}",
     "PRICE_LOW_CHART": "מחיר הקלט הנמוך ביותר",
-    "META_TITLE_FREE": "API חינמי של {name}: בלי עלות, תואם OpenAI | {appName}",
-    "META_DESC_FREE": "השתמשו ב-{name} של {vendor} בחינם דרך API תואם OpenAI. עובד ב-JanitorAI, ב-SillyTavern ובקוד שלכם, עם מגבלות, חלון הקשר ודוגמאות להעתקה.",
+    "META_TITLE_FREE": "{name} API: שכבה חינמית, {fixed, select, yes {מחיר לבקשה} other {מחיר לטוקן}}, תואם OpenAI | {appName}",
+    "META_DESC_FREE": "API של {name} מבית {vendor} עם שכבה חינמית; שימוש בתשלום עולה {input} למיליון טוקני קלט ו{output} למיליון טוקני פלט. עובד עם כל SDK של OpenAI דרך מפתח {appName} אחד.",
     "META_KEYWORDS_FREE": "API חינמי {name}, {name} בחינם, API חינמי {vendor}, {name} API, API AI חינמי, {appName}",
     "COMPARE_WITH_TITLE": "השוואת {model}",
     "USE_IN_TITLE": "שימוש ב־{model} ב",
     "FAQ_FREE_Q": "האם {name} חינמי?",
-    "FAQ_FREE_A": "כן. {name}:free היא הגרסה החינמית ב־{appName}: היא לא עולה כלום, עם מגבלה של כבקשה אחת לדקה. ל־{name} בתשלום אין מגבלה לדקה."
+    "FAQ_FREE_A": "כן. {name}:free היא הגרסה החינמית ב־{appName}: היא לא עולה כלום, עם מגבלה של כבקשה אחת לדקה. ל־{name} בתשלום אין מגבלה לדקה.",
+    "META_TITLE_SHORT": "{name} API: {fixed, select, yes {מחיר לבקשה} other {מחיר לטוקן}}",
+    "META_TITLE_FREE_SHORT": "{name} API: שכבה חינמית, {fixed, select, yes {מחיר לבקשה} other {מחיר לטוקן}}",
+    "META_TITLE_FREE_ONLY": "{name} API: שכבה חינמית, תואם OpenAI | {appName}",
+    "META_DESC_FREE_ONLY": "API של {name} מבית {vendor} בשכבה חינמית: $0 לטוקן, בלי כרטיס אשראי. עובד עם כל SDK של OpenAI דרך מפתח {appName} אחד.",
+    "META_DESC_FIXED": "API של {name} מבית {vendor}: {price} לבקשה, {free, select, yes {יש שכבה חינמית} other {ללא שכבה חינמית}}. עובד עם כל SDK של OpenAI דרך מפתח {appName} אחד.",
+    "META_DESC_TIERED": "API של {name} מבית {vendor}: מחיר מדורג לטוקן לפי אורך ההקשר, {free, select, yes {יש שכבה חינמית} other {ללא שכבה חינמית}}. עובד עם כל SDK של OpenAI דרך מפתח {appName} אחד."
   },
   "PRICING": {
     "FEATURE": {

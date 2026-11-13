@@ -492,7 +492,9 @@
       "BROWSE_ALL": "प्रदाता के अनुसार मॉडल ब्राउज़ करें",
       "AT_CAPACITY_HEADING": "अभी व्यस्त",
       "AT_CAPACITY_NOTE": "इन मॉडल के सभी प्रदाता अपनी अनुरोध सीमा तक पहुँच चुके हैं। सीमा हटते ही ये स्वतः वापस आ जाते हैं।",
-      "AT_CAPACITY_BADGE": "व्यस्त"
+      "AT_CAPACITY_BADGE": "व्यस्त",
+      "SEO_TITLE": "{vendor} API मॉडल: कीमतें{free, select, yes { और फ्री टियर} other {}}",
+      "SEO_DESC": "{appName} पर {vendor} API मॉडल: हर मॉडल के लिए इनपुट और आउटपुट की प्रति टोकन कीमत{free, select, yes {, फ्री टियर सहित} other {}}। एक key से किसी भी OpenAI SDK के साथ काम करता है।"
     },
     "DISCORD": "Discord पर मॉडल का अनुरोध करें",
     "DATA_POLICY": {
@@ -1468,8 +1470,8 @@
     "TRENDING_MODELS": "इस हफ़्ते के ट्रेंडिंग मॉडल"
   },
   "MODEL_PAGE": {
-    "META_TITLE": "{name} API मूल्य निर्धारण, कॉन्टेक्स्ट और उदाहरण | {appName}",
-    "META_DESC": "{vendor} के {name} को एक OpenAI-संगत एंडपॉइंट से इस्तेमाल करें। प्रति-टोकन कीमत, कॉन्टेक्स्ट विंडो, एंडपॉइंट्स और कॉपी-पेस्ट कोड उदाहरण देखें।",
+    "META_TITLE": "{name} API: {fixed, select, yes {प्रति अनुरोध कीमत} other {प्रति टोकन कीमत}}, OpenAI संगत | {appName}",
+    "META_DESC": "{vendor} का {name} API: 1M इनपुट टोकन के लिए {input}, 1M आउटपुट टोकन के लिए {output}, कोई फ्री टियर नहीं। एक {appName} key से किसी भी OpenAI SDK के साथ काम करता है।",
     "META_KEYWORDS": "{name} API, {name} मूल्य निर्धारण, {name} कॉन्टेक्स्ट विंडो, {vendor} API, {appName}",
     "PRICING_TITLE": "मूल्य निर्धारण",
     "INPUT_PRICE": "इनपुट मूल्य",
@@ -1568,13 +1570,19 @@
     "PRICE_LOW_OFFLINE": "ऑफ़लाइन",
     "PRICE_LOW_SEEN": "{day} को सबसे सस्ता",
     "PRICE_LOW_CHART": "सबसे कम इनपुट कीमत",
-    "META_TITLE_FREE": "मुफ़्त {name} API: कोई शुल्क नहीं, OpenAI-संगत | {appName}",
-    "META_DESC_FREE": "{vendor} के {name} को OpenAI-संगत API से मुफ़्त इस्तेमाल करें। JanitorAI, SillyTavern और आपके कोड में चलता है, सीमाओं, कॉन्टेक्स्ट विंडो और उदाहरणों सहित।",
+    "META_TITLE_FREE": "{name} API: फ्री टियर, {fixed, select, yes {प्रति अनुरोध कीमत} other {प्रति टोकन कीमत}}, OpenAI संगत | {appName}",
+    "META_DESC_FREE": "{vendor} का {name} API फ्री टियर के साथ; पेड इस्तेमाल 1M इनपुट टोकन के लिए {input} और 1M आउटपुट टोकन के लिए {output}। एक {appName} key से किसी भी OpenAI SDK के साथ काम करता है।",
     "META_KEYWORDS_FREE": "मुफ़्त {name} API, {name} मुफ़्त, मुफ़्त {vendor} API, {name} API, मुफ़्त AI API, {appName}",
     "COMPARE_WITH_TITLE": "{model} की तुलना करें",
     "USE_IN_TITLE": "{model} को इनमें इस्तेमाल करें",
     "FAQ_FREE_Q": "क्या {name} मुफ़्त है?",
-    "FAQ_FREE_A": "हाँ। {name}:free, {appName} पर इसका मुफ़्त संस्करण है: इसका कोई शुल्क नहीं, सीमा लगभग एक अनुरोध प्रति मिनट है। सशुल्क {name} पर प्रति मिनट कोई सीमा नहीं है।"
+    "FAQ_FREE_A": "हाँ। {name}:free, {appName} पर इसका मुफ़्त संस्करण है: इसका कोई शुल्क नहीं, सीमा लगभग एक अनुरोध प्रति मिनट है। सशुल्क {name} पर प्रति मिनट कोई सीमा नहीं है।",
+    "META_TITLE_SHORT": "{name} API: {fixed, select, yes {प्रति अनुरोध कीमत} other {प्रति टोकन कीमत}}",
+    "META_TITLE_FREE_SHORT": "{name} API: फ्री टियर, {fixed, select, yes {प्रति अनुरोध कीमत} other {प्रति टोकन कीमत}}",
+    "META_TITLE_FREE_ONLY": "{name} API: फ्री टियर, OpenAI संगत | {appName}",
+    "META_DESC_FREE_ONLY": "{vendor} का {name} API फ्री टियर पर: प्रति टोकन $0, क्रेडिट कार्ड की ज़रूरत नहीं। एक {appName} key से किसी भी OpenAI SDK के साथ काम करता है।",
+    "META_DESC_FIXED": "{vendor} का {name} API: प्रति अनुरोध {price}, {free, select, yes {फ्री टियर उपलब्ध} other {कोई फ्री टियर नहीं}}। एक {appName} key से किसी भी OpenAI SDK के साथ काम करता है।",
+    "META_DESC_TIERED": "{vendor} का {name} API: कॉन्टेक्स्ट लंबाई के अनुसार स्तरित प्रति टोकन कीमत, {free, select, yes {फ्री टियर उपलब्ध} other {कोई फ्री टियर नहीं}}। एक {appName} key से किसी भी OpenAI SDK के साथ काम करता है।"
   },
   "PRICING": {
     "FEATURE": {

@@ -7,14 +7,19 @@ import {
 } from "@/components/pages/navbar/models/detail/resolve-slug";
 import { VendorModelsPage } from "@/components/pages/navbar/models/vendor/vendor-page";
 import { localeUrl } from "@/i18n/navigation";
-import { modelDisplayName, vendorDisplayName } from "@/lib/api/pricing";
+import {
+  modelMetaText,
+  paidSiblingOf,
+} from "@/components/pages/navbar/models/detail/model-meta";
+import { vendorDisplayName } from "@/lib/api/pricing";
 import { JsonLd } from "@/lib/seo/json-ld";
 import {
   buildBreadcrumbListSchema,
   buildCollectionPageSchema,
 } from "@/lib/seo/structured-data";
-import { getPricingCatalog } from "@/openapi";
-import { hasRealVendor, unwrap, vendorSlug } from "@/lib/utils/base";
+import type { PricingCatalogModel } from "@/openapi";
+import { getVendorCatalog } from "@/server/models/pricing/pricing.service";
+import { hasRealVendor, vendorSlug } from "@/lib/utils/base";
 import { APP_VALUES } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -52,12 +57,16 @@ export async function generateMetadata(props: PageProps) {
 
   if (resolved.kind === "vendor") {
     const vendor = resolved.vendor;
+    const values = vendorMetaValues(
+      vendor,
+      await getVendorCatalog(vendor).catch(() => []),
+    );
     return getPageMetadata({
       locale,
       href: vendorHref(vendor),
-      title: t("MODELS.VENDOR.META_TITLE", { ...APP_VALUES, vendor }),
-      description: t("MODELS.VENDOR.META_DESC", { ...APP_VALUES, vendor }),
-      keywords: t("MODELS.VENDOR.META_KEYWORDS", { ...APP_VALUES, vendor }),
+      title: t("MODELS.VENDOR.SEO_TITLE", values),
+      description: t("MODELS.VENDOR.SEO_DESC", values),
+      keywords: t("MODELS.VENDOR.META_KEYWORDS", values),
       ogImage: ogBadge("sponsor", locale),
       locales: MODEL_PAGE_LOCALES,
       // "unknown" collects models with no vendor; it is not a real provider.
@@ -65,41 +74,27 @@ export async function generateMetadata(props: PageProps) {
     });
   }
 
-  const model = resolved.model.model;
+  const hit = resolved.model;
+  const model = hit.model;
   // A :free page mostly repeats its paid sibling; pointing Google at the paid
   // page consolidates them instead of leaving thousands discovered, not indexed.
-  const isFree = model.model_name.endsWith(":free");
-  const baseName = isFree
-    ? model.model_name.slice(0, -":free".length)
-    : model.model_name;
-  const paidSibling = isFree
-    ? resolved.model.models.find((m) => m.model_name === baseName)
-    : undefined;
-  // People search "free DeepSeek V4 Pro API", not the ":free" id or the slug.
-  const values = {
-    ...APP_VALUES,
-    name: modelDisplayName(paidSibling ?? model),
-    vendor: vendorDisplayName(model.vendor),
-  };
+  const paidSibling = paidSiblingOf(hit);
   return getPageMetadata({
     locale,
     href: canonicalHref(paidSibling ?? model),
-    title: t(
-      isFree ? "MODEL_PAGE.META_TITLE_FREE" : "MODEL_PAGE.META_TITLE",
-      values,
-    ),
-    description: t(
-      isFree ? "MODEL_PAGE.META_DESC_FREE" : "MODEL_PAGE.META_DESC",
-      values,
-    ),
-    keywords: t(
-      isFree ? "MODEL_PAGE.META_KEYWORDS_FREE" : "MODEL_PAGE.META_KEYWORDS",
-      values,
-    ),
+    ...modelMetaText(t, hit),
     ogImage: ogBadge("model", locale, { model: model.model_name }),
     locales: MODEL_PAGE_LOCALES,
     robots: indexed && hasRealVendor(model.vendor),
   });
+}
+
+function vendorMetaValues(vendor: string, models: PricingCatalogModel[]) {
+  return {
+    ...APP_VALUES,
+    vendor: vendorDisplayName(vendor),
+    free: models.some((m) => m.is_free) ? "yes" : "no",
+  };
 }
 
 export default async function ModelDetailPage(props: PageProps) {
@@ -119,9 +114,8 @@ export default async function ModelDetailPage(props: PageProps) {
     const vendor = resolved.vendor;
     const t = await getTranslations({ locale });
     const queryClient = getQueryClient();
-    const vendorModels = unwrap(
-      await getPricingCatalog({ vendor, include_offline: true }),
-    ).models;
+    const vendorModels = await getVendorCatalog(vendor);
+    const values = vendorMetaValues(vendor, vendorModels);
     queryClient.setQueryData(queryKeys.pricingVendor(vendor), vendorModels);
     const vendorUrl = localeUrl(locale, vendorHref(vendor));
     return (
@@ -137,11 +131,8 @@ export default async function ModelDetailPage(props: PageProps) {
         <JsonLd
           id="vendor-collection"
           data={buildCollectionPageSchema({
-            name: t("MODELS.VENDOR.META_TITLE", { ...APP_VALUES, vendor }),
-            description: t("MODELS.VENDOR.META_DESC", {
-              ...APP_VALUES,
-              vendor,
-            }),
+            name: t("MODELS.VENDOR.SEO_TITLE", values),
+            description: t("MODELS.VENDOR.SEO_DESC", values),
             url: vendorUrl,
             items: vendorModels
               .filter((m) => m.online)
@@ -159,11 +150,8 @@ export default async function ModelDetailPage(props: PageProps) {
   }
 
   const hit = resolved.model;
-  const paidSibling = hit.model.model_name.endsWith(":free")
-    ? hit.models.find(
-        (m) => m.model_name === hit.model.model_name.slice(0, -":free".length),
-      )
-    : undefined;
+  const paidSibling = paidSiblingOf(hit);
+  const t = await getTranslations({ locale });
   return (
     <>
       <ModelSchema
@@ -173,6 +161,7 @@ export default async function ModelDetailPage(props: PageProps) {
           (m) => m.model_name === `${hit.model.model_name}:free`,
         )}
         locale={locale}
+        fallbackDescription={modelMetaText(t, hit).description}
         idSlug={params.slug.join("-")}
       />
       <ModelDetail

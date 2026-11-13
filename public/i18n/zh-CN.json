@@ -492,7 +492,9 @@
       "BROWSE_ALL": "按提供商浏览模型",
       "AT_CAPACITY_HEADING": "当前繁忙",
       "AT_CAPACITY_NOTE": "这些模型的所有供应商都已达到请求上限。限制解除后会自动恢复。",
-      "AT_CAPACITY_BADGE": "繁忙"
+      "AT_CAPACITY_BADGE": "繁忙",
+      "SEO_TITLE": "{vendor} API 模型：价格{free, select, yes {与免费额度} other {}}",
+      "SEO_DESC": "{appName} 上的 {vendor} API 模型：每个模型的输入与输出每 Token 价格{free, select, yes {，含免费额度} other {}}。一个密钥即可配合任意 OpenAI SDK 使用。"
     },
     "DISCORD": "在 Discord 上请求模型",
     "DATA_POLICY": {
@@ -1468,8 +1470,8 @@
     "TRENDING_MODELS": "本周热门模型"
   },
   "MODEL_PAGE": {
-    "META_TITLE": "{name} API 价格、上下文与示例 | {appName}",
-    "META_DESC": "通过单一 OpenAI 兼容端点使用来自 {vendor} 的 {name}。查看按 Token 计价、上下文窗口、端点和可复制粘贴的代码示例。",
+    "META_TITLE": "{name} API：{fixed, select, yes {按次价格} other {每 Token 价格}}，兼容 OpenAI | {appName}",
+    "META_DESC": "{vendor} 的 {name} API：输入 {input} / 百万 Token，输出 {output} / 百万 Token，无免费额度。一个 {appName} 密钥即可配合任意 OpenAI SDK 使用。",
     "META_KEYWORDS": "{name} API, {name} 价格, {name} 上下文窗口, {vendor} API, {appName}",
     "PRICING_TITLE": "价格",
     "INPUT_PRICE": "输入价格",
@@ -1568,13 +1570,19 @@
     "PRICE_LOW_OFFLINE": "离线",
     "PRICE_LOW_SEEN": "{day} 最低",
     "PRICE_LOW_CHART": "最低输入价格",
-    "META_TITLE_FREE": "{name} 免费 API：零费用，兼容 OpenAI | {appName}",
-    "META_DESC_FREE": "通过兼容 OpenAI 的 API 免费使用 {vendor} 的 {name}。支持 JanitorAI、SillyTavern 和代码，附限制说明与示例。",
+    "META_TITLE_FREE": "{name} API：免费额度，{fixed, select, yes {按次价格} other {每 Token 价格}}，兼容 OpenAI | {appName}",
+    "META_DESC_FREE": "{vendor} 的 {name} API 提供免费额度；付费使用时输入 {input} / 百万 Token，输出 {output} / 百万 Token。一个 {appName} 密钥即可配合任意 OpenAI SDK 使用。",
     "META_KEYWORDS_FREE": "{name} 免费 API, {name} 免费, {vendor} 免费 API, {name} API, 免费 AI API, {appName}",
     "COMPARE_WITH_TITLE": "对比 {model}",
     "USE_IN_TITLE": "在这些工具中使用 {model}",
     "FAQ_FREE_Q": "{name} 免费吗？",
-    "FAQ_FREE_A": "是的。{name}:free 是 {appName} 上的免费版本：不收任何费用，限制约为每分钟一次请求。付费版 {name} 没有每分钟限制。"
+    "FAQ_FREE_A": "是的。{name}:free 是 {appName} 上的免费版本：不收任何费用，限制约为每分钟一次请求。付费版 {name} 没有每分钟限制。",
+    "META_TITLE_SHORT": "{name} API：{fixed, select, yes {按次价格} other {每 Token 价格}}",
+    "META_TITLE_FREE_SHORT": "{name} API：免费额度，{fixed, select, yes {按次价格} other {每 Token 价格}}",
+    "META_TITLE_FREE_ONLY": "{name} API：免费额度，兼容 OpenAI | {appName}",
+    "META_DESC_FREE_ONLY": "{vendor} 的 {name} API 免费额度：每 Token $0，无需信用卡。一个 {appName} 密钥即可配合任意 OpenAI SDK 使用。",
+    "META_DESC_FIXED": "{vendor} 的 {name} API：每次请求 {price}，{free, select, yes {提供免费额度} other {无免费额度}}。一个 {appName} 密钥即可配合任意 OpenAI SDK 使用。",
+    "META_DESC_TIERED": "{vendor} 的 {name} API：按上下文长度分档的每 Token 价格，{free, select, yes {提供免费额度} other {无免费额度}}。一个 {appName} 密钥即可配合任意 OpenAI SDK 使用。"
   },
   "PRICING": {
     "FEATURE": {

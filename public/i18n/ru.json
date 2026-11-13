@@ -492,7 +492,9 @@
       "BROWSE_ALL": "Просмотр моделей по провайдерам",
       "AT_CAPACITY_HEADING": "Сейчас перегружены",
       "AT_CAPACITY_NOTE": "Все провайдеры этих моделей достигли лимита запросов. Они станут доступны автоматически, как только лимиты сбросятся.",
-      "AT_CAPACITY_BADGE": "Занято"
+      "AT_CAPACITY_BADGE": "Занято",
+      "SEO_TITLE": "API-модели {vendor}: цены{free, select, yes { и бесплатный тариф} other {}}",
+      "SEO_DESC": "API-модели {vendor} на {appName}: цена входных и выходных токенов для каждой модели{free, select, yes {, бесплатные тарифы включены} other {}}. Работает с любым OpenAI SDK через один ключ."
     },
     "DISCORD": "Запросите модель в Discord",
     "DATA_POLICY": {
@@ -1468,8 +1470,8 @@
     "TRENDING_MODELS": "Популярные модели недели"
   },
   "MODEL_PAGE": {
-    "META_TITLE": "{name}: цены API, контекст и примеры | {appName}",
-    "META_DESC": "Используйте {name} от {vendor} через единый OpenAI-совместимый эндпоинт. Смотрите цены за токен, окно контекста, эндпоинты и готовые примеры кода.",
+    "META_TITLE": "{name} API: {fixed, select, yes {цена за запрос} other {цена за токен}}, совместим с OpenAI | {appName}",
+    "META_DESC": "API {name} от {vendor}: {input} за 1M входных токенов, {output} за 1M выходных токенов, бесплатного тарифа нет. Работает с любым OpenAI SDK через один ключ {appName}.",
     "META_KEYWORDS": "API {name}, цены {name}, окно контекста {name}, API {vendor}, {appName}",
     "PRICING_TITLE": "Тарифы",
     "INPUT_PRICE": "Цена за вход",
@@ -1568,13 +1570,19 @@
     "PRICE_LOW_OFFLINE": "Офлайн",
     "PRICE_LOW_SEEN": "Дешевле всего {day}",
     "PRICE_LOW_CHART": "Самая низкая цена входа",
-    "META_TITLE_FREE": "Бесплатный API {name}: без оплаты, совместим с OpenAI | {appName}",
-    "META_DESC_FREE": "Используйте {name} от {vendor} бесплатно через OpenAI-совместимый API в JanitorAI, SillyTavern и своём коде. Лимиты, контекстное окно и готовые примеры.",
+    "META_TITLE_FREE": "{name} API: бесплатный тариф, {fixed, select, yes {цена за запрос} other {цена за токен}}, совместим с OpenAI | {appName}",
+    "META_DESC_FREE": "API {name} от {vendor} с бесплатным тарифом; платное использование стоит {input} за 1M входных токенов и {output} за 1M выходных токенов. Работает с любым OpenAI SDK через один ключ {appName}.",
     "META_KEYWORDS_FREE": "бесплатный API {name}, {name} бесплатно, бесплатный API {vendor}, API {name}, бесплатный ИИ API, {appName}",
     "COMPARE_WITH_TITLE": "Сравнить {model}",
     "USE_IN_TITLE": "Использовать {model} в",
     "FAQ_FREE_Q": "{name} бесплатна?",
-    "FAQ_FREE_A": "Да. {name}:free является бесплатной версией на {appName}: она ничего не стоит, лимит около одного запроса в минуту. У платной {name} нет поминутного лимита."
+    "FAQ_FREE_A": "Да. {name}:free является бесплатной версией на {appName}: она ничего не стоит, лимит около одного запроса в минуту. У платной {name} нет поминутного лимита.",
+    "META_TITLE_SHORT": "{name} API: {fixed, select, yes {цена за запрос} other {цена за токен}}",
+    "META_TITLE_FREE_SHORT": "{name} API: бесплатный тариф, {fixed, select, yes {цена за запрос} other {цена за токен}}",
+    "META_TITLE_FREE_ONLY": "{name} API: бесплатный тариф, совместим с OpenAI | {appName}",
+    "META_DESC_FREE_ONLY": "API {name} от {vendor} на бесплатном тарифе: $0 за токен, без банковской карты. Работает с любым OpenAI SDK через один ключ {appName}.",
+    "META_DESC_FIXED": "API {name} от {vendor}: {price} за запрос, {free, select, yes {есть бесплатный тариф} other {бесплатного тарифа нет}}. Работает с любым OpenAI SDK через один ключ {appName}.",
+    "META_DESC_TIERED": "API {name} от {vendor}: ступенчатая цена за токен в зависимости от длины контекста, {free, select, yes {есть бесплатный тариф} other {бесплатного тарифа нет}}. Работает с любым OpenAI SDK через один ключ {appName}."
   },
   "PRICING": {
     "FEATURE": {

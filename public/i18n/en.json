@@ -492,7 +492,9 @@
       "BROWSE_ALL": "Browse models by provider",
       "AT_CAPACITY_HEADING": "Currently busy",
       "AT_CAPACITY_NOTE": "Every provider for these models has hit its rate limit. They come back automatically once the limits lift.",
-      "AT_CAPACITY_BADGE": "Busy"
+      "AT_CAPACITY_BADGE": "Busy",
+      "SEO_TITLE": "{vendor} API models: prices{free, select, yes { and free tier} other {}}",
+      "SEO_DESC": "{vendor} API models on {appName}: input and output price per token for each model{free, select, yes {, free tiers included} other {}}. Works with any OpenAI SDK through one key."
     },
     "DISCORD": "Request a model on Discord",
     "DATA_POLICY": {
@@ -1468,8 +1470,8 @@
     "TRENDING_MODELS": "Trending models this week"
   },
   "MODEL_PAGE": {
-    "META_TITLE": "{name} API pricing, context and examples | {appName}",
-    "META_DESC": "Use {name} from {vendor} through a single OpenAI-compatible endpoint. See per-token pricing, context window, endpoints and copy-paste code examples.",
+    "META_TITLE": "{name} API: {fixed, select, yes {price per request} other {price per token}}, OpenAI compatible | {appName}",
+    "META_DESC": "{name} API by {vendor}: {input} per 1M input tokens, {output} per 1M output tokens, no free tier. Works with any OpenAI SDK through one {appName} key.",
     "META_KEYWORDS": "{name} API, {name} pricing, {name} context window, {vendor} API, {appName}",
     "PRICING_TITLE": "Pricing",
     "INPUT_PRICE": "Input price",
@@ -1568,13 +1570,19 @@
     "PRICE_LOW_OFFLINE": "Offline",
     "PRICE_LOW_SEEN": "Cheapest on {day}",
     "PRICE_LOW_CHART": "Lowest input price",
-    "META_TITLE_FREE": "Free {name} API: no cost, OpenAI-compatible | {appName}",
-    "META_DESC_FREE": "Use {name} from {vendor} free via an OpenAI-compatible API in JanitorAI, SillyTavern or your code. Limits, context window and copy-paste examples.",
+    "META_TITLE_FREE": "{name} API: free tier, {fixed, select, yes {price per request} other {price per token}}, OpenAI compatible | {appName}",
+    "META_DESC_FREE": "{name} API by {vendor} with a free tier; paid use costs {input} per 1M input tokens and {output} per 1M output tokens. Works with any OpenAI SDK through one {appName} key.",
     "META_KEYWORDS_FREE": "free {name} API, {name} free, free {vendor} API, {name} API, free AI API, {appName}",
     "COMPARE_WITH_TITLE": "Compare {model}",
     "USE_IN_TITLE": "Use {model} in",
     "FAQ_FREE_Q": "Is {name} free?",
-    "FAQ_FREE_A": "Yes. {name}:free is the free version on {appName}: it costs nothing, with a limit of about one request per minute. The paid {name} has no per-minute limit."
+    "FAQ_FREE_A": "Yes. {name}:free is the free version on {appName}: it costs nothing, with a limit of about one request per minute. The paid {name} has no per-minute limit.",
+    "META_TITLE_SHORT": "{name} API: {fixed, select, yes {price per request} other {price per token}}",
+    "META_TITLE_FREE_SHORT": "{name} API: free tier, {fixed, select, yes {price per request} other {price per token}}",
+    "META_TITLE_FREE_ONLY": "{name} API: free tier, OpenAI compatible | {appName}",
+    "META_DESC_FREE_ONLY": "{name} API by {vendor} on a free tier: $0 per token, no credit card. Works with any OpenAI SDK through one {appName} key.",
+    "META_DESC_FIXED": "{name} API by {vendor}: {price} per request, {free, select, yes {free tier available} other {no free tier}}. Works with any OpenAI SDK through one {appName} key.",
+    "META_DESC_TIERED": "{name} API by {vendor}: tiered price per token by context length, {free, select, yes {free tier available} other {no free tier}}. Works with any OpenAI SDK through one {appName} key."
   },
   "PRICING": {
     "FEATURE": {

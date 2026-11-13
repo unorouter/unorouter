@@ -20,6 +20,11 @@ export const getCatalog = cache(
   },
 );
 
+export const getVendorCatalog = cache(async (vendor: string) => {
+  const res = await getPricingCatalog({ vendor, include_offline: true });
+  return unwrap(res).models;
+});
+
 export const getImageModels = cache(async () => {
   const res = await getPricingCatalog({ full: true, type: "image" });
   return unwrap(res).models;
