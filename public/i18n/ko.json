@@ -847,7 +847,7 @@
         "META_DESCRIPTION": "{appName}는 AI 도구 및 스타트업 디렉터리에 등록되어 있습니다. 여기에서 저희를 찾고, 등록 내용을 확인하고, 독립적인 평가를 읽어보세요."
       },
       "LAUNCH": {
-        "TITLE": "가짜 Claude에 지쳤다. 그래서 {appName}을 만들었다.",
+        "TITLE": "{appName}란? 우리가 만든 이유",
         "DESCRIPTION": "격주마다 발생하는 장애. 조용히 저렴한 복제품으로 바뀌는 프리미엄 모델. 우리는 폭발했고, 자체 라우터를 출시했으며, 양쪽 모두에 대해 편집증적이 되도록 만들었습니다. 출시 이야기입니다.",
         "AUTHOR": "{appName} 팀",
         "INTRO": "저가 AI API 시장에는 두 가지 문제가 있습니다. 공급자가 자주 다운되고, 일부는 <post_ai_model_verifier>요청을 조용히 약한 모델로 전달</post_ai_model_verifier>하면서도 플래그십 요금을 청구합니다. {appName}은 두 가지 모두를 해결하도록 만들어졌습니다.",
@@ -860,7 +860,7 @@
         "H_NEXT": "다음은",
         "P_NEXT": "매주 출시합니다. 더 많은 모델, 더 똑똑한 폴백을 이끄는 <rankings>더 정교한 건강 신호</rankings>, 더 풍부한 비용 및 지연 시간 대시보드, 그리고 이미 사용 중인 터미널과 IDE와의 더 깊은 통합을 기대하세요.",
         "CTA": "사용해 볼 준비가 되셨나요? <register>API 키 받기</register> 또는 <models>모델 카탈로그 둘러보기</models>.",
-        "META_DESCRIPTION": "잦은 장애와 몰래 저렴한 복제품으로 바뀌는 프리미엄 모델에 지쳐 직접 라우터를 만들었습니다. 출시 이야기입니다."
+        "META_DESCRIPTION": "{appName}는 여러 AI 모델을 OpenAI 호환 API 키 하나로 쓰는 서비스입니다. 격주로 반복된 장애와 프리미엄 모델이 몰래 저가 복제품으로 바뀌는 문제를 겪고 만들었습니다."
       },
       "AGENT_READY": {
         "TITLE": "Cloudflare의 에이전트 스캐너를 우리 사이트에 돌렸다. 100/100이 나왔다.",
@@ -883,7 +883,7 @@
         "META_DESCRIPTION": "Cloudflare의 AI 에이전트 준비도 스캐너에서 100/100, 최고 Level 5를 받았습니다. 무엇을 검사하는지, 왜 대부분의 사이트가 실패하는지 알려 드립니다."
       },
       "CLAUDE_AUTHENTICITY": {
-        "TITLE": "진짜 Claude와 가짜를 구별하는 방법",
+        "TITLE": "가짜 Claude 구별법: 그 모델이 정말 Claude인지 확인하기",
         "DESCRIPTION": "싼 Claude는 Claude라는 이름만 빌린 다른 모델인 경우가 많습니다. 모델에게 물어봐도 아무것도 증명할 수 없는 이유, 지식 기준일이 추측일 뿐인 이유, 그리고 가짜를 실제로 잡아내는 검사 방법을 소개합니다.",
         "AUTHOR": "{appName} 팀",
         "INTRO_P1": "Claude는 가장 인기 있는 모델 중 하나이자 가장 비싼 모델 중 하나입니다. 이 가격 차이 때문에 \"똑같은 Claude\"를 훨씬 싼 값에 판다는 재판매업체 시장이 생겨났습니다. 정말로 Claude를 파는 곳도 있습니다. 하지만 많은 곳은 그렇지 않습니다. <post_launch>더 싼 모델로 답하고 거기에 Claude라는 이름을 붙일 뿐</post_launch>입니다.",
@@ -969,7 +969,7 @@
         "META_DESCRIPTION": "계정을 연결하고 $1, 매월 서버를 부스트하고 $1, 버그 헌팅으로 최대 $50. 방금 {appName} Discord를 열었습니다."
       },
       "FREE_MODELS_AGGREGATED": {
-        "TITLE": "약 50개 제공업체의 130개 이상 무료 AI 모델을 하나의 엔드포인트로 통합했습니다",
+        "TITLE": "{appName} 무료 모델: 무료 티어와 한도 정리",
         "DESCRIPTION": "약 50개의 무료 제공업체를 {appName}에 연결했습니다. 130개 이상의 무료 모델, 하나의 OpenAI 호환 엔드포인트, 토큰당 $0. 업스트림 한도는 저희가 높일 수 없으며, 공유 풀을 공정하게 유지하기 위해 분당 1회의 가벼운 제한을 추가했습니다. 솔직하게 설명해 드립니다.",
         "AUTHOR": "{appName} 팀",
         "INTRO": "무료 LLM 생태계는 실재하지만 파편화되어 있습니다. NVIDIA, Cloudflare, Gemini, Mistral, Z.ai, ModelScope 등 수십 개의 서비스가 각자의 가입 페이지, 키 형식, 호환되지 않는 API 뒤에서 실제 용량을 무료로 제공하고 있습니다. 저희는 영구 무료 제공업체를 모두 찾아 테스트한 후 {appName}에 통합했습니다. 결과적으로 약 50개 제공업체의 <free>130개 이상 무료 모델</free>을 하나의 OpenAI 호환 엔드포인트와 하나의 키로 사용할 수 있습니다.",
@@ -994,7 +994,7 @@
         "FAQ_2_A": "사용자당 모델당 분당 약 1회 요청입니다. 한도 초과 시 Retry-After 헤더와 함께 HTTP 429가 반환됩니다. 130개 이상의 무료 모델이 있으므로, 기다리는 대신 모델을 교체하는 것이 현실적인 방법입니다.",
         "FAQ_3_Q": "무료 모델을 쓰려면 신용카드가 필요한가요?",
         "FAQ_3_A": "아니요. Discord나 GitHub로 가입해 키를 만들고 :free 접미사가 붙은 아무 모델이나 쓰면 됩니다. 1회성 $1 Discord 인증 보너스는 유료 모델에 쓸 수 있습니다.",
-        "META_DESCRIPTION": "약 50개 무료 제공업체를 {appName}에 연결했습니다. 130개 이상 모델, OpenAI 호환 엔드포인트 하나, 토큰당 $0. 업스트림 한도와 분당 1회 제한도 솔직하게 설명합니다."
+        "META_DESCRIPTION": "{appName}는 무료인가요? 네. OpenAI 호환 엔드포인트 하나로 무료 AI 모델을 토큰당 $0에 사용할 수 있습니다. 무료 티어 범위, 업스트림 한도, 분당 1회 제한을 설명합니다."
       },
       "UNOROUTER_VS_OPENROUTER": {
         "TITLE": "{appName} 대 OpenRouter: 정직한 비교",
@@ -2217,8 +2217,8 @@
     },
     "LIBRECHAT": {
       "META": {
-        "TITLE": "LibreChat 통합 가이드 | {appName}",
-        "DESCRIPTION": "커스텀 OpenAI 호환 엔드포인트로 LibreChat을 {appName}에 연결하세요. librechat.yaml에 블록을 추가하고 환경 변수를 지정하세요.",
+        "TITLE": "LibreChat 설정: 무료 OpenAI 호환 API | {appName}",
+        "DESCRIPTION": "커스텀 OpenAI 호환 엔드포인트로 LibreChat을 {appName}에 연결하세요. librechat.yaml에 블록을 추가하고 환경 변수를 지정하세요. 무료 모델 포함.",
         "KEYWORDS": "LibreChat, LibreChat 사용자 지정 엔드포인트, LibreChat OpenAI 호환, {appName} LibreChat, 자체 호스팅 채팅"
       },
       "BADGE": "LibreChat",
@@ -2237,8 +2237,8 @@
     },
     "OPEN_WEBUI": {
       "META": {
-        "TITLE": "Open WebUI 통합 가이드 | {appName}",
-        "DESCRIPTION": "관리자 패널에서 OpenAI 연결로 Open WebUI를 {appName}에 연결하세요. 모델 선택기가 카탈로그로 채워집니다.",
+        "TITLE": "Open WebUI 설정: 무료 OpenAI 호환 API | {appName}",
+        "DESCRIPTION": "관리자 패널에서 OpenAI 연결로 Open WebUI를 {appName}에 연결하세요. 모델 선택기가 카탈로그로 채워집니다. 무료 모델 포함.",
         "KEYWORDS": "Open WebUI, Open WebUI OpenAI 연결, {appName} Open WebUI, 자체 호스팅 ChatGPT"
       },
       "BADGE": "Open WebUI",
@@ -2258,8 +2258,8 @@
     },
     "LOBECHAT": {
       "META": {
-        "TITLE": "LobeChat 통합 가이드 | {appName}",
-        "DESCRIPTION": "Add Custom Provider 또는 Docker 환경 변수로 LobeChat을 {appName}에 연결하세요.",
+        "TITLE": "LobeChat 설정: 무료 OpenAI 호환 API | {appName}",
+        "DESCRIPTION": "Add Custom Provider 또는 Docker 환경 변수로 LobeChat을 {appName}에 연결하세요. 무료 모델 포함.",
         "KEYWORDS": "LobeChat, LobeChat 사용자 지정 공급자, {appName} LobeChat, 오픈 소스 웹 채팅"
       },
       "BADGE": "LobeChat",
@@ -2277,8 +2277,8 @@
     },
     "ANYTHINGLLM": {
       "META": {
-        "TITLE": "AnythingLLM 통합 가이드 | {appName}",
-        "DESCRIPTION": "AnythingLLM을 {appName}에 Generic OpenAI 공급자로 연결하세요. 모델을 입력하고 컨텍스트 창을 설정한 뒤 저장하세요.",
+        "TITLE": "AnythingLLM 설정: 무료 OpenAI 호환 API | {appName}",
+        "DESCRIPTION": "AnythingLLM을 {appName}에 Generic OpenAI 공급자로 연결하세요. 모델을 입력하고 컨텍스트 창을 설정한 뒤 저장하세요. 무료 모델 포함.",
         "KEYWORDS": "AnythingLLM, AnythingLLM Generic OpenAI, {appName} AnythingLLM, 자체 호스팅 RAG"
       },
       "BADGE": "AnythingLLM",
@@ -2296,8 +2296,8 @@
     },
     "CHERRY_STUDIO": {
       "META": {
-        "TITLE": "Cherry Studio 통합 가이드 | {appName}",
-        "DESCRIPTION": "Cherry Studio를 OpenAI 제공자로 {appName}에 연결하세요. 호스트와 키를 추가한 뒤 모델을 불러오세요.",
+        "TITLE": "Cherry Studio 설정: 무료 OpenAI 호환 API | {appName}",
+        "DESCRIPTION": "Cherry Studio를 OpenAI 제공자로 {appName}에 연결하세요. 호스트와 키를 추가한 뒤 모델을 불러오세요. 무료 모델 포함.",
         "KEYWORDS": "Cherry Studio, Cherry Studio OpenAI 공급자, {appName} Cherry Studio, 크로스 플랫폼 데스크톱 채팅"
       },
       "BADGE": "Cherry Studio",
@@ -2315,8 +2315,8 @@
     },
     "TYPINGMIND": {
       "META": {
-        "TITLE": "TypingMind 통합 가이드 | {appName}",
-        "DESCRIPTION": "커스텀 OpenAI 호환 엔드포인트를 붙여 넣어 TypingMind를 {appName}에 연결하세요.",
+        "TITLE": "TypingMind 설정: 무료 OpenAI 호환 API | {appName}",
+        "DESCRIPTION": "커스텀 OpenAI 호환 엔드포인트를 붙여 넣어 TypingMind를 {appName}에 연결하세요. 무료 모델 포함.",
         "KEYWORDS": "TypingMind, TypingMind 사용자 지정 모델, {appName} TypingMind, BYOK 웹 프런트엔드"
       },
       "BADGE": "TypingMind",
@@ -2336,8 +2336,8 @@
     },
     "BOLTAI": {
       "META": {
-        "TITLE": "BoltAI 통합 가이드 | {appName}",
-        "DESCRIPTION": "BoltAI를 커스텀 OpenAI 호환 서버로 {appName}에 연결하세요.",
+        "TITLE": "BoltAI 설정: 무료 OpenAI 호환 API | {appName}",
+        "DESCRIPTION": "BoltAI를 커스텀 OpenAI 호환 서버로 {appName}에 연결하세요. 무료 모델 포함.",
         "KEYWORDS": "BoltAI, BoltAI OpenAI 호환, {appName} BoltAI, macOS AI 어시스턴트"
       },
       "BADGE": "BoltAI",
@@ -2355,8 +2355,8 @@
     },
     "PAGE_ASSIST": {
       "META": {
-        "TITLE": "Page Assist 통합 가이드 | {appName}",
-        "DESCRIPTION": "브라우저 사이드 패널에서 커스텀 OpenAI 호환 API로 Page Assist를 {appName}에 연결하세요.",
+        "TITLE": "Page Assist 설정: 무료 OpenAI 호환 API | {appName}",
+        "DESCRIPTION": "브라우저 사이드 패널에서 커스텀 OpenAI 호환 API로 Page Assist를 {appName}에 연결하세요. 무료 모델 포함.",
         "KEYWORDS": "Page Assist, Page Assist OpenAI 호환, {appName} Page Assist, 브라우저 AI 확장 프로그램"
       },
       "BADGE": "Page Assist",
@@ -2376,8 +2376,8 @@
     },
     "CHATBOX": {
       "META": {
-        "TITLE": "Chatbox 통합 가이드 | {appName}",
-        "DESCRIPTION": "OpenAI API Compatible 모드로 Chatbox를 {appName}에 연결하세요. URL을 Host와 Path로 나누세요.",
+        "TITLE": "Chatbox 설정: 무료 OpenAI 호환 API | {appName}",
+        "DESCRIPTION": "OpenAI API Compatible 모드로 Chatbox를 {appName}에 연결하세요. URL을 Host와 Path로 나누세요. 무료 모델 포함.",
         "KEYWORDS": "Chatbox, Chatbox OpenAI 호환, {appName} Chatbox, 크로스 플랫폼 채팅 클라이언트"
       },
       "BADGE": "Chatbox",
@@ -2397,8 +2397,8 @@
     },
     "BIG_AGI": {
       "META": {
-        "TITLE": "Big-AGI 통합 가이드 | {appName}",
-        "DESCRIPTION": "Big-AGI를 OpenAI 소스로 {appName}에 연결하세요. Big-AGI가 카탈로그를 가져옵니다.",
+        "TITLE": "Big-AGI 설정: 무료 OpenAI 호환 API | {appName}",
+        "DESCRIPTION": "Big-AGI를 OpenAI 소스로 {appName}에 연결하세요. Big-AGI가 카탈로그를 가져옵니다. 무료 모델 포함.",
         "KEYWORDS": "Big-AGI, Big-AGI OpenAI 소스, {appName} Big-AGI, 웹 AI 워크벤치"
       },
       "BADGE": "Big-AGI",
@@ -2505,8 +2505,8 @@
     },
     "ROO_CODE": {
       "META": {
-        "TITLE": "Roo Code 설정 가이드 | {appName}",
-        "DESCRIPTION": "Roo Code를 OpenAI Compatible 제공자로 {appName}에 연결하면 기획, 코드, QA 역할이 하나의 기본 URL을 공유합니다.",
+        "TITLE": "Roo Code 설정: 무료 OpenAI 호환 API | {appName}",
+        "DESCRIPTION": "Roo Code를 OpenAI Compatible 제공자로 {appName}에 연결하면 기획, 코드, QA 역할이 하나의 기본 URL을 공유합니다. 무료 모델 포함.",
         "KEYWORDS": "Roo Code, Roo Code 설정, 멀티 에이전트 VSCode, {appName} Roo Code, OpenAI Compatible, 코딩 에이전트"
       },
       "BADGE": "Roo Code",
@@ -2545,8 +2545,8 @@
     },
     "AIDER": {
       "META": {
-        "TITLE": "Aider 설정 가이드 | {appName}",
-        "DESCRIPTION": "페어 프로그래밍 CLI인 Aider를 {appName}에 연결하세요. 환경 변수 두 개를 지정하고 모델로 openai/MODEL_ID를 넘기세요.",
+        "TITLE": "Aider 설정: 무료 OpenAI 호환 API | {appName}",
+        "DESCRIPTION": "페어 프로그래밍 CLI인 Aider를 {appName}에 연결하세요. 환경 변수 두 개를 지정하고 모델로 openai/MODEL_ID를 넘기세요. 무료 모델 포함.",
         "KEYWORDS": "Aider, Aider 설정, AI 페어 프로그래밍 CLI, {appName} Aider, LiteLLM, OpenAI 호환"
       },
       "BADGE": "Aider",

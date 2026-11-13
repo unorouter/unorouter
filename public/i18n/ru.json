@@ -847,7 +847,7 @@
         "META_DESCRIPTION": "{appName} представлен в каталогах ИИ-инструментов и стартапов. Здесь вы найдёте нас, проверите записи и прочтёте независимые отзывы."
       },
       "LAUNCH": {
-        "TITLE": "Нам надоел поддельный Claude. Поэтому мы построили {appName}.",
+        "TITLE": "Что такое {appName} и зачем мы его создали",
         "DESCRIPTION": "Падения каждую вторую неделю. Премиум-модели тихо подменяют на дешёвые клоны. Когда лопнуло терпение, мы выкатили свой роутер и сделали его параноиком в обоих смыслах. История запуска.",
         "AUTHOR": "Команда {appName}",
         "INTRO": "У рынка дешёвых API для ИИ есть две проблемы. Провайдеры часто падают, а некоторые из них <post_ai_model_verifier>тихо перенаправляют ваш запрос на более слабую модель</post_ai_model_verifier>, при этом выставляя счёт за флагманскую. {appName} создан, чтобы решить обе.",
@@ -860,7 +860,7 @@
         "H_NEXT": "Что дальше",
         "P_NEXT": "Мы выпускаем обновления каждую неделю. Ждите новых моделей, <rankings>более точных сигналов о состоянии провайдеров</rankings> для умных резервных маршрутов, расширенных дашбордов по стоимости и задержкам и более глубоких интеграций с терминалами и IDE, в которых вы уже живёте.",
         "CTA": "Готовы попробовать? <register>Получите ключ API</register> или <models>посмотрите каталог моделей</models>.",
-        "META_DESCRIPTION": "Падения каждые две недели, премиум-модели тихо подменяют дешёвыми клонами. Поэтому мы выкатили свой роутер и сделали его параноиком. История запуска."
+        "META_DESCRIPTION": "{appName} даёт один OpenAI-совместимый API-ключ для множества AI-моделей. Мы создали его после сбоев раз в две недели и премиум-моделей, тайно подменённых дешёвыми клонами."
       },
       "AGENT_READY": {
         "TITLE": "Натравили сканер агентов от Cloudflare на наш сайт. Получили 100/100.",
@@ -883,7 +883,7 @@
         "META_DESCRIPTION": "Cloudflare выпустил сканер готовности сайтов к ИИ-агентам. Мы получили 100/100 и Level 5. Что он проверяет и почему большинство сайтов проваливаются."
       },
       "CLAUDE_AUTHENTICITY": {
-        "TITLE": "Как мы отличаем настоящий Claude от подделки",
+        "TITLE": "Поддельный Claude: как проверить, что модель действительно Claude",
         "DESCRIPTION": "Дешёвый Claude часто оказывается другой моделью под именем Claude. Почему вопрос к модели ничего не доказывает, почему дата среза знаний всего лишь догадка и какие проверки действительно ловят подделку.",
         "AUTHOR": "Команда {appName}",
         "INTRO_P1": "Claude входит в число самых востребованных и самых дорогих моделей. Этот разрыв в цене породил рынок перепродавцов, которые продают «тот же самый Claude» за малую долю цены. Некоторые действительно продают Claude. Но многие продают совсем другое: <post_launch>отвечают более дешёвой моделью и подписывают её именем Claude</post_launch>.",
@@ -969,7 +969,7 @@
         "META_DESCRIPTION": "Привяжи аккаунт за 1$, забусти сервер за 1$ в месяц, лови баги за сумму до 50$. Мы только что открыли Discord {appName}."
       },
       "FREE_MODELS_AGGREGATED": {
-        "TITLE": "Мы объединили 130+ бесплатных AI-моделей от около 50 провайдеров в один эндпоинт",
+        "TITLE": "Бесплатные модели {appName}: бесплатный тариф и лимиты",
         "DESCRIPTION": "Мы подключили около 50 бесплатных провайдеров к {appName}: 130+ бесплатных моделей, один OpenAI-совместимый эндпоинт, $0 за токен. Они работают в рамках лимитов провайдеров, которые мы не можем повысить, плюс мы добавляем лёгкое ограничение в 1 запрос в минуту, чтобы общие пулы оставались доступными для всех. Вот честная версия.",
         "AUTHOR": "команда {appName}",
         "INTRO": "Рынок бесплатных LLM реален, но разрознен: NVIDIA, Cloudflare, Gemini, Mistral, Z.ai, ModelScope и десятки других сервисов раздают реальные мощности, но за разными страницами регистрации, форматами ключей и несовместимыми API. Мы нашли, протестировали и объединили всех постоянно бесплатных провайдеров, каких только смогли найти, в {appName}. Результат: <free>130+ бесплатных моделей</free> от около 50 провайдеров за одним OpenAI-совместимым эндпоинтом и одним ключом.",
@@ -994,7 +994,7 @@
         "FAQ_2_A": "Около 1 запроса в минуту на модель на пользователя. При превышении лимита возвращается HTTP 429 с заголовком Retry-After. При наличии 130+ бесплатных моделей практичнее всего чередовать модели, а не ждать.",
         "FAQ_3_Q": "Нужна ли банковская карта для бесплатных моделей?",
         "FAQ_3_A": "Нет. Зарегистрируйтесь через Discord или GitHub, создайте ключ и используйте любую модель с суффиксом :free. Разовый бонус $1 за верификацию в Discord можно потратить на платные модели.",
-        "META_DESCRIPTION": "Около 50 бесплатных провайдеров в {appName}: 130+ моделей, один OpenAI-совместимый эндпоинт, $0 за токен и лимит 1 запрос в минуту. Честно о лимитах."
+        "META_DESCRIPTION": "{appName} бесплатный? Да: бесплатные AI-модели через один OpenAI-совместимый эндпоинт, $0 за токен. Что входит в бесплатный тариф, лимиты провайдеров и наш лимит 1 запрос в минуту."
       },
       "UNOROUTER_VS_OPENROUTER": {
         "TITLE": "{appName} против OpenRouter: честное сравнение",
@@ -2217,8 +2217,8 @@
     },
     "LIBRECHAT": {
       "META": {
-        "TITLE": "Руководство по интеграции LibreChat | {appName}",
-        "DESCRIPTION": "Подключите LibreChat к {appName} через кастомный OpenAI-совместимый эндпоинт. Добавьте блок в librechat.yaml и задайте переменную окружения.",
+        "TITLE": "LibreChat: настройка с бесплатным OpenAI-совместимым API | {appName}",
+        "DESCRIPTION": "Подключите LibreChat к {appName} через кастомный OpenAI-совместимый эндпоинт. Добавьте блок в librechat.yaml и задайте переменную окружения. Бесплатные модели включены.",
         "KEYWORDS": "LibreChat, пользовательская конечная точка LibreChat, LibreChat совместимый с OpenAI, {appName} LibreChat, самостоятельно размещённый чат"
       },
       "BADGE": "LibreChat",
@@ -2237,8 +2237,8 @@
     },
     "OPEN_WEBUI": {
       "META": {
-        "TITLE": "Руководство по интеграции Open WebUI | {appName}",
-        "DESCRIPTION": "Подключите Open WebUI к {appName} как соединение OpenAI в панели администратора. Выбор моделей заполнится из каталога.",
+        "TITLE": "Open WebUI: настройка с бесплатным OpenAI-совместимым API | {appName}",
+        "DESCRIPTION": "Подключите Open WebUI к {appName} как соединение OpenAI в панели администратора. Выбор моделей заполнится из каталога. Бесплатные модели включены.",
         "KEYWORDS": "Open WebUI, соединение OpenAI Open WebUI, {appName} Open WebUI, самостоятельно размещённый интерфейс ChatGPT"
       },
       "BADGE": "Open WebUI",
@@ -2258,8 +2258,8 @@
     },
     "LOBECHAT": {
       "META": {
-        "TITLE": "Руководство по интеграции LobeChat | {appName}",
-        "DESCRIPTION": "Подключите LobeChat к {appName} через Add Custom Provider или переменные окружения Docker.",
+        "TITLE": "LobeChat: настройка с бесплатным OpenAI-совместимым API | {appName}",
+        "DESCRIPTION": "Подключите LobeChat к {appName} через Add Custom Provider или переменные окружения Docker. Бесплатные модели включены.",
         "KEYWORDS": "LobeChat, пользовательский провайдер LobeChat, {appName} LobeChat, веб-чат с открытым кодом"
       },
       "BADGE": "LobeChat",
@@ -2277,8 +2277,8 @@
     },
     "ANYTHINGLLM": {
       "META": {
-        "TITLE": "Руководство по интеграции AnythingLLM | {appName}",
-        "DESCRIPTION": "Подключите AnythingLLM к {appName} как провайдер Generic OpenAI. Введите модель, задайте окно контекста, сохраните.",
+        "TITLE": "AnythingLLM: настройка с бесплатным OpenAI-совместимым API | {appName}",
+        "DESCRIPTION": "Подключите AnythingLLM к {appName} как провайдер Generic OpenAI. Введите модель, задайте окно контекста, сохраните. Бесплатные модели включены.",
         "KEYWORDS": "AnythingLLM, AnythingLLM Generic OpenAI, {appName} AnythingLLM, самостоятельно размещённый RAG"
       },
       "BADGE": "AnythingLLM",
@@ -2296,8 +2296,8 @@
     },
     "CHERRY_STUDIO": {
       "META": {
-        "TITLE": "Руководство по интеграции Cherry Studio | {appName}",
-        "DESCRIPTION": "Подключите Cherry Studio к {appName} как провайдера OpenAI. Добавьте хост и ключ, затем загрузите свои модели.",
+        "TITLE": "Cherry Studio: настройка с бесплатным OpenAI-совместимым API | {appName}",
+        "DESCRIPTION": "Подключите Cherry Studio к {appName} как провайдера OpenAI. Добавьте хост и ключ, затем загрузите свои модели. Бесплатные модели включены.",
         "KEYWORDS": "Cherry Studio, провайдер OpenAI Cherry Studio, {appName} Cherry Studio, кроссплатформенный десктопный чат"
       },
       "BADGE": "Cherry Studio",
@@ -2315,8 +2315,8 @@
     },
     "TYPINGMIND": {
       "META": {
-        "TITLE": "Руководство по интеграции TypingMind | {appName}",
-        "DESCRIPTION": "Подключите TypingMind к {appName}, вставив кастомный OpenAI-совместимый эндпоинт.",
+        "TITLE": "TypingMind: настройка с бесплатным OpenAI-совместимым API | {appName}",
+        "DESCRIPTION": "Подключите TypingMind к {appName}, вставив кастомный OpenAI-совместимый эндпоинт. Бесплатные модели включены.",
         "KEYWORDS": "TypingMind, пользовательская модель TypingMind, {appName} TypingMind, веб-интерфейс BYOK"
       },
       "BADGE": "TypingMind",
@@ -2336,8 +2336,8 @@
     },
     "BOLTAI": {
       "META": {
-        "TITLE": "Руководство по интеграции BoltAI | {appName}",
-        "DESCRIPTION": "Подключите BoltAI к {appName} как кастомный OpenAI-совместимый сервер.",
+        "TITLE": "BoltAI: настройка с бесплатным OpenAI-совместимым API | {appName}",
+        "DESCRIPTION": "Подключите BoltAI к {appName} как кастомный OpenAI-совместимый сервер. Бесплатные модели включены.",
         "KEYWORDS": "BoltAI, BoltAI совместимый с OpenAI, {appName} BoltAI, ИИ-ассистент macOS"
       },
       "BADGE": "BoltAI",
@@ -2355,8 +2355,8 @@
     },
     "PAGE_ASSIST": {
       "META": {
-        "TITLE": "Руководство по интеграции Page Assist | {appName}",
-        "DESCRIPTION": "Подключите Page Assist к {appName} как кастомный OpenAI-совместимый API в боковой панели браузера.",
+        "TITLE": "Page Assist: настройка с бесплатным OpenAI-совместимым API | {appName}",
+        "DESCRIPTION": "Подключите Page Assist к {appName} как кастомный OpenAI-совместимый API в боковой панели браузера. Бесплатные модели включены.",
         "KEYWORDS": "Page Assist, Page Assist совместимый с OpenAI, {appName} Page Assist, ИИ-расширение для браузера"
       },
       "BADGE": "Page Assist",
@@ -2376,8 +2376,8 @@
     },
     "CHATBOX": {
       "META": {
-        "TITLE": "Руководство по интеграции Chatbox | {appName}",
-        "DESCRIPTION": "Подключите Chatbox к {appName} в режиме OpenAI API Compatible. Разделите URL на Host и Path.",
+        "TITLE": "Chatbox: настройка с бесплатным OpenAI-совместимым API | {appName}",
+        "DESCRIPTION": "Подключите Chatbox к {appName} в режиме OpenAI API Compatible. Разделите URL на Host и Path. Бесплатные модели включены.",
         "KEYWORDS": "Chatbox, Chatbox совместимый с OpenAI, {appName} Chatbox, кроссплатформенный клиент чата"
       },
       "BADGE": "Chatbox",
@@ -2397,8 +2397,8 @@
     },
     "BIG_AGI": {
       "META": {
-        "TITLE": "Руководство по интеграции Big-AGI | {appName}",
-        "DESCRIPTION": "Подключите Big-AGI к {appName} как источник OpenAI. Big-AGI сам загрузит каталог.",
+        "TITLE": "Big-AGI: настройка с бесплатным OpenAI-совместимым API | {appName}",
+        "DESCRIPTION": "Подключите Big-AGI к {appName} как источник OpenAI. Big-AGI сам загрузит каталог. Бесплатные модели включены.",
         "KEYWORDS": "Big-AGI, источник OpenAI Big-AGI, {appName} Big-AGI, веб-среда для ИИ"
       },
       "BADGE": "Big-AGI",
@@ -2505,8 +2505,8 @@
     },
     "ROO_CODE": {
       "META": {
-        "TITLE": "Руководство по настройке Roo Code | {appName}",
-        "DESCRIPTION": "Подключите Roo Code к {appName} как провайдера OpenAI Compatible, чтобы роли планирования, кода и QA использовали один базовый URL.",
+        "TITLE": "Roo Code: настройка с бесплатным OpenAI-совместимым API | {appName}",
+        "DESCRIPTION": "Подключите Roo Code к {appName} как провайдера OpenAI Compatible, чтобы роли планирования, кода и QA использовали один базовый URL. Бесплатные модели включены.",
         "KEYWORDS": "Roo Code, настройка Roo Code, мультиагентный VSCode, {appName} Roo Code, совместимость с OpenAI, агент для кодинга"
       },
       "BADGE": "Roo Code",
@@ -2545,8 +2545,8 @@
     },
     "AIDER": {
       "META": {
-        "TITLE": "Руководство по настройке Aider | {appName}",
-        "DESCRIPTION": "Подключите CLI для парного программирования Aider к {appName}. Задайте две переменные окружения и передайте openai/MODEL_ID как модель.",
+        "TITLE": "Aider: настройка с бесплатным OpenAI-совместимым API | {appName}",
+        "DESCRIPTION": "Подключите CLI для парного программирования Aider к {appName}. Задайте две переменные окружения и передайте openai/MODEL_ID как модель. Бесплатные модели включены.",
         "KEYWORDS": "Aider, настройка Aider, CLI для парного программирования с ИИ, {appName} Aider, LiteLLM, совместимость с OpenAI"
       },
       "BADGE": "Aider",

@@ -113,10 +113,116 @@ export function getAdjacentPosts(slug: string): {
   };
 }
 
+// Pages that already rank pass readers on to posts on the same search intent.
+const RELATED_OVERRIDES: Partial<Record<BlogSlug, BlogSlug[]>> = {
+  "unorouter-vs-openrouter": [
+    "best-openrouter-alternatives-2026",
+    "open-source-openrouter-alternative",
+    "what-is-an-llm-gateway",
+  ],
+  "free-models-aggregated": [
+    "free-ai-api",
+    "free-deepseek-api-key",
+    "server-tag-cuts-free-model-wait",
+  ],
+  launch: [
+    "claude-authenticity",
+    "ai-model-verifier",
+    "where-your-requests-go",
+  ],
+  "featured-on": ["launch", "unorouter-vs-openrouter", "free-ai-api"],
+  "discord-community": [
+    "free-models-aggregated",
+    "server-tag-cuts-free-model-wait",
+    "qronos-joins-partners",
+  ],
+  "claude-authenticity": [
+    "ai-model-verifier",
+    "claude-opus-4-8-vs-4-6-vs-4-7-roleplay",
+    "where-your-requests-go",
+  ],
+  "best-janitor-ai-proxy": [
+    "unorouter-vs-janitorai",
+    "free-deepseek-api-key",
+    "free-ai-api",
+  ],
+  "unorouter-vs-litellm": [
+    "unorouter-vs-portkey",
+    "open-source-openrouter-alternative",
+    "what-is-an-llm-gateway",
+  ],
+  "free-ai-api": [
+    "free-deepseek-api-key",
+    "free-models-aggregated",
+    "best-janitor-ai-proxy",
+  ],
+  "free-deepseek-api-key": [
+    "free-ai-api",
+    "free-models-aggregated",
+    "best-janitor-ai-proxy",
+  ],
+};
+
+const GUIDE_RELATED_POSTS: Partial<Record<string, BlogSlug[]>> = {
+  "janitor-ai": [
+    "best-janitor-ai-proxy",
+    "unorouter-vs-janitorai",
+    "free-deepseek-api-key",
+  ],
+  sillytavern: [
+    "how-to-connect-any-llm-to-sillytavern",
+    "best-ai-gateway-for-sillytavern",
+    "unorouter-vs-sillytavern",
+  ],
+  chub: ["unorouter-vs-chub", "best-janitor-ai-proxy"],
+  risuai: ["unorouter-vs-risuai"],
+  nevika: ["how-to-connect-unorouter-to-nevika"],
+  librechat: ["unorouter-vs-librechat", "free-ai-api"],
+  "open-webui": ["unorouter-vs-open-webui", "free-ai-api"],
+  anythingllm: ["free-ai-api", "what-is-an-llm-gateway"],
+  chatbox: ["free-ai-api", "free-deepseek-api-key"],
+  lobechat: ["free-ai-api", "free-deepseek-api-key"],
+  "page-assist": ["free-ai-api"],
+  "big-agi": ["free-ai-api"],
+  "cherry-studio": ["free-ai-api", "free-deepseek-api-key"],
+  typingmind: ["free-ai-api"],
+  boltai: ["free-ai-api"],
+  opencode: [
+    "free-deepseek-api-key",
+    "one-api-key-for-claude-code-and-roleplay",
+  ],
+  "kilo-code": ["free-deepseek-api-key"],
+  cline: ["free-deepseek-api-key"],
+  "roo-code": ["free-deepseek-api-key"],
+  "continue-dev": ["free-deepseek-api-key"],
+  aider: ["free-deepseek-api-key"],
+  zed: ["free-deepseek-api-key"],
+  codex: ["one-api-key-for-claude-code-and-roleplay"],
+  "gemini-cli": ["free-ai-api"],
+  hermes: ["free-ai-api"],
+  openclaw: ["free-ai-api"],
+};
+
+function published(slugs: BlogSlug[] | undefined): BlogPost<BlogSlug>[] {
+  const visible = new Set(getAllPostsSorted().map((p) => p.slug));
+  return (slugs ?? [])
+    .filter((s) => visible.has(s))
+    .map((s) => getPost(s))
+    .filter((p): p is BlogPost<BlogSlug> => p !== undefined);
+}
+
+export function getGuideRelatedPosts(guideSlug: string): BlogPost<BlogSlug>[] {
+  return published(GUIDE_RELATED_POSTS[guideSlug]);
+}
+
 export function getRelatedPosts(slug: string, limit = 3): BlogPost<BlogSlug>[] {
   const current = getPost(slug);
   if (!current) return [];
-  const others = POSTS.filter((p) => p.slug !== slug);
+  const pinned = published(RELATED_OVERRIDES[current.slug]);
+  const pinnedSlugs = new Set(pinned.map((p) => p.slug));
+  const others = POSTS.filter(
+    (p) => p.slug !== slug && !pinnedSlugs.has(p.slug),
+  );
 
   const sameCategory = others.filter((p) => p.category === current.category);
   const byTag = others.filter(
@@ -125,9 +231,10 @@ export function getRelatedPosts(slug: string, limit = 3): BlogPost<BlogSlug>[] {
       p.tags.some((t) => current.tags.includes(t)),
   );
 
-  return [...sameCategory, ...byTag]
-    .sort((a, b) => b.date.localeCompare(a.date))
-    .slice(0, limit);
+  const fill = [...sameCategory, ...byTag].sort((a, b) =>
+    b.date.localeCompare(a.date),
+  );
+  return [...pinned, ...fill].slice(0, limit);
 }
 
 export function translated(

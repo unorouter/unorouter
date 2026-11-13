@@ -847,7 +847,7 @@
         "META_DESCRIPTION": "{appName} مُدرَج في أدلة أدوات الذكاء الاصطناعي والشركات الناشئة. هنا يمكنك أن تجدنا وتتحقق من الإدراجات وتقرأ آراء مستقلة."
       },
       "LAUNCH": {
-        "TITLE": "تعبنا من Claude المزيّف. فبنينا {appName}.",
+        "TITLE": "ما هو {appName}، ولماذا بنيناه",
         "DESCRIPTION": "انقطاعات كل أسبوعين. نماذج فاخرة تُستبدل بصمت بنُسخ رخيصة. انفجرنا، وأطلقنا موجّهنا الخاصّ، وجعلناه مرتاباً تجاه الأمرين. هذه قصّة الإطلاق.",
         "AUTHOR": "فريق {appName}",
         "INTRO": "سوق AI API الرخيص لديه مشكلتان. المزوّدون يتعطّلون كثيراً، وبعضهم <post_ai_model_verifier>يحوّل طلبك بهدوء إلى نموذج أضعف</post_ai_model_verifier> بينما يحاسبك على النموذج الرائد. {appName} مبني لإصلاح كليهما.",
@@ -860,7 +860,7 @@
         "H_NEXT": "ما الذي يأتي",
         "P_NEXT": "نُطلق أسبوعياً. توقّع المزيد من النماذج، و<rankings>إشارات صحّة أدقّ</rankings> تقود تحويلات أذكى، ولوحات تحكّم أغنى للتكلفة وزمن الاستجابة، وتكاملات أعمق مع الطرفيات وبيئات التطوير التي تعيش فيها أصلاً.",
         "CTA": "جاهز للتجربة؟ <register>احصل على مفتاح API</register> أو <models>تصفّح فهرس النماذج</models>.",
-        "META_DESCRIPTION": "انقطاعات كل أسبوعين. نماذج فاخرة تُستبدل بصمت بنُسخ رخيصة. انفجرنا، وأطلقنا موجّهنا الخاصّ، وجعلناه مرتاباً تجاه الأمرين. هذه قصّة الإطلاق."
+        "META_DESCRIPTION": "{appName} مفتاح API واحد متوافق مع OpenAI للعديد من نماذج الذكاء الاصطناعي، بنيناه بعد أعطال كل أسبوعين ونماذج متميزة تُستبدل خفية بنسخ رخيصة."
       },
       "AGENT_READY": {
         "TITLE": "وجّهنا ماسح وكلاء Cloudflare إلى موقعنا. عاد بنتيجة 100/100.",
@@ -883,7 +883,7 @@
         "META_DESCRIPTION": "أطلقت Cloudflare ماسحاً يقيّم جاهزية موقعك لوكلاء الذكاء الاصطناعي. حقّقنا 100/100 وأعلى تصنيف Level 5. إليك ما يفحصه بالضبط ولماذا تفشل معظم المواقع."
       },
       "CLAUDE_AUTHENTICITY": {
-        "TITLE": "كيف نميّز Claude الحقيقي من المزيّف",
+        "TITLE": "Claude المزيف: كيف تعرف أن النموذج هو Claude حقًا",
         "DESCRIPTION": "كثيراً ما يكون Claude الرخيص نموذجاً آخر يحمل اسم Claude. لماذا لا يثبت سؤال النموذج شيئاً، ولماذا تاريخ انتهاء المعرفة مجرد تخمين، وما الفحوصات التي تكشف المزيّف فعلاً.",
         "AUTHOR": "فريق {appName}",
         "INTRO_P1": "Claude من أكثر النماذج طلباً ومن أغلاها. هذه الفجوة صنعت سوقاً من البائعين الذين يبيعون «Claude نفسه» بجزء بسيط من السعر. بعضهم يبيع Claude فعلاً. وكثيرون لا يفعلون: <post_launch>يجيبون بنموذج أرخص ويضعون عليه اسم Claude</post_launch>.",
@@ -969,7 +969,7 @@
         "META_DESCRIPTION": "اربط حسابك بـ $1، عزّز الخادم بـ $1 شهرياً، اصطد الأخطاء بما يصل إلى $50. فتحنا للتو Discord {appName}."
       },
       "FREE_MODELS_AGGREGATED": {
-        "TITLE": "جمعنا أكثر من 130 نموذج ذكاء اصطناعي مجاني من نحو 50 مزوداً في نقطة وصول واحدة",
+        "TITLE": "النماذج المجانية في {appName}: الباقة المجانية وحدودها",
         "DESCRIPTION": "ربطنا نحو 50 مزوداً مجانياً بـ {appName}: أكثر من 130 نموذجاً مجانياً، نقطة وصول واحدة متوافقة مع OpenAI، بتكلفة $0 لكل رمز. تأتي هذه النماذج بحدود من المزودين الأصليين لا نستطيع رفعها، إضافة إلى حد خفيف نضيفه نحن بمعدل طلب واحد في الدقيقة للحفاظ على عدالة استخدام الموارد المشتركة. هذا هو الوضع بصدق تام.",
         "AUTHOR": "فريق {appName}",
         "INTRO": "عالم النماذج اللغوية المجانية حقيقي لكنه مبعثر: NVIDIA وCloudflare وGemini وMistral وZ.ai وModelScope وعشرات غيرها توفر طاقة استيعابية حقيقية مجاناً، لكن خلف عشرات صفحات التسجيل وصيغ المفاتيح والواجهات البرمجية غير المتوافقة. اكتشفنا كل مزود مجاني دائم يمكننا إيجاده، واختبرناه، ودمجناه في {appName}. النتيجة: <free>أكثر من 130 نموذجاً مجانياً</free> من نحو 50 مزوداً خلف نقطة وصول واحدة متوافقة مع OpenAI ومفتاح واحد.",
@@ -994,7 +994,7 @@
         "FAQ_2_A": "نحو طلب واحد في الدقيقة لكل نموذج لكل مستخدم. يُعيد الحد HTTP 429 مع ترويسة Retry-After. مع أكثر من 130 نموذجاً مجانياً، الحل العملي هو التناوب بين النماذج بدلاً من الانتظار.",
         "FAQ_3_Q": "هل أحتاج إلى بطاقة ائتمان للنماذج المجانية؟",
         "FAQ_3_A": "لا. سجّل عبر Discord أو GitHub، وأنشئ مفتاحًا، واستخدم أي نموذج بلاحقة :free. ويمكن إنفاق مكافأة التحقق عبر Discord لمرة واحدة بقيمة $1 على النماذج المدفوعة.",
-        "META_DESCRIPTION": "ربطنا نحو 50 مزوداً مجانياً بـ {appName}: أكثر من 130 نموذجاً مجانياً عبر نقطة وصول واحدة متوافقة مع OpenAI بتكلفة $0، مع حدود المزودين وحد طلب في الدقيقة."
+        "META_DESCRIPTION": "هل {appName} مجاني؟ نعم: نماذج ذكاء اصطناعي مجانية عبر نقطة نهاية واحدة متوافقة مع OpenAI، بتكلفة $0 لكل رمز. ما تشمله الباقة المجانية وحدود المزودين وحدّ الطلب الواحد في الدقيقة."
       },
       "UNOROUTER_VS_OPENROUTER": {
         "TITLE": "{appName} مقابل OpenRouter: مقارنة صادقة",
@@ -2217,8 +2217,8 @@
     },
     "LIBRECHAT": {
       "META": {
-        "TITLE": "دليل دمج LibreChat | {appName}",
-        "DESCRIPTION": "اربط LibreChat بـ {appName} عبر نقطة نهاية مخصّصة متوافقة مع OpenAI. أضف الكتلة إلى librechat.yaml واضبط متغيّر البيئة.",
+        "TITLE": "LibreChat: الإعداد مع واجهة API مجانية متوافقة مع OpenAI | {appName}",
+        "DESCRIPTION": "اربط LibreChat بـ {appName} عبر نقطة نهاية مخصّصة متوافقة مع OpenAI. أضف الكتلة إلى librechat.yaml واضبط متغيّر البيئة. يشمل نماذج مجانية.",
         "KEYWORDS": "LibreChat, نقطة نهاية LibreChat مخصصة, LibreChat متوافق مع OpenAI, {appName} LibreChat, واجهة محادثة ذاتية الاستضافة"
       },
       "BADGE": "LibreChat",
@@ -2237,8 +2237,8 @@
     },
     "OPEN_WEBUI": {
       "META": {
-        "TITLE": "دليل دمج Open WebUI | {appName}",
-        "DESCRIPTION": "اربط Open WebUI بـ {appName} كاتّصال OpenAI في لوحة المشرف. يُملأ منتقي النماذج من الكتالوج.",
+        "TITLE": "Open WebUI: الإعداد مع واجهة API مجانية متوافقة مع OpenAI | {appName}",
+        "DESCRIPTION": "اربط Open WebUI بـ {appName} كاتّصال OpenAI في لوحة المشرف. يُملأ منتقي النماذج من الكتالوج. يشمل نماذج مجانية.",
         "KEYWORDS": "Open WebUI, اتصال OpenAI Open WebUI, {appName} Open WebUI, واجهة ChatGPT ذاتية الاستضافة"
       },
       "BADGE": "Open WebUI",
@@ -2258,8 +2258,8 @@
     },
     "LOBECHAT": {
       "META": {
-        "TITLE": "دليل دمج LobeChat | {appName}",
-        "DESCRIPTION": "اربط LobeChat بـ {appName} عبر Add Custom Provider أو متغيّرات بيئة Docker.",
+        "TITLE": "LobeChat: الإعداد مع واجهة API مجانية متوافقة مع OpenAI | {appName}",
+        "DESCRIPTION": "اربط LobeChat بـ {appName} عبر Add Custom Provider أو متغيّرات بيئة Docker. يشمل نماذج مجانية.",
         "KEYWORDS": "LobeChat, موفر LobeChat مخصص, {appName} LobeChat, محادثة ويب مفتوحة المصدر"
       },
       "BADGE": "LobeChat",
@@ -2277,8 +2277,8 @@
     },
     "ANYTHINGLLM": {
       "META": {
-        "TITLE": "دليل دمج AnythingLLM | {appName}",
-        "DESCRIPTION": "اربط AnythingLLM بـ {appName} كموفر Generic OpenAI. اكتب النموذج، اضبط نافذة السياق، احفظ.",
+        "TITLE": "AnythingLLM: الإعداد مع واجهة API مجانية متوافقة مع OpenAI | {appName}",
+        "DESCRIPTION": "اربط AnythingLLM بـ {appName} كموفر Generic OpenAI. اكتب النموذج، اضبط نافذة السياق، احفظ. يشمل نماذج مجانية.",
         "KEYWORDS": "AnythingLLM, AnythingLLM Generic OpenAI, {appName} AnythingLLM, RAG ذاتي الاستضافة"
       },
       "BADGE": "AnythingLLM",
@@ -2296,8 +2296,8 @@
     },
     "CHERRY_STUDIO": {
       "META": {
-        "TITLE": "دليل دمج Cherry Studio | {appName}",
-        "DESCRIPTION": "اربط Cherry Studio بـ {appName} كمزوّد OpenAI. أضف المضيف والمفتاح، ثمّ حمّل نماذجك.",
+        "TITLE": "Cherry Studio: الإعداد مع واجهة API مجانية متوافقة مع OpenAI | {appName}",
+        "DESCRIPTION": "اربط Cherry Studio بـ {appName} كمزوّد OpenAI. أضف المضيف والمفتاح، ثمّ حمّل نماذجك. يشمل نماذج مجانية.",
         "KEYWORDS": "Cherry Studio, موفر OpenAI Cherry Studio, {appName} Cherry Studio, محادثة سطح مكتب متعددة المنصات"
       },
       "BADGE": "Cherry Studio",
@@ -2315,8 +2315,8 @@
     },
     "TYPINGMIND": {
       "META": {
-        "TITLE": "دليل دمج TypingMind | {appName}",
-        "DESCRIPTION": "اربط TypingMind بـ {appName} بلصق نقطة نهاية مخصّصة متوافقة مع OpenAI.",
+        "TITLE": "TypingMind: الإعداد مع واجهة API مجانية متوافقة مع OpenAI | {appName}",
+        "DESCRIPTION": "اربط TypingMind بـ {appName} بلصق نقطة نهاية مخصّصة متوافقة مع OpenAI. يشمل نماذج مجانية.",
         "KEYWORDS": "TypingMind, نموذج TypingMind مخصص, {appName} TypingMind, واجهة ويب BYOK"
       },
       "BADGE": "TypingMind",
@@ -2336,8 +2336,8 @@
     },
     "BOLTAI": {
       "META": {
-        "TITLE": "دليل دمج BoltAI | {appName}",
-        "DESCRIPTION": "اربط BoltAI بـ {appName} كخادم مخصّص متوافق مع OpenAI.",
+        "TITLE": "BoltAI: الإعداد مع واجهة API مجانية متوافقة مع OpenAI | {appName}",
+        "DESCRIPTION": "اربط BoltAI بـ {appName} كخادم مخصّص متوافق مع OpenAI. يشمل نماذج مجانية.",
         "KEYWORDS": "BoltAI, BoltAI متوافق مع OpenAI, {appName} BoltAI, مساعد ذكاء اصطناعي macOS"
       },
       "BADGE": "BoltAI",
@@ -2355,8 +2355,8 @@
     },
     "PAGE_ASSIST": {
       "META": {
-        "TITLE": "دليل دمج Page Assist | {appName}",
-        "DESCRIPTION": "اربط Page Assist بـ {appName} كواجهة API مخصّصة متوافقة مع OpenAI في اللوحة الجانبية للمتصفّح.",
+        "TITLE": "Page Assist: الإعداد مع واجهة API مجانية متوافقة مع OpenAI | {appName}",
+        "DESCRIPTION": "اربط Page Assist بـ {appName} كواجهة API مخصّصة متوافقة مع OpenAI في اللوحة الجانبية للمتصفّح. يشمل نماذج مجانية.",
         "KEYWORDS": "Page Assist, Page Assist متوافق مع OpenAI, {appName} Page Assist, امتداد ذكاء اصطناعي للمتصفح"
       },
       "BADGE": "Page Assist",
@@ -2376,8 +2376,8 @@
     },
     "CHATBOX": {
       "META": {
-        "TITLE": "دليل دمج Chatbox | {appName}",
-        "DESCRIPTION": "اربط Chatbox بـ {appName} باستخدام وضع OpenAI API Compatible. قسّم عنوان URL إلى Host و Path.",
+        "TITLE": "Chatbox: الإعداد مع واجهة API مجانية متوافقة مع OpenAI | {appName}",
+        "DESCRIPTION": "اربط Chatbox بـ {appName} باستخدام وضع OpenAI API Compatible. قسّم عنوان URL إلى Host و Path. يشمل نماذج مجانية.",
         "KEYWORDS": "Chatbox, Chatbox متوافق مع OpenAI, {appName} Chatbox, عميل محادثة متعدد المنصات"
       },
       "BADGE": "Chatbox",
@@ -2397,8 +2397,8 @@
     },
     "BIG_AGI": {
       "META": {
-        "TITLE": "دليل دمج Big-AGI | {appName}",
-        "DESCRIPTION": "اربط Big-AGI بـ {appName} كمصدر OpenAI. يجلب Big-AGI الكتالوج بنفسه.",
+        "TITLE": "Big-AGI: الإعداد مع واجهة API مجانية متوافقة مع OpenAI | {appName}",
+        "DESCRIPTION": "اربط Big-AGI بـ {appName} كمصدر OpenAI. يجلب Big-AGI الكتالوج بنفسه. يشمل نماذج مجانية.",
         "KEYWORDS": "Big-AGI, مصدر OpenAI Big-AGI, {appName} Big-AGI, منصة ذكاء اصطناعي للويب"
       },
       "BADGE": "Big-AGI",
@@ -2505,8 +2505,8 @@
     },
     "ROO_CODE": {
       "META": {
-        "TITLE": "دليل إعداد Roo Code | {appName}",
-        "DESCRIPTION": "اربط Roo Code بـ {appName} كمزوّد OpenAI Compatible لتتشارك أدوار التخطيط والبرمجة وضمان الجودة رابطًا أساسيًا واحدًا.",
+        "TITLE": "Roo Code: الإعداد مع واجهة API مجانية متوافقة مع OpenAI | {appName}",
+        "DESCRIPTION": "اربط Roo Code بـ {appName} كمزوّد OpenAI Compatible لتتشارك أدوار التخطيط والبرمجة وضمان الجودة رابطًا أساسيًا واحدًا. يشمل نماذج مجانية.",
         "KEYWORDS": "Roo Code, إعداد Roo Code, وكلاء متعددون في VSCode, {appName} Roo Code, OpenAI Compatible, وكيل برمجة"
       },
       "BADGE": "Roo Code",
@@ -2545,8 +2545,8 @@
     },
     "AIDER": {
       "META": {
-        "TITLE": "دليل إعداد Aider | {appName}",
-        "DESCRIPTION": "اربط أداة البرمجة الثنائية Aider بـ {appName}. اضبط متغيّري بيئة ومرّر openai/MODEL_ID كنموذج.",
+        "TITLE": "Aider: الإعداد مع واجهة API مجانية متوافقة مع OpenAI | {appName}",
+        "DESCRIPTION": "اربط أداة البرمجة الثنائية Aider بـ {appName}. اضبط متغيّري بيئة ومرّر openai/MODEL_ID كنموذج. يشمل نماذج مجانية.",
         "KEYWORDS": "Aider, إعداد Aider, واجهة برمجة ثنائية بالذكاء الاصطناعي, {appName} Aider, LiteLLM, متوافق مع OpenAI"
       },
       "BADGE": "Aider",

@@ -847,7 +847,7 @@
         "META_DESCRIPTION": "{appName} terdaftar di berbagai direktori alat AI dan perusahaan rintisan. Di sini Anda dapat menemukan kami, memverifikasi daftarnya, dan membaca ulasan."
       },
       "LAUNCH": {
-        "TITLE": "Kami lelah dengan Claude palsu. Jadi kami membangun {appName}.",
+        "TITLE": "Apa itu {appName} dan kenapa kami membangunnya",
         "DESCRIPTION": "Pemadaman setiap minggu. Model premium diam-diam diganti dengan klon murah. Kami marah, meluncurkan router kami sendiri, dan membuatnya paranoid tentang keduanya. Berikut kisah peluncurannya.",
         "AUTHOR": "tim {appName}",
         "INTRO": "Pasar AI API murah memiliki dua masalah. Penyedia sering turun, dan beberapa di antaranya <post_ai_model_verifier>diam-diam meneruskan permintaan Anda ke model yang lebih lemah</post_ai_model_verifier> sambil tetap menagih Anda untuk flagship. {appName} dibangun untuk memperbaiki keduanya.",
@@ -860,7 +860,7 @@
         "H_NEXT": "Apa selanjutnya",
         "P_NEXT": "Kami merilis mingguan. Harapkan lebih banyak model, <rankings>sinyal kesehatan yang lebih ketat</rankings> menggerakkan fallback yang lebih cerdas, dashboard biaya dan latensi yang lebih kaya, dan integrasi yang lebih dalam dengan terminal dan IDE tempat Anda sudah hidup.",
         "CTA": "Siap mencobanya? <register>Ambil kunci API</register> atau <models>jelajahi katalog model</models>.",
-        "META_DESCRIPTION": "Pemadaman tiap minggu, model premium diam-diam diganti klon murah. Kami marah, meluncurkan router sendiri, dan membuatnya paranoid soal keduanya."
+        "META_DESCRIPTION": "{appName} adalah satu kunci API kompatibel OpenAI untuk banyak model AI, dibuat setelah gangguan tiap dua minggu dan model premium yang diam-diam ditukar dengan tiruan murah."
       },
       "AGENT_READY": {
         "TITLE": "Kami mengarahkan agent scanner Cloudflare ke situs kami. Hasilnya 100/100.",
@@ -883,7 +883,7 @@
         "META_DESCRIPTION": "Pemindai baru Cloudflare menilai kesiapan situs untuk agen AI. Kami meraih 100/100 dan Level 5. Inilah yang diperiksanya dan mengapa banyak situs gagal."
       },
       "CLAUDE_AUTHENTICITY": {
-        "TITLE": "Cara kami membedakan Claude asli dari yang palsu",
+        "TITLE": "Claude palsu: cara tahu apakah model benar-benar Claude",
         "DESCRIPTION": "Claude murah sering kali adalah model lain yang memakai nama Claude. Mengapa bertanya kepada model tidak membuktikan apa pun, mengapa batas pengetahuan hanyalah tebakan, dan pemeriksaan apa yang benar-benar bisa menangkap yang palsu.",
         "AUTHOR": "Tim {appName}",
         "INTRO_P1": "Claude adalah salah satu model yang paling dicari sekaligus salah satu yang paling mahal. Selisih itu melahirkan pasar reseller yang menjual “Claude yang sama” dengan harga jauh lebih murah. Sebagian memang benar-benar menjual Claude. Banyak yang tidak: <post_launch>mereka menjawab dengan model yang lebih murah lalu menempelkan nama Claude padanya</post_launch>.",
@@ -969,7 +969,7 @@
         "META_DESCRIPTION": "Tautkan akun Anda untuk $1, boost server untuk $1 setiap bulan, buru bug hingga $50. Kami baru saja membuka Discord {appName}."
       },
       "FREE_MODELS_AGGREGATED": {
-        "TITLE": "Kami mengumpulkan 130+ model AI gratis dari sekitar 50 penyedia ke dalam satu endpoint",
+        "TITLE": "Model gratis {appName}: paket gratis dan batasannya",
         "DESCRIPTION": "Kami menghubungkan sekitar 50 penyedia gratis ke {appName}: 130+ model gratis, satu endpoint kompatibel OpenAI, $0 per token. Mereka membawa batas dari upstream yang tidak bisa kami naikkan, ditambah batas ringan 1 permintaan per menit yang kami tambahkan agar penggunaan pool bersama tetap adil. Ini versi jujurnya.",
         "AUTHOR": "Tim {appName}",
         "INTRO": "Ekosistem LLM gratis memang nyata, tapi terpencar-pencar: NVIDIA, Cloudflare, Gemini, Mistral, Z.ai, ModelScope, dan puluhan lainnya masing-masing menawarkan kapasitas gratis yang sesungguhnya, tapi tersembunyi di balik puluhan halaman pendaftaran, format kunci yang berbeda-beda, dan API yang tidak kompatibel satu sama lain. Kami menemukan, menguji, dan menggabungkan setiap penyedia gratis permanen yang bisa kami temukan ke dalam {appName}. Hasilnya: <free>130+ model gratis</free> dari sekitar 50 penyedia di balik satu endpoint kompatibel OpenAI dan satu kunci.",
@@ -994,7 +994,7 @@
         "FAQ_2_A": "Sekitar 1 permintaan per menit per model per pengguna. Batas ini mengembalikan HTTP 429 dengan header Retry-After. Dengan 130+ model gratis, solusi praktisnya adalah merotasi model alih-alih menunggu.",
         "FAQ_3_Q": "Apakah aku perlu kartu kredit untuk model gratis?",
         "FAQ_3_A": "Tidak. Daftar dengan Discord atau GitHub, buat kunci, dan pakai model mana pun dengan sufiks :free. Bonus verifikasi Discord satu kali sebesar $1 bisa dipakai untuk model berbayar.",
-        "META_DESCRIPTION": "Sekitar 50 penyedia gratis di {appName}: 130+ model, satu endpoint kompatibel OpenAI, $0 per token. Plus batas penyedia dan batas 1 permintaan per menit."
+        "META_DESCRIPTION": "Apakah {appName} gratis? Ya: model AI gratis lewat satu endpoint kompatibel OpenAI, $0 per token. Apa saja yang termasuk paket gratis, batas penyedia, dan batas 1 permintaan per menit."
       },
       "UNOROUTER_VS_OPENROUTER": {
         "TITLE": "{appName} vs OpenRouter: perbandingan yang jujur",
@@ -2217,8 +2217,8 @@
     },
     "LIBRECHAT": {
       "META": {
-        "TITLE": "Panduan Integrasi LibreChat | {appName}",
-        "DESCRIPTION": "Hubungkan LibreChat ke {appName} lewat endpoint kustom kompatibel OpenAI. Tambahkan bloknya ke librechat.yaml dan setel variabel lingkungannya.",
+        "TITLE": "LibreChat: pengaturan dengan API kompatibel OpenAI gratis | {appName}",
+        "DESCRIPTION": "Hubungkan LibreChat ke {appName} lewat endpoint kustom kompatibel OpenAI. Tambahkan bloknya ke librechat.yaml dan setel variabel lingkungannya. Termasuk model gratis.",
         "KEYWORDS": "LibreChat, endpoint kustom LibreChat, LibreChat kompatibel OpenAI, {appName} LibreChat, antarmuka chat swakelola"
       },
       "BADGE": "LibreChat",
@@ -2237,8 +2237,8 @@
     },
     "OPEN_WEBUI": {
       "META": {
-        "TITLE": "Panduan Integrasi Open WebUI | {appName}",
-        "DESCRIPTION": "Hubungkan Open WebUI ke {appName} sebagai koneksi OpenAI di panel admin. Pemilih model terisi dari katalog.",
+        "TITLE": "Open WebUI: pengaturan dengan API kompatibel OpenAI gratis | {appName}",
+        "DESCRIPTION": "Hubungkan Open WebUI ke {appName} sebagai koneksi OpenAI di panel admin. Pemilih model terisi dari katalog. Termasuk model gratis.",
         "KEYWORDS": "Open WebUI, koneksi OpenAI Open WebUI, {appName} Open WebUI, antarmuka ChatGPT swakelola"
       },
       "BADGE": "Open WebUI",
@@ -2258,8 +2258,8 @@
     },
     "LOBECHAT": {
       "META": {
-        "TITLE": "Panduan Integrasi LobeChat | {appName}",
-        "DESCRIPTION": "Hubungkan LobeChat ke {appName} lewat Add Custom Provider atau variabel lingkungan Docker.",
+        "TITLE": "LobeChat: pengaturan dengan API kompatibel OpenAI gratis | {appName}",
+        "DESCRIPTION": "Hubungkan LobeChat ke {appName} lewat Add Custom Provider atau variabel lingkungan Docker. Termasuk model gratis.",
         "KEYWORDS": "LobeChat, penyedia kustom LobeChat, {appName} LobeChat, chat web sumber terbuka"
       },
       "BADGE": "LobeChat",
@@ -2277,8 +2277,8 @@
     },
     "ANYTHINGLLM": {
       "META": {
-        "TITLE": "Panduan Integrasi AnythingLLM | {appName}",
-        "DESCRIPTION": "Hubungkan AnythingLLM ke {appName} sebagai penyedia Generic OpenAI. Ketik model, atur jendela konteks, simpan.",
+        "TITLE": "AnythingLLM: pengaturan dengan API kompatibel OpenAI gratis | {appName}",
+        "DESCRIPTION": "Hubungkan AnythingLLM ke {appName} sebagai penyedia Generic OpenAI. Ketik model, atur jendela konteks, simpan. Termasuk model gratis.",
         "KEYWORDS": "AnythingLLM, AnythingLLM Generic OpenAI, {appName} AnythingLLM, RAG swakelola"
       },
       "BADGE": "AnythingLLM",
@@ -2296,8 +2296,8 @@
     },
     "CHERRY_STUDIO": {
       "META": {
-        "TITLE": "Panduan Integrasi Cherry Studio | {appName}",
-        "DESCRIPTION": "Hubungkan Cherry Studio ke {appName} sebagai penyedia OpenAI. Tambahkan host dan kunci, lalu muat model Anda.",
+        "TITLE": "Cherry Studio: pengaturan dengan API kompatibel OpenAI gratis | {appName}",
+        "DESCRIPTION": "Hubungkan Cherry Studio ke {appName} sebagai penyedia OpenAI. Tambahkan host dan kunci, lalu muat model Anda. Termasuk model gratis.",
         "KEYWORDS": "Cherry Studio, penyedia OpenAI Cherry Studio, {appName} Cherry Studio, chat desktop lintas platform"
       },
       "BADGE": "Cherry Studio",
@@ -2315,8 +2315,8 @@
     },
     "TYPINGMIND": {
       "META": {
-        "TITLE": "Panduan Integrasi TypingMind | {appName}",
-        "DESCRIPTION": "Hubungkan TypingMind ke {appName} dengan menempel endpoint kustom yang kompatibel dengan OpenAI.",
+        "TITLE": "TypingMind: pengaturan dengan API kompatibel OpenAI gratis | {appName}",
+        "DESCRIPTION": "Hubungkan TypingMind ke {appName} dengan menempel endpoint kustom yang kompatibel dengan OpenAI. Termasuk model gratis.",
         "KEYWORDS": "TypingMind, model kustom TypingMind, {appName} TypingMind, frontend web BYOK"
       },
       "BADGE": "TypingMind",
@@ -2336,8 +2336,8 @@
     },
     "BOLTAI": {
       "META": {
-        "TITLE": "Panduan Integrasi BoltAI | {appName}",
-        "DESCRIPTION": "Hubungkan BoltAI ke {appName} sebagai server kustom yang kompatibel dengan OpenAI.",
+        "TITLE": "BoltAI: pengaturan dengan API kompatibel OpenAI gratis | {appName}",
+        "DESCRIPTION": "Hubungkan BoltAI ke {appName} sebagai server kustom yang kompatibel dengan OpenAI. Termasuk model gratis.",
         "KEYWORDS": "BoltAI, BoltAI kompatibel OpenAI, {appName} BoltAI, asisten AI macOS"
       },
       "BADGE": "BoltAI",
@@ -2355,8 +2355,8 @@
     },
     "PAGE_ASSIST": {
       "META": {
-        "TITLE": "Panduan Integrasi Page Assist | {appName}",
-        "DESCRIPTION": "Hubungkan Page Assist ke {appName} sebagai API kustom yang kompatibel dengan OpenAI di panel samping browser.",
+        "TITLE": "Page Assist: pengaturan dengan API kompatibel OpenAI gratis | {appName}",
+        "DESCRIPTION": "Hubungkan Page Assist ke {appName} sebagai API kustom yang kompatibel dengan OpenAI di panel samping browser. Termasuk model gratis.",
         "KEYWORDS": "Page Assist, Page Assist kompatibel OpenAI, {appName} Page Assist, ekstensi AI peramban"
       },
       "BADGE": "Page Assist",
@@ -2376,8 +2376,8 @@
     },
     "CHATBOX": {
       "META": {
-        "TITLE": "Panduan Integrasi Chatbox | {appName}",
-        "DESCRIPTION": "Hubungkan Chatbox ke {appName} menggunakan mode OpenAI API Compatible. Bagi URL menjadi Host dan Path.",
+        "TITLE": "Chatbox: pengaturan dengan API kompatibel OpenAI gratis | {appName}",
+        "DESCRIPTION": "Hubungkan Chatbox ke {appName} menggunakan mode OpenAI API Compatible. Bagi URL menjadi Host dan Path. Termasuk model gratis.",
         "KEYWORDS": "Chatbox, Chatbox kompatibel OpenAI, {appName} Chatbox, klien chat lintas platform"
       },
       "BADGE": "Chatbox",
@@ -2397,8 +2397,8 @@
     },
     "BIG_AGI": {
       "META": {
-        "TITLE": "Panduan Integrasi Big-AGI | {appName}",
-        "DESCRIPTION": "Hubungkan Big-AGI ke {appName} sebagai sumber OpenAI. Big-AGI menarik katalognya.",
+        "TITLE": "Big-AGI: pengaturan dengan API kompatibel OpenAI gratis | {appName}",
+        "DESCRIPTION": "Hubungkan Big-AGI ke {appName} sebagai sumber OpenAI. Big-AGI menarik katalognya. Termasuk model gratis.",
         "KEYWORDS": "Big-AGI, sumber OpenAI Big-AGI, {appName} Big-AGI, workbench AI web"
       },
       "BADGE": "Big-AGI",
@@ -2505,8 +2505,8 @@
     },
     "ROO_CODE": {
       "META": {
-        "TITLE": "Panduan Pengaturan Roo Code | {appName}",
-        "DESCRIPTION": "Hubungkan Roo Code ke {appName} sebagai penyedia OpenAI Compatible agar peran perencanaan, kode, dan QA-nya memakai satu base URL.",
+        "TITLE": "Roo Code: pengaturan dengan API kompatibel OpenAI gratis | {appName}",
+        "DESCRIPTION": "Hubungkan Roo Code ke {appName} sebagai penyedia OpenAI Compatible agar peran perencanaan, kode, dan QA-nya memakai satu base URL. Termasuk model gratis.",
         "KEYWORDS": "Roo Code, pengaturan Roo Code, multi-agen VSCode, {appName} Roo Code, OpenAI Compatible, agen koding"
       },
       "BADGE": "Roo Code",
@@ -2545,8 +2545,8 @@
     },
     "AIDER": {
       "META": {
-        "TITLE": "Panduan Pengaturan Aider | {appName}",
-        "DESCRIPTION": "Hubungkan CLI pemrograman berpasangan Aider ke {appName}. Setel dua variabel lingkungan dan berikan openai/MODEL_ID sebagai modelnya.",
+        "TITLE": "Aider: pengaturan dengan API kompatibel OpenAI gratis | {appName}",
+        "DESCRIPTION": "Hubungkan CLI pemrograman berpasangan Aider ke {appName}. Setel dua variabel lingkungan dan berikan openai/MODEL_ID sebagai modelnya. Termasuk model gratis.",
         "KEYWORDS": "Aider, pengaturan Aider, CLI pemrograman berpasangan AI, {appName} Aider, LiteLLM, kompatibel dengan OpenAI"
       },
       "BADGE": "Aider",

@@ -847,7 +847,7 @@
         "META_DESCRIPTION": "{appName} एआई टूल और स्टार्टअप डायरेक्टरियों में सूचीबद्ध है। यहाँ आप हमें ढूँढ सकते हैं, लिस्टिंग सत्यापित कर सकते हैं और स्वतंत्र राय पढ़ सकते हैं।"
       },
       "LAUNCH": {
-        "TITLE": "हम नकली Claude से थक गए। तो हमने {appName} बनाया।",
+        "TITLE": "{appName} क्या है, और हमने इसे क्यों बनाया",
         "DESCRIPTION": "हर दूसरे हफ्ते आउटेज। प्रीमियम मॉडल चुपचाप सस्ते क्लोन से बदले जा रहे थे। हम झल्ला गए, अपना खुद का राउटर बनाया, और दोनों के बारे में पागल हो गए। यहां है लॉन्च की कहानी।",
         "AUTHOR": "{appName} टीम",
         "INTRO": "सस्ते AI API बाज़ार में दो समस्याएं हैं। प्रदाता बहुत डाउन हो जाते हैं, और उनमें से कुछ <post_ai_model_verifier>चुपचाप आपके अनुरोध को कमज़ोर मॉडल को आगे बढ़ाते हैं</post_ai_model_verifier> जबकि फ्लैगशिप के लिए आपसे शुल्क लेते हैं। {appName} दोनों को ठीक करने के लिए बनाया गया है।",
@@ -860,7 +860,7 @@
         "H_NEXT": "आगे क्या है",
         "P_NEXT": "हम साप्ताहिक शिप करते हैं। अधिक मॉडल, स्मार्ट fallback चलाने वाले <rankings>कड़े स्वास्थ्य सिग्नल</rankings>, समृद्ध लागत और लेटेंसी डैशबोर्ड, और उन टर्मिनलों और IDEs के साथ गहरे एकीकरण की अपेक्षा करें जिनमें आप पहले से रहते हैं।",
         "CTA": "कोशिश करने के लिए तैयार हैं? <register>एक API key प्राप्त करें</register> या <models>मॉडल कैटलॉग ब्राउज़ करें</models>।",
-        "META_DESCRIPTION": "हर दूसरे हफ्ते आउटेज। प्रीमियम मॉडल चुपचाप सस्ते क्लोन से बदले जा रहे थे। तंग आकर हमने अपना राउटर बनाया, जो दोनों पर कड़ी नज़र रखता है। यह है लॉन्च कथा।"
+        "META_DESCRIPTION": "{appName} कई AI मॉडलों के लिए एक OpenAI-संगत API कुंजी है, जिसे हर दूसरे हफ़्ते के आउटेज और प्रीमियम मॉडलों को चुपचाप सस्ते क्लोन से बदले जाने के बाद बनाया गया।"
       },
       "AGENT_READY": {
         "TITLE": "हमने Cloudflare के एजेंट स्कैनर को अपनी साइट पर इंगित किया। यह 100/100 के साथ वापस आया।",
@@ -883,7 +883,7 @@
         "META_DESCRIPTION": "Cloudflare का नया स्कैनर आँकता है कि साइट AI एजेंटों के लिए कितनी तैयार है। हमें 100/100 और शीर्ष Level 5 मिला। यह क्या जाँचता है, साइटें क्यों चूकती हैं।"
       },
       "CLAUDE_AUTHENTICITY": {
-        "TITLE": "हम असली Claude और नकली में फ़र्क कैसे करते हैं",
+        "TITLE": "नकली Claude: कैसे पहचानें कि मॉडल सच में Claude है",
         "DESCRIPTION": "सस्ता Claude अक्सर कोई दूसरा मॉडल होता है जिस पर Claude का नाम लगा होता है। मॉडल से पूछने से कुछ साबित क्यों नहीं होता, नॉलेज कटऑफ़ सिर्फ़ एक अंदाज़ा क्यों है, और कौन सी जाँचें सच में नकली को पकड़ती हैं।",
         "AUTHOR": "{appName} टीम",
         "INTRO_P1": "Claude सबसे ज़्यादा माँग वाले मॉडलों में से एक है, और सबसे महँगे मॉडलों में से भी। इसी अंतर ने रीसेलरों का एक बाज़ार खड़ा कर दिया है जो “वही Claude” कीमत के छोटे से हिस्से में बेचते हैं। कुछ सच में Claude बेच रहे हैं। बहुत से नहीं: <post_launch>वे किसी सस्ते मॉडल से जवाब देते हैं और उस पर Claude का नाम चिपका देते हैं</post_launch>।",
@@ -969,7 +969,7 @@
         "META_DESCRIPTION": "अपना अकाउंट लिंक करें $1 के लिए, सर्वर को boost करें $1 प्रति माह के लिए, bugs ढूंढें $50 तक के लिए। हमने अभी {appName} Discord खोला है।"
       },
       "FREE_MODELS_AGGREGATED": {
-        "TITLE": "हमने लगभग 50 प्रोवाइडर्स के 130+ फ्री AI मॉडल्स को एक ही एंडपॉइंट में जोड़ा",
+        "TITLE": "{appName} के मुफ़्त मॉडल: फ़्री टियर और सीमाएँ",
         "DESCRIPTION": "हमने {appName} में लगभग 50 फ्री प्रोवाइडर्स को जोड़ा है: 130+ फ्री मॉडल्स, एक OpenAI-compatible एंडपॉइंट, और $0 प्रति टोकन। इनमें अपस्ट्रीम लिमिट्स हैं जिन्हें हम नहीं बढ़ा सकते, साथ ही हमारी तरफ से एक हल्की 1-per-minute कैप है जो शेयर्ड पूल्स को सबके लिए फेयर रखती है। यहाँ पूरी सच्चाई है।",
         "AUTHOR": "{appName} टीम",
         "INTRO": "फ्री LLM की दुनिया असली है, बस बिखरी हुई है: NVIDIA, Cloudflare, Gemini, Mistral, Z.ai, ModelScope और दर्जनों अन्य प्रोवाइडर्स सच में फ्री कैपेसिटी देते हैं, लेकिन दर्जनों अलग-अलग साइनअप पेजेज़, की फॉर्मेट्स और इनकम्पैटिबल APIs के पीछे। हमने हर परमानेंट-फ्री प्रोवाइडर को ढूंढा, टेस्ट किया और {appName} में मर्ज कर दिया। नतीजा: एक OpenAI-compatible एंडपॉइंट और एक key के पीछे लगभग 50 प्रोवाइडर्स के <free>130+ फ्री मॉडल्स</free>।",
@@ -994,7 +994,7 @@
         "FAQ_2_A": "प्रति मॉडल प्रति यूज़र लगभग 1 request per minute। कैप HTTP 429 Retry-After हेडर के साथ रिटर्न करती है। 130+ फ्री मॉडल्स के साथ प्रैक्टिकल जवाब यह है कि इंतज़ार करने की बजाय मॉडल्स रोटेट करते रहें।",
         "FAQ_3_Q": "क्या मुफ्त मॉडलों के लिए क्रेडिट कार्ड चाहिए?",
         "FAQ_3_A": "नहीं। Discord या GitHub से साइन अप करें, एक कुंजी बनाएँ, और :free प्रत्यय वाला कोई भी मॉडल इस्तेमाल करें। एक बार मिलने वाला $1 का Discord सत्यापन बोनस सशुल्क मॉडलों पर खर्च किया जा सकता है।",
-        "META_DESCRIPTION": "हमने {appName} में लगभग 50 फ्री प्रोवाइडर्स जोड़े: 130+ फ्री मॉडल्स, एक OpenAI-संगत एंडपॉइंट, $0 प्रति टोकन, अपस्ट्रीम लिमिट्स और 1 अनुरोध प्रति मिनट।"
+        "META_DESCRIPTION": "क्या {appName} मुफ़्त है? हाँ: एक OpenAI-संगत एंडपॉइंट पर मुफ़्त AI मॉडल, $0 प्रति टोकन। फ़्री टियर में क्या शामिल है, अपस्ट्रीम सीमाएँ और हमारी 1 अनुरोध प्रति मिनट की सीमा।"
       },
       "UNOROUTER_VS_OPENROUTER": {
         "TITLE": "{appName} बनाम OpenRouter: एक ईमानदार तुलना",
@@ -2217,8 +2217,8 @@
     },
     "LIBRECHAT": {
       "META": {
-        "TITLE": "LibreChat एकीकरण गाइड | {appName}",
-        "DESCRIPTION": "कस्टम OpenAI-संगत एंडपॉइंट से LibreChat को {appName} से जोड़ें। librechat.yaml में ब्लॉक जोड़ें और पर्यावरण वेरिएबल सेट करें।",
+        "TITLE": "LibreChat सेटअप: मुफ़्त OpenAI-संगत API | {appName}",
+        "DESCRIPTION": "कस्टम OpenAI-संगत एंडपॉइंट से LibreChat को {appName} से जोड़ें। librechat.yaml में ब्लॉक जोड़ें और पर्यावरण वेरिएबल सेट करें। मुफ़्त मॉडल शामिल हैं।",
         "KEYWORDS": "LibreChat, LibreChat कस्टम एंडपॉइंट, LibreChat OpenAI संगत, {appName} LibreChat, स्व-होस्टेड चैट इंटरफ़ेस"
       },
       "BADGE": "LibreChat",
@@ -2237,8 +2237,8 @@
     },
     "OPEN_WEBUI": {
       "META": {
-        "TITLE": "Open WebUI एकीकरण गाइड | {appName}",
-        "DESCRIPTION": "एडमिन पैनल में OpenAI कनेक्शन के रूप में Open WebUI को {appName} से जोड़ें। मॉडल चयनकर्ता कैटलॉग से भर जाता है।",
+        "TITLE": "Open WebUI सेटअप: मुफ़्त OpenAI-संगत API | {appName}",
+        "DESCRIPTION": "एडमिन पैनल में OpenAI कनेक्शन के रूप में Open WebUI को {appName} से जोड़ें। मॉडल चयनकर्ता कैटलॉग से भर जाता है। मुफ़्त मॉडल शामिल हैं।",
         "KEYWORDS": "Open WebUI, Open WebUI OpenAI कनेक्शन, {appName} Open WebUI, स्व-होस्टेड ChatGPT इंटरफ़ेस"
       },
       "BADGE": "Open WebUI",
@@ -2258,8 +2258,8 @@
     },
     "LOBECHAT": {
       "META": {
-        "TITLE": "LobeChat एकीकरण गाइड | {appName}",
-        "DESCRIPTION": "Add Custom Provider या Docker पर्यावरण वेरिएबल के ज़रिए LobeChat को {appName} से जोड़ें।",
+        "TITLE": "LobeChat सेटअप: मुफ़्त OpenAI-संगत API | {appName}",
+        "DESCRIPTION": "Add Custom Provider या Docker पर्यावरण वेरिएबल के ज़रिए LobeChat को {appName} से जोड़ें। मुफ़्त मॉडल शामिल हैं।",
         "KEYWORDS": "LobeChat, LobeChat कस्टम प्रदाता, {appName} LobeChat, ओपन-सोर्स वेब चैट"
       },
       "BADGE": "LobeChat",
@@ -2277,8 +2277,8 @@
     },
     "ANYTHINGLLM": {
       "META": {
-        "TITLE": "AnythingLLM एकीकरण गाइड | {appName}",
-        "DESCRIPTION": "AnythingLLM को {appName} से Generic OpenAI प्रदाता के रूप में जोड़ें। मॉडल टाइप करें, कॉन्टेक्स्ट विंडो सेट करें, सहेजें।",
+        "TITLE": "AnythingLLM सेटअप: मुफ़्त OpenAI-संगत API | {appName}",
+        "DESCRIPTION": "AnythingLLM को {appName} से Generic OpenAI प्रदाता के रूप में जोड़ें। मॉडल टाइप करें, कॉन्टेक्स्ट विंडो सेट करें, सहेजें। मुफ़्त मॉडल शामिल हैं।",
         "KEYWORDS": "AnythingLLM, AnythingLLM Generic OpenAI, {appName} AnythingLLM, स्व-होस्टेड RAG"
       },
       "BADGE": "AnythingLLM",
@@ -2296,8 +2296,8 @@
     },
     "CHERRY_STUDIO": {
       "META": {
-        "TITLE": "Cherry Studio एकीकरण गाइड | {appName}",
-        "DESCRIPTION": "Cherry Studio को OpenAI प्रदाता के रूप में {appName} से जोड़ें। होस्ट और कुंजी जोड़ें, फिर अपने मॉडल लोड करें।",
+        "TITLE": "Cherry Studio सेटअप: मुफ़्त OpenAI-संगत API | {appName}",
+        "DESCRIPTION": "Cherry Studio को OpenAI प्रदाता के रूप में {appName} से जोड़ें। होस्ट और कुंजी जोड़ें, फिर अपने मॉडल लोड करें। मुफ़्त मॉडल शामिल हैं।",
         "KEYWORDS": "Cherry Studio, Cherry Studio OpenAI प्रदाता, {appName} Cherry Studio, क्रॉस-प्लेटफ़ॉर्म डेस्कटॉप चैट"
       },
       "BADGE": "Cherry Studio",
@@ -2315,8 +2315,8 @@
     },
     "TYPINGMIND": {
       "META": {
-        "TITLE": "TypingMind एकीकरण गाइड | {appName}",
-        "DESCRIPTION": "कस्टम OpenAI-संगत एंडपॉइंट पेस्ट करके TypingMind को {appName} से जोड़ें।",
+        "TITLE": "TypingMind सेटअप: मुफ़्त OpenAI-संगत API | {appName}",
+        "DESCRIPTION": "कस्टम OpenAI-संगत एंडपॉइंट पेस्ट करके TypingMind को {appName} से जोड़ें। मुफ़्त मॉडल शामिल हैं।",
         "KEYWORDS": "TypingMind, TypingMind कस्टम मॉडल, {appName} TypingMind, BYOK वेब फ्रंटएंड"
       },
       "BADGE": "TypingMind",
@@ -2336,8 +2336,8 @@
     },
     "BOLTAI": {
       "META": {
-        "TITLE": "BoltAI एकीकरण गाइड | {appName}",
-        "DESCRIPTION": "BoltAI को कस्टम OpenAI-संगत सर्वर के रूप में {appName} से जोड़ें।",
+        "TITLE": "BoltAI सेटअप: मुफ़्त OpenAI-संगत API | {appName}",
+        "DESCRIPTION": "BoltAI को कस्टम OpenAI-संगत सर्वर के रूप में {appName} से जोड़ें। मुफ़्त मॉडल शामिल हैं।",
         "KEYWORDS": "BoltAI, BoltAI OpenAI संगत, {appName} BoltAI, macOS AI सहायक"
       },
       "BADGE": "BoltAI",
@@ -2355,8 +2355,8 @@
     },
     "PAGE_ASSIST": {
       "META": {
-        "TITLE": "Page Assist एकीकरण गाइड | {appName}",
-        "DESCRIPTION": "ब्राउज़र के साइड पैनल में कस्टम OpenAI-संगत API के रूप में Page Assist को {appName} से जोड़ें।",
+        "TITLE": "Page Assist सेटअप: मुफ़्त OpenAI-संगत API | {appName}",
+        "DESCRIPTION": "ब्राउज़र के साइड पैनल में कस्टम OpenAI-संगत API के रूप में Page Assist को {appName} से जोड़ें। मुफ़्त मॉडल शामिल हैं।",
         "KEYWORDS": "Page Assist, Page Assist OpenAI संगत, {appName} Page Assist, ब्राउज़र AI एक्सटेंशन"
       },
       "BADGE": "Page Assist",
@@ -2376,8 +2376,8 @@
     },
     "CHATBOX": {
       "META": {
-        "TITLE": "Chatbox एकीकरण गाइड | {appName}",
-        "DESCRIPTION": "Chatbox को {appName} से OpenAI API Compatible मोड का उपयोग करके जोड़ें। URL को Host और Path में बाँटें।",
+        "TITLE": "Chatbox सेटअप: मुफ़्त OpenAI-संगत API | {appName}",
+        "DESCRIPTION": "Chatbox को {appName} से OpenAI API Compatible मोड का उपयोग करके जोड़ें। URL को Host और Path में बाँटें। मुफ़्त मॉडल शामिल हैं।",
         "KEYWORDS": "Chatbox, Chatbox OpenAI संगत, {appName} Chatbox, क्रॉस-प्लेटफ़ॉर्म चैट क्लाइंट"
       },
       "BADGE": "Chatbox",
@@ -2397,8 +2397,8 @@
     },
     "BIG_AGI": {
       "META": {
-        "TITLE": "Big-AGI एकीकरण गाइड | {appName}",
-        "DESCRIPTION": "Big-AGI को OpenAI स्रोत के रूप में {appName} से जोड़ें। Big-AGI कैटलॉग ले आता है।",
+        "TITLE": "Big-AGI सेटअप: मुफ़्त OpenAI-संगत API | {appName}",
+        "DESCRIPTION": "Big-AGI को OpenAI स्रोत के रूप में {appName} से जोड़ें। Big-AGI कैटलॉग ले आता है। मुफ़्त मॉडल शामिल हैं।",
         "KEYWORDS": "Big-AGI, Big-AGI OpenAI स्रोत, {appName} Big-AGI, वेब AI वर्कबेंच"
       },
       "BADGE": "Big-AGI",
@@ -2505,8 +2505,8 @@
     },
     "ROO_CODE": {
       "META": {
-        "TITLE": "Roo Code सेटअप गाइड | {appName}",
-        "DESCRIPTION": "Roo Code को OpenAI Compatible प्रदाता के रूप में {appName} से जोड़ें ताकि योजना, कोड और QA भूमिकाएँ एक ही बेस URL साझा करें।",
+        "TITLE": "Roo Code सेटअप: मुफ़्त OpenAI-संगत API | {appName}",
+        "DESCRIPTION": "Roo Code को OpenAI Compatible प्रदाता के रूप में {appName} से जोड़ें ताकि योजना, कोड और QA भूमिकाएँ एक ही बेस URL साझा करें। मुफ़्त मॉडल शामिल हैं।",
         "KEYWORDS": "Roo Code, Roo Code सेटअप, बहु-एजेंट VSCode, {appName} Roo Code, OpenAI Compatible, कोडिंग एजेंट"
       },
       "BADGE": "Roo Code",
@@ -2545,8 +2545,8 @@
     },
     "AIDER": {
       "META": {
-        "TITLE": "Aider सेटअप गाइड | {appName}",
-        "DESCRIPTION": "जोड़ीदार प्रोग्रामिंग वाले Aider CLI को {appName} से जोड़ें। दो पर्यावरण वेरिएबल सेट करें और मॉडल के रूप में openai/MODEL_ID दें।",
+        "TITLE": "Aider सेटअप: मुफ़्त OpenAI-संगत API | {appName}",
+        "DESCRIPTION": "जोड़ीदार प्रोग्रामिंग वाले Aider CLI को {appName} से जोड़ें। दो पर्यावरण वेरिएबल सेट करें और मॉडल के रूप में openai/MODEL_ID दें। मुफ़्त मॉडल शामिल हैं।",
         "KEYWORDS": "Aider, Aider सेटअप, AI पेयर प्रोग्रामिंग CLI, {appName} Aider, LiteLLM, OpenAI-संगत"
       },
       "BADGE": "Aider",

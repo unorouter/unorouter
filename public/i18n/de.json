@@ -847,7 +847,7 @@
         "META_DESCRIPTION": "{appName} ist in den KI-Tool- und Startup-Verzeichnissen gelistet. Hier finden Sie uns, prüfen die Einträge und lesen unabhängige Einschätzungen."
       },
       "LAUNCH": {
-        "TITLE": "Wir hatten genug von falschem Claude. Also haben wir {appName} gebaut.",
+        "TITLE": "Was ist {appName} und warum haben wir es gebaut?",
         "DESCRIPTION": "Ausfälle im Wochentakt. Premium-Modelle heimlich gegen billige Klone getauscht. Irgendwann war Schluss, also haben wir unseren eigenen Router gebaut und ihn paranoid gemacht. Das ist die Launch-Story.",
         "AUTHOR": "{appName}-Team",
         "INTRO": "Der Markt für günstige KI-APIs hat zwei Probleme. Anbieter fallen oft aus, und manche <post_ai_model_verifier>leiten deine Anfrage still und heimlich an ein schwächeres Modell weiter</post_ai_model_verifier>, während sie dir trotzdem das Flaggschiff in Rechnung stellen. {appName} ist gebaut, um beides zu lösen.",
@@ -860,7 +860,7 @@
         "H_NEXT": "Was kommt als Nächstes",
         "P_NEXT": "Wir liefern wöchentlich. Erwarte mehr Modelle, <rankings>präzisere Health-Signale</rankings> für noch intelligentere Fallbacks, reichhaltigere Dashboards für Kosten und Latenz und tiefere Integrationen mit den Terminals und IDEs, in denen du ohnehin schon arbeitest.",
         "CTA": "Bereit zum Ausprobieren? <register>Hol dir einen API-Schlüssel</register> oder <models>durchsuche den Modellkatalog</models>.",
-        "META_DESCRIPTION": "Ausfälle im Wochentakt. Premium-Modelle heimlich gegen billige Klone getauscht. Also haben wir unseren eigenen, paranoiden Router gebaut. Die Geschichte."
+        "META_DESCRIPTION": "{appName} ist ein OpenAI-kompatibler API-Schlüssel für viele KI-Modelle, gebaut nach Ausfällen jede zweite Woche und heimlich gegen billige Klone getauschten Premium-Modellen."
       },
       "AGENT_READY": {
         "TITLE": "Wir haben Cloudflares Agent-Scanner auf unsere Seite losgelassen. Ergebnis: 100/100.",
@@ -883,7 +883,7 @@
         "META_DESCRIPTION": "Cloudflares neuer Scanner bewertet, wie bereit eine Seite für KI-Agenten ist. Wir holten 100/100 und Level 5. Was er prüft und warum viele durchfallen."
       },
       "CLAUDE_AUTHENTICITY": {
-        "TITLE": "So erkennen wir echtes Claude und Fälschungen",
+        "TITLE": "Falsches Claude: so erkennst du, ob ein Modell wirklich Claude ist",
         "DESCRIPTION": "Billiges Claude ist oft ein anderes Modell, das nur Claudes Namen trägt. Warum Nachfragen beim Modell nichts beweist, warum der Wissensstand nur geraten ist und welche Prüfungen eine Fälschung wirklich entlarven.",
         "AUTHOR": "Das {appName} Team",
         "INTRO_P1": "Claude gehört zu den gefragtesten Modellen und zu den teuersten. Diese Lücke hat einen Markt von Wiederverkäufern geschaffen, die „dasselbe Claude“ für einen Bruchteil des Preises anbieten. Manche verkaufen tatsächlich Claude. Viele nicht: <post_launch>Sie antworten mit einem billigeren Modell und kleben Claudes Namen darauf</post_launch>.",
@@ -969,7 +969,7 @@
         "META_DESCRIPTION": "Verknüpf dein Konto für 1 $, boost den Server für 1 $ pro Monat, jag Bugs für bis zu 50 $. Wir haben gerade den {appName} Discord eröffnet."
       },
       "FREE_MODELS_AGGREGATED": {
-        "TITLE": "Wir haben 130+ kostenlose KI-Modelle von rund 50 Anbietern in einem einzigen Endpunkt zusammengeführt",
+        "TITLE": "{appName} kostenlose Modelle: Gratis-Stufe und Limits erklärt",
         "DESCRIPTION": "Wir haben rund 50 kostenlose Anbieter in {appName} integriert: 130+ kostenlose Modelle, ein OpenAI-kompatibler Endpunkt, $0 pro Token. Sie unterliegen den Limits der jeweiligen Upstream-Anbieter, die wir nicht erhöhen können, sowie einem leichten Limit von 1 Anfrage pro Minute, das wir hinzufügen, um die gemeinsamen Pools fair zu halten. Hier ist die ehrliche Version.",
         "AUTHOR": "{appName}-Team",
         "INTRO": "Die Landschaft kostenloser LLMs ist real, aber zersplittert: NVIDIA, Cloudflare, Gemini, Mistral, Z.ai, ModelScope und Dutzende andere bieten echte Kapazitäten an, jeweils hinter eigenen Registrierungsseiten, Schlüsselformaten und inkompatiblen APIs. Wir haben jeden dauerhaft kostenlosen Anbieter, den wir finden konnten, entdeckt, getestet und in {appName} zusammengeführt. Das Ergebnis: <free>130+ kostenlose Modelle</free> von rund 50 Anbietern hinter einem OpenAI-kompatiblen Endpunkt und einem einzigen Schlüssel.",
@@ -994,7 +994,7 @@
         "FAQ_2_A": "Etwa 1 Anfrage pro Minute pro Modell pro Nutzer. Das Limit gibt HTTP 429 mit einem Retry-After-Header zurück. Mit 130+ kostenlosen Modellen ist die praktische Lösung, Modelle zu rotieren statt zu warten.",
         "FAQ_3_Q": "Brauche ich eine Kreditkarte für die kostenlosen Modelle?",
         "FAQ_3_A": "Nein. Melde dich mit Discord oder GitHub an, erstelle einen Schlüssel und nutze jedes Modell mit dem Suffix :free. Ein einmaliger Discord-Verifizierungsbonus von $1 kann für die bezahlten Modelle ausgegeben werden.",
-        "META_DESCRIPTION": "Rund 50 kostenlose Anbieter in {appName}: 130+ Gratis-Modelle, ein OpenAI-kompatibler Endpunkt, $0 pro Token. Upstream-Limits und Minutenlimit erklärt."
+        "META_DESCRIPTION": "Ist {appName} kostenlos? Ja: kostenlose KI-Modelle hinter einem OpenAI-kompatiblen Endpunkt, $0 pro Token. Was die Gratis-Stufe abdeckt, Upstream-Limits und unser Minutenlimit."
       },
       "UNOROUTER_VS_OPENROUTER": {
         "TITLE": "{appName} vs. OpenRouter: ein ehrlicher Vergleich",
@@ -2217,8 +2217,8 @@
     },
     "LIBRECHAT": {
       "META": {
-        "TITLE": "LibreChat Integrationsleitfaden | {appName}",
-        "DESCRIPTION": "LibreChat über einen eigenen OpenAI-kompatiblen Endpunkt mit {appName} verbinden. Den Block in librechat.yaml eintragen und die Umgebungsvariable setzen.",
+        "TITLE": "LibreChat mit kostenloser OpenAI-kompatibler API einrichten | {appName}",
+        "DESCRIPTION": "LibreChat über einen eigenen OpenAI-kompatiblen Endpunkt mit {appName} verbinden. Den Block in librechat.yaml eintragen und die Umgebungsvariable setzen. Kostenlose Modelle inklusive.",
         "KEYWORDS": "LibreChat, LibreChat eigener Endpunkt, LibreChat OpenAI kompatibel, {appName} LibreChat, selbst gehostete Chat-Oberfläche"
       },
       "BADGE": "LibreChat",
@@ -2237,8 +2237,8 @@
     },
     "OPEN_WEBUI": {
       "META": {
-        "TITLE": "Open WebUI Integrationsleitfaden | {appName}",
-        "DESCRIPTION": "Open WebUI als OpenAI-Verbindung im Adminbereich mit {appName} verbinden. Die Modellauswahl füllt sich aus dem Katalog.",
+        "TITLE": "Open WebUI mit kostenloser OpenAI-kompatibler API einrichten | {appName}",
+        "DESCRIPTION": "Open WebUI als OpenAI-Verbindung im Adminbereich mit {appName} verbinden. Die Modellauswahl füllt sich aus dem Katalog. Kostenlose Modelle inklusive.",
         "KEYWORDS": "Open WebUI, Open WebUI OpenAI Verbindung, {appName} Open WebUI, selbst gehostete ChatGPT-Oberfläche"
       },
       "BADGE": "Open WebUI",
@@ -2258,8 +2258,8 @@
     },
     "LOBECHAT": {
       "META": {
-        "TITLE": "LobeChat Integrationsleitfaden | {appName}",
-        "DESCRIPTION": "LobeChat über Add Custom Provider oder Docker-Umgebungsvariablen mit {appName} verbinden.",
+        "TITLE": "LobeChat mit kostenloser OpenAI-kompatibler API einrichten | {appName}",
+        "DESCRIPTION": "LobeChat über Add Custom Provider oder Docker-Umgebungsvariablen mit {appName} verbinden. Kostenlose Modelle inklusive.",
         "KEYWORDS": "LobeChat, LobeChat eigener Anbieter, {appName} LobeChat, Open-Source-Web-Chat"
       },
       "BADGE": "LobeChat",
@@ -2277,8 +2277,8 @@
     },
     "ANYTHINGLLM": {
       "META": {
-        "TITLE": "AnythingLLM Integrationsleitfaden | {appName}",
-        "DESCRIPTION": "Verbinde AnythingLLM mit {appName} als Generic-OpenAI-Anbieter. Modell eintragen, Kontextfenster setzen, speichern.",
+        "TITLE": "AnythingLLM mit kostenloser OpenAI-kompatibler API einrichten | {appName}",
+        "DESCRIPTION": "Verbinde AnythingLLM mit {appName} als Generic-OpenAI-Anbieter. Modell eintragen, Kontextfenster setzen, speichern. Kostenlose Modelle inklusive.",
         "KEYWORDS": "AnythingLLM, AnythingLLM Generic OpenAI, {appName} AnythingLLM, selbst gehostetes RAG"
       },
       "BADGE": "AnythingLLM",
@@ -2296,8 +2296,8 @@
     },
     "CHERRY_STUDIO": {
       "META": {
-        "TITLE": "Cherry Studio Integrationsleitfaden | {appName}",
-        "DESCRIPTION": "Cherry Studio als OpenAI-Provider mit {appName} verbinden. Host und Schlüssel eintragen, dann die Modelle laden.",
+        "TITLE": "Cherry Studio mit kostenloser OpenAI-kompatibler API einrichten | {appName}",
+        "DESCRIPTION": "Cherry Studio als OpenAI-Provider mit {appName} verbinden. Host und Schlüssel eintragen, dann die Modelle laden. Kostenlose Modelle inklusive.",
         "KEYWORDS": "Cherry Studio, Cherry Studio OpenAI Anbieter, {appName} Cherry Studio, plattformübergreifender Desktop-Chat"
       },
       "BADGE": "Cherry Studio",
@@ -2315,8 +2315,8 @@
     },
     "TYPINGMIND": {
       "META": {
-        "TITLE": "TypingMind Integrationsleitfaden | {appName}",
-        "DESCRIPTION": "TypingMind durch Einfügen eines eigenen OpenAI-kompatiblen Endpunkts mit {appName} verbinden.",
+        "TITLE": "TypingMind mit kostenloser OpenAI-kompatibler API einrichten | {appName}",
+        "DESCRIPTION": "TypingMind durch Einfügen eines eigenen OpenAI-kompatiblen Endpunkts mit {appName} verbinden. Kostenlose Modelle inklusive.",
         "KEYWORDS": "TypingMind, TypingMind eigenes Modell, {appName} TypingMind, BYOK-Web-Frontend"
       },
       "BADGE": "TypingMind",
@@ -2336,8 +2336,8 @@
     },
     "BOLTAI": {
       "META": {
-        "TITLE": "BoltAI Integrationsleitfaden | {appName}",
-        "DESCRIPTION": "BoltAI als eigenen OpenAI-kompatiblen Server mit {appName} verbinden.",
+        "TITLE": "BoltAI mit kostenloser OpenAI-kompatibler API einrichten | {appName}",
+        "DESCRIPTION": "BoltAI als eigenen OpenAI-kompatiblen Server mit {appName} verbinden. Kostenlose Modelle inklusive.",
         "KEYWORDS": "BoltAI, BoltAI OpenAI kompatibel, {appName} BoltAI, macOS KI-Assistent"
       },
       "BADGE": "BoltAI",
@@ -2355,8 +2355,8 @@
     },
     "PAGE_ASSIST": {
       "META": {
-        "TITLE": "Page Assist Integrationsleitfaden | {appName}",
-        "DESCRIPTION": "Page Assist als eigene OpenAI-kompatible API in der Seitenleiste des Browsers mit {appName} verbinden.",
+        "TITLE": "Page Assist mit kostenloser OpenAI-kompatibler API einrichten | {appName}",
+        "DESCRIPTION": "Page Assist als eigene OpenAI-kompatible API in der Seitenleiste des Browsers mit {appName} verbinden. Kostenlose Modelle inklusive.",
         "KEYWORDS": "Page Assist, Page Assist OpenAI kompatibel, {appName} Page Assist, Browser-KI-Erweiterung"
       },
       "BADGE": "Page Assist",
@@ -2376,8 +2376,8 @@
     },
     "CHATBOX": {
       "META": {
-        "TITLE": "Chatbox Integrationsleitfaden | {appName}",
-        "DESCRIPTION": "Verbinde Chatbox mit {appName} im Modus OpenAI API Compatible. Teile die URL in Host und Path auf.",
+        "TITLE": "Chatbox mit kostenloser OpenAI-kompatibler API einrichten | {appName}",
+        "DESCRIPTION": "Verbinde Chatbox mit {appName} im Modus OpenAI API Compatible. Teile die URL in Host und Path auf. Kostenlose Modelle inklusive.",
         "KEYWORDS": "Chatbox, Chatbox OpenAI kompatibel, {appName} Chatbox, plattformübergreifender Chat-Client"
       },
       "BADGE": "Chatbox",
@@ -2397,8 +2397,8 @@
     },
     "BIG_AGI": {
       "META": {
-        "TITLE": "Big-AGI Integrationsleitfaden | {appName}",
-        "DESCRIPTION": "Big-AGI als OpenAI-Quelle mit {appName} verbinden. Big-AGI lädt den Katalog.",
+        "TITLE": "Big-AGI mit kostenloser OpenAI-kompatibler API einrichten | {appName}",
+        "DESCRIPTION": "Big-AGI als OpenAI-Quelle mit {appName} verbinden. Big-AGI lädt den Katalog. Kostenlose Modelle inklusive.",
         "KEYWORDS": "Big-AGI, Big-AGI OpenAI Quelle, {appName} Big-AGI, Web-KI-Workbench"
       },
       "BADGE": "Big-AGI",
@@ -2505,8 +2505,8 @@
     },
     "ROO_CODE": {
       "META": {
-        "TITLE": "Roo Code Einrichtungsleitfaden | {appName}",
-        "DESCRIPTION": "Roo Code als OpenAI Compatible-Provider mit {appName} verbinden, damit sich seine Rollen für Planung, Code und QA eine Basis-URL teilen.",
+        "TITLE": "Roo Code mit kostenloser OpenAI-kompatibler API einrichten | {appName}",
+        "DESCRIPTION": "Roo Code als OpenAI Compatible-Provider mit {appName} verbinden, damit sich seine Rollen für Planung, Code und QA eine Basis-URL teilen. Kostenlose Modelle inklusive.",
         "KEYWORDS": "Roo Code, Roo Code Einrichtung, Multi-Agent VSCode, {appName} Roo Code, OpenAI Compatible, Coding-Agent"
       },
       "BADGE": "Roo Code",
@@ -2545,8 +2545,8 @@
     },
     "AIDER": {
       "META": {
-        "TITLE": "Aider Einrichtungsleitfaden | {appName}",
-        "DESCRIPTION": "Die Pair-Programming-CLI Aider mit {appName} verbinden. Zwei Umgebungsvariablen setzen und openai/MODEL_ID als Modell übergeben.",
+        "TITLE": "Aider mit kostenloser OpenAI-kompatibler API einrichten | {appName}",
+        "DESCRIPTION": "Die Pair-Programming-CLI Aider mit {appName} verbinden. Zwei Umgebungsvariablen setzen und openai/MODEL_ID als Modell übergeben. Kostenlose Modelle inklusive.",
         "KEYWORDS": "Aider, Aider Einrichtung, KI-Pair-Programming-CLI, {appName} Aider, LiteLLM, OpenAI-kompatibel"
       },
       "BADGE": "Aider",

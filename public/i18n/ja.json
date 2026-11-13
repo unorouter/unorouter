@@ -847,7 +847,7 @@
         "META_DESCRIPTION": "{appName}はAIツールとスタートアップのディレクトリに掲載されています。掲載先の確認や第三者の評価はこちら。"
       },
       "LAUNCH": {
-        "TITLE": "偽Claude にうんざりしたので、{appName} を作りました。",
+        "TITLE": "{appName}とは？私たちが作った理由",
         "DESCRIPTION": "毎週のように落ちる。プレミアムモデルがこっそり安物にすり替えられる。我慢の限界で自前のルーターを作り、その両方に病的なほど厳しくしました。ローンチ秘話です。",
         "AUTHOR": "{appName} チーム",
         "INTRO": "安価な AI API 市場には2つの問題があります。プロバイダーは頻繁にダウンし、一部のプロバイダーはフラッグシップ価格を請求しつつ、<post_ai_model_verifier>密かに弱いモデルへリクエストを転送</post_ai_model_verifier>します。{appName} はこの両方を解決するために作られました。",
@@ -860,7 +860,7 @@
         "H_NEXT": "今後の予定",
         "P_NEXT": "私たちは毎週リリースしています。より多くのモデル、スマートなフォールバックを導く<rankings>より精密なヘルスシグナル</rankings>、より充実したコストとレイテンシのダッシュボード、そしてすでに使い慣れたターミナルやIDEとのより深い統合をお届けします。",
         "CTA": "試してみませんか？<register>APIキーを取得</register> または <models>モデルカタログを閲覧</models> してください。",
-        "META_DESCRIPTION": "頻繁な障害と、安物にすり替えられるプレミアムモデル。我慢の限界で自前のルーターを作ったローンチ秘話です。"
+        "META_DESCRIPTION": "{appName}は多くのAIモデルを1つのOpenAI互換APIキーで使えるサービスです。隔週の障害と、プレミアムモデルが安価なクローンにこっそり差し替えられる問題を受けて作りました。"
       },
       "AGENT_READY": {
         "TITLE": "Cloudflare の AIエージェント対応スキャナーをかけたら、100点満点でした。",
@@ -883,7 +883,7 @@
         "META_DESCRIPTION": "Cloudflare のAIエージェント対応スキャナーで 100/100、最上位のレベル5 を獲得。何を検査し、なぜ多くのサイトが落ちるのか。"
       },
       "CLAUDE_AUTHENTICITY": {
-        "TITLE": "本物のClaudeと偽物の見分け方",
+        "TITLE": "偽Claudeの見分け方：そのモデルは本当にClaudeか",
         "DESCRIPTION": "格安のClaudeの多くは、Claudeの名前を借りた別のモデルです。モデルに尋ねても何も証明できない理由、知識のカットオフが推測にすぎない理由、そして偽物を本当に見抜けるチェック方法を紹介します。",
         "AUTHOR": "{appName}チーム",
         "INTRO_P1": "Claudeは最も人気のあるモデルの一つで、最も高価なモデルの一つでもあります。その価格差から、「同じClaude」を何分の一かの値段で売る再販業者の市場が生まれました。本当にClaudeを売っている業者もいます。しかし多くはそうではありません。<post_launch>もっと安いモデルで応答し、そこにClaudeの名前を付けている</post_launch>のです。",
@@ -969,7 +969,7 @@
         "META_DESCRIPTION": "アカウントをリンクして1ドル、サーバーをブーストして毎月1ドル、バグハントで最大50ドル。{appName} のDiscordがオープンしました。"
       },
       "FREE_MODELS_AGGREGATED": {
-        "TITLE": "約50プロバイダーの130以上の無料AIモデルを1つのエンドポイントに集約しました",
+        "TITLE": "{appName}の無料モデル：無料枠と制限を解説",
         "DESCRIPTION": "約50の無料プロバイダーを{appName}に接続しました。130以上の無料モデル、1つのOpenAI互換エンドポイント、トークン単価$0。上流の利用制限はそのまま適用され、共有プールを公平に保つために独自の1分1リクエスト制限も設けています。ここでは正直にご説明します。",
         "AUTHOR": "{appName}チーム",
         "INTRO": "無料LLMのエコシステムは確かに存在しますが、非常に分散しています。NVIDIA、Cloudflare、Gemini、Mistral、Z.ai、ModelScopeをはじめとする数十のプロバイダーがそれぞれ独自のサインアップページ、キー形式、互換性のないAPIの裏側で本物のキャパシティを無償提供しています。私たちは見つけられる限りすべての永続的無料プロバイダーを調査、テストし、{appName}に統合しました。その結果、約50プロバイダーの<free>130以上の無料モデル</free>が1つのOpenAI互換エンドポイントと1つのキーで利用できます。",
@@ -994,7 +994,7 @@
         "FAQ_2_A": "ユーザーあたり、モデルあたり約1リクエスト/分です。上限に達するとHTTP 429がRetry-Afterヘッダーとともに返されます。130以上の無料モデルがあるため、待つよりもモデルをローテーションする方が現実的です。",
         "FAQ_3_Q": "無料モデルにクレジットカードは必要ですか？",
         "FAQ_3_A": "いいえ。DiscordかGitHubでサインアップし、キーを作成して、:free サフィックスの付いたモデルを使うだけです。1回限りの $1 のDiscord認証ボーナスは有料モデルに使えます。",
-        "META_DESCRIPTION": "約50の無料プロバイダーを{appName}に接続。130以上の無料モデルを1つのOpenAI互換エンドポイントで、トークン単価$0。"
+        "META_DESCRIPTION": "{appName}は無料？はい。OpenAI互換の1つのエンドポイントで無料AIモデルを使え、トークン単価は$0。無料枠の範囲、上流の制限、1分1リクエストの上限を解説。"
       },
       "UNOROUTER_VS_OPENROUTER": {
         "TITLE": "{appName} と OpenRouter：正直な比較",
@@ -2217,8 +2217,8 @@
     },
     "LIBRECHAT": {
       "META": {
-        "TITLE": "LibreChat 連携ガイド | {appName}",
-        "DESCRIPTION": "LibreChat をカスタムのOpenAI互換エンドポイントで {appName} に接続。librechat.yaml と環境変数を設定します。",
+        "TITLE": "LibreChatの設定：無料のOpenAI互換API | {appName}",
+        "DESCRIPTION": "LibreChat をカスタムのOpenAI互換エンドポイントで {appName} に接続。librechat.yaml と環境変数を設定します。無料モデルも使えます。",
         "KEYWORDS": "LibreChat, LibreChat カスタムエンドポイント, LibreChat OpenAI 互換, {appName} LibreChat, セルフホスト型チャット"
       },
       "BADGE": "LibreChat",
@@ -2237,8 +2237,8 @@
     },
     "OPEN_WEBUI": {
       "META": {
-        "TITLE": "Open WebUI 連携ガイド | {appName}",
-        "DESCRIPTION": "Open WebUI を管理パネルの OpenAI 接続として {appName} に接続します。モデル選択がカタログから埋まります。",
+        "TITLE": "Open WebUIの設定：無料のOpenAI互換API | {appName}",
+        "DESCRIPTION": "Open WebUI を管理パネルの OpenAI 接続として {appName} に接続します。モデル選択がカタログから埋まります。無料モデルも使えます。",
         "KEYWORDS": "Open WebUI, Open WebUI OpenAI 接続, {appName} Open WebUI, セルフホスト型 ChatGPT"
       },
       "BADGE": "Open WebUI",
@@ -2258,8 +2258,8 @@
     },
     "LOBECHAT": {
       "META": {
-        "TITLE": "LobeChat 連携ガイド | {appName}",
-        "DESCRIPTION": "LobeChat を Add Custom Provider または Docker の環境変数で {appName} に接続します。",
+        "TITLE": "LobeChatの設定：無料のOpenAI互換API | {appName}",
+        "DESCRIPTION": "LobeChat を Add Custom Provider または Docker の環境変数で {appName} に接続します。無料モデルも使えます。",
         "KEYWORDS": "LobeChat, LobeChat カスタムプロバイダー, {appName} LobeChat, オープンソース Web チャット"
       },
       "BADGE": "LobeChat",
@@ -2277,8 +2277,8 @@
     },
     "ANYTHINGLLM": {
       "META": {
-        "TITLE": "AnythingLLM 連携ガイド | {appName}",
-        "DESCRIPTION": "AnythingLLM を Generic OpenAI プロバイダーとして {appName} に接続。モデルとコンテキスト長を設定して保存。",
+        "TITLE": "AnythingLLMの設定：無料のOpenAI互換API | {appName}",
+        "DESCRIPTION": "AnythingLLM を Generic OpenAI プロバイダーとして {appName} に接続。モデルとコンテキスト長を設定して保存。無料モデルも使えます。",
         "KEYWORDS": "AnythingLLM, AnythingLLM Generic OpenAI, {appName} AnythingLLM, セルフホスト型 RAG"
       },
       "BADGE": "AnythingLLM",
@@ -2296,8 +2296,8 @@
     },
     "CHERRY_STUDIO": {
       "META": {
-        "TITLE": "Cherry Studio 連携ガイド | {appName}",
-        "DESCRIPTION": "Cherry Studio を OpenAI プロバイダーとして {appName} に接続します。ホストとキーを追加し、モデルを読み込みます。",
+        "TITLE": "Cherry Studioの設定：無料のOpenAI互換API | {appName}",
+        "DESCRIPTION": "Cherry Studio を OpenAI プロバイダーとして {appName} に接続します。ホストとキーを追加し、モデルを読み込みます。無料モデルも使えます。",
         "KEYWORDS": "Cherry Studio, Cherry Studio OpenAI プロバイダー, {appName} Cherry Studio, クロスプラットフォームのデスクトップチャット"
       },
       "BADGE": "Cherry Studio",
@@ -2315,8 +2315,8 @@
     },
     "TYPINGMIND": {
       "META": {
-        "TITLE": "TypingMind 連携ガイド | {appName}",
-        "DESCRIPTION": "カスタムのOpenAI互換エンドポイントを貼り付けて TypingMind を {appName} に接続します。",
+        "TITLE": "TypingMindの設定：無料のOpenAI互換API | {appName}",
+        "DESCRIPTION": "カスタムのOpenAI互換エンドポイントを貼り付けて TypingMind を {appName} に接続します。無料モデルも使えます。",
         "KEYWORDS": "TypingMind, TypingMind カスタムモデル, {appName} TypingMind, BYOK Web フロントエンド"
       },
       "BADGE": "TypingMind",
@@ -2336,8 +2336,8 @@
     },
     "BOLTAI": {
       "META": {
-        "TITLE": "BoltAI 連携ガイド | {appName}",
-        "DESCRIPTION": "BoltAI をカスタムのOpenAI互換サーバーとして {appName} に接続します。",
+        "TITLE": "BoltAIの設定：無料のOpenAI互換API | {appName}",
+        "DESCRIPTION": "BoltAI をカスタムのOpenAI互換サーバーとして {appName} に接続します。無料モデルも使えます。",
         "KEYWORDS": "BoltAI, BoltAI OpenAI 互換, {appName} BoltAI, macOS AI アシスタント"
       },
       "BADGE": "BoltAI",
@@ -2355,8 +2355,8 @@
     },
     "PAGE_ASSIST": {
       "META": {
-        "TITLE": "Page Assist 連携ガイド | {appName}",
-        "DESCRIPTION": "Page Assist をブラウザのサイドパネルでカスタムのOpenAI互換APIとして {appName} に接続します。",
+        "TITLE": "Page Assistの設定：無料のOpenAI互換API | {appName}",
+        "DESCRIPTION": "Page Assist をブラウザのサイドパネルでカスタムのOpenAI互換APIとして {appName} に接続します。無料モデルも使えます。",
         "KEYWORDS": "Page Assist, Page Assist OpenAI 互換, {appName} Page Assist, ブラウザ AI 拡張機能"
       },
       "BADGE": "Page Assist",
@@ -2376,8 +2376,8 @@
     },
     "CHATBOX": {
       "META": {
-        "TITLE": "Chatbox 連携ガイド | {appName}",
-        "DESCRIPTION": "OpenAI API Compatible モードで Chatbox を {appName} に接続します。URL を Host と Path に分けます。",
+        "TITLE": "Chatboxの設定：無料のOpenAI互換API | {appName}",
+        "DESCRIPTION": "OpenAI API Compatible モードで Chatbox を {appName} に接続します。URL を Host と Path に分けます。無料モデルも使えます。",
         "KEYWORDS": "Chatbox, Chatbox OpenAI 互換, {appName} Chatbox, クロスプラットフォームのチャットクライアント"
       },
       "BADGE": "Chatbox",
@@ -2397,8 +2397,8 @@
     },
     "BIG_AGI": {
       "META": {
-        "TITLE": "Big-AGI 連携ガイド | {appName}",
-        "DESCRIPTION": "Big-AGI を OpenAI ソースとして {appName} に接続します。Big-AGI がカタログを取得します。",
+        "TITLE": "Big-AGIの設定：無料のOpenAI互換API | {appName}",
+        "DESCRIPTION": "Big-AGI を OpenAI ソースとして {appName} に接続します。Big-AGI がカタログを取得します。無料モデルも使えます。",
         "KEYWORDS": "Big-AGI, Big-AGI OpenAI ソース, {appName} Big-AGI, Web AI ワークベンチ"
       },
       "BADGE": "Big-AGI",
@@ -2505,8 +2505,8 @@
     },
     "ROO_CODE": {
       "META": {
-        "TITLE": "Roo Code セットアップガイド | {appName}",
-        "DESCRIPTION": "Roo Code を OpenAI Compatible で {appName} に接続。計画、コード、QA の各ロールが1つのベースURLを共有します。",
+        "TITLE": "Roo Codeの設定：無料のOpenAI互換API | {appName}",
+        "DESCRIPTION": "Roo Code を OpenAI Compatible で {appName} に接続。計画、コード、QA の各ロールが1つのベースURLを共有します。無料モデルも使えます。",
         "KEYWORDS": "Roo Code, Roo Code セットアップ, マルチエージェント VSCode, {appName} Roo Code, OpenAI Compatible, コーディングエージェント"
       },
       "BADGE": "Roo Code",
@@ -2545,8 +2545,8 @@
     },
     "AIDER": {
       "META": {
-        "TITLE": "Aider セットアップガイド | {appName}",
-        "DESCRIPTION": "ペアプログラミングCLIの Aider を {appName} に接続します。環境変数を2つ設定し、モデルに openai/MODEL_ID を渡します。",
+        "TITLE": "Aiderの設定：無料のOpenAI互換API | {appName}",
+        "DESCRIPTION": "ペアプログラミングCLIの Aider を {appName} に接続します。環境変数を2つ設定し、モデルに openai/MODEL_ID を渡します。無料モデルも使えます。",
         "KEYWORDS": "Aider, Aider セットアップ, AI ペアプログラミング CLI, {appName} Aider, LiteLLM, OpenAI 互換"
       },
       "BADGE": "Aider",

@@ -847,7 +847,7 @@
         "META_DESCRIPTION": "{appName} רשום במדריכי כלי הבינה המלאכותית והסטארטאפים. כאן תוכלו למצוא אותנו, לאמת את הרישומים ולקרוא חוות דעת עצמאיות."
       },
       "LAUNCH": {
-        "TITLE": "התעייפנו מ-Claude מזויף. אז בנינו את {appName}.",
+        "TITLE": "מה זה {appName}, ולמה בנינו אותו",
         "DESCRIPTION": "השבתות כל שבועיים. מודלים פרימיום מוחלפים בשקט בשיבוטים זולים. נשברנו, שיגרנו נתב משלנו, והפכנו אותו לפרנואידי לגבי שניהם. זה סיפור ההשקה.",
         "AUTHOR": "צוות {appName}",
         "INTRO": "לשוק ה-API הזול של AI יש שתי בעיות. הספקים נופלים הרבה, וחלקם <post_ai_model_verifier>מעבירים בשקט את הבקשה שלכם למודל חלש יותר</post_ai_model_verifier> בעוד הם גובים מכם על הדגל. {appName} נבנה כדי לתקן את שניהם.",
@@ -860,7 +860,7 @@
         "H_NEXT": "מה הלאה",
         "P_NEXT": "אנחנו משגרים שבועית. צפו ליותר מודלים, <rankings>אותות בריאות הדוקים יותר</rankings> המניעים גיבויים חכמים יותר, לוחות בקרה עשירים יותר לעלות והשהיה, ואינטגרציות עמוקות יותר עם המסופים וה-IDE שאתם כבר חיים בהם.",
         "CTA": "מוכנים לנסות? <register>קבלו מפתח API</register> או <models>עיינו בקטלוג המודלים</models>.",
-        "META_DESCRIPTION": "השבתות כל שבועיים. מודלים פרימיום מוחלפים בשקט בשיבוטים זולים. נשברנו, שיגרנו נתב משלנו, והפכנו אותו לפרנואידי לגבי שניהם. זה סיפור ההשקה."
+        "META_DESCRIPTION": "{appName} הוא מפתח API אחד תואם OpenAI למודלי AI רבים, שנבנה אחרי תקלות כל שבועיים ומודלי פרימיום שהוחלפו בשקט בחיקויים זולים."
       },
       "AGENT_READY": {
         "TITLE": "כיוונו את סורק הסוכנים של Cloudflare לאתר שלנו. הוא חזר עם 100/100.",
@@ -883,7 +883,7 @@
         "META_DESCRIPTION": "Cloudflare זה עתה שיגרה סורק המדרג עד כמה האתר שלכם מוכן לסוכני AI. הגענו ל-100/100 מושלם ולדרגה 5 העליונה. הנה בדיוק מה הוא בודק ולמה רוב האתרים נכשלים."
       },
       "CLAUDE_AUTHENTICITY": {
-        "TITLE": "איך אנחנו מבדילים בין Claude אמיתי למזויף",
+        "TITLE": "Claude מזויף: איך לדעת אם מודל הוא באמת Claude",
         "DESCRIPTION": "Claude זול הוא לעיתים קרובות מודל אחר שמתהדר בשם של Claude. למה לשאול את המודל לא מוכיח כלום, למה תאריך סוף הידע הוא ניחוש, ואילו בדיקות באמת תופסות זיוף.",
         "AUTHOR": "צוות {appName}",
         "INTRO_P1": "Claude הוא אחד המודלים המבוקשים ביותר ואחד היקרים ביותר. הפער הזה יצר שוק של משווקים שמוכרים \"את אותו Claude\" בשבריר מהמחיר. חלקם באמת מוכרים Claude. רבים לא: <post_launch>הם עונים עם מודל זול יותר ומדביקים עליו את השם Claude</post_launch>.",
@@ -969,7 +969,7 @@
         "META_DESCRIPTION": "קשרו את החשבון שלכם תמורת $1, בוסטו את השרת תמורת $1 בכל חודש, צודו באגים תמורת עד $50. בדיוק פתחנו את ה-Discord של {appName}."
       },
       "FREE_MODELS_AGGREGATED": {
-        "TITLE": "איחדנו יותר מ-130 מודלי AI בחינם מכ-50 ספקים לנקודת קצה אחת",
+        "TITLE": "מודלים חינמיים של {appName}: המסלול החינמי והמגבלות",
         "DESCRIPTION": "חיברנו כ-50 ספקים חינמיים אל {appName}: יותר מ-130 מודלים בחינם, נקודת קצה אחת תואמת OpenAI, $0 לטוקן. הם מגיעים עם מגבלות מהספק שלא ניתן להגדיל, בתוספת מגבלה קלה של בקשה אחת לדקה שאנחנו מוסיפים כדי לשמור על הוגנות. הנה הגרסה הכנה.",
         "AUTHOR": "צוות {appName}",
         "INTRO": "נוף ה-LLM החינמי קיים באמת, אבל הוא מפוזר: NVIDIA, Cloudflare, Gemini, Mistral, Z.ai, ModelScope ועשרות אחרים מציעים קיבולת אמיתית, מאחורי עשרות דפי הרשמה, פורמטים שונים של מפתחות וממשקי API לא תואמים. גילינו, בדקנו ומיזגנו כל ספק חינמי קבוע שמצאנו אל {appName}. התוצאה: <free>יותר מ-130 מודלים חינמיים</free> מכ-50 ספקים, מאחורי נקודת קצה אחת תואמת OpenAI ומפתח אחד.",
@@ -994,7 +994,7 @@
         "FAQ_2_A": "כ-1 בקשה לדקה לכל מודל לכל משתמש. המגבלה מחזירה HTTP 429 עם כותרת Retry-After. עם יותר מ-130 מודלים חינמיים, התשובה המעשית היא לסובב בין מודלים במקום להמתין.",
         "FAQ_3_Q": "צריך כרטיס אשראי בשביל המודלים החינמיים?",
         "FAQ_3_A": "לא. נרשמים עם Discord או GitHub, יוצרים מפתח ומשתמשים בכל מודל עם הסיומת :free. בונוס אימות Discord חד-פעמי של $1 אפשר להוציא על המודלים בתשלום.",
-        "META_DESCRIPTION": "חיברנו כ-50 ספקים חינמיים אל {appName}: יותר מ-130 מודלים בחינם בנקודת קצה אחת תואמת OpenAI, $0 לטוקן, עם מגבלות ספק ומגבלה קלה של בקשה אחת לדקה."
+        "META_DESCRIPTION": "האם {appName} חינמי? כן: מודלי AI חינמיים דרך נקודת קצה אחת תואמת OpenAI, $0 לטוקן. מה כולל המסלול החינמי, מגבלות הספקים ומגבלת בקשה אחת לדקה."
       },
       "UNOROUTER_VS_OPENROUTER": {
         "TITLE": "{appName} מול OpenRouter: השוואה כנה",
@@ -2217,8 +2217,8 @@
     },
     "LIBRECHAT": {
       "META": {
-        "TITLE": "מדריך אינטגרציה של LibreChat | {appName}",
-        "DESCRIPTION": "חברו את LibreChat אל {appName} עם נקודת קצה מותאמת תואמת OpenAI. הוסיפו את הבלוק ל-librechat.yaml והגדירו את משתנה הסביבה.",
+        "TITLE": "LibreChat: הגדרה עם API חינמי תואם OpenAI | {appName}",
+        "DESCRIPTION": "חברו את LibreChat אל {appName} עם נקודת קצה מותאמת תואמת OpenAI. הוסיפו את הבלוק ל-librechat.yaml והגדירו את משתנה הסביבה. כולל מודלים חינמיים.",
         "KEYWORDS": "LibreChat, נקודת קצה מותאמת LibreChat, LibreChat תואם OpenAI, {appName} LibreChat, ממשק צאט בשרת עצמי"
       },
       "BADGE": "LibreChat",
@@ -2237,8 +2237,8 @@
     },
     "OPEN_WEBUI": {
       "META": {
-        "TITLE": "מדריך אינטגרציה של Open WebUI | {appName}",
-        "DESCRIPTION": "חברו את Open WebUI אל {appName} כחיבור OpenAI בפאנל הניהול. בורר המודלים מתמלא מהקטלוג.",
+        "TITLE": "Open WebUI: הגדרה עם API חינמי תואם OpenAI | {appName}",
+        "DESCRIPTION": "חברו את Open WebUI אל {appName} כחיבור OpenAI בפאנל הניהול. בורר המודלים מתמלא מהקטלוג. כולל מודלים חינמיים.",
         "KEYWORDS": "Open WebUI, חיבור OpenAI Open WebUI, {appName} Open WebUI, ממשק ChatGPT בשרת עצמי"
       },
       "BADGE": "Open WebUI",
@@ -2258,8 +2258,8 @@
     },
     "LOBECHAT": {
       "META": {
-        "TITLE": "מדריך אינטגרציה של LobeChat | {appName}",
-        "DESCRIPTION": "חברו את LobeChat אל {appName} דרך Add Custom Provider או משתני סביבה של Docker.",
+        "TITLE": "LobeChat: הגדרה עם API חינמי תואם OpenAI | {appName}",
+        "DESCRIPTION": "חברו את LobeChat אל {appName} דרך Add Custom Provider או משתני סביבה של Docker. כולל מודלים חינמיים.",
         "KEYWORDS": "LobeChat, ספק מותאם LobeChat, {appName} LobeChat, צאט אינטרנט בקוד פתוח"
       },
       "BADGE": "LobeChat",
@@ -2277,8 +2277,8 @@
     },
     "ANYTHINGLLM": {
       "META": {
-        "TITLE": "מדריך אינטגרציה של AnythingLLM | {appName}",
-        "DESCRIPTION": "חברו את AnythingLLM אל {appName} כספק Generic OpenAI. הקלידו את המודל, הגדירו את חלון ההקשר, שמרו.",
+        "TITLE": "AnythingLLM: הגדרה עם API חינמי תואם OpenAI | {appName}",
+        "DESCRIPTION": "חברו את AnythingLLM אל {appName} כספק Generic OpenAI. הקלידו את המודל, הגדירו את חלון ההקשר, שמרו. כולל מודלים חינמיים.",
         "KEYWORDS": "AnythingLLM, AnythingLLM Generic OpenAI, {appName} AnythingLLM, RAG בשרת עצמי"
       },
       "BADGE": "AnythingLLM",
@@ -2296,8 +2296,8 @@
     },
     "CHERRY_STUDIO": {
       "META": {
-        "TITLE": "מדריך אינטגרציה של Cherry Studio | {appName}",
-        "DESCRIPTION": "חברו את Cherry Studio אל {appName} כספק OpenAI. הוסיפו את המארח והמפתח, ואז טענו את המודלים שלכם.",
+        "TITLE": "Cherry Studio: הגדרה עם API חינמי תואם OpenAI | {appName}",
+        "DESCRIPTION": "חברו את Cherry Studio אל {appName} כספק OpenAI. הוסיפו את המארח והמפתח, ואז טענו את המודלים שלכם. כולל מודלים חינמיים.",
         "KEYWORDS": "Cherry Studio, ספק OpenAI Cherry Studio, {appName} Cherry Studio, צאט שולחני רב פלטפורמי"
       },
       "BADGE": "Cherry Studio",
@@ -2315,8 +2315,8 @@
     },
     "TYPINGMIND": {
       "META": {
-        "TITLE": "מדריך אינטגרציה של TypingMind | {appName}",
-        "DESCRIPTION": "חברו את TypingMind אל {appName} על ידי הדבקת נקודת קצה מותאמת תואמת OpenAI.",
+        "TITLE": "TypingMind: הגדרה עם API חינמי תואם OpenAI | {appName}",
+        "DESCRIPTION": "חברו את TypingMind אל {appName} על ידי הדבקת נקודת קצה מותאמת תואמת OpenAI. כולל מודלים חינמיים.",
         "KEYWORDS": "TypingMind, מודל מותאם TypingMind, {appName} TypingMind, ממשק אינטרנט BYOK"
       },
       "BADGE": "TypingMind",
@@ -2336,8 +2336,8 @@
     },
     "BOLTAI": {
       "META": {
-        "TITLE": "מדריך אינטגרציה של BoltAI | {appName}",
-        "DESCRIPTION": "חברו את BoltAI אל {appName} כשרת מותאם תואם OpenAI.",
+        "TITLE": "BoltAI: הגדרה עם API חינמי תואם OpenAI | {appName}",
+        "DESCRIPTION": "חברו את BoltAI אל {appName} כשרת מותאם תואם OpenAI. כולל מודלים חינמיים.",
         "KEYWORDS": "BoltAI, BoltAI תואם OpenAI, {appName} BoltAI, עוזר בינה מלאכותית macOS"
       },
       "BADGE": "BoltAI",
@@ -2355,8 +2355,8 @@
     },
     "PAGE_ASSIST": {
       "META": {
-        "TITLE": "מדריך אינטגרציה של Page Assist | {appName}",
-        "DESCRIPTION": "חברו את Page Assist אל {appName} כ-API מותאם תואם OpenAI בפאנל הצד של הדפדפן.",
+        "TITLE": "Page Assist: הגדרה עם API חינמי תואם OpenAI | {appName}",
+        "DESCRIPTION": "חברו את Page Assist אל {appName} כ-API מותאם תואם OpenAI בפאנל הצד של הדפדפן. כולל מודלים חינמיים.",
         "KEYWORDS": "Page Assist, Page Assist תואם OpenAI, {appName} Page Assist, תוסף בינה מלאכותית לדפדפן"
       },
       "BADGE": "Page Assist",
@@ -2376,8 +2376,8 @@
     },
     "CHATBOX": {
       "META": {
-        "TITLE": "מדריך אינטגרציה של Chatbox | {appName}",
-        "DESCRIPTION": "חברו את Chatbox אל {appName} במצב OpenAI API Compatible. פצלו את כתובת ה URL ל Host ו Path.",
+        "TITLE": "Chatbox: הגדרה עם API חינמי תואם OpenAI | {appName}",
+        "DESCRIPTION": "חברו את Chatbox אל {appName} במצב OpenAI API Compatible. פצלו את כתובת ה URL ל Host ו Path. כולל מודלים חינמיים.",
         "KEYWORDS": "Chatbox, Chatbox תואם OpenAI, {appName} Chatbox, לקוח צאט רב פלטפורמי"
       },
       "BADGE": "Chatbox",
@@ -2397,8 +2397,8 @@
     },
     "BIG_AGI": {
       "META": {
-        "TITLE": "מדריך אינטגרציה של Big-AGI | {appName}",
-        "DESCRIPTION": "חברו את Big-AGI אל {appName} כמקור OpenAI. Big-AGI מושך את הקטלוג.",
+        "TITLE": "Big-AGI: הגדרה עם API חינמי תואם OpenAI | {appName}",
+        "DESCRIPTION": "חברו את Big-AGI אל {appName} כמקור OpenAI. Big-AGI מושך את הקטלוג. כולל מודלים חינמיים.",
         "KEYWORDS": "Big-AGI, מקור OpenAI Big-AGI, {appName} Big-AGI, סביבת עבודה לבינה מלאכותית באינטרנט"
       },
       "BADGE": "Big-AGI",
@@ -2505,8 +2505,8 @@
     },
     "ROO_CODE": {
       "META": {
-        "TITLE": "מדריך הגדרת Roo Code | {appName}",
-        "DESCRIPTION": "חברו את Roo Code אל {appName} כספק OpenAI Compatible כדי שתפקידי התכנון, הקוד וה-QA שלו ישתפו כתובת בסיס אחת.",
+        "TITLE": "Roo Code: הגדרה עם API חינמי תואם OpenAI | {appName}",
+        "DESCRIPTION": "חברו את Roo Code אל {appName} כספק OpenAI Compatible כדי שתפקידי התכנון, הקוד וה-QA שלו ישתפו כתובת בסיס אחת. כולל מודלים חינמיים.",
         "KEYWORDS": "Roo Code, הגדרת Roo Code, ריבוי סוכנים ב-VSCode, {appName} Roo Code, OpenAI Compatible, סוכן קוד"
       },
       "BADGE": "Roo Code",
@@ -2545,8 +2545,8 @@
     },
     "AIDER": {
       "META": {
-        "TITLE": "מדריך הגדרת Aider | {appName}",
-        "DESCRIPTION": "חברו את Aider, כלי ה-CLI לתכנות בזוגות, אל {appName}. הגדירו שני משתני סביבה והעבירו openai/MODEL_ID כמודל.",
+        "TITLE": "Aider: הגדרה עם API חינמי תואם OpenAI | {appName}",
+        "DESCRIPTION": "חברו את Aider, כלי ה-CLI לתכנות בזוגות, אל {appName}. הגדירו שני משתני סביבה והעבירו openai/MODEL_ID כמודל. כולל מודלים חינמיים.",
         "KEYWORDS": "Aider, הגדרת Aider, תכנות בזוג עם AI בשורת הפקודה, {appName} Aider, LiteLLM, תואם OpenAI"
       },
       "BADGE": "Aider",

@@ -23,6 +23,10 @@ import { OS } from "@/lib/types/enums";
 import type { TranslationKey } from "@/lib/config/constants";
 import type { TOCItemType } from "fumadocs-core/toc";
 import { getTranslations } from "next-intl/server";
+import {
+  getGuideRelatedPosts,
+  translated,
+} from "@/components/pages/blog/posts";
 import type { SetupCompatibility, SetupGuide, SetupStep } from "./setup-guides";
 
 type CompatRow = { key: keyof SetupCompatibility; labelKey: TranslationKey };
@@ -56,6 +60,7 @@ export async function SetupGuideTemplate(props: { guide: SetupGuide }) {
   const hasCompat = COMPAT_ROWS.some((row) => guide.compatibility[row.key]);
   const hasGotchas = (guide.gotchaKeys?.length ?? 0) > 0;
   const faq = guide.faq ?? [];
+  const relatedPosts = getGuideRelatedPosts(guide.slug);
 
   const fullUrl = guide.apiPath
     ? `${guide.baseUrl}${guide.apiPath}`
@@ -465,19 +470,27 @@ ${t("DOCS.SETUP_GUIDE.API_KEY_LABEL")}: ${docs.placeholder}`;
                 </div>
               ))}
             </dl>
-            {guide.slug === "janitor-ai" && (
-              <p className="mt-6 text-sm">
-                <Link
-                  href={{
-                    pathname: "/blog/[slug]",
-                    params: { slug: "best-janitor-ai-proxy" },
-                  }}
-                  className="underline underline-offset-4"
-                >
-                  {t("BLOG.POSTS.BEST_JANITOR_AI_PROXY.TITLE", APP_VALUES)}
-                </Link>
-              </p>
-            )}
+          </section>
+        ) : null}
+
+        {relatedPosts.length > 0 ? (
+          <section className="mt-12">
+            <h2 className="mb-4 text-lg font-semibold">{t("BLOG.RELATED")}</h2>
+            <ul className="space-y-2 text-sm">
+              {relatedPosts.map((post) => (
+                <li key={post.slug}>
+                  <Link
+                    href={{
+                      pathname: "/blog/[slug]",
+                      params: { slug: post.slug },
+                    }}
+                    className="underline underline-offset-4"
+                  >
+                    {translated(t, post).title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </section>
         ) : null}
 

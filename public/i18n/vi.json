@@ -847,7 +847,7 @@
         "META_DESCRIPTION": "{appName} được liệt kê trong các thư mục công cụ AI và khởi nghiệp. Tại đây bạn có thể tìm chúng tôi, xác minh các mục liệt kê và đọc đánh giá độc lập."
       },
       "LAUNCH": {
-        "TITLE": "Chúng tôi quá mệt với Claude giả. Nên đã xây {appName}.",
+        "TITLE": "{appName} là gì và vì sao chúng tôi xây dựng nó",
         "DESCRIPTION": "Sập cứ vài tuần một lần. Mô hình premium âm thầm bị tráo bằng bản clone rẻ tiền. Hết kiên nhẫn, chúng tôi tự ship router và làm nó hoang tưởng ở cả hai mặt. Đây là câu chuyện ra mắt.",
         "AUTHOR": "Đội ngũ {appName}",
         "INTRO": "Thị trường API AI giá rẻ có hai vấn đề. Nhà cung cấp ngừng hoạt động rất nhiều, và một số <post_ai_model_verifier>âm thầm chuyển yêu cầu của bạn sang mô hình yếu hơn</post_ai_model_verifier> trong khi vẫn tính phí cho mô hình chủ lực. {appName} được xây dựng để khắc phục cả hai.",
@@ -860,7 +860,7 @@
         "H_NEXT": "Tiếp theo là gì",
         "P_NEXT": "Chúng tôi phát hành hàng tuần. Hãy chờ đợi thêm nhiều mô hình, <rankings>tín hiệu sức khỏe chặt chẽ hơn</rankings> thúc đẩy dự phòng thông minh hơn, bảng điều khiển chi phí và độ trễ phong phú hơn, và tích hợp sâu hơn với các terminal và IDE mà bạn đã gắn bó.",
         "CTA": "Sẵn sàng thử? <register>Lấy API key</register> hoặc <models>duyệt catalog mô hình</models>.",
-        "META_DESCRIPTION": "Sập vài tuần một lần, mô hình cao cấp bị tráo bằng bản sao rẻ tiền. Hết kiên nhẫn, chúng tôi tự làm bộ định tuyến và đề phòng cả hai. Đây là câu chuyện."
+        "META_DESCRIPTION": "{appName} là một khóa API tương thích OpenAI cho nhiều mô hình AI, ra đời sau những lần sập cách tuần và các mô hình cao cấp bị lặng lẽ thay bằng bản sao giá rẻ."
       },
       "AGENT_READY": {
         "TITLE": "Cho scanner AI agent của Cloudflare quét site. Kết quả: 100/100.",
@@ -883,7 +883,7 @@
         "META_DESCRIPTION": "Cloudflare vừa tung ra trình quét chấm độ sẵn sàng của trang web cho tác tử AI. Chúng tôi đạt 100/100 và Level 5. Nó kiểm tra gì và vì sao nhiều trang rớt."
       },
       "CLAUDE_AUTHENTICITY": {
-        "TITLE": "Cách chúng tôi phân biệt Claude thật với Claude giả",
+        "TITLE": "Claude giả: cách nhận biết một mô hình có thật là Claude",
         "DESCRIPTION": "Claude giá rẻ thường là một mô hình khác khoác tên Claude. Vì sao hỏi chính mô hình chẳng chứng minh được gì, vì sao mốc giới hạn kiến thức chỉ là phỏng đoán, và những bước kiểm tra nào thực sự bắt được hàng giả.",
         "AUTHOR": "Đội ngũ {appName}",
         "INTRO_P1": "Claude là một trong những mô hình được săn đón nhất và cũng thuộc hàng đắt nhất. Khoảng chênh lệch đó đã sinh ra cả một thị trường người bán lại rao bán “đúng Claude đó” với giá chỉ bằng một phần nhỏ. Một số thực sự bán Claude. Nhiều người thì không: <post_launch>họ trả lời bằng một mô hình rẻ hơn rồi dán tên Claude lên đó</post_launch>.",
@@ -969,7 +969,7 @@
         "META_DESCRIPTION": "Liên kết tài khoản để nhận 1$, boost máy chủ để nhận 1$ mỗi tháng, săn lỗi để nhận tới 50$. Discord {appName} vừa mở cửa."
       },
       "FREE_MODELS_AGGREGATED": {
-        "TITLE": "Chúng tôi tổng hợp hơn 130 mô hình AI miễn phí từ khoảng 50 nhà cung cấp vào một endpoint duy nhất",
+        "TITLE": "Mô hình miễn phí của {appName}: gói miễn phí và giới hạn",
         "DESCRIPTION": "Chúng tôi đã kết nối khoảng 50 nhà cung cấp miễn phí vào {appName}: hơn 130 mô hình miễn phí, một endpoint tương thích OpenAI, $0 mỗi token. Các mô hình này chịu giới hạn từ phía thượng nguồn mà chúng tôi không thể thay đổi, cùng với giới hạn nhẹ 1 yêu cầu mỗi phút mà chúng tôi thêm vào để giữ công bằng cho các pool dùng chung. Đây là toàn bộ sự thật.",
         "AUTHOR": "Đội ngũ {appName}",
         "INTRO": "Thị trường LLM miễn phí là có thật nhưng rất phân tán: NVIDIA, Cloudflare, Gemini, Mistral, Z.ai, ModelScope và hàng chục nhà cung cấp khác đều cung cấp dung lượng thực sự miễn phí, nhưng đứng sau đó là hàng chục trang đăng ký, định dạng key khác nhau và các API không tương thích nhau. Chúng tôi đã khám phá, kiểm thử và hợp nhất mọi nhà cung cấp miễn phí vĩnh viễn mà chúng tôi tìm được vào {appName}. Kết quả: <free>hơn 130 mô hình miễn phí</free> từ khoảng 50 nhà cung cấp, đứng sau một endpoint tương thích OpenAI và một key duy nhất.",
@@ -994,7 +994,7 @@
         "FAQ_2_A": "Khoảng 1 yêu cầu mỗi phút mỗi mô hình mỗi người dùng. Khi đạt giới hạn sẽ trả về HTTP 429 kèm header Retry-After. Với hơn 130 mô hình miễn phí, cách thực tế hơn là luân chuyển giữa các mô hình thay vì chờ đợi.",
         "FAQ_3_Q": "Tôi có cần thẻ tín dụng cho các mô hình miễn phí không?",
         "FAQ_3_A": "Không. Đăng ký bằng Discord hoặc GitHub, tạo một khóa và dùng bất kỳ mô hình nào có hậu tố :free. Khoản thưởng xác minh Discord một lần trị giá $1 có thể dùng cho các mô hình trả phí.",
-        "META_DESCRIPTION": "Khoảng 50 nhà cung cấp miễn phí trên {appName}: hơn 130 mô hình, một endpoint tương thích OpenAI, $0 mỗi token. Sự thật về giới hạn và mức 1 yêu cầu/phút."
+        "META_DESCRIPTION": "{appName} có miễn phí không? Có: mô hình AI miễn phí qua một endpoint tương thích OpenAI, $0 mỗi token. Gói miễn phí gồm gì, giới hạn từ nhà cung cấp và mức 1 yêu cầu mỗi phút."
       },
       "UNOROUTER_VS_OPENROUTER": {
         "TITLE": "{appName} so với OpenRouter: một so sánh trung thực",
@@ -2217,8 +2217,8 @@
     },
     "LIBRECHAT": {
       "META": {
-        "TITLE": "Hướng dẫn tích hợp LibreChat | {appName}",
-        "DESCRIPTION": "Kết nối LibreChat với {appName} bằng một điểm cuối tùy chỉnh tương thích OpenAI. Thêm khối cấu hình vào librechat.yaml và đặt biến môi trường.",
+        "TITLE": "LibreChat: cài đặt với API tương thích OpenAI miễn phí | {appName}",
+        "DESCRIPTION": "Kết nối LibreChat với {appName} bằng một điểm cuối tùy chỉnh tương thích OpenAI. Thêm khối cấu hình vào librechat.yaml và đặt biến môi trường. Có sẵn mô hình miễn phí.",
         "KEYWORDS": "LibreChat, endpoint tùy chỉnh LibreChat, LibreChat tương thích OpenAI, {appName} LibreChat, giao diện chat tự lưu trữ"
       },
       "BADGE": "LibreChat",
@@ -2237,8 +2237,8 @@
     },
     "OPEN_WEBUI": {
       "META": {
-        "TITLE": "Hướng dẫn tích hợp Open WebUI | {appName}",
-        "DESCRIPTION": "Kết nối Open WebUI với {appName} dưới dạng một kết nối OpenAI trong bảng quản trị. Bộ chọn mô hình được lấp đầy từ danh mục.",
+        "TITLE": "Open WebUI: cài đặt với API tương thích OpenAI miễn phí | {appName}",
+        "DESCRIPTION": "Kết nối Open WebUI với {appName} dưới dạng một kết nối OpenAI trong bảng quản trị. Bộ chọn mô hình được lấp đầy từ danh mục. Có sẵn mô hình miễn phí.",
         "KEYWORDS": "Open WebUI, kết nối OpenAI Open WebUI, {appName} Open WebUI, giao diện ChatGPT tự lưu trữ"
       },
       "BADGE": "Open WebUI",
@@ -2258,8 +2258,8 @@
     },
     "LOBECHAT": {
       "META": {
-        "TITLE": "Hướng dẫn tích hợp LobeChat | {appName}",
-        "DESCRIPTION": "Kết nối LobeChat với {appName} qua Add Custom Provider hoặc biến môi trường Docker.",
+        "TITLE": "LobeChat: cài đặt với API tương thích OpenAI miễn phí | {appName}",
+        "DESCRIPTION": "Kết nối LobeChat với {appName} qua Add Custom Provider hoặc biến môi trường Docker. Có sẵn mô hình miễn phí.",
         "KEYWORDS": "LobeChat, nhà cung cấp tùy chỉnh LobeChat, {appName} LobeChat, chat web mã nguồn mở"
       },
       "BADGE": "LobeChat",
@@ -2277,8 +2277,8 @@
     },
     "ANYTHINGLLM": {
       "META": {
-        "TITLE": "Hướng dẫn tích hợp AnythingLLM | {appName}",
-        "DESCRIPTION": "Kết nối AnythingLLM với {appName} như nhà cung cấp Generic OpenAI. Gõ tên mô hình, đặt cửa sổ ngữ cảnh, lưu.",
+        "TITLE": "AnythingLLM: cài đặt với API tương thích OpenAI miễn phí | {appName}",
+        "DESCRIPTION": "Kết nối AnythingLLM với {appName} như nhà cung cấp Generic OpenAI. Gõ tên mô hình, đặt cửa sổ ngữ cảnh, lưu. Có sẵn mô hình miễn phí.",
         "KEYWORDS": "AnythingLLM, AnythingLLM Generic OpenAI, {appName} AnythingLLM, RAG tự lưu trữ"
       },
       "BADGE": "AnythingLLM",
@@ -2296,8 +2296,8 @@
     },
     "CHERRY_STUDIO": {
       "META": {
-        "TITLE": "Hướng dẫn tích hợp Cherry Studio | {appName}",
-        "DESCRIPTION": "Kết nối Cherry Studio với {appName} dưới dạng nhà cung cấp OpenAI. Thêm máy chủ và khóa, rồi tải các mô hình của bạn.",
+        "TITLE": "Cherry Studio: cài đặt với API tương thích OpenAI miễn phí | {appName}",
+        "DESCRIPTION": "Kết nối Cherry Studio với {appName} dưới dạng nhà cung cấp OpenAI. Thêm máy chủ và khóa, rồi tải các mô hình của bạn. Có sẵn mô hình miễn phí.",
         "KEYWORDS": "Cherry Studio, nhà cung cấp OpenAI Cherry Studio, {appName} Cherry Studio, chat máy tính đa nền tảng"
       },
       "BADGE": "Cherry Studio",
@@ -2315,8 +2315,8 @@
     },
     "TYPINGMIND": {
       "META": {
-        "TITLE": "Hướng dẫn tích hợp TypingMind | {appName}",
-        "DESCRIPTION": "Kết nối TypingMind với {appName} bằng cách dán một điểm cuối tùy chỉnh tương thích OpenAI.",
+        "TITLE": "TypingMind: cài đặt với API tương thích OpenAI miễn phí | {appName}",
+        "DESCRIPTION": "Kết nối TypingMind với {appName} bằng cách dán một điểm cuối tùy chỉnh tương thích OpenAI. Có sẵn mô hình miễn phí.",
         "KEYWORDS": "TypingMind, mô hình tùy chỉnh TypingMind, {appName} TypingMind, frontend web BYOK"
       },
       "BADGE": "TypingMind",
@@ -2336,8 +2336,8 @@
     },
     "BOLTAI": {
       "META": {
-        "TITLE": "Hướng dẫn tích hợp BoltAI | {appName}",
-        "DESCRIPTION": "Kết nối BoltAI với {appName} dưới dạng máy chủ tùy chỉnh tương thích OpenAI.",
+        "TITLE": "BoltAI: cài đặt với API tương thích OpenAI miễn phí | {appName}",
+        "DESCRIPTION": "Kết nối BoltAI với {appName} dưới dạng máy chủ tùy chỉnh tương thích OpenAI. Có sẵn mô hình miễn phí.",
         "KEYWORDS": "BoltAI, BoltAI tương thích OpenAI, {appName} BoltAI, trợ lý AI macOS"
       },
       "BADGE": "BoltAI",
@@ -2355,8 +2355,8 @@
     },
     "PAGE_ASSIST": {
       "META": {
-        "TITLE": "Hướng dẫn tích hợp Page Assist | {appName}",
-        "DESCRIPTION": "Kết nối Page Assist với {appName} dưới dạng API tùy chỉnh tương thích OpenAI trong bảng bên của trình duyệt.",
+        "TITLE": "Page Assist: cài đặt với API tương thích OpenAI miễn phí | {appName}",
+        "DESCRIPTION": "Kết nối Page Assist với {appName} dưới dạng API tùy chỉnh tương thích OpenAI trong bảng bên của trình duyệt. Có sẵn mô hình miễn phí.",
         "KEYWORDS": "Page Assist, Page Assist tương thích OpenAI, {appName} Page Assist, tiện ích AI trình duyệt"
       },
       "BADGE": "Page Assist",
@@ -2376,8 +2376,8 @@
     },
     "CHATBOX": {
       "META": {
-        "TITLE": "Hướng dẫn tích hợp Chatbox | {appName}",
-        "DESCRIPTION": "Kết nối Chatbox với {appName} bằng chế độ OpenAI API Compatible. Chia URL thành Host và Path.",
+        "TITLE": "Chatbox: cài đặt với API tương thích OpenAI miễn phí | {appName}",
+        "DESCRIPTION": "Kết nối Chatbox với {appName} bằng chế độ OpenAI API Compatible. Chia URL thành Host và Path. Có sẵn mô hình miễn phí.",
         "KEYWORDS": "Chatbox, Chatbox tương thích OpenAI, {appName} Chatbox, máy khách chat đa nền tảng"
       },
       "BADGE": "Chatbox",
@@ -2397,8 +2397,8 @@
     },
     "BIG_AGI": {
       "META": {
-        "TITLE": "Hướng dẫn tích hợp Big-AGI | {appName}",
-        "DESCRIPTION": "Kết nối Big-AGI với {appName} dưới dạng một nguồn OpenAI. Big-AGI sẽ tải danh mục.",
+        "TITLE": "Big-AGI: cài đặt với API tương thích OpenAI miễn phí | {appName}",
+        "DESCRIPTION": "Kết nối Big-AGI với {appName} dưới dạng một nguồn OpenAI. Big-AGI sẽ tải danh mục. Có sẵn mô hình miễn phí.",
         "KEYWORDS": "Big-AGI, nguồn OpenAI Big-AGI, {appName} Big-AGI, bàn làm việc AI web"
       },
       "BADGE": "Big-AGI",
@@ -2505,8 +2505,8 @@
     },
     "ROO_CODE": {
       "META": {
-        "TITLE": "Hướng dẫn cài đặt Roo Code | {appName}",
-        "DESCRIPTION": "Kết nối Roo Code với {appName} dưới dạng nhà cung cấp OpenAI Compatible để các vai lập kế hoạch, viết mã và QA dùng chung một URL cơ sở.",
+        "TITLE": "Roo Code: cài đặt với API tương thích OpenAI miễn phí | {appName}",
+        "DESCRIPTION": "Kết nối Roo Code với {appName} dưới dạng nhà cung cấp OpenAI Compatible để các vai lập kế hoạch, viết mã và QA dùng chung một URL cơ sở. Có sẵn mô hình miễn phí.",
         "KEYWORDS": "Roo Code, cài đặt Roo Code, đa tác nhân VSCode, {appName} Roo Code, Tương thích OpenAI, tác nhân lập trình"
       },
       "BADGE": "Roo Code",
@@ -2545,8 +2545,8 @@
     },
     "AIDER": {
       "META": {
-        "TITLE": "Hướng dẫn cài đặt Aider | {appName}",
-        "DESCRIPTION": "Kết nối Aider, công cụ lập trình theo cặp chạy trên dòng lệnh, với {appName}. Đặt hai biến môi trường và truyền openai/MODEL_ID làm mô hình.",
+        "TITLE": "Aider: cài đặt với API tương thích OpenAI miễn phí | {appName}",
+        "DESCRIPTION": "Kết nối Aider, công cụ lập trình theo cặp chạy trên dòng lệnh, với {appName}. Đặt hai biến môi trường và truyền openai/MODEL_ID làm mô hình. Có sẵn mô hình miễn phí.",
         "KEYWORDS": "Aider, cài đặt Aider, CLI lập trình cặp đôi AI, {appName} Aider, LiteLLM, tương thích OpenAI"
       },
       "BADGE": "Aider",

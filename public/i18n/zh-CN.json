@@ -847,7 +847,7 @@
         "META_DESCRIPTION": "{appName}已收录于各大 AI 工具与创业产品目录。在这里找到我们、核实收录信息并阅读独立评价。"
       },
       "LAUNCH": {
-        "TITLE": "我们受够了假 Claude。所以做了 {appName}。",
+        "TITLE": "{appName} 是什么？我们为什么做它",
         "DESCRIPTION": "三天两头宕机，旗舰模型还被偷偷换成廉价仿品。忍无可忍，我们自己上手做了路由器，并且对这两件事都偏执到极点。这就是上线故事。",
         "AUTHOR": "{appName} 团队",
         "INTRO": "廉价 AI API 市场有两大顽疾。提供方频繁宕机，还有些会<post_ai_model_verifier>悄悄把您的请求转发到更弱的模型</post_ai_model_verifier>，却仍按旗舰模型向您收费。{appName} 正是为解决这两个问题而生。",
@@ -860,7 +860,7 @@
         "H_NEXT": "接下来",
         "P_NEXT": "我们每周发版。期待更多模型、<rankings>更精细的健康信号</rankings>驱动更聪明的回退、更丰富的成本与延迟看板，以及与您日常使用的终端和 IDE 更深度的集成。",
         "CTA": "准备试用？<register>获取 API 密钥</register>或<models>浏览模型目录</models>。",
-        "META_DESCRIPTION": "三天两头宕机，旗舰模型还被偷偷换成廉价仿品。忍无可忍，我们自己做了路由器。这就是上线故事。"
+        "META_DESCRIPTION": "{appName} 用一个 OpenAI 兼容的 API 密钥接入众多 AI 模型。我们在经历隔周一次的故障、以及高端模型被悄悄换成廉价仿品之后打造了它。"
       },
       "AGENT_READY": {
         "TITLE": "我们让 Cloudflare 的 AI Agent 扫描器扫了我们的站。结果：100/100。",
@@ -883,7 +883,7 @@
         "META_DESCRIPTION": "我们在 Cloudflare 的 AI 智能体就绪扫描器中拿到 100/100 和最高 5 级。它查什么，为什么大多数站点过不了关。"
       },
       "CLAUDE_AUTHENTICITY": {
-        "TITLE": "我们如何分辨真假 Claude",
+        "TITLE": "假 Claude：如何判断模型是不是真的 Claude",
         "DESCRIPTION": "便宜的 Claude 往往是顶着 Claude 名字的其他模型。为什么直接问模型证明不了任何事，为什么知识截止日期只是猜测，以及哪些检查真正能揪出假货。",
         "AUTHOR": "{appName} 团队",
         "INTRO_P1": "Claude 是最受欢迎的模型之一，也是最贵的模型之一。这个价格差催生了一个转售市场，有人以零头的价格出售“同样的 Claude”。有些确实在卖 Claude，但很多并不是：<post_launch>它们用更便宜的模型来回答，再贴上 Claude 的名字</post_launch>。",
@@ -969,7 +969,7 @@
         "META_DESCRIPTION": "绑定账号即得 1 美元，助推服务器每月再得 1 美元，提交漏洞最高 50 美元。{appName} 的 Discord 刚刚上线。"
       },
       "FREE_MODELS_AGGREGATED": {
-        "TITLE": "我们把来自约 50 家提供商的 130+ 个免费 AI 模型聚合到了一个端点",
+        "TITLE": "{appName} 免费模型：免费额度与限制说明",
         "DESCRIPTION": "我们把约 50 家免费提供商接入了 {appName}：130+ 个免费模型，一个兼容 OpenAI 的端点，每个 token 0 美元。它们带着我们无法提高的上游限制，另外我们自己加了一个每分钟 1 次的轻量限制，让共享资源池保持公平。以下是不加修饰的说明。",
         "AUTHOR": "{appName} 团队",
         "INTRO": "免费 LLM 资源确实存在，但非常分散：NVIDIA、Cloudflare、Gemini、Mistral、Z.ai、ModelScope 以及其他几十家都在提供真实的免费算力，却分布在几十个注册页面、几十种密钥格式和互不兼容的 API 之后。我们把能找到的每一家长期免费的提供商都发现、测试并整合进了 {appName}。结果是：来自约 50 家提供商的 <free>130+ 个免费模型</free>，集中在一个兼容 OpenAI 的端点和一个密钥之后。",
@@ -994,7 +994,7 @@
         "FAQ_2_A": "每个模型每位用户每分钟约 1 次请求。超出限制会返回带 Retry-After 头的 HTTP 429。既然有 130+ 个免费模型，实际做法是轮换模型，而不是干等。",
         "FAQ_3_Q": "使用免费模型需要信用卡吗？",
         "FAQ_3_A": "不需要。用 Discord 或 GitHub 注册，创建密钥，就能使用任何带 :free 后缀的模型。一次性的 $1 Discord 验证奖励可以用在付费模型上。",
-        "META_DESCRIPTION": "我们把约 50 家免费提供商接入 {appName}：130+ 个免费模型，一个兼容 OpenAI 的端点，每个 token 0 美元。"
+        "META_DESCRIPTION": "{appName} 免费吗？是的：一个 OpenAI 兼容端点即可使用免费 AI 模型，每 token $0。说明免费额度范围、上游限制以及每分钟 1 次的上限。"
       },
       "UNOROUTER_VS_OPENROUTER": {
         "TITLE": "{appName} 对比 OpenRouter：一次诚实的比较",
@@ -2217,8 +2217,8 @@
     },
     "LIBRECHAT": {
       "META": {
-        "TITLE": "LibreChat 集成指南 | {appName}",
-        "DESCRIPTION": "用自定义 OpenAI 兼容端点把 LibreChat 连接到 {appName}。在 librechat.yaml 中添加配置块并设置环境变量。",
+        "TITLE": "LibreChat 配置：免费 OpenAI 兼容 API | {appName}",
+        "DESCRIPTION": "用自定义 OpenAI 兼容端点把 LibreChat 连接到 {appName}。在 librechat.yaml 中添加配置块并设置环境变量。含免费模型。",
         "KEYWORDS": "LibreChat，LibreChat 自定义端点，LibreChat OpenAI 兼容，{appName} LibreChat，自托管聊天界面"
       },
       "BADGE": "LibreChat",
@@ -2237,8 +2237,8 @@
     },
     "OPEN_WEBUI": {
       "META": {
-        "TITLE": "Open WebUI 集成指南 | {appName}",
-        "DESCRIPTION": "在管理面板中把 Open WebUI 作为 OpenAI 连接接入 {appName}。模型选择器会由目录填充。",
+        "TITLE": "Open WebUI 配置：免费 OpenAI 兼容 API | {appName}",
+        "DESCRIPTION": "在管理面板中把 Open WebUI 作为 OpenAI 连接接入 {appName}。模型选择器会由目录填充。含免费模型。",
         "KEYWORDS": "Open WebUI，Open WebUI OpenAI 连接，{appName} Open WebUI，自托管 ChatGPT 界面"
       },
       "BADGE": "Open WebUI",
@@ -2258,8 +2258,8 @@
     },
     "LOBECHAT": {
       "META": {
-        "TITLE": "LobeChat 集成指南 | {appName}",
-        "DESCRIPTION": "通过 Add Custom Provider 或 Docker 环境变量把 LobeChat 连接到 {appName}。",
+        "TITLE": "LobeChat 配置：免费 OpenAI 兼容 API | {appName}",
+        "DESCRIPTION": "通过 Add Custom Provider 或 Docker 环境变量把 LobeChat 连接到 {appName}。含免费模型。",
         "KEYWORDS": "LobeChat，LobeChat 自定义提供商，{appName} LobeChat，开源 Web 聊天"
       },
       "BADGE": "LobeChat",
@@ -2277,8 +2277,8 @@
     },
     "ANYTHINGLLM": {
       "META": {
-        "TITLE": "AnythingLLM 集成指南 | {appName}",
-        "DESCRIPTION": "将 AnythingLLM 作为 Generic OpenAI 提供商连接到 {appName}。输入模型，设置上下文窗口，保存。",
+        "TITLE": "AnythingLLM 配置：免费 OpenAI 兼容 API | {appName}",
+        "DESCRIPTION": "将 AnythingLLM 作为 Generic OpenAI 提供商连接到 {appName}。输入模型，设置上下文窗口，保存。含免费模型。",
         "KEYWORDS": "AnythingLLM，AnythingLLM Generic OpenAI，{appName} AnythingLLM，自托管 RAG"
       },
       "BADGE": "AnythingLLM",
@@ -2296,8 +2296,8 @@
     },
     "CHERRY_STUDIO": {
       "META": {
-        "TITLE": "Cherry Studio 集成指南 | {appName}",
-        "DESCRIPTION": "把 Cherry Studio 作为 OpenAI 提供商连接到 {appName}。添加主机和密钥，然后加载你的模型。",
+        "TITLE": "Cherry Studio 配置：免费 OpenAI 兼容 API | {appName}",
+        "DESCRIPTION": "把 Cherry Studio 作为 OpenAI 提供商连接到 {appName}。添加主机和密钥，然后加载你的模型。含免费模型。",
         "KEYWORDS": "Cherry Studio，Cherry Studio OpenAI 提供商，{appName} Cherry Studio，跨平台桌面聊天"
       },
       "BADGE": "Cherry Studio",
@@ -2315,8 +2315,8 @@
     },
     "TYPINGMIND": {
       "META": {
-        "TITLE": "TypingMind 集成指南 | {appName}",
-        "DESCRIPTION": "粘贴一个自定义 OpenAI 兼容端点，把 TypingMind 连接到 {appName}。",
+        "TITLE": "TypingMind 配置：免费 OpenAI 兼容 API | {appName}",
+        "DESCRIPTION": "粘贴一个自定义 OpenAI 兼容端点，把 TypingMind 连接到 {appName}。含免费模型。",
         "KEYWORDS": "TypingMind，TypingMind 自定义模型，{appName} TypingMind，BYOK Web 前端"
       },
       "BADGE": "TypingMind",
@@ -2336,8 +2336,8 @@
     },
     "BOLTAI": {
       "META": {
-        "TITLE": "BoltAI 集成指南 | {appName}",
-        "DESCRIPTION": "把 BoltAI 作为自定义 OpenAI 兼容服务器连接到 {appName}。",
+        "TITLE": "BoltAI 配置：免费 OpenAI 兼容 API | {appName}",
+        "DESCRIPTION": "把 BoltAI 作为自定义 OpenAI 兼容服务器连接到 {appName}。含免费模型。",
         "KEYWORDS": "BoltAI，BoltAI OpenAI 兼容，{appName} BoltAI，macOS AI 助手"
       },
       "BADGE": "BoltAI",
@@ -2355,8 +2355,8 @@
     },
     "PAGE_ASSIST": {
       "META": {
-        "TITLE": "Page Assist 集成指南 | {appName}",
-        "DESCRIPTION": "在浏览器侧边栏中把 Page Assist 作为自定义 OpenAI 兼容 API 连接到 {appName}。",
+        "TITLE": "Page Assist 配置：免费 OpenAI 兼容 API | {appName}",
+        "DESCRIPTION": "在浏览器侧边栏中把 Page Assist 作为自定义 OpenAI 兼容 API 连接到 {appName}。含免费模型。",
         "KEYWORDS": "Page Assist，Page Assist OpenAI 兼容，{appName} Page Assist，浏览器 AI 扩展"
       },
       "BADGE": "Page Assist",
@@ -2376,8 +2376,8 @@
     },
     "CHATBOX": {
       "META": {
-        "TITLE": "Chatbox 集成指南 | {appName}",
-        "DESCRIPTION": "使用 OpenAI API Compatible 模式将 Chatbox 连接到 {appName}。将 URL 拆分为 Host 和 Path。",
+        "TITLE": "Chatbox 配置：免费 OpenAI 兼容 API | {appName}",
+        "DESCRIPTION": "使用 OpenAI API Compatible 模式将 Chatbox 连接到 {appName}。将 URL 拆分为 Host 和 Path。含免费模型。",
         "KEYWORDS": "Chatbox，Chatbox OpenAI 兼容，{appName} Chatbox，跨平台聊天客户端"
       },
       "BADGE": "Chatbox",
@@ -2397,8 +2397,8 @@
     },
     "BIG_AGI": {
       "META": {
-        "TITLE": "Big-AGI 集成指南 | {appName}",
-        "DESCRIPTION": "把 Big-AGI 作为 OpenAI 来源连接到 {appName}。Big-AGI 会拉取目录。",
+        "TITLE": "Big-AGI 配置：免费 OpenAI 兼容 API | {appName}",
+        "DESCRIPTION": "把 Big-AGI 作为 OpenAI 来源连接到 {appName}。Big-AGI 会拉取目录。含免费模型。",
         "KEYWORDS": "Big-AGI，Big-AGI OpenAI 来源，{appName} Big-AGI，Web AI 工作台"
       },
       "BADGE": "Big-AGI",
@@ -2505,8 +2505,8 @@
     },
     "ROO_CODE": {
       "META": {
-        "TITLE": "Roo Code 设置指南 | {appName}",
-        "DESCRIPTION": "把 Roo Code 作为 OpenAI Compatible 提供商连接到 {appName}，让规划、编码和 QA 角色共用一个基础 URL。",
+        "TITLE": "Roo Code 配置：免费 OpenAI 兼容 API | {appName}",
+        "DESCRIPTION": "把 Roo Code 作为 OpenAI Compatible 提供商连接到 {appName}，让规划、编码和 QA 角色共用一个基础 URL。含免费模型。",
         "KEYWORDS": "Roo Code，Roo Code 设置，多代理 VSCode，{appName} Roo Code，OpenAI Compatible，编码代理"
       },
       "BADGE": "Roo Code",
@@ -2545,8 +2545,8 @@
     },
     "AIDER": {
       "META": {
-        "TITLE": "Aider 设置指南 | {appName}",
-        "DESCRIPTION": "把结对编程 CLI 工具 Aider 连接到 {appName}。设置两个环境变量，并把 openai/MODEL_ID 作为模型传入。",
+        "TITLE": "Aider 配置：免费 OpenAI 兼容 API | {appName}",
+        "DESCRIPTION": "把结对编程 CLI 工具 Aider 连接到 {appName}。设置两个环境变量，并把 openai/MODEL_ID 作为模型传入。含免费模型。",
         "KEYWORDS": "Aider，Aider 设置，AI 结对编程 CLI，{appName} Aider，LiteLLM，OpenAI 兼容"
       },
       "BADGE": "Aider",

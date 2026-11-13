@@ -847,7 +847,7 @@
         "META_DESCRIPTION": "{appName}, yapay zeka aracı ve girişim dizinlerinde listelenmiştir. Bizi burada bulun, kayıtları doğrulayın ve bağımsız değerlendirmeleri okuyun."
       },
       "LAUNCH": {
-        "TITLE": "Sahte Claude'dan bıktık. Bu yüzden {appName}'i kurduk.",
+        "TITLE": "{appName} nedir ve neden geliştirdik",
         "DESCRIPTION": "Her hafta kesintiler. Premium modeller sessizce ucuz klonlarla değiştiriliyor. Patladık, kendi router'ımızı çıkardık ve onu ikisi konusunda da paranoyak yaptık. İşte lansman hikayesi.",
         "AUTHOR": "{appName} ekibi",
         "INTRO": "Ucuz AI API pazarının iki sorunu var. Sağlayıcılar sık çöküyor ve bazıları <post_ai_model_verifier>sessizce isteğinizi daha zayıf bir modele yönlendirip</post_ai_model_verifier> yine de amiral gemisi için ücret alıyor. {appName} her ikisini de düzeltmek için inşa edildi.",
@@ -860,7 +860,7 @@
         "H_NEXT": "Sırada ne var",
         "P_NEXT": "Haftalık olarak yayınlıyoruz. Daha fazla model, daha akıllı fallback'leri yönlendiren <rankings>daha sıkı sağlık sinyalleri</rankings>, daha zengin maliyet ve gecikme dashboardları ve zaten yaşadığınız terminaller ve IDE'lerle daha derin entegrasyonlar bekleyin.",
         "CTA": "Denemeye hazır mısın? <register>API anahtarı al</register> veya <models>model kataloğuna göz at</models>.",
-        "META_DESCRIPTION": "İki haftada bir kesinti, sessizce ucuz klonlarla değiştirilen premium modeller. Biz de paranoyak bir yönlendirici kurup çıkardık. İşte lansman hikayesi."
+        "META_DESCRIPTION": "{appName}, birçok yapay zekâ modeli için tek bir OpenAI uyumlu API anahtarı. İki haftada bir yaşanan kesintiler ve sessizce ucuz kopyalarla değiştirilen premium modellerden sonra geliştirildi."
       },
       "AGENT_READY": {
         "TITLE": "Cloudflare'in ajan tarayıcısını sitemize yönelttik. 100/100 ile döndü.",
@@ -883,7 +883,7 @@
         "META_DESCRIPTION": "Cloudflare, sitelerin AI ajanlarına hazırlığını ölçen bir tarayıcı yayınladı. 100/100 ve Level 5 aldık. Neyi kontrol ettiği ve çoğu sitenin neden kaldığı."
       },
       "CLAUDE_AUTHENTICITY": {
-        "TITLE": "Gerçek Claude'u sahtesinden nasıl ayırt ediyoruz",
+        "TITLE": "Sahte Claude: bir modelin gerçekten Claude olup olmadığı nasıl anlaşılır",
         "DESCRIPTION": "Ucuz Claude çoğu zaman Claude adını taşıyan başka bir modeldir. Modele sormak neden hiçbir şey kanıtlamaz, bilgi kesim tarihi neden bir tahmindir ve sahteyi gerçekten yakalayan kontroller nelerdir.",
         "AUTHOR": "{appName} ekibi",
         "INTRO_P1": "Claude en çok aranan modellerden biri ve aynı zamanda en pahalılarından biri. Bu fiyat farkı, “aynı Claude”u fiyatın çok küçük bir kısmına satan aracılardan oluşan bir pazar yarattı. Bazıları gerçekten Claude satıyor. Birçoğu ise satmıyor: <post_launch>daha ucuz bir modelle cevap verip üzerine Claude adını yapıştırıyor</post_launch>.",
@@ -969,7 +969,7 @@
         "META_DESCRIPTION": "Hesabınızı bağlayın 1$, sunucuyu boost edin her ay 1$, bug avlayın 50$'a kadar. {appName} Discord'unu açtık."
       },
       "FREE_MODELS_AGGREGATED": {
-        "TITLE": "130'dan fazla ücretsiz yapay zeka modelini yaklaşık 50 sağlayıcıdan tek bir uç noktada topladık",
+        "TITLE": "{appName} ücretsiz modeller: ücretsiz katman ve limitler",
         "DESCRIPTION": "Yaklaşık 50 ücretsiz sağlayıcıyı {appName}'e bağladık: 130'dan fazla ücretsiz model, tek bir OpenAI uyumlu uç nokta, token başına $0. Bu modeller, yükseltemeyeceğimiz kaynak sınırları taşıyor; buna ek olarak paylaşımlı havuzları dengeli tutmak için dakikada 1 istek şeklinde hafif bir sınır da ekliyoruz. İşte dürüst bir özet.",
         "AUTHOR": "{appName} ekibi",
         "INTRO": "Ücretsiz büyük dil modeli ekosistemi gerçek ama dağınık: NVIDIA, Cloudflare, Gemini, Mistral, Z.ai, ModelScope ve düzinelerce başka sağlayıcı, onlarca kayıt sayfası, farklı anahtar formatı ve uyumsuz API'nin arkasında gerçek kapasite sunuyor. Biz kalıcı olarak ücretsiz olan her sağlayıcıyı keşfedip test ettik ve hepsini {appName}'de bir araya getirdik. Sonuç: yaklaşık 50 sağlayıcıdan <free>130'dan fazla ücretsiz model</free>, tek bir OpenAI uyumlu uç nokta ve tek bir anahtar.",
@@ -994,7 +994,7 @@
         "FAQ_2_A": "Kullanıcı başına model başına dakikada yaklaşık 1 istek. Sınır aşıldığında Retry-After başlığıyla birlikte HTTP 429 döner. 130'dan fazla ücretsiz modelle pratik çözüm, beklmek yerine modeller arasında geçiş yapmaktır.",
         "FAQ_3_Q": "Ücretsiz modeller için kredi kartı gerekiyor mu?",
         "FAQ_3_A": "Hayır. Discord veya GitHub ile kaydolun, bir anahtar oluşturun ve :free son ekine sahip herhangi bir modeli kullanın. Tek seferlik $1 Discord doğrulama bonusu ücretli modellerde harcanabilir.",
-        "META_DESCRIPTION": "Yaklaşık 50 ücretsiz sağlayıcıyı {appName} hizmetine bağladık: 130'dan fazla model, tek OpenAI uyumlu uç nokta, token başına $0 ve dakikada 1 istek sınırı."
+        "META_DESCRIPTION": "{appName} ücretsiz mi? Evet: tek bir OpenAI uyumlu uç noktada ücretsiz yapay zekâ modelleri, token başına $0. Ücretsiz katman, limitler ve dakikada 1 istek sınırımız."
       },
       "UNOROUTER_VS_OPENROUTER": {
         "TITLE": "{appName} ve OpenRouter: dürüst bir karşılaştırma",
@@ -2217,8 +2217,8 @@
     },
     "LIBRECHAT": {
       "META": {
-        "TITLE": "LibreChat Entegrasyon Kılavuzu | {appName}",
-        "DESCRIPTION": "LibreChat''i özel bir OpenAI uyumlu endpointle {appName}''e bağlayın. Bloğu librechat.yaml dosyasına ekleyin ve ortam değişkenini tanımlayın.",
+        "TITLE": "LibreChat kurulumu: ücretsiz OpenAI uyumlu API | {appName}",
+        "DESCRIPTION": "LibreChat''i özel bir OpenAI uyumlu endpointle {appName}''e bağlayın. Bloğu librechat.yaml dosyasına ekleyin ve ortam değişkenini tanımlayın. Ücretsiz modeller dahil.",
         "KEYWORDS": "LibreChat, LibreChat özel uç nokta, OpenAI uyumlu LibreChat, {appName} LibreChat, kendi sunucunda barındırılan sohbet"
       },
       "BADGE": "LibreChat",
@@ -2237,8 +2237,8 @@
     },
     "OPEN_WEBUI": {
       "META": {
-        "TITLE": "Open WebUI Entegrasyon Kılavuzu | {appName}",
-        "DESCRIPTION": "Open WebUI''yi yönetici panelinden {appName}''e OpenAI bağlantısı olarak bağlayın. Model seçici kataloğdan dolar.",
+        "TITLE": "Open WebUI kurulumu: ücretsiz OpenAI uyumlu API | {appName}",
+        "DESCRIPTION": "Open WebUI''yi yönetici panelinden {appName}''e OpenAI bağlantısı olarak bağlayın. Model seçici kataloğdan dolar. Ücretsiz modeller dahil.",
         "KEYWORDS": "Open WebUI, Open WebUI OpenAI bağlantısı, {appName} Open WebUI, kendi sunucunda barındırılan ChatGPT arayüzü"
       },
       "BADGE": "Open WebUI",
@@ -2258,8 +2258,8 @@
     },
     "LOBECHAT": {
       "META": {
-        "TITLE": "LobeChat Entegrasyon Kılavuzu | {appName}",
-        "DESCRIPTION": "LobeChat''i Add Custom Provider veya Docker ortam değişkenleri üzerinden {appName}''e bağlayın.",
+        "TITLE": "LobeChat kurulumu: ücretsiz OpenAI uyumlu API | {appName}",
+        "DESCRIPTION": "LobeChat''i Add Custom Provider veya Docker ortam değişkenleri üzerinden {appName}''e bağlayın. Ücretsiz modeller dahil.",
         "KEYWORDS": "LobeChat, LobeChat özel sağlayıcı, {appName} LobeChat, açık kaynak web sohbeti"
       },
       "BADGE": "LobeChat",
@@ -2277,8 +2277,8 @@
     },
     "ANYTHINGLLM": {
       "META": {
-        "TITLE": "AnythingLLM Entegrasyon Kılavuzu | {appName}",
-        "DESCRIPTION": "AnythingLLM''i {appName} ile Generic OpenAI sağlayıcısı olarak bağlayın. Modeli yazın, bağlam penceresini ayarlayın, kaydedin.",
+        "TITLE": "AnythingLLM kurulumu: ücretsiz OpenAI uyumlu API | {appName}",
+        "DESCRIPTION": "AnythingLLM''i {appName} ile Generic OpenAI sağlayıcısı olarak bağlayın. Modeli yazın, bağlam penceresini ayarlayın, kaydedin. Ücretsiz modeller dahil.",
         "KEYWORDS": "AnythingLLM, AnythingLLM Generic OpenAI, {appName} AnythingLLM, kendi sunucunda barındırılan RAG"
       },
       "BADGE": "AnythingLLM",
@@ -2296,8 +2296,8 @@
     },
     "CHERRY_STUDIO": {
       "META": {
-        "TITLE": "Cherry Studio Entegrasyon Kılavuzu | {appName}",
-        "DESCRIPTION": "Cherry Studio''yu {appName}''e OpenAI sağlayıcısı olarak bağlayın. Hostu ve anahtarı ekleyin, sonra modellerinizi yükleyin.",
+        "TITLE": "Cherry Studio kurulumu: ücretsiz OpenAI uyumlu API | {appName}",
+        "DESCRIPTION": "Cherry Studio''yu {appName}''e OpenAI sağlayıcısı olarak bağlayın. Hostu ve anahtarı ekleyin, sonra modellerinizi yükleyin. Ücretsiz modeller dahil.",
         "KEYWORDS": "Cherry Studio, Cherry Studio OpenAI sağlayıcı, {appName} Cherry Studio, çapraz platform masaüstü sohbet"
       },
       "BADGE": "Cherry Studio",
@@ -2315,8 +2315,8 @@
     },
     "TYPINGMIND": {
       "META": {
-        "TITLE": "TypingMind Entegrasyon Kılavuzu | {appName}",
-        "DESCRIPTION": "TypingMind''i özel bir OpenAI uyumlu endpoint yapıştırarak {appName}''e bağlayın.",
+        "TITLE": "TypingMind kurulumu: ücretsiz OpenAI uyumlu API | {appName}",
+        "DESCRIPTION": "TypingMind''i özel bir OpenAI uyumlu endpoint yapıştırarak {appName}''e bağlayın. Ücretsiz modeller dahil.",
         "KEYWORDS": "TypingMind, TypingMind özel model, {appName} TypingMind, BYOK web ön yüzü"
       },
       "BADGE": "TypingMind",
@@ -2336,8 +2336,8 @@
     },
     "BOLTAI": {
       "META": {
-        "TITLE": "BoltAI Entegrasyon Kılavuzu | {appName}",
-        "DESCRIPTION": "BoltAI''yi {appName}''e özel bir OpenAI uyumlu sunucu olarak bağlayın.",
+        "TITLE": "BoltAI kurulumu: ücretsiz OpenAI uyumlu API | {appName}",
+        "DESCRIPTION": "BoltAI''yi {appName}''e özel bir OpenAI uyumlu sunucu olarak bağlayın. Ücretsiz modeller dahil.",
         "KEYWORDS": "BoltAI, BoltAI OpenAI uyumlu, {appName} BoltAI, macOS yapay zeka asistanı"
       },
       "BADGE": "BoltAI",
@@ -2355,8 +2355,8 @@
     },
     "PAGE_ASSIST": {
       "META": {
-        "TITLE": "Page Assist Entegrasyon Kılavuzu | {appName}",
-        "DESCRIPTION": "Page Assist''i tarayıcı yan panelinde özel bir OpenAI uyumlu API olarak {appName}''e bağlayın.",
+        "TITLE": "Page Assist kurulumu: ücretsiz OpenAI uyumlu API | {appName}",
+        "DESCRIPTION": "Page Assist''i tarayıcı yan panelinde özel bir OpenAI uyumlu API olarak {appName}''e bağlayın. Ücretsiz modeller dahil.",
         "KEYWORDS": "Page Assist, Page Assist OpenAI uyumlu, {appName} Page Assist, tarayıcı yapay zeka uzantısı"
       },
       "BADGE": "Page Assist",
@@ -2376,8 +2376,8 @@
     },
     "CHATBOX": {
       "META": {
-        "TITLE": "Chatbox Entegrasyon Kılavuzu | {appName}",
-        "DESCRIPTION": "Chatbox''i {appName} ile OpenAI API Compatible modunu kullanarak bağlayın. URL''yi Host ve Path olarak ayırın.",
+        "TITLE": "Chatbox kurulumu: ücretsiz OpenAI uyumlu API | {appName}",
+        "DESCRIPTION": "Chatbox''i {appName} ile OpenAI API Compatible modunu kullanarak bağlayın. URL''yi Host ve Path olarak ayırın. Ücretsiz modeller dahil.",
         "KEYWORDS": "Chatbox, Chatbox OpenAI uyumlu, {appName} Chatbox, çapraz platform sohbet istemcisi"
       },
       "BADGE": "Chatbox",
@@ -2397,8 +2397,8 @@
     },
     "BIG_AGI": {
       "META": {
-        "TITLE": "Big-AGI Entegrasyon Kılavuzu | {appName}",
-        "DESCRIPTION": "Big-AGI''yi {appName}''e OpenAI kaynağı olarak bağlayın. Big-AGI kataloğu çeker.",
+        "TITLE": "Big-AGI kurulumu: ücretsiz OpenAI uyumlu API | {appName}",
+        "DESCRIPTION": "Big-AGI''yi {appName}''e OpenAI kaynağı olarak bağlayın. Big-AGI kataloğu çeker. Ücretsiz modeller dahil.",
         "KEYWORDS": "Big-AGI, Big-AGI OpenAI kaynağı, {appName} Big-AGI, web yapay zeka tezgahi"
       },
       "BADGE": "Big-AGI",
@@ -2505,8 +2505,8 @@
     },
     "ROO_CODE": {
       "META": {
-        "TITLE": "Roo Code Kurulum Kılavuzu | {appName}",
-        "DESCRIPTION": "Roo Code''u {appName}''e OpenAI Compatible sağlayıcı olarak bağlayın; planlama, kod ve QA rolleri tek temel URL''yi paylaşsın.",
+        "TITLE": "Roo Code kurulumu: ücretsiz OpenAI uyumlu API | {appName}",
+        "DESCRIPTION": "Roo Code''u {appName}''e OpenAI Compatible sağlayıcı olarak bağlayın; planlama, kod ve QA rolleri tek temel URL''yi paylaşsın. Ücretsiz modeller dahil.",
         "KEYWORDS": "Roo Code, Roo Code kurulumu, çok ajanli VSCode, {appName} Roo Code, OpenAI Uyumlu, kodlama ajanı"
       },
       "BADGE": "Roo Code",
@@ -2545,8 +2545,8 @@
     },
     "AIDER": {
       "META": {
-        "TITLE": "Aider Kurulum Kılavuzu | {appName}",
-        "DESCRIPTION": "Aider eşli programlama CLI''sini {appName}''e bağlayın. İki ortam değişkeni tanımlayın ve model olarak openai/MODEL_ID geçin.",
+        "TITLE": "Aider kurulumu: ücretsiz OpenAI uyumlu API | {appName}",
+        "DESCRIPTION": "Aider eşli programlama CLI''sini {appName}''e bağlayın. İki ortam değişkeni tanımlayın ve model olarak openai/MODEL_ID geçin. Ücretsiz modeller dahil.",
         "KEYWORDS": "Aider, Aider kurulumu, yapay zeka eşli programlama CLI, {appName} Aider, LiteLLM, OpenAI uyumlu"
       },
       "BADGE": "Aider",
