@@ -178,12 +178,6 @@ export const FOOTER_BADGES: {
     width: 81,
   },
   {
-    href: "https://postmake.io",
-    src: "/images/badges/postmake.png",
-    name: "Postmake",
-    width: 103,
-  },
-  {
     href: "https://saasbison.com",
     src: "https://saasbison.com/badge.png",
     name: "SaaSBison",
@@ -209,12 +203,6 @@ export const FOOTER_BADGES: {
     width: 132,
   },
   {
-    href: "https://findyoursaas.com/tool/unorouter",
-    src: "/images/badges/findyoursaas.png",
-    name: "FindYourSaaS",
-    width: 24,
-  },
-  {
     href: "https://openhunts.com/projects/unorouter",
     src: "https://cdn.openhunts.com/badges/club.webp",
     name: "OpenHunts",
@@ -225,12 +213,6 @@ export const FOOTER_BADGES: {
     src: "https://saasgrow.app/api/badge?type=featured&style=light",
     name: "SaaSGrow",
     width: 240,
-  },
-  {
-    href: "https://wired.business",
-    src: "https://wired.business/badge0-white.svg",
-    name: "Wired Business",
-    width: 200,
   },
   {
     href: "https://findly.tools/unorouter?utm_source=unorouter",
@@ -467,12 +449,6 @@ export const FOOTER_BADGES: {
     width: 84,
   },
   {
-    href: "https://aitoolzs.com/ai/unorouter",
-    src: "https://aitoolzs.com/assets/images/badge.png",
-    name: "Compare AI Tools for Writing, Coding, Design, and Automation",
-    width: 70,
-  },
-  {
     href: "https://aitrovex.com",
     src: "https://aitrovex.com/badge-listed-light.svg",
     name: "Find the right AI tool, faster",
@@ -579,12 +555,6 @@ export const FOOTER_BADGES: {
     src: "https://daniellaunches.com/badge-light.svg",
     name: "daniellaunches.com",
     width: 110,
-  },
-  {
-    href: "https://dayslaunch.com",
-    src: "https://dayslaunch.com/badages-awards.svg",
-    name: "Days Launch",
-    width: 89,
   },
   {
     href: "https://debutpin.com/p/unorouter",
@@ -759,12 +729,6 @@ export const FOOTER_BADGES: {
     href: "https://hiproducty.com",
     src: "https://hiproducty.com/badge.svg",
     name: "HiProducty",
-    width: 120,
-  },
-  {
-    href: "https://huntstartup.com",
-    src: "https://huntstartup.com/badge-dark.svg",
-    name: "Hunt Startup",
     width: 120,
   },
   {
@@ -1362,12 +1326,6 @@ export const FOOTER_BADGES: {
     width: 120,
   },
   {
-    href: "https://startupwiki.tech/launch",
-    src: "https://startupwiki.tech/badges/featured-on-startupwiki.svg",
-    name: "Startup Wiki",
-    width: 103,
-  },
-  {
     href: "https://submitforbacklinks.com/badge/CEz-M3Yth16UWLNr68AQ46te?ref=badge",
     data: {
       "data-s4b-token": "CEz-M3Yth16UWLNr68AQ46te",
@@ -1435,12 +1393,6 @@ export const FOOTER_BADGES: {
     href: "https://themakerora.com/product/unorouter",
     src: "https://themakerora.com/api/badge?product=9dd8057c-e013-4a9f-b8f4-8949fb6be78c",
     name: "Makerora",
-    width: 120,
-  },
-  {
-    href: "https://theonestartup.com",
-    src: "https://theonestartup.com/badages-awards.svg",
-    name: "theonestartup.com",
     width: 120,
   },
   {
@@ -1955,13 +1907,6 @@ export const FOOTER_BADGES: {
     width: 75,
   },
   {
-    href: "https://iaselecta.com",
-    src: "https://iaselecta.com/api/badge",
-    name: "256 herramientas indexadas",
-    alt: "Destacado en IA Selecta",
-    width: 79,
-  },
-  {
     href: "https://hauntboard.com/products/unorouter",
     src: "https://hauntboard.com/badges/unorouter.svg?style=found&theme=light",
     name: "Hauntboard: Launch free and get found",
@@ -2039,13 +1984,6 @@ export const FOOTER_BADGES: {
     width: 120,
   },
   {
-    href: "https://saasaffiliate.net/",
-    src: "https://saasaffiliate.net/badges/badge-light.svg",
-    name: "SaaS Affiliate Programs: 96 Verified & Compared",
-    alt: "Featured on SaaSAffiliate.net",
-    width: 89,
-  },
-  {
     href: "https://tailyai.co",
     src: "https://tailyai.co/badge.svg",
     name: "TailyAI",
@@ -2118,13 +2056,10 @@ export const FOOTER_BADGES: {
 ] as const;
 
 export const FOOTER_TEXT_LINKS = [
-  { href: "https://www.seewhatnewai.com", label: "SeeWhatNewAI" },
   {
     href: "https://www.toolpilot.ai/products/unorouter",
     label: "Toolpilot.ai",
   },
-  { href: "https://animatephoto.io", label: "Animate Photo AI" },
-  { href: "https://lookaitools.com", label: "LookAITools" },
   {
     href: "https://21st.tools/p/unorouter",
     label: "21st Tools",
@@ -2193,14 +2128,6 @@ export const FOOTER_TEXT_LINKS = [
     label: "Finetools AI Tools Directory",
   },
   { href: "https://hotools.com/", label: "HoTools" },
-  {
-    href: "https://www.indietools.work",
-    label: "Indie Tools",
-  },
-  {
-    href: "https://launched.tools/tools/unorouter",
-    label: "Featured on launched.tools REVIEWED ✓",
-  },
   {
     href: "https://launchpadly.co/startup/unorouter?ref=badge",
     label: "Proudly listed on Launchpadly Startup Directory",
