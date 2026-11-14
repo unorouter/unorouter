@@ -127,6 +127,13 @@
       "when": 1794589692603,
       "tag": "0017_wakeful_trish_tilby",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "6",
+      "when": 1794617950828,
+      "tag": "0018_first_sentry",
+      "breakpoints": true
     }
   ]
 }

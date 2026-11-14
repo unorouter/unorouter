@@ -437,6 +437,23 @@ export const ICON_MAP: Record<string, IconEntry> = {
     iconoir: () =>
       import("iconoir-react/regular").then((m) => ({ default: m.InfoCircle })),
   },
+  "volume-2": {
+    lucide: () => import("lucide-react/dist/esm/icons/volume-2.mjs"),
+    tabler: () => import("@tabler/icons-react/dist/esm/icons/IconVolume.mjs"),
+    phosphor: () =>
+      import("@phosphor-icons/react/dist/ssr/SpeakerHigh").then((m) => ({
+        default: m.SpeakerHigh,
+      })),
+    heroicons: () => import("@heroicons/react/24/outline/SpeakerWaveIcon"),
+    remix: () =>
+      import("@remixicon/react").then((m) => ({
+        default: m.RiVolumeUpLine,
+      })),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({
+        default: m.SoundHigh,
+      })),
+  },
   loader: {
     lucide: () => import("lucide-react/dist/esm/icons/loader.mjs"),
     tabler: () => import("@tabler/icons-react/dist/esm/icons/IconLoader.mjs"),

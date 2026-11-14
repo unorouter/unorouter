@@ -58,6 +58,10 @@ export function RpNavItems() {
             <Icon name="code" className="size-4" />
             {t("CHAT.JS_PLUGIN.SIDEBAR_TAB")}
           </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setOpenRpTab("voice")}>
+            <Icon name="volume-2" className="size-4" />
+            {t("CHAT.VOICE.SIDEBAR_TAB")}
+          </DropdownMenuItem>
         </DropdownMenuSubContent>
       </DropdownMenuSub>
     </>

@@ -821,6 +821,14 @@ export function createChatHistoryAdapter(
           queryClient.invalidateQueries({ queryKey });
         }
 
+        if (isAssistant && !existingRow && originalAssistantText.trim()) {
+          void import("./voice-run")
+            .then((m) =>
+              m.autoplayReply(messageId, originalAssistantText, speakingCharId),
+            )
+            .catch((e) => handleError(e));
+        }
+
         if (illustratorJob) {
           // The placeholder went to the DB only; the open thread renders its live copy.
           replaceMessageParts(messageId, (parts) => [

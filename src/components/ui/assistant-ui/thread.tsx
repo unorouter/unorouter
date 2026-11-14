@@ -35,6 +35,12 @@ import {
   useSetActiveBranchMutation,
 } from "@/hooks/ai/chat-hook";
 import { useCustomProvidersQuery } from "@/hooks/ai/custom-providers-hook";
+import { useVoiceSettingsQuery } from "@/hooks/ai/voice-hook";
+import { playingVoiceAtom, primeVoicePlayback } from "@/lib/ai/voice/speak";
+import {
+  speakMessage,
+  stopMessageVoice,
+} from "@/components/pages/sidebar/chat/runtime/voice-run";
 import { useForkConversationMutation } from "@/hooks/ai/rp/conversations";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { usePricingCatalogQuery } from "@/hooks/models/pricing-hook";
@@ -56,7 +62,7 @@ import { msg } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { cn } from "@/lib/utils";
 import { copyToClipboard } from "@/lib/utils/base";
-import { extractErrorDetail } from "@/lib/utils/client";
+import { extractErrorDetail, handleError } from "@/lib/utils/client";
 import { formatPrice } from "@/lib/utils/format/number";
 import {
   chatLoadoutAtom,
@@ -1540,6 +1546,7 @@ const AssistantActionBar: FC = () => {
         </TooltipIconButton>
       </ActionBarPrimitive.Reload>
       <BranchButton />
+      {!isMediaOutput && <VoiceButton />}
       <RequestLogButton msgId={messageId} />
       {beginEdit && !isMediaOutput && (
         <TooltipIconButton tooltip={t("CHAT.ACTION.EDIT")} onClick={beginEdit}>
@@ -1548,6 +1555,35 @@ const AssistantActionBar: FC = () => {
       )}
       <DeleteMessageButton />
     </ActionBarPrimitive.Root>
+  );
+};
+
+const VoiceButton: FC = () => {
+  const t = useTranslations();
+  const settings = useVoiceSettingsQuery().data;
+  const messageId = useAuiState((s) => s.message.id);
+  const text = useAuiState((s) =>
+    s.message.content
+      .flatMap((p) => (p.type === "text" ? [p.text] : []))
+      .join("\n"),
+  );
+  const playing = useAtomValue(playingVoiceAtom);
+  const autoplay = settings?.autoplay ?? false;
+  useEffect(() => {
+    if (autoplay) primeVoicePlayback();
+  }, [autoplay]);
+  if (!settings?.apiKey) return null;
+  const active = playing === messageId;
+  return (
+    <TooltipIconButton
+      tooltip={t(active ? "CHAT.VOICE.STOP" : "CHAT.VOICE.PLAY")}
+      onClick={() => {
+        if (active) return stopMessageVoice();
+        speakMessage(messageId, text).catch((e) => handleError(e, t));
+      }}
+    >
+      <Icon name={active ? "square" : "volume-2"} />
+    </TooltipIconButton>
   );
 };
 

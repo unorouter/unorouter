@@ -90,6 +90,8 @@ export const queryKeys = {
     ["custom-provider-catalog", baseUrl, proxy] as const,
   jsPlugins: () => ["js-plugins"] as const,
   jsPlugin: (id: string) => ["js-plugins", id] as const,
+  voiceSettings: () => ["voice-settings"] as const,
+  fishVoices: (q: string) => ["fish-voices", q] as const,
 
   imageSessionLists: () => ["image-sessions"] as const,
   imageSessionList: (params?: unknown) => ["image-sessions", params] as const,

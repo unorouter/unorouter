@@ -4,7 +4,9 @@ import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
 import { MyFormTextarea } from "@/components/elements/form/my-form-textarea";
 import { Button } from "@/components/ui/button";
-import { Form } from "@/components/ui/form";
+import { Form, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import { VoicePicker } from "../voice/settings-dialog";
+import { useVoiceSettingsQuery } from "@/hooks/ai/voice-hook";
 import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -51,6 +53,7 @@ export function CharacterEditor(props: Props) {
   const characterQuery = useCharacterQuery(props.characterId);
   const createMut = useCreateCharacterMutation();
   const updateMut = useUpdateCharacterMutation();
+  const voiceSettingsQuery = useVoiceSettingsQuery();
   const existing = characterQuery.data;
   const [bgDraft, setBgDraft] = useState<ImgDraft>({ kind: "keep" });
   const [avatarDraft, setAvatarDraft] = useState<ImgDraft>({ kind: "keep" });
@@ -128,6 +131,7 @@ export function CharacterEditor(props: Props) {
     ? formDefaults(characterFormSchema, {
         ...existing,
         tags: Array.isArray(existing.tags) ? existing.tags.join(", ") : "",
+        voiceId: existing.voiceId ?? "",
         triggers: Array.isArray(existing.turnTriggers)
           ? existing.turnTriggers.join(", ")
           : "",
@@ -169,6 +173,7 @@ export function CharacterEditor(props: Props) {
     const body = {
       ...rest,
       tags: csvToArray(data.tags),
+      voiceId: data.voiceId || null,
       turnTriggers: csvToArray(triggerWords),
       alternateGreetings: greetings
         .map((g) => g.text.trim())
@@ -294,6 +299,23 @@ export function CharacterEditor(props: Props) {
           schema={characterFormSchema}
           label={t("RP.CHARACTER_TAGS")}
           placeholder="fantasy, adventure"
+        />
+        <FormField
+          control={form.control}
+          name="voiceId"
+          render={(r) => (
+            <FormItem>
+              <FormLabel>{t("CHAT.VOICE.CHARACTER_VOICE")}</FormLabel>
+              <p className="text-muted-foreground text-[11px]">
+                {t("CHAT.VOICE.CHARACTER_VOICE_HINT")}
+              </p>
+              <VoicePicker
+                value={r.field.value}
+                onChange={r.field.onChange}
+                apiKey={voiceSettingsQuery.data?.apiKey ?? ""}
+              />
+            </FormItem>
+          )}
         />
         <RpImageField
           labelKey="RP.CHARACTER_AVATAR"

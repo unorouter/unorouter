@@ -1,7 +1,9 @@
 import { Elysia } from "elysia";
 import { chatRoute } from "./chat/route";
 import { imageRoute } from "./image/route";
+import { voiceRoute } from "./voice/route";
 
 export const aiDomainRoute = new Elysia({ prefix: "/ai" })
   .use(chatRoute)
-  .use(imageRoute);
+  .use(imageRoute)
+  .use(voiceRoute);

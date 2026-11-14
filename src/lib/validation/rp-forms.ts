@@ -135,6 +135,7 @@ export const RP_TABS = [
   "personas",
   "lorebooks",
   "js-plugins",
+  "voice",
 ] as const;
 export type RpTab = (typeof RP_TABS)[number];
 
@@ -310,6 +311,7 @@ export const characterFormSchema = t.Object({
   postHistoryInstructions: t.String({ maxLength: MAX_DESC_LEN, default: "" }),
   tags: t.String({ default: "" }),
   triggers: t.String({ default: "" }),
+  voiceId: t.String({ maxLength: 32, default: "" }),
   alwaysActive: t.Boolean({ default: true }),
   matchWholeWords: t.Boolean({ default: false }),
 });

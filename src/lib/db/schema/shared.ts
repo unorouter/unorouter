@@ -231,6 +231,7 @@ export const characters = sqliteTable(
     systemPrompt: text("system_prompt"),
     postHistoryInstructions: text("post_history_instructions"),
     defaultReasoningEffort: text("default_reasoning_effort"),
+    voiceId: text("voice_id"),
     tags: text("tags", { mode: "json" }).$type<string[]>(),
     triggers: text("triggers", { mode: "json" }),
     turnTriggers: text("turn_triggers", { mode: "json" }).$type<string[]>(),

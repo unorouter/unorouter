@@ -99,6 +99,7 @@ import LayoutGrid from "lucide-react/dist/esm/icons/layout-grid.mjs";
 import Link from "lucide-react/dist/esm/icons/link.mjs";
 import List from "lucide-react/dist/esm/icons/list.mjs";
 import Loader from "lucide-react/dist/esm/icons/loader.mjs";
+import Volume2 from "lucide-react/dist/esm/icons/volume-2.mjs";
 import Lock from "lucide-react/dist/esm/icons/lock.mjs";
 import LogIn from "lucide-react/dist/esm/icons/log-in.mjs";
 import LogOut from "lucide-react/dist/esm/icons/log-out.mjs";
@@ -192,6 +193,7 @@ export const LUCIDE_STATIC: Record<string, IconComponent> = {
   "octagon-x": OctagonX,
   info: Info,
   loader: Loader,
+  "volume-2": Volume2,
   x: X,
   "chart-bar": ChartBar,
   "chart-column": ChartColumn,

@@ -23,114 +23,115 @@ import { XmarkCircle as i19 } from "iconoir-react/regular";
 import { WarningTriangle as i20 } from "iconoir-react/regular";
 import { Prohibition as i21 } from "iconoir-react/regular";
 import { InfoCircle as i22 } from "iconoir-react/regular";
-import { RefreshDouble as i23 } from "iconoir-react/regular";
-import { Xmark as i24 } from "iconoir-react/regular";
-import { StatsReport as i25 } from "iconoir-react/regular";
-import { StatsUpSquare as i26 } from "iconoir-react/regular";
+import { SoundHigh as i23 } from "iconoir-react/regular";
+import { RefreshDouble as i24 } from "iconoir-react/regular";
+import { Xmark as i25 } from "iconoir-react/regular";
+import { StatsReport as i26 } from "iconoir-react/regular";
 import { StatsUpSquare as i27 } from "iconoir-react/regular";
-import { GraphDown as i28 } from "iconoir-react/regular";
-import { GraphUp as i29 } from "iconoir-react/regular";
-import { DashboardSpeed as i30 } from "iconoir-react/regular";
-import { Bell as i31 } from "iconoir-react/regular";
-import { OpenBook as i32 } from "iconoir-react/regular";
+import { StatsUpSquare as i28 } from "iconoir-react/regular";
+import { GraphDown as i29 } from "iconoir-react/regular";
+import { GraphUp as i30 } from "iconoir-react/regular";
+import { DashboardSpeed as i31 } from "iconoir-react/regular";
+import { Bell as i32 } from "iconoir-react/regular";
 import { OpenBook as i33 } from "iconoir-react/regular";
-import { Calendar as i34 } from "iconoir-react/regular";
-import { PasteClipboard as i35 } from "iconoir-react/regular";
-import { CloudXmark as i36 } from "iconoir-react/regular";
-import { CloudUpload as i37 } from "iconoir-react/regular";
-import { Clock as i38 } from "iconoir-react/regular";
-import { Code as i39 } from "iconoir-react/regular";
-import { Copy as i40 } from "iconoir-react/regular";
-import { Cpu as i41 } from "iconoir-react/regular";
-import { Database as i42 } from "iconoir-react/regular";
-import { DiceFive as i43 } from "iconoir-react/regular";
-import { Dollar as i44 } from "iconoir-react/regular";
-import { Download as i45 } from "iconoir-react/regular";
-import { MoreHoriz as i46 } from "iconoir-react/regular";
-import { MoreVert as i47 } from "iconoir-react/regular";
-import { Erase as i48 } from "iconoir-react/regular";
-import { OpenNewWindow as i49 } from "iconoir-react/regular";
-import { Eye as i50 } from "iconoir-react/regular";
-import { EyeClosed as i51 } from "iconoir-react/regular";
-import { Page as i52 } from "iconoir-react/regular";
-import { Filter as i53 } from "iconoir-react/regular";
-import { FilterListCircle as i54 } from "iconoir-react/regular";
-import { Fingerprint as i55 } from "iconoir-react/regular";
-import { Gift as i56 } from "iconoir-react/regular";
-import { Github as i57 } from "iconoir-react/regular";
-import { Globe as i58 } from "iconoir-react/regular";
-import { ViewGrid as i59 } from "iconoir-react/regular";
-import { Hashtag as i60 } from "iconoir-react/regular";
-import { Heart as i61 } from "iconoir-react/regular";
-import { Home as i62 } from "iconoir-react/regular";
-import { MediaImage as i63 } from "iconoir-react/regular";
+import { OpenBook as i34 } from "iconoir-react/regular";
+import { Calendar as i35 } from "iconoir-react/regular";
+import { PasteClipboard as i36 } from "iconoir-react/regular";
+import { CloudXmark as i37 } from "iconoir-react/regular";
+import { CloudUpload as i38 } from "iconoir-react/regular";
+import { Clock as i39 } from "iconoir-react/regular";
+import { Code as i40 } from "iconoir-react/regular";
+import { Copy as i41 } from "iconoir-react/regular";
+import { Cpu as i42 } from "iconoir-react/regular";
+import { Database as i43 } from "iconoir-react/regular";
+import { DiceFive as i44 } from "iconoir-react/regular";
+import { Dollar as i45 } from "iconoir-react/regular";
+import { Download as i46 } from "iconoir-react/regular";
+import { MoreHoriz as i47 } from "iconoir-react/regular";
+import { MoreVert as i48 } from "iconoir-react/regular";
+import { Erase as i49 } from "iconoir-react/regular";
+import { OpenNewWindow as i50 } from "iconoir-react/regular";
+import { Eye as i51 } from "iconoir-react/regular";
+import { EyeClosed as i52 } from "iconoir-react/regular";
+import { Page as i53 } from "iconoir-react/regular";
+import { Filter as i54 } from "iconoir-react/regular";
+import { FilterListCircle as i55 } from "iconoir-react/regular";
+import { Fingerprint as i56 } from "iconoir-react/regular";
+import { Gift as i57 } from "iconoir-react/regular";
+import { Github as i58 } from "iconoir-react/regular";
+import { Globe as i59 } from "iconoir-react/regular";
+import { ViewGrid as i60 } from "iconoir-react/regular";
+import { Hashtag as i61 } from "iconoir-react/regular";
+import { Heart as i62 } from "iconoir-react/regular";
+import { Home as i63 } from "iconoir-react/regular";
 import { MediaImage as i64 } from "iconoir-react/regular";
-import { Key as i65 } from "iconoir-react/regular";
+import { MediaImage as i65 } from "iconoir-react/regular";
 import { Key as i66 } from "iconoir-react/regular";
-import { Dashboard as i67 } from "iconoir-react/regular";
-import { ViewGrid as i68 } from "iconoir-react/regular";
-import { Link as i69 } from "iconoir-react/regular";
-import { Lock as i70 } from "iconoir-react/regular";
-import { LogIn as i71 } from "iconoir-react/regular";
-import { LogOut as i72 } from "iconoir-react/regular";
-import { Mail as i73 } from "iconoir-react/regular";
-import { Menu as i74 } from "iconoir-react/regular";
-import { ChatBubbleEmpty as i75 } from "iconoir-react/regular";
-import { ChatLines as i76 } from "iconoir-react/regular";
-import { Microphone as i77 } from "iconoir-react/regular";
-import { Computer as i78 } from "iconoir-react/regular";
-import { HalfMoon as i79 } from "iconoir-react/regular";
-import { MusicDoubleNote as i80 } from "iconoir-react/regular";
-import { Palette as i81 } from "iconoir-react/regular";
-import { SidebarCollapse as i82 } from "iconoir-react/regular";
-import { EditPencil as i83 } from "iconoir-react/regular";
-import { DesignPencil as i84 } from "iconoir-react/regular";
-import { Percentage as i85 } from "iconoir-react/regular";
-import { Play as i86 } from "iconoir-react/regular";
-import { Plus as i87 } from "iconoir-react/regular";
-import { RefreshDouble as i88 } from "iconoir-react/regular";
-import { Refresh as i89 } from "iconoir-react/regular";
-import { Repeat as i90 } from "iconoir-react/regular";
-import { Undo as i91 } from "iconoir-react/regular";
-import { Redo as i92 } from "iconoir-react/regular";
-import { RssFeed as i93 } from "iconoir-react/regular";
-import { Search as i94 } from "iconoir-react/regular";
-import { Send as i95 } from "iconoir-react/regular";
-import { Server as i96 } from "iconoir-react/regular";
-import { Settings as i97 } from "iconoir-react/regular";
-import { Shield as i98 } from "iconoir-react/regular";
-import { ShieldCheck as i99 } from "iconoir-react/regular";
-import { Shuffle as i100 } from "iconoir-react/regular";
-import { Sparks as i101 } from "iconoir-react/regular";
-import { Star as i102 } from "iconoir-react/regular";
-import { SunLight as i103 } from "iconoir-react/regular";
-import { Label as i104 } from "iconoir-react/regular";
-import { Terminal as i105 } from "iconoir-react/regular";
-import { Trash as i106 } from "iconoir-react/regular";
-import { Trophy as i107 } from "iconoir-react/regular";
-import { Type as i108 } from "iconoir-react/regular";
-import { Upload as i109 } from "iconoir-react/regular";
-import { User as i110 } from "iconoir-react/regular";
-import { UserPlus as i111 } from "iconoir-react/regular";
-import { Group as i112 } from "iconoir-react/regular";
-import { VideoCamera as i113 } from "iconoir-react/regular";
-import { Wallet as i114 } from "iconoir-react/regular";
-import { MagicWand as i115 } from "iconoir-react/regular";
-import { Flash as i116 } from "iconoir-react/regular";
-import { ViewGrid as i117 } from "iconoir-react/regular";
-import { Expand as i118 } from "iconoir-react/regular";
-import { Settings as i119 } from "iconoir-react/regular";
-import { Trash as i120 } from "iconoir-react/regular";
-import { Brain as i121 } from "iconoir-react/regular";
-import { WifiOff as i122 } from "iconoir-react/regular";
-import { XmarkCircle as i123 } from "iconoir-react/regular";
-import { WarningCircle as i124 } from "iconoir-react/regular";
-import { Page as i125 } from "iconoir-react/regular";
-import { Square as i126 } from "iconoir-react/regular";
-import { Wrench as i127 } from "iconoir-react/regular";
-import { List as i128 } from "iconoir-react/regular";
-import { PlusCircle as i129 } from "iconoir-react/regular";
-import { CreditCard as i130 } from "iconoir-react/regular";
+import { Key as i67 } from "iconoir-react/regular";
+import { Dashboard as i68 } from "iconoir-react/regular";
+import { ViewGrid as i69 } from "iconoir-react/regular";
+import { Link as i70 } from "iconoir-react/regular";
+import { Lock as i71 } from "iconoir-react/regular";
+import { LogIn as i72 } from "iconoir-react/regular";
+import { LogOut as i73 } from "iconoir-react/regular";
+import { Mail as i74 } from "iconoir-react/regular";
+import { Menu as i75 } from "iconoir-react/regular";
+import { ChatBubbleEmpty as i76 } from "iconoir-react/regular";
+import { ChatLines as i77 } from "iconoir-react/regular";
+import { Microphone as i78 } from "iconoir-react/regular";
+import { Computer as i79 } from "iconoir-react/regular";
+import { HalfMoon as i80 } from "iconoir-react/regular";
+import { MusicDoubleNote as i81 } from "iconoir-react/regular";
+import { Palette as i82 } from "iconoir-react/regular";
+import { SidebarCollapse as i83 } from "iconoir-react/regular";
+import { EditPencil as i84 } from "iconoir-react/regular";
+import { DesignPencil as i85 } from "iconoir-react/regular";
+import { Percentage as i86 } from "iconoir-react/regular";
+import { Play as i87 } from "iconoir-react/regular";
+import { Plus as i88 } from "iconoir-react/regular";
+import { RefreshDouble as i89 } from "iconoir-react/regular";
+import { Refresh as i90 } from "iconoir-react/regular";
+import { Repeat as i91 } from "iconoir-react/regular";
+import { Undo as i92 } from "iconoir-react/regular";
+import { Redo as i93 } from "iconoir-react/regular";
+import { RssFeed as i94 } from "iconoir-react/regular";
+import { Search as i95 } from "iconoir-react/regular";
+import { Send as i96 } from "iconoir-react/regular";
+import { Server as i97 } from "iconoir-react/regular";
+import { Settings as i98 } from "iconoir-react/regular";
+import { Shield as i99 } from "iconoir-react/regular";
+import { ShieldCheck as i100 } from "iconoir-react/regular";
+import { Shuffle as i101 } from "iconoir-react/regular";
+import { Sparks as i102 } from "iconoir-react/regular";
+import { Star as i103 } from "iconoir-react/regular";
+import { SunLight as i104 } from "iconoir-react/regular";
+import { Label as i105 } from "iconoir-react/regular";
+import { Terminal as i106 } from "iconoir-react/regular";
+import { Trash as i107 } from "iconoir-react/regular";
+import { Trophy as i108 } from "iconoir-react/regular";
+import { Type as i109 } from "iconoir-react/regular";
+import { Upload as i110 } from "iconoir-react/regular";
+import { User as i111 } from "iconoir-react/regular";
+import { UserPlus as i112 } from "iconoir-react/regular";
+import { Group as i113 } from "iconoir-react/regular";
+import { VideoCamera as i114 } from "iconoir-react/regular";
+import { Wallet as i115 } from "iconoir-react/regular";
+import { MagicWand as i116 } from "iconoir-react/regular";
+import { Flash as i117 } from "iconoir-react/regular";
+import { ViewGrid as i118 } from "iconoir-react/regular";
+import { Expand as i119 } from "iconoir-react/regular";
+import { Settings as i120 } from "iconoir-react/regular";
+import { Trash as i121 } from "iconoir-react/regular";
+import { Brain as i122 } from "iconoir-react/regular";
+import { WifiOff as i123 } from "iconoir-react/regular";
+import { XmarkCircle as i124 } from "iconoir-react/regular";
+import { WarningCircle as i125 } from "iconoir-react/regular";
+import { Page as i126 } from "iconoir-react/regular";
+import { Square as i127 } from "iconoir-react/regular";
+import { Wrench as i128 } from "iconoir-react/regular";
+import { List as i129 } from "iconoir-react/regular";
+import { PlusCircle as i130 } from "iconoir-react/regular";
+import { CreditCard as i131 } from "iconoir-react/regular";
 
 export const ICONS: Record<string, IconComponent> = {
   "arrow-down": i0,
@@ -147,121 +148,122 @@ export const ICONS: Record<string, IconComponent> = {
   "chevrons-left": i11,
   "chevrons-right": i12,
   "chevrons-up-down": i13,
-  activity: i14,
-  check: i15,
+  "activity": i14,
+  "check": i15,
   "circle-alert": i16,
   "circle-check": i17,
   "circle-help": i18,
   "circle-x": i19,
   "triangle-alert": i20,
   "octagon-x": i21,
-  info: i22,
-  loader: i23,
-  x: i24,
-  "chart-bar": i25,
-  "chart-column": i26,
-  "chart-column-big": i27,
-  "trending-down": i28,
-  "trending-up": i29,
-  gauge: i30,
-  bell: i31,
-  "book-open": i32,
-  "book-text": i33,
-  calendar: i34,
-  "clipboard-copy": i35,
-  "cloud-off": i36,
-  "cloud-upload": i37,
-  clock: i38,
-  code: i39,
-  copy: i40,
-  cpu: i41,
-  database: i42,
-  dices: i43,
-  "dollar-sign": i44,
-  download: i45,
-  ellipsis: i46,
-  "ellipsis-vertical": i47,
-  eraser: i48,
-  "external-link": i49,
-  eye: i50,
-  "eye-off": i51,
-  file: i52,
-  filter: i53,
-  "filter-x": i54,
-  fingerprint: i55,
-  gift: i56,
-  github: i57,
-  globe: i58,
-  grid: i59,
-  hash: i60,
-  heart: i61,
-  house: i62,
-  image: i63,
-  "image-down": i64,
-  key: i65,
-  "key-round": i66,
-  "layout-dashboard": i67,
-  "layout-grid": i68,
-  link: i69,
-  lock: i70,
-  "log-in": i71,
-  "log-out": i72,
-  mail: i73,
-  menu: i74,
-  "message-circle": i75,
-  "message-square": i76,
-  mic: i77,
-  monitor: i78,
-  moon: i79,
-  music: i80,
-  paintbrush: i81,
-  "panel-left": i82,
-  pencil: i83,
-  "pencil-ruler": i84,
-  percent: i85,
-  play: i86,
-  plus: i87,
-  "refresh-ccw": i88,
-  "refresh-cw": i89,
-  repeat: i90,
-  "rotate-ccw": i91,
-  "rotate-cw": i92,
-  rss: i93,
-  search: i94,
-  send: i95,
-  server: i96,
-  settings: i97,
-  shield: i98,
-  "shield-check": i99,
-  shuffle: i100,
-  sparkles: i101,
-  star: i102,
-  sun: i103,
-  tag: i104,
-  terminal: i105,
-  trash: i106,
-  trophy: i107,
-  type: i108,
-  upload: i109,
-  user: i110,
-  "user-plus": i111,
-  users: i112,
-  video: i113,
-  wallet: i114,
-  wand: i115,
-  zap: i116,
-  "grid-3x3": i117,
-  "maximize-2": i118,
-  "settings-2": i119,
-  "trash-2": i120,
-  brain: i121,
-  "wifi-off": i122,
-  "x-circle": i123,
-  "alert-circle": i124,
-  "file-text": i125,
-  square: i126,
-  wrench: i127,
-  list: i128,
-  "plus-circle": i129,
-  "credit-card": i130,
+  "info": i22,
+  "volume-2": i23,
+  "loader": i24,
+  "x": i25,
+  "chart-bar": i26,
+  "chart-column": i27,
+  "chart-column-big": i28,
+  "trending-down": i29,
+  "trending-up": i30,
+  "gauge": i31,
+  "bell": i32,
+  "book-open": i33,
+  "book-text": i34,
+  "calendar": i35,
+  "clipboard-copy": i36,
+  "cloud-off": i37,
+  "cloud-upload": i38,
+  "clock": i39,
+  "code": i40,
+  "copy": i41,
+  "cpu": i42,
+  "database": i43,
+  "dices": i44,
+  "dollar-sign": i45,
+  "download": i46,
+  "ellipsis": i47,
+  "ellipsis-vertical": i48,
+  "eraser": i49,
+  "external-link": i50,
+  "eye": i51,
+  "eye-off": i52,
+  "file": i53,
+  "filter": i54,
+  "filter-x": i55,
+  "fingerprint": i56,
+  "gift": i57,
+  "github": i58,
+  "globe": i59,
+  "grid": i60,
+  "hash": i61,
+  "heart": i62,
+  "house": i63,
+  "image": i64,
+  "image-down": i65,
+  "key": i66,
+  "key-round": i67,
+  "layout-dashboard": i68,
+  "layout-grid": i69,
+  "link": i70,
+  "lock": i71,
+  "log-in": i72,
+  "log-out": i73,
+  "mail": i74,
+  "menu": i75,
+  "message-circle": i76,
+  "message-square": i77,
+  "mic": i78,
+  "monitor": i79,
+  "moon": i80,
+  "music": i81,
+  "paintbrush": i82,
+  "panel-left": i83,
+  "pencil": i84,
+  "pencil-ruler": i85,
+  "percent": i86,
+  "play": i87,
+  "plus": i88,
+  "refresh-ccw": i89,
+  "refresh-cw": i90,
+  "repeat": i91,
+  "rotate-ccw": i92,
+  "rotate-cw": i93,
+  "rss": i94,
+  "search": i95,
+  "send": i96,
+  "server": i97,
+  "settings": i98,
+  "shield": i99,
+  "shield-check": i100,
+  "shuffle": i101,
+  "sparkles": i102,
+  "star": i103,
+  "sun": i104,
+  "tag": i105,
+  "terminal": i106,
+  "trash": i107,
+  "trophy": i108,
+  "type": i109,
+  "upload": i110,
+  "user": i111,
+  "user-plus": i112,
+  "users": i113,
+  "video": i114,
+  "wallet": i115,
+  "wand": i116,
+  "zap": i117,
+  "grid-3x3": i118,
+  "maximize-2": i119,
+  "settings-2": i120,
+  "trash-2": i121,
+  "brain": i122,
+  "wifi-off": i123,
+  "x-circle": i124,
+  "alert-circle": i125,
+  "file-text": i126,
+  "square": i127,
+  "wrench": i128,
+  "list": i129,
+  "plus-circle": i130,
+  "credit-card": i131,
 };

@@ -54,6 +54,7 @@ import type {
 
 const conversationStore = makeTableStore(conversations, conversations.id);
 const messageStore = makeTableStore(messages, messages.id);
+export const readLocalMessage = (id: string) => messageStore.get(id);
 const messageItemStore = makeTableStore(messageItems, messageItems.id);
 
 export const readLocalConversations = async () => {

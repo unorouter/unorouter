@@ -30,6 +30,12 @@ const JsPluginList = dynamic(() =>
   ),
 );
 
+const VoiceSettingsDialog = dynamic(() =>
+  import("@/components/pages/sidebar/chat/rp/voice/settings-dialog").then(
+    (m) => m.VoiceSettingsDialog,
+  ),
+);
+
 export const openRpTabAtom = atom<RpTab | null>(null);
 export const roomPanelOpenAtom = atom(false);
 
@@ -61,6 +67,12 @@ export function RpDialogs() {
         <JsPluginList
           open
           onOpenChange={(o) => setOpenTab(o ? "js-plugins" : null)}
+        />
+      )}
+      {openTab === "voice" && (
+        <VoiceSettingsDialog
+          open
+          onOpenChange={(o) => setOpenTab(o ? "voice" : null)}
         />
       )}
     </>

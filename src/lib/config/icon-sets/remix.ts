@@ -25,124 +25,125 @@ import { RiCloseCircleLine as i21 } from "@remixicon/react";
 import { RiAlertLine as i22 } from "@remixicon/react";
 import { RiForbidLine as i23 } from "@remixicon/react";
 import { RiInformationLine as i24 } from "@remixicon/react";
-import { RiLoaderLine as i25 } from "@remixicon/react";
-import { RiCloseLine as i26 } from "@remixicon/react";
-import { RiBarChartHorizontalLine as i27 } from "@remixicon/react";
-import { RiBarChartLine as i28 } from "@remixicon/react";
-import { RiBarChart2Line as i29 } from "@remixicon/react";
-import { RiPieChartLine as i30 } from "@remixicon/react";
-import { RiStockLine as i31 } from "@remixicon/react";
-import { RiLineChartLine as i32 } from "@remixicon/react";
-import { RiDashboard3Line as i33 } from "@remixicon/react";
-import { RiBellLine as i34 } from "@remixicon/react";
-import { RiBookOpenLine as i35 } from "@remixicon/react";
+import { RiVolumeUpLine as i25 } from "@remixicon/react";
+import { RiLoaderLine as i26 } from "@remixicon/react";
+import { RiCloseLine as i27 } from "@remixicon/react";
+import { RiBarChartHorizontalLine as i28 } from "@remixicon/react";
+import { RiBarChartLine as i29 } from "@remixicon/react";
+import { RiBarChart2Line as i30 } from "@remixicon/react";
+import { RiPieChartLine as i31 } from "@remixicon/react";
+import { RiStockLine as i32 } from "@remixicon/react";
+import { RiLineChartLine as i33 } from "@remixicon/react";
+import { RiDashboard3Line as i34 } from "@remixicon/react";
+import { RiBellLine as i35 } from "@remixicon/react";
 import { RiBookOpenLine as i36 } from "@remixicon/react";
-import { RiCalendarLine as i37 } from "@remixicon/react";
-import { RiClipboardLine as i38 } from "@remixicon/react";
-import { RiCloudOffLine as i39 } from "@remixicon/react";
-import { RiUploadCloud2Line as i40 } from "@remixicon/react";
-import { RiTimeLine as i41 } from "@remixicon/react";
-import { RiCodeLine as i42 } from "@remixicon/react";
-import { RiFileCopyLine as i43 } from "@remixicon/react";
-import { RiCpuLine as i44 } from "@remixicon/react";
-import { RiDatabaseLine as i45 } from "@remixicon/react";
-import { RiDiceLine as i46 } from "@remixicon/react";
-import { RiMoneyDollarCircleLine as i47 } from "@remixicon/react";
-import { RiDownloadLine as i48 } from "@remixicon/react";
-import { RiMoreLine as i49 } from "@remixicon/react";
-import { RiMore2Line as i50 } from "@remixicon/react";
-import { RiEraserLine as i51 } from "@remixicon/react";
-import { RiExternalLinkLine as i52 } from "@remixicon/react";
-import { RiEyeLine as i53 } from "@remixicon/react";
-import { RiEyeOffLine as i54 } from "@remixicon/react";
-import { RiFileLine as i55 } from "@remixicon/react";
-import { RiFileUnknowLine as i56 } from "@remixicon/react";
-import { RiFilterLine as i57 } from "@remixicon/react";
-import { RiFilterOffLine as i58 } from "@remixicon/react";
-import { RiFingerprintLine as i59 } from "@remixicon/react";
-import { RiGiftLine as i60 } from "@remixicon/react";
-import { RiGithubLine as i61 } from "@remixicon/react";
-import { RiGlobeLine as i62 } from "@remixicon/react";
-import { RiLayoutGridLine as i63 } from "@remixicon/react";
-import { RiDraggable as i64 } from "@remixicon/react";
-import { RiHashtag as i65 } from "@remixicon/react";
-import { RiHeartLine as i66 } from "@remixicon/react";
-import { RiHeartPulseLine as i67 } from "@remixicon/react";
-import { RiHome4Line as i68 } from "@remixicon/react";
-import { RiImageLine as i69 } from "@remixicon/react";
-import { RiKeyLine as i70 } from "@remixicon/react";
-import { RiKey2Line as i71 } from "@remixicon/react";
-import { RiStackLine as i72 } from "@remixicon/react";
-import { RiDashboardLine as i73 } from "@remixicon/react";
-import { RiLayoutGridLine as i74 } from "@remixicon/react";
-import { RiLink as i75 } from "@remixicon/react";
-import { RiLockLine as i76 } from "@remixicon/react";
-import { RiLoginBoxLine as i77 } from "@remixicon/react";
-import { RiLogoutBoxLine as i78 } from "@remixicon/react";
-import { RiMailLine as i79 } from "@remixicon/react";
-import { RiMenuLine as i80 } from "@remixicon/react";
-import { RiChat1Line as i81 } from "@remixicon/react";
-import { RiChat4Line as i82 } from "@remixicon/react";
-import { RiMicLine as i83 } from "@remixicon/react";
-import { RiComputerLine as i84 } from "@remixicon/react";
-import { RiMoonLine as i85 } from "@remixicon/react";
-import { RiMusicLine as i86 } from "@remixicon/react";
-import { RiNewspaperLine as i87 } from "@remixicon/react";
-import { RiBrushLine as i88 } from "@remixicon/react";
-import { RiLayoutLeftLine as i89 } from "@remixicon/react";
-import { RiPencilLine as i90 } from "@remixicon/react";
-import { RiPencilRulerLine as i91 } from "@remixicon/react";
-import { RiPercentLine as i92 } from "@remixicon/react";
-import { RiPlayLine as i93 } from "@remixicon/react";
-import { RiAddLine as i94 } from "@remixicon/react";
-import { RiShutDownLine as i95 } from "@remixicon/react";
+import { RiBookOpenLine as i37 } from "@remixicon/react";
+import { RiCalendarLine as i38 } from "@remixicon/react";
+import { RiClipboardLine as i39 } from "@remixicon/react";
+import { RiCloudOffLine as i40 } from "@remixicon/react";
+import { RiUploadCloud2Line as i41 } from "@remixicon/react";
+import { RiTimeLine as i42 } from "@remixicon/react";
+import { RiCodeLine as i43 } from "@remixicon/react";
+import { RiFileCopyLine as i44 } from "@remixicon/react";
+import { RiCpuLine as i45 } from "@remixicon/react";
+import { RiDatabaseLine as i46 } from "@remixicon/react";
+import { RiDiceLine as i47 } from "@remixicon/react";
+import { RiMoneyDollarCircleLine as i48 } from "@remixicon/react";
+import { RiDownloadLine as i49 } from "@remixicon/react";
+import { RiMoreLine as i50 } from "@remixicon/react";
+import { RiMore2Line as i51 } from "@remixicon/react";
+import { RiEraserLine as i52 } from "@remixicon/react";
+import { RiExternalLinkLine as i53 } from "@remixicon/react";
+import { RiEyeLine as i54 } from "@remixicon/react";
+import { RiEyeOffLine as i55 } from "@remixicon/react";
+import { RiFileLine as i56 } from "@remixicon/react";
+import { RiFileUnknowLine as i57 } from "@remixicon/react";
+import { RiFilterLine as i58 } from "@remixicon/react";
+import { RiFilterOffLine as i59 } from "@remixicon/react";
+import { RiFingerprintLine as i60 } from "@remixicon/react";
+import { RiGiftLine as i61 } from "@remixicon/react";
+import { RiGithubLine as i62 } from "@remixicon/react";
+import { RiGlobeLine as i63 } from "@remixicon/react";
+import { RiLayoutGridLine as i64 } from "@remixicon/react";
+import { RiDraggable as i65 } from "@remixicon/react";
+import { RiHashtag as i66 } from "@remixicon/react";
+import { RiHeartLine as i67 } from "@remixicon/react";
+import { RiHeartPulseLine as i68 } from "@remixicon/react";
+import { RiHome4Line as i69 } from "@remixicon/react";
+import { RiImageLine as i70 } from "@remixicon/react";
+import { RiKeyLine as i71 } from "@remixicon/react";
+import { RiKey2Line as i72 } from "@remixicon/react";
+import { RiStackLine as i73 } from "@remixicon/react";
+import { RiDashboardLine as i74 } from "@remixicon/react";
+import { RiLayoutGridLine as i75 } from "@remixicon/react";
+import { RiLink as i76 } from "@remixicon/react";
+import { RiLockLine as i77 } from "@remixicon/react";
+import { RiLoginBoxLine as i78 } from "@remixicon/react";
+import { RiLogoutBoxLine as i79 } from "@remixicon/react";
+import { RiMailLine as i80 } from "@remixicon/react";
+import { RiMenuLine as i81 } from "@remixicon/react";
+import { RiChat1Line as i82 } from "@remixicon/react";
+import { RiChat4Line as i83 } from "@remixicon/react";
+import { RiMicLine as i84 } from "@remixicon/react";
+import { RiComputerLine as i85 } from "@remixicon/react";
+import { RiMoonLine as i86 } from "@remixicon/react";
+import { RiMusicLine as i87 } from "@remixicon/react";
+import { RiNewspaperLine as i88 } from "@remixicon/react";
+import { RiBrushLine as i89 } from "@remixicon/react";
+import { RiLayoutLeftLine as i90 } from "@remixicon/react";
+import { RiPencilLine as i91 } from "@remixicon/react";
+import { RiPencilRulerLine as i92 } from "@remixicon/react";
+import { RiPercentLine as i93 } from "@remixicon/react";
+import { RiPlayLine as i94 } from "@remixicon/react";
+import { RiAddLine as i95 } from "@remixicon/react";
 import { RiShutDownLine as i96 } from "@remixicon/react";
-import { RiResetLeftLine as i97 } from "@remixicon/react";
-import { RiRefreshLine as i98 } from "@remixicon/react";
-import { RiRepeatLine as i99 } from "@remixicon/react";
-import { RiAnticlockwise2Line as i100 } from "@remixicon/react";
-import { RiClockwise2Line as i101 } from "@remixicon/react";
-import { RiRssLine as i102 } from "@remixicon/react";
-import { RiFileList3Line as i103 } from "@remixicon/react";
-import { RiSearchLine as i104 } from "@remixicon/react";
-import { RiSendPlaneLine as i105 } from "@remixicon/react";
-import { RiServerLine as i106 } from "@remixicon/react";
-import { RiSettingsLine as i107 } from "@remixicon/react";
-import { RiShieldLine as i108 } from "@remixicon/react";
-import { RiShieldCheckLine as i109 } from "@remixicon/react";
-import { RiShuffleLine as i110 } from "@remixicon/react";
-import { RiEqualizerLine as i111 } from "@remixicon/react";
-import { RiSparklingLine as i112 } from "@remixicon/react";
-import { RiStarLine as i113 } from "@remixicon/react";
-import { RiSunLine as i114 } from "@remixicon/react";
-import { RiPriceTag3Line as i115 } from "@remixicon/react";
-import { RiTerminalLine as i116 } from "@remixicon/react";
-import { RiTicketLine as i117 } from "@remixicon/react";
-import { RiDeleteBinLine as i118 } from "@remixicon/react";
-import { RiTrophyLine as i119 } from "@remixicon/react";
-import { RiText as i120 } from "@remixicon/react";
-import { RiUploadLine as i121 } from "@remixicon/react";
-import { RiUserLine as i122 } from "@remixicon/react";
-import { RiUserAddLine as i123 } from "@remixicon/react";
-import { RiGroupLine as i124 } from "@remixicon/react";
-import { RiVideoLine as i125 } from "@remixicon/react";
-import { RiWalletLine as i126 } from "@remixicon/react";
-import { RiMagicLine as i127 } from "@remixicon/react";
-import { RiFlashlightLine as i128 } from "@remixicon/react";
-import { RiGridLine as i129 } from "@remixicon/react";
-import { RiExpandDiagonalLine as i130 } from "@remixicon/react";
-import { RiSettings2Line as i131 } from "@remixicon/react";
-import { RiDeleteBin2Line as i132 } from "@remixicon/react";
-import { RiBrainLine as i133 } from "@remixicon/react";
-import { RiWifiOffLine as i134 } from "@remixicon/react";
-import { RiCloseCircleLine as i135 } from "@remixicon/react";
-import { RiErrorWarningLine as i136 } from "@remixicon/react";
-import { RiFileTextLine as i137 } from "@remixicon/react";
-import { RiSquareLine as i138 } from "@remixicon/react";
-import { RiWrenchLine as i139 } from "@remixicon/react";
-import { RiListUnordered as i140 } from "@remixicon/react";
-import { RiAddCircleLine as i141 } from "@remixicon/react";
-import { RiBankCardLine as i142 } from "@remixicon/react";
+import { RiShutDownLine as i97 } from "@remixicon/react";
+import { RiResetLeftLine as i98 } from "@remixicon/react";
+import { RiRefreshLine as i99 } from "@remixicon/react";
+import { RiRepeatLine as i100 } from "@remixicon/react";
+import { RiAnticlockwise2Line as i101 } from "@remixicon/react";
+import { RiClockwise2Line as i102 } from "@remixicon/react";
+import { RiRssLine as i103 } from "@remixicon/react";
+import { RiFileList3Line as i104 } from "@remixicon/react";
+import { RiSearchLine as i105 } from "@remixicon/react";
+import { RiSendPlaneLine as i106 } from "@remixicon/react";
+import { RiServerLine as i107 } from "@remixicon/react";
+import { RiSettingsLine as i108 } from "@remixicon/react";
+import { RiShieldLine as i109 } from "@remixicon/react";
+import { RiShieldCheckLine as i110 } from "@remixicon/react";
+import { RiShuffleLine as i111 } from "@remixicon/react";
+import { RiEqualizerLine as i112 } from "@remixicon/react";
+import { RiSparklingLine as i113 } from "@remixicon/react";
+import { RiStarLine as i114 } from "@remixicon/react";
+import { RiSunLine as i115 } from "@remixicon/react";
+import { RiPriceTag3Line as i116 } from "@remixicon/react";
+import { RiTerminalLine as i117 } from "@remixicon/react";
+import { RiTicketLine as i118 } from "@remixicon/react";
+import { RiDeleteBinLine as i119 } from "@remixicon/react";
+import { RiTrophyLine as i120 } from "@remixicon/react";
+import { RiText as i121 } from "@remixicon/react";
+import { RiUploadLine as i122 } from "@remixicon/react";
+import { RiUserLine as i123 } from "@remixicon/react";
+import { RiUserAddLine as i124 } from "@remixicon/react";
+import { RiGroupLine as i125 } from "@remixicon/react";
+import { RiVideoLine as i126 } from "@remixicon/react";
+import { RiWalletLine as i127 } from "@remixicon/react";
+import { RiMagicLine as i128 } from "@remixicon/react";
+import { RiFlashlightLine as i129 } from "@remixicon/react";
+import { RiGridLine as i130 } from "@remixicon/react";
+import { RiExpandDiagonalLine as i131 } from "@remixicon/react";
+import { RiSettings2Line as i132 } from "@remixicon/react";
+import { RiDeleteBin2Line as i133 } from "@remixicon/react";
+import { RiBrainLine as i134 } from "@remixicon/react";
+import { RiWifiOffLine as i135 } from "@remixicon/react";
+import { RiCloseCircleLine as i136 } from "@remixicon/react";
+import { RiErrorWarningLine as i137 } from "@remixicon/react";
+import { RiFileTextLine as i138 } from "@remixicon/react";
+import { RiSquareLine as i139 } from "@remixicon/react";
+import { RiWrenchLine as i140 } from "@remixicon/react";
+import { RiListUnordered as i141 } from "@remixicon/react";
+import { RiAddCircleLine as i142 } from "@remixicon/react";
+import { RiBankCardLine as i143 } from "@remixicon/react";
 
 export const ICONS: Record<string, IconComponent> = {
   "arrow-down": i0,
@@ -161,131 +162,132 @@ export const ICONS: Record<string, IconComponent> = {
   "chevrons-left": i13,
   "chevrons-right": i14,
   "chevrons-up-down": i15,
-  activity: i16,
-  check: i17,
+  "activity": i16,
+  "check": i17,
   "circle-alert": i18,
   "circle-check": i19,
   "circle-help": i20,
   "circle-x": i21,
   "triangle-alert": i22,
   "octagon-x": i23,
-  info: i24,
-  loader: i25,
-  x: i26,
-  "chart-bar": i27,
-  "chart-column": i28,
-  "chart-column-big": i29,
-  "chart-pie": i30,
-  "trending-down": i31,
-  "trending-up": i32,
-  gauge: i33,
-  bell: i34,
-  "book-open": i35,
-  "book-text": i36,
-  calendar: i37,
-  "clipboard-copy": i38,
-  "cloud-off": i39,
-  "cloud-upload": i40,
-  clock: i41,
-  code: i42,
-  copy: i43,
-  cpu: i44,
-  database: i45,
-  dices: i46,
-  "dollar-sign": i47,
-  download: i48,
-  ellipsis: i49,
-  "ellipsis-vertical": i50,
-  eraser: i51,
-  "external-link": i52,
-  eye: i53,
-  "eye-off": i54,
-  file: i55,
-  "file-question": i56,
-  filter: i57,
-  "filter-x": i58,
-  fingerprint: i59,
-  gift: i60,
-  github: i61,
-  globe: i62,
-  grid: i63,
-  "grip-vertical": i64,
-  hash: i65,
-  heart: i66,
-  "heart-pulse": i67,
-  house: i68,
-  image: i69,
-  key: i70,
-  "key-round": i71,
-  layers: i72,
-  "layout-dashboard": i73,
-  "layout-grid": i74,
-  link: i75,
-  lock: i76,
-  "log-in": i77,
-  "log-out": i78,
-  mail: i79,
-  menu: i80,
-  "message-circle": i81,
-  "message-square": i82,
-  mic: i83,
-  monitor: i84,
-  moon: i85,
-  music: i86,
-  newspaper: i87,
-  paintbrush: i88,
-  "panel-left": i89,
-  pencil: i90,
-  "pencil-ruler": i91,
-  percent: i92,
-  play: i93,
-  plus: i94,
-  power: i95,
-  "power-off": i96,
-  "refresh-ccw": i97,
-  "refresh-cw": i98,
-  repeat: i99,
-  "rotate-ccw": i100,
-  "rotate-cw": i101,
-  rss: i102,
-  "scroll-text": i103,
-  search: i104,
-  send: i105,
-  server: i106,
-  settings: i107,
-  shield: i108,
-  "shield-check": i109,
-  shuffle: i110,
-  "sliders-horizontal": i111,
-  sparkles: i112,
-  star: i113,
-  sun: i114,
-  tag: i115,
-  terminal: i116,
-  ticket: i117,
-  trash: i118,
-  trophy: i119,
-  type: i120,
-  upload: i121,
-  user: i122,
-  "user-plus": i123,
-  users: i124,
-  video: i125,
-  wallet: i126,
-  wand: i127,
-  zap: i128,
-  "grid-3x3": i129,
-  "maximize-2": i130,
-  "settings-2": i131,
-  "trash-2": i132,
-  brain: i133,
-  "wifi-off": i134,
-  "x-circle": i135,
-  "alert-circle": i136,
-  "file-text": i137,
-  square: i138,
-  wrench: i139,
-  list: i140,
-  "plus-circle": i141,
-  "credit-card": i142,
+  "info": i24,
+  "volume-2": i25,
+  "loader": i26,
+  "x": i27,
+  "chart-bar": i28,
+  "chart-column": i29,
+  "chart-column-big": i30,
+  "chart-pie": i31,
+  "trending-down": i32,
+  "trending-up": i33,
+  "gauge": i34,
+  "bell": i35,
+  "book-open": i36,
+  "book-text": i37,
+  "calendar": i38,
+  "clipboard-copy": i39,
+  "cloud-off": i40,
+  "cloud-upload": i41,
+  "clock": i42,
+  "code": i43,
+  "copy": i44,
+  "cpu": i45,
+  "database": i46,
+  "dices": i47,
+  "dollar-sign": i48,
+  "download": i49,
+  "ellipsis": i50,
+  "ellipsis-vertical": i51,
+  "eraser": i52,
+  "external-link": i53,
+  "eye": i54,
+  "eye-off": i55,
+  "file": i56,
+  "file-question": i57,
+  "filter": i58,
+  "filter-x": i59,
+  "fingerprint": i60,
+  "gift": i61,
+  "github": i62,
+  "globe": i63,
+  "grid": i64,
+  "grip-vertical": i65,
+  "hash": i66,
+  "heart": i67,
+  "heart-pulse": i68,
+  "house": i69,
+  "image": i70,
+  "key": i71,
+  "key-round": i72,
+  "layers": i73,
+  "layout-dashboard": i74,
+  "layout-grid": i75,
+  "link": i76,
+  "lock": i77,
+  "log-in": i78,
+  "log-out": i79,
+  "mail": i80,
+  "menu": i81,
+  "message-circle": i82,
+  "message-square": i83,
+  "mic": i84,
+  "monitor": i85,
+  "moon": i86,
+  "music": i87,
+  "newspaper": i88,
+  "paintbrush": i89,
+  "panel-left": i90,
+  "pencil": i91,
+  "pencil-ruler": i92,
+  "percent": i93,
+  "play": i94,
+  "plus": i95,
+  "power": i96,
+  "power-off": i97,
+  "refresh-ccw": i98,
+  "refresh-cw": i99,
+  "repeat": i100,
+  "rotate-ccw": i101,
+  "rotate-cw": i102,
+  "rss": i103,
+  "scroll-text": i104,
+  "search": i105,
+  "send": i106,
+  "server": i107,
+  "settings": i108,
+  "shield": i109,
+  "shield-check": i110,
+  "shuffle": i111,
+  "sliders-horizontal": i112,
+  "sparkles": i113,
+  "star": i114,
+  "sun": i115,
+  "tag": i116,
+  "terminal": i117,
+  "ticket": i118,
+  "trash": i119,
+  "trophy": i120,
+  "type": i121,
+  "upload": i122,
+  "user": i123,
+  "user-plus": i124,
+  "users": i125,
+  "video": i126,
+  "wallet": i127,
+  "wand": i128,
+  "zap": i129,
+  "grid-3x3": i130,
+  "maximize-2": i131,
+  "settings-2": i132,
+  "trash-2": i133,
+  "brain": i134,
+  "wifi-off": i135,
+  "x-circle": i136,
+  "alert-circle": i137,
+  "file-text": i138,
+  "square": i139,
+  "wrench": i140,
+  "list": i141,
+  "plus-circle": i142,
+  "credit-card": i143,
 };

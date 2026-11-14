@@ -4,6 +4,7 @@ import type {
 } from "@/lib/validation/custom-provider";
 import type { TokenizerKind } from "@/lib/ai/chat/tokenizer";
 import type { JsPluginKind } from "@/lib/validation/js-plugin";
+import type { VoiceReadMode } from "@/lib/validation/voice";
 import type {
   ImageFormUi,
   ImageParams,
@@ -20,6 +21,7 @@ import {
   index,
   integer,
   primaryKey,
+  real,
   sqliteTable,
   text,
   uniqueIndex,
@@ -99,6 +101,25 @@ export const jsPlugins = sqliteTable("js_plugins", {
   // Set for a script imported with a character: it runs only in that
   // character's chats.
   characterId: text("character_id"),
+  createdAt: integer("created_at", { mode: "timestamp_ms" })
+    .notNull()
+    .default(sql`(unixepoch() * 1000)`),
+  updatedAt: integer("updated_at", { mode: "timestamp_ms" })
+    .notNull()
+    .default(sql`(unixepoch() * 1000)`),
+});
+
+// One row, id "default". The key stays on this device like a custom provider's.
+export const voiceSettings = sqliteTable("voice_settings", {
+  id: text("id").primaryKey(),
+  apiKey: text("api_key").notNull().default(""),
+  model: text("model").notNull().default("s2.1-pro-free"),
+  voiceId: text("voice_id"),
+  narratorVoiceId: text("narrator_voice_id"),
+  readMode: text("read_mode").$type<VoiceReadMode>().notNull().default("all"),
+  speed: real("speed").notNull().default(1),
+  volume: real("volume").notNull().default(0),
+  autoplay: integer("autoplay", { mode: "boolean" }).notNull().default(false),
   createdAt: integer("created_at", { mode: "timestamp_ms" })
     .notNull()
     .default(sql`(unixepoch() * 1000)`),
