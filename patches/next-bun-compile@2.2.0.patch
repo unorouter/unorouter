@@ -1,3 +1,17 @@
+diff --git a/dist/index.js b/dist/index.js
+index 892a8c4ebc37aa733f60d537b475256c66b970b4..09d01e2960570f95b72532092e957954181a0ef7 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -709,7 +709,8 @@ function generateEntryPoint(options) {
+   patchRequireHook(standaloneDir);
+   fixModuleResolution(standaloneDir);
+   const staticDir = join(distDir, "static");
+-  const staticFiles = walkDir(staticDir).map((f) => ({
++  // Browser source maps stay private: the app copies them aside for its error report endpoint.
++  const staticFiles = walkDir(staticDir).filter((f) => !f.relativePath.endsWith(".map")).map((f) => ({
+     ...f,
+     urlPath: `/_next/static/${f.relativePath.replace(/\\/g, "/")}`
+   }));
 diff --git a/dist/runtime/serve.js b/dist/runtime/serve.js
 index 743b8df8a9a5eb9a0cc672a26a3715b6ea9adc87..f117e476699c7eb18cfeaceb0c922d532c4a5e2c 100644
 --- a/dist/runtime/serve.js

@@ -1,3 +1,5 @@
+import { reportError } from "@/lib/utils/error-report";
+
 export type ChatDebugEntry = {
   ts: number;
   event: string;
@@ -338,6 +340,13 @@ export function captureCaughtError(detail: {
     0,
     500,
   );
+  reportError({
+    source: detail.source,
+    name,
+    message,
+    stack: isError ? (err.stack ?? "") : "",
+    componentStack: detail.componentStack,
+  });
   const entries = caughtLog.get();
   const last = entries[entries.length - 1];
   if (last && last.source === detail.source && last.message === message) {

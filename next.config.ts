@@ -46,6 +46,9 @@ const nextConfig: NextConfig = {
   // commit makes the old page ask for the old bytes, and a version mismatch on
   // navigation triggers a full reload instead of a client-side transition.
   deploymentId: process.env.NEXT_DEPLOYMENT_ID,
+  // Read only by the error report endpoint; the patched adapter keeps them out
+  // of the served assets and the Dockerfile copies them aside.
+  productionBrowserSourceMaps: true,
   // Type errors gate the CI checks job (bun typecheck), not the deploy build;
   // checking types inside next build cost ~2.5min per deploy.
   typescript: { ignoreBuildErrors: true },

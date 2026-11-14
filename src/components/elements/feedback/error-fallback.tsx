@@ -1,6 +1,6 @@
 "use client";
 
-import { logChatDebug } from "@/lib/utils/chat-debug-log";
+import { captureCaughtError, logChatDebug } from "@/lib/utils/chat-debug-log";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -51,6 +51,7 @@ export function ErrorFallback(props: ErrorFallbackProps) {
 
   useEffect(() => {
     console.error(props.error);
+    captureCaughtError({ source: "route.error", error: props.error });
     // The sessionStorage guard stops an infinite reload loop when the chunk is truly gone.
     if (isChunkLoadError(props.error)) {
       const KEY = "chunk-reload-once";

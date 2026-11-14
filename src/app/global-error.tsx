@@ -3,6 +3,7 @@
 
 import type { RouteErrorProps } from "@/components/elements/feedback/error-fallback";
 import { env } from "@/lib/config/env";
+import { captureCaughtError } from "@/lib/utils/chat-debug-log";
 import { clearAllClientStorage, formatError } from "@/lib/utils/recovery";
 import { useEffect, useState } from "react";
 
@@ -12,6 +13,7 @@ export default function GlobalError(props: RouteErrorProps) {
 
   useEffect(() => {
     console.error(props.error);
+    captureCaughtError({ source: "global.error", error: props.error });
   }, [props.error]);
 
   const details = formatError(props.error);
