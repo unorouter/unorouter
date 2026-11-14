@@ -153,27 +153,25 @@ export function tailStream(
 ): ReadableStream<Uint8Array> | null {
   const entry = entries.get(id);
   if (!entry || entry.userId !== userId || from > entry.bytes) return null;
-  let offset = from;
+  let next = 0;
+  let skip = from;
   let cancelled = false;
   return new ReadableStream<Uint8Array>({
     async pull(controller) {
       for (;;) {
         if (cancelled) return;
-        if (offset < entry.bytes) {
-          let skip = offset;
-          const out: Uint8Array[] = [];
-          for (const chunk of entry.chunks) {
-            if (skip >= chunk.byteLength) {
-              skip -= chunk.byteLength;
-              continue;
-            }
-            out.push(skip > 0 ? chunk.subarray(skip) : chunk);
-            skip = 0;
+        let sent = false;
+        for (; next < entry.chunks.length; next++) {
+          const chunk = entry.chunks[next];
+          if (skip >= chunk.byteLength) {
+            skip -= chunk.byteLength;
+            continue;
           }
-          for (const part of out) controller.enqueue(part);
-          offset = entry.bytes;
-          return;
+          controller.enqueue(skip > 0 ? chunk.subarray(skip) : chunk);
+          skip = 0;
+          sent = true;
         }
+        if (sent) return;
         if (entry.done) {
           controller.close();
           return;
