@@ -11,7 +11,7 @@ import {
   modelMetaText,
   paidSiblingOf,
 } from "@/components/pages/navbar/models/detail/model-meta";
-import { vendorDisplayName } from "@/lib/api/pricing";
+import { vendorDisplayName, vendorSeoName } from "@/lib/api/pricing";
 import { JsonLd } from "@/lib/seo/json-ld";
 import {
   buildBreadcrumbListSchema,
@@ -92,7 +92,7 @@ export async function generateMetadata(props: PageProps) {
 function vendorMetaValues(vendor: string, models: PricingCatalogModel[]) {
   return {
     ...APP_VALUES,
-    vendor: vendorDisplayName(vendor),
+    vendor: vendorSeoName(vendor),
     free: models.some((m) => m.is_free) ? "yes" : "no",
   };
 }

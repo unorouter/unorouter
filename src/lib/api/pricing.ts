@@ -1,5 +1,5 @@
 import type { PricingCatalogModel } from "@/openapi";
-import { escapeRegex } from "@/lib/utils/base";
+import { escapeRegex, vendorSlug } from "@/lib/utils/base";
 
 export function isMediaType(type: string | undefined): boolean {
   return type != null && type !== "text";
@@ -75,6 +75,33 @@ export function findContextTag(model: { tags: string[] }): string | undefined {
 
 export function vendorDisplayName(name: string): string {
   return name.replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+// Searchers type the model family ("glm api", "kimi api"), not the company.
+const VENDOR_FAMILY: Record<string, string> = {
+  alibaba: "Qwen",
+  anthropic: "Claude",
+  baidu: "ERNIE",
+  bytedance: "Doubao",
+  google: "Gemini",
+  ibm: "Granite",
+  meituan: "LongCat",
+  meta: "Llama",
+  microsoft: "Phi",
+  moonshot: "Kimi",
+  nvidia: "Nemotron",
+  openai: "GPT",
+  perplexity: "Sonar",
+  tencent: "Hunyuan",
+  xai: "Grok",
+  xiaomi: "MiMo",
+  zhipu: "GLM",
+};
+
+export function vendorSeoName(name: string): string {
+  const family = VENDOR_FAMILY[vendorSlug(name)];
+  const display = vendorDisplayName(name);
+  return family ? `${display} ${family}` : display;
 }
 
 export type GroupEntry = { group: string; ratio: number };
