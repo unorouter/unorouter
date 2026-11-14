@@ -2285,6 +2285,13 @@ export const FOOTER_BADGES: {
     alt: "Featured on FindAIForMe",
     width: 95,
   },
+  {
+    href: "https://tools.cafe",
+    src: "https://tools.cafe/b/light.svg",
+    name: "tools.cafe",
+    width: 77,
+    alt: "Featured on tools.cafe",
+  },
 ] as const;
 
 export const FOOTER_TEXT_LINKS = [
