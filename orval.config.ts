@@ -1,12 +1,16 @@
 import "dotenv/config";
 import { defineConfig } from "orval";
+import { pruneSpec } from "./openapi-surface";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 if (!apiUrl) throw new Error("Missing required env: NEXT_PUBLIC_API_URL");
 
 export default defineConfig({
   api: {
-    input: `${apiUrl}/openapi.json`,
+    input: {
+      target: `${apiUrl}/openapi.json`,
+      override: { transformer: pruneSpec },
+    },
     output: {
       target: "./src/openapi.ts",
       client: "fetch",
