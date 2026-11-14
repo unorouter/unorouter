@@ -1,11 +1,9 @@
 "use client";
 
 import type { LoadedConvContext } from "@/lib/types";
-import { walkActiveBranch } from "@/lib/ai/chat/messages";
 import {
   readLocalConversationBindings,
   readLocalConversationSettings,
-  readLocalMessages,
 } from "@/lib/db/client/data/chat/chat";
 import {
   readLocalCharacter,
@@ -16,18 +14,11 @@ import {
 
 export async function buildChatContextFromLocalDb(
   convId: string,
+  tipVars: string | null,
 ): Promise<NonNullable<LoadedConvContext> | undefined> {
-  let settings = await readLocalConversationSettings(convId);
-  if (!settings) return undefined;
-
-  {
-    const msgs = await readLocalMessages(convId);
-    if (msgs && msgs.length > 0) {
-      const tip = walkActiveBranch(msgs).path.at(-1);
-      if (tip?.branchVars != null)
-        settings = { ...settings, vars: tip.branchVars };
-    }
-  }
+  const stored = await readLocalConversationSettings(convId);
+  if (!stored) return undefined;
+  const settings = tipVars != null ? { ...stored, vars: tipVars } : stored;
 
   const bindings = await readLocalConversationBindings(convId);
 

@@ -53,14 +53,10 @@ import { handleElysia } from "@/lib/utils/base";
 import { queryKeys } from "@/lib/react-query/keys";
 import { isMediaType } from "@/lib/api/pricing";
 import { gatewayCodeMessage } from "@/lib/api/own-purpose";
-import { dayjs } from "@/lib/utils/format/date";
 import { buildChatContextFromLocalDb } from "@/lib/db/client/data/chat/chat-context";
 import { resolveModelTarget } from "@/components/pages/sidebar/chat/runtime/transport/resolve-model-target";
 import { makeStreamTimer } from "@/components/pages/sidebar/chat/runtime/transport/stream-timer";
-import {
-  readConvHistoryForSend,
-  readLocalMessages,
-} from "@/lib/db/client/data/chat/chat";
+import { readConvHistoryForSend } from "@/lib/db/client/data/chat/chat";
 
 type SendOptions = Parameters<ChatTransport<ChatUIMessage>["sendMessages"]>[0];
 
@@ -116,12 +112,12 @@ async function isMediaModel(model: string): Promise<boolean> {
   return isMediaType(data?.models?.find((m) => m.model_name === model)?.type);
 }
 
-async function mergeDbHistory(
+function mergeDbHistory(
   convId: string | null,
+  db: Awaited<ReturnType<typeof readConvHistoryForSend>> | null,
   captured: ChatUIMessage[],
-): Promise<ChatUIMessage[]> {
-  if (!convId) return captured;
-  const db = await readConvHistoryForSend(convId);
+): ChatUIMessage[] {
+  if (!convId || !db) return captured;
   const branch = db.branch as unknown as ChatUIMessage[];
   logChatDebug("send.history_source", {
     convId,
@@ -158,20 +154,13 @@ async function mergeDbHistory(
   return [...base, ...suffix];
 }
 
-async function buildChatRequestBody(convId: string | null) {
+async function buildChatRequestBody(
+  convId: string | null,
+  db: Awaited<ReturnType<typeof readConvHistoryForSend>> | null,
+) {
   const chatContext = convId
-    ? await buildChatContextFromLocalDb(convId)
+    ? await buildChatContextFromLocalDb(convId, db?.tipVars ?? null)
     : undefined;
-  let messageTimes: Record<string, number> | undefined;
-  if (convId) {
-    const rows = await readLocalMessages(convId);
-    if (rows && rows.length > 0) {
-      messageTimes = {};
-      for (const r of rows) {
-        messageTimes[r.id] = dayjs(r.createdAt).valueOf();
-      }
-    }
-  }
   return {
     model: chatStore.get(chatModelAtom),
     convId,
@@ -182,7 +171,7 @@ async function buildChatRequestBody(convId: string | null) {
     chatContext,
     globalVars: chatStore.get(globalVarsAtom),
     speakingCharacterId: chatStore.get(speakingCharacterIdAtom),
-    messageTimes,
+    messageTimes: db?.times,
     clientEnv: {
       viewportW: window.innerWidth,
       viewportH: window.innerHeight,
@@ -208,10 +197,11 @@ async function runClientStream(args: {
   let prepared: PreparedChatRequest;
   try {
     const convId = args.getConvId();
-    const history = await mergeDbHistory(convId, args.options.messages);
+    const db = convId ? await readConvHistoryForSend(convId) : null;
+    const history = mergeDbHistory(convId, db, args.options.messages);
     timer.mark("history");
     body = {
-      ...(await buildChatRequestBody(convId)),
+      ...(await buildChatRequestBody(convId, db)),
       model: args.model,
       messages: history,
       ...(args.tokenizer ? { tokenizer: args.tokenizer } : {}),

@@ -198,8 +198,10 @@ export async function readActiveBranchTranscript(
 
 export async function readConvHistoryForSend(convId: string) {
   const joined = await readJoinedMessages(convId);
+  const path = walkActiveBranch(joined).path;
   return {
-    branch: walkActiveBranch(joined).path.map((m) => ({
+    tipVars: path.at(-1)?.branchVars ?? null,
+    branch: path.map((m) => ({
       id: m.id,
       role: m.role,
       characterId: m.characterId,
@@ -207,6 +209,9 @@ export async function readConvHistoryForSend(convId: string) {
     })),
     allIds: new Set(joined.map((m) => m.id)),
     activeCount: joined.filter((m) => m.isActiveBranch !== false).length,
+    times: Object.fromEntries(
+      joined.map((m) => [m.id, dayjs(m.createdAt).valueOf()]),
+    ),
   };
 }
 
