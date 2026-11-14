@@ -135,7 +135,7 @@ export async function joinRoom(roomId: string, rawName: string): Promise<void> {
 // copy of itself.
 async function loadHistory(roomId: string) {
   const { messages } = await fetchRoomHistory(roomId).catch(() => ({
-    messages: [] as unknown[],
+    messages: [],
   }));
   // Rows are stored as the frame that produced them, so a message-appended and
   // a stream-delta unwrap differently.
