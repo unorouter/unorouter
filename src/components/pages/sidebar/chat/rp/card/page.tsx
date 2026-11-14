@@ -88,7 +88,6 @@ export function CardsPage() {
     );
     if (!ok) return;
     await deleteMut.mutateAsync(id);
-    if (editingId === id) setEditingId(null);
   };
 
   const doApply = async (mode: CardApplyMode) => {

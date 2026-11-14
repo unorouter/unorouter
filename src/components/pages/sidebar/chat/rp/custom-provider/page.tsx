@@ -42,7 +42,6 @@ export function CustomProvidersPage() {
     );
     if (!ok) return;
     await deleteMut.mutateAsync(id);
-    if (editingId === id) setEditingId(null);
   };
 
   return (

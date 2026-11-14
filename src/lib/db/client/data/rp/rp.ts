@@ -17,7 +17,7 @@ import {
   replaceChildRows,
 } from "@/lib/db/client/data/table-store";
 import type { LocalAnyRow as AnyRow, LocalRowInput } from "@/lib/types";
-import { isStringArray, isOneOf } from "@/lib/utils/base";
+import { isStringArray, isOneOf, uid } from "@/lib/utils/base";
 import { LOREBOOK_INJECTION_ROLES } from "@/lib/validation/rp";
 
 const isInjectionRole = isOneOf(LOREBOOK_INJECTION_ROLES);
@@ -211,6 +211,29 @@ export async function upsertLocalLorebookBundle(bundle: {
       chance: typeof row.chance === "number" ? row.chance : null,
     }),
   );
+}
+
+export async function insertLorebook(book: {
+  name: string;
+  description?: string | null;
+  scanDepth?: number | null;
+  tokenBudget?: number;
+  recursiveScanning?: boolean;
+  entries: LocalRowInput[];
+}) {
+  const id = uid();
+  await upsertLocalLorebookBundle({
+    lorebook: {
+      id,
+      name: book.name,
+      description: book.description ?? null,
+      scanDepth: book.scanDepth ?? 4,
+      tokenBudget: book.tokenBudget ?? 1500,
+      recursiveScanning: book.recursiveScanning ?? false,
+    },
+    entries: book.entries.map((e) => ({ ...e, id: uid() })),
+  });
+  return id;
 }
 
 export async function upsertLocalCardBundle(bundle: {

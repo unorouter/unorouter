@@ -2,7 +2,6 @@
 
 import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { MyFormTextarea } from "@/components/elements/form/my-form-textarea";
-import { confirm } from "@/components/ui/confirm";
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -18,14 +17,9 @@ import {
 } from "@/lib/validation/rp-forms";
 import { useRpForm } from "@/hooks/ui/use-rp-form";
 import { formDefaults } from "@/lib/validation/helpers";
-import { useMediaFocalPoint, useMediaSrc } from "@/hooks/ai/use-media-src";
-import {
-  RpImageField,
-  resolveMediaId,
-  type ImgDraft,
-} from "../shared/rp-image-field";
+import { RpImageField, useImageDraft } from "../shared/rp-image-field";
+import { confirmRpDelete } from "../shared/rp-list-parts";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
 import { LorebookEntries } from "./entries";
 import { useInvalidToast } from "@/components/elements/form/use-invalid-toast";
 
@@ -45,39 +39,24 @@ export function LorebookEditor(props: Props) {
     : undefined;
   const form = useRpForm(lorebookFormSchema, formValues);
   const onInvalid = useInvalidToast(lorebookFormSchema);
-  const [avatarDraft, setAvatarDraft] = useState<ImgDraft>({ kind: "keep" });
-  const existingAvatarSrc = useMediaSrc(
-    avatarDraft.kind === "keep" ? lbQuery.data?.avatarMediaId : null,
-  );
-  const existingAvatarFocal = useMediaFocalPoint(lbQuery.data?.avatarMediaId);
-  const avatarPreview =
-    avatarDraft.kind === "new"
-      ? avatarDraft.dataUrl
-      : avatarDraft.kind === "keep"
-        ? existingAvatarSrc
-        : null;
+  const avatar = useImageDraft(lbQuery.data?.avatarMediaId);
 
   const onSubmit = async (data: LorebookForm) => {
     await updateLb.mutateAsync({
       id: props.lorebookId,
       body: {
         ...data,
-        avatarMediaId: await resolveMediaId(
-          avatarDraft,
-          lbQuery.data?.avatarMediaId,
-        ),
+        avatarMediaId: await avatar.resolve(),
       },
     });
   };
 
   const handleDelete = async () => {
-    const ok = await confirm({
-      title: t("COMMON.CONFIRM.DELETE_LOREBOOK_TITLE"),
-      description: t("COMMON.CONFIRM.DELETE_LOREBOOK_DESC"),
-      confirmLabel: t("COMMON.DELETE"),
-      cancelLabel: t("COMMON.CANCEL"),
-      destructive: true,
-    });
+    const ok = await confirmRpDelete(
+      t,
+      "COMMON.CONFIRM.DELETE_LOREBOOK_TITLE",
+      "COMMON.CONFIRM.DELETE_LOREBOOK_DESC",
+    );
     if (!ok) return;
     await deleteLb.mutateAsync(props.lorebookId);
     props.onDeleted();
@@ -143,11 +122,8 @@ export function LorebookEditor(props: Props) {
             <RpImageField
               labelKey="RP.LOREBOOK_AVATAR"
               hintKey="RP.LOREBOOK_AVATAR_HINT"
-              preview={avatarPreview}
-              onPick={setAvatarDraft}
+              {...avatar.field}
               shape="circle"
-              draft={avatarDraft}
-              storedFocal={existingAvatarFocal}
             />
             <div className="flex justify-between">
               <Button type="button" variant="ghost" onClick={handleDelete}>

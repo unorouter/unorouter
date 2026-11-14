@@ -45,7 +45,6 @@ export function PresetsPage() {
     );
     if (!ok) return;
     await deleteMut.mutateAsync(id);
-    if (editingId === id) setEditingId(null);
   };
 
   return (

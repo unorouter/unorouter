@@ -7,36 +7,19 @@ import { dayjs } from "@/lib/utils/format/date";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
-type WithId = { id: string };
-
-type EntityHooks<TItem extends WithId, TCreateBody, TUpdateBody, TDetail> = {
-  useList: () => ReturnType<typeof useQuery<TItem[]>>;
-  useItem: (id: string | undefined) => ReturnType<typeof useQuery<TDetail>>;
-  useCreate: () => ReturnType<
-    typeof useMutation<TItem, Error, { body: TCreateBody }>
-  >;
-  useUpdate: () => ReturnType<
-    typeof useMutation<TItem, Error, { id: string; body: TUpdateBody }>
-  >;
-  useDelete: () => ReturnType<
-    typeof useMutation<{ id: string }, Error, string>
-  >;
-  useDuplicate: () => ReturnType<
-    typeof useMutation<{ id: string }, Error, string>
-  >;
-};
+import type { LocalAnyRow, LocalRowInput } from "@/lib/types";
 
 export function makeRpEntity<
-  TItem extends WithId,
-  TCreateBody,
-  TUpdateBody,
-  TDetail extends WithId = TItem,
+  TItem extends LocalAnyRow,
+  TCreateBody extends LocalRowInput,
+  TUpdateBody extends LocalRowInput,
+  TDetail extends LocalAnyRow = TItem,
 >(opts: {
   listKey: () => readonly unknown[];
   itemKey: (id: string) => readonly unknown[];
   readList: () => Promise<TItem[] | null>;
   readItem: (id: string) => Promise<TDetail | null>;
-  upsertLocal: (row: TItem) => Promise<void>;
+  upsertLocal: (row: LocalAnyRow) => Promise<void>;
   deleteLocal: (id: string) => Promise<void>;
   nameField?: string;
   cloneEntity?: (
@@ -44,7 +27,7 @@ export function makeRpEntity<
     newId: string,
     copyName: string,
   ) => Promise<void>;
-}): EntityHooks<TItem, TCreateBody, TUpdateBody, TDetail> {
+}) {
   const nameField = opts.nameField ?? "name";
   return {
     useList: () => {
@@ -73,14 +56,14 @@ export function makeRpEntity<
       return useMutation({
         mutationFn: async (args: { body: TCreateBody }) => {
           const now = dayjs().toDate();
-          const row = {
+          const id = uid();
+          await opts.upsertLocal({
             ...args.body,
-            id: uid(),
+            id,
             createdAt: now,
             updatedAt: now,
-          } as unknown as TItem;
-          await opts.upsertLocal(row);
-          return row;
+          });
+          return { id };
         },
         onSuccess: () => {
           invalidateAndBroadcast(qc, [opts.listKey()]);
@@ -98,13 +81,12 @@ export function makeRpEntity<
           const existing = await opts.readItem(args.id);
           if (!existing) throw new Error("not-found");
           const now = dayjs().toDate();
-          const updated = {
+          await opts.upsertLocal({
             ...existing,
             ...args.body,
             updatedAt: now,
-          } as unknown as TItem;
-          await opts.upsertLocal(updated);
-          return updated;
+          });
+          return { id: args.id };
         },
         onSuccess: (_data, args) => {
           invalidateAndBroadcast(qc, [opts.listKey(), opts.itemKey(args.id)]);
@@ -138,21 +120,20 @@ export function makeRpEntity<
           const detail = await opts.readItem(id);
           if (!detail) throw new Error("not-found");
           const newId = uid();
-          const srcName = (detail as Record<string, unknown>)[nameField];
+          const srcName = detail[nameField];
           const copyName =
             `${typeof srcName === "string" ? srcName : ""} ${t("RP.COPY_SUFFIX")}`.trim();
           if (opts.cloneEntity) {
             await opts.cloneEntity(detail, newId, copyName);
           } else {
             const now = dayjs().toDate();
-            const row = {
+            await opts.upsertLocal({
               ...detail,
               id: newId,
               [nameField]: copyName,
               createdAt: now,
               updatedAt: now,
-            } as unknown as TItem;
-            await opts.upsertLocal(row);
+            });
           }
           return { id: newId };
         },

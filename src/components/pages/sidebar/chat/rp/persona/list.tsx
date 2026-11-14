@@ -49,7 +49,6 @@ export function PersonaList(props: Props) {
     );
     if (!ok) return;
     await deleteMut.mutateAsync(id);
-    if (editingId === id) setEditingId(null);
   };
 
   return (
@@ -60,7 +59,6 @@ export function PersonaList(props: Props) {
       emptyKey="RP.PERSONAS_EMPTY"
       isEmpty={personasQuery.data?.length === 0 && editingId !== "new"}
       editingId={editingId}
-      setEditingId={setEditingId}
       query={rpQuery}
       setQuery={setRpQuery}
       actions={

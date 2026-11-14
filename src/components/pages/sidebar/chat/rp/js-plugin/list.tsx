@@ -52,7 +52,6 @@ export function JsPluginList(props: Props) {
     );
     if (!ok) return;
     await deleteMut.mutateAsync(id);
-    if (editingId === id) setEditingId(null);
   };
 
   const handleImport = async (file: File) => {
@@ -76,7 +75,6 @@ export function JsPluginList(props: Props) {
       emptyKey="CHAT.JS_PLUGIN.EMPTY"
       isEmpty={pluginsQuery.data?.length === 0 && editingId !== "new"}
       editingId={editingId}
-      setEditingId={setEditingId}
       query={rpQuery}
       setQuery={setRpQuery}
       actionsClassName="flex flex-wrap justify-end gap-2"

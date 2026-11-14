@@ -8,10 +8,12 @@ import {
   exportSlug,
   uint8ToArrayBuffer,
 } from "@/lib/utils/base";
-import type {
-  CharacterExportFormat,
-  LorebookExportFormat,
+import {
+  samplingPresetBody,
+  type CharacterExportFormat,
+  type LorebookExportFormat,
 } from "@/lib/validation/rp";
+import { Value } from "@sinclair/typebox/value";
 import {
   readLocalCard,
   readLocalCharacter,
@@ -61,6 +63,9 @@ async function loadAvatar(
   return null;
 }
 
+const jsonBlob = (value: unknown) =>
+  new Blob([JSON.stringify(value, null, 2)], { type: "application/json" });
+
 const isPng = (data: Uint8Array) =>
   [0x89, 0x50, 0x4e, 0x47].every((byte, i) => data[i] === byte);
 
@@ -96,9 +101,7 @@ export async function exportLocalCharacter(
   const slug = exportSlug(row.name, "character");
   if (format === "json") {
     return {
-      blob: new Blob([JSON.stringify(buildCCv3Card(row), null, 2)], {
-        type: "application/json",
-      }),
+      blob: jsonBlob(buildCCv3Card(row)),
       filename: `${slug}.json`,
     };
   }
@@ -141,40 +144,10 @@ export async function exportLocalPreset(
 ): Promise<LocalExportResult> {
   const row = await readLocalPreset(id);
   if (!row) throw new Error("Preset not found");
-  const portable = {
-    name: row.name,
-    temperature: row.temperature,
-    topP: row.topP,
-    topK: row.topK,
-    minP: row.minP,
-    topA: row.topA,
-    frequencyPenalty: row.frequencyPenalty,
-    presencePenalty: row.presencePenalty,
-    repetitionPenalty: row.repetitionPenalty,
-    maxTokens: row.maxTokens,
-    chatMemory: row.chatMemory,
-    contextTokens: row.contextTokens,
-    extraBody: row.extraBody,
-    providers: row.providers,
-    promptTemplate: row.promptTemplate,
-    mainPrompt: row.mainPrompt,
-    postHistory: row.postHistory,
-    prefill: row.prefill,
-    reasoningPrefill: row.reasoningPrefill,
-    forceAlternateRoles: row.forceAlternateRoles,
-    noSystemRole: row.noSystemRole,
-    mustStartWithUserInput: row.mustStartWithUserInput,
-    geminiBlockOff: row.geminiBlockOff,
-    disableCaching: row.disableCaching,
-    keepReasoning: row.keepReasoning,
-    keepSystemRoles: row.keepSystemRoles,
-    isDefault: row.isDefault,
-  };
+  const portable = Value.Clean(samplingPresetBody, structuredClone(row));
   const slug = exportSlug(row.name, "preset");
   return {
-    blob: new Blob([JSON.stringify(portable, null, 2)], {
-      type: "application/json",
-    }),
+    blob: jsonBlob(portable),
     filename: `${slug}.preset.json`,
   };
 }
@@ -192,9 +165,7 @@ export async function exportLocalPersona(
   };
   const slug = exportSlug(row.name, "persona");
   return {
-    blob: new Blob([JSON.stringify(portable, null, 2)], {
-      type: "application/json",
-    }),
+    blob: jsonBlob(portable),
     filename: `${slug}.persona.json`,
   };
 }
@@ -236,9 +207,7 @@ export async function exportLocalCard(id: string): Promise<LocalExportResult> {
   };
   const slug = exportSlug(card.name, "card");
   return {
-    blob: new Blob([JSON.stringify(portable, null, 2)], {
-      type: "application/json",
-    }),
+    blob: jsonBlob(portable),
     filename: `${slug}.card.json`,
   };
 }

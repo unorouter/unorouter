@@ -6,7 +6,7 @@ import {
   readLocalJsPlugins,
   upsertLocalJsPlugin,
 } from "@/lib/db/client/data/rp/js-plugins";
-import { upsertLocalLorebookBundle } from "@/lib/db/client/data/rp/rp";
+import { insertLorebook } from "@/lib/db/client/data/rp/rp";
 import { detectPluginKind } from "@/lib/ai/chat/plugins/engine";
 import { msg } from "@/lib/config/constants";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -66,39 +66,7 @@ export function useImportJsPluginFromUrlMutation() {
         if (books.length === 0) {
           throw new Error(msg("ERRORS.CARD_IMPORT_FETCH_FAILED"));
         }
-        for (const book of books) {
-          const id = uid();
-          await upsertLocalLorebookBundle({
-            lorebook: {
-              id,
-              name: book.name,
-              description: null,
-              scanDepth: book.scanDepth ?? 4,
-              tokenBudget: 1500,
-              recursiveScanning: false,
-              createdAt: now,
-              updatedAt: now,
-            },
-            entries: book.entries.map((e, i) => ({
-              id: uid(),
-              lorebookId: id,
-              keys: e.keys,
-              secondaryKeys: e.secondaryKeys ?? null,
-              content: e.content,
-              comment: e.comment ?? null,
-              enabled: e.enabled,
-              constant: e.constant,
-              selective: e.selective,
-              priority: e.priority,
-              orderIndex: e.orderIndex ?? i,
-              matchWholeWords: e.matchWholeWords,
-              injectionRole: e.injectionRole ?? "system",
-              chance: e.chance ?? null,
-              createdAt: now,
-              updatedAt: now,
-            })),
-          });
-        }
+        for (const book of books) await insertLorebook(book);
         return { importedAsLorebook: books[0].name };
       }),
     invalidates: [queryKeys.jsPlugins(), queryKeys.lorebooks()],

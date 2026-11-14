@@ -7,6 +7,7 @@ import { upsertLocalJsPlugin } from "@/lib/db/client/data/rp/js-plugins";
 import {
   deleteLocalLorebook,
   deleteLocalLorebookEntry,
+  insertLorebook,
   readLocalLorebook,
   readLocalLorebooks,
   upsertLocalLorebook,
@@ -91,46 +92,13 @@ export function useImportLorebookMutation() {
       try {
         raw = JSON.parse(await file.text());
       } catch {
-        throw new Error("ERRORS.REQUEST_FAILED");
+        throw new Error(msg("ERRORS.REQUEST_FAILED"));
       }
       const parsed = (
         await import("@/lib/ai/rp/lorebook-import")
       ).parseLorebookJson(raw, file.name.replace(/\.[^.]+$/, ""));
-      if (!parsed) throw new Error("ERRORS.REQUEST_FAILED");
-      const id = uid();
-      const now = dayjs().toDate();
-      const lorebook = {
-        id,
-        name: parsed.name,
-        description: parsed.description ?? null,
-        scanDepth: parsed.scanDepth ?? 4,
-        tokenBudget: parsed.tokenBudget ?? 1500,
-        recursiveScanning: parsed.recursiveScanning ?? false,
-        createdAt: now,
-        updatedAt: now,
-      };
-      const entries = parsed.entries.map((e, i) => ({
-        id: uid(),
-        lorebookId: id,
-        comment: e.comment ?? null,
-        keys: e.keys,
-        secondaryKeys: e.secondaryKeys ?? null,
-        content: e.content,
-        constant: e.constant,
-        selective: e.selective,
-        priority: e.priority,
-        enabled: e.enabled,
-        orderIndex: e.orderIndex ?? i,
-        matchWholeWords: false,
-        injectionRole: "system" as const,
-        createdAt: now,
-        updatedAt: now,
-      }));
-      await upsertLocalLorebookBundle({
-        lorebook: lorebook,
-        entries: entries,
-      });
-      return { ...lorebook, entries };
+      if (!parsed) throw new Error(msg("ERRORS.REQUEST_FAILED"));
+      return { id: await insertLorebook(parsed) };
     },
     invalidates: [queryKeys.lorebooks()],
   });
@@ -289,40 +257,7 @@ export function useImportLorebookFromUrlMutation() {
               : msg("ERRORS.CARD_IMPORT_FETCH_FAILED"),
           );
         }
-        const now = dayjs().toDate();
-        for (const book of books) {
-          const id = uid();
-          await upsertLocalLorebookBundle({
-            lorebook: {
-              id,
-              name: book.name,
-              description: null,
-              scanDepth: book.scanDepth ?? 4,
-              tokenBudget: 1500,
-              recursiveScanning: false,
-              createdAt: now,
-              updatedAt: now,
-            },
-            entries: book.entries.map((e, i) => ({
-              id: uid(),
-              lorebookId: id,
-              keys: e.keys,
-              secondaryKeys: e.secondaryKeys ?? null,
-              content: e.content,
-              comment: e.comment ?? null,
-              enabled: e.enabled,
-              constant: e.constant,
-              selective: e.selective,
-              priority: e.priority,
-              orderIndex: e.orderIndex ?? i,
-              matchWholeWords: e.matchWholeWords,
-              injectionRole: e.injectionRole ?? "system",
-              chance: e.chance ?? null,
-              createdAt: now,
-              updatedAt: now,
-            })),
-          });
-        }
+        for (const book of books) await insertLorebook(book);
         return {
           importedAsPlugin: null,
           importedAsPreset: preset?.name ?? null,

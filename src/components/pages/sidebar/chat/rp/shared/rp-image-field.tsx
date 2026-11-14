@@ -22,16 +22,18 @@ import {
   AvatarSizeRow,
   type Focal,
 } from "@/components/pages/sidebar/chat/rp/shared/avatar-position-dialog";
-import { focalToObjectPosition } from "@/hooks/ai/use-media-src";
+import {
+  focalToObjectPosition,
+  useMediaFocalPoint,
+  useMediaSrc,
+} from "@/hooks/ai/use-media-src";
 
 export type ImgDraft =
   | { kind: "keep"; focal?: Focal }
   | { kind: "remove" }
   | { kind: "new"; dataUrl: string; focal?: Focal };
 
-// Minting a new media id on every replace leaves the previous row orphaned.
-// Long-standing behavior, kept as is: deleting here would break an avatar that
-// another entity still points at, since nothing tracks media references.
+// Replacing never deletes the old row: nothing tracks which entities share it.
 export async function resolveMediaId(
   draft: ImgDraft,
   existingId: string | null | undefined,
@@ -56,6 +58,26 @@ export async function resolveMediaId(
     focalY: draft.focal?.y,
   });
   return mediaId;
+}
+
+export function useImageDraft(mediaId: string | null | undefined) {
+  const [draft, setDraft] = useState<ImgDraft>({ kind: "keep" });
+  const storedSrc = useMediaSrc(draft.kind === "keep" ? mediaId : null);
+  const storedFocal = useMediaFocalPoint(mediaId);
+  return {
+    field: {
+      draft,
+      onPick: setDraft,
+      storedFocal,
+      preview:
+        draft.kind === "new"
+          ? draft.dataUrl
+          : draft.kind === "keep"
+            ? storedSrc
+            : null,
+    },
+    resolve: () => resolveMediaId(draft, mediaId),
+  };
 }
 
 export function RpImageField(props: {

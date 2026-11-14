@@ -5,11 +5,11 @@ import { upsertLocalJsPlugin } from "@/lib/db/client/data/rp/js-plugins";
 import {
   deleteLocalCharacter,
   findLocalLorebookCopy,
+  insertLorebook,
   readLocalCharacter,
   readLocalCharacters,
   upsertLocalCardBundle,
   upsertLocalCharacter,
-  upsertLocalLorebookBundle,
 } from "@/lib/db/client/data/rp/rp";
 import { queryKeys } from "@/lib/react-query/keys";
 import { base64ToUint8, rec, uid, uint8ToBase64 } from "@/lib/utils/base";
@@ -130,35 +130,7 @@ async function persistCharacterSetupFromFile(
         lorebookId = copy;
         reusedLorebooks++;
       } else if (parsed && parsed.entries.length > 0) {
-        lorebookId = uid();
-        await upsertLocalLorebookBundle({
-          lorebook: {
-            id: lorebookId,
-            name: parsed.name,
-            description: parsed.description ?? null,
-            scanDepth: parsed.scanDepth ?? 4,
-            tokenBudget: parsed.tokenBudget ?? 1500,
-            recursiveScanning: parsed.recursiveScanning ?? false,
-            createdAt: now,
-            updatedAt: now,
-          },
-          entries: parsed.entries.map((e, i) => ({
-            id: uid(),
-            lorebookId,
-            keys: e.keys,
-            secondaryKeys: e.secondaryKeys ?? null,
-            content: e.content,
-            constant: e.constant,
-            selective: e.selective,
-            priority: e.priority,
-            enabled: e.enabled,
-            orderIndex: e.orderIndex ?? i,
-            matchWholeWords: false,
-            injectionRole: "system" as const,
-            createdAt: now,
-            updatedAt: now,
-          })),
-        });
+        lorebookId = await insertLorebook(parsed);
       }
     }
   } catch {
@@ -316,29 +288,7 @@ async function persistImportedCard(result: ImportedResult) {
       reusedLorebooks++;
       continue;
     }
-    const lorebookId = uid();
-    lorebookIds.push(lorebookId);
-    await upsertLocalLorebookBundle({
-      lorebook: {
-        id: lorebookId,
-        name: book.name,
-        description: null,
-        scanDepth: book.scanDepth ?? 4,
-        tokenBudget: 1500,
-        recursiveScanning: false,
-        createdAt: now,
-        updatedAt: now,
-      },
-      entries: book.entries.map((e, i) => ({
-        ...e,
-        id: uid(),
-        lorebookId,
-        orderIndex: e.orderIndex ?? i,
-        injectionRole: "system" as const,
-        createdAt: now,
-        updatedAt: now,
-      })),
-    });
+    lorebookIds.push(await insertLorebook(book));
   }
 
   const json = JSON.stringify(result.card);

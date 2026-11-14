@@ -3,7 +3,6 @@
 import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
 import { MyFormTextarea } from "@/components/elements/form/my-form-textarea";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
   Form,
@@ -38,13 +37,16 @@ import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { useInvalidToast } from "@/components/elements/form/use-invalid-toast";
 import { TokenEstimate } from "@/components/elements/form/token-estimate";
+import { FormFooter } from "../shared/form-footer";
 
-const INJECTION_ROLE_LABEL_KEY: Record<LorebookInjectionRole, TranslationKey> =
-  {
-    user: "RP.LOREBOOK_ENTRY_INJECTION_ROLE_USER",
-    system: "RP.LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM",
-    assistant: "RP.LOREBOOK_ENTRY_INJECTION_ROLE_ASSISTANT",
-  };
+export const INJECTION_ROLE_LABEL_KEY: Record<
+  LorebookInjectionRole,
+  TranslationKey
+> = {
+  user: "RP.LOREBOOK_ENTRY_INJECTION_ROLE_USER",
+  system: "RP.LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM",
+  assistant: "RP.LOREBOOK_ENTRY_INJECTION_ROLE_ASSISTANT",
+};
 
 function splitDecorators(content: string): {
   content: string;
@@ -130,7 +132,6 @@ export function LorebookEntryForm(props: {
       content: embedDecorators(data.content, probability, entryScanDepth),
       keys: csvToArray(data.keys),
       secondaryKeys: secondary.length > 0 ? secondary : null,
-      injectionRole: data.injectionRole,
     };
     if (props.editingId === "new") {
       await createMut.mutateAsync(body);
@@ -184,7 +185,6 @@ export function LorebookEntryForm(props: {
 
           {!alwaysActive && (
             <>
-              {/* `keys` is the SillyTavern/RisuAI import-export field name; do not rename. */}
               <div className="flex flex-col gap-1">
                 <MyFormInput
                   control={form.control}
@@ -197,13 +197,11 @@ export function LorebookEntryForm(props: {
                   {t("RP.LOREBOOK_ENTRY_KEYS_HINT")}
                 </p>
               </div>
-              <div className="flex flex-col gap-1">
-                <MyFormSwitch
-                  control={form.control}
-                  name="selective"
-                  label={t("RP.LOREBOOK_ENTRY_SELECTIVE")}
-                />
-              </div>
+              <MyFormSwitch
+                control={form.control}
+                name="selective"
+                label={t("RP.LOREBOOK_ENTRY_SELECTIVE")}
+              />
               {selective && (
                 <MyFormInput
                   control={form.control}
@@ -310,12 +308,7 @@ export function LorebookEntryForm(props: {
             name="enabled"
             label={t("RP.LOREBOOK_ENTRY_ENABLED")}
           />
-          <div className="flex justify-end gap-2">
-            <Button type="button" variant="ghost" onClick={props.onDone}>
-              {t("COMMON.CANCEL")}
-            </Button>
-            <Button type="submit">{t("COMMON.SAVE")}</Button>
-          </div>
+          <FormFooter onCancel={props.onDone} />
         </form>
       </Form>
     </Card>

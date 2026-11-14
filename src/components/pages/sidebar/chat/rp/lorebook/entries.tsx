@@ -1,7 +1,6 @@
 "use client";
 
 import { SortableList } from "@/components/elements/dnd/sortable-list";
-import { confirm } from "@/components/ui/confirm";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -17,20 +16,15 @@ import {
   useReorderLorebookEntriesMutation,
   useSetLorebookEntriesRoleMutation,
 } from "@/hooks/ai/rp/lorebooks";
-import type { EntityEditId, TranslationKey } from "@/lib/types";
-import {
-  LOREBOOK_INJECTION_ROLES,
-  type LorebookInjectionRole,
-} from "@/lib/validation/rp";
+import type { EntityEditId } from "@/lib/types";
+import { LOREBOOK_INJECTION_ROLES } from "@/lib/validation/rp";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { LorebookEntryForm } from "./lorebook-entry-form";
-
-const ROLE_LABEL_KEY: Record<LorebookInjectionRole, TranslationKey> = {
-  user: "RP.LOREBOOK_ENTRY_INJECTION_ROLE_USER",
-  system: "RP.LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM",
-  assistant: "RP.LOREBOOK_ENTRY_INJECTION_ROLE_ASSISTANT",
-};
+import {
+  INJECTION_ROLE_LABEL_KEY,
+  LorebookEntryForm,
+} from "./lorebook-entry-form";
+import { confirmRpDelete } from "../shared/rp-list-parts";
 
 export function LorebookEntries(props: { lorebookId: string }) {
   const t = useTranslations();
@@ -47,16 +41,13 @@ export function LorebookEntries(props: { lorebookId: string }) {
       : null;
 
   const handleDelete = async (id: string) => {
-    const ok = await confirm({
-      title: t("COMMON.CONFIRM.DELETE_LOREBOOK_ENTRY_TITLE"),
-      description: t("COMMON.CONFIRM.DELETE_LOREBOOK_ENTRY_DESC"),
-      confirmLabel: t("COMMON.DELETE"),
-      cancelLabel: t("COMMON.CANCEL"),
-      destructive: true,
-    });
+    const ok = await confirmRpDelete(
+      t,
+      "COMMON.CONFIRM.DELETE_LOREBOOK_ENTRY_TITLE",
+      "COMMON.CONFIRM.DELETE_LOREBOOK_ENTRY_DESC",
+    );
     if (!ok) return;
     await deleteMut.mutateAsync(id);
-    if (editingId === id) setEditingId(null);
   };
 
   return (
@@ -81,7 +72,7 @@ export function LorebookEntries(props: { lorebookId: string }) {
                     key={role}
                     onClick={() => setRoleMut.mutate(role)}
                   >
-                    {t(ROLE_LABEL_KEY[role])}
+                    {t(INJECTION_ROLE_LABEL_KEY[role])}
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>

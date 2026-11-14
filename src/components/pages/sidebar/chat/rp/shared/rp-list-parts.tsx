@@ -29,7 +29,7 @@ import { dayjs, formatRelativeUnix } from "@/lib/utils/format/date";
 import type { TranslationKey } from "@/lib/config/constants";
 import type { EntityEditId } from "@/lib/types";
 import { useLocale, useTranslations } from "next-intl";
-import { type ReactNode, useEffect, useRef, useState } from "react";
+import { type ReactNode, useRef, useState } from "react";
 
 export const RP_ACTION_BUTTON = "max-sm:h-8 max-sm:px-2 max-sm:text-xs";
 
@@ -123,7 +123,6 @@ export function RpEntityRow(props: {
   description?: ReactNode;
   leading?: ReactNode;
   actions?: ReactNode;
-  actionsClassName?: string;
   favorite?: { on: boolean; onToggle: () => void };
   createdAt?: Date | string | number | null;
   updatedAt?: Date | string | number | null;
@@ -239,11 +238,7 @@ export function RpImportControl(props: {
           {t(props.labelKey)}
         </Button>
       )}
-      {/* An import runs for as long as the worker needs, and dismissing the
-          popover used to strand it: the trigger was disabled while pending, so
-          the progress and the eventual error had nowhere to appear. Hold it open
-          for the duration, and leave the trigger usable so a stray click outside
-          can be undone. */}
+      {/* Held open while pending so progress and errors stay visible. */}
       {props.onUrl && (
         <Popover
           open={linkOpen}
@@ -271,8 +266,6 @@ export function RpImportControl(props: {
                   setUrl("");
                   setLinkOpen(false);
                 } catch {
-                  // Leave the URL in the box: a failure the user can retry
-                  // should not make them paste the link again.
                   setLinkOpen(true);
                 }
               }}
@@ -325,8 +318,6 @@ export function RpExportMenu(props: {
   );
 }
 
-// Case-insensitive substring over whichever fields a list wants searchable.
-// Shared so seven lists agree on what "search" means.
 export function rpFilter<T>(
   rows: T[] | null | undefined,
   query: string,
@@ -346,7 +337,6 @@ export function RpListDialog(props: {
   emptyKey: TranslationKey;
   isEmpty: boolean;
   editingId: EntityEditId;
-  setEditingId: (id: EntityEditId) => void;
   query: string;
   setQuery: (value: string) => void;
   actions?: ReactNode;
@@ -355,12 +345,6 @@ export function RpListDialog(props: {
   children: ReactNode;
 }) {
   const t = useTranslations();
-  const setEditingId = props.setEditingId;
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- reset editor when dialog closes
-    if (!props.open) setEditingId(null);
-  }, [props.open, setEditingId]);
 
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>

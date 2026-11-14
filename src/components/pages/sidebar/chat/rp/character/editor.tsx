@@ -15,19 +15,18 @@ import {
   useCreateCharacterMutation,
   useUpdateCharacterMutation,
 } from "@/hooks/ai/rp/characters";
-import { useMediaFocalPoint, useMediaSrc } from "@/hooks/ai/use-media-src";
-import { upsertLocalMedia } from "@/lib/db/client/data/media/media";
+import { useMediaSrc } from "@/hooks/ai/use-media-src";
 import {
   characterFormSchema,
   type CharacterForm,
 } from "@/lib/validation/rp-forms";
 import { useRpForm } from "@/hooks/ui/use-rp-form";
 import { csvToArray, uid } from "@/lib/utils/base";
-import { fileToScaledDataUrl, splitDataUrl } from "@/lib/utils/client";
+import { fileToScaledDataUrl } from "@/lib/utils/client";
 import {
   RpImageField,
   resolveMediaId,
-  type ImgDraft,
+  useImageDraft,
 } from "../shared/rp-image-field";
 import { formDefaults } from "@/lib/validation/helpers";
 import { useTranslations } from "next-intl";
@@ -55,28 +54,8 @@ export function CharacterEditor(props: Props) {
   const updateMut = useUpdateCharacterMutation();
   const voiceSettingsQuery = useVoiceSettingsQuery();
   const existing = characterQuery.data;
-  const [bgDraft, setBgDraft] = useState<ImgDraft>({ kind: "keep" });
-  const [avatarDraft, setAvatarDraft] = useState<ImgDraft>({ kind: "keep" });
-  const existingBgSrc = useMediaSrc(
-    bgDraft.kind === "keep" ? existing?.backgroundMediaId : null,
-  );
-  const existingAvatarSrc = useMediaSrc(
-    avatarDraft.kind === "keep" ? existing?.avatarMediaId : null,
-  );
-  const existingAvatarFocal = useMediaFocalPoint(existing?.avatarMediaId);
-  const existingBgFocal = useMediaFocalPoint(existing?.backgroundMediaId);
-  const bgPreview =
-    bgDraft.kind === "new"
-      ? bgDraft.dataUrl
-      : bgDraft.kind === "keep"
-        ? existingBgSrc
-        : null;
-  const avatarPreview =
-    avatarDraft.kind === "new"
-      ? avatarDraft.dataUrl
-      : avatarDraft.kind === "keep"
-        ? existingAvatarSrc
-        : null;
+  const avatar = useImageDraft(existing?.avatarMediaId);
+  const background = useImageDraft(existing?.backgroundMediaId);
 
   const [greetingRows, setGreetingRows] = useState<GreetingRow[] | null>(null);
   // Derived rows are re-created on every render, so their ids must come from
@@ -147,20 +126,12 @@ export function CharacterEditor(props: Props) {
     for (const row of rows) {
       const name = row.name.trim();
       if (!name) continue;
-      let mediaId = row.mediaId;
-      if (row.dataUrl) {
-        const parts = splitDataUrl(row.dataUrl);
-        if (parts) {
-          mediaId = uid();
-          await upsertLocalMedia({
-            id: mediaId,
-            convId: null,
-            mimeType: parts.mimeType,
-            sizeBytes: Math.floor((parts.base64.length * 3) / 4),
-            dataBase64: parts.base64,
-          });
-        }
-      }
+      const mediaId = row.dataUrl
+        ? await resolveMediaId(
+            { kind: "new", dataUrl: row.dataUrl },
+            row.mediaId,
+          )
+        : row.mediaId;
       if (mediaId) resolved.push({ name, mediaId });
     }
     return resolved;
@@ -178,11 +149,8 @@ export function CharacterEditor(props: Props) {
       alternateGreetings: greetings
         .map((g) => g.text.trim())
         .filter((text) => text.length > 0),
-      avatarMediaId: await resolveMediaId(avatarDraft, existing?.avatarMediaId),
-      backgroundMediaId: await resolveMediaId(
-        bgDraft,
-        existing?.backgroundMediaId,
-      ),
+      avatarMediaId: await avatar.resolve(),
+      backgroundMediaId: await background.resolve(),
       assets: await resolveAssets(),
     };
     if (props.characterId) {
@@ -320,20 +288,14 @@ export function CharacterEditor(props: Props) {
         <RpImageField
           labelKey="RP.CHARACTER_AVATAR"
           hintKey="RP.CHARACTER_AVATAR_HINT"
-          preview={avatarPreview}
-          onPick={setAvatarDraft}
           shape="circle"
-          draft={avatarDraft}
-          storedFocal={existingAvatarFocal}
+          {...avatar.field}
         />
         <RpImageField
           labelKey="RP.CHARACTER_BACKGROUND"
           hintKey="RP.CHARACTER_BACKGROUND_HINT"
-          preview={bgPreview}
-          onPick={setBgDraft}
           shape="banner"
-          draft={bgDraft}
-          storedFocal={existingBgFocal}
+          {...background.field}
         />
         <div className="border-border/40 flex flex-col gap-3 rounded-lg border p-3">
           <div className="text-foreground text-xs font-medium tracking-wide uppercase">
