@@ -308,11 +308,15 @@ async function runEffects(
         ctx.sendAIprompt = true;
         continue;
       case "triggerlua": {
-        if (ctx.ops?.runLua) {
-          try {
-            await ctx.ops.runLua(String(e.code ?? ""));
-          } catch {}
-        }
+        try {
+          const { runScripted } = await import("./lua/engine");
+          await runScripted({
+            code: String(e.code ?? ""),
+            mode: ctx.mode,
+            ctx,
+            lowLevelAccess: !!ctx.lowLevelAccess,
+          });
+        } catch {}
         continue;
       }
       case "v2DeclareLocalVar":

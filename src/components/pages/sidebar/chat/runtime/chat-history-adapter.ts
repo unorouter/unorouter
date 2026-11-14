@@ -855,18 +855,6 @@ async function runOutputTriggers(
     chat: [{ role: "assistant", data: replyText }],
     ops: makeClientTriggerOps(),
   });
-  ctx.ops = {
-    ...ctx.ops,
-    runLua: async (code) => {
-      const { runScripted } = await import("@/lib/ai/chat/triggers/lua/engine");
-      await runScripted({
-        code,
-        mode: "output",
-        ctx,
-        lowLevelAccess: !!ctx.lowLevelAccess,
-      });
-    },
-  };
   await runTriggers(triggers, "output", ctx);
   if (ctx.sendAIprompt) {
     const thread = getThreadRuntime();

@@ -142,7 +142,6 @@ export type TriggerOps = {
     text: string,
     options?: string[],
   ) => Promise<string>;
-  runLua?: (code: string) => Promise<void>;
 };
 
 export type TriggerRunResult = {

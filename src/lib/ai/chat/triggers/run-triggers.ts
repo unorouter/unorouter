@@ -78,18 +78,6 @@ export async function runStartTriggers(
     ops: wrappedOps,
   });
 
-  ctx.ops = {
-    ...ctx.ops,
-    runLua: async (code) => {
-      const { runScripted } = await import("@/lib/ai/chat/triggers/lua/engine");
-      await runScripted({
-        code,
-        mode: "start",
-        ctx,
-        lowLevelAccess: !!ctx.lowLevelAccess,
-      });
-    },
-  };
   const result = await runTriggers(scripts, "start", ctx);
   const sys = [
     ctx.additionalSysPrompt.start,
