@@ -14,7 +14,7 @@ import {
 import { getPlatformDoc } from "@/components/pages/docs/platform/platform-docs";
 import { APP_VALUES } from "@/lib/config/constants";
 import { DocPageSchema } from "@/lib/seo/json-ld";
-import { getPageMetadata, notFoundMetadata, ogBadge } from "@/lib/seo/metadata";
+import { getPageMetadata, notFoundMetadata } from "@/lib/seo/metadata";
 import type { DocSlug } from "@/lib/types";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
@@ -39,7 +39,6 @@ export async function generateMetadata(props: PageProps) {
       APP_VALUES,
     ),
     keywords: t(platformDocKey(doc.i18nPrefix, "META.KEYWORDS"), APP_VALUES),
-    ogImage: ogBadge("hero", locale),
   });
 }
 

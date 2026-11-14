@@ -10,7 +10,7 @@ import { migrateTheme } from "@/lib/theme/migrate";
 import { INITIAL_USER_THEME, USER_THEME_KEY } from "@/lib/theme/theme-types";
 import { APP_VALUES } from "@/lib/config/constants";
 import { JsonLd } from "@/lib/seo/json-ld";
-import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
+import { getPageMetadata } from "@/lib/seo/metadata";
 import {
   buildOrganizationSchema,
   buildWebSiteSchema,
@@ -67,7 +67,6 @@ export async function generateMetadata(props: {
     title: t("METADATA.TITLE", APP_VALUES),
     description: t("METADATA.DESCRIPTION"),
     keywords: t("METADATA.KEYWORDS"),
-    ogImage: ogBadge("hero", locale),
   });
   // Site-wide fields only: a page without its own metadata (404s, detail pages)
   // inherited the home canonical and index,follow next to Next's 404 noindex.
