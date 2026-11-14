@@ -10,14 +10,13 @@ import type { ModelDetailData } from "@/lib/validation/data-policy";
 // includeOffline keeps models whose every lane is down, flagged online=false.
 // Only the sitemap wants them: their pages answer 200 the whole time, so leaving
 // them out silently unpublishes thousands of live URLs whenever a provider flaps.
-export const getCatalog = cache(
-  async (full = false, includeOffline = false) => {
-    const res = await getPricingCatalog({
+export const getCatalog = cache(async (full = false, includeOffline = false) =>
+  unwrap(
+    await getPricingCatalog({
       full,
       include_offline: includeOffline,
-    });
-    return unwrap(res);
-  },
+    }),
+  ),
 );
 
 export const getVendorCatalog = cache(async (vendor: string) => {
@@ -44,8 +43,7 @@ export const getTaskImageModels = cache(async () => {
 export const getModelByName = cache(
   async (model: string): Promise<ModelDetailData | null> => {
     try {
-      const res = await getPricingCatalogModel({ model });
-      return unwrap(res);
+      return unwrap(await getPricingCatalogModel({ model }));
     } catch {
       return null;
     }

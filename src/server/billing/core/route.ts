@@ -46,70 +46,61 @@ const xPaymentInfo = (
 
 export const billingRoute = new Elysia({ prefix: "/core" })
   .derive(deriveUpstream)
-  .get("/topup-info", async ({ upstream }) => {
-    const res = await getTopUpInfo({ headers: upstream.headers });
-    return unwrap(res);
-  })
-  .get("/subscription-plans", async ({ upstream }) => {
-    const res = await getSubscriptionPlans({ headers: upstream.headers });
-    return unwrap(res);
-  })
-  .get("/subscription-self", async ({ upstream }) => {
-    const res = await getSubscriptionSelf({ headers: upstream.headers });
-    return unwrap(res);
-  })
+  .get("/topup-info", async ({ upstream }) =>
+    unwrap(await getTopUpInfo({ headers: upstream.headers })),
+  )
+  .get("/subscription-plans", async ({ upstream }) =>
+    unwrap(await getSubscriptionPlans({ headers: upstream.headers })),
+  )
+  .get("/subscription-self", async ({ upstream }) =>
+    unwrap(await getSubscriptionSelf({ headers: upstream.headers })),
+  )
   .get(
     "/portal",
-    async ({ query, upstream }) => {
-      const res = await getBillingPortal(query, { headers: upstream.headers });
-      return unwrap(res);
-    },
+    async ({ query, upstream }) =>
+      unwrap(await getBillingPortal(query, { headers: upstream.headers })),
     { query: billingPortalQuery },
   )
   .get(
     "/transactions/topups",
-    async ({ query, upstream }) => {
-      const res = await getUserTopUps(query, { headers: upstream.headers });
-      return unwrap(res);
-    },
+    async ({ query, upstream }) =>
+      unwrap(await getUserTopUps(query, { headers: upstream.headers })),
     { query: transactionsQuery },
   )
   .get(
     "/transactions/orders",
-    async ({ query, upstream }) => {
-      const res = await getUserSubscriptionOrders(query, {
-        headers: upstream.headers,
-      });
-      return unwrap(res);
-    },
+    async ({ query, upstream }) =>
+      unwrap(
+        await getUserSubscriptionOrders(query, {
+          headers: upstream.headers,
+        }),
+      ),
     { query: transactionsQuery },
   )
   .put(
     "/subscription-preference",
-    async ({ body, upstream }) => {
-      const res = await updateSubscriptionPreference(body, {
-        headers: { ...upstream.headers },
-      });
-      return unwrap(res);
-    },
+    async ({ body, upstream }) =>
+      unwrap(
+        await updateSubscriptionPreference(body, {
+          headers: upstream.headers,
+        }),
+      ),
     { body: subscriptionPreferenceBody },
   )
   .post(
     "/redeem",
-    async ({ body, upstream }) => {
-      const res = await topUp(body, { headers: upstream.headers });
-      return unwrap(res);
-    },
+    async ({ body, upstream }) =>
+      unwrap(await topUp(body, { headers: upstream.headers })),
     { body: redeemBody },
   )
   .post(
     "/stripe-pay",
-    async ({ body, upstream }) => {
-      const res = await requestStripePay(body, {
-        headers: { ...upstream.headers },
-      });
-      return unwrap(res);
-    },
+    async ({ body, upstream }) =>
+      unwrap(
+        await requestStripePay(body, {
+          headers: upstream.headers,
+        }),
+      ),
     {
       body: stripePayBody,
       detail: {
@@ -123,13 +114,14 @@ export const billingRoute = new Elysia({ prefix: "/core" })
     async ({ body, upstream }) => {
       // Zero mirrors an omitted amount: upstream only treats amount > 0 as a
       // pay-what-you-want override.
-      const res = await requestCreemPay(
-        { ...body, amount: body.amount ?? 0 },
-        {
-          headers: { ...upstream.headers },
-        },
+      return unwrap(
+        await requestCreemPay(
+          { ...body, amount: body.amount ?? 0 },
+          {
+            headers: upstream.headers,
+          },
+        ),
       );
-      return unwrap(res);
     },
     {
       body: creemPayBody,
@@ -141,12 +133,12 @@ export const billingRoute = new Elysia({ prefix: "/core" })
   )
   .post(
     "/nowpayments-pay",
-    async ({ body, upstream }) => {
-      const res = await requestNowPaymentsPay(body, {
-        headers: { ...upstream.headers },
-      });
-      return unwrap(res);
-    },
+    async ({ body, upstream }) =>
+      unwrap(
+        await requestNowPaymentsPay(body, {
+          headers: upstream.headers,
+        }),
+      ),
     {
       body: nowPaymentsPayBody,
       detail: {
@@ -160,12 +152,12 @@ export const billingRoute = new Elysia({ prefix: "/core" })
   )
   .post(
     "/delopay-pay",
-    async ({ body, upstream }) => {
-      const res = await requestDeloPayPay(body, {
-        headers: { ...upstream.headers },
-      });
-      return unwrap(res);
-    },
+    async ({ body, upstream }) =>
+      unwrap(
+        await requestDeloPayPay(body, {
+          headers: upstream.headers,
+        }),
+      ),
     {
       body: deloPayPayBody,
       detail: {
@@ -179,12 +171,12 @@ export const billingRoute = new Elysia({ prefix: "/core" })
   )
   .post(
     "/subscription/stripe-pay",
-    async ({ body, upstream }) => {
-      const res = await subscriptionRequestStripePay(body, {
-        headers: { ...upstream.headers },
-      });
-      return unwrap(res);
-    },
+    async ({ body, upstream }) =>
+      unwrap(
+        await subscriptionRequestStripePay(body, {
+          headers: upstream.headers,
+        }),
+      ),
     {
       body: subscriptionPayBody,
       detail: {
@@ -198,12 +190,12 @@ export const billingRoute = new Elysia({ prefix: "/core" })
   )
   .post(
     "/subscription/creem-pay",
-    async ({ body, upstream }) => {
-      const res = await subscriptionRequestCreemPay(body, {
-        headers: { ...upstream.headers },
-      });
-      return unwrap(res);
-    },
+    async ({ body, upstream }) =>
+      unwrap(
+        await subscriptionRequestCreemPay(body, {
+          headers: upstream.headers,
+        }),
+      ),
     {
       body: subscriptionPayBody,
       detail: {
@@ -214,12 +206,12 @@ export const billingRoute = new Elysia({ prefix: "/core" })
   )
   .post(
     "/subscription/nowpayments-pay",
-    async ({ body, upstream }) => {
-      const res = await subscriptionRequestNowPaymentsPay(body, {
-        headers: { ...upstream.headers },
-      });
-      return unwrap(res);
-    },
+    async ({ body, upstream }) =>
+      unwrap(
+        await subscriptionRequestNowPaymentsPay(body, {
+          headers: upstream.headers,
+        }),
+      ),
     {
       body: subscriptionPayBody,
       detail: {
@@ -233,12 +225,12 @@ export const billingRoute = new Elysia({ prefix: "/core" })
   )
   .post(
     "/subscription/delopay-pay",
-    async ({ body, upstream }) => {
-      const res = await subscriptionRequestDeloPayPay(body, {
-        headers: { ...upstream.headers },
-      });
-      return unwrap(res);
-    },
+    async ({ body, upstream }) =>
+      unwrap(
+        await subscriptionRequestDeloPayPay(body, {
+          headers: upstream.headers,
+        }),
+      ),
     {
       body: subscriptionPayBody,
       detail: {

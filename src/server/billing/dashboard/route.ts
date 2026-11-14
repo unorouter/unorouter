@@ -8,12 +8,12 @@ export const dashboardRoute = new Elysia({ prefix: "/dashboard" })
   .derive(deriveUpstream)
   .get(
     "/quota",
-    async ({ query, upstream }) => {
-      const res = await getUserQuotaDates(query, {
-        headers: upstream.headers,
-      });
-      return unwrap(res);
-    },
+    async ({ query, upstream }) =>
+      unwrap(
+        await getUserQuotaDates(query, {
+          headers: upstream.headers,
+        }),
+      ),
     { query: quotaQuery },
   )
   .get(

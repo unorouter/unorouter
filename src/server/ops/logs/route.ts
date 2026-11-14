@@ -25,10 +25,8 @@ export const logsRoute = new Elysia({ prefix: "/logs" })
 
   .get(
     "/",
-    async ({ query, upstream }) => {
-      const res = await getUserLogs(query, { headers: upstream.headers });
-      return unwrap(res);
-    },
+    async ({ query, upstream }) =>
+      unwrap(await getUserLogs(query, { headers: upstream.headers })),
     { query: logsQuery },
   )
 
@@ -57,40 +55,36 @@ export const logsRoute = new Elysia({ prefix: "/logs" })
 
   .get(
     "/stat",
-    async ({ query, upstream }) => {
-      const res = await getLogsSelfStat(query, { headers: upstream.headers });
-      return unwrap(res);
-    },
+    async ({ query, upstream }) =>
+      unwrap(await getLogsSelfStat(query, { headers: upstream.headers })),
     { query: logsStatQuery },
   )
 
   .get(
     "/perf",
-    async ({ query, upstream }) => {
-      const res = await getSelfPerfMetrics(query, {
-        headers: upstream.headers,
-      });
-      return unwrap(res);
-    },
+    async ({ query, upstream }) =>
+      unwrap(
+        await getSelfPerfMetrics(query, {
+          headers: upstream.headers,
+        }),
+      ),
     { query: logsPerfQuery },
   )
 
   .get(
     "/midjourney",
-    async ({ query, upstream }) => {
-      const res = await getUserMidjourney(query, {
-        headers: upstream.headers,
-      });
-      return unwrap(res);
-    },
+    async ({ query, upstream }) =>
+      unwrap(
+        await getUserMidjourney(query, {
+          headers: upstream.headers,
+        }),
+      ),
     { query: midjourneyLogsQuery },
   )
 
   .get(
     "/task",
-    async ({ query, upstream }) => {
-      const res = await getUserTask(query, { headers: upstream.headers });
-      return unwrap(res);
-    },
+    async ({ query, upstream }) =>
+      unwrap(await getUserTask(query, { headers: upstream.headers })),
     { query: taskLogsQuery },
   );

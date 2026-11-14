@@ -22,44 +22,44 @@ export const partnerRoute = new Elysia({ prefix: "/partner" })
 
   .get(
     "/redemption",
-    async ({ query, upstream }) => {
-      const res = await partnerListRedemptions(query, {
-        headers: upstream.headers,
-      });
-      return unwrap(res);
-    },
+    async ({ query, upstream }) =>
+      unwrap(
+        await partnerListRedemptions(query, {
+          headers: upstream.headers,
+        }),
+      ),
     { query: paginationQuery },
   )
 
   .post(
     "/redemption",
-    async ({ body, upstream }) => {
-      const res = await partnerCreateRedemption(body, {
-        headers: upstream.headers,
-      });
-      return unwrap(res);
-    },
+    async ({ body, upstream }) =>
+      unwrap(
+        await partnerCreateRedemption(body, {
+          headers: upstream.headers,
+        }),
+      ),
     { body: partnerRedemptionBody },
   )
 
   .delete(
     "/redemption/:id",
-    async ({ params, upstream }) => {
-      const res = await partnerVoidRedemption(params.id, {
-        headers: upstream.headers,
-      });
-      return unwrap(res);
-    },
+    async ({ params, upstream }) =>
+      unwrap(
+        await partnerVoidRedemption(params.id, {
+          headers: upstream.headers,
+        }),
+      ),
     { params: partnerVoidParams },
   )
 
   .post(
     "/grant",
-    async ({ body, upstream }) => {
-      const res = await partnerGrantQuota(body, {
-        headers: upstream.headers,
-      });
-      return unwrap(res);
-    },
+    async ({ body, upstream }) =>
+      unwrap(
+        await partnerGrantQuota(body, {
+          headers: upstream.headers,
+        }),
+      ),
     { body: partnerGrantBody },
   );

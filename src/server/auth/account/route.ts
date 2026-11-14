@@ -119,10 +119,7 @@ export const authRoute = new Elysia({ prefix: "/account" })
     return self.user ?? status(self.expired ? 419 : 401);
   })
 
-  .get("/status", async () => {
-    const res = await getStatus();
-    return unwrap(res);
-  })
+  .get("/status", async () => unwrap(await getStatus()))
 
   .get(
     "/oauth/state",
@@ -218,7 +215,8 @@ export const authRoute = new Elysia({ prefix: "/account" })
         path: "/api/auth/account/oauth",
         maxAge: 0,
       });
-      if (!flow || !("state" in data) || data.state !== flow) return to("/login");
+      if (!flow || !("state" in data) || data.state !== flow)
+        return to("/login");
 
       // The account has 2FA or a passkey: no session yet, the login form asks for it.
       if (data.action === "login_verification") {
@@ -252,36 +250,27 @@ export const authRoute = new Elysia({ prefix: "/account" })
 
   .delete(
     "/bindings/:binding_type",
-    async ({ params, upstream }) => {
-      const res = await selfClearBinding(params.binding_type, upstream);
-      return unwrap(res);
-    },
+    async ({ params, upstream }) =>
+      unwrap(await selfClearBinding(params.binding_type, upstream)),
     { params: oauthUnbindParams },
   )
 
   .get(
     "/verification",
-    async ({ query, upstream }) => {
-      const res = await sendEmailVerification(query, upstream);
-      return unwrap(res);
-    },
+    async ({ query, upstream }) =>
+      unwrap(await sendEmailVerification(query, upstream)),
     { query: verificationQuery },
   )
 
   .get(
     "/reset-password",
-    async ({ query, upstream }) => {
-      const res = await sendPasswordResetEmail(query, upstream);
-      return unwrap(res);
-    },
+    async ({ query, upstream }) =>
+      unwrap(await sendPasswordResetEmail(query, upstream)),
     { query: verificationQuery },
   )
 
   .post(
     "/reset-password/confirm",
-    async ({ body, upstream }) => {
-      const res = await resetPassword(body, upstream);
-      return unwrap(res);
-    },
+    async ({ body, upstream }) => unwrap(await resetPassword(body, upstream)),
     { body: passwordResetBody },
   );

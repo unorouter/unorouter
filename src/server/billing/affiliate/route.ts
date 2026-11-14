@@ -14,33 +14,33 @@ export const affiliateRoute = new Elysia({ prefix: "/affiliate" })
 
   .get(
     "/invitees",
-    async ({ query, upstream }) => {
-      const res = await getInvitedUsers(query, {
-        headers: upstream.headers,
-      });
-      return unwrap(res);
-    },
+    async ({ query, upstream }) =>
+      unwrap(
+        await getInvitedUsers(query, {
+          headers: upstream.headers,
+        }),
+      ),
     { query: paginationQuery },
   )
 
   .get(
     "/commissions",
-    async ({ query, upstream }) => {
-      const res = await getReferralCommissions(query, {
-        headers: upstream.headers,
-      });
-      return unwrap(res);
-    },
+    async ({ query, upstream }) =>
+      unwrap(
+        await getReferralCommissions(query, {
+          headers: upstream.headers,
+        }),
+      ),
     { query: paginationQuery },
   )
 
   .post(
     "/transfer",
-    async ({ body, upstream }) => {
-      const res = await transferAffQuota(body, {
-        headers: upstream.headers,
-      });
-      return unwrap(res);
-    },
+    async ({ body, upstream }) =>
+      unwrap(
+        await transferAffQuota(body, {
+          headers: upstream.headers,
+        }),
+      ),
     { body: transferQuotaBody },
   );
