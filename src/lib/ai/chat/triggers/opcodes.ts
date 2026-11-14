@@ -101,7 +101,7 @@ export function runDataOpcode(
   e: TriggerEffect,
   ctx: TriggerContext,
   vr: VarResolver,
-): boolean {
+): void {
   const setOut = (v: string) => {
     const name = cbs(ctx, e.outputVar);
     if (name) vr.set(name, v);
@@ -128,55 +128,55 @@ export function runDataOpcode(
       };
       const op = typeof e.operator === "string" ? ops[e.operator] : undefined;
       vr.set(varKey, op ? op() : value);
-      return true;
+      return;
     }
     case "systemprompt":
       ctx.additionalSysPrompt[sysPromptLocation(e.location)] +=
         cbs(ctx, e.value) + "\n\n";
-      return true;
+      return;
     case "impersonate": {
       const role = e.role === "char" ? "assistant" : "user";
       ctx.chat.push({ role, data: cbs(ctx, e.value) });
-      return true;
+      return;
     }
     case "cutchat": {
       const start = Number(cbs(ctx, e.start));
       const end = Number(cbs(ctx, e.end));
       ctx.chat = ctx.chat.slice(start, end);
-      return true;
+      return;
     }
     case "modifychat": {
       const i = Number(cbs(ctx, e.index));
       if (ctx.chat[i]) ctx.chat[i].data = cbs(ctx, e.value);
-      return true;
+      return;
     }
     case "stop":
       ctx.stopSending = true;
-      return true;
+      return;
     case "runtrigger":
     case "command":
-      return true; // recursion/commands: no-op
+      return;
 
     case "v2GetCharAt": {
       const source = rv(e, ctx, vr, "source");
       const i = rnum(e, ctx, vr, "index");
       setOut(source[i] ?? "null");
-      return true;
+      return;
     }
     case "v2GetCharCount":
       setOut(String(rv(e, ctx, vr, "source").length));
-      return true;
+      return;
     case "v2ToLowerCase":
       setOut(rv(e, ctx, vr, "source").toLowerCase());
-      return true;
+      return;
     case "v2ToUpperCase":
       setOut(rv(e, ctx, vr, "source").toUpperCase());
-      return true;
+      return;
     case "v2SetCharAt": {
       const chars = [...rv(e, ctx, vr, "source")];
       chars[rnum(e, ctx, vr, "index")] = rv(e, ctx, vr, "value");
       setOut(chars.join(""));
-      return true;
+      return;
     }
     case "v2SplitString": {
       const source = rv(e, ctx, vr, "source");
@@ -193,11 +193,11 @@ export function runDataOpcode(
         result = source.split(rv(e, ctx, vr, "delimiter"));
       }
       setOut(JSON.stringify(result));
-      return true;
+      return;
     }
     case "v2ConcatString":
       setOut(rv(e, ctx, vr, "source1") + rv(e, ctx, vr, "source2"));
-      return true;
+      return;
     case "v2ExtractRegex": {
       const value = rv(e, ctx, vr, "value");
       const pattern = rv(e, ctx, vr, "regex");
@@ -208,7 +208,7 @@ export function runDataOpcode(
       } catch {
         setOut(expandExtract(fmt, null));
       }
-      return true;
+      return;
     }
     case "v2RegexTest": {
       try {
@@ -217,7 +217,7 @@ export function runDataOpcode(
       } catch {
         setOut("0");
       }
-      return true;
+      return;
     }
     case "v2ReplaceString": {
       const source = rv(e, ctx, vr, "source");
@@ -251,14 +251,14 @@ export function runDataOpcode(
       } catch {
         setOut(source);
       }
-      return true;
+      return;
     }
 
     case "v2MakeArrayVar": {
       const name = cbs(ctx, e.var);
-      if (name.startsWith("[") && name.endsWith("]")) return true;
+      if (name.startsWith("[") && name.endsWith("]")) return;
       vr.set(name, "[]");
-      return true;
+      return;
     }
     case "v2GetArrayVarLength":
       setOut(
@@ -266,7 +266,7 @@ export function runDataOpcode(
           String(a.length),
         ),
       );
-      return true;
+      return;
     case "v2GetArrayVar":
       setOut(
         readJson(
@@ -276,30 +276,30 @@ export function runDataOpcode(
           (a) => a[rnum(e, ctx, vr, "index")] ?? "null",
         ),
       );
-      return true;
+      return;
     case "v2SetArrayVar": {
       const i = rnum(e, ctx, vr, "index");
-      if (Number.isNaN(i)) return true;
+      if (Number.isNaN(i)) return;
       try {
         const name = cbs(ctx, e.var);
         const arr = parseArr(vr.get(name));
         arr[i] = rv(e, ctx, vr, "value");
         vr.set(name, JSON.stringify(arr));
       } catch {}
-      return true;
+      return;
     }
     case "v2PushArrayVar":
       withArrVar(e, ctx, vr, (a) => (a.push(rv(e, ctx, vr, "value")), a));
-      return true;
+      return;
     case "v2PopArrayVar":
       withArrVar(e, ctx, vr, (a) => (setOut(a.pop() ?? "null"), a), "null");
-      return true;
+      return;
     case "v2ShiftArrayVar":
       withArrVar(e, ctx, vr, (a) => (setOut(a.shift() ?? "null"), a), "null");
-      return true;
+      return;
     case "v2UnshiftArrayVar":
       withArrVar(e, ctx, vr, (a) => (a.unshift(rv(e, ctx, vr, "value")), a));
-      return true;
+      return;
     case "v2SpliceArrayVar":
       withArrVar(
         e,
@@ -310,7 +310,7 @@ export function runDataOpcode(
           a
         ),
       );
-      return true;
+      return;
     case "v2SliceArrayVar":
       setOut(
         readJson(parseArr, vr.get(cbs(ctx, e.var)), "[]", (a) =>
@@ -319,14 +319,14 @@ export function runDataOpcode(
           ),
         ),
       );
-      return true;
+      return;
     case "v2GetIndexOfValueInArrayVar":
       setOut(
         readJson(parseArr, vr.get(cbs(ctx, e.var)), "-1", (a) =>
           String(a.indexOf(rv(e, ctx, vr, "value"))),
         ),
       );
-      return true;
+      return;
     case "v2RemoveIndexFromArrayVar":
       withArrVar(
         e,
@@ -334,20 +334,21 @@ export function runDataOpcode(
         vr,
         (a) => (a.splice(rnum(e, ctx, vr, "index"), 1), a),
       );
-      return true;
+      return;
     case "v2JoinArrayVar":
       setOut(
         readJson(parseArr, rv(e, ctx, vr, "var"), "", (a) =>
           a.join(rv(e, ctx, vr, "delimiter")),
         ),
       );
-      return true;
+      return;
 
-    case "v2MakeDictVar": {
+    case "v2MakeDictVar":
+    case "v2ClearDict": {
       const name = cbs(ctx, e.var);
-      if (name.startsWith("{") && name.endsWith("}")) return true;
+      if (name.startsWith("{") && name.endsWith("}")) return;
       vr.set(name, "{}");
-      return true;
+      return;
     }
     case "v2GetDictVar":
       setOut(
@@ -358,67 +359,51 @@ export function runDataOpcode(
           (d) => d[rv(e, ctx, vr, "key")] ?? "null",
         ),
       );
-      return true;
+      return;
     case "v2SetDictVar":
+    case "v2DeleteDictKey": {
+      if (e.varType === "value") return;
+      const name = cbs(ctx, e.var);
+      let dict: Record<string, string>;
       try {
-        if (e.varType === "value") return true;
-        const name = cbs(ctx, e.var);
-        const dict = parseDict(vr.get(name));
-        dict[rv(e, ctx, vr, "key")] = rv(e, ctx, vr, "value");
-        vr.set(name, JSON.stringify(dict));
+        dict = parseDict(vr.get(name));
       } catch {
-        if (e.varType !== "value") {
-          const dict: Record<string, string> = {};
-          dict[rv(e, ctx, vr, "key")] = rv(e, ctx, vr, "value");
-          vr.set(cbs(ctx, e.var), JSON.stringify(dict));
-        }
+        dict = {};
       }
-      return true;
-    case "v2DeleteDictKey":
-      try {
-        if (e.varType === "value") return true;
-        const name = cbs(ctx, e.var);
-        const dict = parseDict(vr.get(name));
-        delete dict[rv(e, ctx, vr, "key")];
-        vr.set(name, JSON.stringify(dict));
-      } catch {
-        if (e.varType !== "value") vr.set(cbs(ctx, e.var), "{}");
-      }
-      return true;
+      const key = rv(e, ctx, vr, "key");
+      if (e.type === "v2SetDictVar") dict[key] = rv(e, ctx, vr, "value");
+      else delete dict[key];
+      vr.set(name, JSON.stringify(dict));
+      return;
+    }
     case "v2HasDictKey":
       setOut(
         readJson(parseDict, rv(e, ctx, vr, "var"), "0", (d) =>
           Object.hasOwn(d, rv(e, ctx, vr, "key")) ? "1" : "0",
         ),
       );
-      return true;
-    case "v2ClearDict": {
-      const name = cbs(ctx, e.var);
-      if (name.startsWith("{") && name.endsWith("}")) return true;
-      vr.set(name, "{}");
-      return true;
-    }
+      return;
     case "v2GetDictSize":
       setOut(
         readJson(parseDict, rv(e, ctx, vr, "var"), "0", (d) =>
           String(Object.keys(d).length),
         ),
       );
-      return true;
+      return;
     case "v2GetDictKeys":
       setOut(
         readJson(parseDict, rv(e, ctx, vr, "var"), "[]", (d) =>
           JSON.stringify(Object.keys(d)),
         ),
       );
-      return true;
+      return;
     case "v2GetDictValues":
       setOut(
         readJson(parseDict, rv(e, ctx, vr, "var"), "[]", (d) =>
           JSON.stringify(Object.values(d)),
         ),
       );
-      return true;
+      return;
 
     case "v2Random": {
       const min = rnum(e, ctx, vr, "min");
@@ -431,7 +416,7 @@ export function runDataOpcode(
       seed = (seed * 1103515245 + 12345) & 0x7fffffff;
       vr.set("__rand_state", String(seed));
       setOut(String(Math.floor((seed / 0x7fffffff) * (max - min + 1) + min)));
-      return true;
+      return;
     }
     case "v2Calculate": {
       try {
@@ -447,43 +432,38 @@ export function runDataOpcode(
       } catch {
         setOut("0");
       }
-      return true;
+      return;
     }
     case "v2Tokenize":
       setOut(
         String(rv(e, ctx, vr, "value").split(/\s+/).filter(Boolean).length),
       );
-      return true;
+      return;
 
     case "v2GetLastMessage":
       setOut(ctx.chat.at(-1)?.data ?? "null");
-      return true;
+      return;
     case "v2GetFirstMessage":
       setOut(ctx.chat[0]?.data ?? "null");
-      return true;
+      return;
     case "v2GetLastUserMessage":
-      setOut(
-        [...ctx.chat].reverse().find((m) => m.role === "user")?.data ?? "null",
-      );
-      return true;
+      setOut(ctx.chat.findLast((m) => m.role === "user")?.data ?? "null");
+      return;
     case "v2GetLastCharMessage":
-      setOut(
-        [...ctx.chat].reverse().find((m) => m.role === "assistant")?.data ??
-          "null",
-      );
-      return true;
+      setOut(ctx.chat.findLast((m) => m.role === "assistant")?.data ?? "null");
+      return;
     case "v2GetMessageAtIndex":
       setOut(ctx.chat[rnum(e, ctx, vr, "index")]?.data ?? "null");
-      return true;
+      return;
     case "v2GetMessageCount":
       setOut(String(ctx.chat.length));
-      return true;
+      return;
     case "v2QuickSearchChat": {
       const value = rv(e, ctx, vr, "value");
       const depth = rnum(e, ctx, vr, "depth");
       if (Number.isNaN(depth)) {
         setOut("0");
-        return true;
+        return;
       }
       const da = ctx.chat
         .slice(0 - depth)
@@ -499,46 +479,46 @@ export function runDataOpcode(
         }
       } else pass = da.toLowerCase().includes(value.toLowerCase());
       setOut(pass ? "1" : "0");
-      return true;
+      return;
     }
 
     case "v2CutChat": {
       const start = rnum(e, ctx, vr, "start");
       const end = rnum(e, ctx, vr, "end");
       ctx.chat = ctx.chat.slice(start, end);
-      return true;
+      return;
     }
     case "v2ModifyChat": {
       const i = rnum(e, ctx, vr, "index");
       if (ctx.chat[i]) ctx.chat[i].data = rv(e, ctx, vr, "value");
-      return true;
+      return;
     }
     case "v2Impersonate": {
       const role = e.role === "user" ? "user" : "assistant";
       ctx.chat.push({ role, data: rv(e, ctx, vr, "value") });
-      return true;
+      return;
     }
     case "v2UpdateChatAt":
-      return true; // GUI repaint hint
+      return;
 
     case "v2GetAllLorebooks":
       setOut(JSON.stringify(ctx.lore.map((l) => l.content)));
-      return true;
+      return;
     case "v2GetLorebookCount":
     case "v2GetLorebookCountNew":
       setOut(String(ctx.lore.length));
-      return true;
+      return;
     case "v2GetLorebookByIndex":
     case "v2GetLorebookEntry": {
       const i = rnum(e, ctx, vr, "index");
       setOut(ctx.lore[i]?.content ?? "null");
-      return true;
+      return;
     }
     case "v2GetLorebook": {
       const target = rv(e, ctx, vr, "target");
       const found = ctx.lore.find((l) => l.comment === target);
       setOut(found ? found.content : "null");
-      return true;
+      return;
     }
     case "v2GetLorebookByName": {
       const name = rv(e, ctx, vr, "name");
@@ -554,12 +534,12 @@ export function runDataOpcode(
         });
       }
       setOut(JSON.stringify(idxs));
-      return true;
+      return;
     }
     case "v2GetLorebookIndexViaName": {
       const name = rv(e, ctx, vr, "name");
       setOut(String(ctx.lore.findIndex((l) => l.comment === name)));
-      return true;
+      return;
     }
     case "v2CreateLorebook": {
       const insertOrder = rnum(e, ctx, vr, "insertOrder");
@@ -570,18 +550,18 @@ export function runDataOpcode(
         alwaysActive: false,
         insertOrder: Number.isNaN(insertOrder) ? 100 : insertOrder,
       });
-      return true;
+      return;
     }
     case "v2ModifyLorebook": {
       const target = rv(e, ctx, vr, "target");
       const found = ctx.lore.find((l) => l.comment === target);
       if (found) found.content = rv(e, ctx, vr, "value");
-      return true;
+      return;
     }
     case "v2ModifyLorebookByIndex": {
       const i = rnum(e, ctx, vr, "index");
       const lore = ctx.lore[i];
-      if (Number.isNaN(i) || !lore) return true;
+      if (Number.isNaN(i) || !lore) return;
       lore.comment = rv(e, ctx, vr, "name").replace(
         /\{\{slot\}\}/g,
         lore.comment || "",
@@ -598,68 +578,68 @@ export function runDataOpcode(
         ),
       );
       if (!Number.isNaN(order)) lore.insertOrder = order;
-      return true;
+      return;
     }
     case "v2DeleteLorebookByIndex": {
       const i = rnum(e, ctx, vr, "index");
       if (!Number.isNaN(i) && i >= 0 && i < ctx.lore.length)
         ctx.lore.splice(i, 1);
-      return true;
+      return;
     }
     case "v2SetLorebookActivation":
     case "v2SetLorebookAlwaysActive": {
       const i = rnum(e, ctx, vr, "index");
       const lore = ctx.lore[i];
       if (lore) lore.alwaysActive = e.value === true || e.value === "true";
-      return true;
+      return;
     }
 
     case "v2GetCharacterDesc":
       setOut(ctx.charDesc);
-      return true;
+      return;
     case "v2SetCharacterDesc":
       ctx.charDesc = rv(e, ctx, vr, "value");
-      return true;
+      return;
     case "v2GetPersonaDesc":
       setOut(ctx.personaDesc);
-      return true;
+      return;
     case "v2SetPersonaDesc":
       ctx.personaDesc = rv(e, ctx, vr, "value");
-      return true;
+      return;
     case "v2GetAuthorNote":
       setOut(ctx.authorNote ?? "");
-      return true;
+      return;
     case "v2SetAuthorNote":
       ctx.authorNote = rv(e, ctx, vr, "value");
-      return true;
+      return;
     case "v2GetReplaceGlobalNote":
       setOut(ctx.replaceGlobalNote ?? "");
-      return true;
+      return;
     case "v2SetReplaceGlobalNote":
       ctx.replaceGlobalNote = rv(e, ctx, vr, "value");
-      return true;
+      return;
 
     case "v2SystemPrompt":
       ctx.additionalSysPrompt[sysPromptLocation(e.location)] +=
         rv(e, ctx, vr, "value") + "\n\n";
-      return true;
+      return;
     case "v2StopPromptSending":
       ctx.stopSending = true;
-      return true;
+      return;
     case "v2SendAIprompt":
       ctx.sendAIprompt = true;
-      return true;
+      return;
     case "v2Header":
     case "v2ConsoleLog":
     case "v2Comment":
     case "v2UpdateGUI":
     case "v2Wait":
-      return true;
+      return;
 
     case "v2GetAlertInput":
     case "v2GetAlertSelect":
       setOut("null");
-      return true;
+      return;
 
     case "v2RunLLM":
     case "v2ImgGen":
@@ -667,9 +647,6 @@ export function runDataOpcode(
     case "v2ShowAlert":
     case "v2Command":
     case "v2RunTrigger":
-      return true;
-
-    default:
-      return false; // control-flow or unknown: VM loop handles / ignores
+      return;
   }
 }
