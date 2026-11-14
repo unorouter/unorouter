@@ -13,8 +13,9 @@ import {
   SERVER_URL_KEY,
 } from "../config/constants";
 
-// Forwarded on every Server Component call into the BFF. Only what the gateway
-// records: the edge-set client IP, country and ray id (a pod cannot forge those
+// Forwarded on every Server Component call into the BFF. The cookie header as
+// the browser sent it (cookies() values are URL-decoded and may hold bytes a
+// header refuses), and what the gateway records: the edge-set client IP, country and ray id (a pod cannot forge those
 // past Cloudflare, X-Forwarded-For it can), the request id for correlation,
 // the browser's User-Agent (login sessions and audit rows otherwise show the
 // server runtime) and Accept-Language, kept as a first-tag locale signal.
@@ -22,6 +23,7 @@ import {
 // explicit-auth mode and drop the cookie jar, and transport headers (host,
 // content-length, accept-encoding) belong to the outer request.
 const FORWARDED_REQUEST_HEADERS = [
+  "cookie",
   "cf-connecting-ip",
   "cf-ipcountry",
   "cf-ray",
@@ -31,12 +33,8 @@ const FORWARDED_REQUEST_HEADERS = [
 ] as const;
 
 export const serverRequestHeaders = async () => {
-  const cookie = (await cookies())
-    .getAll()
-    .map((c) => `${c.name}=${c.value}`)
-    .join("; ");
   const incoming = await headers();
-  const forwarded: Record<string, string> = { cookie };
+  const forwarded: Record<string, string> = {};
   for (const name of FORWARDED_REQUEST_HEADERS) {
     const value = incoming.get(name);
     if (value) forwarded[name] = value;

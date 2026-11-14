@@ -1,6 +1,6 @@
 import { clearSessionCookies, setSessionCookies } from "@/lib/api/auth";
 import { ACCESS_TOKEN_COOKIE, NEW_API_USER } from "@/lib/config/constants";
-import { isUpstreamError } from "@/lib/custom-fetch";
+import { UpstreamError } from "@/lib/custom-fetch";
 import { unwrap } from "@/lib/utils/base";
 import { getSelf, type UserSelfData } from "@/openapi";
 import { deriveUpstream } from "@/server/constants";
@@ -32,7 +32,7 @@ export async function resolveSelf(
     }
     return { user, expired: false };
   } catch (err) {
-    const expired = isUpstreamError(err) && err.status === 401;
+    const expired = err instanceof UpstreamError && err.status === 401;
     if (cookie && expired) clearSessionCookies(cookie);
     return { user: null, expired };
   }

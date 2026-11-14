@@ -1,5 +1,4 @@
 import { env } from "@/lib/config/env";
-import { getServerCookieHeader } from "@/server/cookie-header";
 
 const upstreamApiUrl =
   typeof window === "undefined"
@@ -10,19 +9,21 @@ const upstreamIsProxied = upstreamApiUrl === env.apiUrl;
 
 const REQUEST_TIMEOUT = 30_000;
 
-export type UpstreamError = {
-  status: number;
-  data: unknown;
-  headers: Headers;
-};
+// Elysia answers a thrown value through its toResponse, so a pass-through route
+// hands the caller the upstream status and body instead of an empty 500.
+export class UpstreamError extends Error {
+  constructor(
+    readonly status: number,
+    readonly data: unknown,
+    readonly headers: Headers,
+  ) {
+    super(`upstream answered ${status}`);
+    this.name = "UpstreamError";
+  }
 
-export function isUpstreamError(e: unknown): e is UpstreamError {
-  return (
-    typeof e === "object" &&
-    e !== null &&
-    "status" in e &&
-    typeof e.status === "number"
-  );
+  toResponse() {
+    return Response.json(this.data, { status: this.status });
+  }
 }
 
 // Spreading a Headers instance or an entry array yields {}, silently dropping
@@ -83,7 +84,7 @@ export const customFetch = async <T>(
 ): Promise<T> => {
   const headers = toHeaderRecord(options.headers);
   const hasExplicitAuth = !!getHeader(headers, "Authorization");
-  const cookieHeader = hasExplicitAuth ? "" : await getServerCookieHeader();
+  const cookieHeader = hasExplicitAuth ? "" : await getServerHeader("cookie");
   const hasCookie = !!getHeader(headers, "cookie");
   // A service-token call speaks for the BFF; the gateway trusts that token only
   // from the cluster, so a forwarded visitor IP would make it look external.
@@ -128,11 +129,7 @@ export const customFetch = async <T>(
   });
 
   if (!res.ok) {
-    throw {
-      status: res.status,
-      data: await readErrBody(res),
-      headers: res.headers,
-    } satisfies UpstreamError;
+    throw new UpstreamError(res.status, await readErrBody(res), res.headers);
   }
   return {
     status: res.status,

@@ -6,6 +6,7 @@ import {
   USER_ID_COOKIE,
 } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
+import { UpstreamError } from "@/lib/custom-fetch";
 import { verifyUserId } from "@/lib/utils/session-cookie";
 import { serverEnv } from "@/server/env";
 import { aiDomainRoute } from "@/server/ai/route";
@@ -16,6 +17,7 @@ import { modelsDomainRoute } from "@/server/models/route";
 import { opsDomainRoute } from "@/server/ops/route";
 import { recordServerError } from "@/server/ops/server-error";
 import { fromTypes, openapi } from "@elysiajs/openapi";
+import { APICallError, RetryError } from "ai";
 import { Elysia } from "elysia";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -102,8 +104,16 @@ export const app = new Elysia({ prefix: "/api" })
     if (userId !== null) setEdgeSessionCookie(cookie, userId);
   })
   // Elysia answers a thrown handler error itself, so Next's onRequestError never sees it.
-  .onError(async ({ code, error, request, route }) => {
+  .onError(async ({ code, error, request, route, set }) => {
     if (code !== "UNKNOWN" && code !== "INTERNAL_SERVER_ERROR") return;
+    if (error instanceof UpstreamError && error.status < 500) return;
+    // A busy or broken lane behind the gateway: the gateway logs it, the caller
+    // gets a retryable status instead of a 500.
+    const call = RetryError.isInstance(error) ? error.lastError : error;
+    if (APICallError.isInstance(call)) {
+      set.status = call.statusCode === 429 ? 429 : 502;
+      return;
+    }
     await recordServerError(error, {
       source: "bff",
       route,
