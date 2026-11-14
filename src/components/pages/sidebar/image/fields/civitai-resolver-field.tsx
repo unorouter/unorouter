@@ -20,14 +20,17 @@ export function CivitaiResolverField(props: Props) {
   const [versions, setVersions] = useState<CustomCheckpoint[] | null>(null);
   const lookup = useCivitaiVersionsMutation();
 
-  async function run() {
+  function run() {
     if (!query.trim()) return;
     setVersions(null);
     props.onChange(null);
-    const result = await lookup.mutateAsync(query.trim());
-    const items = result?.items ?? [];
-    setVersions(items);
-    if (items[0]) props.onChange(items[0]);
+    lookup.mutate(query.trim(), {
+      onSuccess: (result) => {
+        const items = result?.items ?? [];
+        setVersions(items);
+        if (items[0]) props.onChange(items[0]);
+      },
+    });
   }
 
   return (
@@ -45,7 +48,7 @@ export function CivitaiResolverField(props: Props) {
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               e.preventDefault();
-              void run();
+              run();
             }
           }}
         />
@@ -53,7 +56,7 @@ export function CivitaiResolverField(props: Props) {
           type="button"
           variant="secondary"
           disabled={!query.trim() || lookup.isPending}
-          onClick={() => void run()}
+          onClick={run}
         >
           {lookup.isPending
             ? t("IMAGE.CIVITAI_RESOLVING")

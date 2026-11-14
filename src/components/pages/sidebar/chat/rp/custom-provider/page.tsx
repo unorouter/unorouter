@@ -41,7 +41,7 @@ export function CustomProvidersPage() {
       "CHAT.CUSTOM_PROVIDER.DELETE_DESC",
     );
     if (!ok) return;
-    await deleteMut.mutateAsync(id);
+    deleteMut.mutate(id);
   };
 
   return (

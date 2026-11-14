@@ -43,7 +43,7 @@ export function PresetsPage() {
       "COMMON.CONFIRM.DELETE_PRESET_DESC",
     );
     if (!ok) return;
-    await deleteMut.mutateAsync(id);
+    deleteMut.mutate(id);
   };
 
   return (

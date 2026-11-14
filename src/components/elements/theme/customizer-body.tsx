@@ -177,13 +177,18 @@ export function ThemeCustomizerBody() {
       toast.error(t("THEME.IMPORT_FAILED"), { position: "top-center" });
       return;
     }
-    for (const bundle of bundles) {
-      await saveTheme.mutateAsync({
-        name: bundle.name,
-        themeJson: bundle.theme,
-        backgroundImages: bundle.backgroundImages,
-      });
+    try {
+      for (const bundle of bundles) {
+        await saveTheme.mutateAsync({
+          name: bundle.name,
+          themeJson: bundle.theme,
+          backgroundImages: bundle.backgroundImages,
+        });
+      }
+    } catch {
+      return;
     }
+
     const only = bundles.length === 1 ? bundles[0] : undefined;
     toast.success(t("THEME.SAVED.IMPORTED_COUNT", { count: bundles.length }), {
       position: "top-center",

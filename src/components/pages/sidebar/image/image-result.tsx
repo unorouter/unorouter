@@ -89,23 +89,33 @@ export function ImageResult(props: Props) {
       destructive: true,
     });
     if (!ok) return;
-    const result = await deleteMut.mutateAsync({ id: props.snapshotId });
-    if (result.sessionDeleted) {
-      router.push("/image");
-      return;
-    }
-    const remaining = snapshots.filter((s) => s.id !== props.snapshotId);
-    if (remaining.length === 0) {
-      router.push("/image");
-      return;
-    }
-    nav.showSnapshot(remaining[0].id);
+    deleteMut.mutate(
+      { id: props.snapshotId },
+      {
+        onSuccess: (result) => {
+          if (result.sessionDeleted) {
+            router.push("/image");
+            return;
+          }
+          const remaining = snapshots.filter((s) => s.id !== props.snapshotId);
+          if (remaining.length === 0) {
+            router.push("/image");
+            return;
+          }
+          nav.showSnapshot(remaining[0].id);
+        },
+      },
+    );
   };
 
-  const onExport = async () => {
-    const payload = await exportMut.mutateAsync({ sessionId: props.sessionId });
-    downloadJson(payload, `${props.sessionId}.json`);
-  };
+  const onExport = () =>
+    exportMut.mutate(
+      { sessionId: props.sessionId },
+      {
+        onSuccess: (payload) =>
+          downloadJson(payload, `${props.sessionId}.json`),
+      },
+    );
 
   if (!data) {
     return <Skeleton className="aspect-square w-full max-w-2xl rounded-lg" />;

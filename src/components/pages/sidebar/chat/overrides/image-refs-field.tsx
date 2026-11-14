@@ -27,12 +27,11 @@ export function ImageRefsField(props: { convId: string }) {
     (x) => typeof x === "string",
   );
 
-  const saveRefIds = async (ids: string[]) => {
-    await updateSettings.mutateAsync({
+  const saveRefIds = (ids: string[]) =>
+    updateSettings.mutate({
       convId: props.convId,
       body: { imageRefIds: ids.length ? JSON.stringify(ids) : null },
     });
-  };
 
   const onFiles = async (files: FileList | null) => {
     if (!files?.length) return;
@@ -52,7 +51,7 @@ export function ImageRefsField(props: { convId: string }) {
         });
         ids.push(id);
       }
-      await saveRefIds(ids);
+      saveRefIds(ids);
     } catch (e) {
       void handleError(e, t);
     } finally {
@@ -60,13 +59,7 @@ export function ImageRefsField(props: { convId: string }) {
     }
   };
 
-  const remove = async (id: string) => {
-    try {
-      await saveRefIds(refIds.filter((x) => x !== id));
-    } catch (e) {
-      void handleError(e, t);
-    }
-  };
+  const remove = (id: string) => saveRefIds(refIds.filter((x) => x !== id));
 
   return (
     <div className="flex flex-col gap-2">

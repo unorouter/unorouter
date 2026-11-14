@@ -49,11 +49,13 @@ export function PersonaEditor(props: Props) {
       avatarMediaId: await avatar.resolve(),
     };
     if (isNew) {
-      await createMut.mutateAsync({ body });
+      createMut.mutate({ body }, { onSuccess: props.onDone });
     } else {
-      await updateMut.mutateAsync({ id: props.editingId, body });
+      updateMut.mutate(
+        { id: props.editingId, body },
+        { onSuccess: props.onDone },
+      );
     }
-    props.onDone();
   };
 
   return (

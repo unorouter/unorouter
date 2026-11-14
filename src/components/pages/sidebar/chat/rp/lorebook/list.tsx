@@ -47,11 +47,8 @@ export function LorebookList(props: Props) {
 
   const [openLbId, setOpenLbId] = useState<string | null>(null);
 
-  const handleCreate = async () => {
-    await createMut.mutateAsync({
-      body: { name: t("RP.LOREBOOK_UNTITLED") },
-    });
-  };
+  const handleCreate = () =>
+    createMut.mutate({ body: { name: t("RP.LOREBOOK_UNTITLED") } });
 
   const handleDelete = async (id: string) => {
     const ok = await confirmRpDelete(
@@ -60,7 +57,7 @@ export function LorebookList(props: Props) {
       "COMMON.CONFIRM.DELETE_LOREBOOK_DESC",
     );
     if (!ok) return;
-    await deleteMut.mutateAsync(id);
+    deleteMut.mutate(id);
   };
 
   const handleExport = (id: string, format: LorebookExportFormat) =>

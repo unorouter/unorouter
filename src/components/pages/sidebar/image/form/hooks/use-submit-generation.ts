@@ -32,45 +32,50 @@ export function useSubmitGeneration(args: Args) {
       activeSessionId: nav.sessionId,
       mode,
     });
-    const submitted = await submitMut.mutateAsync({
-      ...body,
-      ...(activeCheckpoint
-        ? {
-            extraParams: {
-              air: activeCheckpoint.air,
-              airName: activeCheckpoint.name,
-              ...(activeCheckpoint.architecture
-                ? { airArchitecture: activeCheckpoint.architecture }
-                : {}),
-              ...(body.extraParams ?? {}),
-            },
+    submitMut.mutate(
+      {
+        ...body,
+        ...(activeCheckpoint
+          ? {
+              extraParams: {
+                air: activeCheckpoint.air,
+                airName: activeCheckpoint.name,
+                ...(activeCheckpoint.architecture
+                  ? { airArchitecture: activeCheckpoint.architecture }
+                  : {}),
+                ...(body.extraParams ?? {}),
+              },
+            }
+          : {}),
+        sessionId: nav.sessionId ?? undefined,
+      },
+      {
+        onSuccess: (submitted) => {
+          if (activeCheckpoint) rememberModel.mutate(activeCheckpoint);
+
+          if (mode === "inpaint") {
+            form.setValue("ui.inpaintMaskDataUrl", undefined);
           }
-        : {}),
-      sessionId: nav.sessionId ?? undefined,
-    });
 
-    if (activeCheckpoint) rememberModel.mutate(activeCheckpoint);
+          args.setSamplerMemory(data.params ?? {}, data.model ?? INITIAL_MODEL);
+          args.setDraft(data);
 
-    if (mode === "inpaint") {
-      form.setValue("ui.inpaintMaskDataUrl", undefined);
-    }
-
-    args.setSamplerMemory(data.params ?? {}, data.model ?? INITIAL_MODEL);
-    args.setDraft(data);
-
-    // nuqs owns snap: a router navigation changing only the query desyncs it silently.
-    if (nav.sessionId === submitted.sessionId) {
-      nav.replaceSnapshot(submitted.snapshotId);
-    } else {
-      router.replace(
-        {
-          pathname: "/image/[id]",
-          params: { id: submitted.sessionId },
-          query: { snap: submitted.snapshotId },
+          // nuqs owns snap: a router navigation changing only the query desyncs it silently.
+          if (nav.sessionId === submitted.sessionId) {
+            nav.replaceSnapshot(submitted.snapshotId);
+          } else {
+            router.replace(
+              {
+                pathname: "/image/[id]",
+                params: { id: submitted.sessionId },
+                query: { snap: submitted.snapshotId },
+              },
+              { scroll: false },
+            );
+          }
         },
-        { scroll: false },
-      );
-    }
+      },
+    );
   });
 
   return { onSubmit, isPending: submitMut.isPending };

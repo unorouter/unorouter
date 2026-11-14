@@ -91,8 +91,14 @@ export function ConversationList() {
       destructive: true,
     });
     if (!ok) return;
-    await deleteMutation.mutateAsync({ ids: [id] });
-    if (activeThreadId === id) aui.threads().switchToNewThread();
+    deleteMutation.mutate(
+      { ids: [id] },
+      {
+        onSuccess: () => {
+          if (activeThreadId === id) aui.threads().switchToNewThread();
+        },
+      },
+    );
   };
 
   const toggleSelected = (id: string) =>
@@ -114,10 +120,16 @@ export function ConversationList() {
       destructive: true,
     });
     if (!ok) return;
-    await deleteMutation.mutateAsync({ ids });
-    if (activeThreadId && ids.includes(activeThreadId))
-      aui.threads().switchToNewThread();
-    setSelectedIds(null);
+    deleteMutation.mutate(
+      { ids },
+      {
+        onSuccess: () => {
+          if (activeThreadId && ids.includes(activeThreadId))
+            aui.threads().switchToNewThread();
+          setSelectedIds(null);
+        },
+      },
+    );
   };
 
   const searchInput = (
@@ -245,9 +257,7 @@ export function ConversationList() {
                 variant="destructive"
                 size="sm"
                 className="h-7 px-2 text-xs"
-                disabled={
-                  selectedIds.size === 0 || deleteMutation.isPending
-                }
+                disabled={selectedIds.size === 0 || deleteMutation.isPending}
                 onClick={handleDeleteSelected}
               >
                 {t("CHAT.DELETE_SELECTED", { count: selectedIds.size })}

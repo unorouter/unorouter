@@ -50,18 +50,20 @@ export function CardForm(props: Props) {
   const form = useRpForm(cardFormSchema, formValues);
   const onInvalid = useInvalidToast(cardFormSchema);
 
-  const onSubmit = async (data: CardForm) => {
+  const onSubmit = (data: CardForm) => {
     const body = {
       ...data,
       description: data.description || null,
       personaId: data.personaId === NONE ? null : data.personaId,
     };
     if (props.editingId === "new") {
-      await createMut.mutateAsync({ body });
+      createMut.mutate({ body }, { onSuccess: props.onDone });
     } else {
-      await updateMut.mutateAsync({ id: props.editingId, body });
+      updateMut.mutate(
+        { id: props.editingId, body },
+        { onSuccess: props.onDone },
+      );
     }
-    props.onDone();
   };
 
   return (

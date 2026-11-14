@@ -85,7 +85,7 @@ export function CustomProviderEditor(props: Props) {
     );
   };
 
-  const onSubmit = async (values: CustomProviderForm) => {
+  const onSubmit = (values: CustomProviderForm) => {
     const data = {
       ...values,
       models: values.models.map((m) => ({
@@ -94,11 +94,13 @@ export function CustomProviderEditor(props: Props) {
       })),
     };
     if (isNew) {
-      await createMut.mutateAsync({ body: data });
+      createMut.mutate({ body: data }, { onSuccess: props.onDone });
     } else {
-      await updateMut.mutateAsync({ id: props.editingId, body: data });
+      updateMut.mutate(
+        { id: props.editingId, body: data },
+        { onSuccess: props.onDone },
+      );
     }
-    props.onDone();
   };
 
   const fetchCatalog = () => {

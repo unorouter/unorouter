@@ -66,18 +66,19 @@ export function RegisterForm() {
     }
   }, [form]);
 
-  async function handleSendCode() {
+  function handleSendCode() {
     const email = form.getValues("email");
     if (!email?.trim()) return;
-    await verificationMutation.mutateAsync({
-      query: {
-        email: email.trim(),
-        turnstile: turnstileToken,
+    verificationMutation.mutate(
+      { query: { email: email.trim(), turnstile: turnstileToken } },
+      {
+        onSuccess: () => {
+          turnstileRef.current?.reset();
+          setTurnstileToken(undefined);
+          setResendSeconds(RESEND_COOLDOWN_SECONDS);
+        },
       },
-    });
-    turnstileRef.current?.reset();
-    setTurnstileToken(undefined);
-    setResendSeconds(RESEND_COOLDOWN_SECONDS);
+    );
   }
 
   async function onSubmit(data: RegisterSchema) {

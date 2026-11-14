@@ -58,34 +58,42 @@ export function PresetBar(props: Props) {
     });
     if (!ok) return;
     const current = props.getCurrent();
-    await savePreset.mutateAsync({
-      name: selectedPreset.name,
-      model: current.model ?? "",
-      prompt: null,
-      negativePrompt: current.negativePrompt,
-      params: current.params,
-      loras: current.loras,
-      extraParams: current.extraParams,
-    });
-    setNaming(false);
+    savePreset.mutate(
+      {
+        name: selectedPreset.name,
+        model: current.model ?? "",
+        prompt: null,
+        negativePrompt: current.negativePrompt,
+        params: current.params,
+        loras: current.loras,
+        extraParams: current.extraParams,
+      },
+      { onSuccess: () => setNaming(false) },
+    );
   };
 
-  const onSave = async () => {
+  const onSave = () => {
     const trimmed = name.trim();
     if (!trimmed) return;
     const current = props.getCurrent();
-    const saved = await savePreset.mutateAsync({
-      name: trimmed,
-      model: current.model ?? "",
-      prompt: null,
-      negativePrompt: current.negativePrompt,
-      params: current.params,
-      loras: current.loras,
-      extraParams: current.extraParams,
-    });
-    setSelectedId(saved.id);
-    setName("");
-    setNaming(false);
+    savePreset.mutate(
+      {
+        name: trimmed,
+        model: current.model ?? "",
+        prompt: null,
+        negativePrompt: current.negativePrompt,
+        params: current.params,
+        loras: current.loras,
+        extraParams: current.extraParams,
+      },
+      {
+        onSuccess: (saved) => {
+          setSelectedId(saved.id);
+          setName("");
+          setNaming(false);
+        },
+      },
+    );
   };
 
   const onDelete = async () => {
@@ -98,8 +106,7 @@ export function PresetBar(props: Props) {
       destructive: true,
     });
     if (!ok) return;
-    await deletePreset.mutateAsync(preset.id);
-    setSelectedId("");
+    deletePreset.mutate(preset.id, { onSuccess: () => setSelectedId("") });
   };
 
   return (
@@ -201,7 +208,7 @@ export function PresetBar(props: Props) {
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 e.preventDefault();
-                void onSave();
+                onSave();
               }
               if (e.key === "Escape") setNaming(false);
             }}
@@ -210,7 +217,7 @@ export function PresetBar(props: Props) {
             type="button"
             size="sm"
             disabled={!name.trim() || savePreset.isPending}
-            onClick={() => void onSave()}
+            onClick={onSave}
           >
             {t("IMAGE.PRESET_SAVE_CONFIRM")}
           </Button>

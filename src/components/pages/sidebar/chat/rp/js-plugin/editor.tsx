@@ -43,13 +43,15 @@ export function JsPluginEditor(props: Props) {
   const form = useRpForm(jsPluginForm, formValues);
   const onInvalid = useInvalidToast(jsPluginForm);
 
-  const onSubmit = async (data: JsPluginForm) => {
+  const onSubmit = (data: JsPluginForm) => {
     if (isNew) {
-      await createMut.mutateAsync({ body: data });
+      createMut.mutate({ body: data }, { onSuccess: props.onDone });
     } else {
-      await updateMut.mutateAsync({ id: props.editingId, body: data });
+      updateMut.mutate(
+        { id: props.editingId, body: data },
+        { onSuccess: props.onDone },
+      );
     }
-    props.onDone();
   };
 
   const handleScriptPaste = (value: string) => {

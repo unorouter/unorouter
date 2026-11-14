@@ -43,17 +43,26 @@ export function ImportExportSubmenu(props: Props) {
       }
       return;
     }
-    const data = await exportMut.mutateAsync({ convId: props.convId, format });
-    downloadJson(data, `${env.appName.toLowerCase()}-chat-${format}.json`);
+    exportMut.mutate(
+      { convId: props.convId, format },
+      {
+        onSuccess: (data) =>
+          downloadJson(
+            data,
+            `${env.appName.toLowerCase()}-chat-${format}.json`,
+          ),
+      },
+    );
   };
 
-  const handleFile = async (file: File) => {
-    const result = await importMut.mutateAsync(file);
-    if (result?.id) {
-      aui.threads().switchToThread(result.id);
-      toast.success(t("CHAT.MORE.IMPORT_SUCCESS"));
-    }
-  };
+  const handleFile = (file: File) =>
+    importMut.mutate(file, {
+      onSuccess: (result) => {
+        if (!result?.id) return;
+        aui.threads().switchToThread(result.id);
+        toast.success(t("CHAT.MORE.IMPORT_SUCCESS"));
+      },
+    });
 
   return (
     <DropdownMenuSub>
@@ -89,7 +98,7 @@ export function ImportExportSubmenu(props: Props) {
           onClick={() =>
             pickFile(
               "application/json,application/jsonl,.json,.jsonl",
-              (file) => void handleFile(file),
+              (file) => handleFile(file),
             )
           }
         >

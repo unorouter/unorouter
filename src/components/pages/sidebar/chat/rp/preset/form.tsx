@@ -109,14 +109,16 @@ export function PresetForm(props: Props) {
   const form = useRpForm(samplingPresetFormSchema, formValues);
   const onInvalid = useInvalidToast(samplingPresetFormSchema);
 
-  const onSubmit = async (data: SamplingPresetForm) => {
+  const onSubmit = (data: SamplingPresetForm) => {
     const body = toPresetBody(data);
     if (props.editingId === "new") {
-      await createMut.mutateAsync({ body });
+      createMut.mutate({ body }, { onSuccess: props.onDone });
     } else {
-      await updateMut.mutateAsync({ id: props.editingId, body });
+      updateMut.mutate(
+        { id: props.editingId, body },
+        { onSuccess: props.onDone },
+      );
     }
-    props.onDone();
   };
 
   return (

@@ -42,7 +42,7 @@ export function LorebookEditor(props: Props) {
   const avatar = useImageDraft(lbQuery.data?.avatarMediaId);
 
   const onSubmit = async (data: LorebookForm) => {
-    await updateLb.mutateAsync({
+    updateLb.mutate({
       id: props.lorebookId,
       body: {
         ...data,
@@ -58,8 +58,7 @@ export function LorebookEditor(props: Props) {
       "COMMON.CONFIRM.DELETE_LOREBOOK_DESC",
     );
     if (!ok) return;
-    await deleteLb.mutateAsync(props.lorebookId);
-    props.onDeleted();
+    deleteLb.mutate(props.lorebookId, { onSuccess: props.onDeleted });
   };
 
   return (

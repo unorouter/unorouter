@@ -47,7 +47,7 @@ export function LorebookEntries(props: { lorebookId: string }) {
       "COMMON.CONFIRM.DELETE_LOREBOOK_ENTRY_DESC",
     );
     if (!ok) return;
-    await deleteMut.mutateAsync(id);
+    deleteMut.mutate(id);
   };
 
   return (

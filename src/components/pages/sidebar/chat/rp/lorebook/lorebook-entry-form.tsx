@@ -118,7 +118,7 @@ export function LorebookEntryForm(props: {
   const alwaysActive = form.watch("constant");
   const selective = form.watch("selective");
 
-  const onSubmit = async (data: LorebookEntryFormValues) => {
+  const onSubmit = (data: LorebookEntryFormValues) => {
     const secondary = csvToArray(data.secondaryKeys);
     const { probability, entryScanDepth, ...rest } = data;
     const body = {
@@ -129,11 +129,13 @@ export function LorebookEntryForm(props: {
       secondaryKeys: secondary.length > 0 ? secondary : null,
     };
     if (props.editingId === "new") {
-      await createMut.mutateAsync(body);
+      createMut.mutate(body, { onSuccess: props.onDone });
     } else {
-      await updateMut.mutateAsync({ entryId: props.editingId, body });
+      updateMut.mutate(
+        { entryId: props.editingId, body },
+        { onSuccess: props.onDone },
+      );
     }
-    props.onDone();
   };
 
   return (

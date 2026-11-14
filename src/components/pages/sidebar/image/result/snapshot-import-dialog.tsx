@@ -51,12 +51,15 @@ export function SnapshotImportDialog(props: Props) {
       toast.error(t("IMAGE.IMPORT_INVALID"));
       return;
     }
-    const result = await importMut.mutateAsync({
-      payload: parsed.data,
-      mode: importMode,
-    });
-    props.onOpenChange(false);
-    router.push(`/image/${result.sessionId}`);
+    importMut.mutate(
+      { payload: parsed.data, mode: importMode },
+      {
+        onSuccess: (result) => {
+          props.onOpenChange(false);
+          router.push(`/image/${result.sessionId}`);
+        },
+      },
+    );
   };
 
   return (

@@ -154,11 +154,13 @@ export function CharacterEditor(props: Props) {
       assets: await resolveAssets(),
     };
     if (props.characterId) {
-      await updateMut.mutateAsync({ id: props.characterId, body });
+      updateMut.mutate(
+        { id: props.characterId, body },
+        { onSuccess: props.onSaved },
+      );
     } else {
-      await createMut.mutateAsync({ body });
+      createMut.mutate({ body }, { onSuccess: props.onSaved });
     }
-    props.onSaved();
   };
 
   return (

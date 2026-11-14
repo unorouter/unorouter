@@ -52,7 +52,7 @@ export function JsPluginList(props: Props) {
       "CHAT.JS_PLUGIN.DELETE_DESC",
     );
     if (!ok) return;
-    await deleteMut.mutateAsync(id);
+    deleteMut.mutate(id);
   };
 
   const handleImport = async (file: File) => {

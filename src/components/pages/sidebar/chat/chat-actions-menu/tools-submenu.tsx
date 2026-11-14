@@ -34,11 +34,17 @@ export function ToolsSubmenu(props: Props) {
   const clearMut = useClearConversationMutation();
   const hasConv = !!props.convId;
 
-  const handleDuplicate = async () => {
+  const handleDuplicate = () => {
     if (!props.convId) return;
-    const data = await duplicateMut.mutateAsync({ id: props.convId });
-    aui.threads().switchToThread(data.id);
-    toast.success(t("CHAT.MORE.DUPLICATE_SUCCESS"));
+    duplicateMut.mutate(
+      { id: props.convId },
+      {
+        onSuccess: (data) => {
+          aui.threads().switchToThread(data.id);
+          toast.success(t("CHAT.MORE.DUPLICATE_SUCCESS"));
+        },
+      },
+    );
   };
 
   // Passed as a promise rather than awaited first: Safari only honours a
@@ -61,8 +67,10 @@ export function ToolsSubmenu(props: Props) {
       destructive: true,
     });
     if (!ok) return;
-    await clearMut.mutateAsync({ id: props.convId });
-    toast.success(t("CHAT.MORE.CLEAR_SUCCESS"));
+    clearMut.mutate(
+      { id: props.convId },
+      { onSuccess: () => toast.success(t("CHAT.MORE.CLEAR_SUCCESS")) },
+    );
   };
 
   return (

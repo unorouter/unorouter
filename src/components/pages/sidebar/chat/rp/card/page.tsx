@@ -87,22 +87,25 @@ export function CardsPage() {
       "COMMON.CONFIRM.DELETE_CARD_DESC",
     );
     if (!ok) return;
-    await deleteMut.mutateAsync(id);
+    deleteMut.mutate(id);
   };
 
-  const doApply = async (mode: CardApplyMode) => {
+  const doApply = (mode: CardApplyMode) => {
     if (!applyTarget) return;
     if (!activeConvId) {
       toast.error(t("RP.CARDS_NO_CONV"));
       setApplyTarget(null);
       return;
     }
-    await applyMut.mutateAsync({
-      id: applyTarget.cardId,
-      body: { convId: activeConvId, mode },
-    });
-    toast.success(t("RP.CARDS_APPLIED"));
-    setApplyTarget(null);
+    applyMut.mutate(
+      { id: applyTarget.cardId, body: { convId: activeConvId, mode } },
+      {
+        onSuccess: () => {
+          toast.success(t("RP.CARDS_APPLIED"));
+          setApplyTarget(null);
+        },
+      },
+    );
   };
 
   return (
@@ -195,10 +198,10 @@ export function CardsPage() {
             <Button variant="ghost" onClick={() => setApplyTarget(null)}>
               {t("COMMON.CANCEL")}
             </Button>
-            <Button variant="outline" onClick={() => void doApply("merge")}>
+            <Button variant="outline" onClick={() => doApply("merge")}>
               {t("RP.CARDS_APPLY_MERGE")}
             </Button>
-            <Button onClick={() => void doApply("replace")}>
+            <Button onClick={() => doApply("replace")}>
               {t("RP.CARDS_APPLY_REPLACE")}
             </Button>
           </DialogFooter>

@@ -104,7 +104,7 @@ export function VoiceSettingsDialog(props: {
         </DialogHeader>
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit((v) => saveMut.mutateAsync(v))}
+            onSubmit={form.handleSubmit((v) => saveMut.mutate(v))}
             className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto pr-1"
           >
             <p className="text-muted-foreground text-xs">

@@ -20,13 +20,17 @@ export function ResetPasswordForm(props: Props) {
   const resetMutation = useResetPasswordMutation();
   const [password, setPassword] = useState<string | null>(null);
 
-  async function onConfirm() {
+  function onConfirm() {
     if (!props.email || !props.token) return;
     // Upstream GENERATES the password and returns it; it never accepts one.
-    const result = await resetMutation.mutateAsync({
-      body: { email: props.email, token: props.token },
-    });
-    if (typeof result === "string") setPassword(result);
+    resetMutation.mutate(
+      { body: { email: props.email, token: props.token } },
+      {
+        onSuccess: (result) => {
+          if (typeof result === "string") setPassword(result);
+        },
+      },
+    );
   }
 
   if (!props.email || !props.token) {

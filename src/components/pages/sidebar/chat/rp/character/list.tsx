@@ -139,7 +139,7 @@ export function CharacterList(props: Props) {
                 "COMMON.CONFIRM.DELETE_CHARACTER_DESC",
               );
               if (!ok) return;
-              await deleteMut.mutateAsync(c.id);
+              deleteMut.mutate(c.id);
             }}
           />
         ),

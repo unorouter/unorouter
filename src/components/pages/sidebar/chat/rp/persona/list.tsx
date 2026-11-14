@@ -49,7 +49,7 @@ export function PersonaList(props: Props) {
       "COMMON.CONFIRM.DELETE_PERSONA_DESC",
     );
     if (!ok) return;
-    await deleteMut.mutateAsync(id);
+    deleteMut.mutate(id);
   };
 
   return (
