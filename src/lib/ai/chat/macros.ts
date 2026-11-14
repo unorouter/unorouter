@@ -130,9 +130,12 @@ function parseDictJSON(s: string): Record<string, unknown> {
 function elemStr(v: unknown): string {
   return typeof v === "object" && v !== null ? JSON.stringify(v) : String(v);
 }
+// Several values as separate args, or one JSON array in the first.
+function listArgs(args: string[]): string[] {
+  return args.length > 1 ? args : parseArr(args[0] ?? "").map(String);
+}
 function statNums(args: string[]): number[] {
-  const vals = args.length > 1 ? args : parseArr(args[0] ?? "").map(String);
-  return vals.map((f) => {
+  return listArgs(args).map((f) => {
     const n = Number(f);
     return Number.isFinite(n) ? n : 0;
   });
@@ -327,17 +330,9 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
     case "not":
       return args[0] === "1" ? "0" : "1";
     case "all":
-      return (args.length > 1 ? args : parseArr(arg0).map(String)).every(
-        (f) => f === "1",
-      )
-        ? "1"
-        : "0";
+      return listArgs(args).every((f) => f === "1") ? "1" : "0";
     case "any":
-      return (args.length > 1 ? args : parseArr(arg0).map(String)).some(
-        (f) => f === "1",
-      )
-        ? "1"
-        : "0";
+      return listArgs(args).some((f) => f === "1") ? "1" : "0";
     case "iserror":
       return arg0.toLowerCase().startsWith("error:") ? "1" : "0";
 
@@ -536,15 +531,10 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
       return scope.history?.at(-1)?.text ?? "";
     case "lastusermessage":
     case "previoususerchat":
-      return (
-        [...(scope.history ?? [])].reverse().find((m) => m.role === "user")
-          ?.text ?? ""
-      );
+      return scope.history?.findLast((m) => m.role === "user")?.text ?? "";
     case "lastcharmessage":
     case "previouscharchat": {
-      const found = [...(scope.history ?? [])]
-        .reverse()
-        .find((m) => m.role === "assistant");
+      const found = scope.history?.findLast((m) => m.role === "assistant");
       if (found) return found.text;
       const fm = scope.fmIndex ?? -1;
       return fm >= 0
@@ -574,7 +564,7 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
           .map((m) => m.text),
       );
     case "chatindex":
-      return String((scope.history?.length ?? 0) - 1);
+      return String(scope.chatIndex ?? -1);
 
     case "date":
     case "datetimeformat":
@@ -592,17 +582,15 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
     case "unixtime":
       return dayjs().unix().toFixed(0);
 
-    case "messagetime": {
-      const idx = scope.chatIndex ?? -1;
-      if (idx < 0) return NO_TIME;
-      const t = scope.history?.[idx]?.time;
-      return t == null ? OLD_VERSION_TIME : localeTime(t, scope);
-    }
+    case "messagetime":
     case "messagedate": {
       const idx = scope.chatIndex ?? -1;
       if (idx < 0) return NO_TIME;
       const t = scope.history?.[idx]?.time;
-      return t == null ? OLD_VERSION_TIME : localeDate(t, scope);
+      if (t == null) return OLD_VERSION_TIME;
+      return name === "messagetime"
+        ? localeTime(t, scope)
+        : localeDate(t, scope);
     }
     case "messageidleduration": {
       const users = (scope.history ?? []).filter((m) => m.role === "user");
