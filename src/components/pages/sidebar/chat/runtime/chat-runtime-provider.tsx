@@ -128,6 +128,7 @@ function ChatRuntimeHook() {
       logChatDebug("history.user_turn_persist_error", {
         error: String(e).slice(0, 200),
       });
+      toast.error(t("ERRORS.MESSAGE_NOT_SAVED"), { duration: Infinity });
     }
   };
   const transportRef = useRef<ReturnType<typeof makeRoutingTransport> | null>(

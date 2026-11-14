@@ -4958,7 +4958,8 @@
     "CARD_FILE_INVALID": "해당 파일은 카드 내보내기 파일이 아닙니다.",
     "GROUP_CYCLE": "그룹을 자기 자신 안으로 이동할 수 없습니다.",
     "RATE_LIMITED": "요청이 너무 많습니다. 1분 후에 다시 시도해 주세요.",
-    "STREAM_CONNECTION_LOST": "답변을 받는 도중 연결이 끊겼습니다. 다시 생성해 주세요."
+    "STREAM_CONNECTION_LOST": "답변을 받는 도중 연결이 끊겼습니다. 다시 생성해 주세요.",
+    "MESSAGE_NOT_SAVED": "이 기기에 메시지를 저장하지 못했습니다. 페이지를 새로고침하기 전에 복사해 두세요."
   },
   "BADGE": {
     "TOKENS_SERVED": "처리한 토큰",

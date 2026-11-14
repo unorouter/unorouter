@@ -4958,7 +4958,8 @@
     "CARD_FILE_INVALID": "Ten plik nie jest eksportem karty.",
     "GROUP_CYCLE": "Grupy nie można przenieść do niej samej.",
     "RATE_LIMITED": "Zbyt wiele żądań. Odczekaj minutę i spróbuj ponownie.",
-    "STREAM_CONNECTION_LOST": "Połączenie zerwało się w trakcie odbierania odpowiedzi. Wygeneruj ją ponownie, aby spróbować jeszcze raz."
+    "STREAM_CONNECTION_LOST": "Połączenie zerwało się w trakcie odbierania odpowiedzi. Wygeneruj ją ponownie, aby spróbować jeszcze raz.",
+    "MESSAGE_NOT_SAVED": "Nie udało się zapisać wiadomości na tym urządzeniu. Skopiuj ją, zanim odświeżysz stronę."
   },
   "BADGE": {
     "TOKENS_SERVED": "obsłużone tokeny",

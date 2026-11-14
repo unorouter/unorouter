@@ -4958,7 +4958,8 @@
     "CARD_FILE_INVALID": "Quel file non è un'esportazione di una carta.",
     "GROUP_CYCLE": "Un gruppo non può essere spostato dentro se stesso.",
     "RATE_LIMITED": "Troppe richieste. Attendi un minuto, poi riprova.",
-    "STREAM_CONNECTION_LOST": "La connessione si è interrotta mentre arrivava la risposta. Rigenera per riprovare."
+    "STREAM_CONNECTION_LOST": "La connessione si è interrotta mentre arrivava la risposta. Rigenera per riprovare.",
+    "MESSAGE_NOT_SAVED": "Il tuo messaggio non è stato salvato su questo dispositivo. Copialo prima di ricaricare la pagina."
   },
   "BADGE": {
     "TOKENS_SERVED": "token serviti",

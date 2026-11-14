@@ -4958,7 +4958,8 @@
     "CARD_FILE_INVALID": "Ce fichier n'est pas un export de carte.",
     "GROUP_CYCLE": "Un groupe ne peut pas être déplacé dans lui-même.",
     "RATE_LIMITED": "Trop de requêtes. Patientez une minute, puis réessayez.",
-    "STREAM_CONNECTION_LOST": "La connexion a été coupée pendant la réception de la réponse. Régénérez pour réessayer."
+    "STREAM_CONNECTION_LOST": "La connexion a été coupée pendant la réception de la réponse. Régénérez pour réessayer.",
+    "MESSAGE_NOT_SAVED": "Ton message n'a pas pu être enregistré sur cet appareil. Copie-le avant de recharger la page."
   },
   "BADGE": {
     "TOKENS_SERVED": "jetons servis",

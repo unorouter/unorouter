@@ -4958,7 +4958,8 @@
     "CARD_FILE_INVALID": "Ese archivo no es una exportación de tarjeta.",
     "GROUP_CYCLE": "Un grupo no puede moverse dentro de sí mismo.",
     "RATE_LIMITED": "Demasiadas solicitudes. Espera un minuto y vuelve a intentarlo.",
-    "STREAM_CONNECTION_LOST": "La conexión se cortó mientras llegaba la respuesta. Regenera para intentarlo de nuevo."
+    "STREAM_CONNECTION_LOST": "La conexión se cortó mientras llegaba la respuesta. Regenera para intentarlo de nuevo.",
+    "MESSAGE_NOT_SAVED": "Tu mensaje no se pudo guardar en este dispositivo. Cópialo antes de recargar la página."
   },
   "BADGE": {
     "TOKENS_SERVED": "tokens procesados",

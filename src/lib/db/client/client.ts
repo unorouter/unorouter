@@ -649,8 +649,10 @@ async function openClient(): Promise<LocalClient> {
       if (workerDead) {
         sql = await openMigratedSql(dbPath);
         workerDead = false;
-      } else if (!(await answered(resumeSql(sql)))) {
-        killWorker("resume_timeout");
+      } else if (!(await answered(resumeSql(sql)).catch(() => false))) {
+        // An iOS resume that throws InvalidStateError throws on every retry,
+        // and the tab sat parked with every write failing until a reload.
+        killWorker("resume_failed");
         sql = await openMigratedSql(dbPath);
         workerDead = false;
       }

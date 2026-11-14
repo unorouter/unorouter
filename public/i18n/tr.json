@@ -4958,7 +4958,8 @@
     "CARD_FILE_INVALID": "Bu dosya bir kart dışa aktarımı değil.",
     "GROUP_CYCLE": "Bir grup kendi içine taşınamaz.",
     "RATE_LIMITED": "Çok fazla istek. Bir dakika bekleyip tekrar deneyin.",
-    "STREAM_CONNECTION_LOST": "Yanıt gelirken bağlantı koptu. Yeniden denemek için yeniden oluştur."
+    "STREAM_CONNECTION_LOST": "Yanıt gelirken bağlantı koptu. Yeniden denemek için yeniden oluştur.",
+    "MESSAGE_NOT_SAVED": "Mesajın bu cihaza kaydedilemedi. Sayfayı yenilemeden önce kopyala."
   },
   "BADGE": {
     "TOKENS_SERVED": "token sunuldu",
