@@ -1,9 +1,8 @@
 "use client";
 
-import { useElysiaQuery } from "@/lib/react-query/hooks";
+import { useApiMutation, useElysiaQuery } from "@/lib/react-query/hooks";
 
 import { msg, PAGE_SIZE } from "@/lib/config/constants";
-import { invalidateAndBroadcast } from "@/lib/react-query/cross-tab-invalidate";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import {
@@ -14,7 +13,6 @@ import {
 } from "@/store/chat-store";
 import { handleElysia, uid } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
-import { handleError } from "@/lib/utils/client";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import type { MessageItemType } from "@/lib/validation/chat";
 import {
@@ -46,12 +44,10 @@ import {
 import {
   keepPreviousData,
   useInfiniteQuery,
-  useMutation,
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
 import type { QueryClient } from "@tanstack/react-query";
-import { useTranslations } from "next-intl";
 
 type ConvIdArg = { id: string };
 type UpdateConvBody = { title?: string | null; model?: string };
@@ -63,23 +59,6 @@ type EditMessageBody = {
     data: Record<string, unknown>;
   }>;
 };
-
-function useChatMutation<TArgs, TData>(
-  fn: (args: TArgs) => Promise<TData>,
-  keysFor: (args: TArgs) => readonly (readonly unknown[])[],
-  onAfter?: (data: TData, args: TArgs, qc: QueryClient) => void,
-) {
-  const t = useTranslations();
-  const qc = useQueryClient();
-  return useMutation({
-    mutationFn: (args: TArgs) => fn(args),
-    onError: (e) => handleError(e, t),
-    onSuccess: (data, args) => {
-      invalidateAndBroadcast(qc, keysFor(args));
-      onAfter?.(data, args, qc);
-    },
-  });
-}
 
 export function useConversationsInfiniteQuery(keyword?: string) {
   return useInfiniteQuery({
@@ -115,8 +94,8 @@ export function useChatGroupsQuery() {
 }
 
 export function useCreateChatGroupMutation() {
-  return useChatMutation(
-    async (args: { name: string; parentId?: string }) => {
+  return useApiMutation({
+    mutationFn: async (args: { name: string; parentId?: string }) => {
       const id = uid();
       await upsertLocalChatGroup({
         id,
@@ -125,58 +104,58 @@ export function useCreateChatGroupMutation() {
       });
       return { id };
     },
-    () => [queryKeys.chatGroups()],
-  );
+    invalidates: () => [queryKeys.chatGroups()],
+  });
 }
 
 export function useRenameChatGroupMutation() {
-  return useChatMutation(
-    async (args: { id: string; name: string }) => {
+  return useApiMutation({
+    mutationFn: async (args: { id: string; name: string }) => {
       await renameLocalChatGroup(args.id, args.name.trim());
       return { id: args.id };
     },
-    () => [queryKeys.chatGroups()],
-  );
+    invalidates: () => [queryKeys.chatGroups()],
+  });
 }
 
 export function useDeleteChatGroupMutation() {
-  return useChatMutation(
-    async (args: { id: string }) => {
+  return useApiMutation({
+    mutationFn: async (args: { id: string }) => {
       await deleteLocalChatGroup(args.id);
       return { id: args.id };
     },
-    () => [queryKeys.chatGroups(), queryKeys.conversations()],
-  );
+    invalidates: () => [queryKeys.chatGroups(), queryKeys.conversations()],
+  });
 }
 
 export function useMoveChatGroupMutation() {
-  return useChatMutation(
-    async (args: { id: string; parentId: string | null }) => {
+  return useApiMutation({
+    mutationFn: async (args: { id: string; parentId: string | null }) => {
       await setChatGroupParent(args.id, args.parentId);
       return { id: args.id };
     },
-    () => [queryKeys.chatGroups()],
-  );
+    invalidates: () => [queryKeys.chatGroups()],
+  });
 }
 
 export function useToggleChatGroupFoldedMutation() {
-  return useChatMutation(
-    async (args: { id: string; folded: boolean }) => {
+  return useApiMutation({
+    mutationFn: async (args: { id: string; folded: boolean }) => {
       await setChatGroupFolded(args.id, args.folded);
       return { id: args.id };
     },
-    () => [queryKeys.chatGroups()],
-  );
+    invalidates: () => [queryKeys.chatGroups()],
+  });
 }
 
 export function useMoveConversationToGroupMutation() {
-  return useChatMutation(
-    async (args: { convId: string; groupId: string | null }) => {
+  return useApiMutation({
+    mutationFn: async (args: { convId: string; groupId: string | null }) => {
       await setConversationGroup(args.convId, args.groupId);
       return { id: args.convId };
     },
-    () => [queryKeys.conversations()],
-  );
+    invalidates: () => [queryKeys.conversations()],
+  });
 }
 
 export function useConversationQuery(id?: string) {
@@ -205,8 +184,8 @@ export function useMessagesQuery(id?: string) {
 }
 
 export function useUpdateConversationMutation() {
-  return useChatMutation(
-    async (args: ConvIdArg & { body: UpdateConvBody }) => {
+  return useApiMutation({
+    mutationFn: async (args: ConvIdArg & { body: UpdateConvBody }) => {
       // UPDATE ... WHERE id, so a missing row is already a no-op.
       await updateLocalConversationSettings({
         convId: args.id,
@@ -218,11 +197,11 @@ export function useUpdateConversationMutation() {
       });
       return { id: args.id, ...args.body };
     },
-    (args) =>
+    invalidates: (args) =>
       args.body.title !== undefined
         ? [queryKeys.chatMeta(args.id), queryKeys.conversations()]
         : [queryKeys.chatMeta(args.id)],
-  );
+  });
 }
 
 // The list key is a prefix of every search variant, so invalidating it covers
@@ -239,28 +218,28 @@ function dropConversationCaches(qc: QueryClient, ids: readonly string[]) {
 }
 
 export function useDeleteConversationMutation() {
-  return useChatMutation(
-    async (args: ConvIdArg) => {
+  return useApiMutation({
+    mutationFn: async (args: ConvIdArg) => {
       await deleteLocalConversation(args.id);
       return { id: args.id };
     },
-    () => [queryKeys.conversations()],
-    (data, _args, qc) => dropConversationCaches(qc, [data.id]),
-  );
+    invalidates: () => [queryKeys.conversations()],
+    onSuccess: (data, _args, qc) => dropConversationCaches(qc, [data.id]),
+  });
 }
 
 // Deleting the rows one at a time is the whole job: every child table hangs off
 // conversations with ON DELETE CASCADE and the pragma is on, so a hand written
 // multi table delete would only be a second place to forget one.
 export function useDeleteConversationsMutation() {
-  return useChatMutation(
-    async (args: { ids: readonly string[] }) => {
+  return useApiMutation({
+    mutationFn: async (args: { ids: readonly string[] }) => {
       for (const id of args.ids) await deleteLocalConversation(id);
       return { ids: args.ids };
     },
-    () => [queryKeys.conversations()],
-    (data, _args, qc) => dropConversationCaches(qc, data.ids),
-  );
+    invalidates: () => [queryKeys.conversations()],
+    onSuccess: (data, _args, qc) => dropConversationCaches(qc, data.ids),
+  });
 }
 
 export function useTaskStatusQuery(
@@ -282,8 +261,12 @@ export function useTaskStatusQuery(
 }
 
 export function useFinalizeTaskMutation() {
-  return useChatMutation(
-    async (args: { convId: string; msgId: string; taskId: string }) => {
+  return useApiMutation({
+    mutationFn: async (args: {
+      convId: string;
+      msgId: string;
+      taskId: string;
+    }) => {
       const data = handleElysia(
         await rpc.api.ai.chat.task.finalize.post({ taskId: args.taskId }),
       );
@@ -301,13 +284,17 @@ export function useFinalizeTaskMutation() {
       ]);
       return data;
     },
-    (args) => [queryKeys.chatMessages(args.convId)],
-  );
+    invalidates: (args) => [queryKeys.chatMessages(args.convId)],
+  });
 }
 
 export function useEditMessageMutation() {
-  return useChatMutation(
-    async (args: { convId: string; msgId: string; body: EditMessageBody }) => {
+  return useApiMutation({
+    mutationFn: async (args: {
+      convId: string;
+      msgId: string;
+      body: EditMessageBody;
+    }) => {
       const msgs = (await readLocalMessages(args.convId)) ?? [];
       const existing = msgs.find((m) => m.id === args.msgId);
       logChatDebug("message.edit", {
@@ -336,25 +323,25 @@ export function useEditMessageMutation() {
       await bumpLocalConvUpdatedAt(args.convId);
       return { items: itemsWithMsg };
     },
-    (args) => [queryKeys.chatMessages(args.convId)],
-  );
+    invalidates: (args) => [queryKeys.chatMessages(args.convId)],
+  });
 }
 
 export function useClearConversationMutation() {
-  return useChatMutation(
-    async (args: ConvIdArg) => {
+  return useApiMutation({
+    mutationFn: async (args: ConvIdArg) => {
       await deleteLocalMessagesForConv(args.id);
       await bumpLocalConvUpdatedAt(args.id);
       return { id: args.id };
     },
-    (args) => [queryKeys.chatMessages(args.id)],
-    () => setLiveMessages(() => []),
-  );
+    invalidates: (args) => [queryKeys.chatMessages(args.id)],
+    onSuccess: () => setLiveMessages(() => []),
+  });
 }
 
 export function useDuplicateConversationMutation() {
-  return useChatMutation(
-    async (args: ConvIdArg) => {
+  return useApiMutation({
+    mutationFn: async (args: ConvIdArg) => {
       const srcId = args.id;
       const bundle = await readLocalConversationBundle(srcId);
       if (!bundle) throw new Error("not-found");
@@ -408,13 +395,13 @@ export function useDuplicateConversationMutation() {
       }
       return newConv;
     },
-    () => [queryKeys.conversations()],
-  );
+    invalidates: () => [queryKeys.conversations()],
+  });
 }
 
 export function useSetActiveBranchMutation() {
-  return useChatMutation(
-    async (args: { convId: string; msgId: string }) => {
+  return useApiMutation({
+    mutationFn: async (args: { convId: string; msgId: string }) => {
       // assistant-ui mints its own ids for optimistic and streaming messages.
       // Those are not rows, so persisting one silently loses the swipe; wait
       // for the real row to exist rather than writing a no-op.
@@ -423,14 +410,13 @@ export function useSetActiveBranchMutation() {
       await setLocalActiveBranch(args.convId, args.msgId);
       return { id: args.msgId };
     },
-    (args) => [queryKeys.chatMessages(args.convId)],
-  );
+    invalidates: (args) => [queryKeys.chatMessages(args.convId)],
+  });
 }
 
 export function useDeleteMessageMutation() {
-  const t = useTranslations();
   const qc = useQueryClient();
-  return useMutation({
+  return useApiMutation({
     mutationFn: async (args: { convId: string; msgId: string }) => {
       logChatDebug("message.delete", {
         convId: args.convId,
@@ -461,9 +447,6 @@ export function useDeleteMessageMutation() {
       }
       return { id: args.msgId };
     },
-    onError: (e) => handleError(e, t),
-    onSuccess: (_data, args) => {
-      invalidateAndBroadcast(qc, [queryKeys.chatMessages(args.convId)]);
-    },
+    invalidates: (args) => [queryKeys.chatMessages(args.convId)],
   });
 }

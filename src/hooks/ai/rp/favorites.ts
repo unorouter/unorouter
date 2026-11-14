@@ -1,14 +1,11 @@
 "use client";
 
-import { invalidateAndBroadcast } from "@/lib/react-query/cross-tab-invalidate";
+import { useApiMutation } from "@/lib/react-query/hooks";
 import { queryKeys } from "@/lib/react-query/keys";
 import {
   setLocalFavorite,
   type RpFavoriteKind,
 } from "@/lib/db/client/data/rp/rp";
-import { handleError } from "@/lib/utils/client";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useTranslations } from "next-intl";
 
 const FAVORITE_KEYS: Record<
   RpFavoriteKind,
@@ -24,17 +21,14 @@ const FAVORITE_KEYS: Record<
 // Writes the column directly rather than going through useUpdate, which stamps
 // updatedAt and would re-sort the list on every star.
 export function useToggleFavoriteMutation(kind: RpFavoriteKind) {
-  const t = useTranslations();
-  const qc = useQueryClient();
-  return useMutation({
+  return useApiMutation({
     mutationFn: async (args: { id: string; isFavorite: boolean }) => {
       await setLocalFavorite(kind, args.id, args.isFavorite);
       return args;
     },
-    onSuccess: (_data, args) => {
-      const keys = FAVORITE_KEYS[kind];
-      invalidateAndBroadcast(qc, [keys.list(), keys.item(args.id)]);
-    },
-    onError: (e) => handleError(e, t),
+    invalidates: (args) => [
+      FAVORITE_KEYS[kind].list(),
+      FAVORITE_KEYS[kind].item(args.id),
+    ],
   });
 }
