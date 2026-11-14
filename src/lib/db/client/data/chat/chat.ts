@@ -30,7 +30,7 @@ import {
   CONVERSATION_SETTINGS_KEYS,
   projectConversationSettings,
 } from "@/lib/db/conversation-settings";
-import { and, asc, desc, eq, getTableColumns, inArray } from "drizzle-orm";
+import { and, asc, desc, eq, getTableColumns, inArray, sql } from "drizzle-orm";
 import type { InferInsertModel } from "drizzle-orm";
 import { getLocalDb } from "@/lib/db/client/client";
 import { readLocalRequestLogsForConv } from "@/lib/db/client/data/chat/request-log";
@@ -345,13 +345,15 @@ export async function bumpLocalConversationTotals(
   convId: string,
   delta: { inputTokens: number; outputTokens: number; cost: number },
 ): Promise<void> {
-  const conv = await conversationStore.get(convId);
-  if (!conv) return;
-  await conversationStore.update(convId, {
-    totalInputTokens: conv.totalInputTokens + delta.inputTokens,
-    totalOutputTokens: conv.totalOutputTokens + delta.outputTokens,
-    totalCost: conv.totalCost + delta.cost,
-  });
+  const local = await requireLocalDb();
+  await local.db
+    .update(conversations)
+    .set({
+      totalInputTokens: sql`${conversations.totalInputTokens} + ${delta.inputTokens}`,
+      totalOutputTokens: sql`${conversations.totalOutputTokens} + ${delta.outputTokens}`,
+      totalCost: sql`${conversations.totalCost} + ${delta.cost}`,
+    })
+    .where(eq(conversations.id, convId));
 }
 
 export const updateLocalMessage = (

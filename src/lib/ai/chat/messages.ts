@@ -101,7 +101,7 @@ function mergeReasoningParts(parts: MessagePart[]): MessagePart[] {
   });
 }
 
-function errorData(d: Record<string, unknown>) {
+export function errorData(d: Record<string, unknown>) {
   return {
     message: String(d.message ?? ""),
     ...(typeof d.model === "string" && { model: d.model }),

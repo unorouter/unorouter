@@ -2,6 +2,7 @@ import type { PersistMessageItem } from "@/lib/validation/chat";
 import type { ApiMessage, MessagePart } from "@/lib/ai/chat/messages";
 import { isCustomModelId } from "@/lib/ai/chat/custom-provider-id";
 import {
+  errorData,
   itemsToParts,
   partsToItems,
   walkActiveBranch,
@@ -14,6 +15,8 @@ import {
   readLocalConversation,
   readLocalConversationSettings,
   readLocalMessages,
+  bumpLocalConversationTotals,
+  updateLocalConversationSettings,
   upsertLocalConversation,
   upsertLocalConversationSettings,
   updateLocalMessage,
@@ -124,10 +127,8 @@ async function repairBrokenChain(
     // Opportunistic: the repaired chain is already in `out`, so a write that
     // cannot land must not take the history render down with it.
     try {
-      for (const m of repaired) {
-        const { items: _items, ...row } = m;
-        await upsertLocalMessage({ ...row, convId });
-      }
+      for (const m of repaired)
+        await updateLocalMessage(m.id, { parentId: m.parentId });
     } catch {}
   }
   return out;
@@ -274,14 +275,7 @@ function appendStreamErrorItem(
   if (items.some((it) => it.type === "error")) return;
   items.push({
     type: "error",
-    data: {
-      message: streamError.message,
-      ...(resolvedModel && { model: resolvedModel }),
-      ...(streamError.code && { code: streamError.code }),
-      ...(streamError.param && { param: streamError.param }),
-      ...(streamError.status && { status: streamError.status }),
-      ...(streamError.requestId && { requestId: streamError.requestId }),
-    },
+    data: errorData({ ...streamError, model: resolvedModel ?? undefined }),
   });
 }
 
@@ -485,22 +479,20 @@ async function persistRequestLog(
 
 async function bumpConversationTotals(
   convId: string,
-  existingConv: Awaited<ReturnType<typeof readLocalConversation>>,
   metadata: ChatMessageMetadata | null,
   now: Date,
 ): Promise<void> {
-  const usage = metadata?.usage ?? null;
-  const varsWriteback = metadata?.vars ?? null;
-  const convForTotals = existingConv ?? (await readLocalConversation(convId));
-  await upsertLocalConversation({
-    ...(convForTotals ?? {}),
-    id: convId,
-    totalInputTokens:
-      (convForTotals?.totalInputTokens ?? 0) + (usage?.inputTokens ?? 0),
-    totalOutputTokens:
-      (convForTotals?.totalOutputTokens ?? 0) + (usage?.outputTokens ?? 0),
-    totalCost: (convForTotals?.totalCost ?? 0) + (usage?.cost ?? 0),
-    ...(varsWriteback != null ? { vars: varsWriteback } : {}),
+  const usage = metadata?.usage;
+  if (usage) {
+    await bumpLocalConversationTotals(convId, {
+      inputTokens: usage.inputTokens ?? 0,
+      outputTokens: usage.outputTokens ?? 0,
+      cost: usage.cost ?? 0,
+    });
+  }
+  await updateLocalConversationSettings({
+    convId,
+    ...(metadata?.vars != null ? { vars: metadata.vars } : {}),
     ...(metadata?.summary
       ? {
           summaryMemory: metadata.summary.summary,
@@ -784,7 +776,7 @@ export function createChatHistoryAdapter(
           resolvedModel,
           now,
         );
-        await bumpConversationTotals(id, existingConv, metadata, now);
+        await bumpConversationTotals(id, metadata, now);
         invalidateAndBroadcast(queryClient, [
           queryKeys.chatMeta(id),
           queryKeys.chatMessages(id),
