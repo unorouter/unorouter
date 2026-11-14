@@ -24,7 +24,7 @@ import {
   readLocalConversation,
   readLocalConversationBundle,
   readLocalConversations,
-  readLocalMessages,
+  readLocalMessage,
   setLocalActiveBranch,
   spliceDeleteLocalMessage,
   renameLocalChatGroup,
@@ -36,7 +36,6 @@ import {
   updateLocalConversationSettings,
   upsertLocalChatGroup,
   upsertLocalConversation,
-  upsertLocalConversationSettings,
   updateLocalMessage,
   upsertLocalMessage,
   upsertLocalMessageItem,
@@ -70,7 +69,7 @@ export function useConversationsQuery(keyword?: string) {
 export function useChatGroupsQuery() {
   return useQuery({
     queryKey: queryKeys.chatGroups(),
-    queryFn: async () => (await readLocalChatGroups()) ?? [],
+    queryFn: readLocalChatGroups,
   });
 }
 
@@ -198,17 +197,6 @@ function dropConversationCaches(qc: QueryClient, ids: readonly string[]) {
   }
 }
 
-export function useDeleteConversationMutation() {
-  return useApiMutation({
-    mutationFn: async (args: ConvIdArg) => {
-      await deleteLocalConversation(args.id);
-      return { id: args.id };
-    },
-    invalidates: () => [queryKeys.conversations()],
-    onSuccess: (data, _args, qc) => dropConversationCaches(qc, [data.id]),
-  });
-}
-
 // Deleting the rows one at a time is the whole job: every child table hangs off
 // conversations with ON DELETE CASCADE and the pragma is on, so a hand written
 // multi table delete would only be a second place to forget one.
@@ -276,8 +264,7 @@ export function useEditMessageMutation() {
       msgId: string;
       body: EditMessageBody;
     }) => {
-      const msgs = (await readLocalMessages(args.convId)) ?? [];
-      const existing = msgs.find((m) => m.id === args.msgId);
+      const existing = await readLocalMessage(args.msgId);
       logChatDebug("message.edit", {
         convId: args.convId,
         msgId: args.msgId,
@@ -332,12 +319,6 @@ export function useDuplicateConversationMutation() {
         updatedAt: now,
       };
       await upsertLocalConversation(newConv);
-      if (bundle.settings) {
-        await upsertLocalConversationSettings({
-          ...bundle.settings,
-          convId: newId,
-        });
-      }
       await replaceLocalConversationBindings(newId, {
         conversationCharacters: bundle.conversationCharacters.map((c) => ({
           characterId: c.characterId,
@@ -382,8 +363,7 @@ export function useSetActiveBranchMutation() {
       // assistant-ui mints its own ids for optimistic and streaming messages.
       // Those are not rows, so persisting one silently loses the swipe; wait
       // for the real row to exist rather than writing a no-op.
-      const rows = await readLocalMessages(args.convId);
-      if (!rows?.some((m) => m.id === args.msgId)) return { id: args.msgId };
+      if (!(await readLocalMessage(args.msgId))) return { id: args.msgId };
       await setLocalActiveBranch(args.convId, args.msgId);
       return { id: args.msgId };
     },

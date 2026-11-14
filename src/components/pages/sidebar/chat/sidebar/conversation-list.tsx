@@ -22,7 +22,6 @@ import {
   useChatGroupsQuery,
   useConversationsQuery,
   useCreateChatGroupMutation,
-  useDeleteConversationMutation,
   useDeleteConversationsMutation,
   useToggleChatGroupFoldedMutation,
 } from "@/hooks/ai/chat-hook";
@@ -54,8 +53,7 @@ export function ConversationList() {
     debouncedSearch || undefined,
   );
   const [visible, setVisible] = useState(PAGE_SIZE);
-  const deleteMutation = useDeleteConversationMutation();
-  const deleteManyMutation = useDeleteConversationsMutation();
+  const deleteMutation = useDeleteConversationsMutation();
   const groupsQuery = useChatGroupsQuery();
   const createGroup = useCreateChatGroupMutation();
   const toggleFolded = useToggleChatGroupFoldedMutation();
@@ -93,7 +91,7 @@ export function ConversationList() {
       destructive: true,
     });
     if (!ok) return;
-    await deleteMutation.mutateAsync({ id });
+    await deleteMutation.mutateAsync({ ids: [id] });
     if (activeThreadId === id) aui.threads().switchToNewThread();
   };
 
@@ -116,7 +114,7 @@ export function ConversationList() {
       destructive: true,
     });
     if (!ok) return;
-    await deleteManyMutation.mutateAsync({ ids });
+    await deleteMutation.mutateAsync({ ids });
     if (activeThreadId && ids.includes(activeThreadId))
       aui.threads().switchToNewThread();
     setSelectedIds(null);
@@ -248,7 +246,7 @@ export function ConversationList() {
                 size="sm"
                 className="h-7 px-2 text-xs"
                 disabled={
-                  selectedIds.size === 0 || deleteManyMutation.isPending
+                  selectedIds.size === 0 || deleteMutation.isPending
                 }
                 onClick={handleDeleteSelected}
               >
