@@ -4120,8 +4120,6 @@
   },
   "CHAT": {
     "SHARE": {
-      "TITLE": "Unterhaltung teilen",
-      "DESCRIPTION": "Jeder mit dem Link kann diese Unterhaltung einsehen.",
       "LINK_COPIED": "Link in die Zwischenablage kopiert"
     },
     "MODEL": {
@@ -4137,8 +4135,7 @@
     },
     "GROUP": {
       "SELECT": "Anbieter",
-      "AUTO": "Automatisch",
-      "NO_RESULTS": "Keine Anbieter verfügbar"
+      "AUTO": "Automatisch"
     },
     "ACTION": {
       "COPY": "Kopieren",
@@ -4351,7 +4348,6 @@
       "DEBUG_CLEAR": "Debug-Protokoll löschen",
       "DEBUG_CLEARED": "Debug-Protokoll gelöscht",
       "DIAGNOSTICS": "Debug-Log exportieren",
-      "DISPLAY": "Anzeige",
       "AUTHOR_NOTE": "Autorenhinweis",
       "DUPLICATE": "Chat duplizieren",
       "DUPLICATE_SUCCESS": "Unterhaltung dupliziert",
@@ -4374,7 +4370,6 @@
       "LOCAL_DB_SEND": "An ein anderes Gerät senden",
       "LOCAL_DB_RECEIVE": "Von einem anderen Gerät empfangen",
       "LOCAL_DB_UPLOAD_KEEP_OPEN": "Lass diesen Tab bis zum Ende geöffnet und im Vordergrund; ein Handy friert einen Hintergrund-Tab ein und der Import bleibt mit ihm stehen.",
-      "LOCAL_DB_UPLOAD_CONFIRM": "Datensätze aus dieser Datei importieren? Sie wird auf das aktuelle Schema migriert und ersetzt deine lokalen Daten; die Datensätze werden dieser Sitzung zugeordnet.",
       "LOCAL_DB_IMPORT_SUMMARY": "{imported} Datensätze in {tables} Tabellen importiert ({skipped} übersprungen).",
       "LOCAL_DB_MERGE_SUMMARY": "{imported} Datensätze hinzugefügt, {updated} aktualisiert, {skipped} bereits vorhanden.",
       "LOCAL_DB_IMPORT_CHOICE": "Zusammenführen behält alles auf diesem Gerät und ergänzt den Inhalt der Datei, bei Änderungen auf beiden Seiten gewinnt die neuere Fassung. Ersetzen verwirft, was hier liegt.",
@@ -4451,9 +4446,7 @@
       "NAME": "Name",
       "BASE_URL": "Endpunkt-URL",
       "API_KEY": "API-Schlüssel",
-      "FORMAT": "Format",
       "TOKENIZER": "Tokenizer",
-      "FORMAT_OPENAI": "OpenAI-kompatibel",
       "PROXY": "Über UnoRouter weiterleiten",
       "PROXY_HINT": "Nur nötig, wenn der Anbieter Anfragen aus dem Browser blockiert. Sonst aus lassen: Dann spricht dein Browser direkt mit dem Anbieter. Wenn an, laufen Anfragen und dein Schlüssel über unseren Server, der sie nie speichert.",
       "TOKENIZER_AUTO": "Automatisch (nach Name)",
@@ -4473,12 +4466,10 @@
       "TOKENIZER_HF_PLACEHOLDER": "owner/model oder tokenizer.json-URL",
       "MODELS": "Modelle",
       "MODELS_EMPTY": "Noch keine Modelle hinzugefügt.",
-      "ADD_MODEL": "Modell hinzufügen",
       "FETCH_MODELS": "Modelle abrufen",
       "FETCH_FAILED": "Modelle konnten nicht abgerufen werden (HTTP {status}). Überprüfe die Endpunkt-URL und den API-Schlüssel.",
       "TOO_MANY_MODELS": "Zu viele Modelle (max. {max}). Entferne einige vor dem Speichern.",
       "FORM_INVALID": "Einige Felder sind ungültig. Prüfe das Formular und versuche es erneut.",
-      "MODEL_KEY": "Modell-Schlüssel",
       "MODEL_LABEL": "Anzeigename",
       "MODEL_COUNT": "{count} Modell(e)",
       "DELETE_TITLE": "Anbieter löschen?",

@@ -4120,8 +4120,6 @@
   },
   "CHAT": {
     "SHARE": {
-      "TITLE": "Chia sẻ hội thoại",
-      "DESCRIPTION": "Bất kỳ ai có liên kết đều có thể xem hội thoại này.",
       "LINK_COPIED": "Đã sao chép liên kết vào bộ nhớ tạm"
     },
     "MODEL": {
@@ -4137,8 +4135,7 @@
     },
     "GROUP": {
       "SELECT": "Nhà cung cấp",
-      "AUTO": "Tự động",
-      "NO_RESULTS": "Không có nhà cung cấp khả dụng"
+      "AUTO": "Tự động"
     },
     "ACTION": {
       "COPY": "Sao chép",
@@ -4351,7 +4348,6 @@
       "DEBUG_CLEAR": "Xóa nhật ký gỡ lỗi",
       "DEBUG_CLEARED": "Đã xóa nhật ký gỡ lỗi",
       "DIAGNOSTICS": "Xuất nhật ký gỡ lỗi",
-      "DISPLAY": "Hiển thị",
       "AUTHOR_NOTE": "Ghi chú của tác giả",
       "DUPLICATE": "Sao chép cuộc trò chuyện",
       "DUPLICATE_SUCCESS": "Đã sao chép cuộc trò chuyện",
@@ -4374,7 +4370,6 @@
       "LOCAL_DB_SEND": "Gửi sang thiết bị khác",
       "LOCAL_DB_RECEIVE": "Nhận từ thiết bị khác",
       "LOCAL_DB_UPLOAD_KEEP_OPEN": "Giữ thẻ này mở và ở phía trước cho đến khi hoàn tất; điện thoại sẽ đóng băng thẻ chạy nền và việc nhập sẽ dừng theo.",
-      "LOCAL_DB_UPLOAD_CONFIRM": "Nhập bản ghi từ tệp này? Tệp được di chuyển sang lược đồ hiện tại và thay thế dữ liệu cục bộ của bạn; các bản ghi được chuyển quyền sở hữu sang phiên này.",
       "LOCAL_DB_IMPORT_SUMMARY": "Đã nhập {imported} bản ghi trên {tables} bảng ({skipped} bị bỏ qua).",
       "LOCAL_DB_MERGE_SUMMARY": "Đã thêm {imported} bản ghi, cập nhật {updated}, {skipped} đã có sẵn.",
       "LOCAL_DB_IMPORT_CHOICE": "Hợp nhất giữ mọi thứ trên thiết bị này và thêm những gì tệp có, bản mới hơn thắng khi cả hai bên cùng thay đổi. Thay thế sẽ bỏ đi những gì đang có ở đây.",
@@ -4451,9 +4446,7 @@
       "NAME": "Tên",
       "BASE_URL": "URL điểm cuối",
       "API_KEY": "Khóa API",
-      "FORMAT": "Định dạng",
       "TOKENIZER": "Bộ tách token",
-      "FORMAT_OPENAI": "Tương thích OpenAI",
       "PROXY": "Chuyển tiếp qua UnoRouter",
       "PROXY_HINT": "Chỉ cần khi nhà cung cấp chặn yêu cầu từ trình duyệt. Nếu không, hãy để tắt: trình duyệt của bạn sẽ kết nối thẳng tới nhà cung cấp. Khi bật, yêu cầu và khóa của bạn đi qua máy chủ của chúng tôi, nơi không bao giờ lưu chúng.",
       "TOKENIZER_AUTO": "Tự động (khớp theo tên)",
@@ -4473,12 +4466,10 @@
       "TOKENIZER_HF_PLACEHOLDER": "owner/model hoặc URL tokenizer.json",
       "MODELS": "Mô hình",
       "MODELS_EMPTY": "Chưa thêm mô hình nào.",
-      "ADD_MODEL": "Thêm mô hình",
       "FETCH_MODELS": "Lấy danh sách mô hình",
       "FETCH_FAILED": "Không thể lấy danh sách mô hình (HTTP {status}). Kiểm tra URL điểm cuối và khóa API.",
       "TOO_MANY_MODELS": "Quá nhiều mô hình (tối đa {max}). Hãy bỏ bớt trước khi lưu.",
       "FORM_INVALID": "Một số trường không hợp lệ. Kiểm tra biểu mẫu rồi thử lại.",
-      "MODEL_KEY": "Khóa mô hình",
       "MODEL_LABEL": "Tên hiển thị",
       "MODEL_COUNT": "{count} mô hình",
       "DELETE_TITLE": "Xóa nhà cung cấp?",

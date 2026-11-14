@@ -4120,8 +4120,6 @@
   },
   "CHAT": {
     "SHARE": {
-      "TITLE": "대화 공유",
-      "DESCRIPTION": "링크가 있는 누구나 이 대화를 볼 수 있습니다.",
       "LINK_COPIED": "링크가 클립보드에 복사됨"
     },
     "MODEL": {
@@ -4137,8 +4135,7 @@
     },
     "GROUP": {
       "SELECT": "프로바이더",
-      "AUTO": "자동",
-      "NO_RESULTS": "사용 가능한 프로바이더가 없습니다"
+      "AUTO": "자동"
     },
     "ACTION": {
       "COPY": "복사",
@@ -4351,7 +4348,6 @@
       "DEBUG_CLEAR": "디버그 로그 지우기",
       "DEBUG_CLEARED": "디버그 로그를 지웠습니다",
       "DIAGNOSTICS": "디버그 로그 내보내기",
-      "DISPLAY": "표시",
       "AUTHOR_NOTE": "작성자 메모",
       "DUPLICATE": "채팅 복제",
       "DUPLICATE_SUCCESS": "대화 복제됨",
@@ -4374,7 +4370,6 @@
       "LOCAL_DB_SEND": "다른 기기로 보내기",
       "LOCAL_DB_RECEIVE": "다른 기기에서 받기",
       "LOCAL_DB_UPLOAD_KEEP_OPEN": "완료될 때까지 이 탭을 열어 두고 앞에 유지하세요. 휴대폰은 백그라운드 탭을 정지시키므로 가져오기도 함께 멈춥니다.",
-      "LOCAL_DB_UPLOAD_CONFIRM": "이 파일에서 레코드를 가져오시겠습니까? 현재 스키마로 마이그레이션되어 로컬 데이터를 교체하며, 레코드는 이 세션으로 재할당됩니다.",
       "LOCAL_DB_IMPORT_SUMMARY": "{tables}개 테이블에 {imported}개 레코드를 가져왔습니다 ({skipped}개 건너뜀).",
       "LOCAL_DB_MERGE_SUMMARY": "{imported}개를 추가하고 {updated}개를 갱신했습니다 ({skipped}개는 이미 있음).",
       "LOCAL_DB_IMPORT_CHOICE": "병합은 이 기기에 있는 모든 것을 유지하면서 파일의 내용을 추가하고, 양쪽이 모두 바뀐 경우 더 최신 사본을 사용합니다. 교체는 지금 여기 있는 것을 버립니다.",
@@ -4451,9 +4446,7 @@
       "NAME": "이름",
       "BASE_URL": "엔드포인트 URL",
       "API_KEY": "API 키",
-      "FORMAT": "형식",
       "TOKENIZER": "토크나이저",
-      "FORMAT_OPENAI": "OpenAI 호환",
       "PROXY": "UnoRouter를 통해 중계",
       "PROXY_HINT": "제공자가 브라우저 요청을 차단할 때만 필요합니다. 그 외에는 꺼 두세요. 그러면 브라우저가 제공자와 직접 통신합니다. 켜면 요청과 키가 저희 서버를 거치지만 서버는 이를 저장하지 않습니다.",
       "TOKENIZER_AUTO": "자동 (이름으로 매칭)",
@@ -4473,12 +4466,10 @@
       "TOKENIZER_HF_PLACEHOLDER": "owner/model 또는 tokenizer.json URL",
       "MODELS": "모델",
       "MODELS_EMPTY": "아직 추가된 모델이 없습니다.",
-      "ADD_MODEL": "모델 추가",
       "FETCH_MODELS": "모델 가져오기",
       "FETCH_FAILED": "모델을 가져올 수 없습니다 (HTTP {status}). 엔드포인트 URL과 API 키를 확인하세요.",
       "TOO_MANY_MODELS": "모델이 너무 많습니다(최대 {max}개). 저장하기 전에 일부를 제거하세요.",
       "FORM_INVALID": "일부 항목이 올바르지 않습니다. 양식을 확인하고 다시 시도하세요.",
-      "MODEL_KEY": "모델 키",
       "MODEL_LABEL": "표시 이름",
       "MODEL_COUNT": "{count}개 모델",
       "DELETE_TITLE": "공급자를 삭제할까요?",

@@ -4120,8 +4120,6 @@
   },
   "CHAT": {
     "SHARE": {
-      "TITLE": "分享對話",
-      "DESCRIPTION": "任何擁有連結的人都能檢視此對話。",
       "LINK_COPIED": "連結已複製到剪貼簿"
     },
     "MODEL": {
@@ -4137,8 +4135,7 @@
     },
     "GROUP": {
       "SELECT": "服務商",
-      "AUTO": "自動",
-      "NO_RESULTS": "沒有可用的服務商"
+      "AUTO": "自動"
     },
     "ACTION": {
       "COPY": "複製",
@@ -4351,7 +4348,6 @@
       "DEBUG_CLEAR": "清除除錯日誌",
       "DEBUG_CLEARED": "除錯日誌已清除",
       "DIAGNOSTICS": "匯出偵錯記錄",
-      "DISPLAY": "顯示",
       "AUTHOR_NOTE": "作者註記",
       "DUPLICATE": "複製對話",
       "DUPLICATE_SUCCESS": "對話已複製",
@@ -4374,7 +4370,6 @@
       "LOCAL_DB_SEND": "傳送到另一台裝置",
       "LOCAL_DB_RECEIVE": "從另一台裝置接收",
       "LOCAL_DB_UPLOAD_KEEP_OPEN": "完成前請保持此分頁開啟並位於前景；手機會凍結背景分頁，匯入也會隨之停止。",
-      "LOCAL_DB_UPLOAD_CONFIRM": "從此檔案匯入記錄？它會遷移到目前的結構並取代你的本地資料；記錄將歸屬目前的工作階段。",
       "LOCAL_DB_IMPORT_SUMMARY": "已將 {imported} 筆記錄匯入 {tables} 個資料表（略過 {skipped} 筆）。",
       "LOCAL_DB_MERGE_SUMMARY": "已新增 {imported} 筆記錄，更新 {updated} 筆，{skipped} 筆已存在。",
       "LOCAL_DB_IMPORT_CHOICE": "合併會保留本機上的全部內容並加入檔案中的資料，兩邊都改過時以較新的一份為準。取代則會捨棄這裡現有的內容。",
@@ -4451,9 +4446,7 @@
       "NAME": "名稱",
       "BASE_URL": "端點網址",
       "API_KEY": "API 金鑰",
-      "FORMAT": "格式",
       "TOKENIZER": "分詞器",
-      "FORMAT_OPENAI": "相容 OpenAI",
       "PROXY": "透過 UnoRouter 中轉",
       "PROXY_HINT": "僅在提供商封鎖來自瀏覽器的請求時才需要。否則請保持關閉：此時瀏覽器直接連線提供商。開啟後，請求和你的金鑰會經過我們的伺服器，但伺服器從不儲存它們。",
       "TOKENIZER_AUTO": "自動（依名稱比對）",
@@ -4473,12 +4466,10 @@
       "TOKENIZER_HF_PLACEHOLDER": "owner/model 或 tokenizer.json 連結",
       "MODELS": "模型",
       "MODELS_EMPTY": "尚未新增模型。",
-      "ADD_MODEL": "新增模型",
       "FETCH_MODELS": "取得模型",
       "FETCH_FAILED": "無法取得模型（HTTP {status}）。請檢查端點 URL 與 API 金鑰。",
       "TOO_MANY_MODELS": "模型過多（最多{max}個）。請移除部分後再儲存。",
       "FORM_INVALID": "部分欄位無效。請檢查表單後重試。",
-      "MODEL_KEY": "模型識別碼",
       "MODEL_LABEL": "顯示名稱",
       "MODEL_COUNT": "{count} 個模型",
       "DELETE_TITLE": "刪除提供商？",

@@ -4120,8 +4120,6 @@
   },
   "CHAT": {
     "SHARE": {
-      "TITLE": "Share Conversation",
-      "DESCRIPTION": "Anyone with the link can view this conversation.",
       "LINK_COPIED": "Link copied to clipboard"
     },
     "MODEL": {
@@ -4137,8 +4135,7 @@
     },
     "GROUP": {
       "SELECT": "Provider",
-      "AUTO": "Auto",
-      "NO_RESULTS": "No providers available"
+      "AUTO": "Auto"
     },
     "ACTION": {
       "COPY": "Copy",
@@ -4351,7 +4348,6 @@
       "DEBUG_CLEAR": "Clear debug log",
       "DEBUG_CLEARED": "Debug log cleared",
       "DIAGNOSTICS": "Export debug log",
-      "DISPLAY": "Display",
       "AUTHOR_NOTE": "Author's note",
       "DUPLICATE": "Duplicate chat",
       "DUPLICATE_SUCCESS": "Conversation duplicated",
@@ -4374,7 +4370,6 @@
       "LOCAL_DB_SEND": "Send to another device",
       "LOCAL_DB_RECEIVE": "Receive from another device",
       "LOCAL_DB_UPLOAD_KEEP_OPEN": "Keep this tab open and in the foreground until it finishes; a phone freezes a background tab and the import stalls with it.",
-      "LOCAL_DB_UPLOAD_CONFIRM": "Import records from this file? It is migrated to the current schema and replaces your local data; records are re-owned by this session.",
       "LOCAL_DB_IMPORT_SUMMARY": "Imported {imported} records across {tables} tables ({skipped} skipped).",
       "LOCAL_DB_MERGE_SUMMARY": "Added {imported} records, updated {updated}, {skipped} already here.",
       "LOCAL_DB_IMPORT_CHOICE": "Merge keeps everything on this device and adds what the file has, the newer copy winning where both changed. Replace throws away what is here.",
@@ -4451,9 +4446,7 @@
       "NAME": "Name",
       "BASE_URL": "Endpoint URL",
       "API_KEY": "API key",
-      "FORMAT": "Format",
       "TOKENIZER": "Tokenizer",
-      "FORMAT_OPENAI": "OpenAI-compatible",
       "PROXY": "Relay through UnoRouter",
       "PROXY_HINT": "Only needed when the provider blocks requests from browsers. Leave it off otherwise: your browser then talks to the provider directly. When on, requests and your key pass through our server, which never stores them.",
       "TOKENIZER_AUTO": "Auto (match by name)",
@@ -4473,12 +4466,10 @@
       "TOKENIZER_HF_PLACEHOLDER": "owner/model or tokenizer.json URL",
       "MODELS": "Models",
       "MODELS_EMPTY": "No models added yet.",
-      "ADD_MODEL": "Add model",
       "FETCH_MODELS": "Fetch models",
       "FETCH_FAILED": "Could not fetch models (HTTP {status}). Check the endpoint URL and API key.",
       "TOO_MANY_MODELS": "Too many models ({max} max). Remove some before saving.",
       "FORM_INVALID": "Some fields are invalid. Check the form and try again.",
-      "MODEL_KEY": "Model key",
       "MODEL_LABEL": "Display name",
       "MODEL_COUNT": "{count} model(s)",
       "DELETE_TITLE": "Delete provider?",

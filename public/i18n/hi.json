@@ -4120,8 +4120,6 @@
   },
   "CHAT": {
     "SHARE": {
-      "TITLE": "बातचीत साझा करें",
-      "DESCRIPTION": "Link वाला कोई भी इस बातचीत को देख सकता है।",
       "LINK_COPIED": "Link clipboard पर copy किया गया"
     },
     "MODEL": {
@@ -4137,8 +4135,7 @@
     },
     "GROUP": {
       "SELECT": "प्रदाता",
-      "AUTO": "स्वचालित",
-      "NO_RESULTS": "कोई प्रदाता उपलब्ध नहीं"
+      "AUTO": "स्वचालित"
     },
     "ACTION": {
       "COPY": "Copy",
@@ -4351,7 +4348,6 @@
       "DEBUG_CLEAR": "डिबग लॉग साफ़ करें",
       "DEBUG_CLEARED": "डिबग लॉग साफ़ हो गया",
       "DIAGNOSTICS": "डिबग लॉग निर्यात करें",
-      "DISPLAY": "प्रदर्शन",
       "AUTHOR_NOTE": "लेखक का नोट",
       "DUPLICATE": "Chat duplicate करें",
       "DUPLICATE_SUCCESS": "बातचीत duplicated",
@@ -4374,7 +4370,6 @@
       "LOCAL_DB_SEND": "दूसरे डिवाइस पर भेजें",
       "LOCAL_DB_RECEIVE": "दूसरे डिवाइस से प्राप्त करें",
       "LOCAL_DB_UPLOAD_KEEP_OPEN": "पूरा होने तक इस टैब को खुला और सामने रखें; फ़ोन बैकग्राउंड टैब को फ़्रीज़ कर देता है और इम्पोर्ट उसके साथ रुक जाता है।",
-      "LOCAL_DB_UPLOAD_CONFIRM": "इस फ़ाइल से records इम्पोर्ट करें? यह मौजूदा schema में माइग्रेट होती है और आपके local data को बदल देती है; records इस session के स्वामित्व में आ जाते हैं।",
       "LOCAL_DB_IMPORT_SUMMARY": "{tables} tables में {imported} records इम्पोर्ट किए गए ({skipped} छोड़े गए)।",
       "LOCAL_DB_MERGE_SUMMARY": "{imported} records जोड़े गए, {updated} अपडेट हुए, {skipped} पहले से मौजूद थे।",
       "LOCAL_DB_IMPORT_CHOICE": "मर्ज इस डिवाइस पर मौजूद सब कुछ रखता है और फ़ाइल की सामग्री जोड़ देता है, दोनों जगह बदलाव होने पर नई कॉपी चुनी जाती है। रिप्लेस यहाँ मौजूद सब कुछ हटा देता है।",
@@ -4451,9 +4446,7 @@
       "NAME": "नाम",
       "BASE_URL": "एंडपॉइंट URL",
       "API_KEY": "API कुंजी",
-      "FORMAT": "प्रारूप",
       "TOKENIZER": "टोकनाइज़र",
-      "FORMAT_OPENAI": "OpenAI-संगत",
       "PROXY": "UnoRouter के ज़रिए भेजें",
       "PROXY_HINT": "केवल तब ज़रूरी है जब प्रदाता ब्राउज़र से आने वाले अनुरोध रोकता है। वरना इसे बंद रखें: तब आपका ब्राउज़र सीधे प्रदाता से बात करता है। चालू होने पर अनुरोध और आपकी कुंजी हमारे सर्वर से होकर जाते हैं, जो उन्हें कभी सहेजता नहीं।",
       "TOKENIZER_AUTO": "स्वचालित (नाम से मिलान)",
@@ -4473,12 +4466,10 @@
       "TOKENIZER_HF_PLACEHOLDER": "owner/model या tokenizer.json URL",
       "MODELS": "मॉडल",
       "MODELS_EMPTY": "अभी तक कोई मॉडल नहीं जोड़ा गया।",
-      "ADD_MODEL": "मॉडल जोड़ें",
       "FETCH_MODELS": "मॉडल प्राप्त करें",
       "FETCH_FAILED": "मॉडल प्राप्त नहीं हो सके (HTTP {status})। एंडपॉइंट URL और API कुंजी जाँचें।",
       "TOO_MANY_MODELS": "बहुत ज़्यादा मॉडल ({max} अधिकतम)। सेव करने से पहले कुछ हटाएँ।",
       "FORM_INVALID": "कुछ फ़ील्ड अमान्य हैं। फ़ॉर्म जाँचें और फिर कोशिश करें।",
-      "MODEL_KEY": "मॉडल कुंजी",
       "MODEL_LABEL": "प्रदर्शित नाम",
       "MODEL_COUNT": "{count} मॉडल",
       "DELETE_TITLE": "प्रदाता हटाएं?",

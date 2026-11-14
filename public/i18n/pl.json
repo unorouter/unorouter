@@ -4120,8 +4120,6 @@
   },
   "CHAT": {
     "SHARE": {
-      "TITLE": "Udostępnij rozmowę",
-      "DESCRIPTION": "Każdy z linkiem może zobaczyć tę rozmowę.",
       "LINK_COPIED": "Link skopiowany do schowka"
     },
     "MODEL": {
@@ -4137,8 +4135,7 @@
     },
     "GROUP": {
       "SELECT": "Dostawca",
-      "AUTO": "Automatycznie",
-      "NO_RESULTS": "Brak dostępnych dostawców"
+      "AUTO": "Automatycznie"
     },
     "ACTION": {
       "COPY": "Kopiuj",
@@ -4351,7 +4348,6 @@
       "DEBUG_CLEAR": "Wyczyść dziennik debugowania",
       "DEBUG_CLEARED": "Dziennik debugowania wyczyszczony",
       "DIAGNOSTICS": "Eksportuj dziennik debugowania",
-      "DISPLAY": "Wyświetlanie",
       "AUTHOR_NOTE": "Notatka autora",
       "DUPLICATE": "Duplikuj chat",
       "DUPLICATE_SUCCESS": "Rozmowa zduplikowana",
@@ -4374,7 +4370,6 @@
       "LOCAL_DB_SEND": "Wyślij na inne urządzenie",
       "LOCAL_DB_RECEIVE": "Odbierz z innego urządzenia",
       "LOCAL_DB_UPLOAD_KEEP_OPEN": "Zostaw tę kartę otwartą i na pierwszym planie do końca; telefon zamraża kartę w tle i import zatrzymuje się razem z nią.",
-      "LOCAL_DB_UPLOAD_CONFIRM": "Zaimportować rekordy z tego pliku? Zostanie zmigrowany do bieżącego schematu i zastąpi Twoje dane lokalne; rekordy są przypisywane do tej sesji.",
       "LOCAL_DB_IMPORT_SUMMARY": "Zaimportowano {imported} rekordów w {tables} tabelach (pominięto {skipped}).",
       "LOCAL_DB_MERGE_SUMMARY": "Dodano {imported} rekordów, zaktualizowano {updated}, {skipped} już tu było.",
       "LOCAL_DB_IMPORT_CHOICE": "Scalanie zachowuje wszystko z tego urządzenia i dodaje zawartość pliku, a przy zmianach po obu stronach wygrywa nowsza wersja. Zastąpienie usuwa to, co jest tutaj.",
@@ -4451,9 +4446,7 @@
       "NAME": "Nazwa",
       "BASE_URL": "Adres URL punktu końcowego",
       "API_KEY": "Klucz API",
-      "FORMAT": "Format",
       "TOKENIZER": "Tokenizator",
-      "FORMAT_OPENAI": "Zgodny z OpenAI",
       "PROXY": "Przekazuj przez UnoRouter",
       "PROXY_HINT": "Potrzebne tylko wtedy, gdy dostawca blokuje zapytania z przeglądarki. W innym razie zostaw wyłączone: przeglądarka łączy się wtedy bezpośrednio z dostawcą. Po włączeniu zapytania i twój klucz przechodzą przez nasz serwer, który nigdy ich nie zapisuje.",
       "TOKENIZER_AUTO": "Automatycznie (wg nazwy)",
@@ -4473,12 +4466,10 @@
       "TOKENIZER_HF_PLACEHOLDER": "owner/model lub adres URL tokenizer.json",
       "MODELS": "Modele",
       "MODELS_EMPTY": "Nie dodano jeszcze modeli.",
-      "ADD_MODEL": "Dodaj model",
       "FETCH_MODELS": "Pobierz modele",
       "FETCH_FAILED": "Nie udało się pobrać modeli (HTTP {status}). Sprawdź adres URL punktu końcowego i klucz API.",
       "TOO_MANY_MODELS": "Za dużo modeli (maks. {max}). Usuń część przed zapisaniem.",
       "FORM_INVALID": "Niektóre pola są nieprawidłowe. Sprawdź formularz i spróbuj ponownie.",
-      "MODEL_KEY": "Klucz modelu",
       "MODEL_LABEL": "Nazwa wyświetlana",
       "MODEL_COUNT": "Modele: {count}",
       "DELETE_TITLE": "Usunąć dostawcę?",

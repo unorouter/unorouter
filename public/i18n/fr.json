@@ -4120,8 +4120,6 @@
   },
   "CHAT": {
     "SHARE": {
-      "TITLE": "Partager la conversation",
-      "DESCRIPTION": "Toute personne ayant le lien peut consulter cette conversation.",
       "LINK_COPIED": "Lien copié dans le presse-papiers"
     },
     "MODEL": {
@@ -4137,8 +4135,7 @@
     },
     "GROUP": {
       "SELECT": "Fournisseur",
-      "AUTO": "Automatique",
-      "NO_RESULTS": "Aucun fournisseur disponible"
+      "AUTO": "Automatique"
     },
     "ACTION": {
       "COPY": "Copier",
@@ -4351,7 +4348,6 @@
       "DEBUG_CLEAR": "Effacer le journal de débogage",
       "DEBUG_CLEARED": "Journal de débogage effacé",
       "DIAGNOSTICS": "Exporter le journal de débogage",
-      "DISPLAY": "Affichage",
       "AUTHOR_NOTE": "Note de l'auteur",
       "DUPLICATE": "Dupliquer la conversation",
       "DUPLICATE_SUCCESS": "Conversation dupliquee",
@@ -4374,7 +4370,6 @@
       "LOCAL_DB_SEND": "Envoyer vers un autre appareil",
       "LOCAL_DB_RECEIVE": "Recevoir depuis un autre appareil",
       "LOCAL_DB_UPLOAD_KEEP_OPEN": "Gardez cet onglet ouvert et au premier plan jusqu'à la fin ; un téléphone gèle un onglet en arrière-plan et l'import s'arrête avec lui.",
-      "LOCAL_DB_UPLOAD_CONFIRM": "Importer les enregistrements de ce fichier ? Il est migré vers le schéma actuel et remplace vos données locales ; les enregistrements sont réattribués à cette session.",
       "LOCAL_DB_IMPORT_SUMMARY": "{imported} enregistrements importés dans {tables} tables ({skipped} ignorés).",
       "LOCAL_DB_MERGE_SUMMARY": "{imported} enregistrements ajoutés, {updated} mis à jour, {skipped} déjà présents.",
       "LOCAL_DB_IMPORT_CHOICE": "Fusionner conserve tout ce qui est sur cet appareil et ajoute le contenu du fichier ; en cas de modification des deux côtés, la version la plus récente l'emporte. Remplacer supprime ce qui est ici.",
@@ -4451,9 +4446,7 @@
       "NAME": "Nom",
       "BASE_URL": "URL du point de terminaison",
       "API_KEY": "Clé API",
-      "FORMAT": "Format",
       "TOKENIZER": "Tokeniseur",
-      "FORMAT_OPENAI": "Compatible OpenAI",
       "PROXY": "Relayer via UnoRouter",
       "PROXY_HINT": "Utile seulement si le fournisseur bloque les requêtes venant du navigateur. Sinon, laissez désactivé : votre navigateur parle alors directement au fournisseur. Activé, les requêtes et votre clé passent par notre serveur, qui ne les conserve jamais.",
       "TOKENIZER_AUTO": "Automatique (selon le nom)",
@@ -4473,12 +4466,10 @@
       "TOKENIZER_HF_PLACEHOLDER": "owner/model ou URL tokenizer.json",
       "MODELS": "Modèles",
       "MODELS_EMPTY": "Aucun modèle ajouté pour l'instant.",
-      "ADD_MODEL": "Ajouter un modèle",
       "FETCH_MODELS": "Récupérer les modèles",
       "FETCH_FAILED": "Impossible de récupérer les modèles (HTTP {status}). Vérifiez l'URL du point de terminaison et la clé API.",
       "TOO_MANY_MODELS": "Trop de modèles ({max} max). Supprimez-en avant d'enregistrer.",
       "FORM_INVALID": "Certains champs sont invalides. Vérifiez le formulaire et réessayez.",
-      "MODEL_KEY": "Clé du modèle",
       "MODEL_LABEL": "Nom affiché",
       "MODEL_COUNT": "{count} modèle(s)",
       "DELETE_TITLE": "Supprimer le fournisseur ?",

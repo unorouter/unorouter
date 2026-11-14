@@ -4120,8 +4120,6 @@
   },
   "CHAT": {
     "SHARE": {
-      "TITLE": "Compartilhar conversa",
-      "DESCRIPTION": "Qualquer um com o link pode ver esta conversa.",
       "LINK_COPIED": "Link copiado para a área de transferência"
     },
     "MODEL": {
@@ -4137,8 +4135,7 @@
     },
     "GROUP": {
       "SELECT": "Provedor",
-      "AUTO": "Automático",
-      "NO_RESULTS": "Nenhum provedor disponível"
+      "AUTO": "Automático"
     },
     "ACTION": {
       "COPY": "Copiar",
@@ -4351,7 +4348,6 @@
       "DEBUG_CLEAR": "Limpar registro de depuração",
       "DEBUG_CLEARED": "Registro de depuração limpo",
       "DIAGNOSTICS": "Exportar registro de depuração",
-      "DISPLAY": "Exibição",
       "AUTHOR_NOTE": "Nota do autor",
       "DUPLICATE": "Duplicar chat",
       "DUPLICATE_SUCCESS": "Conversa duplicada",
@@ -4374,7 +4370,6 @@
       "LOCAL_DB_SEND": "Enviar para outro dispositivo",
       "LOCAL_DB_RECEIVE": "Receber de outro dispositivo",
       "LOCAL_DB_UPLOAD_KEEP_OPEN": "Mantenha esta aba aberta e em primeiro plano até terminar; o celular congela uma aba em segundo plano e a importação trava junto.",
-      "LOCAL_DB_UPLOAD_CONFIRM": "Importar registros deste arquivo? Ele é migrado para o esquema atual e substitui seus dados locais; os registros passam a pertencer a esta sessão.",
       "LOCAL_DB_IMPORT_SUMMARY": "{imported} registros importados em {tables} tabelas ({skipped} ignorados).",
       "LOCAL_DB_MERGE_SUMMARY": "{imported} registros adicionados, {updated} atualizados, {skipped} já estavam aqui.",
       "LOCAL_DB_IMPORT_CHOICE": "Mesclar mantém tudo o que está neste dispositivo e acrescenta o que o arquivo tem; se algo mudou dos dois lados, vence a cópia mais recente. Substituir descarta o que está aqui.",
@@ -4451,9 +4446,7 @@
       "NAME": "Nome",
       "BASE_URL": "URL do endpoint",
       "API_KEY": "Chave de API",
-      "FORMAT": "Formato",
       "TOKENIZER": "Tokenizador",
-      "FORMAT_OPENAI": "Compatível com OpenAI",
       "PROXY": "Encaminhar pelo UnoRouter",
       "PROXY_HINT": "Só é necessário quando o provedor bloqueia requisições do navegador. Caso contrário, deixe desligado: seu navegador fala direto com o provedor. Ligado, as requisições e sua chave passam pelo nosso servidor, que nunca as armazena.",
       "TOKENIZER_AUTO": "Automático (pelo nome)",
@@ -4473,12 +4466,10 @@
       "TOKENIZER_HF_PLACEHOLDER": "owner/model ou URL de tokenizer.json",
       "MODELS": "Modelos",
       "MODELS_EMPTY": "Ainda não há modelos adicionados.",
-      "ADD_MODEL": "Adicionar modelo",
       "FETCH_MODELS": "Buscar modelos",
       "FETCH_FAILED": "Não foi possível buscar os modelos (HTTP {status}). Verifique a URL do endpoint e a chave de API.",
       "TOO_MANY_MODELS": "Modelos demais (máx. {max}). Remova alguns antes de salvar.",
       "FORM_INVALID": "Alguns campos são inválidos. Verifique o formulário e tente novamente.",
-      "MODEL_KEY": "Chave do modelo",
       "MODEL_LABEL": "Nome de exibição",
       "MODEL_COUNT": "{count} modelo(s)",
       "DELETE_TITLE": "Excluir provedor?",

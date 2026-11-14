@@ -4120,8 +4120,6 @@
   },
   "CHAT": {
     "SHARE": {
-      "TITLE": "Sohbeti Paylaş",
-      "DESCRIPTION": "Bağlantıya sahip olan herkes bu sohbeti görüntüleyebilir.",
       "LINK_COPIED": "Bağlantı panoya kopyalandı"
     },
     "MODEL": {
@@ -4137,8 +4135,7 @@
     },
     "GROUP": {
       "SELECT": "Sağlayıcı",
-      "AUTO": "Otomatik",
-      "NO_RESULTS": "Kullanılabilir sağlayıcı yok"
+      "AUTO": "Otomatik"
     },
     "ACTION": {
       "COPY": "Kopyala",
@@ -4351,7 +4348,6 @@
       "DEBUG_CLEAR": "Hata ayıklama günlüğünü temizle",
       "DEBUG_CLEARED": "Hata ayıklama günlüğü temizlendi",
       "DIAGNOSTICS": "Hata ayıklama günlüğünü dışa aktar",
-      "DISPLAY": "Görünüm",
       "AUTHOR_NOTE": "Yazar notu",
       "DUPLICATE": "Sohbeti çoğalt",
       "DUPLICATE_SUCCESS": "Sohbet çoğaltıldı",
@@ -4374,7 +4370,6 @@
       "LOCAL_DB_SEND": "Başka bir cihaza gönder",
       "LOCAL_DB_RECEIVE": "Başka bir cihazdan al",
       "LOCAL_DB_UPLOAD_KEEP_OPEN": "Bitene kadar bu sekmeyi açık ve ön planda tutun; telefon arka plandaki sekmeyi dondurur ve içe aktarma da onunla birlikte durur.",
-      "LOCAL_DB_UPLOAD_CONFIRM": "Bu dosyadaki kayıtlar içe aktarılsın mı? Geçerli şemaya taşınır ve yerel verilerinizin yerini alır; kayıtlar bu oturuma devredilir.",
       "LOCAL_DB_IMPORT_SUMMARY": "{tables} tabloda {imported} kayıt içe aktarıldı ({skipped} atlandı).",
       "LOCAL_DB_MERGE_SUMMARY": "{imported} kayıt eklendi, {updated} güncellendi, {skipped} zaten buradaydı.",
       "LOCAL_DB_IMPORT_CHOICE": "Birleştirme bu cihazdaki her şeyi korur ve dosyadakileri ekler, iki tarafta da değişen bir şey varsa yeni olan kazanır. Değiştirme buradakileri siler.",
@@ -4451,9 +4446,7 @@
       "NAME": "Ad",
       "BASE_URL": "Uç nokta URL'si",
       "API_KEY": "API anahtarı",
-      "FORMAT": "Biçim",
       "TOKENIZER": "Belirteçleyici",
-      "FORMAT_OPENAI": "OpenAI uyumlu",
       "PROXY": "UnoRouter üzerinden ilet",
       "PROXY_HINT": "Yalnızca sağlayıcı tarayıcıdan gelen istekleri engelliyorsa gerekir. Aksi halde kapalı bırak: tarayıcın sağlayıcıyla doğrudan konuşur. Açıkken istekler ve anahtarın, bunları asla saklamayan sunucumuzdan geçer.",
       "TOKENIZER_AUTO": "Otomatik (ada göre eşleştir)",
@@ -4473,12 +4466,10 @@
       "TOKENIZER_HF_PLACEHOLDER": "owner/model veya tokenizer.json URL'si",
       "MODELS": "Modeller",
       "MODELS_EMPTY": "Henüz model eklenmedi.",
-      "ADD_MODEL": "Model ekle",
       "FETCH_MODELS": "Modelleri getir",
       "FETCH_FAILED": "Modeller getirilemedi (HTTP {status}). Uç nokta URL'sini ve API anahtarını kontrol edin.",
       "TOO_MANY_MODELS": "Çok fazla model (en fazla {max}). Kaydetmeden önce bazılarını kaldırın.",
       "FORM_INVALID": "Bazı alanlar geçersiz. Formu kontrol edip tekrar deneyin.",
-      "MODEL_KEY": "Model anahtarı",
       "MODEL_LABEL": "Görünen ad",
       "MODEL_COUNT": "{count} model",
       "DELETE_TITLE": "Sağlayıcı silinsin mi?",

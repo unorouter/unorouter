@@ -4120,8 +4120,6 @@
   },
   "CHAT": {
     "SHARE": {
-      "TITLE": "会話を共有",
-      "DESCRIPTION": "リンクを知っている人なら誰でもこの会話を閲覧できます。",
       "LINK_COPIED": "リンクをクリップボードにコピーしました"
     },
     "MODEL": {
@@ -4137,8 +4135,7 @@
     },
     "GROUP": {
       "SELECT": "プロバイダー",
-      "AUTO": "自動",
-      "NO_RESULTS": "利用可能なプロバイダーがありません"
+      "AUTO": "自動"
     },
     "ACTION": {
       "COPY": "コピー",
@@ -4351,7 +4348,6 @@
       "DEBUG_CLEAR": "デバッグログを消去",
       "DEBUG_CLEARED": "デバッグログを消去しました",
       "DIAGNOSTICS": "デバッグログをエクスポート",
-      "DISPLAY": "表示",
       "AUTHOR_NOTE": "作者ノート",
       "DUPLICATE": "チャットを複製",
       "DUPLICATE_SUCCESS": "会話を複製しました",
@@ -4374,7 +4370,6 @@
       "LOCAL_DB_SEND": "別の端末に送る",
       "LOCAL_DB_RECEIVE": "別の端末から受け取る",
       "LOCAL_DB_UPLOAD_KEEP_OPEN": "完了するまでこのタブを開いたまま前面に置いてください。スマートフォンはバックグラウンドのタブを停止させるため、インポートも一緒に止まります。",
-      "LOCAL_DB_UPLOAD_CONFIRM": "このファイルからレコードをインポートしますか？現在のスキーマに移行され、ローカルデータを置き換えます。レコードはこのセッションに再割り当てされます。",
       "LOCAL_DB_IMPORT_SUMMARY": "{tables}個のテーブルに{imported}件のレコードをインポートしました（{skipped}件スキップ）。",
       "LOCAL_DB_MERGE_SUMMARY": "{imported}件を追加し、{updated}件を更新しました（{skipped}件は既存）。",
       "LOCAL_DB_IMPORT_CHOICE": "統合はこの端末にあるものをすべて残したうえでファイルの内容を追加し、両方で変更があった場合は新しいほうを採用します。置き換えはここにあるものを破棄します。",
@@ -4451,9 +4446,7 @@
       "NAME": "名前",
       "BASE_URL": "エンドポイントURL",
       "API_KEY": "APIキー",
-      "FORMAT": "形式",
       "TOKENIZER": "トークナイザー",
-      "FORMAT_OPENAI": "OpenAI互換",
       "PROXY": "UnoRouter 経由で中継",
       "PROXY_HINT": "プロバイダーがブラウザからのリクエストをブロックする場合にだけ必要です。それ以外はオフのままにしてください。その場合ブラウザはプロバイダーと直接通信します。オンにすると、リクエストとキーは当社サーバーを経由しますが、保存されることはありません。",
       "TOKENIZER_AUTO": "自動（名前で判定）",
@@ -4473,12 +4466,10 @@
       "TOKENIZER_HF_PLACEHOLDER": "owner/model または tokenizer.json の URL",
       "MODELS": "モデル",
       "MODELS_EMPTY": "モデルがまだ追加されていません。",
-      "ADD_MODEL": "モデルを追加",
       "FETCH_MODELS": "モデルを取得",
       "FETCH_FAILED": "モデルを取得できませんでした（HTTP {status}）。エンドポイントURLとAPIキーを確認してください。",
       "TOO_MANY_MODELS": "モデルが多すぎます（最大{max}）。保存する前にいくつか削除してください。",
       "FORM_INVALID": "入力に誤りがあります。フォームを確認してやり直してください。",
-      "MODEL_KEY": "モデルキー",
       "MODEL_LABEL": "表示名",
       "MODEL_COUNT": "{count} モデル",
       "DELETE_TITLE": "プロバイダーを削除しますか？",

@@ -4120,8 +4120,6 @@
   },
   "CHAT": {
     "SHARE": {
-      "TITLE": "Bagikan Sohbet",
-      "DESCRIPTION": "Siapa pun dengan tautan dapat melihat sohbet ini.",
       "LINK_COPIED": "Tautan disalin ke clipboard"
     },
     "MODEL": {
@@ -4137,8 +4135,7 @@
     },
     "GROUP": {
       "SELECT": "Penyedia",
-      "AUTO": "Otomatis",
-      "NO_RESULTS": "Tidak ada penyedia tersedia"
+      "AUTO": "Otomatis"
     },
     "ACTION": {
       "COPY": "Salin",
@@ -4351,7 +4348,6 @@
       "DEBUG_CLEAR": "Hapus log debug",
       "DEBUG_CLEARED": "Log debug dihapus",
       "DIAGNOSTICS": "Ekspor log debug",
-      "DISPLAY": "Tampilan",
       "AUTHOR_NOTE": "Catatan penulis",
       "DUPLICATE": "Duplikat chat",
       "DUPLICATE_SUCCESS": "Sohbet diduplikasi",
@@ -4374,7 +4370,6 @@
       "LOCAL_DB_SEND": "Kirim ke perangkat lain",
       "LOCAL_DB_RECEIVE": "Terima dari perangkat lain",
       "LOCAL_DB_UPLOAD_KEEP_OPEN": "Biarkan tab ini tetap terbuka dan di depan sampai selesai; ponsel membekukan tab di latar belakang dan impor ikut terhenti.",
-      "LOCAL_DB_UPLOAD_CONFIRM": "Impor record dari file ini? File dimigrasikan ke skema saat ini dan mengganti data lokal Anda; record dialihkan ke sesi ini.",
       "LOCAL_DB_IMPORT_SUMMARY": "Mengimpor {imported} record di {tables} tabel ({skipped} dilewati).",
       "LOCAL_DB_MERGE_SUMMARY": "{imported} record ditambahkan, {updated} diperbarui, {skipped} sudah ada di sini.",
       "LOCAL_DB_IMPORT_CHOICE": "Gabungkan mempertahankan semua yang ada di perangkat ini dan menambahkan isi file, jika keduanya berubah maka salinan yang lebih baru menang. Ganti membuang apa yang ada di sini.",
@@ -4451,9 +4446,7 @@
       "NAME": "Nama",
       "BASE_URL": "URL endpoint",
       "API_KEY": "Kunci API",
-      "FORMAT": "Format",
       "TOKENIZER": "Tokenizer",
-      "FORMAT_OPENAI": "Kompatibel dengan OpenAI",
       "PROXY": "Teruskan lewat UnoRouter",
       "PROXY_HINT": "Hanya perlu jika penyedia memblokir permintaan dari browser. Selain itu biarkan mati: browsermu langsung terhubung ke penyedia. Jika aktif, permintaan dan kuncimu lewat server kami, yang tidak pernah menyimpannya.",
       "TOKENIZER_AUTO": "Otomatis (cocokkan nama)",
@@ -4473,12 +4466,10 @@
       "TOKENIZER_HF_PLACEHOLDER": "owner/model atau URL tokenizer.json",
       "MODELS": "Model",
       "MODELS_EMPTY": "Belum ada model yang ditambahkan.",
-      "ADD_MODEL": "Tambah model",
       "FETCH_MODELS": "Ambil model",
       "FETCH_FAILED": "Tidak dapat mengambil model (HTTP {status}). Periksa URL endpoint dan kunci API.",
       "TOO_MANY_MODELS": "Terlalu banyak model (maks. {max}). Hapus beberapa sebelum menyimpan.",
       "FORM_INVALID": "Beberapa kolom tidak valid. Periksa formulir lalu coba lagi.",
-      "MODEL_KEY": "Kunci model",
       "MODEL_LABEL": "Nama tampilan",
       "MODEL_COUNT": "{count} model",
       "DELETE_TITLE": "Hapus penyedia?",
