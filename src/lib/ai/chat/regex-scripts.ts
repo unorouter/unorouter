@@ -265,8 +265,8 @@ function fromSillyTavern(raw: unknown): RegexScript[] {
     const o = rec(item);
     if (!o || o.disabled === true || typeof o.findRegex !== "string") continue;
     const m = /^\/([\s\S]*)\/([a-z]*)$/.exec(o.findRegex);
-    const pattern = m ? m[1]! : o.findRegex;
-    const flag = m ? m[2]! || "g" : "g";
+    const pattern = m ? m[1] : o.findRegex;
+    const flag = m ? m[2] || "g" : "g";
     const replace =
       typeof o.replaceString === "string"
         ? o.replaceString.replaceAll("{{match}}", "$&")

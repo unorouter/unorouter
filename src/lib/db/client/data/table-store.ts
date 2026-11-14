@@ -103,15 +103,12 @@ export function makeTableStore<TTable extends ScopedTable>(
       await local.db
         .insert(table)
         .values(row as never)
-        .onConflictDoUpdate({ target: pk, set: row as never });
+        .onConflictDoUpdate({ target: pk, set: row });
     },
 
     async update(id: StorePkValue, patch: Partial<StoreRow>): Promise<void> {
       const local = await requireLocalDb();
-      await local.db
-        .update(table)
-        .set(patch as never)
-        .where(eq(pk, id));
+      await local.db.update(table).set(patch).where(eq(pk, id));
     },
 
     async drop(id: StorePkValue): Promise<void> {

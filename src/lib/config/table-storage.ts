@@ -34,7 +34,7 @@ export function splitCookieStorage<T extends object>(
     if (environmentManager.isServer()) return {};
     try {
       const parsed: unknown = JSON.parse(localStorage.getItem(key) ?? "{}");
-      return parsed && typeof parsed === "object" ? (parsed as Partial<T>) : {};
+      return parsed && typeof parsed === "object" ? parsed : {};
     } catch {
       return {};
     }

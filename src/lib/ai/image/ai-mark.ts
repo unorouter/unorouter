@@ -34,7 +34,7 @@ const CRC_TABLE = Array.from({ length: 256 }, (_, n) => {
 
 function crc32(buf: Buffer): number {
   let c = 0xffffffff;
-  for (const b of buf) c = CRC_TABLE[(c ^ b) & 0xff]! ^ (c >>> 8);
+  for (const b of buf) c = CRC_TABLE[(c ^ b) & 0xff] ^ (c >>> 8);
   return (c ^ 0xffffffff) >>> 0;
 }
 
@@ -67,7 +67,7 @@ function markJpeg(img: Buffer): Buffer {
   let insertAt = 2;
   let pos = 2;
   while (pos + 4 <= img.length && img[pos] === 0xff) {
-    const marker = img[pos + 1]!;
+    const marker = img[pos + 1];
     if (marker === 0xda || marker === 0xd9) break;
     const segLen = img.readUInt16BE(pos + 2);
     if (segLen < 2 || pos + 2 + segLen > img.length) return img;
@@ -126,9 +126,9 @@ function markWebp(img: Buffer): Buffer {
   if (20 + firstLen > img.length) return img;
   let out: Buffer;
   if (first === "VP8X") {
-    if (img[20]! & WEBP_FLAG_XMP) return img;
+    if (img[20] & WEBP_FLAG_XMP) return img;
     out = Buffer.from(img);
-    out[20] = out[20]! | WEBP_FLAG_XMP;
+    out[20] = out[20] | WEBP_FLAG_XMP;
   } else if (first === "VP8 " || first === "VP8L") {
     const size = webpSize(first, img.subarray(20, 20 + firstLen));
     if (!size) return img;

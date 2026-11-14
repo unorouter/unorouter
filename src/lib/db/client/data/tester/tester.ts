@@ -185,7 +185,7 @@ export async function recordTestRun(
   });
 
   for (let i = 0; i < result.probes.length; i++) {
-    const p = result.probes[i]!;
+    const p = result.probes[i];
     await db.insert(testerProbes).values({
       id: genId(),
       testId,

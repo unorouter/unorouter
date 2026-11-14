@@ -70,7 +70,7 @@ export function createLocalAttachmentAdapter(): AttachmentAdapter {
       // Side effect only: claims a convId for the send that follows.
       ensureConvId();
 
-      const file = attachment.file!;
+      const file = attachment.file;
       const base64 = await fileToBase64(file);
       const mime = resolveTextMime(file);
       const dataUrl = base64ToDataUri(base64, mime);

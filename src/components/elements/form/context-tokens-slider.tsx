@@ -34,7 +34,7 @@ export function ContextTokensSlider(props: {
         value={[at]}
         onValueChange={(v) => {
           const i = Array.isArray(v) ? v[0] : v;
-          props.onChange(i == null || i >= STOPS.length ? null : STOPS[i]!);
+          props.onChange(i == null || i >= STOPS.length ? null : STOPS[i]);
         }}
       />
     </div>
@@ -44,7 +44,7 @@ export function ContextTokensSlider(props: {
 function nearest(value: number): number {
   let best = 0;
   for (let i = 0; i < STOPS.length; i++) {
-    if (Math.abs(STOPS[i]! - value) < Math.abs(STOPS[best]! - value)) best = i;
+    if (Math.abs(STOPS[i] - value) < Math.abs(STOPS[best] - value)) best = i;
   }
   return best;
 }

@@ -224,7 +224,7 @@ export async function createComment(
       body: body.trim(),
     })
     .returning({ id: blogComments.id });
-  return { id: inserted[0]!.id };
+  return { id: inserted[0].id };
 }
 
 export async function voteComment(

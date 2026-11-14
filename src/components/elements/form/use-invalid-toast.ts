@@ -19,7 +19,7 @@ function firstError(
     if (typeof message === "string" && message) {
       return { name: [...path, key].join("."), message };
     }
-    const nested = firstError(node as ErrorNode, [...path, key]);
+    const nested = firstError(node, [...path, key]);
     if (nested) return nested;
   }
   return null;

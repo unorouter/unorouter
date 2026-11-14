@@ -35,7 +35,7 @@ export const resolveSlug = cache(
     const vendor = await resolveVendor(slug);
     if (vendor) return { kind: "vendor", vendor };
     if (slug.length === 1) {
-      const legacy = await resolveModel(slug[0]!);
+      const legacy = await resolveModel(slug[0]);
       if (legacy) return { kind: "redirect", model: legacy.model };
     }
     // A model gone past its retire window under a vendor that still exists: send
@@ -45,13 +45,13 @@ export const resolveSlug = cache(
     // the model page, not its vendor page or a 404.
     const lower = slug.map((s) => s.toLowerCase());
     if (lower.join("/") !== slug.join("/")) {
-      const hit = await resolveModel(modelSegment(lower) || lower[0]!);
+      const hit = await resolveModel(modelSegment(lower) || lower[0]);
       if (hit) return { kind: "redirect", model: hit.model };
     }
     if (slug.length === 2) {
       const catalog = await getCatalog().catch(() => null);
       const owner = catalog?.models.length
-        ? await resolveVendor([slug[0]!])
+        ? await resolveVendor([slug[0]])
         : null;
       if (owner) return { kind: "retired", vendor: owner };
     }
@@ -80,7 +80,7 @@ async function resolveModel(slug: string): Promise<ResolvedModel | null> {
 async function resolveVendor(slug: string[]): Promise<string | null> {
   if (slug.length !== 1) return null;
   const res = await rpc.api.models.pricing.vendor.get({
-    query: { name: slug[0]! },
+    query: { name: slug[0] },
   });
   return res.data?.[0]?.vendor ?? null;
 }

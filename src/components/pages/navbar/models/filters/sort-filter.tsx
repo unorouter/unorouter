@@ -82,7 +82,7 @@ export function SortMenu<K extends string>(props: {
   const summary =
     active.length > 1
       ? t("MODELS.SORT.MULTI", {
-          first: label(active[0]!),
+          first: label(active[0]),
           count: active.length - 1,
         })
       : active[0] !== undefined

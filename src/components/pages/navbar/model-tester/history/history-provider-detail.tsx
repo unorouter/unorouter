@@ -35,7 +35,7 @@ export function HistoryProviderDetail(props: { host: string }) {
         <section className="bg-card overflow-hidden rounded-lg border">
           <header className="flex items-center gap-2.5 border-b px-5 py-4">
             <VendorIcon
-              vendor={vendorForRow(data?.provider ?? models[0]!.provider)}
+              vendor={vendorForRow(data?.provider ?? models[0].provider)}
               size={22}
               className="shrink-0"
             />

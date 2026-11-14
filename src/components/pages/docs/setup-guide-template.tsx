@@ -305,7 +305,7 @@ ${t("DOCS.SETUP_GUIDE.API_KEY_LABEL")}: ${docs.placeholder}`;
                     {step.code && stepCodeHtml[idx] ? (
                       <div className="mt-3">
                         <ApiKeyCodeBlock
-                          html={stepCodeHtml[idx]!}
+                          html={stepCodeHtml[idx]}
                           code={stepCode(step)!}
                           language={step.code.lang}
                           placeholder={docs.placeholder}
@@ -315,7 +315,7 @@ ${t("DOCS.SETUP_GUIDE.API_KEY_LABEL")}: ${docs.placeholder}`;
                     {stepOsVariants[idx] ? (
                       <div className="mt-3">
                         <OSCodeBlock
-                          variants={stepOsVariants[idx]!}
+                          variants={stepOsVariants[idx]}
                           placeholder={docs.placeholder}
                         />
                       </div>
@@ -392,7 +392,7 @@ ${t("DOCS.SETUP_GUIDE.API_KEY_LABEL")}: ${docs.placeholder}`;
                     {step.code && installCodeHtml[idx] ? (
                       <div className="mt-3">
                         <ApiKeyCodeBlock
-                          html={installCodeHtml[idx]!}
+                          html={installCodeHtml[idx]}
                           code={step.code.value}
                           language={step.code.lang}
                           placeholder={docs.placeholder}

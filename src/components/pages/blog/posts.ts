@@ -108,8 +108,8 @@ export function getAdjacentPosts(slug: string): {
   const index = sorted.findIndex((p) => p.slug === slug);
   if (index === -1) return { prev: null, next: null };
   return {
-    next: index > 0 ? sorted[index - 1]! : null,
-    prev: index < sorted.length - 1 ? sorted[index + 1]! : null,
+    next: index > 0 ? sorted[index - 1] : null,
+    prev: index < sorted.length - 1 ? sorted[index + 1] : null,
   };
 }
 

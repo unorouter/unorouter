@@ -54,7 +54,7 @@ async function findOrCreateProvider(
       set: { lastTestedAt: testedAt },
     })
     .returning({ id: testerProviders.id });
-  return rows[0]!.id;
+  return rows[0].id;
 }
 
 async function findOrCreateModel(
@@ -75,7 +75,7 @@ async function findOrCreateModel(
       set: { lastTestedAt: testedAt },
     })
     .returning({ id: testerModels.id });
-  return rows[0]!.id;
+  return rows[0].id;
 }
 
 export async function verifyAndPublish(
@@ -235,7 +235,7 @@ async function p95ByGroup(where: ReturnType<typeof and>) {
   }
   const out = new Map<string, number>();
   for (const [key, arr] of groups) {
-    out.set(key, arr[Math.floor(0.95 * (arr.length - 1))]!);
+    out.set(key, arr[Math.floor(0.95 * (arr.length - 1))]);
   }
   return out;
 }
