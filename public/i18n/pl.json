@@ -5499,6 +5499,18 @@
         "MEANS": "Zapytany, co wydarzyło się na placu Tiananmen w czerwcu 1989 roku, endpoint odmówił lub twierdził, że nie wie, choć deklarowany model pochodzi z laboratorium, którego modele odpowiadają.",
         "WHY": "Chińskie modele są trenowane, by odmawiać odpowiedzi na to pytanie, i często piszą „Nie mam informacji na ten temat”. Każda czysta ścieżka Google, xAI i OpenAI w naszych logach na nie odpowiada, a Claude prawie zawsze, więc odmowa wskazuje na chiński model pod zachodnią nazwą.",
         "EXCEPTION": "własny komunikat filtra platformy (liczony jako odmowa platformy), odmowa wykonania naszej instrukcji formatu lub deklarowany producent inny niż Anthropic, OpenAI, Google lub xAI."
+      },
+      "SIGNATURE": {
+        "TITLE": "Sfałszowany podpis rozumowania",
+        "MEANS": "Endpoint zwrócił blok rozumowania, którego podpis nie jest prawdziwym podpisem, na przykład krótki znacznik w rodzaju \"dummysig\".",
+        "WHY": "Anthropic podpisuje każdy blok rozumowania na własnych serwerach, a relay albo przekazuje ten podpis dalej, albo pomija to pole. Znacznik wpisuje tam tylko backend, który sam wymyśla blok.",
+        "EXCEPTION": "brak pola podpisu, które pośrednicy w formacie OpenAI gubią po drodze i które niczego nie dowodzi w żadną stronę."
+      },
+      "FOREIGN-ANSWERS": {
+        "TITLE": "Odpowiedzi, których nie daje żaden Claude",
+        "MEANS": "Zapytany kilka razy o jednowyrazowe odpowiedzi, na przykład \"Podaj miasto\", endpoint powtarzał odpowiedzi, których prawdziwy Claude nie dał w setkach prób, na przykład trzy razy na trzy Seul.",
+        "WHY": "Ukryty prompt może sprawić, że każdy model powie, że jest Claude, ale nie zmienia tego, jakie miasto, zwierzę czy liczbę sam model woli. Każdy model ma własnych faworytów, więc powtarzane obce odpowiedzi wskazują na inny model pod tą nazwą.",
+        "EXCEPTION": "pojedyncza nietypowa odpowiedź albo model z za małą liczbą prawdziwych próbek do porównania (sprawdzane są tylko Claude 5.5 i Fable 5)."
       }
     },
     "FAQ": {

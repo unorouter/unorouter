@@ -5499,6 +5499,18 @@
         "MEANS": "Auf die Frage, was im Juni 1989 auf dem Tiananmen-Platz geschah, hat der Endpunkt die Antwort verweigert oder behauptet, nichts darüber zu wissen, obwohl das angegebene Modell von einem Labor stammt, dessen Modelle antworten.",
         "WHY": "Chinesische Modelle sind darauf trainiert, diese Frage abzulehnen, und antworten oft mit „Dazu habe ich keine Informationen“. Jede saubere Google-, xAI- und OpenAI-Lane in unseren Logs beantwortet sie, Claude fast immer, daher deutet eine Verweigerung auf ein chinesisches Modell unter westlichem Namen hin.",
         "EXCEPTION": "die eigene Filtermeldung einer Plattform (zählt stattdessen als Plattform-Ablehnung), eine Ablehnung unserer Formatvorgabe oder ein angegebener Hersteller, der nicht Anthropic, OpenAI, Google oder xAI ist."
+      },
+      "SIGNATURE": {
+        "TITLE": "Gefälschte Thinking-Signatur",
+        "MEANS": "Der Endpunkt lieferte einen Thinking-Block, dessen Signatur keine echte Signatur ist, zum Beispiel ein kurzer Platzhalter wie \"dummysig\".",
+        "WHY": "Anthropic signiert jeden Thinking-Block auf den eigenen Servern, und ein Relay reicht diese Signatur entweder durch oder lässt das Feld weg. Nur ein Backend, das den Block selbst erfindet, schreibt dort einen Platzhalter hinein.",
+        "EXCEPTION": "ein fehlendes Signaturfeld, das OpenAI-Format-Zwischenstationen unterwegs verwerfen und das weder für noch gegen etwas spricht."
+      },
+      "FOREIGN-ANSWERS": {
+        "TITLE": "Antworten, die kein Claude gibt",
+        "MEANS": "Bei mehrfach gestellten Ein-Wort-Fragen wie \"Nenne eine Stadt\" wiederholte der Endpunkt Antworten, die echtes Claude in Hunderten Stichproben nie gegeben hat, zum Beispiel dreimal von drei Seoul.",
+        "WHY": "Ein versteckter Prompt kann jedes Modell behaupten lassen, es sei Claude, ändert aber nicht, welche Stadt, welches Tier oder welche Zahl das Modell selbst bevorzugt. Jedes Modell hat eigene Favoriten, wiederholte fremde Antworten deuten also auf ein anderes Modell hinter dem Namen.",
+        "EXCEPTION": "eine einzelne ungewöhnliche Antwort oder ein Modell mit zu wenigen echten Vergleichsproben (geprüft werden nur Claude 5.5 und Fable 5)."
       }
     },
     "FAQ": {

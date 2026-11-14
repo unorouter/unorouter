@@ -5499,6 +5499,18 @@
         "MEANS": "Al preguntarle qué ocurrió en la plaza de Tiananmén en junio de 1989, el endpoint se negó a responder o afirmó no saberlo, aunque el modelo que declara proviene de un laboratorio cuyos modelos sí responden.",
         "WHY": "Los modelos chinos están entrenados para rechazar esta pregunta y a menudo responden «No tengo información sobre eso». Todas las rutas limpias de Google, xAI y OpenAI que registramos la responden, y Claude casi siempre, así que una negativa apunta a un modelo chino con un nombre occidental.",
         "EXCEPTION": "la línea de filtro propia de una plataforma (se cuenta como rechazo de plataforma), un rechazo de nuestra instrucción de formato o un fabricante declarado que no sea Anthropic, OpenAI, Google o xAI."
+      },
+      "SIGNATURE": {
+        "TITLE": "Firma de razonamiento falsificada",
+        "MEANS": "El endpoint devolvió un bloque de razonamiento cuya firma no es una firma real, por ejemplo un marcador corto como \"dummysig\".",
+        "WHY": "Anthropic firma cada bloque de razonamiento en sus propios servidores, y un relay o bien transmite esa firma o bien omite el campo. Solo un backend que se inventa el bloque escribe ahí un marcador.",
+        "EXCEPTION": "un campo de firma ausente, que los saltos en formato OpenAI descartan por el camino y que no prueba nada en ningún sentido."
+      },
+      "FOREIGN-ANSWERS": {
+        "TITLE": "Respuestas que ningún Claude da",
+        "MEANS": "Al hacerle varias veces preguntas de una palabra como \"Nombra una ciudad\", el endpoint repitió respuestas que Claude auténtico nunca dio en cientos de muestras, por ejemplo Seúl tres de tres veces.",
+        "WHY": "Un prompt oculto puede hacer que cualquier modelo diga que es Claude, pero no cambia qué ciudad, animal o número prefiere el propio modelo. Cada modelo tiene sus favoritos, así que las respuestas ajenas repetidas apuntan a otro modelo detrás del nombre.",
+        "EXCEPTION": "una sola respuesta inusual, o un modelo con muy pocas muestras auténticas con las que comparar (solo se comprueban Claude 5.5 y Fable 5)."
       }
     },
     "FAQ": {

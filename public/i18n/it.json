@@ -5499,6 +5499,18 @@
         "MEANS": "Alla domanda su cosa sia successo in piazza Tienanmen nel giugno 1989, l'endpoint ha rifiutato o ha affermato di non saperlo, anche se il modello dichiarato proviene da un laboratorio i cui modelli rispondono.",
         "WHY": "I modelli cinesi sono addestrati a rifiutare questa domanda e spesso rispondono «Non ho informazioni al riguardo». Tutte le corsie pulite di Google, xAI e OpenAI che abbiamo registrato rispondono, e Claude quasi sempre, quindi un rifiuto indica un modello cinese con un nome occidentale.",
         "EXCEPTION": "la riga di filtro propria di una piattaforma (conteggiata come rifiuto della piattaforma), un rifiuto della nostra istruzione di formato o un produttore dichiarato diverso da Anthropic, OpenAI, Google o xAI."
+      },
+      "SIGNATURE": {
+        "TITLE": "Firma del ragionamento falsificata",
+        "MEANS": "L'endpoint ha restituito un blocco di ragionamento la cui firma non è una firma vera, per esempio un breve segnaposto come \"dummysig\".",
+        "WHY": "Anthropic firma ogni blocco di ragionamento sui propri server, e un relay inoltra quella firma oppure omette il campo. Solo un backend che inventa il blocco ci scrive un segnaposto.",
+        "EXCEPTION": "un campo firma mancante, che i passaggi in formato OpenAI scartano lungo la strada e che non prova nulla in nessun senso."
+      },
+      "FOREIGN-ANSWERS": {
+        "TITLE": "Risposte che nessun Claude dà",
+        "MEANS": "Con domande di una parola come \"Nomina una città\" poste più volte, l'endpoint ha ripetuto risposte che il vero Claude non ha mai dato in centinaia di campioni, per esempio Seul tre volte su tre.",
+        "WHY": "Un prompt nascosto può far dire a qualsiasi modello di essere Claude, ma non cambia quale città, animale o numero il modello stesso preferisce. Ogni modello ha i suoi preferiti, quindi risposte estranee ripetute indicano un altro modello dietro il nome.",
+        "EXCEPTION": "una singola risposta insolita, o un modello con troppi pochi campioni autentici per il confronto (si controllano solo Claude 5.5 e Fable 5)."
       }
     },
     "FAQ": {

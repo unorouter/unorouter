@@ -5499,6 +5499,18 @@
         "MEANS": "Asked what happened at Tiananmen Square in June 1989, the endpoint refused or claimed not to know, while the model it claims comes from a lab whose models answer.",
         "WHY": "Chinese models are trained to refuse this question and often reply \"I don't have information about that\". Every clean Google, xAI and OpenAI lane we logged answers it, and Claude almost always does, so a refusal points to a Chinese model behind a Western name.",
         "EXCEPTION": "a platform's own filter line (counted as a platform refusal instead), a refusal of our formatting instruction, or a claimed maker that is not Anthropic, OpenAI, Google or xAI."
+      },
+      "SIGNATURE": {
+        "TITLE": "Forged thinking signature",
+        "MEANS": "The endpoint returned a thinking block whose signature is not a real signature, for example a short placeholder like \"dummysig\".",
+        "WHY": "Anthropic signs every thinking block on its own servers, and a relay either passes that signature through or leaves the field out. Only a backend that invents the block writes a placeholder there.",
+        "EXCEPTION": "a missing signature field, which OpenAI-format hops drop on the way and which proves nothing either way."
+      },
+      "FOREIGN-ANSWERS": {
+        "TITLE": "Answers no Claude gives",
+        "MEANS": "Asked one-word questions like \"Name a city\" a few times, the endpoint repeated answers that genuine Claude never gave in hundreds of samples, for example Seoul three times out of three.",
+        "WHY": "A hidden prompt can make any model say it is Claude, but it does not change which city, animal or number the model itself prefers. Every model has its own favourites, so repeated foreign picks point to another model behind the name.",
+        "EXCEPTION": "a single unusual answer, or a model with too few genuine samples to compare against (only Claude 5.5 and Fable 5 are checked)."
       }
     },
     "FAQ": {

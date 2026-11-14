@@ -18,6 +18,7 @@ export const TESTER_CHECKS = {
   survey: true,
   thinkingFloor: true,
   tokenizerFamily: true,
+  answerFingerprint: true,
 } satisfies Checks;
 
 /** A probe's columns, the same in the browser's history and the leaderboard. */

@@ -5499,6 +5499,18 @@
         "MEANS": "Saat ditanya apa yang terjadi di Lapangan Tiananmen pada Juni 1989, endpoint menolak atau mengaku tidak tahu, padahal model yang diklaim berasal dari lab yang modelnya menjawab pertanyaan itu.",
         "WHY": "Model Tiongkok dilatih untuk menolak pertanyaan ini dan sering menjawab \"Saya tidak punya informasi tentang itu\". Setiap jalur Google, xAI, dan OpenAI yang bersih dalam log kami menjawabnya, dan Claude hampir selalu, jadi penolakan menunjukkan model Tiongkok dengan nama Barat.",
         "EXCEPTION": "pesan filter milik platform (dihitung sebagai penolakan platform), penolakan terhadap instruksi format kami, atau pembuat yang diklaim selain Anthropic, OpenAI, Google, atau xAI."
+      },
+      "SIGNATURE": {
+        "TITLE": "Tanda tangan penalaran palsu",
+        "MEANS": "Endpoint mengembalikan blok penalaran yang tanda tangannya bukan tanda tangan sungguhan, misalnya placeholder pendek seperti \"dummysig\".",
+        "WHY": "Anthropic menandatangani setiap blok penalaran di servernya sendiri, dan relay meneruskan tanda tangan itu atau menghilangkan kolomnya. Hanya backend yang mengarang bloknya sendiri yang menulis placeholder di sana.",
+        "EXCEPTION": "kolom tanda tangan yang hilang, yang dibuang oleh perantara berformat OpenAI di tengah jalan dan tidak membuktikan apa pun."
+      },
+      "FOREIGN-ANSWERS": {
+        "TITLE": "Jawaban yang tidak pernah diberikan Claude",
+        "MEANS": "Saat ditanya beberapa kali dengan pertanyaan satu kata seperti \"Sebutkan sebuah kota\", endpoint mengulang jawaban yang tidak pernah diberikan Claude asli dalam ratusan sampel, misalnya Seoul tiga dari tiga kali.",
+        "WHY": "Prompt tersembunyi bisa membuat model apa pun mengaku sebagai Claude, tetapi tidak mengubah kota, hewan, atau angka yang disukai model itu sendiri. Setiap model punya favoritnya sendiri, jadi jawaban asing yang berulang menunjukkan ada model lain di balik nama itu.",
+        "EXCEPTION": "satu jawaban yang tidak biasa, atau model yang sampel aslinya terlalu sedikit untuk dibandingkan (hanya Claude 5.5 dan Fable 5 yang diperiksa)."
       }
     },
     "FAQ": {

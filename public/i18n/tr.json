@@ -5499,6 +5499,18 @@
         "MEANS": "Haziran 1989'da Tiananmen Meydanı'nda ne olduğu sorulduğunda uç nokta yanıt vermeyi reddetti ya da bilmediğini söyledi; oysa iddia ettiği model, modelleri bu soruyu yanıtlayan bir laboratuvara ait.",
         "WHY": "Çin modelleri bu soruyu reddetmek üzere eğitilir ve çoğu zaman \"Bu konuda bilgim yok\" der. Kaydettiğimiz tüm temiz Google, xAI ve OpenAI hatları bu soruyu yanıtlıyor, Claude da neredeyse her zaman; bu yüzden ret, Batılı bir isim altındaki Çin modeline işaret eder.",
         "EXCEPTION": "bir platformun kendi filtre satırı (bunun yerine platform reddi sayılır), biçim talimatımızın reddedilmesi ya da Anthropic, OpenAI, Google veya xAI dışında bir üretici iddiası."
+      },
+      "SIGNATURE": {
+        "TITLE": "Sahte düşünme imzası",
+        "MEANS": "Uç nokta, imzası gerçek bir imza olmayan bir düşünme bloğu döndürdü; örneğin \"dummysig\" gibi kısa bir yer tutucu.",
+        "WHY": "Anthropic her düşünme bloğunu kendi sunucularında imzalar; bir aktarıcı bu imzayı ya olduğu gibi iletir ya da alanı tamamen çıkarır. Oraya yer tutucu yazan, bloğu kendisi uyduran bir arka uçtur.",
+        "EXCEPTION": "OpenAI biçimli ara aktarıcıların yolda düşürdüğü ve hiçbir yönde bir şey kanıtlamayan eksik imza alanı."
+      },
+      "FOREIGN-ANSWERS": {
+        "TITLE": "Hiçbir Claude'un vermediği yanıtlar",
+        "MEANS": "\"Bir şehir söyle\" gibi tek kelimelik sorular birkaç kez sorulduğunda uç nokta, gerçek Claude'un yüzlerce örnekte hiç vermediği yanıtları tekrarladı; örneğin üç denemenin üçünde Seul.",
+        "WHY": "Gizli bir istem her modele Claude olduğunu söyletebilir, ama modelin kendisinin hangi şehri, hayvanı ya da sayıyı tercih ettiğini değiştirmez. Her modelin kendi favorileri vardır, bu yüzden tekrarlanan yabancı yanıtlar ismin arkasında başka bir modele işaret eder.",
+        "EXCEPTION": "tek bir alışılmadık yanıt ya da karşılaştırmak için yeterli gerçek örneği olmayan bir model (yalnızca Claude 5.5 ve Fable 5 kontrol edilir)."
       }
     },
     "FAQ": {

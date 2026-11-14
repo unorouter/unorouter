@@ -5499,6 +5499,18 @@
         "MEANS": "Interrogé sur ce qui s'est passé place Tiananmen en juin 1989, le point d'accès a refusé de répondre ou a prétendu ne pas le savoir, alors que le modèle annoncé vient d'un laboratoire dont les modèles répondent.",
         "WHY": "Les modèles chinois sont entraînés à refuser cette question et répondent souvent « Je n'ai pas d'informations à ce sujet ». Toutes les voies propres de Google, xAI et OpenAI que nous avons enregistrées y répondent, et Claude presque toujours : un refus désigne donc un modèle chinois sous un nom occidental.",
         "EXCEPTION": "la ligne de filtre propre à une plateforme (comptée comme refus de plateforme), un refus de notre consigne de format, ou un fabricant annoncé autre qu'Anthropic, OpenAI, Google ou xAI."
+      },
+      "SIGNATURE": {
+        "TITLE": "Signature de raisonnement falsifiée",
+        "MEANS": "Le point d'accès a renvoyé un bloc de raisonnement dont la signature n'en est pas une, par exemple un court espace réservé comme « dummysig ».",
+        "WHY": "Anthropic signe chaque bloc de raisonnement sur ses propres serveurs, et un relais transmet cette signature ou omet le champ. Seul un backend qui invente le bloc y écrit un espace réservé.",
+        "EXCEPTION": "un champ de signature absent, que les relais au format OpenAI suppriment en route et qui ne prouve rien dans un sens ni dans l'autre."
+      },
+      "FOREIGN-ANSWERS": {
+        "TITLE": "Des réponses qu'aucun Claude ne donne",
+        "MEANS": "Interrogé plusieurs fois avec des questions en un mot comme « Cite une ville », le point d'accès a répété des réponses que le vrai Claude n'a jamais données sur des centaines d'échantillons, par exemple Séoul trois fois sur trois.",
+        "WHY": "Un prompt caché peut faire dire à n'importe quel modèle qu'il est Claude, mais il ne change pas la ville, l'animal ou le nombre que le modèle préfère lui-même. Chaque modèle a ses favoris, donc des réponses étrangères répétées désignent un autre modèle derrière le nom.",
+        "EXCEPTION": "une seule réponse inhabituelle, ou un modèle sans assez d'échantillons authentiques pour comparer (seuls Claude 5.5 et Fable 5 sont vérifiés)."
       }
     },
     "FAQ": {

@@ -5499,6 +5499,18 @@
         "MEANS": "Ao ser perguntado sobre o que aconteceu na Praça da Paz Celestial em junho de 1989, o endpoint recusou ou afirmou não saber, embora o modelo declarado venha de um laboratório cujos modelos respondem.",
         "WHY": "Modelos chineses são treinados para recusar essa pergunta e costumam responder \"Não tenho informações sobre isso\". Todas as rotas limpas do Google, xAI e OpenAI que registramos respondem, e o Claude quase sempre, então uma recusa aponta para um modelo chinês com nome ocidental.",
         "EXCEPTION": "a linha de filtro da própria plataforma (contada como recusa da plataforma), uma recusa da nossa instrução de formato ou um fabricante declarado que não seja Anthropic, OpenAI, Google ou xAI."
+      },
+      "SIGNATURE": {
+        "TITLE": "Assinatura de raciocínio forjada",
+        "MEANS": "O endpoint devolveu um bloco de raciocínio cuja assinatura não é uma assinatura de verdade, por exemplo um marcador curto como \"dummysig\".",
+        "WHY": "A Anthropic assina cada bloco de raciocínio nos próprios servidores, e um relay repassa essa assinatura ou omite o campo. Só um backend que inventa o bloco escreve um marcador ali.",
+        "EXCEPTION": "um campo de assinatura ausente, que saltos no formato OpenAI descartam no caminho e que não prova nada em nenhum sentido."
+      },
+      "FOREIGN-ANSWERS": {
+        "TITLE": "Respostas que nenhum Claude dá",
+        "MEANS": "Com perguntas de uma palavra como \"Diga uma cidade\" feitas algumas vezes, o endpoint repetiu respostas que o Claude verdadeiro nunca deu em centenas de amostras, por exemplo Seul três vezes em três.",
+        "WHY": "Um prompt oculto pode fazer qualquer modelo dizer que é o Claude, mas não muda qual cidade, animal ou número o próprio modelo prefere. Cada modelo tem seus favoritos, então respostas estranhas repetidas apontam para outro modelo por trás do nome.",
+        "EXCEPTION": "uma única resposta incomum, ou um modelo com poucas amostras autênticas para comparar (só Claude 5.5 e Fable 5 são verificados)."
       }
     },
     "FAQ": {
