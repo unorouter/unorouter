@@ -2,7 +2,7 @@
 // Submits only sitemap URLs that are new, changed (lastmod) or gone since the
 // previous run; IndexNow treats resubmitting unchanged URLs as noise.
 import { error, log } from "console";
-import { existsSync } from "fs";
+import { existsSync, readFileSync, writeFileSync } from "fs";
 
 const KEY = process.env.INDEXNOW_KEY;
 const SITE_URL = process.env.NEXT_PUBLIC_URL;
@@ -34,7 +34,7 @@ if (total < 1000) {
 }
 
 const previous: Record<string, string> = existsSync(STATE_FILE)
-  ? await Bun.file(STATE_FILE).json()
+  ? JSON.parse(readFileSync(STATE_FILE, "utf8"))
   : {};
 const changed = Object.keys(current).filter((u) => previous[u] !== current[u]);
 const removed = Object.keys(previous).filter((u) => !(u in current));
@@ -63,4 +63,4 @@ for (let i = 0; i < urls.length; i += BATCH) {
   }
 }
 
-await Bun.write(STATE_FILE, JSON.stringify(current));
+writeFileSync(STATE_FILE, JSON.stringify(current));
