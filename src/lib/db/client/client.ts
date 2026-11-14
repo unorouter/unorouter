@@ -120,10 +120,6 @@ let dbOpenFailed = false;
 let lastOpenError: string | null = null;
 const openFailureListeners = new Set<() => void>();
 
-export function localDbOpenFailed(): boolean {
-  return dbOpenFailed;
-}
-
 // "held" is another page's worker still on the pool (a tab in the background,
 // or the page this one replaced); "blocked" is the browser refusing storage.
 export function localDbOpenErrorKind(): "blocked" | "held" | "emptied" | null {
