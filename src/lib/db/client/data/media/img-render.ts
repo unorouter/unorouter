@@ -1,10 +1,12 @@
 "use client";
 
 import { readLocalConversationBindings } from "@/lib/db/client/data/chat/chat";
+import { readLocalMedia } from "@/lib/db/client/data/media/media";
 import {
-  readLocalMedia,
-  setLocalMediaDimensions,
-} from "@/lib/db/client/data/media/media";
+  makeBump,
+  measuredDims,
+  tokenMarkdown,
+} from "@/lib/db/client/data/media/inlay-render";
 import { mediaBlobUrl } from "@/lib/db/client/data/media/blob-url";
 import { readLocalCharacter } from "@/lib/db/client/data/rp/rp";
 import { chatStore, convIdAtom } from "@/store/chat-store";
@@ -27,16 +29,7 @@ function key(convId: string, nameLower: string): string {
   return `${convId}:${nameLower}`;
 }
 
-// A bump re-runs the full markdown pipeline for every message with an img token.
-let bumpScheduled = false;
-function bump(): void {
-  if (bumpScheduled) return;
-  bumpScheduled = true;
-  queueMicrotask(() => {
-    bumpScheduled = false;
-    chatStore.set(imgVersionAtom, chatStore.get(imgVersionAtom) + 1);
-  });
-}
+const bump = makeBump(imgVersionAtom);
 
 async function resolveName(convId: string, nameLower: string): Promise<void> {
   const bindings = await readLocalConversationBindings(convId);
@@ -63,23 +56,7 @@ async function resolveName(convId: string, nameLower: string): Promise<void> {
   const src = row?.dataBase64
     ? mediaBlobUrl(k, row.dataBase64, row.mimeType)
     : "";
-  // The renderer reserves the box from `@WxH` in the alt text.
-  let width = row?.width ?? null;
-  let height = row?.height ?? null;
-  if (src && row?.dataBase64 && (!width || !height)) {
-    try {
-      const blob = await (await fetch(src)).blob();
-      const bmp = await createImageBitmap(blob);
-      width = bmp.width;
-      height = bmp.height;
-      bmp.close();
-      void setLocalMediaDimensions(mediaId, width, height).catch(() => {});
-    } catch {
-      width = null;
-      height = null;
-    }
-  }
-  cache.set(k, { src, width, height });
+  cache.set(k, { src, ...(await measuredDims(mediaId, src, row)) });
 }
 
 function requestImg(convId: string, nameLower: string): void {
@@ -102,8 +79,6 @@ export function replaceImgTokens(text: string): string {
       requestImg(convId, nameLower);
       return "";
     }
-    if (!hit.src) return "";
-    const size = hit.width && hit.height ? `@${hit.width}x${hit.height}` : "";
-    return `![img:${name}${size}](${hit.src})`;
+    return tokenMarkdown(`img:${name}`, hit);
   });
 }
