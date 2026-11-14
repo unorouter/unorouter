@@ -13,14 +13,8 @@ import {
 import { formDefaults } from "@/lib/validation/helpers";
 import { personaFormSchema, type PersonaForm } from "@/lib/validation/rp-forms";
 import { useRpForm } from "@/hooks/ui/use-rp-form";
-import { useMediaFocalPoint, useMediaSrc } from "@/hooks/ai/use-media-src";
-import {
-  RpImageField,
-  resolveMediaId,
-  type ImgDraft,
-} from "../shared/rp-image-field";
+import { RpImageField, useImageDraft } from "../shared/rp-image-field";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
 import { FormFooter } from "../shared/form-footer";
 import { useInvalidToast } from "@/components/elements/form/use-invalid-toast";
 
@@ -36,17 +30,7 @@ export function PersonaEditor(props: Props) {
   const createMut = useCreatePersonaMutation();
   const updateMut = useUpdatePersonaMutation();
   const existing = personaQuery.data;
-  const [avatarDraft, setAvatarDraft] = useState<ImgDraft>({ kind: "keep" });
-  const existingAvatarSrc = useMediaSrc(
-    avatarDraft.kind === "keep" ? existing?.avatarMediaId : null,
-  );
-  const existingAvatarFocal = useMediaFocalPoint(existing?.avatarMediaId);
-  const avatarPreview =
-    avatarDraft.kind === "new"
-      ? avatarDraft.dataUrl
-      : avatarDraft.kind === "keep"
-        ? existingAvatarSrc
-        : null;
+  const avatar = useImageDraft(existing?.avatarMediaId);
 
   const formValues =
     !isNew && existing
@@ -62,7 +46,7 @@ export function PersonaEditor(props: Props) {
   const onSubmit = async (data: PersonaForm) => {
     const body = {
       ...data,
-      avatarMediaId: await resolveMediaId(avatarDraft, existing?.avatarMediaId),
+      avatarMediaId: await avatar.resolve(),
     };
     if (isNew) {
       await createMut.mutateAsync({ body });
@@ -114,11 +98,8 @@ export function PersonaEditor(props: Props) {
           <RpImageField
             labelKey="RP.PERSONA_AVATAR"
             hintKey="RP.PERSONA_AVATAR_HINT"
-            preview={avatarPreview}
-            onPick={setAvatarDraft}
             shape="circle"
-            draft={avatarDraft}
-            storedFocal={existingAvatarFocal}
+            {...avatar.field}
           />
           <MyFormSwitch
             control={form.control}
