@@ -90,7 +90,7 @@ const LEGACY_LORE_SLOTS = new Set([
   "loreAfterChar",
 ]);
 
-const SLOT_NAMES: readonly SlotName[] = [
+export const SLOT_NAMES: readonly SlotName[] = [
   "main",
   "description",
   "persona",

@@ -22,6 +22,7 @@ import {
   CHAT_RANGE_ALL,
   DEFAULT_PROMPT_TEMPLATE,
   parsePromptTemplate,
+  SLOT_NAMES,
   type PromptItem,
   type PromptItemRole,
   type SlotName,
@@ -44,16 +45,6 @@ const SLOT_LABELS = {
   postHistory: "RP.PRESET_POST_HISTORY",
   systemPrompt: "RP.PRESET_SLOT_SYSTEM_PROMPT",
 } as const satisfies Record<SlotName, TranslationKey>;
-const SLOTS: SlotName[] = [
-  "main",
-  "description",
-  "persona",
-  "lorebook",
-  "prefill",
-  "reasoningPrefill",
-  "postHistory",
-  "systemPrompt",
-];
 
 const ROLES: PromptItemRole[] = ["system", "user", "assistant"];
 
@@ -129,12 +120,11 @@ export function PromptTemplateEditor(props: Props) {
 
   const remove = (id: string) => {
     const card = cards.find((c) => c.id === id);
-    if (card?.type === "slot" && card.slot === "prefill") {
-      form.setValue("prefill", "", { shouldDirty: true });
-    }
-    if (card?.type === "slot" && card.slot === "reasoningPrefill") {
-      form.setValue("reasoningPrefill", "", { shouldDirty: true });
-    }
+    if (
+      card?.type === "slot" &&
+      (card.slot === "prefill" || card.slot === "reasoningPrefill")
+    )
+      form.setValue(card.slot, "", { shouldDirty: true });
     commit(cards.filter((c) => c.id !== id));
   };
 
@@ -311,7 +301,7 @@ export function PromptTemplateEditor(props: Props) {
           <DropdownMenuItem onClick={addPlain}>
             {t("RP.PRESET_TEMPLATE_PLAIN")}
           </DropdownMenuItem>
-          {SLOTS.filter((s) => !usedSlots.has(s)).map((s) => (
+          {SLOT_NAMES.filter((s) => !usedSlots.has(s)).map((s) => (
             <DropdownMenuItem key={s} onClick={() => addSlot(s)}>
               {t(SLOT_LABELS[s])}
             </DropdownMenuItem>
