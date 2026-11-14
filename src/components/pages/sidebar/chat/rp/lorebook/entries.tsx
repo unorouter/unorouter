@@ -92,6 +92,7 @@ export function LorebookEntries(props: { lorebookId: string }) {
 
       {editingId && (
         <LorebookEntryForm
+          key={editingId}
           lorebookId={props.lorebookId}
           editingId={editingId}
           entry={editingEntry}

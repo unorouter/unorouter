@@ -36,7 +36,6 @@ import {
 } from "@/lib/validation/rp";
 import type { LorebookEntryRow } from "@/lib/db/schema/rows";
 import { useTranslations } from "next-intl";
-import { useEffect } from "react";
 import { useInvalidToast } from "@/components/elements/form/use-invalid-toast";
 import { TokenEstimate } from "@/components/elements/form/token-estimate";
 import { FormFooter } from "../shared/form-footer";
@@ -115,12 +114,6 @@ export function LorebookEntryForm(props: {
     : undefined;
   const form = useRpForm(lorebookEntryFormSchema, formValues);
   const onInvalid = useInvalidToast(lorebookEntryFormSchema);
-
-  const reset = form.reset;
-  useEffect(() => {
-    reset(formValues ?? formDefaults(lorebookEntryFormSchema));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.editingId, reset]);
 
   const alwaysActive = form.watch("constant");
   const selective = form.watch("selective");
