@@ -26,12 +26,8 @@ ENV NEXT_PUBLIC_LEGAL_NAME=$NEXT_PUBLIC_LEGAL_NAME \
 ENV NEXT_DEPLOYMENT_ID=$GIT_SHA
 RUN --mount=type=cache,target=/app/.next/cache \
     NBC_TARGET=bun-linux-$([ "$TARGETARCH" = arm64 ] && echo arm64 || echo x64) bun run build
-# Browser source maps for the error report endpoint, which the binary does not serve.
-# Turbopack names a map apart from its chunk, so each is stored as <chunk>.js.map.
-RUN cd .next/static && find . -name '*.js' | while read -r f; do \
-      m=$(tail -c 200 "$f" | sed -n 's/.*sourceMappingURL=\(.*\.map\).*/\1/p'); d=$(dirname "$f"); \
-      [ -f "$d/$m" ] && mkdir -p "/app/sourcemaps/$d" && cp "$d/$m" "/app/sourcemaps/$f.map"; \
-    done; mkdir -p /app/sourcemaps
+# Browser source maps stay out of the served assets; k8s/sourcemaps.yaml uploads them to GlitchTip by debug id.
+RUN mkdir -p /app/sourcemaps && cd .next/static && find . -name '*.map' -exec cp --parents {} /app/sourcemaps/ \;
 
 FROM gcr.io/distroless/cc-debian12:nonroot@sha256:9dac0a79194e45a7da0158a9c6da57b217585af0786db3845d1f0ec1a0dd182f AS prod
 WORKDIR /app

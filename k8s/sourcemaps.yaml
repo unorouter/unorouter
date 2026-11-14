@@ -1,0 +1,63 @@
+# After every sync: upload this release's browser source maps to GlitchTip (infra/glitchtip) so
+# browser stacks resolve to source lines. The maps ship in the image beside the binary and are
+# never served; this Job mounts the very image the Deployment runs (the GHCR pin step rewrites
+# both references) and sentry-cli uploads them by debug id. Token: OpenBao glitchtip-upload,
+# scoped to project:releases.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: sourcemaps-upload
+  namespace: services
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+spec:
+  backoffLimit: 2
+  ttlSecondsAfterFinished: 86400
+  template:
+    metadata:
+      labels: { app: sourcemaps-upload }
+    spec:
+      restartPolicy: Never
+      automountServiceAccountToken: false
+      imagePullSecrets:
+        - name: ghcr-pull
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        runAsGroup: 65534
+        seccompProfile: { type: RuntimeDefault }
+      containers:
+        - name: upload
+          image: getsentry/sentry-cli:3.8.2@sha256:633122f5fbd774716a0ebbcd7ece9c0584aa781cc61a84e7ce57964c635d6559
+          args:
+            - --url
+            - http://glitchtip.glitchtip.svc.cluster.local:8000/
+            - sourcemaps
+            - upload
+            - --org
+            - unorouter
+            - --project
+            - site
+            - /site/app/sourcemaps
+          env:
+            - { name: HOME, value: /tmp }
+          envFrom:
+            - secretRef: { name: glitchtip-upload }
+          resources:
+            requests: { cpu: 50m, memory: 64Mi }
+            limits: { memory: 512Mi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: { drop: [ALL] }
+          volumeMounts:
+            - { name: site, mountPath: /site, readOnly: true }
+            - { name: tmp, mountPath: /tmp }
+      volumes:
+        - name: site
+          image:
+            reference: ghcr.io/unorouter/unorouter:7e187270149eee0c9ac65007bc67b6f3f8b27909@sha256:10b7f703f8842a5b55fdcaaf0ab0ed9f1946547e41a7239e77c06fcf0a409406
+            pullPolicy: IfNotPresent
+        - name: tmp
+          emptyDir: {}

@@ -8,6 +8,7 @@ on:
     # same tree and roll the pods a second time.
     paths-ignore:
       - k8s/deployment.yaml
+      - k8s/sourcemaps.yaml
       - renovate.json
 
 concurrency:
@@ -167,10 +168,11 @@ jobs:
             echo "already pinned to $NEW, nothing to do"
             exit 0
           fi
-          sed -i "s|image: ghcr.io/unorouter/unorouter:.*|image: ghcr.io/unorouter/unorouter:$NEW|" "$F"
+          # the source map upload Job mounts the same image (k8s/sourcemaps.yaml)
+          sed -i -E "s#(image|reference): ghcr.io/unorouter/unorouter:.*#\1: ghcr.io/unorouter/unorouter:$NEW#" "$F" k8s/sourcemaps.yaml
           git config user.name  "unorouter-ci"
           git config user.email "ci@unorouter.com"
-          git add "$F"
+          git add "$F" k8s/sourcemaps.yaml
           git commit -m "deploy(unorouter): ${{ github.sha }}
 
           Was: $OLD

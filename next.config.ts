@@ -61,6 +61,8 @@ const nextConfig: NextConfig = {
   // alias them to an empty stub in browser bundles. Server keeps real modules
   // via serverExternalPackages below.
   turbopack: {
+    // GlitchTip matches browser stacks to their maps by these ids (k8s/sourcemaps.yaml uploads them)
+    debugIds: true,
     resolveAlias: {
       module: { browser: "./src/lib/empty-module.ts" },
       // sqlite-wasm builds the OPFS async-proxy worker URL at runtime
