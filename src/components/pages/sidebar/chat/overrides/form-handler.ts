@@ -21,7 +21,6 @@ import {
   type ConversationOverridesForm,
 } from "@/lib/validation/rp-forms";
 import type { ModelSamplerMemory } from "@/store/chat-store";
-import type { UseFormReturn } from "react-hook-form";
 
 export const REASONING_EFFORT_KEY: Record<
   Exclude<ReasoningEffort, "none">,
@@ -51,12 +50,6 @@ export const WEB_SEARCH_CONTEXT_KEY: Record<
   high: msg("CHAT.OVERRIDES.CONTEXT_HIGH"),
 };
 
-export function resetSampling(form: UseFormReturn<ConversationOverridesForm>) {
-  for (const field of SAMPLING_FIELDS) {
-    form.setValue(field, null, { shouldDirty: true });
-  }
-}
-
 type SamplerSource = Partial<
   Record<(typeof SAMPLING_FIELDS)[number], number | null | undefined>
 >;
@@ -75,20 +68,6 @@ function samplingValues(src: SamplerSource) {
   };
 }
 
-function resolveSamplingFromPreset(
-  src: SamplerSource,
-  preset: InheritSource | null,
-): ReturnType<typeof samplingValues> {
-  return samplingValues(
-    Object.fromEntries(
-      SAMPLING_FIELDS.map((field) => [
-        field,
-        resolveNum(src[field], preset?.[field]),
-      ]),
-    ),
-  );
-}
-
 export function writeSamplerMemory(
   data: ConversationOverridesForm,
   activeModelName: string | null | undefined,
@@ -104,6 +83,27 @@ export function writeSamplerMemory(
       extraBody: data.extraBody || null,
     },
   });
+}
+
+function sharedForm(src: StreamOverrides) {
+  return {
+    authorNoteDepth: src.authorNoteDepth ?? DEFAULT_AUTHOR_NOTE_DEPTH,
+    systemPromptOverride: src.systemPromptOverride ?? "",
+    authorNote: src.authorNote ?? "",
+    webSearchEnabled: src.webSearchEnabled ?? false,
+    webSearchEngine: narrowWebSearchEngine(src.webSearchEngine),
+    webSearchContextSize: narrowWebSearchContextSize(src.webSearchContextSize),
+    memoryEnabled: src.memoryEnabled ?? false,
+    imageEnabled: src.imageEnabled ?? false,
+    voiceEnabled: src.voiceEnabled ?? true,
+    utilityModel: src.utilityModel ?? NONE_VALUE,
+    titleModel: src.titleModel ?? NONE_VALUE,
+    titlePrompt: src.titlePrompt ?? "",
+    promptInstruction: src.promptInstruction ?? "",
+    imageModel: src.imageModel ?? NONE_VALUE,
+    imagePreview: src.imagePreview ?? false,
+    useCharAvatarRef: src.useCharAvatarRef ?? false,
+  };
 }
 
 function buildDefaultsForm(
@@ -127,22 +127,7 @@ function buildDefaultsForm(
       modelMemory.reasoningEffort ?? chatDefaults.reasoningEffort ?? NONE_VALUE,
     chatMemory: chatDefaults.chatMemory ?? null,
     contextTokens: chatDefaults.contextTokens ?? null,
-    authorNoteDepth: chatDefaults.authorNoteDepth ?? DEFAULT_AUTHOR_NOTE_DEPTH,
-    systemPromptOverride: chatDefaults.systemPromptOverride ?? "",
-    authorNote: chatDefaults.authorNote ?? "",
-    webSearchEnabled: chatDefaults.webSearchEnabled ?? false,
-    webSearchEngine: chatDefaults.webSearchEngine ?? "auto",
-    webSearchContextSize: chatDefaults.webSearchContextSize ?? "medium",
-    memoryEnabled: chatDefaults.memoryEnabled ?? false,
-    imageEnabled: chatDefaults.imageEnabled ?? false,
-    voiceEnabled: chatDefaults.voiceEnabled ?? true,
-    utilityModel: chatDefaults.utilityModel ?? NONE_VALUE,
-    titleModel: chatDefaults.titleModel ?? NONE_VALUE,
-    titlePrompt: chatDefaults.titlePrompt ?? "",
-    promptInstruction: chatDefaults.promptInstruction ?? "",
-    imageModel: chatDefaults.imageModel ?? NONE_VALUE,
-    imagePreview: chatDefaults.imagePreview ?? false,
-    useCharAvatarRef: chatDefaults.useCharAvatarRef ?? false,
+    ...sharedForm(chatDefaults),
     characterIds: [],
     lorebookIds: [],
     ...samplingValues(layered),
@@ -169,20 +154,6 @@ type InheritSource = {
   >
 >;
 
-function resolveBool(
-  convValue: boolean | null | undefined,
-  presetValue: boolean | null | undefined,
-): boolean {
-  return convValue ?? presetValue ?? true;
-}
-
-function resolveNum(
-  convValue: number | null | undefined,
-  presetValue: number | null | undefined,
-): number | null {
-  return convValue ?? presetValue ?? null;
-}
-
 function buildSettingsForm(
   settings: ConversationSettingsProjection,
   bindings: ConvBindings,
@@ -195,39 +166,25 @@ function buildSettingsForm(
       settings.reasoningEffort,
       NONE_VALUE,
     ),
-    chatMemory: resolveNum(settings.chatMemory, preset?.chatMemory),
-    contextTokens: resolveNum(settings.contextTokens, preset?.contextTokens),
-    authorNoteDepth: settings.authorNoteDepth ?? DEFAULT_AUTHOR_NOTE_DEPTH,
-    systemPromptOverride: settings.systemPromptOverride ?? "",
-    authorNote: settings.authorNote ?? "",
-    webSearchEnabled: settings.webSearchEnabled ?? false,
-    webSearchEngine: narrowWebSearchEngine(settings.webSearchEngine),
-    webSearchContextSize: narrowWebSearchContextSize(
-      settings.webSearchContextSize,
-    ),
-    memoryEnabled: settings.memoryEnabled ?? false,
-    imageEnabled: settings.imageEnabled ?? false,
-    voiceEnabled: settings.voiceEnabled ?? true,
-    utilityModel: settings.utilityModel ?? NONE_VALUE,
-    titleModel: settings.titleModel ?? NONE_VALUE,
-    titlePrompt: settings.titlePrompt ?? "",
-    promptInstruction: settings.promptInstruction ?? "",
-    imageModel: settings.imageModel ?? NONE_VALUE,
-    imagePreview: settings.imagePreview ?? false,
-    useCharAvatarRef: settings.useCharAvatarRef ?? false,
+    chatMemory: settings.chatMemory ?? preset?.chatMemory ?? null,
+    contextTokens: settings.contextTokens ?? preset?.contextTokens ?? null,
+    ...sharedForm(settings),
     characterIds: bindings.characters.map((c) => c.characterId),
     lorebookIds: bindings.lorebooks.map((l) => l.lorebookId),
-    ...resolveSamplingFromPreset(settings, preset),
+    ...samplingValues(
+      Object.fromEntries(
+        SAMPLING_FIELDS.map((field) => [
+          field,
+          settings[field] ?? preset?.[field],
+        ]),
+      ),
+    ),
     extraBody: settings.extraBody ?? "",
-    streamingEnabled: resolveBool(
-      settings.streamingEnabled,
-      preset?.streamingEnabled,
-    ),
-    autoScrollStream: resolveBool(
-      settings.autoScrollStream,
-      preset?.autoScrollStream,
-    ),
-    showReasoning: resolveBool(settings.showReasoning, preset?.showReasoning),
+    streamingEnabled:
+      settings.streamingEnabled ?? preset?.streamingEnabled ?? true,
+    autoScrollStream:
+      settings.autoScrollStream ?? preset?.autoScrollStream ?? true,
+    showReasoning: settings.showReasoning ?? preset?.showReasoning ?? true,
   };
 }
 

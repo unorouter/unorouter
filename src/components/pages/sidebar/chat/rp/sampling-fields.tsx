@@ -3,8 +3,7 @@
 import { Button } from "@/components/ui/button";
 import type { ModelMetadata } from "@/openapi";
 import { useTranslations } from "next-intl";
-import type { Control, Path } from "react-hook-form";
-import { Controller } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import { Icon } from "@/components/ui/icon";
 import { NumberKnob } from "@/components/ui/number-knob";
 import { InfoPopover } from "@/components/ui/popover";
@@ -13,17 +12,9 @@ import {
   type SamplingFieldName,
 } from "@/lib/validation/rp-forms";
 
-type SamplingFieldsProps<TForm extends Record<string, unknown>> = {
-  control: Control<TForm>;
-  names: Record<SamplingFieldName, Path<TForm>>;
-  metadata?: ModelMetadata;
-  onReset?: () => void;
-};
-
-export function SamplingFields<TForm extends Record<string, unknown>>(
-  props: SamplingFieldsProps<TForm>,
-) {
+export function SamplingFields(props: { metadata?: ModelMetadata }) {
   const t = useTranslations();
+  const form = useFormContext<Record<SamplingFieldName, number | null>>();
 
   const supported = props.metadata?.supportedParameters;
   const maxTokensCap = props.metadata?.maxOutputTokens;
@@ -46,17 +37,18 @@ export function SamplingFields<TForm extends Record<string, unknown>>(
         <span className="text-foreground text-sm font-medium">
           {t("CHAT.OVERRIDES.SAMPLING")}
         </span>
-        {props.onReset && (
-          <Button
-            type="button"
-            variant="ghost"
-            size="xs"
-            onClick={props.onReset}
-          >
-            <Icon name="rotate-ccw" className="size-3.5" />
-            {t("COMMON.RESET")}
-          </Button>
-        )}
+        <Button
+          type="button"
+          variant="ghost"
+          size="xs"
+          onClick={() => {
+            for (const param of SAMPLING_PARAMS)
+              form.setValue(param.field, null, { shouldDirty: true });
+          }}
+        >
+          <Icon name="rotate-ccw" className="size-3.5" />
+          {t("COMMON.RESET")}
+        </Button>
       </div>
 
       <div className="flex flex-col gap-4">
@@ -74,8 +66,8 @@ export function SamplingFields<TForm extends Record<string, unknown>>(
           return (
             <Controller
               key={param.field}
-              control={props.control}
-              name={props.names[param.field]}
+              control={form.control}
+              name={param.field}
               render={({ field }) => (
                 <NumberKnob
                   label={label}
@@ -86,7 +78,7 @@ export function SamplingFields<TForm extends Record<string, unknown>>(
                       detailsLabel={t("RP.SAMPLING_ADVANCED")}
                     />
                   }
-                  value={typeof field.value === "number" ? field.value : null}
+                  value={field.value}
                   onChange={field.onChange}
                   min={param.min}
                   max={fieldMax}

@@ -44,7 +44,6 @@ import {
   buildDefaultsOverrides,
   buildSettingsBody,
   computeFormValues,
-  resetSampling,
   writeSamplerMemory,
 } from "./form-handler";
 import { ImageRefsField } from "./image-refs-field";
@@ -176,22 +175,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
 
               {!isDefaultsMode && <ImageRefsField convId={props.convId!} />}
 
-              <SamplingFields
-                control={form.control}
-                names={{
-                  temperature: "temperature",
-                  topP: "topP",
-                  topK: "topK",
-                  minP: "minP",
-                  topA: "topA",
-                  frequencyPenalty: "frequencyPenalty",
-                  presencePenalty: "presencePenalty",
-                  repetitionPenalty: "repetitionPenalty",
-                  maxTokens: "maxTokens",
-                }}
-                metadata={activeModelMetadata}
-                onReset={() => resetSampling(form)}
-              />
+              <SamplingFields metadata={activeModelMetadata} />
 
               <OverridesPromptFields control={form.control} />
             </div>

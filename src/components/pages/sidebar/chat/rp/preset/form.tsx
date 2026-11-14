@@ -29,14 +29,12 @@ import {
 } from "@/hooks/ai/rp/presets";
 import { formDefaults } from "@/lib/validation/helpers";
 import {
-  SAMPLING_FIELDS,
   samplingPresetFormSchema,
   type SamplingPresetForm,
 } from "@/lib/validation/rp-forms";
 import { useRpForm } from "@/hooks/ui/use-rp-form";
 import { useTranslations } from "next-intl";
 import { FormFooter } from "../shared/form-footer";
-import type { Path } from "react-hook-form";
 import { SamplingFields } from "../sampling-fields";
 import { TokenizerSelect } from "../tokenizer-select";
 import { PromptTemplateEditor } from "./prompt-template-editor";
@@ -116,16 +114,6 @@ export function PresetForm(props: Props) {
   const form = useRpForm(samplingPresetFormSchema, formValues);
   const onInvalid = useInvalidToast(samplingPresetFormSchema);
 
-  const resetSampling = () => {
-    SAMPLING_FIELDS.forEach((k) =>
-      form.setValue(k, null, { shouldDirty: true }),
-    );
-  };
-
-  const samplingNames = Object.fromEntries(
-    SAMPLING_FIELDS.map((f) => [f, f]),
-  ) as Record<(typeof SAMPLING_FIELDS)[number], Path<SamplingPresetForm>>;
-
   const onSubmit = async (data: SamplingPresetForm) => {
     const body = toPresetBody(data);
     if (props.editingId === "new") {
@@ -188,11 +176,7 @@ export function PresetForm(props: Props) {
           </TabsList>
 
           <TabsContent value="basic" className="mt-4">
-            <SamplingFields
-              control={form.control}
-              names={samplingNames}
-              onReset={resetSampling}
-            />
+            <SamplingFields />
             <div className="mt-4 flex flex-col gap-3">
               <div className="flex flex-col gap-1">
                 <span className="text-sm font-medium">
