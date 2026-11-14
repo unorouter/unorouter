@@ -40,7 +40,10 @@ export const modelTesterRoute = new Elysia({ prefix: "/model-tester" })
         user?.display_name || user?.username || null,
       );
     },
-    { body: verifyAndPublishBody, beforeHandle: rateLimit(10) },
+    {
+      body: verifyAndPublishBody,
+      beforeHandle: rateLimit("model-tester-publish", 10),
+    },
   )
   .delete(
     "/published/:id",

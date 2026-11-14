@@ -3,7 +3,7 @@ import { rateLimit } from "@/server/rate-limit";
 import { Elysia } from "elysia";
 import { fishTts, searchFishVoices } from "./fish.service";
 
-const ttsLimit = rateLimit(60);
+const ttsLimit = rateLimit("voice", 60);
 
 // Open to guests like custom-forward: the caller's own Fish key is required,
 // and the target host is fixed, so this relays to Fish and nowhere else.

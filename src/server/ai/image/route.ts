@@ -21,7 +21,7 @@ async function assertGuestAllowedModel(model: string): Promise<void> {
 }
 
 // Each lookup below is a Runware call with our key and needs no login.
-const catalogLimit = rateLimit(60);
+const catalogLimit = rateLimit("image-catalog", 60);
 
 export const imageRoute = new Elysia({ prefix: "/image" })
   .onError(({ error }): undefined => {

@@ -65,7 +65,7 @@ export const blogDomainRoute = new Elysia({ prefix: "/blog" })
       const viewer = await viewerOf(request);
       return recordView(params.slug, visitorKey(request, viewer?.id));
     },
-    { params: slugParams, beforeHandle: rateLimit(30) },
+    { params: slugParams, beforeHandle: rateLimit("blog-view", 30) },
   )
   .get(
     "/posts/:slug/comments",
@@ -92,7 +92,11 @@ export const blogDomainRoute = new Elysia({ prefix: "/blog" })
         return status(STATUS[result], { error: result });
       return result;
     },
-    { params: slugParams, body: createCommentBody, beforeHandle: rateLimit(6) },
+    {
+      params: slugParams,
+      body: createCommentBody,
+      beforeHandle: rateLimit("blog-comment", 6),
+    },
   )
   .post(
     "/posts/:slug/react",
@@ -102,7 +106,11 @@ export const blogDomainRoute = new Elysia({ prefix: "/blog" })
       if (!isKnownPost(params.slug)) return status(404, { error: "not-found" });
       return toggleReaction(params.slug, viewer, body.kind);
     },
-    { params: slugParams, body: reactBody, beforeHandle: rateLimit(30) },
+    {
+      params: slugParams,
+      body: reactBody,
+      beforeHandle: rateLimit("blog-react", 30),
+    },
   )
   .post(
     "/comments/:id/vote",
@@ -115,7 +123,11 @@ export const blogDomainRoute = new Elysia({ prefix: "/blog" })
         return status(STATUS[result], { error: result });
       return result;
     },
-    { params: commentParams, body: voteBody, beforeHandle: rateLimit(60) },
+    {
+      params: commentParams,
+      body: voteBody,
+      beforeHandle: rateLimit("blog-vote", 60),
+    },
   )
   .post(
     "/comments/:id/hide",

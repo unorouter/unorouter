@@ -1,5 +1,6 @@
 import { serverEnv } from "@/server/env";
-import Redis from "ioredis";
+import { connectRedis } from "@/server/redis";
+import type Redis from "ioredis";
 
 // Copies each buffered reply to Redis so a tab that comes back on another
 // replica can read the rest there. Optional: without Sentinels configured
@@ -22,26 +23,11 @@ let subscriber: Redis | null = null;
 let liveBytes = 0;
 const mirrors = new Map<string, Mirror>();
 
-function connect(offlineQueue: boolean): Redis | null {
-  if (!serverEnv.redisSentinels) return null;
-  const sentinels = serverEnv.redisSentinels.split(",").map((addr) => {
-    const [host, port] = addr.trim().split(":");
-    return { host, port: Number(port) || 26379 };
-  });
-  return new Redis({
-    sentinels,
-    name: serverEnv.redisMasterName,
-    // a reply must never wait on Redis: a write that cannot go now cuts the mirror
-    enableOfflineQueue: offlineQueue,
-    maxRetriesPerRequest: 1,
-    lazyConnect: false,
-  }).on("error", () => {});
-}
-
 export function initMirror(onAbort: (id: string, userId: number) => void) {
   if (writer || !serverEnv.redisSentinels) return;
-  writer = connect(false);
-  subscriber = connect(true);
+  // a reply must never wait on Redis: a write that cannot go now cuts the mirror
+  writer = connectRedis({ offlineQueue: false });
+  subscriber = connectRedis({ offlineQueue: true });
   void subscriber?.subscribe(ABORT_CHANNEL).catch(() => {});
   subscriber?.on("message", (_channel: string, raw: string) => {
     const [id, user] = raw.split(" ");

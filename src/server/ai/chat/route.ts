@@ -35,12 +35,12 @@ import { abortStream, tailStream } from "./stream-buffer";
 import { mirrorTail, publishAbort } from "./stream-mirror";
 import { resolveWebSearch } from "./web-search.service";
 
-const customForwardLimit = rateLimit(120);
+const customForwardLimit = rateLimit("chat-custom-forward", 120);
 
 function requireMember(userId: number) {
   if (userId === GUEST_USER_ID) throw status(401, msg("ERRORS.UNAUTHORIZED"));
 }
-const resumeLimit = rateLimit(60);
+const resumeLimit = rateLimit("chat-resume", 60);
 
 export const chatRoute = new Elysia({ prefix: "/chat" })
 
@@ -180,7 +180,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       return { success: true, data: { block } };
     },
     // Every call runs a three-model classifier race and may spend a Tavily credit.
-    { body: webSearchBody, beforeHandle: rateLimit(20) },
+    { body: webSearchBody, beforeHandle: rateLimit("chat-web-search", 20) },
   )
 
   .post(
@@ -254,5 +254,8 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       const data = await finalizeVideoTask(apiKey, body.taskId);
       return { success: true, data };
     },
-    { body: finalizeTaskBody, beforeHandle: rateLimit(30) },
+    {
+      body: finalizeTaskBody,
+      beforeHandle: rateLimit("chat-task-finalize", 30),
+    },
   );

@@ -1,43 +1,54 @@
 import { msg } from "@/lib/config/constants";
 import { getClientIp } from "@/server/constants";
+import { connectRedis } from "@/server/redis";
+import {
+  RateLimiterMemory,
+  RateLimiterRedis,
+  RateLimiterRes,
+} from "rate-limiter-flexible";
 
-const MAX_KEYS = 10_000;
+let redis: ReturnType<typeof connectRedis> | undefined;
 
-type Window = { count: number; resetAt: number };
-
-// Fixed window per client IP, held per pod: the cluster allows limit times the
-// replica count.
-export function rateLimit(limit: number, windowMs = 60_000) {
-  const hits = new Map<string, Window>();
-  return ({ request }: { request: Request }): Response | undefined => {
-    const now = Date.now();
-    const key = getClientIp(request.headers) ?? "unknown";
-    let entry = hits.get(key);
-    if (!entry || entry.resetAt <= now) {
-      hits.delete(key);
-      if (hits.size >= MAX_KEYS) evict(hits, now);
-      entry = { count: 0, resetAt: now + windowMs };
-      hits.set(key, entry);
+// Counted in Redis so the limit holds across pods; a pod counts in its own
+// memory while Redis is unreachable, and always in dev (no Sentinels).
+export function rateLimit(name: string, limit: number, windowMs = 60_000) {
+  const duration = Math.ceil(windowMs / 1000);
+  redis ??= connectRedis({ offlineQueue: false });
+  const memory = new RateLimiterMemory({
+    keyPrefix: `rl:${name}`,
+    points: limit,
+    duration,
+  });
+  const limiter = redis
+    ? new RateLimiterRedis({
+        storeClient: redis,
+        keyPrefix: `uno:rl:${name}`,
+        points: limit,
+        duration,
+        insuranceLimiter: memory,
+        inMemoryBlockOnConsumed: limit,
+      })
+    : memory;
+  return async ({
+    request,
+  }: {
+    request: Request;
+  }): Promise<Response | undefined> => {
+    try {
+      await limiter.consume(getClientIp(request.headers) ?? "unknown");
+      return;
+    } catch (rejected) {
+      if (!(rejected instanceof RateLimiterRes)) throw rejected;
+      return new Response(
+        JSON.stringify({ error: msg("ERRORS.RATE_LIMITED") }),
+        {
+          status: 429,
+          headers: {
+            "content-type": "application/json",
+            "retry-after": String(Math.ceil(rejected.msBeforeNext / 1000)),
+          },
+        },
+      );
     }
-    entry.count++;
-    if (entry.count <= limit) return;
-    return new Response(JSON.stringify({ error: msg("ERRORS.RATE_LIMITED") }), {
-      status: 429,
-      headers: {
-        "content-type": "application/json",
-        "retry-after": String(Math.ceil((entry.resetAt - now) / 1000)),
-      },
-    });
   };
-}
-
-function evict(hits: Map<string, Window>, now: number) {
-  for (const [key, entry] of hits) {
-    if (entry.resetAt <= now) hits.delete(key);
-  }
-  // Map order is window start order, so what remains goes oldest first.
-  for (const key of hits.keys()) {
-    if (hits.size < MAX_KEYS) break;
-    hits.delete(key);
-  }
 }

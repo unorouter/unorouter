@@ -58,5 +58,5 @@ export const verifyRoute = new Elysia({ prefix: "/verify" }).post(
       }));
     return { success: true, data };
   },
-  { body: verifyProbeBody, beforeHandle: rateLimit(30) },
+  { body: verifyProbeBody, beforeHandle: rateLimit("verify", 30) },
 );
