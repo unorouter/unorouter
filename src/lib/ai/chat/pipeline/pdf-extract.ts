@@ -16,48 +16,8 @@ async function extractPdfText(bytes: Uint8Array): Promise<string | null> {
   }
 }
 
-type PdfFilePart = {
-  type: "file";
-  mediaType: "application/pdf";
-  url: string;
-  filename?: string;
-};
-
-function isPdfFilePart(part: unknown): part is PdfFilePart {
-  return (
-    typeof part === "object" &&
-    part !== null &&
-    "type" in part &&
-    part.type === "file" &&
-    "mediaType" in part &&
-    part.mediaType === "application/pdf" &&
-    "url" in part &&
-    typeof part.url === "string"
-  );
-}
-
+const PDF = "application/pdf";
 const TEXT_MEDIA_TYPE = /^text\/|^application\/(json|xml|x-yaml|yaml)$/;
-
-type TextFilePart = {
-  type: "file";
-  mediaType: string;
-  url: string;
-  filename?: string;
-};
-
-function isTextFilePart(part: unknown): part is TextFilePart {
-  return (
-    typeof part === "object" &&
-    part !== null &&
-    "type" in part &&
-    part.type === "file" &&
-    "mediaType" in part &&
-    typeof part.mediaType === "string" &&
-    TEXT_MEDIA_TYPE.test(part.mediaType) &&
-    "url" in part &&
-    typeof part.url === "string"
-  );
-}
 
 function decodeDataUriText(url: string): string | null {
   const comma = url.indexOf(",");
@@ -77,18 +37,21 @@ export async function inlinePdfText(
   const hasInlinable = messages.some(
     (m) =>
       m.role === "user" &&
-      Array.isArray(m.parts) &&
-      m.parts.some((p) => isPdfFilePart(p) || isTextFilePart(p)),
+      m.parts.some(
+        (p) =>
+          p.type === "file" &&
+          (p.mediaType === PDF || TEXT_MEDIA_TYPE.test(p.mediaType)),
+      ),
   );
   if (!hasInlinable) return messages;
 
   return Promise.all(
     messages.map(async (m) => {
-      if (m.role !== "user" || !Array.isArray(m.parts)) return m;
+      if (m.role !== "user") return m;
       const parts = await Promise.all(
         m.parts.map(async (part) => {
-          // PDF must stay FIRST: the broader text guard narrows it away entirely.
-          if (isPdfFilePart(part)) {
+          if (part.type !== "file") return part;
+          if (part.mediaType === PDF) {
             const name = part.filename ?? "document.pdf";
             const comma = part.url.indexOf(",");
             const b64 = comma >= 0 ? part.url.slice(comma + 1) : "";
@@ -100,7 +63,7 @@ export async function inlinePdfText(
                 : `[Attached PDF "${name}": extraction unavailable]`,
             };
           }
-          if (!isTextFilePart(part)) return part;
+          if (!TEXT_MEDIA_TYPE.test(part.mediaType)) return part;
           const name = part.filename ?? "file.txt";
           const text = decodeDataUriText(part.url);
           return {
