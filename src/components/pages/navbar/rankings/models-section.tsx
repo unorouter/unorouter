@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-  type ChartConfig,
-} from "@/components/ui/chart";
+import { RankingHistoryChart } from "./history-chart";
 import { Icon } from "@/components/ui/icon";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { RankingPeriod } from "@/lib/api/typebox/rankings";
@@ -14,9 +9,8 @@ import type { RankingTier } from "./rankings";
 import { formatTokens } from "@/lib/utils/format/number";
 import { modelColor } from "@/lib/utils/format/color";
 import { useLocale, useTranslations } from "next-intl";
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { ModelLeaderboard } from "./model-leaderboard";
-import { periodDescriptionKey, pivotSeries } from "./rankings-helpers";
+import { periodDescriptionKey } from "./rankings-helpers";
 
 type ModelsSectionProps = {
   history: ModelHistorySeries;
@@ -35,24 +29,6 @@ export function ModelsSection(props: ModelsSectionProps) {
 
   const orderedModels = props.history.models;
   const modelNames = orderedModels.map((m) => m.name);
-
-  const chartConfig: ChartConfig = {};
-  for (const m of orderedModels) {
-    chartConfig[m.name] = {
-      label: m.name,
-      color: modelColor(m.name),
-    };
-  }
-
-  const chartData = pivotSeries(
-    props.history.points.map((p) => ({
-      label: p.label,
-      ts: p.ts,
-      key: p.model,
-      value: p.tokens,
-    })),
-    modelNames,
-  );
 
   return (
     <section className="bg-card overflow-hidden rounded-lg border">
@@ -92,58 +68,19 @@ export function ModelsSection(props: ModelsSectionProps) {
         </Tabs>
       </div>
 
-      <div className="px-5 pb-5">
-        <div className="h-60 sm:h-72">
-          {chartData.length > 0 && modelNames.length > 0 ? (
-            <ChartContainer
-              config={chartConfig}
-              className="aspect-auto h-full w-full"
-            >
-              <BarChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis
-                  dataKey="label"
-                  tickLine={false}
-                  axisLine={false}
-                  fontSize={10}
-                  fontFamily="monospace"
-                  minTickGap={24}
-                  interval="preserveStartEnd"
-                />
-                <YAxis
-                  tickLine={false}
-                  axisLine={false}
-                  fontSize={10}
-                  fontFamily="monospace"
-                  tickFormatter={fmtTokens}
-                />
-                <ChartTooltip
-                  content={
-                    <ChartTooltipContent
-                      valueFormatter={fmtTokens}
-                      sortDesc
-                      showTotal
-                      totalLabel={t("RANKINGS.MODELS.TOOLTIP_TOTAL")}
-                    />
-                  }
-                />
-                {modelNames.map((name) => (
-                  <Bar
-                    key={name}
-                    dataKey={name}
-                    stackId="a"
-                    fill={modelColor(name)}
-                  />
-                ))}
-              </BarChart>
-            </ChartContainer>
-          ) : (
-            <div className="text-muted-foreground flex h-full items-center justify-center text-xs">
-              {t("RANKINGS.ERROR.NO_HISTORY")}
-            </div>
-          )}
-        </div>
-      </div>
+      <RankingHistoryChart
+        points={props.history.points.map((p) => ({
+          label: p.label,
+          ts: p.ts,
+          key: p.model,
+          value: p.tokens,
+        }))}
+        names={modelNames}
+        colorOf={modelColor}
+        tickFormatter={fmtTokens}
+        valueFormatter={fmtTokens}
+        totalLabel={t("RANKINGS.MODELS.TOOLTIP_TOTAL")}
+      />
 
       <div className="border-t">
         <header className="px-5 pt-4 pb-2">

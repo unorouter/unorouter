@@ -38,7 +38,7 @@ export function splitHalf<T>(items: readonly T[]): [T[], T[]] {
   return [items.slice(0, half), items.slice(half)];
 }
 
-type PivotPoint = {
+export type PivotPoint = {
   label: string;
   ts: string;
   key: string;

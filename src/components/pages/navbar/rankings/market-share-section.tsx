@@ -1,24 +1,14 @@
 "use client";
 
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-  type ChartConfig,
-} from "@/components/ui/chart";
+import { RankingHistoryChart } from "./history-chart";
 import { Icon } from "@/components/ui/icon";
 import type { RankingPeriod } from "@/lib/api/typebox/rankings";
 import type { RankedVendor, VendorShareSeries } from "@/openapi";
 import { DEFAULT_THEME, getVendorTheme } from "@/lib/config/vendor-registry";
 import { formatShare, formatTokens } from "@/lib/utils/format/number";
 import { useLocale, useTranslations } from "next-intl";
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { VendorLink } from "./entity-links";
-import {
-  periodDescriptionKey,
-  pivotSeries,
-  splitHalf,
-} from "./rankings-helpers";
+import { periodDescriptionKey, splitHalf } from "./rankings-helpers";
 
 const FALLBACK_PALETTE = [
   "#0ea5e9",
@@ -65,24 +55,6 @@ export function MarketShareSection(props: MarketShareSectionProps) {
   const vendorNames = props.history.vendors.map((v) => v.name);
   const colourMap = buildVendorColourMap(vendorNames);
 
-  const chartConfig: ChartConfig = {};
-  for (const name of vendorNames) {
-    chartConfig[name] = {
-      label: name,
-      color: colourMap[name],
-    };
-  }
-
-  const chartData = pivotSeries(
-    props.history.points.map((p) => ({
-      label: p.label,
-      ts: p.ts,
-      key: p.vendor,
-      value: p.share,
-    })),
-    vendorNames,
-  );
-
   const visible = props.rows.slice(0, MAX_VENDORS_IN_LIST);
   const [left, right] = splitHalf(visible);
 
@@ -98,57 +70,19 @@ export function MarketShareSection(props: MarketShareSectionProps) {
         </p>
       </header>
 
-      <div className="px-5 pb-5">
-        <div className="h-60 sm:h-72">
-          {chartData.length > 0 && vendorNames.length > 0 ? (
-            <ChartContainer
-              config={chartConfig}
-              className="aspect-auto h-full w-full"
-            >
-              <BarChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis
-                  dataKey="label"
-                  tickLine={false}
-                  axisLine={false}
-                  fontSize={10}
-                  fontFamily="monospace"
-                  minTickGap={24}
-                  interval="preserveStartEnd"
-                />
-                <YAxis
-                  tickLine={false}
-                  axisLine={false}
-                  fontSize={10}
-                  fontFamily="monospace"
-                  domain={[0, 1]}
-                  tickFormatter={(v: number) => `${Math.round(v * 100)}%`}
-                />
-                <ChartTooltip
-                  content={
-                    <ChartTooltipContent
-                      valueFormatter={(v: number) => `${(v * 100).toFixed(1)}%`}
-                      sortDesc
-                    />
-                  }
-                />
-                {vendorNames.map((name) => (
-                  <Bar
-                    key={name}
-                    dataKey={name}
-                    stackId="a"
-                    fill={colourMap[name]}
-                  />
-                ))}
-              </BarChart>
-            </ChartContainer>
-          ) : (
-            <div className="text-muted-foreground flex h-full items-center justify-center text-xs">
-              {t("RANKINGS.ERROR.NO_HISTORY")}
-            </div>
-          )}
-        </div>
-      </div>
+      <RankingHistoryChart
+        points={props.history.points.map((p) => ({
+          label: p.label,
+          ts: p.ts,
+          key: p.vendor,
+          value: p.share,
+        }))}
+        names={vendorNames}
+        colorOf={(name) => colourMap[name]}
+        domain={[0, 1]}
+        tickFormatter={(v) => `${Math.round(v * 100)}%`}
+        valueFormatter={(v) => `${(v * 100).toFixed(1)}%`}
+      />
 
       <div className="border-t">
         <header className="px-5 pt-4 pb-2">
