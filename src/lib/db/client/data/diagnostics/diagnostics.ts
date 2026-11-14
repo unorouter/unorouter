@@ -7,7 +7,7 @@ import {
 } from "@/lib/db/client/data/chat/chat";
 import {
   readLocalRequestLogMetaForConv,
-  readLocalRequestLogsNewestForConv,
+  readLocalRequestLogsForConv,
 } from "@/lib/db/client/data/chat/request-log";
 import { activeTokenizerState } from "@/lib/ai/chat/tokenizer";
 import { readLocalJsPlugins } from "@/lib/db/client/data/rp/js-plugins";
@@ -351,10 +351,7 @@ const MAX_SHAPE_ROWS = 3;
 
 async function readRequestLogsForConvDiag(convId: string): Promise<unknown[]> {
   const meta = await readLocalRequestLogMetaForConv(convId, MAX_LOGS_PER_CONV);
-  const newest = await readLocalRequestLogsNewestForConv(
-    convId,
-    MAX_SHAPE_ROWS,
-  );
+  const newest = await readLocalRequestLogsForConv(convId, MAX_SHAPE_ROWS);
   return meta.map((row) => {
     const match = newest.find((l) => l.msgId === row.msgId);
     return match

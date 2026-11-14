@@ -143,18 +143,7 @@ export async function readLocalRequestLog(
 
 export async function readLocalRequestLogsForConv(
   convId: string,
-): Promise<RequestLogRow[]> {
-  const local = await getLocalDb();
-  if (!local) return [];
-  return local.db
-    .select()
-    .from(requestLogs)
-    .where(eq(requestLogs.convId, convId));
-}
-
-export async function readLocalRequestLogsNewestForConv(
-  convId: string,
-  limit: number,
+  limit = MAX_REQUEST_LOGS,
 ): Promise<RequestLogRow[]> {
   const local = await getLocalDb();
   if (!local) return [];
