@@ -12,6 +12,7 @@ export async function generateInlayImage(
     model?: string;
     group?: string | null;
     air?: string;
+    negative?: string;
     references?: { url: string }[];
   },
 ): Promise<InlayImage | null> {
@@ -41,6 +42,7 @@ export async function generateInlayImage(
       model: model.model_name,
       prompt,
       references: references?.length ? references : undefined,
+      ...(opts?.negative ? { negativePrompt: opts.negative } : {}),
       // Only the pass-through model reads it; without it that model runs the
       // channel's default checkpoint.
       ...(opts?.air && model.model_name === CUSTOM_CIVITAI_MODEL_ID
@@ -48,7 +50,6 @@ export async function generateInlayImage(
         : {}),
     },
     endpoint,
-    n: 1,
     // Only when the user pinned this model's lane: a group belongs to the model
     // it was chosen for, and the fallbacks above may have picked a different one.
     ...(opts?.model === model.model_name ? { group: opts?.group } : {}),

@@ -61,7 +61,7 @@ export async function mergeChildRows<TTable extends ScopedTable, T>(
 // and for the hold after a failed open. Returning quietly discarded the row
 // while the caller's mutation still reported success, so an editor closed on
 // work that was never written.
-async function requireLocalDb() {
+export async function requireLocalDb() {
   const local = await getLocalDb();
   if (!local) throw new Error(msg("ERRORS.DB_UNAVAILABLE"));
   return local;

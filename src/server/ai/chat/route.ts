@@ -208,6 +208,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
         model: body.model,
         group: body.group,
         air: body.air,
+        negative: body.negative,
         references: body.references,
       });
       return { success: true, data };

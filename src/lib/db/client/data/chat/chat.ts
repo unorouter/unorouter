@@ -44,6 +44,7 @@ import {
   makeTableStore,
   mergeChildRows,
   replaceChildRows,
+  requireLocalDb,
 } from "@/lib/db/client/data/table-store";
 
 import type {
@@ -94,8 +95,7 @@ export const upsertLocalChatGroup = (row: LocalRowInput & { id: string }) =>
 // Chats and subgroups move up one level, so deleting a top-level group
 // ungroups them.
 export const deleteLocalChatGroup = async (groupId: string) => {
-  const local = await getLocalDb();
-  if (!local) return;
+  const local = await requireLocalDb();
   const parentId = (await chatGroupStore.get(groupId))?.parentId ?? null;
   await local.db
     .update(conversations)
@@ -395,8 +395,7 @@ export const updateLocalConversationSettings = (
 };
 
 export async function deleteLocalMessagesForConv(convId: string) {
-  const local = await getLocalDb();
-  if (!local) return;
+  const local = await requireLocalDb();
   await local.db.delete(messages).where(eq(messages.convId, convId));
 }
 
@@ -499,8 +498,7 @@ export async function replaceLocalMessageItems(
   messageId: string,
   items: Array<InferInsertModel<typeof messageItems> & { id: string }>,
 ) {
-  const local = await getLocalDb();
-  if (!local) return;
+  const local = await requireLocalDb();
   await replaceChildRows(
     local.db,
     messageItems,
@@ -523,8 +521,7 @@ export async function replaceLocalConversationBindings(
     conversationLorebooks?: Array<{ lorebookId: string; orderIndex?: number }>;
   },
 ) {
-  const local = await getLocalDb();
-  if (!local) return;
+  const local = await requireLocalDb();
   if (bindings.conversationCharacters) {
     // The sticky loadout cookie outlives its entities, and binding a missing
     // character id trips the FK constraint and kills chat creation.
@@ -597,8 +594,7 @@ export async function upsertLocalConversationBundle(bundle: {
   media: Array<InferInsertModel<typeof media>>;
   requestLogs: ChildRow[];
 }): Promise<void> {
-  const local = await getLocalDb();
-  if (!local) return;
+  const local = await requireLocalDb();
   const convRow = bundle.settings
     ? {
         ...bundle.conversation,
