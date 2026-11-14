@@ -103,21 +103,11 @@ export function ViewportFixes() {
     // bfcache restore can land in the stuck-offset state with no viewport event.
     window.addEventListener("pageshow", onDelayed);
 
-    let prevHeight = 0;
-    const ro = new ResizeObserver((entries) => {
-      const h = entries[0]?.contentRect.height ?? 0;
-      if (h < prevHeight - 4) onTrigger();
-      prevHeight = h;
-    });
-    const content = getScroller()?.firstElementChild;
-    if (content) ro.observe(content);
-
     return () => {
       window.visualViewport?.removeEventListener("resize", onTrigger);
       document.removeEventListener("focusout", onDelayed);
       document.removeEventListener("visibilitychange", onVisibility);
       window.removeEventListener("pageshow", onDelayed);
-      ro.disconnect();
       if (unstickTimer) clearTimeout(unstickTimer);
     };
   }, []);

@@ -373,12 +373,20 @@ const ThreadScrollToBottom: FC<{ viewportEl: HTMLDivElement | null }> = (
     read();
     viewport.addEventListener("scroll", read, { passive: true });
     // The distance also changes when content grows under a still viewport.
+    // Messages are the viewport's direct children and come and go, so new
+    // children are observed as they mount.
     const observer = new ResizeObserver(read);
     observer.observe(viewport);
-    for (const child of viewport.children) observer.observe(child);
+    const watchChildren = () => {
+      for (const child of viewport.children) observer.observe(child);
+    };
+    watchChildren();
+    const mutations = new MutationObserver(watchChildren);
+    mutations.observe(viewport, { childList: true });
     return () => {
       viewport.removeEventListener("scroll", read);
       observer.disconnect();
+      mutations.disconnect();
     };
   }, [viewport]);
 
