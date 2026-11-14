@@ -34,6 +34,6 @@ export async function streamMedia(
     case "embedding":
       return handleEmbeddingStream(apiKey, body, model);
     default:
-      throw new Error(msg("ERRORS.UNAUTHORIZED"));
+      throw new Error(msg("ERRORS.NOT_FOUND"));
   }
 }
