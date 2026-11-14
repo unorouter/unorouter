@@ -22,6 +22,7 @@ import {
 } from "@/lib/db/client/data/chat/chat";
 import { runRegexScripts } from "@/lib/ai/chat/regex-scripts";
 import type { IllustratorConvSettings } from "./illustrator-run";
+import { requestImagePromptReview } from "@/components/pages/sidebar/chat/image-prompt-dialog-store";
 import { makeTriggerContext, runTriggers } from "@/lib/ai/chat/triggers/vm";
 import type { TriggerScript } from "@/lib/ai/chat/triggers/types";
 import { makeClientTriggerOps } from "./trigger-ops-client";
@@ -523,7 +524,7 @@ async function bumpConversationTotals(
   });
 }
 
-function fireIllustrator(
+async function fireIllustrator(
   queryClient: QueryClient,
   job: IllustratorJob,
   args: {
@@ -531,38 +532,33 @@ function fireIllustrator(
     messageId: string;
     responseText: string;
   },
-): void {
-  void (async () => {
-    try {
-      const { runIllustrator } = await import("./illustrator-run");
-      const reviewPrompt = job.settings.imagePreview
-        ? (
-            await import("@/components/pages/sidebar/chat/image-prompt-dialog-store")
-          ).requestImagePromptReview
-        : undefined;
-      await runIllustrator({
-        convId: args.convId,
-        messageId: args.messageId,
-        taskId: job.taskId,
-        responseText: args.responseText,
-        utilityModel: job.utilityModel,
-        promptInstruction: job.settings.promptInstruction,
-        imageModel: job.settings.imageModel,
-        refMediaIds: job.settings.refMediaIds,
-        reviewPrompt,
-      });
-    } catch (err) {
-      handleError(err);
-    } finally {
-      queryClient.invalidateQueries({
-        queryKey: queryKeys.chatMessages(args.convId),
-      });
-      // The open thread renders its live array, not the rows just rewritten.
-      if (!chatStore.get(chatRunningAtom)) {
-        await reloadLiveThreadFromDb(args.convId);
-      }
+): Promise<void> {
+  try {
+    const { runIllustrator } = await import("./illustrator-run");
+    await runIllustrator({
+      convId: args.convId,
+      messageId: args.messageId,
+      taskId: job.taskId,
+      responseText: args.responseText,
+      utilityModel: job.utilityModel,
+      promptInstruction: job.settings.promptInstruction,
+      imageModel: job.settings.imageModel,
+      refMediaIds: job.settings.refMediaIds,
+      reviewPrompt: job.settings.imagePreview
+        ? requestImagePromptReview
+        : undefined,
+    });
+  } catch (err) {
+    handleError(err);
+  } finally {
+    queryClient.invalidateQueries({
+      queryKey: queryKeys.chatMessages(args.convId),
+    });
+    // The open thread renders its live array, not the rows just rewritten.
+    if (!chatStore.get(chatRunningAtom)) {
+      await reloadLiveThreadFromDb(args.convId);
     }
-  })();
+  }
 }
 
 // assistant-ui appends a turn only once it completes, so a stream that never
@@ -848,7 +844,7 @@ export function createChatHistoryAdapter(
               },
             },
           ]);
-          fireIllustrator(queryClient, illustratorJob, {
+          void fireIllustrator(queryClient, illustratorJob, {
             convId: id,
             messageId,
             responseText: originalAssistantText,
