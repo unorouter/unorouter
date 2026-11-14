@@ -74,12 +74,7 @@ type EntryDecorators = {
   recursive?: boolean;
   noRecursiveSearch?: boolean;
   ignoreOnMaxContext?: boolean;
-  inject?: {
-    operation: "append" | "prepend" | "replace";
-    location: string;
-    lore: boolean;
-  };
-  disableUiPrompt?: ("system_prompt" | "post_history_instructions")[];
+  inject?: { operation: "append" | "prepend" | "replace"; location: string };
 };
 
 const DECORATOR_LINE = /^@@(\w+)[ \t]*(.*)$/;
@@ -167,29 +162,15 @@ function parseDecorators(content: string): EntryDecorators {
         out.ignoreOnMaxContext = true;
         break;
       case "inject_lore":
-        out.inject = { operation: "append", location: arg, lore: true };
-        break;
       case "inject_at":
-        out.inject = { operation: "append", location: arg, lore: false };
+        out.inject = { operation: "append", location: arg };
         break;
       case "inject_replace":
-        out.inject = {
-          operation: "replace",
-          location: out.inject?.location ?? arg,
-          lore: out.inject?.lore ?? false,
-        };
-        break;
       case "inject_prepend":
         out.inject = {
-          operation: "prepend",
+          operation: name === "inject_replace" ? "replace" : "prepend",
           location: out.inject?.location ?? arg,
-          lore: out.inject?.lore ?? false,
         };
-        break;
-      case "disable_ui_prompt":
-        if (arg === "system_prompt" || arg === "post_history_instructions") {
-          (out.disableUiPrompt ??= []).push(arg);
-        }
         break;
       default:
         break; // unknown decorator: line consumed, no effect
@@ -390,17 +371,14 @@ export function selectLorebookEntries(
   const injectors = survived.filter((p) => p.dec.inject);
   const placed = survived.filter((p) => !p.dec.inject);
   for (const inj of injectors) {
-    const target = placed.find((p) => p.entry.id === inj.dec.inject!.location);
+    const at = inj.dec.inject;
+    const target = at && placed.find((p) => p.entry.id === at.location);
     if (!target) continue;
-    const op = inj.dec.inject!.operation;
-    if (op === "append") target.dec.body = `${target.dec.body} ${inj.dec.body}`;
-    else if (op === "prepend")
+    if (at.operation === "append")
+      target.dec.body = `${target.dec.body} ${inj.dec.body}`;
+    else if (at.operation === "prepend")
       target.dec.body = `${inj.dec.body} ${target.dec.body}`;
-    else if (op === "replace")
-      target.dec.body = target.dec.body.replace(
-        inj.dec.inject!.location,
-        inj.dec.body,
-      );
+    else target.dec.body = target.dec.body.replace(at.location, inj.dec.body);
   }
 
   const order = (p: Prepared) => p.dec.order ?? p.entry.orderIndex ?? 0;
