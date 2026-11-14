@@ -297,12 +297,9 @@ export function buildDebugSnapshot(
       messagesCount: body.messages.length,
       chatContext: ctx
         ? {
-            characters: (ctx.characters ?? []).length,
-            lorebooks: (ctx.lorebooks ?? []).length,
-            lorebookEntries: (ctx.lorebooks ?? []).reduce(
-              (n, l) => n + (l.entries?.length ?? 0),
-              0,
-            ),
+            characters: ctx.boundCharacters.length,
+            lorebooks: ctx.lbRows.length,
+            lorebookEntries: ctx.lbEntries.length,
             hasPersona: ctx.persona != null,
             hasPreset: ctx.preset != null,
           }

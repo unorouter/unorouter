@@ -1,5 +1,5 @@
-import { rec } from "@/lib/utils/base";
-import type { ChatContext, StreamOverrides } from "@/lib/validation/chat";
+import type { StreamOverrides } from "@/lib/validation/chat";
+import type { LoadedConvContext } from "@/lib/types";
 import type { AssemblerDeps } from "./deps";
 import type { StreamMessages } from "./transforms";
 import {
@@ -29,7 +29,7 @@ export type StreamBody = {
   webSearch?: boolean;
   group?: string | null;
   overrides?: StreamOverrides;
-  chatContext?: ChatContext;
+  chatContext?: NonNullable<LoadedConvContext>;
   globalVars?: string | null;
   speakingCharacterId?: string | null;
   messageTimes?: Record<string, number>;
@@ -62,7 +62,7 @@ export async function prepareChatRequest(
   abortSignal?: AbortSignal,
 ) {
   throwIfAborted(abortSignal);
-  const presetTokenizer = rec(body.chatContext?.preset)?.tokenizer;
+  const presetTokenizer = body.chatContext?.preset?.tokenizer;
   const activeTokenizer = tokenizerRefForModel(
     (isTokenizerRef(presetTokenizer) && presetTokenizer !== "auto"
       ? presetTokenizer
@@ -73,7 +73,7 @@ export async function prepareChatRequest(
   const tokenizerState = activeTokenizerState();
 
   throwIfAborted(abortSignal);
-  const { clientCtx, convCtx, effectiveWebSearch, searchSystemMessage } =
+  const { convCtx, effectiveWebSearch, searchSystemMessage } =
     await resolveContext(apiKey, body, userId, deps);
 
   const modelInfo = await deps.getModelInfo(body.model);
@@ -89,7 +89,6 @@ export async function prepareChatRequest(
     apiKey,
     body,
     convCtx,
-    clientCtx,
     messages,
     searchSystemMessage,
     modelInfo,

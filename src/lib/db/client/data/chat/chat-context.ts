@@ -1,6 +1,6 @@
 "use client";
 
-import type { ChatContext } from "@/lib/validation/chat";
+import type { LoadedConvContext } from "@/lib/types";
 import { walkActiveBranch } from "@/lib/ai/chat/messages";
 import {
   readLocalConversationBindings,
@@ -16,7 +16,7 @@ import {
 
 export async function buildChatContextFromLocalDb(
   convId: string,
-): Promise<ChatContext | undefined> {
+): Promise<NonNullable<LoadedConvContext> | undefined> {
   let settings = await readLocalConversationSettings(convId);
   if (!settings) return undefined;
 
@@ -51,15 +51,26 @@ export async function buildChatContextFromLocalDb(
       ? readLocalPreset(settings.presetId)
       : Promise.resolve(null),
   ]);
-  const characters = characterRows
-    .filter((c) => c.character != null)
-    .map((c) => ({ binding: c.binding, character: c.character! }));
-  const lorebooks = lorebookRows
-    .filter((l) => l != null)
-    .map((l) => ({
-      ...l,
-      entries: l.entries.filter((e) => e.enabled !== false),
-    }));
+  const boundCharacters = characterRows.flatMap((c, i) =>
+    c.character && c.binding.isActive !== false
+      ? [
+          {
+            binding: { ...c.binding, orderIndex: c.binding.orderIndex ?? i },
+            character: c.character,
+          },
+        ]
+      : [],
+  );
+  const bundles = lorebookRows.filter((l) => l != null);
 
-  return { persona, characters, lorebooks, preset, settings };
+  return {
+    settings,
+    boundCharacters,
+    persona: persona ?? undefined,
+    preset: preset ?? undefined,
+    lbRows: bundles.map((l) => l.lorebook),
+    lbEntries: bundles.flatMap((l) =>
+      l.entries.filter((e) => e.enabled !== false),
+    ),
+  };
 }

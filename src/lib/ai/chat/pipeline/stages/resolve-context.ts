@@ -1,12 +1,9 @@
 import { GUEST_USER_ID } from "@/lib/config/constants";
-import type { ChatContext } from "@/lib/validation/chat";
 import type { LoadedConvContext } from "@/lib/types";
-import { buildContextFromClient } from "../../prompt/conv-context";
 import type { AssemblerDeps } from "../deps";
 import { extractLastUserText, type StreamMessages } from "../transforms";
 
 export type ResolvedContext = {
-  clientCtx: ChatContext | undefined;
   convCtx: LoadedConvContext;
   effectiveWebSearch: boolean;
   searchSystemMessage: string | undefined;
@@ -16,15 +13,14 @@ export async function resolveContext(
   apiKey: string,
   body: {
     convId?: string | null;
-    chatContext?: ChatContext;
+    chatContext?: NonNullable<LoadedConvContext>;
     webSearch?: boolean;
     messages: StreamMessages;
   },
   userId: number,
   deps: AssemblerDeps,
 ): Promise<ResolvedContext> {
-  const clientCtx = body.chatContext;
-  const convCtx = clientCtx ? buildContextFromClient(clientCtx) : null;
+  const convCtx = body.chatContext ?? null;
 
   const effectiveWebSearch =
     userId !== GUEST_USER_ID &&
@@ -40,5 +36,5 @@ export async function resolveContext(
     });
   }
 
-  return { clientCtx, convCtx, effectiveWebSearch, searchSystemMessage };
+  return { convCtx, effectiveWebSearch, searchSystemMessage };
 }

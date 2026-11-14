@@ -295,37 +295,6 @@ export type UpdateConversationBindingsBody = {
   lorebookIds?: string[];
 };
 
-export const chatContext = t.Object({
-  persona: t.Optional(t.Union([t.Any(), t.Null()])),
-  characters: t.Optional(
-    t.Array(
-      t.Object({
-        binding: t.Object({
-          characterId: t.String(),
-          orderIndex: t.Optional(t.Union([t.Number(), t.Null()])),
-          isActive: t.Optional(t.Union([t.Boolean(), t.Null()])),
-          overrides: t.Optional(t.Unknown()),
-        }),
-        character: t.Any(),
-      }),
-      { maxItems: 64 },
-    ),
-  ),
-  lorebooks: t.Optional(
-    t.Array(
-      t.Object({
-        lorebook: t.Any(),
-        entries: t.Array(t.Any(), { maxItems: 1024 }),
-      }),
-      { maxItems: 16 },
-    ),
-  ),
-  preset: t.Optional(t.Union([t.Any(), t.Null()])),
-  settings: t.Optional(t.Union([t.Any(), t.Null()])),
-  globalVars: t.Optional(t.Union([t.String(), t.Null()])),
-});
-export type ChatContext = Static<typeof chatContext>;
-
 export const streamBody = t.Object({
   model: t.String({ maxLength: MAX_MODEL_LEN }),
   messages: t.Array(t.Any(), { maxItems: MAX_MESSAGES_PER_STREAM }),

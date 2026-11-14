@@ -62,7 +62,6 @@ export async function assemblePrompt(
   apiKey: string,
   body: StreamBody,
   convCtx: LoadedConvContext,
-  clientCtx: { globalVars?: string | null } | undefined,
   messages: StreamMessages,
   searchSystemMessage: string | undefined,
   modelInfo: PricingCatalogDetail | undefined,
@@ -82,7 +81,7 @@ export async function assemblePrompt(
         }
       : undefined,
   );
-  const globalVarsIn = body.globalVars ?? clientCtx?.globalVars ?? null;
+  const globalVarsIn = body.globalVars ?? null;
 
   const triggerVars: Record<string, string> = convCtx
     ? parseStringMap(convCtx.settings.vars)
@@ -151,7 +150,8 @@ export async function assemblePrompt(
             maxContext: modelInfo?.metadata?.contextWindow,
             speakingCharacterId: body.speakingCharacterId ?? undefined,
             clientEnv: body.clientEnv,
-            prefillSupported: resolveAdapter(body.model).roleFlags.prefillSupported,
+            prefillSupported: resolveAdapter(body.model).roleFlags
+              .prefillSupported,
           },
         )
       : assembleFromOverrides(body.overrides, assemblySystem);
