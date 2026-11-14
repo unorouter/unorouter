@@ -6,6 +6,7 @@ import {
 } from "@/lib/db/client/data/chat/chat";
 import { isCustomModelId } from "@/lib/ai/chat/custom-provider-id";
 import { MAX_TITLE_SEED_LEN } from "@/lib/validation/chat";
+import { invalidateAndBroadcast } from "@/lib/react-query/cross-tab-invalidate";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
@@ -52,20 +53,19 @@ export function createThreadListAdapter(
   t: ReturnType<typeof useTranslations<never>>,
 ): RemoteThreadListAdapter {
   const persistTitle = async (id: string, title: string) => {
-    const now = dayjs().toDate();
-    const existing = await readLocalConversation(id);
-    if (!existing) return;
     await updateLocalConversationSettings({
       convId: id,
       title,
-      updatedAt: now,
+      updatedAt: dayjs().toDate(),
     });
-    queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
-    queryClient.invalidateQueries({ queryKey: queryKeys.chatMeta(id) });
+    invalidateAndBroadcast(queryClient, [
+      queryKeys.conversations(),
+      queryKeys.chatMeta(id),
+    ]);
   };
   return {
     async list() {
-      const items = (await readLocalConversations()) ?? [];
+      const items = await readLocalConversations();
       return {
         threads: items.map((item) => ({
           remoteId: item.id,
@@ -95,7 +95,7 @@ export function createThreadListAdapter(
 
     async delete(id) {
       await deleteLocalConversation(id);
-      queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
+      invalidateAndBroadcast(queryClient, [queryKeys.conversations()]);
     },
 
     async fetch(id) {
