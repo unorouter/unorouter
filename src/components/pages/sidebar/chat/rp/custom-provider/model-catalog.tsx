@@ -13,7 +13,8 @@ import {
 } from "@/lib/validation/custom-provider";
 import { cn } from "@/lib/utils";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { formatTokenCount } from "@/lib/utils/format/number";
 import { type ReactNode, useRef, useState } from "react";
 import type { UseFormReturn } from "react-hook-form";
 import { toast } from "sonner";
@@ -264,12 +265,6 @@ export function ModelCatalog(props: Props) {
   );
 }
 
-function formatContext(tokens: number): string {
-  return tokens >= 1_000_000
-    ? `${Math.round(tokens / 100_000) / 10}M`
-    : `${Math.round(tokens / 1000)}k`;
-}
-
 function ModelRow(props: {
   row: Row;
   label: string | null;
@@ -278,6 +273,7 @@ function ModelRow(props: {
   onExpand: () => void;
 }) {
   const t = useTranslations();
+  const locale = useLocale();
   const model = props.row.model;
   const on = props.label !== null;
   const slash = props.row.id.indexOf("/");
@@ -322,7 +318,7 @@ function ModelRow(props: {
         )}
         {model?.contextLength ? (
           <span className="font-mono max-sm:hidden">
-            {formatContext(model.contextLength)}
+            {formatTokenCount(model.contextLength, locale)}
           </span>
         ) : null}
       </span>
