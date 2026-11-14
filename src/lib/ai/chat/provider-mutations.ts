@@ -10,17 +10,8 @@ export type BodyMutations = {
   cacheBust?: boolean;
 };
 
-export function hasBodyMutation(opts?: BodyMutations): boolean {
-  return Boolean(
-    opts &&
-    (opts.injectCacheControl ||
-      opts.deepSeekPrefix ||
-      opts.deepSeekThinking ||
-      opts.deepSeekReasoningContent ||
-      opts.moonshotPartial ||
-      opts.claudeAdaptive ||
-      opts.cacheBust),
-  );
+export function hasBodyMutation(opts?: BodyMutations): opts is BodyMutations {
+  return Object.values(opts ?? {}).some(Boolean);
 }
 
 function applyCacheControl(body: Record<string, unknown>) {
@@ -72,8 +63,7 @@ function applyCacheBust(body: Record<string, unknown>) {
   else first.content.unshift({ type: "text", text: line });
 }
 
-// Firefox honors a user-agent set on fetch; the SDK's "ai-sdk/..." value then
-// replaces the browser's and trips the edge's browser-only rule on /api/ai/.
+// Firefox sends a fetch-set user-agent, and the SDK's trips the edge's browser-only rule.
 function withoutUserAgent(
   init: RequestInit | undefined,
 ): RequestInit | undefined {
@@ -86,7 +76,7 @@ function withoutUserAgent(
 export function makeUpstreamFetch(opts?: BodyMutations): typeof fetch {
   return async (input, init) => {
     init = withoutUserAgent(init);
-    if (!opts || !hasBodyMutation(opts)) return fetch(input, init);
+    if (!hasBodyMutation(opts)) return fetch(input, init);
     try {
       if (init?.body && typeof init.body === "string") {
         const body = rec(JSON.parse(init.body));
@@ -110,15 +100,13 @@ export function makeUpstreamFetch(opts?: BodyMutations): typeof fetch {
           };
           // Top level: nested inside `thinking` the effort is dropped and the
           // model answers with no reasoning at all.
-          if (opts.deepSeekThinking.enabled)
-            body.reasoning_effort = opts.deepSeekThinking.effort;
-          else delete body.reasoning_effort;
           if (opts.deepSeekThinking.enabled) {
+            body.reasoning_effort = opts.deepSeekThinking.effort;
             delete body.temperature;
             delete body.top_p;
             delete body.frequency_penalty;
             delete body.presence_penalty;
-          }
+          } else delete body.reasoning_effort;
         }
         if (opts.claudeAdaptive) {
           body.thinking = { type: "adaptive", display: "summarized" };

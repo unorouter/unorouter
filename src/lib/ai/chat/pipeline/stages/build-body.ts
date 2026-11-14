@@ -2,11 +2,9 @@ import type { PricingCatalogDetail } from "@/openapi";
 import { CHAT_PROVIDER_NAME } from "@/lib/config/constants";
 import type { AssembledSystem } from "../../prompt/assembler.service";
 import { GEMINI_SAFETY_OFF, type StreamMessages } from "../transforms";
-import type { getModelRoleFlags } from "../role-flags";
+import type { ModelRoleFlags } from "@/lib/ai/providers/types";
 import type { StreamBody } from "../prepare.service";
 import type { BodyMutations } from "../../provider-mutations";
-
-type AutoFlags = ReturnType<typeof getModelRoleFlags>;
 
 function defined<T extends Record<string, unknown>>(o: T): Partial<T> {
   return Object.fromEntries(
@@ -79,7 +77,7 @@ export function buildModelParams(
 
 export function buildProviderOptions(
   assembled: AssembledSystem,
-  autoFlags: AutoFlags,
+  autoFlags: ModelRoleFlags,
   modelInfo: PricingCatalogDetail | undefined,
 ) {
   const safeExtraBody =
@@ -137,7 +135,7 @@ export function buildProviderOptions(
 
 export function buildBodyMutations(
   assembled: AssembledSystem,
-  autoFlags: AutoFlags,
+  autoFlags: ModelRoleFlags,
   modelInfo: PricingCatalogDetail | undefined,
   deepSeekReasoningContent: string | undefined,
   moonshotPartial: boolean,
@@ -230,7 +228,7 @@ export function buildDebugSnapshot(
   messagesForUpstream: StreamMessages,
   target?: { endpoint: string; url: string },
   assembled?: AssembledSystem,
-  autoFlags?: AutoFlags,
+  autoFlags?: ModelRoleFlags,
   modelInfo?: PricingCatalogDetail,
   historyStats?: Record<string, unknown>,
   tokenizer?: { source: string; exact: boolean },

@@ -1,5 +1,11 @@
 import { calcString, seededRand } from "@/lib/ai/chat/calc";
-import { base64ToUint8, capitalize, clamp, rec } from "@/lib/utils/base";
+import {
+  base64ToUint8,
+  capitalize,
+  clamp,
+  fnv1aHex,
+  rec,
+} from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 
 export type MacroScope = {
@@ -169,25 +175,17 @@ function trimLines(p1: string): string {
     .trim();
 }
 
+const ESCAPED = "{}()";
 export function risuEscape(text: string): string {
-  return text.replace(/[{}()]/g, (f) => {
-    switch (f) {
-      case "{":
-        return "\uE9B8";
-      case "}":
-        return "\uE9B9";
-      case "(":
-        return "\uE9BA";
-      default:
-        return "\uE9BB";
-    }
-  });
+  return text.replace(/[{}()]/g, (f) =>
+    String.fromCharCode(0xe9b8 + ESCAPED.indexOf(f)),
+  );
 }
 
-const UNESCAPE_MAP = ["{", "}", "(", ")"];
 export function risuUnescape(text: string): string {
-  return text.replace(/[\uE9B8-\uE9BF]/g, (f) =>
-    String(UNESCAPE_MAP[f.charCodeAt(0) - 0xe9b8] ?? f),
+  return text.replace(
+    /[\uE9B8-\uE9BF]/g,
+    (f) => ESCAPED[f.charCodeAt(0) - 0xe9b8] ?? f,
   );
 }
 
@@ -241,7 +239,9 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
   const field = FIELD_ALIASES[name];
   if (field && args.length === 0) return scope[field];
 
-  const rand = () => seededRand(`${scope.seed ?? ""}:${trimmed}`);
+  const key = `${scope.seed ?? ""}:${trimmed}`;
+  let calls = 0;
+  const rand = () => seededRand(calls++ ? fnv1aHex(`${calls}:${key}`) : key);
 
   switch (name) {
     case "roll":
@@ -643,7 +643,6 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
     case "axmodel":
       return scope.model ?? "";
     case "prefillsupported":
-    case "prefill_supported":
       return scope.prefillSupported ? "1" : "0";
     case "file": {
       const b64 = args[1]?.trim() ?? "";
@@ -741,7 +740,7 @@ const LITERAL_MACROS: Record<string, string> = (() => {
     ["}}", ["bc", "ddecbc", "doubledisplayescapedcurlybracketclose"]],
     [
       "",
-      "blank none asset assetlist emotion emotionlist image img audio video videoimg bg bgm inlay inlayed inlayeddata path source button risu ruby furigana katex latex chardisplayasset moduleassetlist".split(
+      "blank none assetlist emotion emotionlist audio video videoimg bg bgm inlay inlayed inlayeddata path source button risu ruby furigana katex latex chardisplayasset moduleassetlist".split(
         " ",
       ),
     ],
@@ -1021,12 +1020,8 @@ function expandBlocks(text: string, scope: MacroScope, depth: number): string {
       text = rest;
       break;
     }
-    if (r.raw !== undefined) {
-      out += r.raw;
-      text = r.rest;
-    } else {
-      text = r.rest;
-    }
+    if (r.raw !== undefined) out += r.raw;
+    text = r.rest;
   }
   return out + expandFlat(text, scope);
 }

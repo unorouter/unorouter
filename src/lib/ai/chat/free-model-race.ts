@@ -5,9 +5,7 @@ export type FreeModelGenerate = (
     prompt: string;
     maxOutputTokens?: number;
     abortSignal?: AbortSignal;
-    // Provider lane for THIS call. Per-call rather than baked into the deps,
-    // because one generate is reused across a race whose models do not share
-    // lanes, so a lane pinned for one of them is wrong for the rest.
+    // Per call: one generate serves a race whose models do not share lanes.
     group?: string | null;
   },
 ) => Promise<{ text: string }>;
@@ -23,7 +21,7 @@ export type FreeModelRaceArgs = {
 
 export async function freeModelRace(
   args: FreeModelRaceArgs,
-): Promise<{ text: string; models: string[] }> {
+): Promise<{ text: string }> {
   const models = await args.listFreeModels();
   if (models.length === 0) throw new Error("no free models available");
 
@@ -36,5 +34,5 @@ export async function freeModelRace(
     }),
   );
   const result = await Promise.any(attempts);
-  return { text: result.text, models };
+  return { text: result.text };
 }

@@ -4,17 +4,8 @@ export function seededRand(key: string): number {
   let h = 5515;
   for (let i = 0; i < key.length; i++)
     h = ((h << 5) + h + key.charCodeAt(i)) | 0;
-  let a = h >>> 0;
-  let b = h >>> 0;
-  let c = h >>> 0;
-  let d = h >>> 0;
-  let t = (a + b) | 0;
-  a = b ^ (b >>> 9);
-  b = (c + (c << 3)) | 0;
-  c = (c << 21) | (c >>> 11);
-  d = (d + 1) | 0;
-  t = (t + d) | 0;
-  c = (c + t) | 0;
+  const s = h >>> 0;
+  const t = (((s + s) | 0) + ((s + 1) | 0)) | 0;
   return (t >>> 0) / 4294967296;
 }
 

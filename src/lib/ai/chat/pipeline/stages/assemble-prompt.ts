@@ -3,13 +3,19 @@ import {
   UNKNOWN_MODEL_OUTPUT_CAP,
 } from "@/lib/config/constants";
 import { parseStringMap } from "@/lib/utils/base";
+import {
+  hasJanitorScripts,
+  hasPerchanceScripts,
+  runJanitorScriptsForTurn,
+  runPerchanceScriptsForTurn,
+} from "@/lib/ai/chat/plugins/engine";
 import { countTokens } from "@/lib/ai/chat/tokenizer";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import type { PricingCatalogDetail } from "@/openapi";
 import type { LoadedConvContext } from "@/lib/types";
+import type { CharacterRow } from "@/lib/db/schema/rows";
 import { runStartTriggers } from "../../triggers/run-triggers";
 import type { AssemblerDeps, InlayImage } from "../deps";
-import { type MemoryContext } from "../../context/memory.service";
 import { createAgentPipeline, resolveAgent } from "@/lib/ai/agents/pipeline";
 import { summaryAgent } from "@/lib/ai/agents/builtin/summary/agent";
 import type { AgentRuntime } from "@/lib/ai/agents/types";
@@ -18,7 +24,7 @@ import {
   assembleFromOverrides,
   type AssembledSystem,
 } from "../../prompt/assembler.service";
-import { getModelRoleFlags } from "../role-flags";
+import { resolveAdapter } from "@/lib/ai/providers/registry";
 import {
   collectHistory,
   collectRecentUserTexts,
@@ -28,9 +34,16 @@ import {
   fitToTokenBudget,
   messageTokens,
   spliceDepthInjections,
+  textOf,
   type StreamMessages,
 } from "../transforms";
 import type { StreamBody } from "../prepare.service";
+
+type MemoryContext = {
+  memoryBlock: string;
+  retrievalBlock: string;
+  summaryWriteback: { summary: string; anchor: number } | null;
+};
 
 export type AssembledPrompt = {
   assembled: AssembledSystem;
@@ -85,21 +98,8 @@ export async function assemblePrompt(
       )
     : { extraSystemPrompt: "", stopSending: false, alerts: [] };
 
-  const convSettings = convCtx?.settings as
-    | {
-        memoryEnabled?: boolean | null;
-        summaryMemory?: string | null;
-        summaryAnchor?: number | null;
-        utilityModel?: string | null;
-      }
-    | undefined;
-  const presetDefaults = convCtx?.preset as
-    | {
-        memoryEnabled?: boolean | null;
-        utilityModel?: string | null;
-        utilityGroup?: string | null;
-      }
-    | undefined;
+  const convSettings = convCtx?.settings;
+  const presetDefaults = convCtx?.preset;
   const memorySettings = {
     memoryEnabled: convSettings?.memoryEnabled ?? presetDefaults?.memoryEnabled,
     utilityModel: convSettings?.utilityModel ?? presetDefaults?.utilityModel,
@@ -151,7 +151,7 @@ export async function assemblePrompt(
             maxContext: modelInfo?.metadata?.contextWindow,
             speakingCharacterId: body.speakingCharacterId ?? undefined,
             clientEnv: body.clientEnv,
-            prefillSupported: getModelRoleFlags(body.model).prefillSupported,
+            prefillSupported: resolveAdapter(body.model).roleFlags.prefillSupported,
           },
         )
       : assembleFromOverrides(body.overrides, assemblySystem);
@@ -189,11 +189,10 @@ export async function assemblePrompt(
     reserveTokens,
   );
 
-  const depthInjections = assembled.authorNote ? [assembled.authorNote] : [];
-  const splicedMessages =
-    depthInjections.length > 0
-      ? spliceDepthInjections(slicedMessages, depthInjections)
-      : slicedMessages;
+  const splicedMessages = spliceDepthInjections(
+    slicedMessages,
+    assembled.authorNote ? [assembled.authorNote] : [],
+  );
   const historyMessages = expandMessageMacros(splicedMessages, assembled.vars);
 
   const historyStats = {
@@ -201,7 +200,6 @@ export async function assemblePrompt(
     summaryAnchor,
     afterSummary: unsummarized.length,
     chatMemory: assembled.chatMemory ?? null,
-    contextTokens: contextWindow ?? null,
     afterCount: countSliced.length,
     afterBudget: slicedMessages.length,
     droppedBySummary: messages.length - unsummarized.length,
@@ -341,19 +339,12 @@ async function applyPerchanceScripts(
   body: StreamBody,
 ): Promise<{ ctx: LoadedConvContext; extraSystem: string }> {
   const none = { ctx: convCtx, extraSystem: "" };
-  if (typeof window === "undefined" || !convCtx) return none;
+  if (!convCtx) return none;
   const primary = convCtx.boundCharacters[0]?.character;
-  if (!primary) return none;
-  const { hasPerchanceScripts, runPerchanceScriptsForTurn } =
-    await import("@/lib/ai/chat/plugins/engine");
-  if (!hasPerchanceScripts()) return none;
+  if (!primary || !hasPerchanceScripts()) return none;
 
   const history = messages.flatMap((m) => {
-    if (!Array.isArray(m.parts)) return [];
-    const content = m.parts
-      .filter((p) => p.type === "text")
-      .map((p) => p.text)
-      .join("\n");
+    const content = textOf(m.parts);
     const author =
       m.role === "user" ? "user" : m.role === "assistant" ? "ai" : "system";
     return content ? [{ author, content } as const] : [];
@@ -377,19 +368,13 @@ async function applyPerchanceScripts(
     .filter((m) => !m.hiddenFrom?.includes("ai"))
     .map((m) => m.content)
     .join("\n\n");
-  const boundCharacters = convCtx.boundCharacters.map((b, i) =>
-    i === 0
-      ? {
-          ...b,
-          character: {
-            ...b.character,
-            description: result.roleInstruction,
-            postHistoryInstructions: result.reminderMessage,
-          },
-        }
-      : b,
-  );
-  return { ctx: { ...convCtx, boundCharacters }, extraSystem };
+  return {
+    ctx: patchPrimary(convCtx, {
+      description: result.roleInstruction,
+      postHistoryInstructions: result.reminderMessage,
+    }),
+    extraSystem,
+  };
 }
 
 // Returns a CLONED context: user scripts must never mutate the stored conversation.
@@ -398,30 +383,13 @@ async function applyJanitorScripts(
   messages: StreamMessages,
   body: StreamBody,
 ): Promise<LoadedConvContext> {
-  if (typeof window === "undefined" || !convCtx) return convCtx;
-  const primary = convCtx.boundCharacters[0]?.character as
-    | {
-        name?: string | null;
-        exampleMessages?: string | null;
-        personality?: string | null;
-        scenario?: string | null;
-        description?: string | null;
-        firstMessage?: string | null;
-      }
-    | undefined;
-  if (!primary) return convCtx;
-
-  const { hasJanitorScripts, runJanitorScriptsForTurn } =
-    await import("@/lib/ai/chat/plugins/engine");
-  if (!hasJanitorScripts()) return convCtx;
+  if (!convCtx) return convCtx;
+  const primary = convCtx.boundCharacters[0]?.character;
+  if (!primary || !hasJanitorScripts()) return convCtx;
 
   const texts: { role: string; text: string }[] = [];
   for (const m of messages) {
-    if (!Array.isArray(m.parts)) continue;
-    const text = m.parts
-      .filter((p) => p.type === "text")
-      .map((p) => p.text)
-      .join("\n");
+    const text = textOf(m.parts);
     if (text) texts.push({ role: m.role, text });
   }
   const lastUser = [...texts].reverse().find((t) => t.role === "user");
@@ -458,18 +426,19 @@ async function applyJanitorScripts(
     return convCtx;
   }
 
+  return patchPrimary(convCtx, {
+    personality: result.personality,
+    scenario: result.scenario,
+    exampleMessages: result.example_dialogs,
+  });
+}
+
+function patchPrimary(
+  convCtx: NonNullable<LoadedConvContext>,
+  patch: Partial<CharacterRow>,
+): LoadedConvContext {
   const boundCharacters = convCtx.boundCharacters.map((b, i) =>
-    i === 0
-      ? {
-          ...b,
-          character: {
-            ...b.character,
-            personality: result.personality,
-            scenario: result.scenario,
-            exampleMessages: result.example_dialogs,
-          },
-        }
-      : b,
+    i === 0 ? { ...b, character: { ...b.character, ...patch } } : b,
   );
   return { ...convCtx, boundCharacters };
 }

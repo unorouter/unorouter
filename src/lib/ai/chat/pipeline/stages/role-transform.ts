@@ -1,10 +1,12 @@
 import { risuUnescape } from "@/lib/ai/chat/macros";
+import { hasJsHandlers, runJsEditTrigger } from "@/lib/ai/chat/plugins/engine";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { runLuaEditTrigger } from "@/lib/ai/chat/triggers/lua/engine";
 import { makeTriggerContext } from "@/lib/ai/chat/triggers/vm";
 import type { AssembledSystem } from "../../prompt/assembler.service";
 import { resolveChatRange } from "../../prompt/template";
-import { getModelRoleFlags } from "../role-flags";
+import { resolveAdapter } from "@/lib/ai/providers/registry";
+import type { ModelRoleFlags } from "@/lib/ai/providers/types";
 import {
   appendPrefill,
   appendReasoningPrefill,
@@ -17,6 +19,7 @@ import {
   prependUserStub,
   stripReasoningParts,
   stripSystemRole,
+  textOf,
   unescapeMessages,
   type StreamMessages,
 } from "../transforms";
@@ -26,7 +29,7 @@ export type RoleTransformed = {
   effectiveSystem: string | undefined;
   deepSeekReasoningContent: string | undefined;
   moonshotPartial: boolean;
-  autoFlags: ReturnType<typeof getModelRoleFlags>;
+  autoFlags: ModelRoleFlags;
 };
 
 export async function transformRoles(
@@ -35,7 +38,7 @@ export async function transformRoles(
   historyMessages: StreamMessages,
   luaCodes: string[],
 ): Promise<RoleTransformed> {
-  const autoFlags = getModelRoleFlags(model);
+  const autoFlags = resolveAdapter(model).roleFlags;
   const keepSystem = assembled.flags.keepSystemRoles;
   const noSystemRole =
     assembled.flags.noSystemRole || (!autoFlags.fullSystem && !keepSystem);
@@ -43,8 +46,7 @@ export async function transformRoles(
     assembled.flags.forceAlternateRoles || autoFlags.alternateRoles;
   const mustStartWithUserInput =
     assembled.flags.mustStartWithUserInput || autoFlags.userStub;
-  // A prefill only holds the trailing assistant slot on providers that accept one.
-  // Gemini does not, so its prefill stays in the transcript and the stub still closes.
+  // Gemini rejects a trailing assistant, so its prefill stays in the transcript and the stub closes.
   const mustEndWithUserInput =
     autoFlags.endUserStub && !(assembled.prefill && autoFlags.prefillSupported);
 
@@ -108,14 +110,10 @@ export async function transformRoles(
       runLuaEditTrigger(luaCodes, "editrequest", ctx, f),
     );
   }
-  if (typeof window !== "undefined") {
-    const { hasJsHandlers, runJsEditTrigger } =
-      await import("@/lib/ai/chat/plugins/engine");
-    if (hasJsHandlers("request")) {
-      processedMessages = await applyRequestEdit(processedMessages, (ctx, f) =>
-        runJsEditTrigger("request", ctx, f),
-      );
-    }
+  if (hasJsHandlers("request")) {
+    processedMessages = await applyRequestEdit(processedMessages, (ctx, f) =>
+      runJsEditTrigger("request", ctx, f),
+    );
   }
 
   logChatDebug("assembly.shape", {
@@ -242,12 +240,7 @@ async function applyRequestEdit(
 ): Promise<StreamMessages> {
   const formated: FormatedMessage[] = messages.map((m) => ({
     role: m.role,
-    content: Array.isArray(m.parts)
-      ? m.parts
-          .filter((p) => p.type === "text")
-          .map((p) => p.text)
-          .join("\n")
-      : "",
+    content: textOf(m.parts),
   }));
   // The v2*RequestState opcodes read and MUTATE ctx.formated in place, so the
   // context has to carry the same array the result is compared against.

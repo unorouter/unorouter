@@ -7,6 +7,7 @@ import type {
   DepthInjection,
 } from "../prompt/assembler.service";
 import { expandMacros, risuUnescape } from "@/lib/ai/chat/macros";
+import { rec } from "@/lib/utils/base";
 
 export type StreamMessages = Parameters<typeof convertToModelMessages>[0];
 
@@ -21,7 +22,7 @@ export function mkMsg(
   return { role, parts: [{ type: "text", text }] };
 }
 
-function textOf(parts: StreamMessages[number]["parts"] | undefined): string {
+export function textOf(parts: StreamMessages[number]["parts"] | undefined): string {
   if (!Array.isArray(parts)) return "";
   return parts
     .filter((p) => p.type === "text")
@@ -344,13 +345,7 @@ export function applyRegexScripts(
   scripts: RegexScript[],
 ): StreamMessages {
   if (scripts.length === 0) return messages;
-  let lastUserIdx = -1;
-  for (let i = messages.length - 1; i >= 0; i--) {
-    if (messages[i].role === "user") {
-      lastUserIdx = i;
-      break;
-    }
-  }
+  const lastUserIdx = messages.findLastIndex((m) => m.role === "user");
   const lastTextByRole: Record<string, string> = {};
   return messages.map((m, idx) => {
     const isLastUser = idx === lastUserIdx;
@@ -383,9 +378,8 @@ export function collectHistory(
     // The type is Omit<UIMessage, "id"> but the wire messages carry their DB
     // id, which is what `times` is keyed by.
     const id = "id" in m && typeof m.id === "string" ? m.id : undefined;
-    // Only OTHER cast members get named. Labelling the speaker's own turns too
-    // would teach it that an assistant turn is a name-tagged multi-character
-    // block, which is the behaviour this whole path exists to stop.
+    // Only OTHER cast members get named: labelling the speaker's own turns too
+    // teaches it that an assistant turn is a name-tagged multi-character block.
     if (speaker && m.role === "assistant" && text) {
       const said = metaSpeakingCharacterId(m);
       if (said && said !== speaker.id) {
@@ -402,10 +396,7 @@ export function collectHistory(
 function metaSpeakingCharacterId(
   m: StreamMessages[number],
 ): string | undefined {
-  if (!("metadata" in m) || typeof m.metadata !== "object" || !m.metadata)
-    return undefined;
-  const said = (m.metadata as { speakingCharacterId?: unknown })
-    .speakingCharacterId;
+  const said = "metadata" in m ? rec(m.metadata)?.speakingCharacterId : undefined;
   return typeof said === "string" ? said : undefined;
 }
 
