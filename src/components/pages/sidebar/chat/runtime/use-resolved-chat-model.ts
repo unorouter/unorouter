@@ -8,6 +8,7 @@ import {
   readLocalConversation,
   updateLocalConversationSettings,
 } from "@/lib/db/client/data/chat/chat";
+import { invalidateAndBroadcast } from "@/lib/react-query/cross-tab-invalidate";
 import { queryKeys } from "@/lib/react-query/keys";
 import { dayjs } from "@/lib/utils/format/date";
 import { pickBestDeal } from "@/lib/ai/chat/best-deal";
@@ -89,7 +90,7 @@ export function useResolvedChatModel(remoteId: string | null | undefined) {
           defaultModel: newModel,
           updatedAt: dayjs().toDate(),
         });
-        queryClient.invalidateQueries({ queryKey: queryKeys.chatMeta(id) });
+        invalidateAndBroadcast(queryClient, [queryKeys.chatMeta(id)]);
       })();
     });
   }, [queryClient]);

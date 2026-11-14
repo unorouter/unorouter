@@ -21,6 +21,7 @@ import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { recArr, uid } from "@/lib/utils/base";
 import type { ChatUIMessage } from "@/lib/types";
 import type { PricingCatalogData } from "@/openapi";
+import { invalidateAndBroadcast } from "@/lib/react-query/cross-tab-invalidate";
 import { queryKeys } from "@/lib/react-query/keys";
 import { pickBestDeal } from "@/lib/ai/chat/best-deal";
 import {
@@ -247,10 +248,8 @@ async function seed(args: SeedArgs): Promise<void> {
         id,
       );
     }
-    queryClient.invalidateQueries({
-      queryKey: queryKeys.chatMessages(id),
-    });
+    invalidateAndBroadcast(queryClient, [queryKeys.chatMessages(id)]);
   }
 
-  queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
+  invalidateAndBroadcast(queryClient, [queryKeys.conversations()]);
 }

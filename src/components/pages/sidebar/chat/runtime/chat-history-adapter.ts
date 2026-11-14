@@ -35,6 +35,7 @@ import {
   enqueueLogEnrich,
 } from "@/lib/db/client/outbox/pending/queue";
 import type { RequestLogRow } from "@/lib/db/schema/rows";
+import { invalidateAndBroadcast } from "@/lib/react-query/cross-tab-invalidate";
 import { queryKeys } from "@/lib/react-query/keys";
 import type { ChatMessageMetadata } from "@/lib/types";
 import { parseStringMap, uid } from "@/lib/utils/base";
@@ -474,9 +475,7 @@ async function persistRequestLog(
     createdAt: now,
   };
   await insertLocalRequestLog(logRow);
-  queryClient.invalidateQueries({
-    queryKey: queryKeys.requestLog(messageId),
-  });
+  invalidateAndBroadcast(queryClient, [queryKeys.requestLog(messageId)]);
   const reqId = logRow.requestId;
   if (reqId && !isCustomModelId(resolvedModel)) {
     await enqueueLogEnrich(messageId, reqId);
@@ -541,9 +540,7 @@ async function fireIllustrator(
   } catch (err) {
     handleError(err);
   } finally {
-    queryClient.invalidateQueries({
-      queryKey: queryKeys.chatMessages(args.convId),
-    });
+    invalidateAndBroadcast(queryClient, [queryKeys.chatMessages(args.convId)]);
     // The open thread renders its live array, not the rows just rewritten.
     if (!chatStore.get(chatRunningAtom)) {
       await reloadLiveThreadFromDb(args.convId);
@@ -788,13 +785,11 @@ export function createChatHistoryAdapter(
           now,
         );
         await bumpConversationTotals(id, existingConv, metadata, now);
-        for (const queryKey of [
+        invalidateAndBroadcast(queryClient, [
           queryKeys.chatMeta(id),
           queryKeys.chatMessages(id),
           queryKeys.conversations(),
-        ]) {
-          queryClient.invalidateQueries({ queryKey });
-        }
+        ]);
 
         if (isAssistant && !existingRow && originalAssistantText.trim()) {
           void autoplayReply(
