@@ -123,8 +123,6 @@ export type TriggerContext = {
   replaceGlobalNote: string;
   lore: TriggerLore[];
   additionalSysPrompt: { start: string; historyend: string; promptend: string };
-  formated?: { role: string; content: string }[];
-  displayData?: string;
   stopSending?: boolean;
   sendAIprompt?: boolean;
   lowLevelAccess?: boolean;

@@ -661,34 +661,6 @@ export function runDataOpcode(
       setOut("null");
       return true;
 
-    case "v2GetRequestStateLength":
-      setOut(String(ctx.formated?.length ?? 0));
-      return true;
-    case "v2GetRequestState":
-      setOut(ctx.formated?.[rnum(e, ctx, vr, "index")]?.content ?? "null");
-      return true;
-    case "v2SetRequestState": {
-      const f = ctx.formated?.[rnum(e, ctx, vr, "index")];
-      if (f) f.content = rv(e, ctx, vr, "value");
-      return true;
-    }
-    case "v2GetRequestStateRole":
-      setOut(ctx.formated?.[rnum(e, ctx, vr, "index")]?.role ?? "null");
-      return true;
-    case "v2SetRequestStateRole": {
-      const f = ctx.formated?.[rnum(e, ctx, vr, "index")];
-      const r = rv(e, ctx, vr, "value");
-      if (f && (r === "user" || r === "assistant" || r === "system"))
-        f.role = r;
-      return true;
-    }
-    case "v2GetDisplayState":
-      setOut(ctx.displayData ?? "null");
-      return true;
-    case "v2SetDisplayState":
-      ctx.displayData = rv(e, ctx, vr, "value");
-      return true;
-
     case "v2RunLLM":
     case "v2ImgGen":
     case "v2CheckSimilarity":

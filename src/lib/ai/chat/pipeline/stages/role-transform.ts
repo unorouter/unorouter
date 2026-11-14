@@ -242,15 +242,12 @@ async function applyRequestEdit(
     role: m.role,
     content: textOf(m.parts),
   }));
-  // The v2*RequestState opcodes read and MUTATE ctx.formated in place, so the
-  // context has to carry the same array the result is compared against.
   const before = formated.map((f) => f.content);
   const editCtx = makeTriggerContext({
     mode: "request",
     vars: {},
     globalVars: {},
     chat: [],
-    formated,
   });
   const edited = await run(editCtx, formated);
   if (!Array.isArray(edited) || edited.length !== formated.length)

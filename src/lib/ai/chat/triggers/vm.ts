@@ -20,54 +20,6 @@ function alertKind(raw: unknown): AlertKind {
     : "normal";
 }
 
-const SAFE_SUBSET = new Set([
-  "v2SetVar",
-  "v2If",
-  "v2IfAdvanced",
-  "v2Else",
-  "v2EndIndent",
-  "v2Loop",
-  "v2LoopNTimes",
-  "v2BreakLoop",
-  "v2ConsoleLog",
-  "v2StopTrigger",
-  "v2Random",
-  "v2ExtractRegex",
-  "v2RegexTest",
-  "v2ReplaceString",
-  "v2GetCharAt",
-  "v2GetCharCount",
-  "v2SetCharAt",
-  "v2ToLowerCase",
-  "v2ToUpperCase",
-  "v2SplitString",
-  "v2JoinArrayVar",
-  "v2ConcatString",
-  "v2MakeArrayVar",
-  "v2GetArrayVarLength",
-  "v2GetArrayVar",
-  "v2SetArrayVar",
-  "v2PushArrayVar",
-  "v2PopArrayVar",
-  "v2ShiftArrayVar",
-  "v2UnshiftArrayVar",
-  "v2SpliceArrayVar",
-  "v2SliceArrayVar",
-  "v2GetIndexOfValueInArrayVar",
-  "v2RemoveIndexFromArrayVar",
-  "v2Calculate",
-  "v2Comment",
-  "v2DeclareLocalVar",
-  "v2MakeDictVar",
-  "v2GetDictVar",
-  "v2SetDictVar",
-  "v2DeleteDictKey",
-  "v2HasDictKey",
-  "v2ClearDict",
-  "v2GetDictSize",
-  "v2GetDictKeys",
-  "v2GetDictValues",
-]);
 const V1_LOW_LEVEL = new Set([
   "runLLM",
   "sendAIprompt",
@@ -78,28 +30,6 @@ const V1_LOW_LEVEL = new Set([
   "triggerlua",
 ]);
 
-const DISPLAY_EXTRA = new Set(["v2GetDisplayState", "v2SetDisplayState"]);
-const REQUEST_EXTRA = new Set([
-  "v2GetRequestState",
-  "v2SetRequestState",
-  "v2GetRequestStateRole",
-  "v2SetRequestStateRole",
-  "v2GetRequestStateLength",
-]);
-
-function opcodeAllowed(
-  type: string,
-  mode: TriggerEventMode,
-  lowLevelAccess: boolean,
-): boolean {
-  if (V1_LOW_LEVEL.has(type)) return lowLevelAccess;
-  if (mode === "display")
-    return SAFE_SUBSET.has(type) || DISPLAY_EXTRA.has(type);
-  if (mode === "request")
-    return SAFE_SUBSET.has(type) || REQUEST_EXTRA.has(type);
-  return true;
-}
-
 type Resolver = VarResolver & {
   declareLocal: (name: string, value: string, indent: number) => void;
   dropAtOrAbove: (indent: number) => void;
@@ -108,7 +38,6 @@ type Resolver = VarResolver & {
 
 function makeResolver(ctx: TriggerContext): Resolver {
   const locals: Record<number, Record<string, string>> = {};
-  const displayScratch: Record<string, string> = {};
   let curIndent = 0;
   const findLocal = (name: string): number | null => {
     for (let i = curIndent; i >= 0; i--) {
@@ -120,8 +49,6 @@ function makeResolver(ctx: TriggerContext): Resolver {
     get(name) {
       const li = findLocal(name);
       if (li !== null) return locals[li][name];
-      if (ctx.mode === "display" && name in displayScratch)
-        return displayScratch[name];
       if (name in ctx.vars) return ctx.vars[name];
       if (name in ctx.globalVars) return ctx.globalVars[name];
       if (ctx.defaultVars && name in ctx.defaultVars)
@@ -132,10 +59,6 @@ function makeResolver(ctx: TriggerContext): Resolver {
       const li = findLocal(name);
       if (li !== null) {
         locals[li][name] = value;
-        return;
-      }
-      if (ctx.mode === "display") {
-        displayScratch[name] = value;
         return;
       }
       ctx.vars[name] = value;
@@ -303,7 +226,7 @@ async function runEffects(
     const indent = typeof e.indent === "number" && e.indent >= 0 ? e.indent : 0;
     vr.setIndent(indent);
 
-    if (!opcodeAllowed(e.type, ctx.mode, !!ctx.lowLevelAccess)) continue;
+    if (V1_LOW_LEVEL.has(e.type) && !ctx.lowLevelAccess) continue;
 
     switch (e.type) {
       case "v2StopTrigger":
