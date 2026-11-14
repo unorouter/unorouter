@@ -16,8 +16,51 @@ import {
 import { RpAvatar } from "@/components/pages/sidebar/chat/rp/shared/rp-list-parts";
 import { NONE_VALUE } from "@/lib/config/constants";
 import type { NamedEntity } from "@/lib/types";
+import { cn } from "@/lib/utils";
 import type { ReactNode } from "react";
 import type { Control, FieldValues, Path } from "react-hook-form";
+
+const entityLabel = (o: NamedEntity) => o.title || o.name;
+
+export function EntitySelect(props: {
+  value: string | null;
+  onChange: (id: string | null) => void;
+  noneLabel: string;
+  options: NamedEntity[] | undefined;
+  className?: string;
+}) {
+  const options = props.options ?? [];
+  const selected = options.find((o) => o.id === props.value);
+  return (
+    <Select
+      value={props.value ?? NONE_VALUE}
+      onValueChange={(v) => props.onChange(!v || v === NONE_VALUE ? null : v)}
+    >
+      <SelectTrigger className={cn("w-full min-w-0", props.className)}>
+        <SelectValue className="min-w-0">
+          <span className="truncate">
+            {selected ? entityLabel(selected) : props.noneLabel}
+          </span>
+        </SelectValue>
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value={NONE_VALUE}>{props.noneLabel}</SelectItem>
+        {options.map((o) => (
+          <SelectItem key={o.id} value={o.id}>
+            <span className="flex min-w-0 items-center gap-2">
+              <RpAvatar
+                mediaId={o.avatarMediaId}
+                name={o.name}
+                className="size-5"
+              />
+              <span className="truncate">{entityLabel(o)}</span>
+            </span>
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+}
 
 export function MyFormEntitySelect<T extends FieldValues>(props: {
   control: Control<T>;
@@ -34,34 +77,12 @@ export function MyFormEntitySelect<T extends FieldValues>(props: {
         <FormItem>
           <FormLabel>{props.label}</FormLabel>
           <FormControl>
-            <Select
-              value={field.value}
-              onValueChange={(v) => field.onChange(v ?? NONE_VALUE)}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue>
-                  {field.value === NONE_VALUE
-                    ? props.noneLabel
-                    : (props.options?.find((o) => o.id === field.value)?.name ??
-                      props.noneLabel)}
-                </SelectValue>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value={NONE_VALUE}>{props.noneLabel}</SelectItem>
-                {props.options?.map((o) => (
-                  <SelectItem key={o.id} value={o.id}>
-                    <span className="flex min-w-0 items-center gap-2">
-                      <RpAvatar
-                        mediaId={o.avatarMediaId}
-                        name={o.name}
-                        className="size-5"
-                      />
-                      <span className="truncate">{o.name}</span>
-                    </span>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <EntitySelect
+              value={field.value === NONE_VALUE ? null : field.value}
+              onChange={(id) => field.onChange(id ?? NONE_VALUE)}
+              noneLabel={props.noneLabel}
+              options={props.options}
+            />
           </FormControl>
         </FormItem>
       )}
