@@ -358,18 +358,14 @@ export function CharacterEditor(props: Props) {
               {t("RP.CHARACTER_ALWAYS_ACTIVE_HINT")}
             </p>
           </div>
-          <div className="flex flex-col gap-1">
-            <MyFormInput
-              control={form.control}
-              name="triggers"
-              schema={characterFormSchema}
-              label={t("RP.CHARACTER_TRIGGERS")}
-              placeholder="alice, knight, sword"
-            />
-            <p className="text-muted-foreground text-xs">
-              {t("RP.CHARACTER_TRIGGERS_HINT")}
-            </p>
-          </div>
+          <MyFormInput
+            control={form.control}
+            name="triggers"
+            schema={characterFormSchema}
+            label={t("RP.CHARACTER_TRIGGERS")}
+            placeholder="alice, knight, sword"
+            description={t("RP.CHARACTER_TRIGGERS_HINT")}
+          />
           <div className="flex flex-col gap-1">
             <MyFormSwitch
               control={form.control}

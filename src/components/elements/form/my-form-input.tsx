@@ -22,11 +22,13 @@ type MyFormInputProps<T extends FieldValues> = {
   name: Path<T>;
   schema: TObject;
   label?: ReactNode;
+  description?: ReactNode;
   validate?: RegisterOptions<T>["validate"];
 } & ComponentProps<"input">;
 
 export const MyFormInput = <T extends FieldValues>({
   control,
+  description,
   label,
   name,
   schema,
@@ -78,6 +80,9 @@ export const MyFormInput = <T extends FieldValues>({
                 />
               </FormControl>
             </div>
+            {description && (
+              <p className="text-muted-foreground text-xs">{description}</p>
+            )}
             <MyFormError name={name} schema={schema} error={error} />
           </FormItem>
         );

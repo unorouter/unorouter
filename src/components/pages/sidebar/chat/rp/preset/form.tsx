@@ -192,18 +192,14 @@ export function PresetForm(props: Props) {
                   {t("RP.PRESET_TOKENIZER_HINT")}
                 </p>
               </div>
-              <div className="flex flex-col gap-1">
-                <MyFormInput
-                  control={form.control}
-                  name="chatMemory"
-                  schema={samplingPresetFormSchema}
-                  label={t("RP.PRESET_CHAT_MEMORY")}
-                  type="number"
-                />
-                <p className="text-muted-foreground text-xs">
-                  {t("RP.PRESET_CHAT_MEMORY_HINT")}
-                </p>
-              </div>
+              <MyFormInput
+                control={form.control}
+                name="chatMemory"
+                schema={samplingPresetFormSchema}
+                label={t("RP.PRESET_CHAT_MEMORY")}
+                type="number"
+                description={t("RP.PRESET_CHAT_MEMORY_HINT")}
+              />
               <div className="flex flex-col gap-1">
                 <FormField
                   control={form.control}
@@ -428,18 +424,14 @@ export function PresetForm(props: Props) {
               <div className="text-foreground text-xs font-medium tracking-wide uppercase">
                 {t("RP.PRESET_PROVIDERS_TITLE")}
               </div>
-              <div className="flex flex-col gap-1">
-                <MyFormInput
-                  control={form.control}
-                  name="providers"
-                  schema={samplingPresetFormSchema}
-                  label={t("RP.PRESET_PROVIDERS")}
-                  placeholder="novita, deepinfra"
-                />
-                <p className="text-muted-foreground text-xs">
-                  {t("RP.PRESET_PROVIDERS_HINT")}
-                </p>
-              </div>
+              <MyFormInput
+                control={form.control}
+                name="providers"
+                schema={samplingPresetFormSchema}
+                label={t("RP.PRESET_PROVIDERS")}
+                placeholder="novita, deepinfra"
+                description={t("RP.PRESET_PROVIDERS_HINT")}
+              />
               <div className="flex flex-col gap-1">
                 <MyFormSwitch
                   control={form.control}
@@ -538,28 +530,20 @@ export function PresetForm(props: Props) {
                   {t("RP.PRESET_KEEP_SYSTEM_ROLES_HINT")}
                 </p>
               </div>
-              <div className="flex flex-col gap-1">
-                <MyFormTextarea
-                  control={form.control}
-                  name="continuePrompt"
-                  label={t("RP.PRESET_CONTINUE_PROMPT")}
-                  schema={samplingPresetFormSchema}
-                />
-                <p className="text-muted-foreground text-xs">
-                  {t("RP.PRESET_CONTINUE_PROMPT_HINT")}
-                </p>
-              </div>
-              <div className="flex flex-col gap-1">
-                <MyFormTextarea
-                  control={form.control}
-                  name="impersonatePrompt"
-                  label={t("RP.PRESET_IMPERSONATE_PROMPT")}
-                  schema={samplingPresetFormSchema}
-                />
-                <p className="text-muted-foreground text-xs">
-                  {t("RP.PRESET_IMPERSONATE_PROMPT_HINT")}
-                </p>
-              </div>
+              <MyFormTextarea
+                control={form.control}
+                name="continuePrompt"
+                label={t("RP.PRESET_CONTINUE_PROMPT")}
+                schema={samplingPresetFormSchema}
+                description={t("RP.PRESET_CONTINUE_PROMPT_HINT")}
+              />
+              <MyFormTextarea
+                control={form.control}
+                name="impersonatePrompt"
+                label={t("RP.PRESET_IMPERSONATE_PROMPT")}
+                schema={samplingPresetFormSchema}
+                description={t("RP.PRESET_IMPERSONATE_PROMPT_HINT")}
+              />
             </div>
           </TabsContent>
         </Tabs>

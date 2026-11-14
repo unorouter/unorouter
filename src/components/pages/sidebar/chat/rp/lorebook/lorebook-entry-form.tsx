@@ -150,18 +150,14 @@ export function LorebookEntryForm(props: {
           onSubmit={form.handleSubmit(onSubmit, onInvalid)}
           className="flex flex-col gap-3"
         >
-          <div className="flex flex-col gap-1">
-            <MyFormInput
-              control={form.control}
-              name="comment"
-              schema={lorebookEntryFormSchema}
-              label={t("RP.LOREBOOK_ENTRY_COMMENT")}
-              placeholder={t("RP.LOREBOOK_ENTRY_COMMENT_PLACEHOLDER")}
-            />
-            <p className="text-muted-foreground text-xs">
-              {t("RP.LOREBOOK_ENTRY_COMMENT_HINT")}
-            </p>
-          </div>
+          <MyFormInput
+            control={form.control}
+            name="comment"
+            schema={lorebookEntryFormSchema}
+            label={t("RP.LOREBOOK_ENTRY_COMMENT")}
+            placeholder={t("RP.LOREBOOK_ENTRY_COMMENT_PLACEHOLDER")}
+            description={t("RP.LOREBOOK_ENTRY_COMMENT_HINT")}
+          />
 
           <div className="flex flex-col gap-1">
             <MyFormTextarea
@@ -187,18 +183,14 @@ export function LorebookEntryForm(props: {
 
           {!alwaysActive && (
             <>
-              <div className="flex flex-col gap-1">
-                <MyFormInput
-                  control={form.control}
-                  name="keys"
-                  schema={lorebookEntryFormSchema}
-                  label={t("RP.LOREBOOK_ENTRY_KEYS")}
-                  placeholder="dragon, wyrm, drake"
-                />
-                <p className="text-muted-foreground text-xs">
-                  {t("RP.LOREBOOK_ENTRY_KEYS_HINT")}
-                </p>
-              </div>
+              <MyFormInput
+                control={form.control}
+                name="keys"
+                schema={lorebookEntryFormSchema}
+                label={t("RP.LOREBOOK_ENTRY_KEYS")}
+                placeholder="dragon, wyrm, drake"
+                description={t("RP.LOREBOOK_ENTRY_KEYS_HINT")}
+              />
               <MyFormSwitch
                 control={form.control}
                 name="selective"
@@ -226,55 +218,39 @@ export function LorebookEntryForm(props: {
           )}
 
           <div className="grid grid-cols-2 gap-3">
-            <div className="flex flex-col gap-1">
-              <MyFormInput
-                control={form.control}
-                name="orderIndex"
-                schema={lorebookEntryFormSchema}
-                label={t("RP.LOREBOOK_ENTRY_ORDER")}
-                type="number"
-              />
-              <p className="text-muted-foreground text-xs">
-                {t("RP.LOREBOOK_ENTRY_ORDER_HINT")}
-              </p>
-            </div>
-            <div className="flex flex-col gap-1">
-              <MyFormInput
-                control={form.control}
-                name="priority"
-                schema={lorebookEntryFormSchema}
-                label={t("RP.LOREBOOK_ENTRY_PRIORITY")}
-                type="number"
-              />
-              <p className="text-muted-foreground text-xs">
-                {t("RP.LOREBOOK_ENTRY_PRIORITY_HINT")}
-              </p>
-            </div>
-            <div className="flex flex-col gap-1">
-              <MyFormInput
-                control={form.control}
-                name="probability"
-                schema={lorebookEntryFormSchema}
-                label={t("RP.LOREBOOK_ENTRY_PROBABILITY")}
-                type="number"
-              />
-              <p className="text-muted-foreground text-xs">
-                {t("RP.LOREBOOK_ENTRY_PROBABILITY_HINT")}
-              </p>
-            </div>
+            <MyFormInput
+              control={form.control}
+              name="orderIndex"
+              schema={lorebookEntryFormSchema}
+              label={t("RP.LOREBOOK_ENTRY_ORDER")}
+              type="number"
+              description={t("RP.LOREBOOK_ENTRY_ORDER_HINT")}
+            />
+            <MyFormInput
+              control={form.control}
+              name="priority"
+              schema={lorebookEntryFormSchema}
+              label={t("RP.LOREBOOK_ENTRY_PRIORITY")}
+              type="number"
+              description={t("RP.LOREBOOK_ENTRY_PRIORITY_HINT")}
+            />
+            <MyFormInput
+              control={form.control}
+              name="probability"
+              schema={lorebookEntryFormSchema}
+              label={t("RP.LOREBOOK_ENTRY_PROBABILITY")}
+              type="number"
+              description={t("RP.LOREBOOK_ENTRY_PROBABILITY_HINT")}
+            />
             {!alwaysActive && (
-              <div className="flex flex-col gap-1">
-                <MyFormInput
-                  control={form.control}
-                  name="entryScanDepth"
-                  schema={lorebookEntryFormSchema}
-                  label={t("RP.LOREBOOK_ENTRY_SCAN_DEPTH")}
-                  type="number"
-                />
-                <p className="text-muted-foreground text-xs">
-                  {t("RP.LOREBOOK_ENTRY_SCAN_DEPTH_HINT")}
-                </p>
-              </div>
+              <MyFormInput
+                control={form.control}
+                name="entryScanDepth"
+                schema={lorebookEntryFormSchema}
+                label={t("RP.LOREBOOK_ENTRY_SCAN_DEPTH")}
+                type="number"
+                description={t("RP.LOREBOOK_ENTRY_SCAN_DEPTH_HINT")}
+              />
             )}
           </div>
           <FormField
