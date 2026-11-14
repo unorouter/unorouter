@@ -1,6 +1,6 @@
 "use client";
 
-import { rec } from "@/lib/utils/base";
+import { fnv1aHex, rec } from "@/lib/utils/base";
 import { chatStore } from "@/store/chat-store";
 import { atom } from "jotai";
 import type { JsPluginKind } from "@/lib/validation/js-plugin";
@@ -80,9 +80,7 @@ export function unloadJsPlugins(): void {
   for (const inst of instances) {
     try {
       inst.terminate();
-    } catch {
-      // a failed teardown must not stop the rest
-    }
+    } catch {}
   }
   instances.length = 0;
   janitorScripts = [];
@@ -90,9 +88,7 @@ export function unloadJsPlugins(): void {
   if (scratchTerminate) {
     try {
       scratchTerminate();
-    } catch {
-      // idem
-    }
+    } catch {}
     scratchTerminate = null;
     scratchHost = null;
   }
@@ -102,7 +98,6 @@ export function unloadJsPlugins(): void {
 }
 
 export async function loadJsPlugins(rows: LoadedJsPlugin[]): Promise<void> {
-  if (typeof window === "undefined") return;
   const enabled = rows.filter((r) => r.enabled);
   const key = enabled.map((r) => `${r.id}:${r.script.length}`).join("|");
   if (key === loadedKey) return;
@@ -131,7 +126,7 @@ export async function loadJsPlugins(rows: LoadedJsPlugin[]): Promise<void> {
     if (row.kind === "perchance") {
       perchanceScripts.push({
         id: row.id,
-        script: row.script,
+        script: code,
         characterId: row.characterId,
       });
       continue;
@@ -162,7 +157,6 @@ export async function loadJsPlugins(rows: LoadedJsPlugin[]): Promise<void> {
           if (mode === "display") invalidateJsDisplayCache();
         },
         getCtx: () => activeCtx,
-        log: () => {},
       }),
     );
     const frame = document.createElement("iframe");
@@ -173,8 +167,6 @@ export async function loadJsPlugins(rows: LoadedJsPlugin[]): Promise<void> {
   }
 
   if (janitorScripts.length > 0 || perchanceScripts.length > 0) {
-    // Janitor scripts reach the frame through executeInIframe and never touch
-    // the plugin api, so this host exposes only the bootstrap the bridge needs.
     const host = new SandboxHost({ ...PLUGIN_API_BOOTSTRAP });
     const frame = document.createElement("iframe");
     frame.style.display = "none";
@@ -200,7 +192,6 @@ export async function runJsEditTrigger<T>(
   ctx: TriggerContext,
   content: T,
 ): Promise<T> {
-  if (typeof window === "undefined") return content;
   if (!hasJsHandlers(mode)) return content;
   let data = content;
   activeCtx = ctx;
@@ -239,21 +230,14 @@ export const jsDisplayVersionAtom = atom(0);
 const displayCache = new Map<string, string>();
 const displayPending = new Set<string>();
 
-function displayKey(text: string): string {
-  let h = 5381;
-  for (let i = 0; i < text.length; i++) h = (h * 33) ^ text.charCodeAt(i);
-  return (h >>> 0).toString(36) + ":" + text.length;
-}
-
 export function invalidateJsDisplayCache(): void {
   displayCache.clear();
-  chatStore.set(jsDisplayVersionAtom, chatStore.get(jsDisplayVersionAtom) + 1);
+  chatStore.set(jsDisplayVersionAtom, (v) => v + 1);
 }
 
 export function transformDisplayJsSync(text: string): string {
-  if (typeof window === "undefined") return text;
   if (!hasJsHandlers("display")) return text;
-  const key = displayKey(text);
+  const key = `${fnv1aHex(text)}:${text.length}`;
   const cached = displayCache.get(key);
   if (cached !== undefined) return cached;
   if (!displayPending.has(key)) {
@@ -279,10 +263,7 @@ export function transformDisplayJsSync(text: string): string {
           const first = displayCache.keys().next().value;
           if (first !== undefined) displayCache.delete(first);
         }
-        chatStore.set(
-          jsDisplayVersionAtom,
-          chatStore.get(jsDisplayVersionAtom) + 1,
-        );
+        chatStore.set(jsDisplayVersionAtom, (v) => v + 1);
       })
       .finally(() => displayPending.delete(key));
   }
@@ -293,7 +274,6 @@ export async function runJanitorScriptsForTurn(
   snapshot: JanitorContextSnapshot,
   characterIds: string[],
 ): Promise<JanitorRunResult | null> {
-  if (typeof window === "undefined") return null;
   const scripts = janitorScripts.filter(
     (s) => !s.characterId || characterIds.includes(s.characterId),
   );
@@ -318,7 +298,6 @@ export async function runJanitorScriptsForTurn(
       example_dialogs: String(
         r.example_dialogs ?? snapshot.character.example_dialogs,
       ),
-      logs: Array.isArray(r.logs) ? r.logs.map(String) : [],
     };
   } catch {
     // silent failure is the Janitor contract
@@ -342,7 +321,6 @@ export async function runPerchanceScriptsForTurn(
   characterIds: string[],
   convId: string,
 ): Promise<PerchanceRunResult | null> {
-  if (typeof window === "undefined") return null;
   const scripts = perchanceScripts.filter(
     (s) => !s.characterId || characterIds.includes(s.characterId),
   );
@@ -406,8 +384,6 @@ export async function runPerchanceScriptsForTurn(
         result.reminderMessage ?? snapshot.character.reminderMessage,
       ),
       messages,
-      data: {},
-      logs: Array.isArray(result.logs) ? result.logs.map(String) : [],
     };
   } catch {
     return null;

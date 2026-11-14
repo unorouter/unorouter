@@ -155,7 +155,7 @@ export function runDataOpcode(
       return true;
     case "runtrigger":
     case "command":
-      return true; // recursion/commands: no-op in the isomorphic core
+      return true; // recursion/commands: no-op
 
     case "v2GetCharAt": {
       const source = rv(e, ctx, vr, "source");

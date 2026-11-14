@@ -1,3 +1,5 @@
+import { rec } from "@/lib/utils/base";
+
 // Wire format for peer-to-peer RP rooms. Deltas only: a guest never receives
 // the character definition, the preset, or anything else that would leave the
 // host's data sitting in someone else's browser.
@@ -48,11 +50,11 @@ export type GuestToHost =
   | { type: "submit-turn"; text: string }
   | { type: "leave" };
 
-// PeerJS hands back whatever the other side serialised, so nothing arriving on
-// a connection may be trusted to have the shape its type claims.
+// The socket relays whatever the other side serialised, so nothing arriving
+// on it may be trusted to have the shape its type claims.
 export function parseGuestMessage(raw: unknown): GuestToHost | null {
-  if (!raw || typeof raw !== "object") return null;
-  const msg = raw as Record<string, unknown>;
+  const msg = rec(raw);
+  if (!msg) return null;
   switch (msg.type) {
     case "join":
       return typeof msg.version === "number" && typeof msg.name === "string"
@@ -73,15 +75,9 @@ function str(v: unknown): string | null {
   return typeof v === "string" ? v : null;
 }
 
-// Exported as roomMessageFrom for the HTTP history backfill: rows come back as
-// stored JSON and are no more trustworthy than a socket frame.
-export function roomMessageFrom(v: unknown): RoomMessage | null {
-  return roomMessage(v);
-}
-
 function roomMessage(v: unknown): RoomMessage | null {
-  if (!v || typeof v !== "object") return null;
-  const m = v as Record<string, unknown>;
+  const m = rec(v);
+  if (!m) return null;
   const id = str(m.id);
   const speaker = str(m.speaker);
   const text = str(m.text);
@@ -91,8 +87,8 @@ function roomMessage(v: unknown): RoomMessage | null {
 }
 
 function participant(v: unknown): RoomParticipant | null {
-  if (!v || typeof v !== "object") return null;
-  const p = v as Record<string, unknown>;
+  const p = rec(v);
+  if (!p) return null;
   const peerId = str(p.peerId);
   const name = str(p.name);
   return peerId !== null && name !== null ? { peerId, name } : null;
@@ -110,8 +106,8 @@ function mapAll<T>(v: unknown, f: (item: unknown) => T | null): T[] | null {
 }
 
 function turnState(v: unknown): TurnState | null {
-  if (!v || typeof v !== "object") return null;
-  const t = v as Record<string, unknown>;
+  const t = rec(v);
+  if (!t) return null;
   if (t.kind === "idle" || t.kind === "generating") return { kind: t.kind };
   if (t.kind !== "writing") return null;
   const peerId = str(t.peerId);
@@ -122,8 +118,8 @@ function turnState(v: unknown): TurnState | null {
 }
 
 export function parseHostMessage(raw: unknown): HostToGuest | null {
-  if (!raw || typeof raw !== "object") return null;
-  const msg = raw as Record<string, unknown>;
+  const msg = rec(raw);
+  if (!msg) return null;
   switch (msg.type) {
     case "welcome": {
       const title = str(msg.title);

@@ -1,6 +1,6 @@
 import { rec } from "@/lib/utils/base";
 import { isTriggerEventMode } from "./types";
-import { runDataOpcode, type VarResolver } from "./opcodes";
+import { cbs, runDataOpcode, type VarResolver } from "./opcodes";
 import type {
   TriggerCondition,
   TriggerContext,
@@ -154,11 +154,6 @@ function makeResolver(ctx: TriggerContext): Resolver {
   };
 }
 
-const mkParse =
-  (ctx: TriggerContext) =>
-  (s: unknown): string =>
-    ctx.parse ? ctx.parse(String(s ?? "")) : String(s ?? "");
-
 function numEq(a: string, b: string): boolean {
   const na = Number(a);
   const nb = Number(b);
@@ -170,7 +165,7 @@ function evalCondition(
   ctx: TriggerContext,
   vr: VarResolver,
 ): boolean {
-  const parse = mkParse(ctx);
+  const parse = (s: unknown) => cbs(ctx, s);
   if (c.type === "exists") {
     const da = ctx.chat
       .slice(0 - (c.depth || 10))
@@ -221,7 +216,7 @@ function evalIf(
   ctx: TriggerContext,
   vr: VarResolver,
 ): boolean {
-  const parse = mkParse(ctx);
+  const parse = (s: unknown) => cbs(ctx, s);
   const a =
     e.type === "v2If" || e.sourceType === "var"
       ? vr.get(parse(e.source))
@@ -288,7 +283,7 @@ async function runEffects(
   const eff = script.effect;
   let steps = 0;
   const loopCounts: Record<number, number> = {};
-  const parse = mkParse(ctx);
+  const parse = (s: unknown) => cbs(ctx, s);
   const resolve = (value: unknown, valueType: unknown): string =>
     valueType === "value" ? parse(value) : vr.get(parse(value));
   const findEnd = (from: number, bodyIndent: number): number => {
@@ -363,9 +358,7 @@ async function runEffects(
         if (ctx.ops?.imgGen) {
           try {
             outv = await ctx.ops.imgGen(parse(e.value), parse(e.negValue));
-          } catch {
-            outv = "Error: Image generation failed";
-          }
+          } catch {}
         }
         if (e.inputVar) vr.set(parse(e.inputVar), outv);
         continue;
@@ -381,9 +374,7 @@ async function runEffects(
               text,
               kind === "select" ? text.split("\u00a7") : undefined,
             );
-          } catch {
-            outv = "";
-          }
+          } catch {}
         }
         if ((kind === "input" || kind === "select") && e.inputVar) {
           vr.set(parse(e.inputVar), outv);

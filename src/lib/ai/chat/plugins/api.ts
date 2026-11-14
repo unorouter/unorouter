@@ -3,8 +3,6 @@ import { sha256Hex } from "@/lib/utils/base";
 import { countTokens } from "@/lib/ai/chat/tokenizer";
 import type { TriggerContext, TriggerMessage } from "../triggers/types";
 
-// Mirrors the Lua binding set over the same TriggerContext.
-
 export type PluginHookMode = "input" | "output" | "request" | "display";
 
 export const PLUGIN_HOOK_MODES: readonly PluginHookMode[] = [
@@ -20,7 +18,6 @@ export type PluginHostBridge = {
   registerHandler: (mode: PluginHookMode, fn: PluginHandler) => void;
   removeHandler: (mode: PluginHookMode, fn: PluginHandler) => void;
   getCtx: () => TriggerContext | null;
-  log: (line: string) => void;
 };
 
 const toPluginRole = (r: TriggerMessage["role"]) =>
@@ -66,9 +63,7 @@ export function buildPluginApi(
       if (!isMode(mode)) throw new Error(`unknown handler mode: ${mode}`);
       bridge.removeHandler(mode, fn);
     },
-    log: (...parts: unknown[]) => {
-      bridge.log(parts.map((p) => String(p)).join(" "));
-    },
+    log: () => {},
 
     getChatVar: (key: string) => ctx().vars[key] ?? null,
     setChatVar: (key: string, value: string) => {
@@ -197,13 +192,7 @@ export function buildPluginApi(
     sleep: (time: number) =>
       new Promise((r) => setTimeout(() => r(true), Math.min(time, 10_000))),
 
-    // SECURITY: connect-src 'none' blocks the iframe entirely, so this is a
-    // plugin's ONLY network access. Egress policy: client-only, https GET,
-    // <=120 chars, 5 per minute, and never this site (see guestFetch).
     httpRequest: async (url: string) => {
-      if (typeof window === "undefined") {
-        return { status: 400, data: "request is not allowed server-side" };
-      }
       if (lastRequestResetTime + 60_000 < Date.now()) {
         lastRequestsCount = 0;
         lastRequestResetTime = Date.now();
@@ -262,7 +251,6 @@ export type JanitorRunResult = {
   personality: string;
   scenario: string;
   example_dialogs: string;
-  logs: string[];
 };
 
 export function buildJanitorRunSource(
@@ -272,9 +260,6 @@ export function buildJanitorRunSource(
   const ctxJson = JSON.stringify(snapshot);
   const scriptsJson = JSON.stringify(scripts);
   return `
-    const logs = [];
-    const origLog = console.log;
-    console.log = (...a) => { logs.push(a.map(String).join(' ')); };
     const context = ${ctxJson};
     context.last_message = context.chat.last_message;
     context.lastMessage = context.chat.last_message;
@@ -285,16 +270,12 @@ export function buildJanitorRunSource(
         // \`return\` as an early exit, a syntax error under eval.
         globalThis.context = context;
         new Function('context', src)(context);
-      } catch (e) {
-        logs.push('script error: ' + (e && e.message ? e.message : String(e)));
-      }
+      } catch {}
     }
-    console.log = origLog;
     return {
       personality: String(context.character.personality ?? ''),
       scenario: String(context.character.scenario ?? ''),
       example_dialogs: String(context.character.example_dialogs ?? ''),
-      logs,
     };
   `;
 }
@@ -322,8 +303,6 @@ export type PerchanceRunResult = {
   roleInstruction: string;
   reminderMessage: string;
   messages: PerchanceMessage[];
-  data: Record<string, { thread: unknown; character: unknown }>;
-  logs: string[];
 };
 
 export function buildPerchanceRunSource(
@@ -331,9 +310,6 @@ export function buildPerchanceRunSource(
   scripts: { id: string; code: string; thread: unknown; character: unknown }[],
 ): string {
   return `
-    const logs = [];
-    const origLog = console.log;
-    console.log = (...a) => { logs.push(a.map(String).join(' ')); };
     const snap = ${JSON.stringify(snapshot)};
     const scripts = ${JSON.stringify(scripts)};
     const character = { ...snap.character };
@@ -360,20 +336,16 @@ export function buildPerchanceRunSource(
         await new AsyncFunction('oc', s.code)(oc);
         const last = messages[messages.length - 1];
         for (const fn of handlers) await fn({ message: last, messageId: last?.id });
-      } catch (e) {
-        logs.push('script error: ' + (e && e.message ? e.message : String(e)));
-      }
+      } catch {}
       character.roleInstruction = String(oc.character.roleInstruction ?? character.roleInstruction);
       character.reminderMessage = String(oc.character.reminderMessage ?? character.reminderMessage);
       data[s.id] = { thread: oc.thread.customData, character: oc.character.customData };
     }
-    console.log = origLog;
     return JSON.parse(JSON.stringify({
       roleInstruction: character.roleInstruction,
       reminderMessage: character.reminderMessage,
-      messages: messages.map((m) => ({ author: m.author, content: String(m.content ?? ''), name: m.name, hiddenFrom: m.hiddenFrom })),
+      messages: messages.map((m) => ({ author: m.author, content: String(m.content ?? ''), hiddenFrom: m.hiddenFrom })),
       data,
-      logs,
     }));
   `;
 }

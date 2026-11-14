@@ -1,9 +1,6 @@
 // Ported from RisuAI's plugin API V3 sandbox (src/ts/plugins/apiV3/factory.ts).
 // Copyright (C) 2024 Kwaroran, GPL-3.0. Combined into this AGPL-3.0 work under
 // GPLv3 section 13.
-//
-// SECURITY: guest JS gets `allow-scripts` only, under a CSP with
-// `connect-src 'none'`. postMessage is a plugin's only channel out.
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -719,9 +716,7 @@ export class SandboxHost {
     for (const cleanup of [...this.activeStreamCleanups]) {
       try {
         cleanup();
-      } catch {
-        // noop
-      }
+      } catch {}
     }
     this.activeStreamCleanups.clear();
   }
@@ -792,9 +787,7 @@ export class SandboxHost {
         for (const cleanup of streamCleanups) {
           try {
             cleanup();
-          } catch {
-            // noop
-          }
+          } catch {}
         }
         streamCleanups = [];
       };

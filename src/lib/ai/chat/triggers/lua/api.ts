@@ -213,7 +213,9 @@ export function buildLuaApi(
     hash: (_id: string, value: string) => sha256Hex(value),
     sleep: (id: string, time: number) => {
       if (!safe(id)) return;
-      return new Promise((r) => setTimeout(() => r(true), time));
+      return new Promise((r) =>
+        setTimeout(() => r(true), Math.min(time, 10_000)),
+      );
     },
     reloadDisplay: () => undefined,
     reloadChat: () => undefined,
@@ -226,12 +228,6 @@ export function buildLuaApi(
     },
     request: async (id: string, url: string) => {
       if (!low(id)) return;
-      if (typeof window === "undefined") {
-        return JSON.stringify({
-          status: 400,
-          data: "request is not allowed server-side",
-        });
-      }
       if (lastRequestResetTime + 60000 < Date.now()) {
         lastRequestsCount = 0;
         lastRequestResetTime = Date.now();

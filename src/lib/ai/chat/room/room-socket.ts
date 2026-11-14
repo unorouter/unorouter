@@ -68,8 +68,7 @@ export function openRoomSocket(
       const frame = rec(JSON.parse(event.data));
       if (!frame) return;
       if (frame.op === "hello") {
-        // The server assigns this; it is the guest identity the host addresses,
-        // replacing the PeerJS peer id.
+        // The server assigns this; it is the guest identity the host addresses.
         if (typeof frame.conn_id === "string") {
           connId = frame.conn_id;
           events.onOpen(frame.conn_id);
@@ -115,8 +114,7 @@ export function openRoomSocket(
   };
 }
 
-// Full transcript for a guest who reloaded. Served over HTTP because a long
-// room is far past the socket's frame limit.
+// Full transcript for a guest who reloaded.
 export async function fetchRoomHistory(
   roomId: string,
 ): Promise<{ meta: unknown; messages: unknown[] }> {
@@ -139,9 +137,7 @@ export async function fetchRoomHistory(
   if (typeof data.meta === "string" && data.meta) {
     try {
       meta = JSON.parse(data.meta);
-    } catch {
-      meta = null;
-    }
+    } catch {}
   }
   return { meta, messages };
 }

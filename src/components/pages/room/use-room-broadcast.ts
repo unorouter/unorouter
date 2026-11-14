@@ -9,19 +9,9 @@ import {
   broadcastStreamEnd,
   isHosting,
   onRunStateChange,
+  roomText,
   speakerName,
 } from "@/components/pages/room/host";
-
-const textOf = (msg: ChatUIMessage) => {
-  const text = msg.parts
-    .filter((p) => p.type === "text" && p.text)
-    .map((p) => (p.type === "text" ? p.text : ""))
-    .join("\n")
-    .trim();
-  // An attachment-only turn would broadcast as "" and render as a gap.
-  if (text) return text;
-  return msg.parts.some((p) => p.type === "file") ? "[attachment]" : "";
-};
 
 // Guests see the room by watching the host's own runtime state rather than by
 // tapping the stream, so a message the host REWRITES is rebroadcast as a delta
@@ -44,7 +34,7 @@ export function useRoomBroadcast(
     }
     for (const msg of messages) {
       if (msg.role !== "user" && msg.role !== "assistant") continue;
-      const text = textOf(msg);
+      const text = roomText(msg.parts);
       const previous = sentText.current.get(msg.id);
       if (previous === text) continue;
       sentText.current.set(msg.id, text);

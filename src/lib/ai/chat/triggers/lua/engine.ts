@@ -27,11 +27,6 @@ let factoryPromise: Promise<LuaFactoryLike> | null = null;
 const engines = new Map<string, EngineState>();
 
 async function loadJsonLua(): Promise<string> {
-  if (typeof window === "undefined") {
-    const { readFile } = await import("node:fs/promises");
-    const { join } = await import("node:path");
-    return readFile(join(process.cwd(), "public", "lua", "json.lua"), "utf-8");
-  }
   const res = await fetch("/lua/json.lua");
   return res.ok ? res.text() : "";
 }
@@ -76,8 +71,6 @@ function closeEngine(state: EngineState): void {
 function scheduleIdleClose(state: EngineState): void {
   if (state.idleTimer) clearTimeout(state.idleTimer);
   state.idleTimer = setTimeout(() => closeEngine(state), ENGINE_IDLE_MS);
-  // Without unref this pending timer keeps the node process alive.
-  state.idleTimer.unref?.();
 }
 
 function luaCodeWrapper(code: string): string {
@@ -252,24 +245,21 @@ export async function runScripted(
   const state = getState(args.mode);
   const run = state.queue.then(async (): Promise<RunScriptedResult> => {
     const flags = { stopSending: false };
-    if (args.code !== state.code) {
+    const isNew = args.code !== state.code;
+    if (isNew) {
       closeEngine(state);
       const factory = await getFactory();
       state.engine = await factory.createEngine({ injectObjects: true });
-      const api = buildLuaApi(args.ctx, flags);
-      for (const [name, fn] of Object.entries(api)) {
-        state.engine.global.set(name, fn);
-      }
-      await state.engine.doString(luaCodeWrapper(args.code));
-      state.code = args.code;
-    } else if (state.engine) {
-      const api = buildLuaApi(args.ctx, flags);
-      for (const [name, fn] of Object.entries(api)) {
-        state.engine.global.set(name, fn);
-      }
     }
     const engine = state.engine;
     if (!engine) return { res: undefined, stopSending: false };
+    for (const [name, fn] of Object.entries(buildLuaApi(args.ctx, flags))) {
+      engine.global.set(name, fn);
+    }
+    if (isNew) {
+      await engine.doString(luaCodeWrapper(args.code));
+      state.code = args.code;
+    }
 
     // editDisplay deliberately gets NO key: every safe()/low() check then fails,
     // which is what makes display handlers read-only.

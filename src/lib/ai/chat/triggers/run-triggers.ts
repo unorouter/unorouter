@@ -56,10 +56,8 @@ export async function runStartTriggers(
   const wrappedOps: TriggerOps = {
     ...ops,
     alert: async (kind, text) => {
-      if (kind === "normal" || kind === "error") {
+      if (kind === "normal" || kind === "error")
         serverAlerts.push({ kind, text });
-        return "";
-      }
       return "";
     },
   };

@@ -15,7 +15,6 @@ import {
   MAX_TURN_CHARS,
   ROOM_PROTOCOL_VERSION,
   parseHostMessage,
-  roomMessageFrom,
   sanitizeName,
   type GuestToHost,
   type RoomMessage,
@@ -76,9 +75,6 @@ export async function joinRoom(roomId: string, rawName: string): Promise<void> {
           roomStore.set(guestParticipantsAtom, msg.participants);
           roomStore.set(guestTurnAtom, msg.turn);
           roomStore.set(guestStatusAtom, "joined");
-          // The transcript arrives over HTTP: a long room is far past the
-          // socket's frame limit, and overflowing the outbound buffer would
-          // drop the connection this is restoring.
           void loadHistory(roomId);
           logChatDebug("room.guest_welcome", { hostVersion: msg.version });
           break;
@@ -148,13 +144,12 @@ async function loadHistory(roomId: string) {
     const frame = parseHostMessage(raw);
     if (frame?.type === "message-appended") stored.push(frame.message);
     else if (frame?.type === "stream-delta") {
-      const parsed = roomMessageFrom({
+      stored.push({
         id: frame.id,
         role: "assistant",
         speaker: roomStore.get(guestCharacterNameAtom) ?? "Assistant",
         text: frame.text,
       });
-      if (parsed) stored.push(parsed);
     }
   }
   if (!stored.length) return;

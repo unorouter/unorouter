@@ -1,10 +1,10 @@
 import { isOneOf } from "@/lib/utils/base";
 export const TRIGGER_EVENT_MODES = [
-  "start", // before send (server, during assembly)
-  "input", // after user input (client)
-  "output", // after AI output (client)
-  "display", // render time, sandboxed (client)
-  "request", // on the formated array, sandboxed (server)
+  "start", // before send, during assembly
+  "input", // after user input
+  "output", // after AI output
+  "display", // render time
+  "request", // on the formated array
   "manual", // invoked by name
 ] as const;
 

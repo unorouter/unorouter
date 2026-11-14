@@ -45,21 +45,12 @@ import {
 // an observed run or by this timeout.
 const TURN_START_TIMEOUT_MS = 15_000;
 
-type Guest = {
-  peerId: string;
-  name: string;
-};
-
 let socket: RoomSocket | null = null;
 let convId: string | null = null;
-let guests = new Map<string, Guest>();
-// Connections that have said "join" but have not been admitted. They are inert
-// until the host approves, so holding the room id cannot spend the host's
-// balance.
-let pending = new Set<string>();
+let guests = new Map<string, RoomParticipant>();
+let pending = new Map<string, string>();
 let turnTimer: ReturnType<typeof setTimeout> | null = null;
 let awaitingRunFor: string | null = null;
-const connName = new Map<string, string>();
 
 // Addressed to one guest by connection id, which the server assigns and stamps
 // on every frame, so a guest cannot claim to be another.
@@ -72,7 +63,7 @@ function broadcast(msg: HostToGuest, opts?: { msgId?: string }) {
 }
 
 function participants(): RoomParticipant[] {
-  return [...guests.values()].map((g) => ({ peerId: g.peerId, name: g.name }));
+  return [...guests.values()];
 }
 
 function syncParticipants() {
@@ -100,10 +91,13 @@ function releaseTurn() {
 
 // The protocol carries text only, deliberately: an attachment is host data and
 // a guest never receives it. A named placeholder beats a blank message.
-const ATTACHMENT_PLACEHOLDER = "[attachment]";
-
-function hasNonTextPart(parts: { type: string }[]): boolean {
-  return parts.some((p) => p.type === "file");
+export function roomText(parts: { type: string; text?: string }[]): string {
+  const text = parts
+    .filter((p) => p.type === "text" && p.text)
+    .map((p) => p.text)
+    .join("\n")
+    .trim();
+  return text || (parts.some((p) => p.type === "file") ? "[attachment]" : "");
 }
 
 // Host-side view of the conversation, flattened to what a guest is allowed to
@@ -118,26 +112,22 @@ async function snapshot(): Promise<{
     readLocalConversation(convId),
     readConvHistoryForSend(convId),
   ]);
-  const charName = cachedCharacter;
   const messages = history.branch.map((m) => {
     const role = m.role === "user" ? ("user" as const) : ("assistant" as const);
-    const text = m.parts
-      .filter((p) => p.type === "text" && p.text)
-      .map((p) => p.text)
-      .join("\n")
-      .trim();
     return {
       id: m.id,
       role,
       // Same resolution the live broadcast uses, or a joining guest sees every
       // cast member's turn attributed to one name.
       speaker: speakerName(role, m.characterId ?? undefined),
-      // A turn whose parts are all non-text (an image) would otherwise arrive
-      // as an empty string and render as a gap in the guest's history.
-      text: text || (hasNonTextPart(m.parts) ? ATTACHMENT_PLACEHOLDER : ""),
+      text: roomText(m.parts),
     };
   });
-  return { title: conv?.title ?? "", characterName: charName, messages };
+  return {
+    title: conv?.title ?? "",
+    characterName: cachedCharacter,
+    messages,
+  };
 }
 
 async function hostPersonaName(): Promise<string> {
@@ -150,7 +140,8 @@ async function hostPersonaName(): Promise<string> {
 }
 
 async function admit(peerId: string) {
-  if (!pending.has(peerId)) return;
+  const name = pending.get(peerId);
+  if (name === undefined) return;
   pending.delete(peerId);
   chatStore.set(
     roomPendingAtom,
@@ -161,11 +152,8 @@ async function admit(peerId: string) {
     send(peerId, { type: "rejected", reason: "full" });
     return;
   }
-  const name = connName.get(peerId) ?? "Guest";
   guests.set(peerId, { peerId, name });
   const snap = await snapshot();
-  // The transcript is published to the room's stored history, not carried in
-  // the welcome: a long room is megabytes and would overrun the socket.
   publishSnapshot(snap);
   send(peerId, {
     type: "welcome",
@@ -187,7 +175,6 @@ async function admit(peerId: string) {
 function reject(peerId: string) {
   const wasPending = pending.has(peerId);
   pending.delete(peerId);
-  connName.delete(peerId);
   chatStore.set(
     roomPendingAtom,
     chatStore.get(roomPendingAtom).filter((p) => p.peerId !== peerId),
@@ -210,7 +197,7 @@ function kick(peerId: string) {
   syncParticipants();
 }
 
-async function onSubmitTurn(guest: Guest, text: string) {
+async function onSubmitTurn(guest: RoomParticipant, text: string) {
   const trimmed = text.trim().slice(0, MAX_TURN_CHARS);
   if (!trimmed) return;
   if (chatStore.get(roomTurnAtom).kind !== "idle") {
@@ -293,19 +280,16 @@ export function speakerName(
 const groupNames = new Map<string, string>();
 
 export function broadcastMessage(message: RoomMessage) {
-  if (!socket) return;
   broadcast({ type: "message-appended", message }, { msgId: message.id });
 }
 
 // A delta carries the whole accumulated text, so storing it REPLACES the row
 // for that id rather than appending another copy of the same reply.
 export function broadcastDelta(id: string, text: string) {
-  if (!socket) return;
   broadcast({ type: "stream-delta", id, text }, { msgId: id });
 }
 
 export function broadcastStreamEnd(id: string) {
-  if (!socket) return;
   broadcast({ type: "stream-end", id });
 }
 
@@ -376,8 +360,7 @@ export async function startRoom(activeConvId: string | null): Promise<void> {
         }
         const name = sanitizeName(msg.name);
         logChatDebug("room.guest_join", { peerId: from, name });
-        connName.set(from, name);
-        pending.add(from);
+        pending.set(from, name);
         chatStore.set(roomPendingAtom, [
           ...chatStore.get(roomPendingAtom),
           { peerId: from, name },
@@ -393,8 +376,6 @@ export async function startRoom(activeConvId: string | null): Promise<void> {
   });
 }
 
-// Seeds the room's stored history. A guest fetches this over HTTP instead of
-// receiving it in the welcome, which a long room would not fit in.
 function publishSnapshot(snap: {
   title: string;
   characterName: string | null;
@@ -420,8 +401,7 @@ export function stopRoom() {
   socket = null;
   convId = null;
   guests = new Map();
-  pending = new Set();
-  connName.clear();
+  pending = new Map();
   awaitingRunFor = null;
   chatStore.set(roomHostStatusAtom, "off");
   chatStore.set(roomIdAtom, null);
