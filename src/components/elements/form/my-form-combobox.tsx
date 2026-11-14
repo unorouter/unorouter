@@ -25,6 +25,58 @@ import { isStringArray } from "@/lib/utils/base";
 import type { ReactNode } from "react";
 import type { Control, FieldValues, Path } from "react-hook-form";
 
+export function EntityMultiSelect(props: {
+  value: string[];
+  onChange: (ids: string[]) => void;
+  options: NamedEntity[] | undefined;
+  searchPlaceholder: string;
+  emptyText: string;
+}) {
+  const options = props.options ?? [];
+  const lookup = new Map(options.map((o) => [o.id, o]));
+  const name = (id: string) => lookup.get(id)?.name ?? id;
+  return (
+    <Combobox
+      items={options.map((o) => o.id)}
+      multiple
+      value={props.value}
+      onValueChange={(next) => props.onChange(next)}
+      itemToStringLabel={name}
+    >
+      <ComboboxChips>
+        <ComboboxValue>
+          {(value: string[]) =>
+            value.map((id) => (
+              <ComboboxChip key={id} aria-label={name(id)}>
+                {name(id)}
+              </ComboboxChip>
+            ))
+          }
+        </ComboboxValue>
+        <ComboboxChipsInput placeholder={props.searchPlaceholder} />
+        <ComboboxClear />
+      </ComboboxChips>
+      <ComboboxContent>
+        <ComboboxEmpty>{props.emptyText}</ComboboxEmpty>
+        <ComboboxList>
+          {(id: string) => (
+            <ComboboxItem key={id} value={id}>
+              <span className="flex min-w-0 items-center gap-2">
+                <RpAvatar
+                  mediaId={lookup.get(id)?.avatarMediaId}
+                  name={name(id)}
+                  className="size-5"
+                />
+                <span className="truncate">{name(id)}</span>
+              </span>
+            </ComboboxItem>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  );
+}
+
 export function MyFormCombobox<T extends FieldValues>(props: {
   control: Control<T>;
   name: Path<T>;
@@ -49,49 +101,13 @@ export function MyFormCombobox<T extends FieldValues>(props: {
           <FormItem>
             <FormLabel>{props.label}</FormLabel>
             <FormControl>
-              <Combobox
-                items={options.map((o) => o.id)}
-                multiple
+              <EntityMultiSelect
                 value={ids}
-                onValueChange={(next) => field.onChange(next)}
-                itemToStringLabel={(id) => lookup.get(id)?.name ?? id}
-              >
-                <ComboboxChips>
-                  <ComboboxValue>
-                    {(value: string[]) =>
-                      value.map((id) => (
-                        <ComboboxChip
-                          key={id}
-                          aria-label={lookup.get(id)?.name}
-                        >
-                          {lookup.get(id)?.name ?? id}
-                        </ComboboxChip>
-                      ))
-                    }
-                  </ComboboxValue>
-                  <ComboboxChipsInput placeholder={props.searchPlaceholder} />
-                  <ComboboxClear />
-                </ComboboxChips>
-                <ComboboxContent>
-                  <ComboboxEmpty>{props.emptyText}</ComboboxEmpty>
-                  <ComboboxList>
-                    {(id: string) => (
-                      <ComboboxItem key={id} value={id}>
-                        <span className="flex min-w-0 items-center gap-2">
-                          <RpAvatar
-                            mediaId={lookup.get(id)?.avatarMediaId}
-                            name={lookup.get(id)?.name ?? id}
-                            className="size-5"
-                          />
-                          <span className="truncate">
-                            {lookup.get(id)?.name ?? id}
-                          </span>
-                        </span>
-                      </ComboboxItem>
-                    )}
-                  </ComboboxList>
-                </ComboboxContent>
-              </Combobox>
+                onChange={field.onChange}
+                options={options}
+                searchPlaceholder={props.searchPlaceholder}
+                emptyText={props.emptyText}
+              />
             </FormControl>
             {orderedItems.length > 1 && (
               <div className="mt-2">

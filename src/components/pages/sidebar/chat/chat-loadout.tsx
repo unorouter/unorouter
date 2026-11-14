@@ -1,18 +1,7 @@
 "use client";
 
-import {
-  Combobox,
-  ComboboxChip,
-  ComboboxChips,
-  ComboboxChipsInput,
-  ComboboxClear,
-  ComboboxContent,
-  ComboboxEmpty,
-  ComboboxItem,
-  ComboboxList,
-  ComboboxValue,
-} from "@/components/ui/combobox";
 import { EntitySelect } from "@/components/elements/form/my-form-entity-select";
+import { EntityMultiSelect } from "@/components/elements/form/my-form-combobox";
 import { useCardsQuery } from "@/hooks/ai/rp/cards";
 import { useCharactersQuery } from "@/hooks/ai/rp/characters";
 import { useLorebooksQuery } from "@/hooks/ai/rp/lorebooks";
@@ -22,7 +11,6 @@ import { useMediaFocal, useMediaSrc } from "@/hooks/ai/use-media-src";
 import { readLocalCard } from "@/lib/db/client/data/rp/rp";
 import { Icon } from "@/components/ui/icon";
 import { cn } from "@/lib/utils";
-import { RpAvatar } from "./rp/shared/rp-list-parts";
 import type { NamedEntity } from "@/lib/types";
 import { chatLoadoutAtom, type ChatLoadout } from "@/store/chat-store";
 import { useAtom } from "jotai";
@@ -58,49 +46,16 @@ function MultiPicker(props: {
   options: NamedEntity[] | undefined;
   onChange: (ids: string[]) => void;
 }) {
-  const options = props.options ?? [];
-  const lookup = new Map(options.map((o) => [o.id, o]));
   return (
     <div className="flex flex-col gap-1">
       <span className="text-muted-foreground text-xs">{props.label}</span>
-      <Combobox
-        items={options.map((o) => o.id)}
-        multiple
+      <EntityMultiSelect
         value={props.value}
-        onValueChange={(next) => props.onChange(next)}
-        itemToStringLabel={(id) => lookup.get(id)?.name ?? id}
-      >
-        <ComboboxChips>
-          <ComboboxValue>
-            {(value: string[]) =>
-              value.map((id) => (
-                <ComboboxChip key={id} aria-label={lookup.get(id)?.name}>
-                  {lookup.get(id)?.name ?? id}
-                </ComboboxChip>
-              ))
-            }
-          </ComboboxValue>
-          <ComboboxChipsInput placeholder={props.searchPlaceholder} />
-          <ComboboxClear />
-        </ComboboxChips>
-        <ComboboxContent>
-          <ComboboxEmpty>{props.emptyText}</ComboboxEmpty>
-          <ComboboxList>
-            {(id: string) => (
-              <ComboboxItem key={id} value={id}>
-                <span className="flex min-w-0 items-center gap-2">
-                  <RpAvatar
-                    mediaId={lookup.get(id)?.avatarMediaId}
-                    name={lookup.get(id)?.name ?? id}
-                    className="size-5"
-                  />
-                  <span className="truncate">{lookup.get(id)?.name ?? id}</span>
-                </span>
-              </ComboboxItem>
-            )}
-          </ComboboxList>
-        </ComboboxContent>
-      </Combobox>
+        onChange={props.onChange}
+        options={props.options}
+        searchPlaceholder={props.searchPlaceholder}
+        emptyText={props.emptyText}
+      />
     </div>
   );
 }
