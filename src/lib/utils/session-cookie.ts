@@ -1,4 +1,4 @@
-import { msg } from "@/lib/config/constants";
+import { COOKIE_MAX_AGE, msg } from "@/lib/config/constants";
 import { serverEnv } from "@/server/env";
 import { sealData, unsealData } from "iron-session";
 import { createHmac } from "node:crypto";
@@ -7,7 +7,12 @@ export async function signUserId(userId: number | string): Promise<string> {
   const id = Number(userId);
   if (!Number.isFinite(id) || id <= 0)
     throw new Error(msg("ERRORS.INVALID_USER_ID"));
-  return sealData({ uid: id }, { password: serverEnv.sessionSecret });
+  // iron-session seals expire after 14 days by default while the cookie lives
+  // 30: past day 14 the token cookie outlived a user-id nobody could verify.
+  return sealData(
+    { uid: id },
+    { password: serverEnv.sessionSecret, ttl: COOKIE_MAX_AGE },
+  );
 }
 
 export async function verifyUserId(
@@ -19,7 +24,10 @@ export async function verifyUserId(
     if (password.length < 32) continue;
     // A wrong password does not throw: iron-session hands back {} instead.
     try {
-      const data = await unsealData<{ uid?: number }>(sealed, { password });
+      const data = await unsealData<{ uid?: number }>(sealed, {
+        password,
+        ttl: COOKIE_MAX_AGE,
+      });
       const n = Number(data?.uid);
       if (Number.isFinite(n) && n > 0) return n;
     } catch {}

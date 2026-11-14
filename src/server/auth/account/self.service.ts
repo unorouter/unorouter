@@ -1,5 +1,5 @@
 import { clearSessionCookies, setSessionCookies } from "@/lib/api/auth";
-import { NEW_API_USER } from "@/lib/config/constants";
+import { ACCESS_TOKEN_COOKIE, NEW_API_USER } from "@/lib/config/constants";
 import { isUpstreamError } from "@/lib/custom-fetch";
 import { unwrap } from "@/lib/utils/base";
 import { getSelf, type UserSelfData } from "@/openapi";
@@ -12,7 +12,13 @@ export async function resolveSelf(
   cookie?: Context["cookie"],
 ): Promise<{ user: UserSelfData | null; expired: boolean }> {
   const { upstream } = await deriveUpstream({ request });
-  if (!upstream.headers[NEW_API_USER]) return { user: null, expired: false };
+  if (!upstream.headers[NEW_API_USER]) {
+    // A token without a verifiable user-id is a dead session, not a guest:
+    // left alone it sat in the browser and failed every server prefetch.
+    const stale = Boolean(cookie?.[ACCESS_TOKEN_COOKIE]?.value);
+    if (cookie && stale) clearSessionCookies(cookie);
+    return { user: null, expired: stale };
+  }
   try {
     const user = unwrap(await getSelf(upstream)).data;
     // Upstream re-issues past half-life; dropping this writeback expires active sessions.
