@@ -56,7 +56,6 @@ async function applyEditInput(
   if (lastUserIdx === -1) return messages;
 
   const m = messages[lastUserIdx];
-  if (!Array.isArray(m.parts)) return messages;
 
   const editCtx = makeTriggerContext({
     mode: "input",

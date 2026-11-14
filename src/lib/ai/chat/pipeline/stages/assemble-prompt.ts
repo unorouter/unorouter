@@ -156,7 +156,7 @@ export async function assemblePrompt(
       : assembleFromOverrides(body.overrides, assemblySystem);
 
   const summaryAnchor = memory.memoryBlock
-    ? (memory.summaryWriteback?.anchor ?? memorySettings?.summaryAnchor ?? 0)
+    ? (memory.summaryWriteback?.anchor ?? memorySettings.summaryAnchor ?? 0)
     : 0;
   const unsummarized =
     summaryAnchor > 0
