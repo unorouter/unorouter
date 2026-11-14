@@ -7,14 +7,12 @@ import {
   useChatSettingsQuery,
   useUpdateChatSettingsMutation,
 } from "@/hooks/ai/rp/conversations";
-import {
-  readLocalMedia,
-  upsertLocalMedia,
-} from "@/lib/db/client/data/media/media";
+import { upsertLocalMedia } from "@/lib/db/client/data/media/media";
 import { handleError } from "@/lib/utils/client";
 import { uid } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
+import { useMediaSrc } from "@/hooks/ai/use-media-src";
 
 const MAX_REFS = 6;
 const MAX_REF_BYTES = 5 * 1024 * 1024;
@@ -47,29 +45,8 @@ export function ImageRefsField(props: { convId: string }) {
   const settingsQuery = useChatSettingsQuery(props.convId);
   const updateSettings = useUpdateChatSettingsMutation();
   const inputRef = useRef<HTMLInputElement>(null);
-  const [thumbs, setThumbs] = useState<{ id: string; src: string }[]>([]);
 
   const refIds = parseRefIds(settingsQuery.data?.imageRefIds);
-  const refIdsKey = refIds.join(",");
-
-  useEffect(() => {
-    let cancelled = false;
-    void (async () => {
-      const out: { id: string; src: string }[] = [];
-      for (const id of refIdsKey ? refIdsKey.split(",") : []) {
-        const row = await readLocalMedia(id);
-        if (!row) continue;
-        const src = row.dataBase64
-          ? `data:${row.mimeType};base64,${row.dataBase64}`
-          : row.r2Url;
-        if (src) out.push({ id, src });
-      }
-      if (!cancelled) setThumbs(out);
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [refIdsKey]);
 
   const saveRefIds = async (ids: string[]) => {
     await updateSettings.mutateAsync({
@@ -138,26 +115,10 @@ export function ImageRefsField(props: { convId: string }) {
         hidden
         onChange={(e) => void onFiles(e.target.files)}
       />
-      {thumbs.length > 0 && (
+      {refIds.length > 0 && (
         <div className="flex flex-wrap gap-2">
-          {thumbs.map((thumb) => (
-            <span key={thumb.id} className="group/ref relative">
-              {/* eslint-disable-next-line @next/next/no-img-element -- local data URI thumbnails */}
-              <img
-                src={thumb.src}
-                alt=""
-                className="size-14 rounded-md border object-cover"
-              />
-              <Button
-                type="button"
-                variant="destructive"
-                size="icon"
-                className="absolute -top-1.5 -right-1.5 size-4 rounded-full p-0"
-                onClick={() => void remove(thumb.id)}
-              >
-                <Icon name="x" className="size-2.5" />
-              </Button>
-            </span>
+          {refIds.map((id) => (
+            <RefThumb key={id} mediaId={id} onRemove={() => void remove(id)} />
           ))}
         </div>
       )}
@@ -165,5 +126,29 @@ export function ImageRefsField(props: { convId: string }) {
         {t("CHAT.OVERRIDES.IMAGE_REFS_HINT")}
       </span>
     </div>
+  );
+}
+
+function RefThumb(props: { mediaId: string; onRemove: () => void }) {
+  const src = useMediaSrc(props.mediaId);
+  if (!src) return null;
+  return (
+    <span className="group/ref relative">
+      {/* eslint-disable-next-line @next/next/no-img-element -- local blob thumbnails */}
+      <img
+        src={src}
+        alt=""
+        className="size-14 rounded-md border object-cover"
+      />
+      <Button
+        type="button"
+        variant="destructive"
+        size="icon"
+        className="absolute -top-1.5 -right-1.5 size-4 rounded-full p-0"
+        onClick={props.onRemove}
+      >
+        <Icon name="x" className="size-2.5" />
+      </Button>
+    </span>
   );
 }
