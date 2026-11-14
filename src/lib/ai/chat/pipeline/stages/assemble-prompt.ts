@@ -1,3 +1,4 @@
+import type { HistoryTurn } from "@/lib/ai/chat/macros";
 import {
   CONTEXT_SAFETY_MARGIN,
   UNKNOWN_MODEL_OUTPUT_CAP,
@@ -239,7 +240,7 @@ async function buildMemory(
         utilityGroup?: string | null;
       }
     | undefined,
-  history: { role: "user" | "assistant" | "system"; text: string }[],
+  history: HistoryTurn[],
   lastUserText: string | null,
   loreCandidates: { id: string; text: string }[],
 ): Promise<MemoryContext> {

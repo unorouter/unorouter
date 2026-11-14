@@ -17,7 +17,11 @@ import type { CharacterRow } from "@/lib/db/schema/rows";
 import { countTokens } from "@/lib/ai/chat/tokenizer";
 import { keyHits, selectLorebookEntries } from "./lorebook";
 import { parseExampleMessages } from "./example-messages";
-import { expandMacros, type MacroScope } from "@/lib/ai/chat/macros";
+import {
+  expandMacros,
+  type HistoryTurn,
+  type MacroScope,
+} from "@/lib/ai/chat/macros";
 import {
   DEFAULT_PROMPT_TEMPLATE,
   parsePromptTemplate,
@@ -204,11 +208,7 @@ export function assembleFromOverrides(
 
 type AssembleOpts = {
   globalVars?: string | null;
-  history?: {
-    role: "user" | "assistant" | "system";
-    text: string;
-    time?: number;
-  }[];
+  history?: HistoryTurn[];
   seedVars?: Record<string, string>;
   model?: string;
   maxContext?: number;

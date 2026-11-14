@@ -1,3 +1,4 @@
+import type { HistoryTurn } from "@/lib/ai/chat/macros";
 import { MAX_TEXT_LEN } from "@/lib/validation/chat";
 import type { FreeModelGenerate } from "@/lib/ai/chat/free-model-race";
 
@@ -14,7 +15,7 @@ const SUMMARIZE_SYSTEM_PROMPT =
 export async function rollSummary(input: {
   generate: FreeModelGenerate;
   model: string;
-  history: { role: "user" | "assistant" | "system"; text: string }[];
+  history: HistoryTurn[];
   priorSummary: string;
   priorAnchor: number;
 }): Promise<{ summary: string; anchor: number } | null> {

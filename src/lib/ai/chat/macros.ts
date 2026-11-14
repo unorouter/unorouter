@@ -8,6 +8,12 @@ import {
 } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 
+export type HistoryTurn = {
+  role: "user" | "assistant" | "system";
+  text: string;
+  time?: number;
+};
+
 export type MacroScope = {
   user: string;
   char: string;
@@ -18,11 +24,7 @@ export type MacroScope = {
   vars: Record<string, string>;
   globalVars?: Record<string, string>;
   tempVars?: Record<string, string>;
-  history?: {
-    role: "user" | "assistant" | "system";
-    text: string;
-    time?: number;
-  }[];
+  history?: HistoryTurn[];
   seed?: string;
   viewport?: { w: number; h: number };
   locale?: string;

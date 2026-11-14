@@ -6,7 +6,11 @@ import type {
   AssembledSystem,
   DepthInjection,
 } from "../prompt/assembler.service";
-import { expandMacros, risuUnescape } from "@/lib/ai/chat/macros";
+import {
+  expandMacros,
+  risuUnescape,
+  type HistoryTurn,
+} from "@/lib/ai/chat/macros";
 import { rec } from "@/lib/utils/base";
 
 export type StreamMessages = Parameters<typeof convertToModelMessages>[0];
@@ -118,10 +122,7 @@ export function expandMessageMacros(
 ): StreamMessages {
   let h = 0;
   return messages.map((m) => {
-    const isHistory =
-      (m.role === "user" || m.role === "assistant" || m.role === "system") &&
-      textOf(m.parts) !== "";
-    const chatIndex = isHistory ? h++ : undefined;
+    const chatIndex = textOf(m.parts) !== "" ? h++ : undefined;
     return mapTextParts(m, (t) => expandMacros(t, { ...scope, chatIndex }));
   });
 }
@@ -366,16 +367,9 @@ export function collectHistory(
   messages: StreamMessages,
   times?: Record<string, number>,
   speaker?: { id: string; names: Record<string, string> },
-): { role: "user" | "assistant" | "system"; text: string; time?: number }[] {
-  const out: {
-    role: "user" | "assistant" | "system";
-    text: string;
-    time?: number;
-  }[] = [];
+): HistoryTurn[] {
+  const out: HistoryTurn[] = [];
   for (const m of messages) {
-    if (m.role !== "user" && m.role !== "assistant" && m.role !== "system") {
-      continue;
-    }
     let text = textOf(m.parts);
     // The type is Omit<UIMessage, "id"> but the wire messages carry their DB
     // id, which is what `times` is keyed by.
@@ -411,11 +405,7 @@ export function dropSummarizedPrefix(
   let counted = 0;
   let cutIdx = 0;
   for (let i = 0; i < messages.length && counted < anchor; i++) {
-    const m = messages[i];
-    const isHistory =
-      (m.role === "user" || m.role === "assistant" || m.role === "system") &&
-      textOf(m.parts) !== "";
-    if (isHistory) counted++;
+    if (textOf(messages[i].parts) !== "") counted++;
     cutIdx = i + 1;
   }
   if (cutIdx >= messages.length) cutIdx = messages.length - 1;

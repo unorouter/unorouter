@@ -1,3 +1,4 @@
+import type { HistoryTurn } from "@/lib/ai/chat/macros";
 import {
   makeTriggerContext,
   parseTriggerScripts,
@@ -17,7 +18,7 @@ export async function runStartTriggers(
   convCtx: LoadedConvContext,
   vars: Record<string, string>,
   globalVars: Record<string, string>,
-  history: { role: "user" | "assistant" | "system"; text: string }[],
+  history: HistoryTurn[],
   ops?: TriggerOps,
 ): Promise<StartTriggerResult> {
   const primary = convCtx.boundCharacters[0]?.character;
