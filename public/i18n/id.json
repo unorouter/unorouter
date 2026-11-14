@@ -451,7 +451,7 @@
       "PRESET_IMAGE_DESC": "Model pembuatan gambar terbaik dari sisi biaya dan kualitas.",
       "META": {
         "TITLE": "Bandingkan Model AI - {appName}",
-        "DESCRIPTION": "Bandingkan model AI berdampingan berdasarkan harga, panjang konteks, kemampuan, dan penggunaan di {appName}.",
+        "DESCRIPTION": "Bandingkan model AI berdampingan di {appName}: harga, panjang konteks, kemampuan, latensi, dan penggunaan. Mulai dari preset model unggulan, terjangkau, atau coding.",
         "KEYWORDS": "bandingkan model AI, perbandingan model, perbandingan LLM, harga AI",
         "TITLE_COMBO": "{models} - Perbandingan Model AI",
         "DESCRIPTION_COMBO": "Bandingkan {models} berdasarkan harga, panjang konteks, kemampuan, dan penggunaan."
@@ -1748,7 +1748,7 @@
     "CC_SWITCH": {
       "META": {
         "TITLE": "Panduan Integrasi CC Switch | {appName}",
-        "DESCRIPTION": "Atur CC Switch dengan {appName} untuk manajemen CLI AI terpadu",
+        "DESCRIPTION": "Siapkan CC Switch dengan {appName} untuk mengelola penyedia Claude Code, Codex, dan Gemini CLI dalam satu aplikasi. Impor konfigurasi sekali klik lewat ccswitch://.",
         "KEYWORDS": "CC Switch, Claude Code, Codex, Gemini CLI, manajemen CLI"
       },
       "BADGE": "CC Switch",
@@ -1797,7 +1797,7 @@
     "CLAUDE_CODE": {
       "META": {
         "TITLE": "Integrasi Claude Code - {appName}",
-        "DESCRIPTION": "Gunakan {appName} dengan Claude Code, Cursor, dan klien apa pun yang kompatibel dengan Anthropic melalui satu endpoint.",
+        "DESCRIPTION": "Gunakan Claude Code dengan {appName} di Windows, macOS, dan Linux: atur base URL Anthropic dan kunci, ganti model dengan /model, dan siapkan juga aplikasi desktop.",
         "KEYWORDS": "Claude Code, Anthropic API, setup Claude Code, Cursor AI, {appName} Claude, alternatif Anthropic"
       },
       "BADGE": "Claude Code",
@@ -1861,7 +1861,7 @@
     "CODEX": {
       "META": {
         "TITLE": "Panduan Setup Codex CLI - {appName}",
-        "DESCRIPTION": "Siapkan OpenAI Codex CLI dengan {appName} di Windows, macOS, dan Linux, lengkap dengan tangkapan layar.",
+        "DESCRIPTION": "Siapkan OpenAI Codex CLI dengan {appName} di Windows, macOS, dan Linux: penyedia kustom di config.toml, kunci di variabel lingkungan, plus aplikasi desktop.",
         "KEYWORDS": "Codex CLI, OpenAI Codex, panduan setup Codex, instal Codex CLI, {appName} Codex, agen pengkodean OpenAI"
       },
       "BADGE": "Codex CLI",
@@ -1894,7 +1894,7 @@
     "GEMINI_CLI": {
       "META": {
         "TITLE": "Integrasi Gemini CLI - {appName}",
-        "DESCRIPTION": "Gunakan {appName} dengan Gemini CLI dan klien apa pun yang kompatibel dengan Google GenAI.",
+        "DESCRIPTION": "Jalankan Gemini CLI dari Google di {appName}: GOOGLE_GEMINI_BASE_URL dan kunci di ~/.gemini/.env, satu kunci untuk semua model, atasi cepat error 404 dan auth.",
         "KEYWORDS": "Gemini CLI, Google AI API, setup Gemini, Google GenAI SDK, {appName} Gemini, alternatif Gemini"
       },
       "BADGE": "Gemini CLI",
@@ -1927,7 +1927,7 @@
     "OPENCLAW": {
       "META": {
         "TITLE": "Integrasi OpenClaw - {appName}",
-        "DESCRIPTION": "Gunakan {appName} sebagai penyedia model untuk agen OpenClaw Anda.",
+        "DESCRIPTION": "Gunakan {appName} sebagai penyedia model kompatibel OpenAI untuk OpenClaw. Atur base URL di openclaw.json dan jalankan agen Anda di Telegram, Discord, atau Slack.",
         "KEYWORDS": "OpenClaw, setup OpenClaw, agen AI, {appName} OpenClaw, penyedia model, AI gateway"
       },
       "BADGE": "OpenClaw",
@@ -1955,7 +1955,7 @@
     "HERMES": {
       "META": {
         "TITLE": "Integrasi Hermes Agent - {appName}",
-        "DESCRIPTION": "Gunakan {appName} sebagai penyedia model untuk Hermes Agent dari Nous Research. Satu endpoint kompatibel OpenAI, semua model.",
+        "DESCRIPTION": "Gunakan {appName} sebagai penyedia model Hermes Agent dari Nous Research. Atur base URL kustom di config.yaml dan kunci di .env, lalu jalankan dengan model apa pun.",
         "KEYWORDS": "Hermes Agent, Nous Research, setup Hermes, agen AI, {appName} Hermes, penyedia model, kompatibel OpenAI"
       },
       "BADGE": "Hermes Agent",
@@ -2259,7 +2259,7 @@
     "LOBECHAT": {
       "META": {
         "TITLE": "LobeChat: pengaturan dengan API kompatibel OpenAI gratis | {appName}",
-        "DESCRIPTION": "Hubungkan LobeChat ke {appName} lewat Add Custom Provider atau variabel lingkungan Docker. Termasuk model gratis.",
+        "DESCRIPTION": "Hubungkan LobeChat ke {appName} lewat Add Custom Provider atau env Docker untuk self-hosting. Satu kunci kompatibel OpenAI untuk semua model, termasuk yang gratis.",
         "KEYWORDS": "LobeChat, penyedia kustom LobeChat, {appName} LobeChat, chat web sumber terbuka"
       },
       "BADGE": "LobeChat",
@@ -2316,7 +2316,7 @@
     "TYPINGMIND": {
       "META": {
         "TITLE": "TypingMind: pengaturan dengan API kompatibel OpenAI gratis | {appName}",
-        "DESCRIPTION": "Hubungkan TypingMind ke {appName} dengan menempel endpoint kustom yang kompatibel dengan OpenAI. Termasuk model gratis.",
+        "DESCRIPTION": "Hubungkan TypingMind ke {appName} sebagai model kustom kompatibel OpenAI. Atur endpoint, tambahkan kunci sebagai header Authorization, uji. Termasuk model gratis.",
         "KEYWORDS": "TypingMind, model kustom TypingMind, {appName} TypingMind, frontend web BYOK"
       },
       "BADGE": "TypingMind",
@@ -2337,7 +2337,7 @@
     "BOLTAI": {
       "META": {
         "TITLE": "BoltAI: pengaturan dengan API kompatibel OpenAI gratis | {appName}",
-        "DESCRIPTION": "Hubungkan BoltAI ke {appName} sebagai server kustom yang kompatibel dengan OpenAI. Termasuk model gratis.",
+        "DESCRIPTION": "Hubungkan BoltAI di macOS ke {appName} sebagai server kustom kompatibel OpenAI. Isi URL, kunci, ID model, dan panjang konteks, lalu chat. Termasuk model gratis.",
         "KEYWORDS": "BoltAI, BoltAI kompatibel OpenAI, {appName} BoltAI, asisten AI macOS"
       },
       "BADGE": "BoltAI",
@@ -2356,7 +2356,7 @@
     "PAGE_ASSIST": {
       "META": {
         "TITLE": "Page Assist: pengaturan dengan API kompatibel OpenAI gratis | {appName}",
-        "DESCRIPTION": "Hubungkan Page Assist ke {appName} sebagai API kustom yang kompatibel dengan OpenAI di panel samping browser. Termasuk model gratis.",
+        "DESCRIPTION": "Hubungkan ekstensi Page Assist ke {appName} sebagai API kustom kompatibel OpenAI. Tambahkan base URL dan kunci, lalu chat di panel samping dengan model gratis.",
         "KEYWORDS": "Page Assist, Page Assist kompatibel OpenAI, {appName} Page Assist, ekstensi AI peramban"
       },
       "BADGE": "Page Assist",
@@ -2377,7 +2377,7 @@
     "CHATBOX": {
       "META": {
         "TITLE": "Chatbox: pengaturan dengan API kompatibel OpenAI gratis | {appName}",
-        "DESCRIPTION": "Hubungkan Chatbox ke {appName} menggunakan mode OpenAI API Compatible. Bagi URL menjadi Host dan Path. Termasuk model gratis.",
+        "DESCRIPTION": "Hubungkan Chatbox ke {appName} dalam mode OpenAI API Compatible. Pecah URL menjadi API Host dan API Path, tambahkan kunci dan model, lalu chat. Ada model gratis.",
         "KEYWORDS": "Chatbox, Chatbox kompatibel OpenAI, {appName} Chatbox, klien chat lintas platform"
       },
       "BADGE": "Chatbox",
@@ -2398,7 +2398,7 @@
     "BIG_AGI": {
       "META": {
         "TITLE": "Big-AGI: pengaturan dengan API kompatibel OpenAI gratis | {appName}",
-        "DESCRIPTION": "Hubungkan Big-AGI ke {appName} sebagai sumber OpenAI. Big-AGI menarik katalognya. Termasuk model gratis.",
+        "DESCRIPTION": "Hubungkan Big-AGI ke {appName} sebagai sumber OpenAI kustom. Masukkan kunci dan endpoint, lalu Big-AGI mengambil seluruh katalog model. Termasuk model gratis.",
         "KEYWORDS": "Big-AGI, sumber OpenAI Big-AGI, {appName} Big-AGI, workbench AI web"
       },
       "BADGE": "Big-AGI",
@@ -2417,7 +2417,7 @@
     "OPENCODE": {
       "META": {
         "TITLE": "Panduan Pengaturan OpenCode | {appName}",
-        "DESCRIPTION": "Hubungkan OpenCode ke {appName} dengan penyedia kustom yang kompatibel dengan OpenAI di opencode.json.",
+        "DESCRIPTION": "Hubungkan OpenCode ke {appName} dengan penyedia kustom kompatibel OpenAI di opencode.json. Salin konfigurasi, tulis ID model persis, hindari bentrok nama registri.",
         "KEYWORDS": "OpenCode, pengaturan OpenCode, penyedia OpenCode, {appName} OpenCode, agen koding, kompatibel dengan OpenAI"
       },
       "BADGE": "OpenCode",
@@ -2440,7 +2440,7 @@
     "KILO_CODE": {
       "META": {
         "TITLE": "Panduan Pengaturan Kilo Code | {appName}",
-        "DESCRIPTION": "Hubungkan Kilo Code ke {appName} dengan penyedia kustom yang kompatibel dengan OpenAI di bilah samping VSCode.",
+        "DESCRIPTION": "Hubungkan Kilo Code di VSCode ke {appName} lewat penyedia kustom kompatibel OpenAI. Tempel nilainya, aktifkan tools, dan coding pakai model gratis atau berbayar.",
         "KEYWORDS": "Kilo Code, pengaturan Kilo Code, agen koding VSCode, {appName} Kilo Code, penyedia kustom, kompatibel dengan OpenAI"
       },
       "BADGE": "Kilo Code",
@@ -2464,7 +2464,7 @@
     "ZED": {
       "META": {
         "TITLE": "Panduan Pengaturan Zed IDE | {appName}",
-        "DESCRIPTION": "Hubungkan agen editor Zed ke {appName} dengan penyedia kustom yang kompatibel dengan OpenAI.",
+        "DESCRIPTION": "Hubungkan panel agen editor Zed ke {appName} sebagai penyedia kustom kompatibel OpenAI. Pengaturan bertahap, daftar model, tips keychain, ada model gratis.",
         "KEYWORDS": "Zed, Zed IDE, agen Zed, {appName} Zed, penyedia kustom, editor kompatibel OpenAI"
       },
       "BADGE": "Zed IDE",
@@ -2485,7 +2485,7 @@
     "CLINE": {
       "META": {
         "TITLE": "Panduan Pengaturan Cline | {appName}",
-        "DESCRIPTION": "Hubungkan Cline ke {appName} sebagai penyedia OpenAI Compatible agar ia dapat membaca, menyunting, dan menjalankan kode dengan model apa pun.",
+        "DESCRIPTION": "Hubungkan Cline di VSCode ke {appName} sebagai penyedia OpenAI Compatible. Loop agen penuh membaca, mengedit, dan menjalankan kode dengan model apa pun, juga gratis.",
         "KEYWORDS": "Cline, pengaturan Cline, agen otonom VSCode, {appName} Cline, OpenAI Compatible, agen koding"
       },
       "BADGE": "Cline",
@@ -2527,7 +2527,7 @@
     "CONTINUE_DEV": {
       "META": {
         "TITLE": "Panduan Pengaturan Continue.dev | {appName}",
-        "DESCRIPTION": "Hubungkan Continue.dev ke {appName} dengan config.yaml yang bisa dikelola versinya. Continue memuat ulang entri model secara langsung.",
+        "DESCRIPTION": "Hubungkan Continue.dev ke {appName} dengan entri model di config.yaml. Hot-reload di VSCode dan JetBrains dengan satu kunci kompatibel OpenAI, ada model gratis.",
         "KEYWORDS": "Continue.dev, pengaturan Continue, asisten VSCode JetBrains, {appName} Continue, config.yaml, kompatibel dengan OpenAI"
       },
       "BADGE": "Continue.dev",
@@ -2567,7 +2567,7 @@
     "NEVIKA": {
       "META": {
         "TITLE": "Panduan Integrasi Nevika | {appName}",
-        "DESCRIPTION": "Hubungkan Nevika ke {appName} sebagai proxy kustom. Satu kunci, ratusan model.",
+        "DESCRIPTION": "Hubungkan Nevika ke {appName} sebagai proxy kustom untuk roleplay AI. Tempel kunci Anda di halaman pengaturan yang sudah terisi, lalu pilih model, termasuk gratis.",
         "KEYWORDS": "Nevika, custom proxy Nevika, API key Nevika, {appName} Nevika, roleplay AI, chat character"
       },
       "BADGE": "Nevika",
@@ -2591,7 +2591,7 @@
     "CURSOR": {
       "META": {
         "TITLE": "Panduan Pengaturan Cursor | {appName}",
-        "DESCRIPTION": "Gunakan model {appName} di Cursor Chat dan Agent dengan kunci API Anda sendiri dan pengaturan Override OpenAI Base URL.",
+        "DESCRIPTION": "Gunakan model {appName} di Cursor Chat dan Agent: tempel kunci, aktifkan Override OpenAI Base URL, dan tambahkan ID model. Plus batas paket berbayar dan ID claude-.",
         "KEYWORDS": "Cursor, model kustom Cursor, Cursor OpenAI base URL, Cursor BYOK, {appName} Cursor, kunci API Cursor"
       },
       "BADGE": "Cursor",
@@ -2613,7 +2613,7 @@
     "GITHUB_COPILOT": {
       "META": {
         "TITLE": "Panduan Pengaturan GitHub Copilot di VS Code | {appName}",
-        "DESCRIPTION": "Tambahkan {appName} ke GitHub Copilot Chat di VS Code sebagai model Custom Endpoint dengan kunci API Anda sendiri.",
+        "DESCRIPTION": "Tambahkan {appName} ke GitHub Copilot Chat di VS Code sebagai Custom Endpoint dengan kunci API sendiri. Model apa pun di chat dan mode agen, tanpa paket Copilot.",
         "KEYWORDS": "GitHub Copilot, model kustom VS Code Copilot, Copilot pakai kunci sendiri, Copilot Custom Endpoint, VS Code BYOK, {appName} Copilot"
       },
       "BADGE": "GitHub Copilot",
@@ -2635,7 +2635,7 @@
     "N8N": {
       "META": {
         "TITLE": "Panduan Pengaturan n8n | {appName}",
-        "DESCRIPTION": "Gunakan model {appName} dalam alur kerja AI Agent dan rantai LLM di n8n melalui Base URL kredensial OpenAI.",
+        "DESCRIPTION": "Gunakan model {appName} di workflow n8n AI Agent dan Basic LLM Chain. Atur Base URL di kredensial OpenAI dan matikan Responses API agar model apa pun bisa berjalan.",
         "KEYWORDS": "n8n, n8n OpenAI base URL, LLM kustom n8n, n8n AI Agent, n8n kompatibel OpenAI, {appName} n8n"
       },
       "BADGE": "n8n",
@@ -2656,7 +2656,7 @@
     "DIFY": {
       "META": {
         "TITLE": "Panduan Pengaturan Dify | {appName}",
-        "DESCRIPTION": "Hubungkan Dify ke {appName} dengan plugin {appName} dari Dify Marketplace atau penyedia OpenAI-API-compatible.",
+        "DESCRIPTION": "Hubungkan Dify ke {appName} lewat plugin Marketplace atau penyedia OpenAI-API-compatible. Tambahkan kunci dan model, aktifkan tool call, lalu gunakan di aplikasi.",
         "KEYWORDS": "Dify, penyedia model Dify, Dify OpenAI-API-compatible, plugin Dify, LLM kustom Dify, {appName} Dify"
       },
       "BADGE": "Dify",
@@ -2677,7 +2677,7 @@
     "JAN": {
       "META": {
         "TITLE": "Panduan Pengaturan Jan | {appName}",
-        "DESCRIPTION": "Tambahkan {appName} ke aplikasi desktop Jan sebagai penyedia kustom yang kompatibel dengan OpenAI.",
+        "DESCRIPTION": "Tambahkan {appName} ke aplikasi desktop Jan sebagai penyedia kustom kompatibel OpenAI. Modelnya muncul di samping model lokal, plus tips tools, vision, dan base URL.",
         "KEYWORDS": "Jan, Jan AI, penyedia kustom Jan, Jan kompatibel OpenAI, model jarak jauh Jan, {appName} Jan"
       },
       "BADGE": "Jan",
@@ -2698,7 +2698,7 @@
     "MSTY": {
       "META": {
         "TITLE": "Panduan Pengaturan Msty Studio | {appName}",
-        "DESCRIPTION": "Tambahkan {appName} ke Msty Studio sebagai penyedia model yang kompatibel dengan OpenAI.",
+        "DESCRIPTION": "Tambahkan {appName} ke Msty Studio sebagai penyedia kompatibel OpenAI: tempel base URL dan kunci, ambil daftar model, lalu chat dengan model gratis dan berbayar.",
         "KEYWORDS": "Msty, Msty Studio, Msty kompatibel OpenAI, penyedia jarak jauh Msty, model kustom Msty, {appName} Msty"
       },
       "BADGE": "Msty",
@@ -2719,7 +2719,7 @@
     "OBSIDIAN_COPILOT": {
       "META": {
         "TITLE": "Panduan Pengaturan Obsidian Copilot | {appName}",
-        "DESCRIPTION": "Tambahkan {appName} ke plugin Copilot for Obsidian sebagai penyedia BYOK kustom.",
+        "DESCRIPTION": "Tambahkan {appName} ke Copilot for Obsidian sebagai penyedia BYOK kustom dan chat dengan catatan Anda memakai model apa pun. Tanpa lisensi Copilot, ada model gratis.",
         "KEYWORDS": "Obsidian Copilot, Copilot for Obsidian, plugin AI Obsidian, penyedia kustom Obsidian, Obsidian BYOK, {appName} Obsidian"
       },
       "BADGE": "Obsidian Copilot",
@@ -2740,7 +2740,7 @@
     "AGNAI": {
       "META": {
         "TITLE": "Panduan Pengaturan Agnai | {appName}",
-        "DESCRIPTION": "Hubungkan Agnai ke {appName} sebagai penyedia OpenAI Compat untuk obrolan karakter dengan model apa pun.",
+        "DESCRIPTION": "Hubungkan Agnai ke {appName} sebagai penyedia OpenAI Compat untuk chat karakter. Tambahkan base URL dan kunci, uji koneksi, lalu pakai model apa pun di preset Anda.",
         "KEYWORDS": "Agnai, Agnaistic, Agnai kompatibel OpenAI, penyedia kustom Agnai, proxy Agnai, {appName} Agnai"
       },
       "BADGE": "Agnai",
@@ -5304,7 +5304,7 @@
       "STAT_PROVIDERS": "Penyedia yang dilacak",
       "STAT_PASS_RATE": "Rata-rata tingkat lulus",
       "META_TITLE": "Peringkat Keaslian Model | {appName}",
-      "META_DESCRIPTION": "Lihat penyedia API mana yang melayani model asli yang diklaim, diurutkan berdasarkan tingkat lulus deterministik.",
+      "META_DESCRIPTION": "Lihat penyedia API AI mana yang melayani model asli yang diklaim. {appName} mengurutkannya menurut tingkat lulus sidik jari deterministik, dengan bukti tiap putusan.",
       "DISCLAIMER": "Setiap hasil yang dipublikasikan dijalankan ulang di server kami sebelum dihitung, dan setiap putusan menautkan bukti persis yang menghasilkannya. Hasil yang Anda yakini keliru dapat disanggah.",
       "REPORT_DISCORD": "Laporkan di Discord",
       "REPORT_GITHUB": "Buka issue di GitHub",
@@ -5672,7 +5672,7 @@
       "ALT_EDITOR": "Editor persona dengan judul tampilan, nama, deskripsi, dan sakelar persona default",
       "META": {
         "TITLE": "Persona di {appName}",
-        "DESCRIPTION": "Buat identitas yang Anda mainkan: bidang persona, persona bawaan, dan impor dari aplikasi lain.",
+        "DESCRIPTION": "Buat persona yang Anda mainkan di {appName}: nama, deskripsi, avatar, dan gelar, persona bawaan untuk chat baru, serta impor dari frontend roleplay lain.",
         "KEYWORDS": "persona, identitas pengguna, persona roleplay, persona bawaan"
       },
       "TITLE": "Persona",
@@ -5731,7 +5731,7 @@
     "CARDS": {
       "META": {
         "TITLE": "Kartu (Bundel Loadout) di {appName}",
-        "DESCRIPTION": "Bundel persona, karakter, dan lorebook menjadi satu kartu loadout yang bisa diterapkan dengan semantik ganti atau gabung.",
+        "DESCRIPTION": "Satukan persona, karakter, dan lorebook dalam satu kartu di {appName} lalu terapkan semuanya sekali klik, mode ganti atau gabung. Kartu diekspor sebagai JSON.",
         "KEYWORDS": "bundel loadout, terapkan kartu, bundel skenario"
       },
       "TITLE": "Kartu",
@@ -5780,7 +5780,7 @@
     "PROMPT_TEMPLATE": {
       "META": {
         "TITLE": "Editor Templat Prompt di {appName}",
-        "DESCRIPTION": "Susun ulang dengan seret blok-blok prompt yang dirakit: slot, blok bebas, dan penanda riwayat chat.",
+        "DESCRIPTION": "Atur ulang urutan prompt yang dirakit di {appName} dengan menyeret blok: slot engine, blok polos Anda, dan penanda riwayat chat. Lihat urutan bawaan atau reset.",
         "KEYWORDS": "templat prompt, urutan prompt, blok prompt, struktur prompt kustom"
       },
       "TITLE": "Templat Prompt",
@@ -5802,7 +5802,7 @@
     "GROUP_CHATS": {
       "META": {
         "TITLE": "Chat Grup di {appName}",
-        "DESCRIPTION": "Beberapa karakter dalam satu percakapan: rotasi pembicara, prioritas penyebutan nama, dan penggerbangan prompt per karakter.",
+        "DESCRIPTION": "Beberapa karakter dalam satu chat {appName}: giliran bicara lewat sebutan nama dan keaktifan, penggerbangan prompt per karakter agar hemat token, dan tips narator.",
         "KEYWORDS": "chat grup, banyak karakter, rotasi pembicara, urutan giliran"
       },
       "TITLE": "Chat Grup",
@@ -5821,7 +5821,7 @@
     "MULTIPLAYER": {
       "META": {
         "TITLE": "Ruang multipemain di {appName}",
-        "DESCRIPTION": "Bagikan obrolan roleplay dengan teman: ruang peer-to-peer, tautan undangan, persetujuan tuan rumah, dan giliran.",
+        "DESCRIPTION": "Mainkan satu chat roleplay bersama teman di {appName}: buka ruang peer-to-peer, bagikan tautan undangan, terima tamu, dan bergiliran. Tamu tak butuh akun atau kunci.",
         "KEYWORDS": "roleplay multipemain, obrolan AI bersama, RP peer to peer, ruang roleplay grup, obrolan AI kolaboratif"
       },
       "TITLE": "Ruang multipemain",
@@ -5884,7 +5884,7 @@
     "REGEX_SCRIPTS": {
       "META": {
         "TITLE": "Skrip Regex di {appName}",
-        "DESCRIPTION": "Alur cari-ganti pada teks masukan, keluaran, prompt, dan tampilan, dengan arahan urutan dan tindakan.",
+        "DESCRIPTION": "Skrip regex di chat {appName}: cari dan ganti pada teks masukan, keluaran, prompt, dan tampilan, dengan tag urutan, arahan tindakan, dan impor skrip SillyTavern.",
         "KEYWORDS": "skrip regex, customscript, editdisplay, editoutput, transformasi teks"
       },
       "TITLE": "Skrip Regex",
@@ -5909,7 +5909,7 @@
     "TRIGGERS_AND_LUA": {
       "META": {
         "TITLE": "Skrip Pemicu dan Lua di {appName}",
-        "DESCRIPTION": "Otomasi berbasis peristiwa: VM pemicu, efek tingkat rendah, dan runtime Lua tertanam dengan kait penyuntingan.",
+        "DESCRIPTION": "Otomatiskan karakter {appName} dengan skrip pemicu kompatibel RisuAI, efek tingkat rendah, dan runtime Lua tertanam dengan kait yang mengubah teks saat berjalan.",
         "KEYWORDS": "skrip pemicu, skrip lua, kait editoutput, otomasi roleplay"
       },
       "TITLE": "Pemicu & Lua",
@@ -5931,7 +5931,7 @@
     "PLUGINS": {
       "META": {
         "TITLE": "Plugin JavaScript di {appName}",
-        "DESCRIPTION": "JavaScript Anda dalam lingkungan terisolasi: penangan di sekitar setiap pesan, API plugin, dan kompatibilitas skrip JanitorAI.",
+        "DESCRIPTION": "Tulis plugin JavaScript tersandbox untuk chat {appName}: handler hook di setiap pesan, API uno untuk membaca dan menulis chat, serta dukungan skrip JanitorAI.",
         "KEYWORDS": "plugin javascript, skrip janitorai, otomatisasi obrolan, lingkungan terisolasi"
       },
       "TITLE": "Plugin",
@@ -5956,7 +5956,7 @@
     "MEMORY_AND_CONTEXT": {
       "META": {
         "TITLE": "Memori, Pengambilan, dan Pencarian Web di {appName}",
-        "DESCRIPTION": "Ringkasan cerita bergulir, pengambilan semantik momen lampau, dan pencarian web bergerbang pengklasifikasi.",
+        "DESCRIPTION": "Cara {appName} menjaga cerita roleplay panjang tetap koheren: ringkasan bergulir di luar jendela konteks, pengambilan momen lama, pencarian web opsional per chat.",
         "KEYWORDS": "memori chat, ringkasan bergulir, pengambilan semantik, embedding, pencarian web"
       },
       "TITLE": "Memori & Konteks",
@@ -5975,7 +5975,7 @@
     "IMAGES": {
       "META": {
         "TITLE": "Pembuatan Gambar dalam Chat {appName}",
-        "DESCRIPTION": "Ilustrasi adegan setelah balasan: pemilihan model, gambar rujukan, templat gaya, pratinjau prompt, dan media sebaris.",
+        "DESCRIPTION": "Buat ilustrasi adegan di chat {appName} setelah tiap balasan: pilih model gambar atau yang gratis, tambahkan gambar referensi dan template gaya, pratinjau prompt.",
         "KEYWORDS": "pembuatan gambar, ilustrasi adegan, gambar rujukan, templat gaya, gambar inlay"
       },
       "TITLE": "Gambar",
@@ -6026,7 +6026,7 @@
     "DATA": {
       "META": {
         "TITLE": "Data, Ekspor, dan Pemeriksaan di {appName}",
-        "DESCRIPTION": "Format ekspor percakapan, portabilitas entitas, inspektor log permintaan dan dry-run, serta studio basis data lokal.",
+        "DESCRIPTION": "Ekspor chat dan karakter {appName} dalam format umum, periksa setiap permintaan lewat log dan dry run gratis, serta jelajahi database chat lokal Anda di studio.",
         "KEYWORDS": "ekspor chat, SillyTavern JSONL, log permintaan, dry run, basis data lokal, portabilitas data"
       },
       "TITLE": "Data Anda",
@@ -6221,7 +6221,7 @@
     "QUICKSTART": {
       "META": {
         "TITLE": "Panduan cepat: permintaan pertama Anda dalam 5 menit",
-        "DESCRIPTION": "Buat kunci API {appName} dan lakukan permintaan pertama Anda yang kompatibel dengan OpenAI menggunakan curl, Python, atau Node.js.",
+        "DESCRIPTION": "Buat kunci API {appName} dan kirim permintaan pertama yang kompatibel OpenAI dengan curl, Python, atau Node.js dalam lima menit. Model berakhiran :free gratis.",
         "KEYWORDS": "panduan cepat, kunci API, base URL, kompatibel OpenAI, permintaan pertama, curl, Python, Node.js"
       },
       "TITLE": "Panduan cepat",
@@ -6486,7 +6486,7 @@
     "ACCOUNT_AND_BILLING": {
       "META": {
         "TITLE": "Akun, saldo & penagihan",
-        "DESCRIPTION": "Cara kerja saldo {appName}: isi ulang, kredit gratis, batas kunci API, biaya per permintaan, dan log penggunaan.",
+        "DESCRIPTION": "Cara kerja saldo {appName}: isi ulang sekali bayar dengan kartu atau kripto, kredit gratis dari hadiah Discord, batas belanja per kunci, dan log permintaan.",
         "KEYWORDS": "saldo, isi ulang, penagihan, kunci API, log penggunaan, kredit gratis, afiliasi"
       },
       "TITLE": "Akun & Penagihan",

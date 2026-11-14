@@ -451,7 +451,7 @@
       "PRESET_IMAGE_DESC": "लागत और गुणवत्ता के आधार पर शीर्ष इमेज जनरेशन मॉडल।",
       "META": {
         "TITLE": "एआई मॉडल की तुलना करें - {appName}",
-        "DESCRIPTION": "{appName} पर कीमत, संदर्भ लंबाई, क्षमताओं और उपयोग के आधार पर एआई मॉडल की साथ-साथ तुलना करें।",
+        "DESCRIPTION": "{appName} पर AI मॉडल की साथ-साथ तुलना करें: कीमत, कॉन्टेक्स्ट लंबाई, क्षमताएँ, लेटेंसी और उपयोग। फ़्लैगशिप, किफ़ायती या कोडिंग प्रीसेट से शुरुआत करें।",
         "KEYWORDS": "एआई मॉडल तुलना, मॉडल तुलना, एलएलएम तुलना, एआई कीमत",
         "TITLE_COMBO": "{models} - एआई मॉडल तुलना",
         "DESCRIPTION_COMBO": "{models} की कीमत, संदर्भ लंबाई, क्षमताओं और उपयोग के आधार पर तुलना करें।"
@@ -1748,7 +1748,7 @@
     "CC_SWITCH": {
       "META": {
         "TITLE": "CC Switch एकीकरण गाइड | {appName}",
-        "DESCRIPTION": "एकीकृत AI CLI प्रबंधन के लिए CC Switch को {appName} के साथ सेट करें",
+        "DESCRIPTION": "Claude Code, Codex और Gemini CLI प्रदाताओं को एक ही ऐप में संभालने के लिए CC Switch को {appName} के साथ सेट करें। ccswitch:// डीप लिंक से एक क्लिक में कॉन्फ़िग इम्पोर्ट करें।",
         "KEYWORDS": "CC Switch, Claude Code, Codex, Gemini CLI, CLI प्रबंधन"
       },
       "BADGE": "CC Switch",
@@ -1797,7 +1797,7 @@
     "CLAUDE_CODE": {
       "META": {
         "TITLE": "Claude Code एकीकरण - {appName}",
-        "DESCRIPTION": "{appName} को एक ही एंडपॉइंट के ज़रिए Claude Code, Cursor और किसी भी Anthropic-संगत क्लाइंट के साथ इस्तेमाल करें।",
+        "DESCRIPTION": "Windows, macOS और Linux पर Claude Code को {appName} के साथ इस्तेमाल करें: Anthropic बेस URL और अपनी कुंजी सेट करें, /model से मॉडल बदलें, और डेस्कटॉप ऐप भी सेट करें।",
         "KEYWORDS": "Claude Code, Anthropic API, Claude Code सेटअप, Cursor AI, {appName} Claude, Anthropic विकल्प"
       },
       "BADGE": "Claude Code",
@@ -1861,7 +1861,7 @@
     "CODEX": {
       "META": {
         "TITLE": "Codex CLI सेटअप गाइड - {appName}",
-        "DESCRIPTION": "Windows, macOS और Linux पर {appName} के साथ OpenAI Codex CLI सेट करें, स्क्रीनशॉट सहित।",
+        "DESCRIPTION": "Windows, macOS और Linux पर OpenAI Codex CLI को {appName} के साथ सेट करें: config.toml में कस्टम प्रदाता, एनवायरनमेंट वेरिएबल के रूप में आपकी कुंजी, और डेस्कटॉप ऐप सेटअप।",
         "KEYWORDS": "Codex CLI, OpenAI Codex, Codex सेटअप गाइड, Codex CLI install, {appName} Codex, OpenAI कोडिंग एजेंट"
       },
       "BADGE": "Codex CLI",
@@ -1894,7 +1894,7 @@
     "GEMINI_CLI": {
       "META": {
         "TITLE": "Gemini CLI एकीकरण - {appName}",
-        "DESCRIPTION": "{appName} को Gemini CLI और किसी भी Google GenAI-संगत क्लाइंट के साथ इस्तेमाल करें।",
+        "DESCRIPTION": "Google का Gemini CLI {appName} पर चलाएँ: ~/.gemini/.env में GOOGLE_GEMINI_BASE_URL और अपनी कुंजी सेट करें, हर मॉडल के लिए एक कुंजी रखें, और 404 व ऑथ त्रुटियाँ जल्दी ठीक करें।",
         "KEYWORDS": "Gemini CLI, Google AI API, Gemini सेटअप, Google GenAI SDK, {appName} Gemini, Gemini विकल्प"
       },
       "BADGE": "Gemini CLI",
@@ -1927,7 +1927,7 @@
     "OPENCLAW": {
       "META": {
         "TITLE": "OpenClaw एकीकरण - {appName}",
-        "DESCRIPTION": "अपने OpenClaw एजेंट के मॉडल प्रदाता के रूप में {appName} इस्तेमाल करें।",
+        "DESCRIPTION": "OpenClaw के लिए {appName} को OpenAI-संगत मॉडल प्रदाता के रूप में इस्तेमाल करें। openclaw.json में बेस URL सेट करें और अपना एजेंट Telegram, Discord या Slack पर चलाएँ।",
         "KEYWORDS": "OpenClaw, OpenClaw सेटअप, AI एजेंट, {appName} OpenClaw, मॉडल प्रदाता, AI गेटवे"
       },
       "BADGE": "OpenClaw",
@@ -1955,7 +1955,7 @@
     "HERMES": {
       "META": {
         "TITLE": "Hermes Agent एकीकरण - {appName}",
-        "DESCRIPTION": "Nous Research के Hermes Agent के मॉडल प्रदाता के रूप में {appName} इस्तेमाल करें। एक OpenAI-संगत एंडपॉइंट, हर मॉडल।",
+        "DESCRIPTION": "Nous Research के Hermes Agent के लिए {appName} को मॉडल प्रदाता बनाएँ। config.yaml में कस्टम बेस URL और .env में अपनी कुंजी सेट करें, फिर किसी भी मॉडल से चलाएँ।",
         "KEYWORDS": "Hermes Agent, Nous Research, Hermes सेटअप, AI एजेंट, {appName} Hermes, मॉडल प्रदाता, OpenAI संगत"
       },
       "BADGE": "Hermes Agent",
@@ -2259,7 +2259,7 @@
     "LOBECHAT": {
       "META": {
         "TITLE": "LobeChat सेटअप: मुफ़्त OpenAI-संगत API | {appName}",
-        "DESCRIPTION": "Add Custom Provider या Docker पर्यावरण वेरिएबल के ज़रिए LobeChat को {appName} से जोड़ें। मुफ़्त मॉडल शामिल हैं।",
+        "DESCRIPTION": "LobeChat को Add Custom Provider या सेल्फ होस्टिंग के लिए Docker एनवायरनमेंट वेरिएबल से {appName} से जोड़ें। हर मॉडल के लिए एक OpenAI-संगत कुंजी, मुफ़्त मॉडल भी शामिल।",
         "KEYWORDS": "LobeChat, LobeChat कस्टम प्रदाता, {appName} LobeChat, ओपन-सोर्स वेब चैट"
       },
       "BADGE": "LobeChat",
@@ -2316,7 +2316,7 @@
     "TYPINGMIND": {
       "META": {
         "TITLE": "TypingMind सेटअप: मुफ़्त OpenAI-संगत API | {appName}",
-        "DESCRIPTION": "कस्टम OpenAI-संगत एंडपॉइंट पेस्ट करके TypingMind को {appName} से जोड़ें। मुफ़्त मॉडल शामिल हैं।",
+        "DESCRIPTION": "TypingMind को कस्टम OpenAI-संगत मॉडल के रूप में {appName} से जोड़ें। एंडपॉइंट सेट करें, कुंजी को Authorization हेडर के रूप में जोड़ें और टेस्ट करें। मुफ़्त मॉडल भी हैं।",
         "KEYWORDS": "TypingMind, TypingMind कस्टम मॉडल, {appName} TypingMind, BYOK वेब फ्रंटएंड"
       },
       "BADGE": "TypingMind",
@@ -2337,7 +2337,7 @@
     "BOLTAI": {
       "META": {
         "TITLE": "BoltAI सेटअप: मुफ़्त OpenAI-संगत API | {appName}",
-        "DESCRIPTION": "BoltAI को कस्टम OpenAI-संगत सर्वर के रूप में {appName} से जोड़ें। मुफ़्त मॉडल शामिल हैं।",
+        "DESCRIPTION": "macOS पर BoltAI को कस्टम OpenAI-संगत सर्वर के रूप में {appName} से जोड़ें। URL, कुंजी, मॉडल id और कॉन्टेक्स्ट लंबाई डालें, फिर चैट करें। मुफ़्त मॉडल भी शामिल हैं।",
         "KEYWORDS": "BoltAI, BoltAI OpenAI संगत, {appName} BoltAI, macOS AI सहायक"
       },
       "BADGE": "BoltAI",
@@ -2356,7 +2356,7 @@
     "PAGE_ASSIST": {
       "META": {
         "TITLE": "Page Assist सेटअप: मुफ़्त OpenAI-संगत API | {appName}",
-        "DESCRIPTION": "ब्राउज़र के साइड पैनल में कस्टम OpenAI-संगत API के रूप में Page Assist को {appName} से जोड़ें। मुफ़्त मॉडल शामिल हैं।",
+        "DESCRIPTION": "Page Assist ब्राउज़र एक्सटेंशन को कस्टम OpenAI-संगत API के रूप में {appName} से जोड़ें। बेस URL और कुंजी जोड़ें और साइड पैनल में मुफ़्त मॉडल से चैट करें।",
         "KEYWORDS": "Page Assist, Page Assist OpenAI संगत, {appName} Page Assist, ब्राउज़र AI एक्सटेंशन"
       },
       "BADGE": "Page Assist",
@@ -2377,7 +2377,7 @@
     "CHATBOX": {
       "META": {
         "TITLE": "Chatbox सेटअप: मुफ़्त OpenAI-संगत API | {appName}",
-        "DESCRIPTION": "Chatbox को {appName} से OpenAI API Compatible मोड का उपयोग करके जोड़ें। URL को Host और Path में बाँटें। मुफ़्त मॉडल शामिल हैं।",
+        "DESCRIPTION": "Chatbox को OpenAI API Compatible मोड में {appName} से जोड़ें। URL को API Host और API Path में बाँटें, अपनी कुंजी और मॉडल जोड़ें, फिर चैट करें। मुफ़्त मॉडल भी शामिल हैं।",
         "KEYWORDS": "Chatbox, Chatbox OpenAI संगत, {appName} Chatbox, क्रॉस-प्लेटफ़ॉर्म चैट क्लाइंट"
       },
       "BADGE": "Chatbox",
@@ -2398,7 +2398,7 @@
     "BIG_AGI": {
       "META": {
         "TITLE": "Big-AGI सेटअप: मुफ़्त OpenAI-संगत API | {appName}",
-        "DESCRIPTION": "Big-AGI को OpenAI स्रोत के रूप में {appName} से जोड़ें। Big-AGI कैटलॉग ले आता है। मुफ़्त मॉडल शामिल हैं।",
+        "DESCRIPTION": "Big-AGI को कस्टम OpenAI सोर्स के रूप में {appName} से जोड़ें। अपनी कुंजी और एंडपॉइंट डालें, और Big-AGI आपके लिए पूरा मॉडल कैटलॉग ले आता है। मुफ़्त मॉडल भी शामिल हैं।",
         "KEYWORDS": "Big-AGI, Big-AGI OpenAI स्रोत, {appName} Big-AGI, वेब AI वर्कबेंच"
       },
       "BADGE": "Big-AGI",
@@ -2417,7 +2417,7 @@
     "OPENCODE": {
       "META": {
         "TITLE": "OpenCode सेटअप गाइड | {appName}",
-        "DESCRIPTION": "opencode.json में कस्टम OpenAI-संगत प्रदाता के साथ OpenCode को {appName} से जोड़ें।",
+        "DESCRIPTION": "opencode.json में कस्टम OpenAI-संगत प्रदाता से OpenCode को {appName} से जोड़ें। कॉन्फ़िग कॉपी करें, सटीक मॉडल id लिखें, और रजिस्ट्री नाम के टकराव से बचें।",
         "KEYWORDS": "OpenCode, OpenCode सेटअप, OpenCode प्रोवाइडर, {appName} OpenCode, कोडिंग एजेंट, OpenAI-संगत"
       },
       "BADGE": "OpenCode",
@@ -2440,7 +2440,7 @@
     "KILO_CODE": {
       "META": {
         "TITLE": "Kilo Code सेटअप गाइड | {appName}",
-        "DESCRIPTION": "VSCode साइडबार में कस्टम OpenAI-संगत प्रदाता के साथ Kilo Code को {appName} से जोड़ें।",
+        "DESCRIPTION": "VSCode में Kilo Code को कस्टम OpenAI-संगत प्रदाता से {appName} से जोड़ें। मान पेस्ट करें, टूल सपोर्ट चालू रखें और किसी भी मॉडल से कोड करें, मुफ़्त हो या पेड।",
         "KEYWORDS": "Kilo Code, Kilo Code सेटअप, VSCode कोडिंग एजेंट, {appName} Kilo Code, कस्टम प्रोवाइडर, OpenAI-संगत"
       },
       "BADGE": "Kilo Code",
@@ -2464,7 +2464,7 @@
     "ZED": {
       "META": {
         "TITLE": "Zed IDE सेटअप गाइड | {appName}",
-        "DESCRIPTION": "कस्टम OpenAI-संगत प्रदाता के साथ Zed एडिटर के एजेंट को {appName} से जोड़ें।",
+        "DESCRIPTION": "Zed एडिटर के एजेंट पैनल को कस्टम OpenAI-संगत प्रदाता के रूप में {appName} से जोड़ें। चरण दर चरण सेटिंग्स, मॉडल सूची और कीचेन सुझाव, मुफ़्त मॉडल भी।",
         "KEYWORDS": "Zed, Zed IDE, Zed एजेंट, {appName} Zed, कस्टम प्रोवाइडर, OpenAI-संगत एडिटर"
       },
       "BADGE": "Zed IDE",
@@ -2485,7 +2485,7 @@
     "CLINE": {
       "META": {
         "TITLE": "Cline सेटअप गाइड | {appName}",
-        "DESCRIPTION": "Cline को OpenAI Compatible प्रदाता के रूप में {appName} से जोड़ें ताकि वह किसी भी मॉडल से कोड पढ़, संपादित और चला सके।",
+        "DESCRIPTION": "VSCode में Cline को OpenAI Compatible प्रदाता के रूप में {appName} से जोड़ें। इसका पूरा एजेंट लूप चलाएँ और किसी भी मॉडल से कोड पढ़ें, संपादित करें और चलाएँ, मुफ़्त मॉडल भी।",
         "KEYWORDS": "Cline, Cline सेटअप, VSCode स्वायत्त एजेंट, {appName} Cline, OpenAI Compatible, कोडिंग एजेंट"
       },
       "BADGE": "Cline",
@@ -2527,7 +2527,7 @@
     "CONTINUE_DEV": {
       "META": {
         "TITLE": "Continue.dev सेटअप गाइड | {appName}",
-        "DESCRIPTION": "संस्करण नियंत्रण में रखे जा सकने वाले config.yaml से Continue.dev को {appName} से जोड़ें। Continue मॉडल प्रविष्टि तुरंत दोबारा लोड कर लेता है।",
+        "DESCRIPTION": "config.yaml में एक मॉडल एंट्री से Continue.dev को {appName} से जोड़ें। यह VSCode और JetBrains में एक OpenAI-संगत कुंजी के साथ तुरंत रीलोड होता है, मुफ़्त मॉडल भी।",
         "KEYWORDS": "Continue.dev, Continue सेटअप, VSCode JetBrains असिस्टेंट, {appName} Continue, config.yaml, OpenAI-संगत"
       },
       "BADGE": "Continue.dev",
@@ -2567,7 +2567,7 @@
     "NEVIKA": {
       "META": {
         "TITLE": "Nevika इंटीग्रेशन गाइड | {appName}",
-        "DESCRIPTION": "Nevika को कस्टम प्रॉक्सी के रूप में {appName} से जोड़ें। एक कुंजी, सैकड़ों मॉडल।",
+        "DESCRIPTION": "AI रोलप्ले के लिए Nevika को कस्टम प्रॉक्सी के रूप में {appName} से जोड़ें। पहले से भरे सेटअप पेज पर अपनी कुंजी पेस्ट करें और सूची से मॉडल चुनें, मुफ़्त मॉडल भी शामिल हैं।",
         "KEYWORDS": "Nevika, Nevika कस्टम प्रॉक्सी, Nevika API की, {appName} Nevika, AI रोलप्ले, कैरेक्टर चैट"
       },
       "BADGE": "Nevika",
@@ -2591,7 +2591,7 @@
     "CURSOR": {
       "META": {
         "TITLE": "Cursor सेटअप गाइड | {appName}",
-        "DESCRIPTION": "अपनी API कुंजी और Override OpenAI Base URL सेटिंग के साथ Cursor के Chat और Agent में {appName} मॉडल का उपयोग करें।",
+        "DESCRIPTION": "Cursor के Chat और Agent में {appName} मॉडल चलाएँ: कुंजी पेस्ट करें, Override OpenAI Base URL चालू करें और मॉडल id जोड़ें। पेड प्लान की सीमाएँ और claude- id भी शामिल।",
         "KEYWORDS": "Cursor, Cursor कस्टम मॉडल, Cursor OpenAI base URL, Cursor BYOK, {appName} Cursor, Cursor API कुंजी"
       },
       "BADGE": "Cursor",
@@ -2613,7 +2613,7 @@
     "GITHUB_COPILOT": {
       "META": {
         "TITLE": "VS Code में GitHub Copilot सेटअप गाइड | {appName}",
-        "DESCRIPTION": "अपनी API कुंजी के साथ {appName} को VS Code के GitHub Copilot Chat में Custom Endpoint मॉडल के रूप में जोड़ें।",
+        "DESCRIPTION": "VS Code के GitHub Copilot Chat में {appName} को अपनी API कुंजी के साथ Custom Endpoint के रूप में जोड़ें। चैट और एजेंट मोड में कोई भी मॉडल चलाएँ, Copilot प्लान ज़रूरी नहीं।",
         "KEYWORDS": "GitHub Copilot, VS Code Copilot कस्टम मॉडल, Copilot अपनी कुंजी लाएँ, Copilot Custom Endpoint, VS Code BYOK, {appName} Copilot"
       },
       "BADGE": "GitHub Copilot",
@@ -2635,7 +2635,7 @@
     "N8N": {
       "META": {
         "TITLE": "n8n सेटअप गाइड | {appName}",
-        "DESCRIPTION": "OpenAI क्रेडेंशियल के Base URL के ज़रिए n8n के AI Agent और LLM चेन वर्कफ़्लो में {appName} मॉडल का उपयोग करें।",
+        "DESCRIPTION": "n8n के AI Agent और Basic LLM Chain वर्कफ़्लो में {appName} मॉडल इस्तेमाल करें। OpenAI क्रेडेंशियल में Base URL सेट करें और कोई भी मॉडल चलाने के लिए Responses API बंद करें।",
         "KEYWORDS": "n8n, n8n OpenAI base URL, n8n कस्टम LLM, n8n AI Agent, n8n OpenAI-संगत, {appName} n8n"
       },
       "BADGE": "n8n",
@@ -2656,7 +2656,7 @@
     "DIFY": {
       "META": {
         "TITLE": "Dify सेटअप गाइड | {appName}",
-        "DESCRIPTION": "Dify Marketplace के {appName} प्लगइन या OpenAI-API-compatible प्रदाता के साथ Dify को {appName} से जोड़ें।",
+        "DESCRIPTION": "Marketplace प्लगइन या OpenAI-API-compatible प्रदाता से Dify को {appName} से जोड़ें। अपनी कुंजी और मॉडल जोड़ें, टूल कॉल चालू करें और उन्हें अपने ऐप्स में इस्तेमाल करें।",
         "KEYWORDS": "Dify, Dify मॉडल प्रदाता, Dify OpenAI-API-compatible, Dify प्लगइन, Dify कस्टम LLM, {appName} Dify"
       },
       "BADGE": "Dify",
@@ -2677,7 +2677,7 @@
     "JAN": {
       "META": {
         "TITLE": "Jan सेटअप गाइड | {appName}",
-        "DESCRIPTION": "{appName} को Jan डेस्कटॉप ऐप में कस्टम OpenAI-संगत प्रदाता के रूप में जोड़ें।",
+        "DESCRIPTION": "{appName} को Jan डेस्कटॉप ऐप में कस्टम OpenAI-संगत प्रदाता के रूप में जोड़ें। इसके मॉडल आपके लोकल मॉडल के साथ लोड होते हैं, साथ में टूल, विज़न और बेस URL पर सुझाव।",
         "KEYWORDS": "Jan, Jan AI, Jan कस्टम प्रदाता, Jan OpenAI-संगत, Jan रिमोट मॉडल, {appName} Jan"
       },
       "BADGE": "Jan",
@@ -2698,7 +2698,7 @@
     "MSTY": {
       "META": {
         "TITLE": "Msty Studio सेटअप गाइड | {appName}",
-        "DESCRIPTION": "{appName} को Msty Studio में OpenAI-संगत मॉडल प्रदाता के रूप में जोड़ें।",
+        "DESCRIPTION": "{appName} को Msty Studio में OpenAI-संगत प्रदाता के रूप में जोड़ें: बेस URL और कुंजी पेस्ट करें, मॉडल सूची लाएँ, और एक ही ऐप में मुफ़्त और पेड मॉडल से चैट करें।",
         "KEYWORDS": "Msty, Msty Studio, Msty OpenAI-संगत, Msty रिमोट प्रदाता, Msty कस्टम मॉडल, {appName} Msty"
       },
       "BADGE": "Msty",
@@ -2719,7 +2719,7 @@
     "OBSIDIAN_COPILOT": {
       "META": {
         "TITLE": "Obsidian Copilot सेटअप गाइड | {appName}",
-        "DESCRIPTION": "{appName} को Obsidian के Copilot प्लगइन में कस्टम BYOK प्रदाता के रूप में जोड़ें।",
+        "DESCRIPTION": "{appName} को Copilot for Obsidian में कस्टम BYOK प्रदाता के रूप में जोड़ें और किसी भी मॉडल से अपने नोट्स पर चैट करें। Copilot लाइसेंस ज़रूरी नहीं, मुफ़्त मॉडल भी हैं।",
         "KEYWORDS": "Obsidian Copilot, Copilot for Obsidian, Obsidian AI प्लगइन, Obsidian कस्टम प्रदाता, Obsidian BYOK, {appName} Obsidian"
       },
       "BADGE": "Obsidian Copilot",
@@ -2740,7 +2740,7 @@
     "AGNAI": {
       "META": {
         "TITLE": "Agnai सेटअप गाइड | {appName}",
-        "DESCRIPTION": "किसी भी मॉडल के साथ कैरेक्टर चैट के लिए Agnai को OpenAI Compat प्रदाता के रूप में {appName} से जोड़ें।",
+        "DESCRIPTION": "कैरेक्टर चैट के लिए Agnai को OpenAI Compat प्रदाता के रूप में {appName} से जोड़ें। बेस URL और कुंजी जोड़ें, कनेक्शन टेस्ट करें, फिर अपने प्रीसेट में कोई भी मॉडल इस्तेमाल करें।",
         "KEYWORDS": "Agnai, Agnaistic, Agnai OpenAI-संगत, Agnai कस्टम प्रदाता, Agnai प्रॉक्सी, {appName} Agnai"
       },
       "BADGE": "Agnai",
@@ -5304,7 +5304,7 @@
       "STAT_PROVIDERS": "ट्रैक किए गए प्रदाता",
       "STAT_PASS_RATE": "औसत उत्तीर्ण दर",
       "META_TITLE": "मॉडल प्रामाणिकता रैंकिंग | {appName}",
-      "META_DESCRIPTION": "देखें कि कौन से एपीआई प्रदाता अपने दावे वाला असली मॉडल देते हैं, नियतात्मक उत्तीर्ण दर के अनुसार क्रमबद्ध।",
+      "META_DESCRIPTION": "देखें कि कौन से AI API प्रदाता वही असली मॉडल देते हैं जिसका वे दावा करते हैं। {appName} उन्हें नियतात्मक फ़िंगरप्रिंट उत्तीर्ण दर से रैंक करता है, हर फ़ैसले के सबूत सहित।",
       "DISCLAIMER": "गिने जाने से पहले हर प्रकाशित परिणाम हमारे सर्वर पर दोबारा चलाया जाता है, और प्रत्येक निर्णय उसी सटीक प्रमाण से जुड़ता है जिसने उसे उत्पन्न किया। जिस परिणाम को आप ग़लत मानते हैं उस पर विवाद किया जा सकता है।",
       "REPORT_DISCORD": "Discord पर रिपोर्ट करें",
       "REPORT_GITHUB": "GitHub issue खोलें",
@@ -5672,7 +5672,7 @@
       "ALT_EDITOR": "डिस्प्ले शीर्षक, नाम, विवरण और डिफ़ॉल्ट पर्सोना टॉगल वाला पर्सोना एडिटर",
       "META": {
         "TITLE": "{appName} में पर्सोना",
-        "DESCRIPTION": "वह पहचान बनाएं जो आप निभाते हैं: पर्सोना फ़ील्ड, डिफ़ॉल्ट पर्सोना और अन्य ऐप्स से आयात।",
+        "DESCRIPTION": "{appName} में वह पर्सोना बनाएँ जिसे आप निभाते हैं: नाम, विवरण, अवतार और शीर्षक, नई चैट के लिए डिफ़ॉल्ट पर्सोना, और दूसरे रोलप्ले फ्रंटएंड से इम्पोर्ट।",
         "KEYWORDS": "पर्सोना, उपयोगकर्ता पहचान, रोलप्ले पर्सोना, डिफ़ॉल्ट पर्सोना"
       },
       "TITLE": "पर्सोना",
@@ -5731,7 +5731,7 @@
     "CARDS": {
       "META": {
         "TITLE": "{appName} में कार्ड (लोडआउट बंडल)",
-        "DESCRIPTION": "पर्सोना, किरदारों और लोरबुक को एक लागू करने योग्य लोडआउट कार्ड में बांधें, प्रतिस्थापन या विलय शब्दार्थ के साथ।",
+        "DESCRIPTION": "{appName} में पर्सोना, किरदार और लोरबुक को एक कार्ड में बांधें और पूरा सेटअप एक क्लिक में लागू करें, प्रतिस्थापन या विलय मोड में। कार्ड JSON के रूप में एक्सपोर्ट होते हैं।",
         "KEYWORDS": "लोडआउट बंडल, कार्ड लागू करना, परिदृश्य बंडल"
       },
       "TITLE": "कार्ड",
@@ -5780,7 +5780,7 @@
     "PROMPT_TEMPLATE": {
       "META": {
         "TITLE": "{appName} में प्रॉम्प्ट टेम्पलेट संपादक",
-        "DESCRIPTION": "इकट्ठे किए प्रॉम्प्ट के खंडों को खींचकर पुनः क्रमित करें: स्लॉट, सादे खंड और चैट इतिहास चिह्नक।",
+        "DESCRIPTION": "{appName} में ब्लॉक खींचकर तैयार प्रॉम्प्ट का क्रम बदलें: इंजन स्लॉट, आपके अपने सादे ब्लॉक और चैट इतिहास मार्कर। डिफ़ॉल्ट क्रम देखें या रीसेट करें।",
         "KEYWORDS": "प्रॉम्प्ट टेम्पलेट, प्रॉम्प्ट क्रम, प्रॉम्प्ट खंड, कस्टम प्रॉम्प्ट संरचना"
       },
       "TITLE": "प्रॉम्प्ट टेम्पलेट",
@@ -5802,7 +5802,7 @@
     "GROUP_CHATS": {
       "META": {
         "TITLE": "{appName} में समूह चैट",
-        "DESCRIPTION": "एक बातचीत में कई किरदार: वक्ता रोटेशन, नाम-उल्लेख प्राथमिकता और प्रति-किरदार प्रॉम्प्ट गेटिंग।",
+        "DESCRIPTION": "एक {appName} चैट में कई किरदार चलाएँ: नाम के ज़िक्र और बातूनीपन के आधार पर बोलने की बारी, टोकन बचाने के लिए हर किरदार का प्रॉम्प्ट गेटिंग, और नैरेटर के सुझाव।",
         "KEYWORDS": "समूह चैट, कई किरदार, वक्ता रोटेशन, बारी क्रम"
       },
       "TITLE": "समूह चैट",
@@ -5821,7 +5821,7 @@
     "MULTIPLAYER": {
       "META": {
         "TITLE": "{appName} में मल्टीप्लेयर रूम",
-        "DESCRIPTION": "दोस्तों के साथ रोलप्ले चैट साझा करें: पीयर-टू-पीयर रूम, आमंत्रण लिंक, होस्ट की मंज़ूरी और बारी-बारी से लिखना।",
+        "DESCRIPTION": "{appName} में दोस्तों के साथ एक रोलप्ले चैट खेलें: पीयर-टू-पीयर रूम खोलें, आमंत्रण लिंक भेजें, मेहमानों को अंदर लें और बारी से लिखें। मेहमानों को खाता या कुंजी नहीं चाहिए।",
         "KEYWORDS": "मल्टीप्लेयर रोलप्ले, साझा AI चैट, पीयर टू पीयर RP, समूह रोलप्ले रूम, सहयोगी AI चैट"
       },
       "TITLE": "मल्टीप्लेयर रूम",
@@ -5884,7 +5884,7 @@
     "REGEX_SCRIPTS": {
       "META": {
         "TITLE": "{appName} में regex स्क्रिप्ट",
-        "DESCRIPTION": "इनपुट, आउटपुट, प्रॉम्प्ट और प्रदर्शन टेक्स्ट पर खोज-प्रतिस्थापन पाइपलाइन, क्रम और क्रिया निर्देशों के साथ।",
+        "DESCRIPTION": "{appName} चैट में Regex स्क्रिप्ट: इनपुट, आउटपुट, प्रॉम्प्ट और प्रदर्शन टेक्स्ट पर खोज-प्रतिस्थापन, क्रम टैग, क्रिया निर्देश और SillyTavern स्क्रिप्ट इम्पोर्ट के साथ।",
         "KEYWORDS": "regex स्क्रिप्ट, customscript, editdisplay, editoutput, टेक्स्ट रूपांतरण"
       },
       "TITLE": "regex स्क्रिप्ट",
@@ -5909,7 +5909,7 @@
     "TRIGGERS_AND_LUA": {
       "META": {
         "TITLE": "{appName} में ट्रिगर स्क्रिप्ट और Lua",
-        "DESCRIPTION": "घटना-चालित स्वचालन: ट्रिगर VM, निम्न-स्तरीय प्रभाव, और संपादन हुक के साथ अंतर्निहित Lua रनटाइम।",
+        "DESCRIPTION": "RisuAI-संगत ट्रिगर स्क्रिप्ट, लो-लेवल इफ़ेक्ट और हुक वाले एम्बेडेड Lua रनटाइम से {appName} किरदारों को ऑटोमेट करें, जो जनरेट होते टेक्स्ट को बीच में ही बदल देते हैं।",
         "KEYWORDS": "ट्रिगर स्क्रिप्ट, lua स्क्रिप्टिंग, editoutput हुक, रोलप्ले स्वचालन"
       },
       "TITLE": "ट्रिगर और Lua",
@@ -5931,7 +5931,7 @@
     "PLUGINS": {
       "META": {
         "TITLE": "{appName} में JavaScript प्लगइन",
-        "DESCRIPTION": "सैंडबॉक्स में आपका अपना JavaScript: हर संदेश के आसपास चलने वाले हैंडलर, प्लगइन API और JanitorAI स्क्रिप्ट के साथ अनुकूलता।",
+        "DESCRIPTION": "{appName} चैट के लिए सैंडबॉक्स वाले JavaScript प्लगइन लिखें: हर संदेश के आसपास हुक हैंडलर, चैट पढ़ने और लिखने के लिए uno API, और JanitorAI स्क्रिप्ट सपोर्ट।",
         "KEYWORDS": "javascript प्लगइन, janitorai स्क्रिप्ट, चैट स्वचालन, सैंडबॉक्स"
       },
       "TITLE": "प्लगइन",
@@ -5956,7 +5956,7 @@
     "MEMORY_AND_CONTEXT": {
       "META": {
         "TITLE": "{appName} में मेमोरी, पुनर्प्राप्ति और वेब खोज",
-        "DESCRIPTION": "चलती कहानी सारांश, बीते क्षणों की सिमेंटिक पुनर्प्राप्ति, और वर्गीकारक-गेटेड वेब खोज।",
+        "DESCRIPTION": "{appName} लंबी रोलप्ले कहानियों को सुसंगत कैसे रखता है: कॉन्टेक्स्ट विंडो से आगे चलते सारांश, पुराने पलों की पुनर्प्राप्ति, और हर चैट के लिए वैकल्पिक वेब खोज।",
         "KEYWORDS": "चैट मेमोरी, चलता सारांश, सिमेंटिक पुनर्प्राप्ति, एम्बेडिंग, वेब खोज"
       },
       "TITLE": "मेमोरी और संदर्भ",
@@ -5975,7 +5975,7 @@
     "IMAGES": {
       "META": {
         "TITLE": "{appName} चैट में छवि निर्माण",
-        "DESCRIPTION": "उत्तरों के बाद दृश्य चित्र: मॉडल चयन, संदर्भ छवियां, शैली टेम्पलेट, प्रॉम्प्ट पूर्वावलोकन और इनलाइन मीडिया।",
+        "DESCRIPTION": "{appName} चैट में हर जवाब के बाद दृश्य के चित्र बनाएँ: कोई इमेज मॉडल या मुफ़्त मॉडल चुनें, रेफ़रेंस इमेज और स्टाइल टेम्पलेट जोड़ें, और प्रॉम्प्ट का प्रीव्यू देखें।",
         "KEYWORDS": "छवि निर्माण, दृश्य चित्र, संदर्भ छवियां, शैली टेम्पलेट, इनले छवियां"
       },
       "TITLE": "छवियां",
@@ -6026,7 +6026,7 @@
     "DATA": {
       "META": {
         "TITLE": "{appName} में डेटा, निर्यात और निरीक्षण",
-        "DESCRIPTION": "बातचीत निर्यात प्रारूप, इकाई पोर्टेबिलिटी, अनुरोध लॉग और ड्राई-रन निरीक्षक, और स्थानीय डेटाबेस स्टूडियो।",
+        "DESCRIPTION": "{appName} की चैट और किरदार आम फ़ॉर्मैट में एक्सपोर्ट करें, लॉग और मुफ़्त ड्राई रन से हर अनुरोध जाँचें, और अपना लोकल चैट डेटाबेस एक स्टूडियो में देखें।",
         "KEYWORDS": "चैट निर्यात, SillyTavern JSONL, अनुरोध लॉग, ड्राई रन, स्थानीय डेटाबेस, डेटा पोर्टेबिलिटी"
       },
       "TITLE": "आपका डेटा",
@@ -6221,7 +6221,7 @@
     "QUICKSTART": {
       "META": {
         "TITLE": "क्विकस्टार्ट: 5 मिनट में आपका पहला अनुरोध",
-        "DESCRIPTION": "एक {appName} API कुंजी बनाएँ और curl, Python या Node.js के साथ अपना पहला OpenAI-संगत अनुरोध करें।",
+        "DESCRIPTION": "एक {appName} API कुंजी बनाएँ और पाँच मिनट में curl, Python या Node.js से अपना पहला OpenAI-संगत अनुरोध भेजें। :free पर खत्म होने वाले मॉडल बिल्कुल मुफ़्त हैं।",
         "KEYWORDS": "क्विकस्टार्ट, API कुंजी, base URL, OpenAI संगत, पहला अनुरोध, curl, Python, Node.js"
       },
       "TITLE": "क्विकस्टार्ट",
@@ -6486,7 +6486,7 @@
     "ACCOUNT_AND_BILLING": {
       "META": {
         "TITLE": "खाता, बैलेंस और बिलिंग",
-        "DESCRIPTION": "{appName} बैलेंस कैसे काम करता है: टॉप-अप, मुफ़्त क्रेडिट, API कुंजी सीमाएँ, प्रति-अनुरोध शुल्क और उपयोग लॉग।",
+        "DESCRIPTION": "आपका {appName} बैलेंस कैसे काम करता है: कार्ड या क्रिप्टो से एक बार का टॉप अप, Discord रिवॉर्ड से मुफ़्त क्रेडिट, हर कुंजी की खर्च सीमा और अनुरोधों का उपयोग लॉग।",
         "KEYWORDS": "बैलेंस, टॉप अप, बिलिंग, API कुंजियाँ, उपयोग लॉग, मुफ़्त क्रेडिट, एफ़िलिएट"
       },
       "TITLE": "खाता और बिलिंग",

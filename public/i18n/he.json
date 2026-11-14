@@ -451,7 +451,7 @@
       "PRESET_IMAGE_DESC": "הדגמים המובילים ליצירת תמונות לפי עלות ואיכות.",
       "META": {
         "TITLE": "השוואת מודלי בינה מלאכותית - {appName}",
-        "DESCRIPTION": "השווה מודלי בינה מלאכותית זה לצד זה לפי מחיר, אורך הקשר, יכולות ושימוש ב-{appName}.",
+        "DESCRIPTION": "השוו מודלי AI זה לצד זה ב-{appName}: תמחור, אורך הקשר, יכולות, זמן תגובה ושימוש. התחילו מתבניות מוכנות של מודלי דגל, מודלים זולים או מודלים לקוד.",
         "KEYWORDS": "השוואת מודלי בינה מלאכותית, השוואת מודלים, השוואת LLM, תמחור בינה מלאכותית",
         "TITLE_COMBO": "{models} - השוואת מודלי בינה מלאכותית",
         "DESCRIPTION_COMBO": "השווה את {models} לפי מחיר, אורך הקשר, יכולות ושימוש."
@@ -1748,7 +1748,7 @@
     "CC_SWITCH": {
       "META": {
         "TITLE": "מדריך אינטגרציה ל-CC Switch | {appName}",
-        "DESCRIPTION": "הגדירו את CC Switch עם {appName} לניהול CLI של AI מאוחד",
+        "DESCRIPTION": "הגדירו את CC Switch עם {appName} כדי לנהל ספקים של Claude Code, Codex ו-Gemini CLI באפליקציה אחת. ייבאו את התצורה בלחיצה אחת עם קישור העומק ccswitch://.",
         "KEYWORDS": "CC Switch, Claude Code, Codex, Gemini CLI, ניהול CLI"
       },
       "BADGE": "CC Switch",
@@ -1797,7 +1797,7 @@
     "CLAUDE_CODE": {
       "META": {
         "TITLE": "אינטגרציית Claude Code - {appName}",
-        "DESCRIPTION": "השתמשו ב-{appName} עם Claude Code, Cursor וכל לקוח תואם Anthropic דרך נקודת קצה אחת.",
+        "DESCRIPTION": "השתמשו ב-Claude Code עם {appName} ב-Windows, ב-macOS וב-Linux: הגדירו את כתובת הבסיס של Anthropic ואת המפתח, החליפו מודלים עם /model והגדירו גם את אפליקציית המחשב.",
         "KEYWORDS": "Claude Code, Anthropic API, הגדרת Claude Code, Cursor AI, {appName} Claude, חלופה ל-Anthropic"
       },
       "BADGE": "Claude Code",
@@ -1861,7 +1861,7 @@
     "CODEX": {
       "META": {
         "TITLE": "מדריך הגדרת Codex CLI - {appName}",
-        "DESCRIPTION": "הגדירו את OpenAI Codex CLI עם {appName} ב-Windows, macOS ו-Linux, כולל צילומי מסך.",
+        "DESCRIPTION": "הגדירו את OpenAI Codex CLI עם {appName} ב-Windows, ב-macOS וב-Linux: ספק מותאם ב-config.toml, המפתח שלכם כמשתנה סביבה והגדרת אפליקציית המחשב.",
         "KEYWORDS": "Codex CLI, OpenAI Codex, מדריך הגדרת Codex, התקנת Codex CLI, {appName} Codex, סוכן קידוד של OpenAI"
       },
       "BADGE": "Codex CLI",
@@ -1894,7 +1894,7 @@
     "GEMINI_CLI": {
       "META": {
         "TITLE": "אינטגרציית Gemini CLI - {appName}",
-        "DESCRIPTION": "השתמשו ב-{appName} עם Gemini CLI ועם כל לקוח תואם Google GenAI.",
+        "DESCRIPTION": "הריצו את Gemini CLI של Google על {appName}: הגדירו את GOOGLE_GEMINI_BASE_URL ואת המפתח ב-~/.gemini/.env, השתמשו במפתח אחד לכל מודל ותקנו שגיאות 404 והרשאה במהירות.",
         "KEYWORDS": "Gemini CLI, Google AI API, הגדרת Gemini, Google GenAI SDK, {appName} Gemini, חלופה ל-Gemini"
       },
       "BADGE": "Gemini CLI",
@@ -1927,7 +1927,7 @@
     "OPENCLAW": {
       "META": {
         "TITLE": "אינטגרציית OpenClaw - {appName}",
-        "DESCRIPTION": "השתמשו ב-{appName} כספק המודלים של סוכן OpenClaw שלכם.",
+        "DESCRIPTION": "השתמשו ב-{appName} כספק מודלים תואם OpenAI עבור OpenClaw. הגדירו את כתובת הבסיס ב-openclaw.json והריצו את הסוכן שלכם ב-Telegram, ב-Discord או ב-Slack.",
         "KEYWORDS": "OpenClaw, הגדרת OpenClaw, סוכן AI, {appName} OpenClaw, ספק מודלים, שער AI"
       },
       "BADGE": "OpenClaw",
@@ -1955,7 +1955,7 @@
     "HERMES": {
       "META": {
         "TITLE": "אינטגרציית Hermes Agent - {appName}",
-        "DESCRIPTION": "השתמשו ב-{appName} כספק המודלים עבור Hermes Agent של Nous Research. נקודת קצה אחת תואמת OpenAI, כל המודלים.",
+        "DESCRIPTION": "השתמשו ב-{appName} כספק המודלים של Hermes Agent מבית Nous Research. הגדירו כתובת בסיס מותאמת ב-config.yaml ואת המפתח ב-.env, והריצו אותו עם כל מודל.",
         "KEYWORDS": "Hermes Agent, Nous Research, הגדרת Hermes, סוכן AI, {appName} Hermes, ספק מודלים, תואם OpenAI"
       },
       "BADGE": "Hermes Agent",
@@ -2259,7 +2259,7 @@
     "LOBECHAT": {
       "META": {
         "TITLE": "LobeChat: הגדרה עם API חינמי תואם OpenAI | {appName}",
-        "DESCRIPTION": "חברו את LobeChat אל {appName} דרך Add Custom Provider או משתני סביבה של Docker. כולל מודלים חינמיים.",
+        "DESCRIPTION": "חברו את LobeChat אל {appName} עם Add Custom Provider או משתני סביבה של Docker לאירוח עצמי. מפתח אחד תואם OpenAI לכל מודל, כולל מודלים חינמיים.",
         "KEYWORDS": "LobeChat, ספק מותאם LobeChat, {appName} LobeChat, צאט אינטרנט בקוד פתוח"
       },
       "BADGE": "LobeChat",
@@ -2316,7 +2316,7 @@
     "TYPINGMIND": {
       "META": {
         "TITLE": "TypingMind: הגדרה עם API חינמי תואם OpenAI | {appName}",
-        "DESCRIPTION": "חברו את TypingMind אל {appName} על ידי הדבקת נקודת קצה מותאמת תואמת OpenAI. כולל מודלים חינמיים.",
+        "DESCRIPTION": "חברו את TypingMind אל {appName} כמודל מותאם תואם OpenAI. הגדירו את נקודת הקצה, הוסיפו את המפתח ככותרת Authorization ובדקו. כולל מודלים חינמיים.",
         "KEYWORDS": "TypingMind, מודל מותאם TypingMind, {appName} TypingMind, ממשק אינטרנט BYOK"
       },
       "BADGE": "TypingMind",
@@ -2337,7 +2337,7 @@
     "BOLTAI": {
       "META": {
         "TITLE": "BoltAI: הגדרה עם API חינמי תואם OpenAI | {appName}",
-        "DESCRIPTION": "חברו את BoltAI אל {appName} כשרת מותאם תואם OpenAI. כולל מודלים חינמיים.",
+        "DESCRIPTION": "חברו את BoltAI ב-macOS אל {appName} כשרת מותאם תואם OpenAI. הזינו את הכתובת, המפתח, מזהה המודל ואורך ההקשר, ותתחילו לשוחח. כולל מודלים חינמיים.",
         "KEYWORDS": "BoltAI, BoltAI תואם OpenAI, {appName} BoltAI, עוזר בינה מלאכותית macOS"
       },
       "BADGE": "BoltAI",
@@ -2356,7 +2356,7 @@
     "PAGE_ASSIST": {
       "META": {
         "TITLE": "Page Assist: הגדרה עם API חינמי תואם OpenAI | {appName}",
-        "DESCRIPTION": "חברו את Page Assist אל {appName} כ-API מותאם תואם OpenAI בפאנל הצד של הדפדפן. כולל מודלים חינמיים.",
+        "DESCRIPTION": "חברו את תוסף הדפדפן Page Assist אל {appName} כ-API מותאם תואם OpenAI. הוסיפו את כתובת הבסיס והמפתח ושוחחו בחלונית הצד עם מודלים חינמיים.",
         "KEYWORDS": "Page Assist, Page Assist תואם OpenAI, {appName} Page Assist, תוסף בינה מלאכותית לדפדפן"
       },
       "BADGE": "Page Assist",
@@ -2377,7 +2377,7 @@
     "CHATBOX": {
       "META": {
         "TITLE": "Chatbox: הגדרה עם API חינמי תואם OpenAI | {appName}",
-        "DESCRIPTION": "חברו את Chatbox אל {appName} במצב OpenAI API Compatible. פצלו את כתובת ה URL ל Host ו Path. כולל מודלים חינמיים.",
+        "DESCRIPTION": "חברו את Chatbox אל {appName} במצב OpenAI API Compatible. פצלו את הכתובת ל-API Host ול-API Path, הוסיפו מפתח ומודלים ותתחילו לשוחח. כולל מודלים חינמיים.",
         "KEYWORDS": "Chatbox, Chatbox תואם OpenAI, {appName} Chatbox, לקוח צאט רב פלטפורמי"
       },
       "BADGE": "Chatbox",
@@ -2398,7 +2398,7 @@
     "BIG_AGI": {
       "META": {
         "TITLE": "Big-AGI: הגדרה עם API חינמי תואם OpenAI | {appName}",
-        "DESCRIPTION": "חברו את Big-AGI אל {appName} כמקור OpenAI. Big-AGI מושך את הקטלוג. כולל מודלים חינמיים.",
+        "DESCRIPTION": "חברו את Big-AGI אל {appName} כמקור OpenAI מותאם. הזינו את המפתח ואת נקודת הקצה, ו-Big-AGI יטען בשבילכם את קטלוג המודלים המלא. כולל מודלים חינמיים.",
         "KEYWORDS": "Big-AGI, מקור OpenAI Big-AGI, {appName} Big-AGI, סביבת עבודה לבינה מלאכותית באינטרנט"
       },
       "BADGE": "Big-AGI",
@@ -2417,7 +2417,7 @@
     "OPENCODE": {
       "META": {
         "TITLE": "מדריך הגדרת OpenCode | {appName}",
-        "DESCRIPTION": "חברו את OpenCode אל {appName} עם ספק מותאם תואם OpenAI בקובץ opencode.json.",
+        "DESCRIPTION": "חברו את OpenCode אל {appName} עם ספק מותאם תואם OpenAI ב-opencode.json. העתיקו את התצורה, ציינו מזהי מודלים מדויקים והימנעו מהתנגשות שמות עם הרישום.",
         "KEYWORDS": "OpenCode, הגדרת OpenCode, ספק OpenCode, {appName} OpenCode, סוכן קוד, תואם OpenAI"
       },
       "BADGE": "OpenCode",
@@ -2440,7 +2440,7 @@
     "KILO_CODE": {
       "META": {
         "TITLE": "מדריך הגדרת Kilo Code | {appName}",
-        "DESCRIPTION": "חברו את Kilo Code אל {appName} עם ספק מותאם תואם OpenAI בסרגל הצד של VSCode.",
+        "DESCRIPTION": "חברו את Kilo Code ב-VSCode אל {appName} עם ספק מותאם תואם OpenAI. הדביקו את הערכים, השאירו את תמיכת הכלים פעילה ותכנתו עם כל מודל, חינמי או בתשלום.",
         "KEYWORDS": "Kilo Code, הגדרת Kilo Code, סוכן קוד ל-VSCode, {appName} Kilo Code, ספק מותאם, תואם OpenAI"
       },
       "BADGE": "Kilo Code",
@@ -2464,7 +2464,7 @@
     "ZED": {
       "META": {
         "TITLE": "מדריך הגדרת עורך Zed | {appName}",
-        "DESCRIPTION": "חברו את סוכן העורך Zed אל {appName} עם ספק מותאם תואם OpenAI.",
+        "DESCRIPTION": "חברו את חלונית הסוכן של העורך Zed אל {appName} כספק מותאם תואם OpenAI. הגדרות צעד אחר צעד, רשימת מודלים וטיפים על מחזיק המפתחות, וגם מודלים חינמיים.",
         "KEYWORDS": "Zed, עורך Zed, סוכן Zed, {appName} Zed, ספק מותאם, עורך תואם OpenAI"
       },
       "BADGE": "עורך Zed",
@@ -2485,7 +2485,7 @@
     "CLINE": {
       "META": {
         "TITLE": "מדריך הגדרת Cline | {appName}",
-        "DESCRIPTION": "חברו את Cline אל {appName} כספק OpenAI Compatible כדי שיוכל לקרוא, לערוך ולהריץ קוד עם כל מודל.",
+        "DESCRIPTION": "חברו את Cline ב-VSCode אל {appName} כספק OpenAI Compatible. הריצו את לולאת הסוכן המלאה שלו כדי לקרוא, לערוך ולהריץ קוד עם כל מודל, כולל מודלים חינמיים.",
         "KEYWORDS": "Cline, הגדרת Cline, סוכן אוטונומי ל-VSCode, {appName} Cline, OpenAI Compatible, סוכן קוד"
       },
       "BADGE": "Cline",
@@ -2527,7 +2527,7 @@
     "CONTINUE_DEV": {
       "META": {
         "TITLE": "מדריך הגדרת Continue.dev | {appName}",
-        "DESCRIPTION": "חברו את Continue.dev אל {appName} עם config.yaml בבקרת גרסאות. Continue טוען מחדש את רשומת המודל בזמן אמת.",
+        "DESCRIPTION": "חברו את Continue.dev אל {appName} עם רשומת מודל ב-config.yaml. היא נטענת מחדש מיד ב-VSCode וב-JetBrains עם מפתח אחד תואם OpenAI, וגם מודלים חינמיים.",
         "KEYWORDS": "Continue.dev, הגדרת Continue, עוזר ל-VSCode ו-JetBrains, {appName} Continue, config.yaml, תואם OpenAI"
       },
       "BADGE": "Continue.dev",
@@ -2567,7 +2567,7 @@
     "NEVIKA": {
       "META": {
         "TITLE": "מדריך אינטגרציה ל-Nevika | {appName}",
-        "DESCRIPTION": "חברו את Nevika אל {appName} כפרוקסי מותאם. מפתח אחד, מאות מודלים.",
+        "DESCRIPTION": "חברו את Nevika אל {appName} כפרוקסי מותאם למשחקי תפקידים עם AI. הדביקו את המפתח בדף ההגדרה הממולא מראש ובחרו מודל מהרשימה, כולל מודלים חינמיים.",
         "KEYWORDS": "Nevika, פרוקסי מותאם של Nevika, מפתח API של Nevika, {appName} Nevika, משחקי תפקידים AI, צ'אט דמויות"
       },
       "BADGE": "Nevika",
@@ -2591,7 +2591,7 @@
     "CURSOR": {
       "META": {
         "TITLE": "מדריך הגדרת Cursor | {appName}",
-        "DESCRIPTION": "השתמשו במודלים של {appName} ב-Chat וב-Agent של Cursor עם מפתח API משלכם וההגדרה Override OpenAI Base URL.",
+        "DESCRIPTION": "השתמשו במודלים של {appName} ב-Chat וב-Agent של Cursor: הדביקו את המפתח, הפעילו את Override OpenAI Base URL והוסיפו מזהי מודלים. כולל מגבלות תוכניות בתשלום ומזהי claude-.",
         "KEYWORDS": "Cursor, מודל מותאם ב-Cursor, Cursor OpenAI base URL, Cursor BYOK, {appName} Cursor, מפתח API ל-Cursor"
       },
       "BADGE": "Cursor",
@@ -2613,7 +2613,7 @@
     "GITHUB_COPILOT": {
       "META": {
         "TITLE": "מדריך הגדרת GitHub Copilot ב-VS Code | {appName}",
-        "DESCRIPTION": "הוסיפו את {appName} ל-GitHub Copilot Chat ב-VS Code כמודל Custom Endpoint עם מפתח API משלכם.",
+        "DESCRIPTION": "הוסיפו את {appName} ל-GitHub Copilot Chat ב-VS Code כ-Custom Endpoint עם מפתח API משלכם. השתמשו בכל מודל במצב צ'אט ובמצב סוכן, בלי צורך בתוכנית Copilot.",
         "KEYWORDS": "GitHub Copilot, מודל מותאם ב-VS Code Copilot, Copilot עם מפתח משלכם, Copilot Custom Endpoint, VS Code BYOK, {appName} Copilot"
       },
       "BADGE": "GitHub Copilot",
@@ -2635,7 +2635,7 @@
     "N8N": {
       "META": {
         "TITLE": "מדריך הגדרת n8n | {appName}",
-        "DESCRIPTION": "השתמשו במודלים של {appName} בתהליכי AI Agent ובשרשראות LLM של n8n דרך השדה Base URL של אישור OpenAI.",
+        "DESCRIPTION": "השתמשו במודלים של {appName} בתהליכי AI Agent ו-Basic LLM Chain ב-n8n. הגדירו את Base URL בפרטי ההתחברות של OpenAI וכבו את Responses API כדי להריץ כל מודל.",
         "KEYWORDS": "n8n, n8n OpenAI base URL, LLM מותאם ב-n8n, n8n AI Agent, n8n תואם OpenAI, {appName} n8n"
       },
       "BADGE": "n8n",
@@ -2656,7 +2656,7 @@
     "DIFY": {
       "META": {
         "TITLE": "מדריך הגדרת Dify | {appName}",
-        "DESCRIPTION": "חברו את Dify אל {appName} עם התוסף של {appName} מ-Dify Marketplace או עם הספק OpenAI-API-compatible.",
+        "DESCRIPTION": "חברו את Dify אל {appName} עם התוסף מה-Marketplace או עם הספק OpenAI-API-compatible. הוסיפו מפתח ומודלים, הפעילו קריאות לכלים והשתמשו בהם באפליקציות.",
         "KEYWORDS": "Dify, ספק מודלים ב-Dify, Dify OpenAI-API-compatible, תוסף Dify, LLM מותאם ב-Dify, {appName} Dify"
       },
       "BADGE": "Dify",
@@ -2677,7 +2677,7 @@
     "JAN": {
       "META": {
         "TITLE": "מדריך הגדרת Jan | {appName}",
-        "DESCRIPTION": "הוסיפו את {appName} לאפליקציית Jan למחשב כספק מותאם תואם OpenAI.",
+        "DESCRIPTION": "הוסיפו את {appName} לאפליקציית Jan למחשב כספק מותאם תואם OpenAI. המודלים שלו נטענים לצד המודלים המקומיים שלכם, עם טיפים על כלים, ראייה וכתובות בסיס.",
         "KEYWORDS": "Jan, Jan AI, ספק מותאם ב-Jan, Jan תואם OpenAI, מודלים מרוחקים ב-Jan, {appName} Jan"
       },
       "BADGE": "Jan",
@@ -2698,7 +2698,7 @@
     "MSTY": {
       "META": {
         "TITLE": "מדריך הגדרת Msty Studio | {appName}",
-        "DESCRIPTION": "הוסיפו את {appName} ל-Msty Studio כספק מודלים תואם OpenAI.",
+        "DESCRIPTION": "הוסיפו את {appName} ל-Msty Studio כספק תואם OpenAI: הדביקו את כתובת הבסיס והמפתח, טענו את רשימת המודלים ושוחחו עם מודלים חינמיים ובתשלום באפליקציה אחת.",
         "KEYWORDS": "Msty, Msty Studio, Msty תואם OpenAI, ספק מרוחק ב-Msty, מודל מותאם ב-Msty, {appName} Msty"
       },
       "BADGE": "Msty",
@@ -2719,7 +2719,7 @@
     "OBSIDIAN_COPILOT": {
       "META": {
         "TITLE": "מדריך הגדרת Obsidian Copilot | {appName}",
-        "DESCRIPTION": "הוסיפו את {appName} לתוסף Copilot של Obsidian כספק BYOK מותאם.",
+        "DESCRIPTION": "הוסיפו את {appName} ל-Copilot for Obsidian כספק BYOK מותאם ושוחחו עם הפתקים שלכם בכל מודל. אין צורך ברישיון Copilot, ויש גם מודלים חינמיים.",
         "KEYWORDS": "Obsidian Copilot, Copilot for Obsidian, תוסף AI ל-Obsidian, ספק מותאם ב-Obsidian, Obsidian BYOK, {appName} Obsidian"
       },
       "BADGE": "Obsidian Copilot",
@@ -2740,7 +2740,7 @@
     "AGNAI": {
       "META": {
         "TITLE": "מדריך הגדרת Agnai | {appName}",
-        "DESCRIPTION": "חברו את Agnai אל {appName} כספק OpenAI Compat לשיחות דמויות עם כל מודל.",
+        "DESCRIPTION": "חברו את Agnai אל {appName} כספק OpenAI Compat לצ'אט עם דמויות. הוסיפו את כתובת הבסיס והמפתח, בדקו את החיבור והשתמשו בכל מודל בהגדרות הקבועות שלכם.",
         "KEYWORDS": "Agnai, Agnaistic, Agnai תואם OpenAI, ספק מותאם ב-Agnai, פרוקסי ל-Agnai, {appName} Agnai"
       },
       "BADGE": "Agnai",
@@ -5304,7 +5304,7 @@
       "STAT_PROVIDERS": "ספקים במעקב",
       "STAT_PASS_RATE": "שיעור הצלחה ממוצע",
       "META_TITLE": "דירוג אותנטיות מודלים | {appName}",
-      "META_DESCRIPTION": "ראו אילו ספקי API מספקים את המודל האמיתי שהם מצהירים, מדורגים לפי שיעור הצלחה דטרמיניסטי.",
+      "META_DESCRIPTION": "ראו אילו ספקי API של AI מספקים את המודל האמיתי שהם מצהירים עליו. {appName} מדרג אותם לפי שיעור הצלחה בטביעת אצבע דטרמיניסטית, עם ראיות מקושרות לכל פסיקה.",
       "DISCLAIMER": "כל תוצאה שפורסמה מורצת מחדש בשרת שלנו לפני שהיא נספרת, וכל פסיקה מקשרת לראיות המדויקות שהובילו אליה. תוצאה שאתה סבור שהיא שגויה ניתנת לערעור.",
       "REPORT_DISCORD": "דווח ב-Discord",
       "REPORT_GITHUB": "פתח issue ב-GitHub",
@@ -5672,7 +5672,7 @@
       "ALT_EDITOR": "עורך הפרסונה עם כותרת תצוגה, שם, תיאור ומתג פרסונת ברירת המחדל",
       "META": {
         "TITLE": "פרסונות ב{appName}",
-        "DESCRIPTION": "צור את הזהות שאתה משחק בה: שדות פרסונה, פרסונת ברירת מחדל וייבוא מאפליקציות אחרות.",
+        "DESCRIPTION": "צרו את הפרסונה שבה אתם משחקים ב-{appName}: שם, תיאור, תמונת פרופיל ותואר, פרסונת ברירת מחדל לצ'אטים חדשים וייבוא מממשקי משחקי תפקידים אחרים.",
         "KEYWORDS": "פרסונה, זהות משתמש, פרסונת משחקי תפקידים, פרסונת ברירת מחדל"
       },
       "TITLE": "פרסונות",
@@ -5731,7 +5731,7 @@
     "CARDS": {
       "META": {
         "TITLE": "כרטיסים (חבילות מערך) ב{appName}",
-        "DESCRIPTION": "אגד פרסונה, דמויות וספרי לור בכרטיס מערך יחיד הניתן להחלה, בסמנטיקת החלפה או מיזוג.",
+        "DESCRIPTION": "אגדו פרסונה, דמויות וספרי לור בכרטיס אחד ב-{appName} והחילו את כל המערך בלחיצה אחת, במצב החלפה או מיזוג. הכרטיסים מיוצאים כ-JSON.",
         "KEYWORDS": "חבילת מערך, החלת כרטיס, חבילת תרחיש"
       },
       "TITLE": "כרטיסים",
@@ -5780,7 +5780,7 @@
     "PROMPT_TEMPLATE": {
       "META": {
         "TITLE": "עורך תבנית הנחיה ב{appName}",
-        "DESCRIPTION": "סדר מחדש בגרירה את בלוקי ההנחיה המורכבת: חריצים, בלוקים חופשיים וסמן היסטוריית הצ'אט.",
+        "DESCRIPTION": "סדרו מחדש את ההנחיה המורכבת ב-{appName} בגרירת בלוקים: משבצות המנוע, בלוקים פשוטים משלכם וסמן היסטוריית הצ'אט. צפו בסדר ברירת המחדל או אפסו אותו.",
         "KEYWORDS": "תבנית הנחיה, סדר הנחיה, בלוקי הנחיה, מבנה הנחיה מותאם"
       },
       "TITLE": "תבנית הנחיה",
@@ -5802,7 +5802,7 @@
     "GROUP_CHATS": {
       "META": {
         "TITLE": "צ'אטים קבוצתיים ב{appName}",
-        "DESCRIPTION": "מספר דמויות בשיחה אחת: רוטציית דוברים, עדיפות אזכור בשם ושער הנחיה לכל דמות.",
+        "DESCRIPTION": "הפעילו כמה דמויות בצ'אט אחד ב-{appName}: סבב דוברים לפי אזכור שם ודברנות, סינון הנחיה לכל דמות כדי לחסוך טוקנים, וטיפים לדמות המספר.",
         "KEYWORDS": "צ'אט קבוצתי, דמויות מרובות, רוטציית דוברים, סדר תורות"
       },
       "TITLE": "צ'אטים קבוצתיים",
@@ -5821,7 +5821,7 @@
     "MULTIPLAYER": {
       "META": {
         "TITLE": "חדרים מרובי משתתפים ב{appName}",
-        "DESCRIPTION": "שתפו צ'אט משחק תפקידים עם חברים: חדרים עמית לעמית, קישורי הזמנה, אישור המארח ותורות.",
+        "DESCRIPTION": "שחקו צ'אט משחק תפקידים אחד עם חברים ב-{appName}: פתחו חדר עמית לעמית, שתפו את קישור ההזמנה, אשרו אורחים ושחקו בתורות. האורחים לא צריכים חשבון או מפתח.",
         "KEYWORDS": "משחק תפקידים מרובה משתתפים, צ'אט AI משותף, RP עמית לעמית, חדר משחק תפקידים קבוצתי, צ'אט AI שיתופי"
       },
       "TITLE": "חדרים מרובי משתתפים",
@@ -5884,7 +5884,7 @@
     "REGEX_SCRIPTS": {
       "META": {
         "TITLE": "סקריפטי regex ב{appName}",
-        "DESCRIPTION": "צינורות חיפוש והחלפה על טקסט קלט, פלט, הנחיה ותצוגה, עם הנחיות סדר ופעולה.",
+        "DESCRIPTION": "סקריפטי Regex בצ'אט של {appName}: חיפוש והחלפה בטקסט הקלט, הפלט, ההנחיה והתצוגה, עם תגי סדר, הנחיות פעולה וייבוא סקריפטים מ-SillyTavern.",
         "KEYWORDS": "סקריפטי regex, customscript, editdisplay, editoutput, המרות טקסט"
       },
       "TITLE": "סקריפטי regex",
@@ -5909,7 +5909,7 @@
     "TRIGGERS_AND_LUA": {
       "META": {
         "TITLE": "סקריפטי טריגר ו-Lua ב{appName}",
-        "DESCRIPTION": "אוטומציה מונחית אירועים: מכונת הטריגרים הווירטואלית, אפקטים ברמה נמוכה וסביבת ריצה מובנית של Lua עם ווי עריכה.",
+        "DESCRIPTION": "הפכו את הדמויות ב-{appName} לאוטומטיות עם סקריפטי טריגרים תואמי RisuAI, אפקטים ברמה נמוכה וסביבת Lua מובנית עם הוקים שכותבים מחדש טקסט תוך כדי יצירה.",
         "KEYWORDS": "סקריפטי טריגר, סקריפטים lua, וו editoutput, אוטומציית משחקי תפקידים"
       },
       "TITLE": "טריגרים ו-Lua",
@@ -5931,7 +5931,7 @@
     "PLUGINS": {
       "META": {
         "TITLE": "תוספי JavaScript ב-{appName}",
-        "DESCRIPTION": "קוד JavaScript משלך בסביבה מבודדת: מטפלים סביב כל הודעה, ממשק התוספים ותאימות לסקריפטים של JanitorAI.",
+        "DESCRIPTION": "כתבו תוספי JavaScript בסביבה מבודדת לצ'אט של {appName}: מטפלים סביב כל הודעה, ה-API של uno לקריאה וכתיבה בצ'אט, ותמיכה בסקריפטים של JanitorAI.",
         "KEYWORDS": "תוספי javascript, סקריפטים של janitorai, אוטומציה בצ'אט, סביבה מבודדת"
       },
       "TITLE": "תוספים",
@@ -5956,7 +5956,7 @@
     "MEMORY_AND_CONTEXT": {
       "META": {
         "TITLE": "זיכרון, אחזור וחיפוש ברשת ב{appName}",
-        "DESCRIPTION": "תקצירי סיפור מתגלגלים, אחזור סמנטי של רגעים מהעבר וחיפוש ברשת המשוער על ידי מסווג.",
+        "DESCRIPTION": "כך {appName} שומר על רצף בסיפורי משחק תפקידים ארוכים: תקצירים מתגלגלים מעבר לחלון ההקשר, אחזור רגעים קודמים וחיפוש ברשת לפי בחירה בכל צ'אט.",
         "KEYWORDS": "זיכרון צ'אט, תקציר מתגלגל, אחזור סמנטי, הטמעות, חיפוש ברשת"
       },
       "TITLE": "זיכרון והקשר",
@@ -5975,7 +5975,7 @@
     "IMAGES": {
       "META": {
         "TITLE": "יצירת תמונות בתוך צ'אט {appName}",
-        "DESCRIPTION": "איורי סצנה אחרי תשובות: בחירת מודל, תמונות ייחוס, תבניות סגנון, תצוגה מקדימה של ההנחיה ומדיה מוטמעת.",
+        "DESCRIPTION": "צרו איורי סצנה בצ'אט של {appName} אחרי כל תשובה: בחרו מודל תמונות או מודל חינמי, הוסיפו תמונות ייחוס ותבניות סגנון, וצפו בהנחיות מראש.",
         "KEYWORDS": "יצירת תמונות, איור סצנה, תמונות ייחוס, תבנית סגנון, תמונות מוטמעות"
       },
       "TITLE": "תמונות",
@@ -6026,7 +6026,7 @@
     "DATA": {
       "META": {
         "TITLE": "נתונים, ייצוא ובדיקה ב{appName}",
-        "DESCRIPTION": "פורמטי ייצוא שיחות, ניידות ישויות, בודקי יומן בקשות והרצה יבשה, ואולפן מסד הנתונים המקומי.",
+        "DESCRIPTION": "ייצאו צ'אטים ודמויות מ-{appName} בפורמטים נפוצים, בדקו כל בקשה ביומן ובהרצות ניסיון חינמיות, ועיינו במסד הנתונים המקומי של הצ'אטים בממשק סטודיו.",
         "KEYWORDS": "ייצוא צ'אט, SillyTavern JSONL, יומן בקשות, הרצה יבשה, מסד נתונים מקומי, ניידות נתונים"
       },
       "TITLE": "הנתונים שלך",
@@ -6221,7 +6221,7 @@
     "QUICKSTART": {
       "META": {
         "TITLE": "התחלה מהירה: הבקשה הראשונה שלך ב-5 דקות",
-        "DESCRIPTION": "צור מפתח API של {appName} ובצע את הבקשה הראשונה תואמת OpenAI שלך עם curl, Python או Node.js.",
+        "DESCRIPTION": "צרו מפתח API של {appName} ושלחו את הבקשה הראשונה תואמת OpenAI עם curl, Python או Node.js בחמש דקות. מודלים שמסתיימים ב-:free לא עולים כלום.",
         "KEYWORDS": "התחלה מהירה, מפתח API, base URL, תואם OpenAI, בקשה ראשונה, curl, Python, Node.js"
       },
       "TITLE": "התחלה מהירה",
@@ -6486,7 +6486,7 @@
     "ACCOUNT_AND_BILLING": {
       "META": {
         "TITLE": "חשבון, יתרה וחיוב",
-        "DESCRIPTION": "איך היתרה של {appName} עובדת: טעינות, קרדיט חינמי, מגבלות מפתחות API, חיובים לכל בקשה ויומן השימוש.",
+        "DESCRIPTION": "כך עובדת היתרה שלכם ב-{appName}: טעינות חד פעמיות בכרטיס או בקריפטו, קרדיט חינמי מתגמולי Discord, מגבלות הוצאה לכל מפתח ויומן שימוש של הבקשות.",
         "KEYWORDS": "יתרה, טעינה, חיוב, מפתחות API, יומן שימוש, קרדיט חינמי, שותפים"
       },
       "TITLE": "חשבון וחיוב",

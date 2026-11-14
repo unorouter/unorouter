@@ -451,7 +451,7 @@
       "PRESET_IMAGE_DESC": "Najlepsze modele generowania obrazów pod względem kosztu i jakości.",
       "META": {
         "TITLE": "Porównaj modele AI - {appName}",
-        "DESCRIPTION": "Porównuj modele AI obok siebie według ceny, długości kontekstu, możliwości i użycia w {appName}.",
+        "DESCRIPTION": "Porównuj modele AI obok siebie w {appName}: ceny, długość kontekstu, możliwości, opóźnienia i użycie. Zacznij od presetów flagowych, przystępnych lub do kodowania.",
         "KEYWORDS": "porównaj modele AI, porównanie modeli, porównanie LLM, ceny AI",
         "TITLE_COMBO": "{models} - Porównanie modeli AI",
         "DESCRIPTION_COMBO": "Porównaj {models} według ceny, długości kontekstu, możliwości i użycia."
@@ -1748,7 +1748,7 @@
     "CC_SWITCH": {
       "META": {
         "TITLE": "Przewodnik integracji CC Switch | {appName}",
-        "DESCRIPTION": "Skonfiguruj CC Switch z {appName} do ujednoliconego zarządzania CLI AI",
+        "DESCRIPTION": "Skonfiguruj CC Switch z {appName} i zarządzaj dostawcami Claude Code, Codex i Gemini CLI w jednej aplikacji. Import konfiguracji jednym klikiem przez ccswitch://.",
         "KEYWORDS": "CC Switch, Claude Code, Codex, Gemini CLI, zarządzanie CLI"
       },
       "BADGE": "CC Switch",
@@ -1797,7 +1797,7 @@
     "CLAUDE_CODE": {
       "META": {
         "TITLE": "Integracja Claude Code - {appName}",
-        "DESCRIPTION": "Używaj {appName} z Claude Code, Cursor i dowolnym klientem zgodnym z Anthropic przez jeden punkt końcowy.",
+        "DESCRIPTION": "Używaj Claude Code z {appName} na Windows, macOS i Linux: ustaw base URL Anthropic i klucz, przełączaj modele przez /model i skonfiguruj też aplikację desktopową.",
         "KEYWORDS": "Claude Code, API Anthropic, konfiguracja Claude Code, Cursor AI, {appName} Claude, alternatywa Anthropic"
       },
       "BADGE": "Claude Code",
@@ -1861,7 +1861,7 @@
     "CODEX": {
       "META": {
         "TITLE": "Przewodnik konfiguracji Codex CLI - {appName}",
-        "DESCRIPTION": "Skonfiguruj OpenAI Codex CLI z {appName} na Windows, macOS i Linux, ze zrzutami ekranu.",
+        "DESCRIPTION": "Skonfiguruj OpenAI Codex CLI z {appName} na Windows, macOS i Linux: własny dostawca w config.toml, klucz w zmiennej środowiskowej i aplikacja desktopowa.",
         "KEYWORDS": "Codex CLI, OpenAI Codex, przewodnik konfiguracji Codex, instalacja Codex CLI, {appName} Codex, agent programistyczny OpenAI"
       },
       "BADGE": "Codex CLI",
@@ -1894,7 +1894,7 @@
     "GEMINI_CLI": {
       "META": {
         "TITLE": "Integracja Gemini CLI - {appName}",
-        "DESCRIPTION": "Używaj {appName} z Gemini CLI i dowolnym klientem zgodnym z Google GenAI.",
+        "DESCRIPTION": "Gemini CLI od Google na {appName}: GOOGLE_GEMINI_BASE_URL i klucz w ~/.gemini/.env, jeden klucz do wszystkich modeli i szybka naprawa błędów 404 i autoryzacji.",
         "KEYWORDS": "Gemini CLI, Google AI API, konfiguracja Gemini, SDK Google GenAI, {appName} Gemini, alternatywa Gemini"
       },
       "BADGE": "Gemini CLI",
@@ -1927,7 +1927,7 @@
     "OPENCLAW": {
       "META": {
         "TITLE": "Integracja OpenClaw - {appName}",
-        "DESCRIPTION": "Używaj {appName} jako dostawcy modeli dla swojego agenta OpenClaw.",
+        "DESCRIPTION": "Użyj {appName} jako dostawcy modeli zgodnego z OpenAI w OpenClaw. Ustaw base URL w openclaw.json i uruchom swojego agenta w Telegramie, na Discordzie lub w Slacku.",
         "KEYWORDS": "OpenClaw, konfiguracja OpenClaw, agent AI, {appName} OpenClaw, dostawca modeli, brama AI"
       },
       "BADGE": "OpenClaw",
@@ -1955,7 +1955,7 @@
     "HERMES": {
       "META": {
         "TITLE": "Integracja Hermes Agent - {appName}",
-        "DESCRIPTION": "Używaj {appName} jako dostawcy modeli dla Hermes Agent od Nous Research. Jeden punkt końcowy zgodny z OpenAI, wszystkie modele.",
+        "DESCRIPTION": "Użyj {appName} jako dostawcy modeli dla Hermes Agent od Nous Research. Ustaw własny base URL w config.yaml i klucz w .env, a potem uruchom go z dowolnym modelem.",
         "KEYWORDS": "Hermes Agent, Nous Research, konfiguracja Hermes, agent AI, {appName} Hermes, dostawca modeli, kompatybilny z OpenAI"
       },
       "BADGE": "Hermes Agent",
@@ -2259,7 +2259,7 @@
     "LOBECHAT": {
       "META": {
         "TITLE": "LobeChat: konfiguracja z darmowym API zgodnym z OpenAI | {appName}",
-        "DESCRIPTION": "Podłącz LobeChat do {appName} przez Add Custom Provider albo zmienne środowiskowe Dockera. Darmowe modele w zestawie.",
+        "DESCRIPTION": "Podłącz LobeChat do {appName} przez Add Custom Provider lub zmienne Docker przy self-hostingu. Jeden klucz zgodny z OpenAI do wszystkich modeli, także darmowych.",
         "KEYWORDS": "LobeChat, własny dostawca LobeChat, {appName} LobeChat, czat webowy open source"
       },
       "BADGE": "LobeChat",
@@ -2316,7 +2316,7 @@
     "TYPINGMIND": {
       "META": {
         "TITLE": "TypingMind: konfiguracja z darmowym API zgodnym z OpenAI | {appName}",
-        "DESCRIPTION": "Podłącz TypingMind do {appName}, wklejając własny punkt końcowy zgodny z OpenAI. Darmowe modele w zestawie.",
+        "DESCRIPTION": "Podłącz TypingMind do {appName} jako własny model zgodny z OpenAI. Ustaw endpoint, dodaj klucz jako nagłówek Authorization i przetestuj. Darmowe modele w zestawie.",
         "KEYWORDS": "TypingMind, własny model TypingMind, {appName} TypingMind, webowy frontend BYOK"
       },
       "BADGE": "TypingMind",
@@ -2337,7 +2337,7 @@
     "BOLTAI": {
       "META": {
         "TITLE": "BoltAI: konfiguracja z darmowym API zgodnym z OpenAI | {appName}",
-        "DESCRIPTION": "Podłącz BoltAI do {appName} jako własny serwer zgodny z OpenAI. Darmowe modele w zestawie.",
+        "DESCRIPTION": "Podłącz BoltAI na macOS do {appName} jako własny serwer zgodny z OpenAI. Wpisz URL, klucz, ID modelu i długość kontekstu i rozmawiaj. Darmowe modele w zestawie.",
         "KEYWORDS": "BoltAI, BoltAI zgodny z OpenAI, {appName} BoltAI, asystent AI macOS"
       },
       "BADGE": "BoltAI",
@@ -2356,7 +2356,7 @@
     "PAGE_ASSIST": {
       "META": {
         "TITLE": "Page Assist: konfiguracja z darmowym API zgodnym z OpenAI | {appName}",
-        "DESCRIPTION": "Podłącz Page Assist do {appName} jako własne API zgodne z OpenAI w panelu bocznym przeglądarki. Darmowe modele w zestawie.",
+        "DESCRIPTION": "Podłącz rozszerzenie Page Assist do {appName} jako własne API zgodne z OpenAI. Dodaj base URL i klucz i rozmawiaj w panelu bocznym przeglądarki z darmowymi modelami.",
         "KEYWORDS": "Page Assist, Page Assist zgodny z OpenAI, {appName} Page Assist, rozszerzenie AI do przeglądarki"
       },
       "BADGE": "Page Assist",
@@ -2377,7 +2377,7 @@
     "CHATBOX": {
       "META": {
         "TITLE": "Chatbox: konfiguracja z darmowym API zgodnym z OpenAI | {appName}",
-        "DESCRIPTION": "Połącz Chatbox z {appName} w trybie OpenAI API Compatible. Podziel adres URL na Host i Path. Darmowe modele w zestawie.",
+        "DESCRIPTION": "Podłącz Chatbox do {appName} w trybie OpenAI API Compatible. Podziel URL na API Host i API Path, dodaj klucz i modele, a potem rozmawiaj. Darmowe modele w zestawie.",
         "KEYWORDS": "Chatbox, Chatbox zgodny z OpenAI, {appName} Chatbox, wieloplatformowy klient czatu"
       },
       "BADGE": "Chatbox",
@@ -2398,7 +2398,7 @@
     "BIG_AGI": {
       "META": {
         "TITLE": "Big-AGI: konfiguracja z darmowym API zgodnym z OpenAI | {appName}",
-        "DESCRIPTION": "Podłącz Big-AGI do {appName} jako źródło OpenAI. Big-AGI sam pobiera katalog. Darmowe modele w zestawie.",
+        "DESCRIPTION": "Podłącz Big-AGI do {appName} jako własne źródło OpenAI. Wpisz klucz i endpoint, a Big-AGI sam pobierze pełny katalog modeli. Darmowe modele w zestawie.",
         "KEYWORDS": "Big-AGI, źródło OpenAI Big-AGI, {appName} Big-AGI, webowy warsztat AI"
       },
       "BADGE": "Big-AGI",
@@ -2417,7 +2417,7 @@
     "OPENCODE": {
       "META": {
         "TITLE": "Przewodnik konfiguracji OpenCode | {appName}",
-        "DESCRIPTION": "Podłącz OpenCode do {appName} własnym dostawcą zgodnym z OpenAI w opencode.json.",
+        "DESCRIPTION": "Podłącz OpenCode do {appName} przez dostawcę zgodnego z OpenAI w opencode.json. Skopiuj konfigurację, podaj dokładne ID modeli i uniknij konfliktu nazw w rejestrze.",
         "KEYWORDS": "OpenCode, konfiguracja OpenCode, dostawca OpenCode, {appName} OpenCode, agent kodowania, zgodny z OpenAI"
       },
       "BADGE": "OpenCode",
@@ -2440,7 +2440,7 @@
     "KILO_CODE": {
       "META": {
         "TITLE": "Przewodnik konfiguracji Kilo Code | {appName}",
-        "DESCRIPTION": "Podłącz Kilo Code do {appName} własnym dostawcą zgodnym z OpenAI na pasku bocznym VSCode.",
+        "DESCRIPTION": "Podłącz Kilo Code w VSCode do {appName} przez dostawcę zgodnego z OpenAI. Wklej wartości, zostaw obsługę narzędzi i koduj z dowolnym modelem, darmowym lub płatnym.",
         "KEYWORDS": "Kilo Code, konfiguracja Kilo Code, agent kodowania VSCode, {appName} Kilo Code, niestandardowy dostawca, zgodny z OpenAI"
       },
       "BADGE": "Kilo Code",
@@ -2464,7 +2464,7 @@
     "ZED": {
       "META": {
         "TITLE": "Przewodnik konfiguracji Zed IDE | {appName}",
-        "DESCRIPTION": "Podłącz agenta edytora Zed do {appName} własnym dostawcą zgodnym z OpenAI.",
+        "DESCRIPTION": "Podłącz panel agenta edytora Zed do {appName} jako własnego dostawcę zgodnego z OpenAI. Ustawienia krok po kroku, lista modeli, pęk kluczy i darmowe modele.",
         "KEYWORDS": "Zed, Zed IDE, agent Zed, {appName} Zed, niestandardowy dostawca, edytor zgodny z OpenAI"
       },
       "BADGE": "Zed IDE",
@@ -2485,7 +2485,7 @@
     "CLINE": {
       "META": {
         "TITLE": "Przewodnik konfiguracji Cline | {appName}",
-        "DESCRIPTION": "Podłącz Cline do {appName} jako dostawcę OpenAI Compatible, aby czytał, edytował i uruchamiał kod z dowolnym modelem.",
+        "DESCRIPTION": "Podłącz Cline w VSCode do {appName} jako dostawcę OpenAI Compatible. Pełna pętla agenta czyta, edytuje i uruchamia kod z dowolnym modelem, także darmowym.",
         "KEYWORDS": "Cline, konfiguracja Cline, autonomiczny agent VSCode, {appName} Cline, zgodny z OpenAI, agent kodowania"
       },
       "BADGE": "Cline",
@@ -2527,7 +2527,7 @@
     "CONTINUE_DEV": {
       "META": {
         "TITLE": "Przewodnik konfiguracji Continue.dev | {appName}",
-        "DESCRIPTION": "Podłącz Continue.dev do {appName} przez wersjonowany config.yaml. Continue przeładowuje wpis modelu w locie.",
+        "DESCRIPTION": "Podłącz Continue.dev do {appName} wpisem modelu w config.yaml. Przeładowuje się na żywo w VSCode i JetBrains, jeden klucz zgodny z OpenAI, darmowe modele też.",
         "KEYWORDS": "Continue.dev, konfiguracja Continue, asystent VSCode JetBrains, {appName} Continue, config.yaml, zgodny z OpenAI"
       },
       "BADGE": "Continue.dev",
@@ -2567,7 +2567,7 @@
     "NEVIKA": {
       "META": {
         "TITLE": "Przewodnik integracji z Nevika | {appName}",
-        "DESCRIPTION": "Podłącz Nevika do {appName} jako własne proxy. Jeden klucz, setki modeli.",
+        "DESCRIPTION": "Podłącz Nevika do {appName} jako własne proxy do roleplayu z AI. Wklej klucz na wstępnie wypełnionej stronie konfiguracji i wybierz model z listy, także darmowy.",
         "KEYWORDS": "Nevika, własne proxy Nevika, klucz API Nevika, {appName} Nevika, odgrywanie ról z AI, czat z postaciami"
       },
       "BADGE": "Nevika",
@@ -2591,7 +2591,7 @@
     "CURSOR": {
       "META": {
         "TITLE": "Przewodnik konfiguracji Cursor | {appName}",
-        "DESCRIPTION": "Używaj modeli {appName} w Cursor Chat i Agent z własnym kluczem API i ustawieniem Override OpenAI Base URL.",
+        "DESCRIPTION": "Używaj modeli {appName} w Cursor Chat i Agent: wklej klucz, włącz Override OpenAI Base URL i dodaj ID modeli. Limity płatnych planów i ID claude- wyjaśnione.",
         "KEYWORDS": "Cursor, własny model w Cursor, Cursor OpenAI base URL, Cursor BYOK, {appName} Cursor, klucz API Cursor"
       },
       "BADGE": "Cursor",
@@ -2613,7 +2613,7 @@
     "GITHUB_COPILOT": {
       "META": {
         "TITLE": "Przewodnik konfiguracji GitHub Copilot w VS Code | {appName}",
-        "DESCRIPTION": "Dodaj {appName} do GitHub Copilot Chat w VS Code jako model Custom Endpoint z własnym kluczem API.",
+        "DESCRIPTION": "Dodaj {appName} do GitHub Copilot Chat w VS Code jako Custom Endpoint z własnym kluczem API. Dowolny model w czacie i trybie agenta, bez planu Copilot.",
         "KEYWORDS": "GitHub Copilot, własny model w VS Code Copilot, Copilot z własnym kluczem, Copilot Custom Endpoint, VS Code BYOK, {appName} Copilot"
       },
       "BADGE": "GitHub Copilot",
@@ -2635,7 +2635,7 @@
     "N8N": {
       "META": {
         "TITLE": "Przewodnik konfiguracji n8n | {appName}",
-        "DESCRIPTION": "Używaj modeli {appName} w przepływach n8n z AI Agent i łańcuchami LLM przez Base URL poświadczenia OpenAI.",
+        "DESCRIPTION": "Używaj modeli {appName} w workflow n8n z AI Agent i Basic LLM Chain. Ustaw Base URL w poświadczeniach OpenAI i wyłącz Responses API, by uruchomić dowolny model.",
         "KEYWORDS": "n8n, n8n OpenAI base URL, własny LLM w n8n, n8n AI Agent, n8n zgodny z OpenAI, {appName} n8n"
       },
       "BADGE": "n8n",
@@ -2656,7 +2656,7 @@
     "DIFY": {
       "META": {
         "TITLE": "Przewodnik konfiguracji Dify | {appName}",
-        "DESCRIPTION": "Połącz Dify z {appName} za pomocą wtyczki {appName} z Dify Marketplace lub dostawcy OpenAI-API-compatible.",
+        "DESCRIPTION": "Podłącz Dify do {appName} wtyczką z Marketplace lub dostawcą OpenAI-API-compatible. Dodaj klucz i modele, włącz wywołania narzędzi i używaj ich w aplikacjach.",
         "KEYWORDS": "Dify, dostawca modeli Dify, Dify OpenAI-API-compatible, wtyczka Dify, własny LLM w Dify, {appName} Dify"
       },
       "BADGE": "Dify",
@@ -2677,7 +2677,7 @@
     "JAN": {
       "META": {
         "TITLE": "Przewodnik konfiguracji Jan | {appName}",
-        "DESCRIPTION": "Dodaj {appName} do aplikacji desktopowej Jan jako własnego dostawcę zgodnego z OpenAI.",
+        "DESCRIPTION": "Dodaj {appName} do aplikacji Jan jako własnego dostawcę zgodnego z OpenAI. Modele pojawią się obok lokalnych, plus wskazówki o narzędziach, wizji i base URL.",
         "KEYWORDS": "Jan, Jan AI, własny dostawca w Jan, Jan zgodny z OpenAI, zdalne modele w Jan, {appName} Jan"
       },
       "BADGE": "Jan",
@@ -2698,7 +2698,7 @@
     "MSTY": {
       "META": {
         "TITLE": "Przewodnik konfiguracji Msty Studio | {appName}",
-        "DESCRIPTION": "Dodaj {appName} do Msty Studio jako dostawcę modeli zgodnego z OpenAI.",
+        "DESCRIPTION": "Dodaj {appName} do Msty Studio jako dostawcę zgodnego z OpenAI: wklej base URL i klucz, pobierz listę modeli i rozmawiaj z darmowymi i płatnymi w jednej aplikacji.",
         "KEYWORDS": "Msty, Msty Studio, Msty zgodny z OpenAI, zdalny dostawca w Msty, własny model w Msty, {appName} Msty"
       },
       "BADGE": "Msty",
@@ -2719,7 +2719,7 @@
     "OBSIDIAN_COPILOT": {
       "META": {
         "TITLE": "Przewodnik konfiguracji Obsidian Copilot | {appName}",
-        "DESCRIPTION": "Dodaj {appName} do wtyczki Copilot for Obsidian jako własnego dostawcę BYOK.",
+        "DESCRIPTION": "Dodaj {appName} do Copilot for Obsidian jako własnego dostawcę BYOK i rozmawiaj z notatkami przez dowolny model. Bez licencji Copilot, darmowe modele w zestawie.",
         "KEYWORDS": "Obsidian Copilot, Copilot for Obsidian, wtyczka AI do Obsidian, własny dostawca w Obsidian, Obsidian BYOK, {appName} Obsidian"
       },
       "BADGE": "Obsidian Copilot",
@@ -2740,7 +2740,7 @@
     "AGNAI": {
       "META": {
         "TITLE": "Przewodnik konfiguracji Agnai | {appName}",
-        "DESCRIPTION": "Połącz Agnai z {appName} jako dostawcę OpenAI Compat do czatu z postaciami na dowolnym modelu.",
+        "DESCRIPTION": "Podłącz Agnai do {appName} jako dostawcę OpenAI Compat do czatu z postaciami. Dodaj base URL i klucz, przetestuj połączenie i używaj dowolnego modelu w presetach.",
         "KEYWORDS": "Agnai, Agnaistic, Agnai zgodny z OpenAI, własny dostawca w Agnai, proxy Agnai, {appName} Agnai"
       },
       "BADGE": "Agnai",
@@ -5304,7 +5304,7 @@
       "STAT_PROVIDERS": "Sledzeni dostawcy",
       "STAT_PASS_RATE": "Sredni wskaznik zaliczen",
       "META_TITLE": "Ranking autentycznosci modeli | {appName}",
-      "META_DESCRIPTION": "Zobacz, ktorzy dostawcy API udostepniaja prawdziwy deklarowany model, uszeregowani wedlug deterministycznego wskaznika zaliczen.",
+      "META_DESCRIPTION": "Sprawdź, którzy dostawcy API dają prawdziwy deklarowany model. {appName} szereguje ich według zdawalności deterministycznych odcisków, z dowodem do każdego werdyktu.",
       "DISCLAIMER": "Każdy opublikowany wynik jest ponownie uruchamiany na naszym serwerze, zanim zostanie zaliczony, a każdy werdykt odsyła do dokładnych dowodów, które go wytworzyły. Wynik, który uważasz za błędny, można zakwestionować.",
       "REPORT_DISCORD": "Zgłoś na Discordzie",
       "REPORT_GITHUB": "Otwórz issue na GitHubie",
@@ -5672,7 +5672,7 @@
       "ALT_EDITOR": "Edytor person z tytułem wyświetlanym, nazwą, opisem i przełącznikiem domyślnej persony",
       "META": {
         "TITLE": "Persony w {appName}",
-        "DESCRIPTION": "Stwórz tożsamość, którą grasz: pola persony, persona domyślna i import z innych aplikacji.",
+        "DESCRIPTION": "Stwórz personę, którą grasz w {appName}: imię, opis, awatar i tytuł, domyślna persona dla nowych czatów oraz import z innych aplikacji do roleplayu.",
         "KEYWORDS": "persona, tożsamość użytkownika, persona roleplay, persona domyślna"
       },
       "TITLE": "Persony",
@@ -5731,7 +5731,7 @@
     "CARDS": {
       "META": {
         "TITLE": "Karty (pakiety loadout) w {appName}",
-        "DESCRIPTION": "Spakuj personę, postacie i lorebooki w jedną stosowalną kartę loadout z semantyką zastąpienia lub scalenia.",
+        "DESCRIPTION": "Spakuj personę, postacie i lorebooki w jedną kartę w {appName} i zastosuj cały zestaw jednym kliknięciem, w trybie zastąpienia lub scalenia. Eksport kart do JSON.",
         "KEYWORDS": "pakiet loadout, zastosuj kartę, pakiet scenariusza"
       },
       "TITLE": "Karty",
@@ -5780,7 +5780,7 @@
     "PROMPT_TEMPLATE": {
       "META": {
         "TITLE": "Edytor szablonu promptu w {appName}",
-        "DESCRIPTION": "Przeciągaj i układaj bloki składanego promptu: sloty, bloki własne i znacznik historii czatu.",
+        "DESCRIPTION": "Zmieniaj kolejność składanego promptu w {appName}, przeciągając bloki: sloty silnika, własne zwykłe bloki i znacznik historii czatu. Domyślna kolejność i reset.",
         "KEYWORDS": "szablon promptu, kolejność promptu, bloki promptu, własna struktura promptu"
       },
       "TITLE": "Szablon promptu",
@@ -5802,7 +5802,7 @@
     "GROUP_CHATS": {
       "META": {
         "TITLE": "Czaty grupowe w {appName}",
-        "DESCRIPTION": "Wiele postaci w jednej rozmowie: rotacja mówców, priorytet wzmianek po imieniu i bramkowanie promptu per postać.",
+        "DESCRIPTION": "Wiele postaci w jednym czacie {appName}: kolejka mówców według wzmianek i rozmowności, bramkowanie promptu per postać dla oszczędności tokenów i porady o narratorze.",
         "KEYWORDS": "czat grupowy, wiele postaci, rotacja mówców, kolejność tur"
       },
       "TITLE": "Czaty grupowe",
@@ -5821,7 +5821,7 @@
     "MULTIPLAYER": {
       "META": {
         "TITLE": "Pokoje wieloosobowe w {appName}",
-        "DESCRIPTION": "Dziel czat RPG ze znajomymi: pokoje peer-to-peer, linki z zaproszeniem, zgoda gospodarza i tury.",
+        "DESCRIPTION": "Graj w jeden czat roleplay ze znajomymi w {appName}: otwórz pokój peer-to-peer, wyślij link, wpuść gości i grajcie po kolei. Goście nie potrzebują konta ani klucza.",
         "KEYWORDS": "RPG wieloosobowe, wspólny czat AI, RP peer to peer, pokój RPG dla grupy, wspólny czat z AI"
       },
       "TITLE": "Pokoje wieloosobowe",
@@ -5884,7 +5884,7 @@
     "REGEX_SCRIPTS": {
       "META": {
         "TITLE": "Skrypty regex w {appName}",
-        "DESCRIPTION": "Potoki znajdź i zamień na tekście wejścia, wyjścia, promptu i wyświetlania, z dyrektywami kolejności i akcji.",
+        "DESCRIPTION": "Skrypty regex w czacie {appName}: znajdź i zamień w tekście wejścia, wyjścia, promptu i wyświetlania, z tagami kolejności, dyrektywami akcji i importem SillyTavern.",
         "KEYWORDS": "skrypty regex, customscript, editdisplay, editoutput, transformacje tekstu"
       },
       "TITLE": "Skrypty regex",
@@ -5909,7 +5909,7 @@
     "TRIGGERS_AND_LUA": {
       "META": {
         "TITLE": "Skrypty wyzwalaczy i Lua w {appName}",
-        "DESCRIPTION": "Automatyzacja sterowana zdarzeniami: VM wyzwalaczy, efekty niskopoziomowe i wbudowane środowisko Lua z hookami edycji.",
+        "DESCRIPTION": "Automatyzuj postacie w {appName} skryptami wyzwalaczy zgodnymi z RisuAI, efektami niskopoziomowymi i wbudowanym Lua z hookami zmieniającymi tekst w locie.",
         "KEYWORDS": "skrypty wyzwalaczy, skrypty lua, hook editoutput, automatyzacja roleplay"
       },
       "TITLE": "Wyzwalacze i Lua",
@@ -5931,7 +5931,7 @@
     "PLUGINS": {
       "META": {
         "TITLE": "Wtyczki JavaScript w {appName}",
-        "DESCRIPTION": "Twój JavaScript w piaskownicy: obsługa zdarzeń wokół każdej wiadomości, API wtyczek i zgodność ze skryptami JanitorAI.",
+        "DESCRIPTION": "Pisz wtyczki JavaScript w piaskownicy dla czatu {appName}: hooki wokół każdej wiadomości, API uno do odczytu i zapisu czatu oraz obsługa skryptów JanitorAI.",
         "KEYWORDS": "wtyczki javascript, skrypty janitorai, automatyzacja czatu, piaskownica"
       },
       "TITLE": "Wtyczki",
@@ -5956,7 +5956,7 @@
     "MEMORY_AND_CONTEXT": {
       "META": {
         "TITLE": "Pamięć, wyszukiwanie i sieć w {appName}",
-        "DESCRIPTION": "Kroczące streszczenia historii, semantyczne przywoływanie minionych chwil i wyszukiwanie w sieci bramkowane klasyfikatorem.",
+        "DESCRIPTION": "Jak {appName} dba o spójność długich historii roleplay: kroczące streszczenia poza oknem kontekstu, przywoływanie dawnych chwil i opcjonalne wyszukiwanie w sieci.",
         "KEYWORDS": "pamięć czatu, kroczące streszczenie, wyszukiwanie semantyczne, embeddingi, wyszukiwanie w sieci"
       },
       "TITLE": "Pamięć i kontekst",
@@ -5975,7 +5975,7 @@
     "IMAGES": {
       "META": {
         "TITLE": "Generowanie obrazów w czacie {appName}",
-        "DESCRIPTION": "Ilustracje scen po odpowiedziach: wybór modelu, obrazy referencyjne, szablony stylu, podgląd promptu i media w tekście.",
+        "DESCRIPTION": "Generuj ilustracje scen w czacie {appName} po każdej odpowiedzi: wybierz model obrazów lub darmowy, dodaj obrazy referencyjne i szablony stylu, podglądaj prompty.",
         "KEYWORDS": "generowanie obrazów, ilustracja sceny, obrazy referencyjne, szablon stylu, obrazy inlay"
       },
       "TITLE": "Obrazy",
@@ -6026,7 +6026,7 @@
     "DATA": {
       "META": {
         "TITLE": "Dane, eksport i inspekcja w {appName}",
-        "DESCRIPTION": "Formaty eksportu rozmów, przenośność bytów, inspektory dziennika żądań i próby na sucho oraz studio lokalnej bazy danych.",
+        "DESCRIPTION": "Eksportuj czaty i postacie z {appName} w popularnych formatach, sprawdzaj każde żądanie w logu i darmowych próbach na sucho, przeglądaj lokalną bazę czatów w studiu.",
         "KEYWORDS": "eksport czatu, JSONL SillyTavern, dziennik żądań, próba na sucho, lokalna baza danych, przenośność danych"
       },
       "TITLE": "Twoje dane",
@@ -6221,7 +6221,7 @@
     "QUICKSTART": {
       "META": {
         "TITLE": "Szybki start: twoje pierwsze żądanie w 5 minut",
-        "DESCRIPTION": "Utwórz klucz API {appName} i wykonaj swoje pierwsze żądanie zgodne z OpenAI za pomocą curl, Python lub Node.js.",
+        "DESCRIPTION": "Utwórz klucz API {appName} i wyślij pierwsze żądanie zgodne z OpenAI przez curl, Python lub Node.js w pięć minut. Modele z końcówką :free nic nie kosztują.",
         "KEYWORDS": "szybki start, klucz API, base URL, zgodny z OpenAI, pierwsze żądanie, curl, Python, Node.js"
       },
       "TITLE": "Szybki start",
@@ -6486,7 +6486,7 @@
     "ACCOUNT_AND_BILLING": {
       "META": {
         "TITLE": "Konto, saldo i rozliczenia",
-        "DESCRIPTION": "Jak działa saldo {appName}: doładowania, darmowy kredyt, limity kluczy API, opłaty za żądanie i dziennik użycia.",
+        "DESCRIPTION": "Jak działa saldo {appName}: jednorazowe doładowania kartą lub kryptowalutą, darmowy kredyt z nagród na Discordzie, limity wydatków na klucz i dziennik żądań.",
         "KEYWORDS": "saldo, doładowanie, rozliczenia, klucze API, dziennik użycia, darmowy kredyt, program partnerski"
       },
       "TITLE": "Konto i rozliczenia",

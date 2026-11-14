@@ -451,7 +451,7 @@
       "PRESET_IMAGE_DESC": "Mô hình tạo ảnh tốt nhất về chi phí và chất lượng.",
       "META": {
         "TITLE": "So sánh mô hình AI - {appName}",
-        "DESCRIPTION": "So sánh các mô hình AI cạnh nhau theo giá, độ dài ngữ cảnh, khả năng và mức sử dụng trên {appName}.",
+        "DESCRIPTION": "So sánh các mô hình AI cạnh nhau trên {appName}: giá, độ dài ngữ cảnh, khả năng, độ trễ và mức sử dụng. Bắt đầu từ preset mô hình hàng đầu, giá rẻ hoặc lập trình.",
         "KEYWORDS": "so sánh mô hình AI, so sánh mô hình, so sánh LLM, giá AI",
         "TITLE_COMBO": "{models} - So sánh mô hình AI",
         "DESCRIPTION_COMBO": "So sánh {models} theo giá, độ dài ngữ cảnh, khả năng và mức sử dụng."
@@ -1748,7 +1748,7 @@
     "CC_SWITCH": {
       "META": {
         "TITLE": "Hướng dẫn tích hợp CC Switch | {appName}",
-        "DESCRIPTION": "Thiết lập CC Switch với {appName} để quản lý CLI AI thống nhất",
+        "DESCRIPTION": "Thiết lập CC Switch với {appName} để quản lý nhà cung cấp Claude Code, Codex và Gemini CLI trong một ứng dụng. Nhập cấu hình chỉ một cú nhấp qua ccswitch://.",
         "KEYWORDS": "CC Switch, Claude Code, Codex, Gemini CLI, quản lý CLI"
       },
       "BADGE": "CC Switch",
@@ -1797,7 +1797,7 @@
     "CLAUDE_CODE": {
       "META": {
         "TITLE": "Tích hợp Claude Code - {appName}",
-        "DESCRIPTION": "Dùng {appName} với Claude Code, Cursor và bất kỳ ứng dụng khách tương thích Anthropic nào qua một điểm cuối duy nhất.",
+        "DESCRIPTION": "Dùng Claude Code với {appName} trên Windows, macOS và Linux: đặt base URL Anthropic và khóa, đổi mô hình bằng /model, và thiết lập cả ứng dụng desktop.",
         "KEYWORDS": "Claude Code, Anthropic API, thiết lập Claude Code, Cursor AI, {appName} Claude, Anthropic thay thế"
       },
       "BADGE": "Claude Code",
@@ -1861,7 +1861,7 @@
     "CODEX": {
       "META": {
         "TITLE": "Hướng dẫn thiết lập Codex CLI - {appName}",
-        "DESCRIPTION": "Thiết lập OpenAI Codex CLI với {appName} trên Windows, macOS và Linux, kèm ảnh chụp màn hình.",
+        "DESCRIPTION": "Thiết lập OpenAI Codex CLI với {appName} trên Windows, macOS và Linux: nhà cung cấp tùy chỉnh trong config.toml, khóa qua biến môi trường và ứng dụng desktop.",
         "KEYWORDS": "Codex CLI, OpenAI Codex, hướng dẫn thiết lập Codex, cài Codex CLI, {appName} Codex, agent lập trình OpenAI"
       },
       "BADGE": "Codex CLI",
@@ -1894,7 +1894,7 @@
     "GEMINI_CLI": {
       "META": {
         "TITLE": "Tích hợp Gemini CLI - {appName}",
-        "DESCRIPTION": "Dùng {appName} với Gemini CLI và mọi ứng dụng khách tương thích Google GenAI.",
+        "DESCRIPTION": "Chạy Gemini CLI của Google trên {appName}: đặt GOOGLE_GEMINI_BASE_URL và khóa trong ~/.gemini/.env, một khóa cho mọi mô hình, sửa nhanh lỗi 404 và xác thực.",
         "KEYWORDS": "Gemini CLI, Google AI API, thiết lập Gemini, Google GenAI SDK, {appName} Gemini, Gemini thay thế"
       },
       "BADGE": "Gemini CLI",
@@ -1927,7 +1927,7 @@
     "OPENCLAW": {
       "META": {
         "TITLE": "Tích hợp OpenClaw - {appName}",
-        "DESCRIPTION": "Dùng {appName} làm nhà cung cấp mô hình cho tác nhân OpenClaw của bạn.",
+        "DESCRIPTION": "Dùng {appName} làm nhà cung cấp mô hình tương thích OpenAI cho OpenClaw. Đặt base URL trong openclaw.json và chạy agent của bạn trên Telegram, Discord hoặc Slack.",
         "KEYWORDS": "OpenClaw, thiết lập OpenClaw, agent AI, {appName} OpenClaw, nhà cung cấp mô hình, cổng AI"
       },
       "BADGE": "OpenClaw",
@@ -1955,7 +1955,7 @@
     "HERMES": {
       "META": {
         "TITLE": "Tích hợp Hermes Agent - {appName}",
-        "DESCRIPTION": "Dùng {appName} làm nhà cung cấp mô hình cho Hermes Agent của Nous Research. Một điểm cuối tương thích OpenAI, mọi mô hình.",
+        "DESCRIPTION": "Dùng {appName} làm nhà cung cấp mô hình cho Hermes Agent của Nous Research. Đặt base URL tùy chỉnh trong config.yaml và khóa trong .env, rồi chạy với mọi mô hình.",
         "KEYWORDS": "Hermes Agent, Nous Research, cài đặt Hermes, tác nhân AI, {appName} Hermes, nhà cung cấp mô hình, tương thích OpenAI"
       },
       "BADGE": "Hermes Agent",
@@ -2259,7 +2259,7 @@
     "LOBECHAT": {
       "META": {
         "TITLE": "LobeChat: cài đặt với API tương thích OpenAI miễn phí | {appName}",
-        "DESCRIPTION": "Kết nối LobeChat với {appName} qua Add Custom Provider hoặc biến môi trường Docker. Có sẵn mô hình miễn phí.",
+        "DESCRIPTION": "Kết nối LobeChat với {appName} qua Add Custom Provider hoặc biến môi trường Docker khi tự host. Một khóa tương thích OpenAI cho mọi mô hình, có cả mô hình miễn phí.",
         "KEYWORDS": "LobeChat, nhà cung cấp tùy chỉnh LobeChat, {appName} LobeChat, chat web mã nguồn mở"
       },
       "BADGE": "LobeChat",
@@ -2316,7 +2316,7 @@
     "TYPINGMIND": {
       "META": {
         "TITLE": "TypingMind: cài đặt với API tương thích OpenAI miễn phí | {appName}",
-        "DESCRIPTION": "Kết nối TypingMind với {appName} bằng cách dán một điểm cuối tùy chỉnh tương thích OpenAI. Có sẵn mô hình miễn phí.",
+        "DESCRIPTION": "Kết nối TypingMind với {appName} làm mô hình tùy chỉnh tương thích OpenAI. Đặt endpoint, thêm khóa vào header Authorization rồi kiểm tra. Có mô hình miễn phí.",
         "KEYWORDS": "TypingMind, mô hình tùy chỉnh TypingMind, {appName} TypingMind, frontend web BYOK"
       },
       "BADGE": "TypingMind",
@@ -2337,7 +2337,7 @@
     "BOLTAI": {
       "META": {
         "TITLE": "BoltAI: cài đặt với API tương thích OpenAI miễn phí | {appName}",
-        "DESCRIPTION": "Kết nối BoltAI với {appName} dưới dạng máy chủ tùy chỉnh tương thích OpenAI. Có sẵn mô hình miễn phí.",
+        "DESCRIPTION": "Kết nối BoltAI trên macOS với {appName} làm máy chủ tùy chỉnh tương thích OpenAI. Nhập URL, khóa, ID mô hình và độ dài ngữ cảnh rồi trò chuyện. Có mô hình miễn phí.",
         "KEYWORDS": "BoltAI, BoltAI tương thích OpenAI, {appName} BoltAI, trợ lý AI macOS"
       },
       "BADGE": "BoltAI",
@@ -2356,7 +2356,7 @@
     "PAGE_ASSIST": {
       "META": {
         "TITLE": "Page Assist: cài đặt với API tương thích OpenAI miễn phí | {appName}",
-        "DESCRIPTION": "Kết nối Page Assist với {appName} dưới dạng API tùy chỉnh tương thích OpenAI trong bảng bên của trình duyệt. Có sẵn mô hình miễn phí.",
+        "DESCRIPTION": "Kết nối tiện ích trình duyệt Page Assist với {appName} làm API tùy chỉnh tương thích OpenAI. Thêm base URL và khóa rồi chat ở bảng bên với mô hình miễn phí.",
         "KEYWORDS": "Page Assist, Page Assist tương thích OpenAI, {appName} Page Assist, tiện ích AI trình duyệt"
       },
       "BADGE": "Page Assist",
@@ -2377,7 +2377,7 @@
     "CHATBOX": {
       "META": {
         "TITLE": "Chatbox: cài đặt với API tương thích OpenAI miễn phí | {appName}",
-        "DESCRIPTION": "Kết nối Chatbox với {appName} bằng chế độ OpenAI API Compatible. Chia URL thành Host và Path. Có sẵn mô hình miễn phí.",
+        "DESCRIPTION": "Kết nối Chatbox với {appName} ở chế độ OpenAI API Compatible. Tách URL thành API Host và API Path, thêm khóa và mô hình rồi trò chuyện. Có mô hình miễn phí.",
         "KEYWORDS": "Chatbox, Chatbox tương thích OpenAI, {appName} Chatbox, máy khách chat đa nền tảng"
       },
       "BADGE": "Chatbox",
@@ -2398,7 +2398,7 @@
     "BIG_AGI": {
       "META": {
         "TITLE": "Big-AGI: cài đặt với API tương thích OpenAI miễn phí | {appName}",
-        "DESCRIPTION": "Kết nối Big-AGI với {appName} dưới dạng một nguồn OpenAI. Big-AGI sẽ tải danh mục. Có sẵn mô hình miễn phí.",
+        "DESCRIPTION": "Kết nối Big-AGI với {appName} làm nguồn OpenAI tùy chỉnh. Nhập khóa và endpoint, Big-AGI sẽ tự tải toàn bộ danh mục mô hình cho bạn. Có mô hình miễn phí.",
         "KEYWORDS": "Big-AGI, nguồn OpenAI Big-AGI, {appName} Big-AGI, bàn làm việc AI web"
       },
       "BADGE": "Big-AGI",
@@ -2417,7 +2417,7 @@
     "OPENCODE": {
       "META": {
         "TITLE": "Hướng dẫn cài đặt OpenCode | {appName}",
-        "DESCRIPTION": "Kết nối OpenCode với {appName} bằng một nhà cung cấp tùy chỉnh tương thích OpenAI trong opencode.json.",
+        "DESCRIPTION": "Kết nối OpenCode với {appName} qua nhà cung cấp tùy chỉnh tương thích OpenAI trong opencode.json. Sao chép cấu hình, ghi đúng ID mô hình, tránh trùng tên registry.",
         "KEYWORDS": "OpenCode, cài đặt OpenCode, nhà cung cấp OpenCode, {appName} OpenCode, tác nhân lập trình, tương thích OpenAI"
       },
       "BADGE": "OpenCode",
@@ -2440,7 +2440,7 @@
     "KILO_CODE": {
       "META": {
         "TITLE": "Hướng dẫn cài đặt Kilo Code | {appName}",
-        "DESCRIPTION": "Kết nối Kilo Code với {appName} bằng một nhà cung cấp tùy chỉnh tương thích OpenAI trong thanh bên VSCode.",
+        "DESCRIPTION": "Kết nối Kilo Code trong VSCode với {appName} qua nhà cung cấp tương thích OpenAI. Dán giá trị, giữ bật công cụ và lập trình với mọi mô hình, miễn phí hay trả phí.",
         "KEYWORDS": "Kilo Code, cài đặt Kilo Code, tác nhân lập trình VSCode, {appName} Kilo Code, nhà cung cấp tùy chỉnh, tương thích OpenAI"
       },
       "BADGE": "Kilo Code",
@@ -2464,7 +2464,7 @@
     "ZED": {
       "META": {
         "TITLE": "Hướng dẫn cài đặt Zed IDE | {appName}",
-        "DESCRIPTION": "Kết nối tác nhân của trình soạn thảo Zed với {appName} bằng một nhà cung cấp tùy chỉnh tương thích OpenAI.",
+        "DESCRIPTION": "Kết nối bảng agent của Zed với {appName} làm nhà cung cấp tùy chỉnh tương thích OpenAI. Cài đặt từng bước, danh sách mô hình, mẹo keychain, có mô hình miễn phí.",
         "KEYWORDS": "Zed, Zed IDE, tác nhân Zed, {appName} Zed, nhà cung cấp tùy chỉnh, trình soạn thảo tương thích OpenAI"
       },
       "BADGE": "Zed IDE",
@@ -2485,7 +2485,7 @@
     "CLINE": {
       "META": {
         "TITLE": "Hướng dẫn cài đặt Cline | {appName}",
-        "DESCRIPTION": "Kết nối Cline với {appName} dưới dạng nhà cung cấp OpenAI Compatible để nó đọc, sửa và chạy mã với mọi mô hình.",
+        "DESCRIPTION": "Kết nối Cline trong VSCode với {appName} làm nhà cung cấp OpenAI Compatible. Chạy vòng lặp agent đầy đủ để đọc, sửa và chạy code với mọi mô hình, kể cả miễn phí.",
         "KEYWORDS": "Cline, cài đặt Cline, tác nhân tự động VSCode, {appName} Cline, Tương thích OpenAI, tác nhân lập trình"
       },
       "BADGE": "Cline",
@@ -2527,7 +2527,7 @@
     "CONTINUE_DEV": {
       "META": {
         "TITLE": "Hướng dẫn cài đặt Continue.dev | {appName}",
-        "DESCRIPTION": "Kết nối Continue.dev với {appName} bằng một config.yaml có thể đưa vào quản lý phiên bản. Continue nạp lại mục mô hình ngay lập tức.",
+        "DESCRIPTION": "Kết nối Continue.dev với {appName} bằng một mục mô hình trong config.yaml. Tải lại tức thì trong VSCode và JetBrains, một khóa tương thích OpenAI, mô hình miễn phí.",
         "KEYWORDS": "Continue.dev, cài đặt Continue, trợ lý VSCode JetBrains, {appName} Continue, config.yaml, tương thích OpenAI"
       },
       "BADGE": "Continue.dev",
@@ -2567,7 +2567,7 @@
     "NEVIKA": {
       "META": {
         "TITLE": "Hướng dẫn tích hợp Nevika | {appName}",
-        "DESCRIPTION": "Kết nối Nevika với {appName} dưới dạng proxy tùy chỉnh. Một khóa, hàng trăm mô hình.",
+        "DESCRIPTION": "Kết nối Nevika với {appName} dưới dạng proxy tùy chỉnh cho nhập vai AI. Dán khóa vào trang thiết lập đã điền sẵn và chọn mô hình, có cả mô hình miễn phí.",
         "KEYWORDS": "Nevika, custom proxy Nevika, API key Nevika, {appName} Nevika, nhập vai AI, chat nhân vật"
       },
       "BADGE": "Nevika",
@@ -2591,7 +2591,7 @@
     "CURSOR": {
       "META": {
         "TITLE": "Hướng dẫn cài đặt Cursor | {appName}",
-        "DESCRIPTION": "Dùng các mô hình {appName} trong Chat và Agent của Cursor với khóa API của riêng bạn và cài đặt Override OpenAI Base URL.",
+        "DESCRIPTION": "Dùng mô hình {appName} trong Chat và Agent của Cursor: dán khóa, bật Override OpenAI Base URL và thêm ID mô hình. Gồm giới hạn của gói trả phí và ID claude-.",
         "KEYWORDS": "Cursor, mô hình tùy chỉnh Cursor, Cursor OpenAI base URL, Cursor BYOK, {appName} Cursor, khóa API Cursor"
       },
       "BADGE": "Cursor",
@@ -2613,7 +2613,7 @@
     "GITHUB_COPILOT": {
       "META": {
         "TITLE": "Hướng dẫn cài đặt GitHub Copilot trong VS Code | {appName}",
-        "DESCRIPTION": "Thêm {appName} vào GitHub Copilot Chat trong VS Code dưới dạng mô hình Custom Endpoint với khóa API của riêng bạn.",
+        "DESCRIPTION": "Thêm {appName} vào GitHub Copilot Chat trong VS Code làm Custom Endpoint với khóa API của riêng bạn. Dùng mọi mô hình ở chế độ chat và agent, không cần gói Copilot.",
         "KEYWORDS": "GitHub Copilot, mô hình tùy chỉnh VS Code Copilot, Copilot dùng khóa riêng, Copilot Custom Endpoint, VS Code BYOK, {appName} Copilot"
       },
       "BADGE": "GitHub Copilot",
@@ -2635,7 +2635,7 @@
     "N8N": {
       "META": {
         "TITLE": "Hướng dẫn cài đặt n8n | {appName}",
-        "DESCRIPTION": "Dùng các mô hình {appName} trong quy trình AI Agent và chuỗi LLM của n8n thông qua Base URL của thông tin xác thực OpenAI.",
+        "DESCRIPTION": "Dùng mô hình {appName} trong workflow n8n với AI Agent và Basic LLM Chain. Đặt Base URL trong thông tin xác thực OpenAI và tắt Responses API để chạy mọi mô hình.",
         "KEYWORDS": "n8n, n8n OpenAI base URL, LLM tùy chỉnh n8n, n8n AI Agent, n8n tương thích OpenAI, {appName} n8n"
       },
       "BADGE": "n8n",
@@ -2656,7 +2656,7 @@
     "DIFY": {
       "META": {
         "TITLE": "Hướng dẫn cài đặt Dify | {appName}",
-        "DESCRIPTION": "Kết nối Dify với {appName} bằng plugin {appName} từ Dify Marketplace hoặc nhà cung cấp OpenAI-API-compatible.",
+        "DESCRIPTION": "Kết nối Dify với {appName} bằng plugin Marketplace hoặc nhà cung cấp OpenAI-API-compatible. Thêm khóa và mô hình, bật gọi công cụ và dùng chúng trong ứng dụng.",
         "KEYWORDS": "Dify, nhà cung cấp mô hình Dify, Dify OpenAI-API-compatible, plugin Dify, LLM tùy chỉnh Dify, {appName} Dify"
       },
       "BADGE": "Dify",
@@ -2677,7 +2677,7 @@
     "JAN": {
       "META": {
         "TITLE": "Hướng dẫn cài đặt Jan | {appName}",
-        "DESCRIPTION": "Thêm {appName} vào ứng dụng Jan trên máy tính dưới dạng nhà cung cấp tùy chỉnh tương thích OpenAI.",
+        "DESCRIPTION": "Thêm {appName} vào ứng dụng Jan trên máy tính làm nhà cung cấp tùy chỉnh tương thích OpenAI. Mô hình hiện cạnh mô hình cục bộ, kèm mẹo công cụ, thị giác, base URL.",
         "KEYWORDS": "Jan, Jan AI, nhà cung cấp tùy chỉnh Jan, Jan tương thích OpenAI, mô hình từ xa Jan, {appName} Jan"
       },
       "BADGE": "Jan",
@@ -2698,7 +2698,7 @@
     "MSTY": {
       "META": {
         "TITLE": "Hướng dẫn cài đặt Msty Studio | {appName}",
-        "DESCRIPTION": "Thêm {appName} vào Msty Studio dưới dạng nhà cung cấp mô hình tương thích OpenAI.",
+        "DESCRIPTION": "Thêm {appName} vào Msty Studio làm nhà cung cấp tương thích OpenAI: dán base URL và khóa, tải danh sách mô hình và trò chuyện với mô hình miễn phí lẫn trả phí.",
         "KEYWORDS": "Msty, Msty Studio, Msty tương thích OpenAI, nhà cung cấp từ xa Msty, mô hình tùy chỉnh Msty, {appName} Msty"
       },
       "BADGE": "Msty",
@@ -2719,7 +2719,7 @@
     "OBSIDIAN_COPILOT": {
       "META": {
         "TITLE": "Hướng dẫn cài đặt Obsidian Copilot | {appName}",
-        "DESCRIPTION": "Thêm {appName} vào plugin Copilot cho Obsidian dưới dạng nhà cung cấp BYOK tùy chỉnh.",
+        "DESCRIPTION": "Thêm {appName} vào Copilot for Obsidian làm nhà cung cấp BYOK tùy chỉnh và trò chuyện với ghi chú bằng mọi mô hình. Không cần giấy phép Copilot, có mô hình miễn phí.",
         "KEYWORDS": "Obsidian Copilot, Copilot for Obsidian, plugin AI Obsidian, nhà cung cấp tùy chỉnh Obsidian, Obsidian BYOK, {appName} Obsidian"
       },
       "BADGE": "Obsidian Copilot",
@@ -2740,7 +2740,7 @@
     "AGNAI": {
       "META": {
         "TITLE": "Hướng dẫn cài đặt Agnai | {appName}",
-        "DESCRIPTION": "Kết nối Agnai với {appName} dưới dạng nhà cung cấp OpenAI Compat để trò chuyện với nhân vật bằng mọi mô hình.",
+        "DESCRIPTION": "Kết nối Agnai với {appName} làm nhà cung cấp OpenAI Compat để chat với nhân vật. Thêm base URL và khóa, kiểm tra kết nối, rồi dùng mọi mô hình trong preset của bạn.",
         "KEYWORDS": "Agnai, Agnaistic, Agnai tương thích OpenAI, nhà cung cấp tùy chỉnh Agnai, proxy Agnai, {appName} Agnai"
       },
       "BADGE": "Agnai",
@@ -5304,7 +5304,7 @@
       "STAT_PROVIDERS": "Nha cung cap duoc theo doi",
       "STAT_PASS_RATE": "Ty le dat trung binh",
       "META_TITLE": "Xep hang tinh xac thuc mo hinh | {appName}",
-      "META_DESCRIPTION": "Xem nha cung cap API nao phuc vu dung mo hinh that ma ho tuyen bo, xep hang theo ty le dat tat dinh.",
+      "META_DESCRIPTION": "Xem nhà cung cấp API AI nào phục vụ đúng mô hình thật mà họ tuyên bố. {appName} xếp hạng theo tỷ lệ đạt dấu vân tay tất định, kèm bằng chứng cho từng kết luận.",
       "DISCLAIMER": "Mọi kết quả đã công bố đều được chạy lại trên máy chủ của chúng tôi trước khi được tính, và mỗi phán quyết đều liên kết tới bằng chứng chính xác đã tạo ra nó. Một kết quả mà bạn cho là sai có thể được khiếu nại.",
       "REPORT_DISCORD": "Báo cáo trên Discord",
       "REPORT_GITHUB": "Mở một issue trên GitHub",
@@ -5672,7 +5672,7 @@
       "ALT_EDITOR": "Trình soạn persona với tiêu đề hiển thị, tên, mô tả và công tắc persona mặc định",
       "META": {
         "TITLE": "Persona trong {appName}",
-        "DESCRIPTION": "Tạo danh tính bạn nhập vai: các trường persona, persona mặc định và nhập từ ứng dụng khác.",
+        "DESCRIPTION": "Tạo persona bạn nhập vai trong {appName}: tên, mô tả, ảnh đại diện và danh hiệu, persona mặc định cho chat mới, và nhập từ các frontend nhập vai khác.",
         "KEYWORDS": "persona, danh tính người dùng, persona nhập vai, persona mặc định"
       },
       "TITLE": "Persona",
@@ -5731,7 +5731,7 @@
     "CARDS": {
       "META": {
         "TITLE": "Thẻ (Gói loadout) trong {appName}",
-        "DESCRIPTION": "Gói persona, nhân vật và sổ tri thức thành một thẻ loadout có thể áp dụng với ngữ nghĩa thay thế hoặc gộp.",
+        "DESCRIPTION": "Gói persona, nhân vật và sổ tri thức vào một thẻ trong {appName} rồi áp dụng cả bộ bằng một cú nhấp, ở chế độ thay thế hoặc gộp. Thẻ xuất ra dưới dạng JSON.",
         "KEYWORDS": "gói loadout, áp dụng thẻ, gói bối cảnh"
       },
       "TITLE": "Thẻ",
@@ -5780,7 +5780,7 @@
     "PROMPT_TEMPLATE": {
       "META": {
         "TITLE": "Trình biên tập mẫu prompt trong {appName}",
-        "DESCRIPTION": "Sắp xếp lại bằng cách kéo các khối của prompt đã lắp ráp: khe, khối tự do và điểm đánh dấu lịch sử chat.",
+        "DESCRIPTION": "Sắp xếp lại prompt được lắp ráp trong {appName} bằng cách kéo khối: khe engine, khối văn bản của bạn và điểm đánh dấu lịch sử chat. Xem thứ tự mặc định hoặc đặt lại.",
         "KEYWORDS": "mẫu prompt, thứ tự prompt, khối prompt, cấu trúc prompt tùy chỉnh"
       },
       "TITLE": "Mẫu prompt",
@@ -5802,7 +5802,7 @@
     "GROUP_CHATS": {
       "META": {
         "TITLE": "Chat nhóm trong {appName}",
-        "DESCRIPTION": "Nhiều nhân vật trong một cuộc trò chuyện: xoay vòng người nói, ưu tiên nhắc tên, và cổng prompt theo từng nhân vật.",
+        "DESCRIPTION": "Nhiều nhân vật trong một chat {appName}: xoay vòng người nói theo nhắc tên và độ hoạt ngôn, lọc prompt theo nhân vật để tiết kiệm token, mẹo về người dẫn truyện.",
         "KEYWORDS": "chat nhóm, nhiều nhân vật, xoay vòng người nói, thứ tự lượt"
       },
       "TITLE": "Chat nhóm",
@@ -5821,7 +5821,7 @@
     "MULTIPLAYER": {
       "META": {
         "TITLE": "Phòng nhiều người trong {appName}",
-        "DESCRIPTION": "Chia sẻ cuộc trò chuyện nhập vai với bạn bè: phòng ngang hàng, liên kết mời, chủ phòng duyệt và lần lượt theo lượt.",
+        "DESCRIPTION": "Chơi chung một chat nhập vai với bạn bè trong {appName}: mở phòng ngang hàng, chia sẻ link mời, cho khách vào và chơi lần lượt. Khách không cần tài khoản hay khóa.",
         "KEYWORDS": "nhập vai nhiều người, chat AI chia sẻ, RP ngang hàng, phòng nhập vai nhóm, chat AI cộng tác"
       },
       "TITLE": "Phòng nhiều người",
@@ -5884,7 +5884,7 @@
     "REGEX_SCRIPTS": {
       "META": {
         "TITLE": "Kịch bản Regex trong {appName}",
-        "DESCRIPTION": "Đường ống tìm và thay thế trên văn bản đầu vào, đầu ra, prompt và hiển thị, với các chỉ thị thứ tự và hành động.",
+        "DESCRIPTION": "Script regex trong chat {appName}: tìm và thay thế trên văn bản đầu vào, đầu ra, prompt và hiển thị, với thẻ thứ tự, chỉ thị hành động và nhập script SillyTavern.",
         "KEYWORDS": "kịch bản regex, customscript, editdisplay, editoutput, biến đổi văn bản"
       },
       "TITLE": "Kịch bản Regex",
@@ -5909,7 +5909,7 @@
     "TRIGGERS_AND_LUA": {
       "META": {
         "TITLE": "Kịch bản Trigger và Lua trong {appName}",
-        "DESCRIPTION": "Tự động hóa hướng sự kiện: máy ảo trigger, hiệu ứng cấp thấp, và môi trường Lua nhúng với các móc chỉnh sửa.",
+        "DESCRIPTION": "Tự động hóa nhân vật {appName} bằng script trigger tương thích RisuAI, hiệu ứng cấp thấp và môi trường Lua nhúng với các móc viết lại văn bản ngay khi đang chạy.",
         "KEYWORDS": "kịch bản trigger, kịch bản lua, móc editoutput, tự động hóa nhập vai"
       },
       "TITLE": "Trigger & Lua",
@@ -5931,7 +5931,7 @@
     "PLUGINS": {
       "META": {
         "TITLE": "Tiện ích JavaScript trong {appName}",
-        "DESCRIPTION": "JavaScript của bạn trong môi trường cách ly: bộ xử lý quanh mỗi tin nhắn, API tiện ích và tương thích với kịch bản JanitorAI.",
+        "DESCRIPTION": "Viết plugin JavaScript chạy trong sandbox cho chat {appName}: trình xử lý hook quanh mỗi tin nhắn, API uno để đọc và ghi chat, cùng hỗ trợ script JanitorAI.",
         "KEYWORDS": "tiện ích javascript, kịch bản janitorai, tự động hóa trò chuyện, môi trường cách ly"
       },
       "TITLE": "Tiện ích",
@@ -5956,7 +5956,7 @@
     "MEMORY_AND_CONTEXT": {
       "META": {
         "TITLE": "Bộ nhớ, Truy hồi và Tìm kiếm web trong {appName}",
-        "DESCRIPTION": "Tóm tắt câu chuyện cuộn, truy hồi ngữ nghĩa các khoảnh khắc quá khứ, và tìm kiếm web được cổng bởi bộ phân loại.",
+        "DESCRIPTION": "Cách {appName} giữ mạch truyện nhập vai dài: tóm tắt cuộn vượt quá cửa sổ ngữ cảnh, truy hồi các khoảnh khắc cũ và tìm kiếm web tùy chọn cho từng cuộc chat.",
         "KEYWORDS": "bộ nhớ chat, tóm tắt cuộn, truy hồi ngữ nghĩa, embedding, tìm kiếm web"
       },
       "TITLE": "Bộ nhớ & Ngữ cảnh",
@@ -5975,7 +5975,7 @@
     "IMAGES": {
       "META": {
         "TITLE": "Tạo ảnh trong Chat {appName}",
-        "DESCRIPTION": "Minh họa cảnh sau các phản hồi: chọn mô hình, ảnh tham chiếu, mẫu phong cách, xem trước prompt và phương tiện nội tuyến.",
+        "DESCRIPTION": "Tạo hình minh họa cảnh trong chat {appName} sau mỗi câu trả lời: chọn mô hình ảnh hoặc mô hình miễn phí, thêm ảnh tham chiếu và mẫu phong cách, xem trước prompt.",
         "KEYWORDS": "tạo ảnh, minh họa cảnh, ảnh tham chiếu, mẫu phong cách, ảnh inlay"
       },
       "TITLE": "Ảnh",
@@ -6026,7 +6026,7 @@
     "DATA": {
       "META": {
         "TITLE": "Dữ liệu, Xuất và Kiểm tra trong {appName}",
-        "DESCRIPTION": "Định dạng xuất cuộc trò chuyện, khả năng chuyển thực thể, trình kiểm tra nhật ký yêu cầu và chạy khan, cùng studio cơ sở dữ liệu cục bộ.",
+        "DESCRIPTION": "Xuất chat và nhân vật {appName} ở các định dạng phổ biến, kiểm tra mọi yêu cầu qua nhật ký và chạy thử miễn phí, duyệt cơ sở dữ liệu chat cục bộ trong studio.",
         "KEYWORDS": "xuất chat, SillyTavern JSONL, nhật ký yêu cầu, chạy khan, cơ sở dữ liệu cục bộ, khả năng chuyển dữ liệu"
       },
       "TITLE": "Dữ liệu của bạn",
@@ -6221,7 +6221,7 @@
     "QUICKSTART": {
       "META": {
         "TITLE": "Bắt đầu nhanh: yêu cầu đầu tiên của bạn trong 5 phút",
-        "DESCRIPTION": "Tạo một khóa API {appName} và thực hiện yêu cầu tương thích OpenAI đầu tiên của bạn bằng curl, Python hoặc Node.js.",
+        "DESCRIPTION": "Tạo khóa API {appName} và gửi yêu cầu tương thích OpenAI đầu tiên bằng curl, Python hoặc Node.js trong năm phút. Mô hình có đuôi :free hoàn toàn miễn phí.",
         "KEYWORDS": "bắt đầu nhanh, khóa API, base URL, tương thích OpenAI, yêu cầu đầu tiên, curl, Python, Node.js"
       },
       "TITLE": "Bắt đầu nhanh",
@@ -6486,7 +6486,7 @@
     "ACCOUNT_AND_BILLING": {
       "META": {
         "TITLE": "Tài khoản, số dư & thanh toán",
-        "DESCRIPTION": "Số dư {appName} hoạt động như thế nào: nạp tiền, tín dụng miễn phí, giới hạn khóa API, phí theo mỗi yêu cầu và nhật ký sử dụng.",
+        "DESCRIPTION": "Số dư {appName} hoạt động thế nào: nạp tiền một lần bằng thẻ hoặc tiền mã hóa, tín dụng miễn phí từ thưởng Discord, hạn mức chi tiêu theo khóa và nhật ký yêu cầu.",
         "KEYWORDS": "số dư, nạp tiền, thanh toán, khóa API, nhật ký sử dụng, tín dụng miễn phí, tiếp thị liên kết"
       },
       "TITLE": "Tài khoản & Thanh toán",

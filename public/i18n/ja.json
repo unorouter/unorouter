@@ -451,7 +451,7 @@
       "PRESET_IMAGE_DESC": "コストと品質で優れた画像生成モデル。",
       "META": {
         "TITLE": "AIモデルを比較 - {appName}",
-        "DESCRIPTION": "{appName}で価格、コンテキスト長、機能、利用状況によりAIモデルを並べて比較。",
+        "DESCRIPTION": "{appName} で AI モデルを並べて比較。価格、コンテキスト長、機能、レイテンシ、利用状況を一覧でき、フラッグシップ、低価格、コーディングのプリセットから始められます。",
         "KEYWORDS": "AIモデル比較, モデル比較, LLM比較, AI価格",
         "TITLE_COMBO": "{models} - AIモデル比較",
         "DESCRIPTION_COMBO": "{models}を価格、コンテキスト長、機能、利用状況で比較。"
@@ -1748,7 +1748,7 @@
     "CC_SWITCH": {
       "META": {
         "TITLE": "CC Switch 連携ガイド | {appName}",
-        "DESCRIPTION": "CC Switch と {appName} を組み合わせ、AI CLI を統合管理しましょう",
+        "DESCRIPTION": "CC Switch と {appName} で Claude Code、Codex、Gemini CLI のプロバイダーを一括管理。ccswitch:// リンクで設定をワンクリック導入。",
         "KEYWORDS": "CC Switch, Claude Code, Codex, Gemini CLI, CLI 管理"
       },
       "BADGE": "CC Switch",
@@ -1797,7 +1797,7 @@
     "CLAUDE_CODE": {
       "META": {
         "TITLE": "Claude Code 連携 {appName}",
-        "DESCRIPTION": "Claude Code、Cursor、その他 Anthropic 互換クライアントを、単一のエンドポイント経由で {appName} と一緒に使えます。",
+        "DESCRIPTION": "Windows、macOS、Linux の Claude Code を {appName} に接続。Anthropic のベース URL とキーを設定、/model で切替。デスクトップ版も。",
         "KEYWORDS": "Claude Code, Anthropic API, Claude Code 設定, Cursor AI, {appName} Claude, Anthropic 代替"
       },
       "BADGE": "Claude Code",
@@ -1861,7 +1861,7 @@
     "CODEX": {
       "META": {
         "TITLE": "Codex CLI セットアップガイド {appName}",
-        "DESCRIPTION": "Windows、macOS、Linux で OpenAI Codex CLI を {appName} と一緒に設定します。スクリーンショット付き。",
+        "DESCRIPTION": "Windows、macOS、Linux で Codex CLI を {appName} と設定。config.toml のカスタムプロバイダー、環境変数のキー、デスクトップアプリまで解説。",
         "KEYWORDS": "Codex CLI, OpenAI Codex, Codex セットアップガイド, Codex CLI インストール, {appName} Codex, OpenAI コーディングエージェント"
       },
       "BADGE": "Codex CLI",
@@ -1894,7 +1894,7 @@
     "GEMINI_CLI": {
       "META": {
         "TITLE": "Gemini CLI 連携 {appName}",
-        "DESCRIPTION": "{appName} を Gemini CLI や Google GenAI 互換クライアントと一緒に使います。",
+        "DESCRIPTION": "{appName} で Gemini CLI を使う。~/.gemini/.env に GOOGLE_GEMINI_BASE_URL とキーを設定し全モデルへ。404 や認証エラーの対処も。",
         "KEYWORDS": "Gemini CLI, Google AI API, Gemini セットアップ, Google GenAI SDK, {appName} Gemini, Gemini 代替"
       },
       "BADGE": "Gemini CLI",
@@ -1927,7 +1927,7 @@
     "OPENCLAW": {
       "META": {
         "TITLE": "OpenClaw 連携 {appName}",
-        "DESCRIPTION": "{appName} を OpenClaw エージェントのモデルプロバイダーとして使います。",
+        "DESCRIPTION": "{appName} を OpenClaw の OpenAI 互換プロバイダーに。openclaw.json でベース URL を設定し、Telegram、Discord、Slack で稼働。",
         "KEYWORDS": "OpenClaw, OpenClaw 設定, AI エージェント, {appName} OpenClaw, モデルプロバイダー, AI ゲートウェイ"
       },
       "BADGE": "OpenClaw",
@@ -1955,7 +1955,7 @@
     "HERMES": {
       "META": {
         "TITLE": "Hermes Agent連携 - {appName}",
-        "DESCRIPTION": "{appName} を Nous Research の Hermes Agent のモデルプロバイダーに。OpenAI互換エンドポイント1つで全モデルへ。",
+        "DESCRIPTION": "{appName} を Nous Research の Hermes Agent のプロバイダーに。config.yaml にベース URL、.env にキーを設定し、どのモデルでも実行。",
         "KEYWORDS": "Hermes Agent, Nous Research, Hermesセットアップ, AIエージェント, {appName} Hermes, モデルプロバイダー, OpenAI互換"
       },
       "BADGE": "Hermes Agent",
@@ -2259,7 +2259,7 @@
     "LOBECHAT": {
       "META": {
         "TITLE": "LobeChatの設定：無料のOpenAI互換API | {appName}",
-        "DESCRIPTION": "LobeChat を Add Custom Provider または Docker の環境変数で {appName} に接続します。無料モデルも使えます。",
+        "DESCRIPTION": "Add Custom Provider かセルフホスト用 Docker 環境変数で LobeChat を {appName} に接続。OpenAI 互換キー1つで全モデル、無料モデルも。",
         "KEYWORDS": "LobeChat, LobeChat カスタムプロバイダー, {appName} LobeChat, オープンソース Web チャット"
       },
       "BADGE": "LobeChat",
@@ -2316,7 +2316,7 @@
     "TYPINGMIND": {
       "META": {
         "TITLE": "TypingMindの設定：無料のOpenAI互換API | {appName}",
-        "DESCRIPTION": "カスタムのOpenAI互換エンドポイントを貼り付けて TypingMind を {appName} に接続します。無料モデルも使えます。",
+        "DESCRIPTION": "TypingMind を OpenAI 互換モデルとして {appName} に接続。エンドポイントを設定し、キーを Authorization ヘッダーに入れてテスト。無料モデルも。",
         "KEYWORDS": "TypingMind, TypingMind カスタムモデル, {appName} TypingMind, BYOK Web フロントエンド"
       },
       "BADGE": "TypingMind",
@@ -2337,7 +2337,7 @@
     "BOLTAI": {
       "META": {
         "TITLE": "BoltAIの設定：無料のOpenAI互換API | {appName}",
-        "DESCRIPTION": "BoltAI をカスタムのOpenAI互換サーバーとして {appName} に接続します。無料モデルも使えます。",
+        "DESCRIPTION": "macOS の BoltAI を OpenAI 互換サーバーとして {appName} に接続。URL、キー、モデル ID、コンテキスト長を入力してチャット。無料モデルも使えます。",
         "KEYWORDS": "BoltAI, BoltAI OpenAI 互換, {appName} BoltAI, macOS AI アシスタント"
       },
       "BADGE": "BoltAI",
@@ -2356,7 +2356,7 @@
     "PAGE_ASSIST": {
       "META": {
         "TITLE": "Page Assistの設定：無料のOpenAI互換API | {appName}",
-        "DESCRIPTION": "Page Assist をブラウザのサイドパネルでカスタムのOpenAI互換APIとして {appName} に接続します。無料モデルも使えます。",
+        "DESCRIPTION": "Page Assist 拡張機能をカスタムの OpenAI 互換 API として {appName} に接続。ベース URL とキーを追加し、サイドパネルで無料モデルとチャット。",
         "KEYWORDS": "Page Assist, Page Assist OpenAI 互換, {appName} Page Assist, ブラウザ AI 拡張機能"
       },
       "BADGE": "Page Assist",
@@ -2377,7 +2377,7 @@
     "CHATBOX": {
       "META": {
         "TITLE": "Chatboxの設定：無料のOpenAI互換API | {appName}",
-        "DESCRIPTION": "OpenAI API Compatible モードで Chatbox を {appName} に接続します。URL を Host と Path に分けます。無料モデルも使えます。",
+        "DESCRIPTION": "OpenAI API Compatible モードで Chatbox を {appName} に接続。URL を API Host と API Path に分け、キーとモデルを追加するだけ。",
         "KEYWORDS": "Chatbox, Chatbox OpenAI 互換, {appName} Chatbox, クロスプラットフォームのチャットクライアント"
       },
       "BADGE": "Chatbox",
@@ -2398,7 +2398,7 @@
     "BIG_AGI": {
       "META": {
         "TITLE": "Big-AGIの設定：無料のOpenAI互換API | {appName}",
-        "DESCRIPTION": "Big-AGI を OpenAI ソースとして {appName} に接続します。Big-AGI がカタログを取得します。無料モデルも使えます。",
+        "DESCRIPTION": "Big-AGI をカスタムの OpenAI ソースとして {appName} に接続。キーとエンドポイントを入力すれば全モデルカタログを自動取得。無料モデルも使えます。",
         "KEYWORDS": "Big-AGI, Big-AGI OpenAI ソース, {appName} Big-AGI, Web AI ワークベンチ"
       },
       "BADGE": "Big-AGI",
@@ -2417,7 +2417,7 @@
     "OPENCODE": {
       "META": {
         "TITLE": "OpenCode セットアップガイド | {appName}",
-        "DESCRIPTION": "opencode.json のカスタムOpenAI互換プロバイダーで OpenCode を {appName} に接続します。",
+        "DESCRIPTION": "opencode.json のカスタム OpenAI 互換プロバイダーで OpenCode を {appName} に接続。設定のコピー、正確なモデル ID、レジストリ名の衝突回避を解説。",
         "KEYWORDS": "OpenCode, OpenCode セットアップ, OpenCode プロバイダー, {appName} OpenCode, コーディングエージェント, OpenAI 互換"
       },
       "BADGE": "OpenCode",
@@ -2440,7 +2440,7 @@
     "KILO_CODE": {
       "META": {
         "TITLE": "Kilo Code セットアップガイド | {appName}",
-        "DESCRIPTION": "VSCode のサイドバーでカスタムのOpenAI互換プロバイダーを使い、Kilo Code を {appName} に接続します。",
+        "DESCRIPTION": "VSCode の Kilo Code を OpenAI 互換プロバイダーで {appName} に接続。値を貼り、ツール対応はオンのまま、無料でも有料でも好きなモデルでコーディング。",
         "KEYWORDS": "Kilo Code, Kilo Code セットアップ, VSCode コーディングエージェント, {appName} Kilo Code, カスタムプロバイダー, OpenAI 互換"
       },
       "BADGE": "Kilo Code",
@@ -2464,7 +2464,7 @@
     "ZED": {
       "META": {
         "TITLE": "Zed IDE セットアップガイド | {appName}",
-        "DESCRIPTION": "カスタムのOpenAI互換プロバイダーで Zed エディタのエージェントを {appName} に接続します。",
+        "DESCRIPTION": "Zed エディタのエージェントパネルをカスタムの OpenAI 互換プロバイダーとして {appName} に接続。設定手順、モデル一覧、キーチェーンのコツを解説。無料モデルも使えます。",
         "KEYWORDS": "Zed, Zed IDE, Zed エージェント, {appName} Zed, カスタムプロバイダー, OpenAI 互換エディター"
       },
       "BADGE": "Zed IDE",
@@ -2485,7 +2485,7 @@
     "CLINE": {
       "META": {
         "TITLE": "Cline セットアップガイド | {appName}",
-        "DESCRIPTION": "Cline を OpenAI Compatible プロバイダーとして {appName} に接続すると、任意のモデルでコードの読み取り、編集、実行ができます。",
+        "DESCRIPTION": "VSCode の Cline を OpenAI Compatible プロバイダーとして {appName} に接続。好きなモデルがコードを読み、編集し、実行。無料モデルも使えます。",
         "KEYWORDS": "Cline, Cline セットアップ, VSCode 自律エージェント, {appName} Cline, OpenAI Compatible, コーディングエージェント"
       },
       "BADGE": "Cline",
@@ -2527,7 +2527,7 @@
     "CONTINUE_DEV": {
       "META": {
         "TITLE": "Continue.dev セットアップガイド | {appName}",
-        "DESCRIPTION": "config.yaml で Continue.dev を {appName} に接続。バージョン管理でき、モデル設定はホットリロードされます。",
+        "DESCRIPTION": "config.yaml のモデル項目で Continue.dev を {appName} に接続。VSCode と JetBrains でホットリロード。OpenAI 互換キー1つで利用可。",
         "KEYWORDS": "Continue.dev, Continue セットアップ, VSCode JetBrains アシスタント, {appName} Continue, config.yaml, OpenAI 互換"
       },
       "BADGE": "Continue.dev",
@@ -2567,7 +2567,7 @@
     "NEVIKA": {
       "META": {
         "TITLE": "Nevika 連携ガイド | {appName}",
-        "DESCRIPTION": "Nevika をカスタムプロキシとして {appName} に接続します。キー1つで数百のモデルへ。",
+        "DESCRIPTION": "AI ロールプレイ用に Nevika をカスタムプロキシとして {appName} に接続。入力済みの設定ページにキーを貼り付け、一覧からモデルを選ぶだけ。無料モデルも使えます。",
         "KEYWORDS": "Nevika, Nevika カスタムプロキシ, Nevika APIキー, {appName} Nevika, AIロールプレイ, キャラクターチャット"
       },
       "BADGE": "Nevika",
@@ -2591,7 +2591,7 @@
     "CURSOR": {
       "META": {
         "TITLE": "Cursor セットアップガイド | {appName}",
-        "DESCRIPTION": "自分の API キーと Override OpenAI Base URL 設定を使って、Cursor の Chat と Agent で {appName} のモデルを利用します。",
+        "DESCRIPTION": "Cursor の Chat と Agent で {appName} を利用。キーを貼り、Override OpenAI Base URL をオンにしてモデル ID を追加。プラン制限も解説。",
         "KEYWORDS": "Cursor, Cursor カスタムモデル, Cursor OpenAI ベース URL, Cursor BYOK, {appName} Cursor, Cursor API キー"
       },
       "BADGE": "Cursor",
@@ -2613,7 +2613,7 @@
     "GITHUB_COPILOT": {
       "META": {
         "TITLE": "VS Code の GitHub Copilot セットアップガイド | {appName}",
-        "DESCRIPTION": "自分の API キーを使い、{appName} を VS Code の GitHub Copilot Chat に Custom Endpoint モデルとして追加します。",
+        "DESCRIPTION": "自分のキーで {appName} を VS Code の GitHub Copilot Chat に Custom Endpoint として追加。エージェントモード対応、プラン不要。",
         "KEYWORDS": "GitHub Copilot, VS Code Copilot カスタムモデル, Copilot 自分のキーを使う, Copilot Custom Endpoint, VS Code BYOK, {appName} Copilot"
       },
       "BADGE": "GitHub Copilot",
@@ -2635,7 +2635,7 @@
     "N8N": {
       "META": {
         "TITLE": "n8n セットアップガイド | {appName}",
-        "DESCRIPTION": "OpenAI 認証情報の Base URL を通じて、n8n の AI Agent や LLM チェーンのワークフローで {appName} のモデルを使います。",
+        "DESCRIPTION": "n8n の AI Agent と Basic LLM Chain で {appName} を利用。OpenAI 認証情報に Base URL を設定し、Responses API はオフに。",
         "KEYWORDS": "n8n, n8n OpenAI ベース URL, n8n カスタム LLM, n8n AI Agent, n8n OpenAI 互換, {appName} n8n"
       },
       "BADGE": "n8n",
@@ -2656,7 +2656,7 @@
     "DIFY": {
       "META": {
         "TITLE": "Dify セットアップガイド | {appName}",
-        "DESCRIPTION": "Dify Marketplace の {appName} プラグイン、または OpenAI-API-compatible プロバイダーで Dify を {appName} に接続します。",
+        "DESCRIPTION": "Marketplace プラグインか OpenAI-API-compatible プロバイダーで Dify を {appName} に接続。キーとモデルを追加し、ツール呼び出しを有効化。",
         "KEYWORDS": "Dify, Dify モデルプロバイダー, Dify OpenAI-API-compatible, Dify プラグイン, Dify カスタム LLM, {appName} Dify"
       },
       "BADGE": "Dify",
@@ -2677,7 +2677,7 @@
     "JAN": {
       "META": {
         "TITLE": "Jan セットアップガイド | {appName}",
-        "DESCRIPTION": "{appName} を Jan デスクトップアプリにカスタムの OpenAI 互換プロバイダーとして追加します。",
+        "DESCRIPTION": "{appName} を Jan にカスタムの OpenAI 互換プロバイダーとして追加。ローカルモデルと並んで表示され、ツール、画像認識、ベース URL のコツも紹介。",
         "KEYWORDS": "Jan, Jan AI, Jan カスタムプロバイダー, Jan OpenAI 互換, Jan リモートモデル, {appName} Jan"
       },
       "BADGE": "Jan",
@@ -2698,7 +2698,7 @@
     "MSTY": {
       "META": {
         "TITLE": "Msty Studio セットアップガイド | {appName}",
-        "DESCRIPTION": "{appName} を Msty Studio に OpenAI 互換のモデルプロバイダーとして追加します。",
+        "DESCRIPTION": "{appName} を Msty Studio に OpenAI 互換プロバイダーとして追加。ベース URL とキーを貼ってモデル一覧を取得し、無料と有料のモデルとチャット。",
         "KEYWORDS": "Msty, Msty Studio, Msty OpenAI 互換, Msty リモートプロバイダー, Msty カスタムモデル, {appName} Msty"
       },
       "BADGE": "Msty",
@@ -2719,7 +2719,7 @@
     "OBSIDIAN_COPILOT": {
       "META": {
         "TITLE": "Obsidian Copilot セットアップガイド | {appName}",
-        "DESCRIPTION": "{appName} を Obsidian の Copilot プラグインにカスタムの BYOK プロバイダーとして追加します。",
+        "DESCRIPTION": "{appName} を Copilot for Obsidian に BYOK プロバイダーとして追加し、好きなモデルでノートと対話。Copilot のライセンス不要、無料モデルも。",
         "KEYWORDS": "Obsidian Copilot, Copilot for Obsidian, Obsidian AI プラグイン, Obsidian カスタムプロバイダー, Obsidian BYOK, {appName} Obsidian"
       },
       "BADGE": "Obsidian Copilot",
@@ -2740,7 +2740,7 @@
     "AGNAI": {
       "META": {
         "TITLE": "Agnai セットアップガイド | {appName}",
-        "DESCRIPTION": "Agnai を OpenAI Compat プロバイダーとして {appName} に接続し、任意のモデルでキャラクターチャットを楽しみます。",
+        "DESCRIPTION": "Agnai を OpenAI Compat プロバイダーとして {appName} に接続し、キャラクターチャットに。ベース URL とキーを追加してテストし、プリセットで好きなモデルを。",
         "KEYWORDS": "Agnai, Agnaistic, Agnai OpenAI 互換, Agnai カスタムプロバイダー, Agnai プロキシ, {appName} Agnai"
       },
       "BADGE": "Agnai",
@@ -5304,7 +5304,7 @@
       "STAT_PROVIDERS": "追跡中のプロバイダー",
       "STAT_PASS_RATE": "平均合格率",
       "META_TITLE": "モデル真正性ランキング｜{appName}",
-      "META_DESCRIPTION": "どのAPIプロバイダーが本物のモデルを提供しているかを、決定論的な合格率で順位付けして確認できます。",
+      "META_DESCRIPTION": "どの AI API プロバイダーが表示どおりの本物のモデルを提供しているかを確認。{appName} が決定論的フィンガープリントの合格率で順位付けし、全判定に証拠リンクを付けます。",
       "DISCLAIMER": "公開されたすべての結果は、集計される前に当社のサーバーで再実行され、各判定はそれを導いた正確な証拠にリンクされます。誤っていると思う結果には異議を申し立てられます。",
       "REPORT_DISCORD": "Discord で報告",
       "REPORT_GITHUB": "GitHub の issue を開く",
@@ -5672,7 +5672,7 @@
       "ALT_EDITOR": "表示タイトル・名前・説明・デフォルトペルソナの切り替えがあるペルソナエディター",
       "META": {
         "TITLE": "{appName} のペルソナ",
-        "DESCRIPTION": "あなたが演じる人格を作る：ペルソナのフィールド、デフォルトペルソナ、他アプリからのインポート。",
+        "DESCRIPTION": "{appName} で自分が演じるペルソナを作成。名前、説明、アバター、肩書き、新しいチャット用のデフォルトペルソナ、他のロールプレイフロントエンドからのインポートに対応。",
         "KEYWORDS": "ペルソナ, ユーザーアイデンティティ, ロールプレイペルソナ, デフォルトペルソナ"
       },
       "TITLE": "ペルソナ",
@@ -5731,7 +5731,7 @@
     "CARDS": {
       "META": {
         "TITLE": "{appName} のカード（ロードアウトバンドル）",
-        "DESCRIPTION": "ペルソナ、キャラクター、ロアブックを1枚の適用可能なロードアウトカードに束ねる。置換またはマージの適用方式。",
+        "DESCRIPTION": "{appName} でペルソナ、キャラクター、ロアブックを1枚のカードにまとめ、置換またはマージでセットアップ全体をワンクリック適用。カードは JSON でエクスポートできます。",
         "KEYWORDS": "ロードアウトバンドル, カード適用, シナリオバンドル"
       },
       "TITLE": "カード",
@@ -5780,7 +5780,7 @@
     "PROMPT_TEMPLATE": {
       "META": {
         "TITLE": "{appName} のプロンプトテンプレートエディター",
-        "DESCRIPTION": "組み立てられるプロンプトのブロックをドラッグで並べ替え：スロット、自由ブロック、チャット履歴マーカー。",
+        "DESCRIPTION": "{appName} で組み立てられるプロンプトをブロックのドラッグで並べ替え。エンジンのスロット、自由ブロック、チャット履歴マーカーに対応し、既定の順序の確認やリセットも可能。",
         "KEYWORDS": "プロンプトテンプレート, プロンプト順序, プロンプトブロック, カスタムプロンプト構造"
       },
       "TITLE": "プロンプトテンプレート",
@@ -5802,7 +5802,7 @@
     "GROUP_CHATS": {
       "META": {
         "TITLE": "{appName} のグループチャット",
-        "DESCRIPTION": "1つの会話に複数キャラクター：話者ローテーション、名前言及の優先、キャラクター別プロンプトゲート。",
+        "DESCRIPTION": "{appName} の1つのチャットで複数キャラクターを動かす。名前の言及と発言頻度による話者ローテーション、トークンを節約するキャラクター別プロンプトゲート、ナレーターのコツ。",
         "KEYWORDS": "グループチャット, 複数キャラクター, 話者ローテーション, ターン順"
       },
       "TITLE": "グループチャット",
@@ -5821,7 +5821,7 @@
     "MULTIPLAYER": {
       "META": {
         "TITLE": "{appName}のマルチプレイルーム",
-        "DESCRIPTION": "ロールプレイのチャットを友だちと共有：ピアツーピアのルーム、招待リンク、ホストの承認、ターン制。",
+        "DESCRIPTION": "{appName} で友だちと1つのロールプレイチャットを楽しむ。ピアツーピアのルームを開き、招待リンクを共有し、ゲストを承認して交代で発言。ゲストはアカウントもキーも不要です。",
         "KEYWORDS": "マルチプレイ ロールプレイ, 共有AIチャット, ピアツーピアRP, グループロールプレイ, 共同AIチャット"
       },
       "TITLE": "マルチプレイルーム",
@@ -5884,7 +5884,7 @@
     "REGEX_SCRIPTS": {
       "META": {
         "TITLE": "{appName} の正規表現スクリプト",
-        "DESCRIPTION": "入力・出力・プロンプト・表示テキストに対する検索置換パイプライン。順序とアクションのメタ指示付き。",
+        "DESCRIPTION": "{appName} チャットの正規表現スクリプト。入力、出力、プロンプト、表示テキストを検索置換し、順序タグ、アクション指示、SillyTavern スクリプトのインポートに対応。",
         "KEYWORDS": "正規表現スクリプト, customscript, editdisplay, editoutput, テキスト変換"
       },
       "TITLE": "正規表現スクリプト",
@@ -5909,7 +5909,7 @@
     "TRIGGERS_AND_LUA": {
       "META": {
         "TITLE": "{appName} のトリガースクリプトとLua",
-        "DESCRIPTION": "イベント駆動の自動化：トリガーVM、低レベルエフェクト、編集フック付き組み込みLuaランタイム。",
+        "DESCRIPTION": "RisuAI 互換のトリガースクリプト、低レベルエフェクト、生成中のテキストを書き換えるフック付き組み込み Lua ランタイムで、{appName} のキャラクターを自動化します。",
         "KEYWORDS": "トリガースクリプト, luaスクリプト, editoutputフック, ロールプレイ自動化"
       },
       "TITLE": "トリガーとLua",
@@ -5931,7 +5931,7 @@
     "PLUGINS": {
       "META": {
         "TITLE": "{appName} の JavaScript プラグイン",
-        "DESCRIPTION": "サンドボックス内で動く自作 JavaScript。各メッセージ前後のハンドラー、プラグイン API、JanitorAI スクリプトとの互換性。",
+        "DESCRIPTION": "{appName} チャット用のサンドボックス JavaScript プラグインを作成。メッセージ前後のフック、チャットを読み書きする uno API、JanitorAI スクリプト対応。",
         "KEYWORDS": "javascript プラグイン, janitorai スクリプト, チャット自動化, サンドボックス"
       },
       "TITLE": "プラグイン",
@@ -5956,7 +5956,7 @@
     "MEMORY_AND_CONTEXT": {
       "META": {
         "TITLE": "{appName} のメモリー、検索、ウェブ検索",
-        "DESCRIPTION": "ローリングの物語要約、過去の場面のセマンティック検索、分類器でゲートされたウェブ検索。",
+        "DESCRIPTION": "{appName} が長いロールプレイの物語を一貫させる仕組み。コンテキストウィンドウを超えるローリング要約、過去の場面の検索、チャットごとに選べるウェブ検索。",
         "KEYWORDS": "チャットメモリー, ローリング要約, セマンティック検索, 埋め込み, ウェブ検索"
       },
       "TITLE": "メモリーとコンテキスト",
@@ -5975,7 +5975,7 @@
     "IMAGES": {
       "META": {
         "TITLE": "{appName} チャット内の画像生成",
-        "DESCRIPTION": "返信後のシーン挿絵：モデル選択、参照画像、スタイルテンプレート、プロンプトプレビュー、インラインメディア。",
+        "DESCRIPTION": "{appName} チャットで返信ごとにシーンの挿絵を生成。画像モデルまたは無料モデルを選び、参照画像とスタイルテンプレートを追加して、プロンプトをプレビューできます。",
         "KEYWORDS": "画像生成, シーン挿絵, 参照画像, スタイルテンプレート, インレイ画像"
       },
       "TITLE": "画像",
@@ -6026,7 +6026,7 @@
     "DATA": {
       "META": {
         "TITLE": "{appName} のデータ、エクスポート、検査",
-        "DESCRIPTION": "会話のエクスポート形式、エンティティの可搬性、リクエストログとドライランの検査、ローカルデータベーススタジオ。",
+        "DESCRIPTION": "{appName} のチャットとキャラクターを一般的な形式でエクスポート。ログと無料のドライランで全リクエストを確認し、ローカルのチャットデータベースをスタジオで閲覧できます。",
         "KEYWORDS": "チャットエクスポート, SillyTavern JSONL, リクエストログ, ドライラン, ローカルデータベース, データ可搬性"
       },
       "TITLE": "あなたのデータ",
@@ -6221,7 +6221,7 @@
     "QUICKSTART": {
       "META": {
         "TITLE": "クイックスタート：5 分で最初のリクエスト",
-        "DESCRIPTION": "{appName} API キーを作成し、curl、Python、Node.js で最初の OpenAI 互換リクエストを送信します。",
+        "DESCRIPTION": "{appName} の API キーを作成し、curl、Python、Node.js で最初の OpenAI 互換リクエストを5分で送信。末尾が :free のモデルは無料です。",
         "KEYWORDS": "クイックスタート、API キー、base URL、OpenAI 互換、最初のリクエスト、curl、Python、Node.js"
       },
       "TITLE": "クイックスタート",
@@ -6486,7 +6486,7 @@
     "ACCOUNT_AND_BILLING": {
       "META": {
         "TITLE": "アカウント、残高、請求",
-        "DESCRIPTION": "{appName} の残高の仕組み：チャージ、無料クレジット、API キーの上限、リクエストごとの課金、使用ログ。",
+        "DESCRIPTION": "{appName} の残高の仕組み。カードや暗号資産での都度チャージ、Discord 特典の無料クレジット、キーごとの利用上限、リクエストの使用ログを解説します。",
         "KEYWORDS": "残高、チャージ、請求、API キー、使用ログ、無料クレジット、アフィリエイト"
       },
       "TITLE": "アカウントと請求",

@@ -451,7 +451,7 @@
       "PRESET_IMAGE_DESC": "Maliyet ve kalite açısından en iyi görüntü üretim modelleri.",
       "META": {
         "TITLE": "Yapay Zeka Modellerini Karşılaştır - {appName}",
-        "DESCRIPTION": "{appName} üzerinde yapay zeka modellerini fiyat, bağlam uzunluğu, yetenekler ve kullanıma göre yan yana karşılaştırın.",
+        "DESCRIPTION": "{appName} üzerinde AI modellerini yan yana karşılaştırın: fiyat, bağlam uzunluğu, yetenek, gecikme ve kullanım. Amiral gemisi, uygun fiyat ya da kodlama ön ayarları.",
         "KEYWORDS": "yapay zeka modellerini karşılaştır, model karşılaştırma, LLM karşılaştırma, yapay zeka fiyatları",
         "TITLE_COMBO": "{models} - Yapay Zeka Model Karşılaştırması",
         "DESCRIPTION_COMBO": "{models} modellerini fiyat, bağlam uzunluğu, yetenekler ve kullanıma göre karşılaştırın."
@@ -1748,7 +1748,7 @@
     "CC_SWITCH": {
       "META": {
         "TITLE": "CC Switch Entegrasyon Kılavuzu | {appName}",
-        "DESCRIPTION": "Birleşik AI CLI yönetimi için CC Switch''i {appName} ile kurun",
+        "DESCRIPTION": "CC Switch'i {appName} ile kurun, Claude Code, Codex ve Gemini CLI sağlayıcılarını tek uygulamada yönetin. ccswitch:// bağlantısıyla yapılandırmayı tek tıkla alın.",
         "KEYWORDS": "CC Switch, Claude Code, Codex, Gemini CLI, CLI yönetimi"
       },
       "BADGE": "CC Switch",
@@ -1797,7 +1797,7 @@
     "CLAUDE_CODE": {
       "META": {
         "TITLE": "Claude Code Entegrasyonu - {appName}",
-        "DESCRIPTION": "{appName}''i Claude Code, Cursor ve Anthropic uyumlu herhangi bir istemci ile tek endpoint üzerinden kullanın.",
+        "DESCRIPTION": "Claude Code'u Windows, macOS ve Linux'ta {appName} ile kullanın: Anthropic base URL ve anahtarı girin, /model ile model değiştirin, masaüstü uygulamasını da kurun.",
         "KEYWORDS": "Claude Code, Anthropic API, Claude Code kurulum, Cursor AI, {appName} Claude, Anthropic alternatifi"
       },
       "BADGE": "Claude Code",
@@ -1861,7 +1861,7 @@
     "CODEX": {
       "META": {
         "TITLE": "Codex CLI Kurulum Kılavuzu - {appName}",
-        "DESCRIPTION": "OpenAI Codex CLI''yi {appName} ile Windows, macOS ve Linux üzerinde ekran görüntüleriyle kurun.",
+        "DESCRIPTION": "OpenAI Codex CLI'ı Windows, macOS ve Linux'ta {appName} ile kurun: config.toml içinde özel sağlayıcı, ortam değişkeninde anahtar ve masaüstü uygulaması kurulumu.",
         "KEYWORDS": "Codex CLI, OpenAI Codex, Codex kurulum kılavuzu, Codex CLI yükle, {appName} Codex, OpenAI kodlama ajanı"
       },
       "BADGE": "Codex CLI",
@@ -1894,7 +1894,7 @@
     "GEMINI_CLI": {
       "META": {
         "TITLE": "Gemini CLI Entegrasyonu - {appName}",
-        "DESCRIPTION": "{appName}''i Gemini CLI ve Google GenAI uyumlu herhangi bir istemci ile kullanın.",
+        "DESCRIPTION": "Google Gemini CLI'ı {appName} ile çalıştırın: ~/.gemini/.env içinde GOOGLE_GEMINI_BASE_URL ve anahtar, tüm modellere tek anahtar, 404 ve yetki hatalarına çözüm.",
         "KEYWORDS": "Gemini CLI, Google AI API, Gemini kurulum, Google GenAI SDK, {appName} Gemini, Gemini alternatifi"
       },
       "BADGE": "Gemini CLI",
@@ -1927,7 +1927,7 @@
     "OPENCLAW": {
       "META": {
         "TITLE": "OpenClaw Entegrasyonu - {appName}",
-        "DESCRIPTION": "{appName}''i OpenClaw ajanınız için model sağlayıcısı olarak kullanın.",
+        "DESCRIPTION": "OpenClaw için OpenAI uyumlu model sağlayıcısı olarak {appName} kullanın. openclaw.json içinde base URL ayarlayın, ajanı Telegram, Discord ya da Slack'te çalıştırın.",
         "KEYWORDS": "OpenClaw, OpenClaw kurulum, AI ajan, {appName} OpenClaw, model sağlayıcı, AI gateway"
       },
       "BADGE": "OpenClaw",
@@ -1955,7 +1955,7 @@
     "HERMES": {
       "META": {
         "TITLE": "Hermes Agent Entegrasyonu - {appName}",
-        "DESCRIPTION": "{appName}''i Nous Research''ün Hermes Agent''ı için model sağlayıcısı olarak kullanın. Tek OpenAI uyumlu endpoint, tüm modeller.",
+        "DESCRIPTION": "Nous Research'ün Hermes Agent aracında model sağlayıcısı olarak {appName} kullanın. config.yaml içinde özel base URL, .env içinde anahtar, sonra her model hazır.",
         "KEYWORDS": "Hermes Agent, Nous Research, Hermes kurulum, AI ajan, {appName} Hermes, model sağlayıcı, OpenAI uyumlu"
       },
       "BADGE": "Hermes Agent",
@@ -2259,7 +2259,7 @@
     "LOBECHAT": {
       "META": {
         "TITLE": "LobeChat kurulumu: ücretsiz OpenAI uyumlu API | {appName}",
-        "DESCRIPTION": "LobeChat''i Add Custom Provider veya Docker ortam değişkenleri üzerinden {appName}''e bağlayın. Ücretsiz modeller dahil.",
+        "DESCRIPTION": "LobeChat'i Add Custom Provider ya da kendi sunucunuzda Docker değişkenleriyle {appName} ile bağlayın. Tüm modellere tek OpenAI uyumlu anahtar, ücretsizler dahil.",
         "KEYWORDS": "LobeChat, LobeChat özel sağlayıcı, {appName} LobeChat, açık kaynak web sohbeti"
       },
       "BADGE": "LobeChat",
@@ -2316,7 +2316,7 @@
     "TYPINGMIND": {
       "META": {
         "TITLE": "TypingMind kurulumu: ücretsiz OpenAI uyumlu API | {appName}",
-        "DESCRIPTION": "TypingMind''i özel bir OpenAI uyumlu endpoint yapıştırarak {appName}''e bağlayın. Ücretsiz modeller dahil.",
+        "DESCRIPTION": "TypingMind'ı OpenAI uyumlu model olarak {appName} ile bağlayın. Uç noktayı ayarlayın, anahtarı Authorization başlığına ekleyip test edin. Ücretsiz modeller dahil.",
         "KEYWORDS": "TypingMind, TypingMind özel model, {appName} TypingMind, BYOK web ön yüzü"
       },
       "BADGE": "TypingMind",
@@ -2337,7 +2337,7 @@
     "BOLTAI": {
       "META": {
         "TITLE": "BoltAI kurulumu: ücretsiz OpenAI uyumlu API | {appName}",
-        "DESCRIPTION": "BoltAI''yi {appName}''e özel bir OpenAI uyumlu sunucu olarak bağlayın. Ücretsiz modeller dahil.",
+        "DESCRIPTION": "macOS'taki BoltAI'ı OpenAI uyumlu sunucu olarak {appName} ile bağlayın. URL, anahtar, model kimliği ve bağlam uzunluğunu girip sohbet edin. Ücretsiz modeller dahil.",
         "KEYWORDS": "BoltAI, BoltAI OpenAI uyumlu, {appName} BoltAI, macOS yapay zeka asistanı"
       },
       "BADGE": "BoltAI",
@@ -2356,7 +2356,7 @@
     "PAGE_ASSIST": {
       "META": {
         "TITLE": "Page Assist kurulumu: ücretsiz OpenAI uyumlu API | {appName}",
-        "DESCRIPTION": "Page Assist''i tarayıcı yan panelinde özel bir OpenAI uyumlu API olarak {appName}''e bağlayın. Ücretsiz modeller dahil.",
+        "DESCRIPTION": "Page Assist tarayıcı eklentisini özel OpenAI uyumlu API olarak {appName} ile bağlayın. Base URL ve anahtarı ekleyin, yan panelde ücretsiz modellerle sohbet edin.",
         "KEYWORDS": "Page Assist, Page Assist OpenAI uyumlu, {appName} Page Assist, tarayıcı yapay zeka uzantısı"
       },
       "BADGE": "Page Assist",
@@ -2377,7 +2377,7 @@
     "CHATBOX": {
       "META": {
         "TITLE": "Chatbox kurulumu: ücretsiz OpenAI uyumlu API | {appName}",
-        "DESCRIPTION": "Chatbox''i {appName} ile OpenAI API Compatible modunu kullanarak bağlayın. URL''yi Host ve Path olarak ayırın. Ücretsiz modeller dahil.",
+        "DESCRIPTION": "Chatbox'ı OpenAI API Compatible modunda {appName} ile bağlayın. URL'yi API Host ve API Path diye bölün, anahtar ve model ekleyin, sohbet edin. Ücretsiz modeller var.",
         "KEYWORDS": "Chatbox, Chatbox OpenAI uyumlu, {appName} Chatbox, çapraz platform sohbet istemcisi"
       },
       "BADGE": "Chatbox",
@@ -2398,7 +2398,7 @@
     "BIG_AGI": {
       "META": {
         "TITLE": "Big-AGI kurulumu: ücretsiz OpenAI uyumlu API | {appName}",
-        "DESCRIPTION": "Big-AGI''yi {appName}''e OpenAI kaynağı olarak bağlayın. Big-AGI kataloğu çeker. Ücretsiz modeller dahil.",
+        "DESCRIPTION": "Big-AGI'ı özel OpenAI kaynağı olarak {appName} ile bağlayın. Anahtarınızı ve uç noktayı girin, Big-AGI tüm model kataloğunu kendisi çeksin. Ücretsiz modeller dahil.",
         "KEYWORDS": "Big-AGI, Big-AGI OpenAI kaynağı, {appName} Big-AGI, web yapay zeka tezgahi"
       },
       "BADGE": "Big-AGI",
@@ -2417,7 +2417,7 @@
     "OPENCODE": {
       "META": {
         "TITLE": "OpenCode Kurulum Kılavuzu | {appName}",
-        "DESCRIPTION": "OpenCode''u opencode.json içinde özel bir OpenAI uyumlu sağlayıcıyla {appName}''e bağlayın.",
+        "DESCRIPTION": "OpenCode'u opencode.json içinde OpenAI uyumlu özel sağlayıcıyla {appName} ile bağlayın. Ayarı kopyalayın, tam model kimliklerini yazın, ad çakışmasını önleyin.",
         "KEYWORDS": "OpenCode, OpenCode kurulumu, OpenCode sağlayıcı, {appName} OpenCode, kodlama ajanı, OpenAI uyumlu"
       },
       "BADGE": "OpenCode",
@@ -2440,7 +2440,7 @@
     "KILO_CODE": {
       "META": {
         "TITLE": "Kilo Code Kurulum Kılavuzu | {appName}",
-        "DESCRIPTION": "Kilo Code''u VSCode kenar çubuğunda özel bir OpenAI uyumlu sağlayıcıyla {appName}''e bağlayın.",
+        "DESCRIPTION": "VSCode'daki Kilo Code'u OpenAI uyumlu sağlayıcıyla {appName} ile bağlayın. Değerleri girin, araç desteğini açık tutun, ücretsiz ya da ücretli her modelle kodlayın.",
         "KEYWORDS": "Kilo Code, Kilo Code kurulumu, VSCode kodlama ajanı, {appName} Kilo Code, özel sağlayıcı, OpenAI uyumlu"
       },
       "BADGE": "Kilo Code",
@@ -2464,7 +2464,7 @@
     "ZED": {
       "META": {
         "TITLE": "Zed IDE Kurulum Kılavuzu | {appName}",
-        "DESCRIPTION": "Zed editör ajanını özel bir OpenAI uyumlu sağlayıcıyla {appName}''e bağlayın.",
+        "DESCRIPTION": "Zed editörünün ajan panelini OpenAI uyumlu özel sağlayıcı olarak {appName} ile bağlayın. Adım adım ayarlar, model listesi, anahtar zinciri, ücretsiz modeller.",
         "KEYWORDS": "Zed, Zed IDE, Zed ajanı, {appName} Zed, özel sağlayıcı, OpenAI uyumlu editör"
       },
       "BADGE": "Zed IDE",
@@ -2485,7 +2485,7 @@
     "CLINE": {
       "META": {
         "TITLE": "Cline Kurulum Kılavuzu | {appName}",
-        "DESCRIPTION": "Cline''ı {appName}''e OpenAI Compatible sağlayıcı olarak bağlayın; her modelle kod okusun, düzenlesin ve çalıştırsın.",
+        "DESCRIPTION": "VSCode'daki Cline'ı OpenAI Compatible sağlayıcısı olarak {appName} ile bağlayın. Tam ajan döngüsüyle her modelle kod okuyun, düzenleyin, çalıştırın, ücretsizler de.",
         "KEYWORDS": "Cline, Cline kurulumu, VSCode otonom ajan, {appName} Cline, OpenAI Uyumlu, kodlama ajanı"
       },
       "BADGE": "Cline",
@@ -2527,7 +2527,7 @@
     "CONTINUE_DEV": {
       "META": {
         "TITLE": "Continue.dev Kurulum Kılavuzu | {appName}",
-        "DESCRIPTION": "Continue.dev''i sürüm kontrollü bir config.yaml ile {appName}''e bağlayın. Continue model kaydını anında yeniden yükler.",
+        "DESCRIPTION": "Continue.dev'i config.yaml içinde bir model girdisiyle {appName} ile bağlayın. VSCode ve JetBrains'te anında yenilenir, tek OpenAI uyumlu anahtar, ücretsiz modeller.",
         "KEYWORDS": "Continue.dev, Continue kurulumu, VSCode JetBrains asistanı, {appName} Continue, config.yaml, OpenAI uyumlu"
       },
       "BADGE": "Continue.dev",
@@ -2567,7 +2567,7 @@
     "NEVIKA": {
       "META": {
         "TITLE": "Nevika Entegrasyon Rehberi | {appName}",
-        "DESCRIPTION": "Nevika''yı {appName}''e özel proxy olarak bağlayın. Tek anahtar, yüzlerce model.",
+        "DESCRIPTION": "Nevika'yı AI rol yapma için özel proxy olarak {appName} ile kullanın. Hazır doldurulmuş kurulum sayfasına anahtarınızı yapıştırın, ücretsizler dahil bir model seçin.",
         "KEYWORDS": "Nevika, Nevika özel proxy, Nevika API anahtarı, {appName} Nevika, yapay zeka rol yapma, karakter sohbeti"
       },
       "BADGE": "Nevika",
@@ -2591,7 +2591,7 @@
     "CURSOR": {
       "META": {
         "TITLE": "Cursor Kurulum Kılavuzu | {appName}",
-        "DESCRIPTION": "{appName} modellerini kendi API anahtarınız ve Override OpenAI Base URL ayarıyla Cursor Chat ve Agent içinde kullanın.",
+        "DESCRIPTION": "{appName} modellerini Cursor Chat ve Agent'ta kullanın: anahtarı girin, Override OpenAI Base URL'i açın, model ekleyin. Ücretli plan sınırları ve claude- kimlikleri.",
         "KEYWORDS": "Cursor, Cursor özel model, Cursor OpenAI base URL, Cursor BYOK, {appName} Cursor, Cursor API anahtarı"
       },
       "BADGE": "Cursor",
@@ -2613,7 +2613,7 @@
     "GITHUB_COPILOT": {
       "META": {
         "TITLE": "VS Code''da GitHub Copilot Kurulum Kılavuzu | {appName}",
-        "DESCRIPTION": "{appName} hizmetini kendi API anahtarınızla VS Code''daki GitHub Copilot Chat''e Custom Endpoint modeli olarak ekleyin.",
+        "DESCRIPTION": "VS Code'daki GitHub Copilot Chat'e {appName} sağlayıcısını kendi API anahtarınızla Custom Endpoint olarak ekleyin. Sohbet ve ajan modunda her model, plan gerekmez.",
         "KEYWORDS": "GitHub Copilot, VS Code Copilot özel model, Copilot kendi anahtarını getir, Copilot Custom Endpoint, VS Code BYOK, {appName} Copilot"
       },
       "BADGE": "GitHub Copilot",
@@ -2635,7 +2635,7 @@
     "N8N": {
       "META": {
         "TITLE": "n8n Kurulum Kılavuzu | {appName}",
-        "DESCRIPTION": "{appName} modellerini OpenAI kimlik bilgisinin Base URL alanı üzerinden n8n AI Agent ve LLM zinciri iş akışlarında kullanın.",
+        "DESCRIPTION": "{appName} modellerini n8n AI Agent ve Basic LLM Chain iş akışlarında kullanın. OpenAI kimlik bilgisine Base URL girin, Responses API'yi kapatın, her model çalışsın.",
         "KEYWORDS": "n8n, n8n OpenAI base URL, n8n özel LLM, n8n AI Agent, n8n OpenAI uyumlu, {appName} n8n"
       },
       "BADGE": "n8n",
@@ -2656,7 +2656,7 @@
     "DIFY": {
       "META": {
         "TITLE": "Dify Kurulum Kılavuzu | {appName}",
-        "DESCRIPTION": "Dify''ı, Dify Marketplace''teki {appName} eklentisiyle veya OpenAI-API-compatible sağlayıcısıyla {appName} hizmetine bağlayın.",
+        "DESCRIPTION": "Dify'ı Marketplace eklentisi ya da OpenAI-API-compatible sağlayıcısıyla {appName} ile bağlayın. Anahtar ve model ekleyin, araç çağrılarını açıp uygulamada kullanın.",
         "KEYWORDS": "Dify, Dify model sağlayıcı, Dify OpenAI-API-compatible, Dify eklentisi, Dify özel LLM, {appName} Dify"
       },
       "BADGE": "Dify",
@@ -2677,7 +2677,7 @@
     "JAN": {
       "META": {
         "TITLE": "Jan Kurulum Kılavuzu | {appName}",
-        "DESCRIPTION": "{appName} hizmetini Jan masaüstü uygulamasına özel bir OpenAI uyumlu sağlayıcı olarak ekleyin.",
+        "DESCRIPTION": "Jan masaüstü uygulamasına {appName} sağlayıcısını özel OpenAI uyumlu sağlayıcı olarak ekleyin. Modeller yerel modellerin yanında; araç, görsel ve base URL ipuçları.",
         "KEYWORDS": "Jan, Jan AI, Jan özel sağlayıcı, Jan OpenAI uyumlu, Jan uzak modeller, {appName} Jan"
       },
       "BADGE": "Jan",
@@ -2698,7 +2698,7 @@
     "MSTY": {
       "META": {
         "TITLE": "Msty Studio Kurulum Kılavuzu | {appName}",
-        "DESCRIPTION": "{appName} hizmetini Msty Studio''ya OpenAI uyumlu bir model sağlayıcı olarak ekleyin.",
+        "DESCRIPTION": "Msty Studio'ya {appName} sağlayıcısını OpenAI uyumlu olarak ekleyin: base URL ve anahtarı yapıştırın, model listesini çekin, ücretsiz ve ücretli modellerle konuşun.",
         "KEYWORDS": "Msty, Msty Studio, Msty OpenAI uyumlu, Msty uzak sağlayıcı, Msty özel model, {appName} Msty"
       },
       "BADGE": "Msty",
@@ -2719,7 +2719,7 @@
     "OBSIDIAN_COPILOT": {
       "META": {
         "TITLE": "Obsidian Copilot Kurulum Kılavuzu | {appName}",
-        "DESCRIPTION": "{appName} hizmetini Copilot for Obsidian eklentisine özel bir BYOK sağlayıcı olarak ekleyin.",
+        "DESCRIPTION": "Copilot for Obsidian'a {appName} sağlayıcısını BYOK olarak ekleyin, notlarınızla her modelle sohbet edin. Copilot lisansı gerekmez, ücretsiz modeller dahil.",
         "KEYWORDS": "Obsidian Copilot, Copilot for Obsidian, Obsidian yapay zeka eklentisi, Obsidian özel sağlayıcı, Obsidian BYOK, {appName} Obsidian"
       },
       "BADGE": "Obsidian Copilot",
@@ -2740,7 +2740,7 @@
     "AGNAI": {
       "META": {
         "TITLE": "Agnai Kurulum Kılavuzu | {appName}",
-        "DESCRIPTION": "Her modelle karakter sohbeti için Agnai''yi {appName} hizmetine OpenAI Compat sağlayıcı olarak bağlayın.",
+        "DESCRIPTION": "Agnai'ı karakter sohbeti için OpenAI Compat sağlayıcısı olarak {appName} ile bağlayın. Base URL ve anahtarı ekleyin, test edin, her modeli ön ayarlarda kullanın.",
         "KEYWORDS": "Agnai, Agnaistic, Agnai OpenAI uyumlu, Agnai özel sağlayıcı, Agnai proxy, {appName} Agnai"
       },
       "BADGE": "Agnai",
@@ -5304,7 +5304,7 @@
       "STAT_PROVIDERS": "Izlenen saglayicilar",
       "STAT_PASS_RATE": "Ortalama gecme orani",
       "META_TITLE": "Model Gercekligi Siralamasi | {appName}",
-      "META_DESCRIPTION": "Hangi API saglayicilarinin iddia ettikleri gercek modeli sundugunu deterministik gecme oranina gore siralanmis olarak gorun.",
+      "META_DESCRIPTION": "Hangi AI API sağlayıcıları iddia ettiği gerçek modeli sunuyor? {appName} onları deterministik parmak izi geçme oranına göre sıralar, her karar için kanıt bağlantılı.",
       "DISCLAIMER": "Yayınlanan her sonuç sayılmadan önce sunucumuzda yeniden çalıştırılır ve her karar, onu üreten tam kanıta bağlanır. Yanlış olduğunu düşündüğünüz bir sonuca itiraz edilebilir.",
       "REPORT_DISCORD": "Discord'da bildir",
       "REPORT_GITHUB": "GitHub'da bir sorun aç",
@@ -5672,7 +5672,7 @@
       "ALT_EDITOR": "Görünen başlık, ad, açıklama ve varsayılan persona anahtarına sahip persona düzenleyici",
       "META": {
         "TITLE": "{appName} İçinde Personalar",
-        "DESCRIPTION": "Oynadığın kimliği oluştur: persona alanları, varsayılan persona ve diğer uygulamalardan içe aktarma.",
+        "DESCRIPTION": "{appName} içinde oynadığın personayı oluştur: ad, açıklama, avatar ve unvan, yeni sohbetler için varsayılan persona ve diğer rol yapma arayüzlerinden içe aktarma.",
         "KEYWORDS": "persona, kullanıcı kimliği, rol yapma personası, varsayılan persona"
       },
       "TITLE": "Personalar",
@@ -5731,7 +5731,7 @@
     "CARDS": {
       "META": {
         "TITLE": "{appName} İçinde Kartlar (Loadout Paketleri)",
-        "DESCRIPTION": "Persona, karakterler ve lorebook'ları değiştir veya birleştir anlamlarıyla uygulanabilir tek bir loadout kartında topla.",
+        "DESCRIPTION": "{appName} içinde persona, karakter ve lorebook'ları tek kartta topla, tüm kurulumu değiştir ya da birleştir modunda tek tıkla uygula. Kartlar JSON'a aktarılır.",
         "KEYWORDS": "loadout paketi, kart uygulama, senaryo paketi"
       },
       "TITLE": "Kartlar",
@@ -5780,7 +5780,7 @@
     "PROMPT_TEMPLATE": {
       "META": {
         "TITLE": "{appName} İçinde Prompt Şablonu Düzenleyicisi",
-        "DESCRIPTION": "Birleştirilen prompt'un bloklarını sürükleyerek yeniden sırala: yuvalar, düz bloklar ve sohbet geçmişi imleci.",
+        "DESCRIPTION": "{appName} içinde birleşik prompt'u blokları sürükleyerek sırala: motor yuvaları, kendi düz blokların, sohbet geçmişi imleci. Varsayılan sırayı gör ya da sıfırla.",
         "KEYWORDS": "prompt şablonu, prompt sırası, prompt blokları, özel prompt yapısı"
       },
       "TITLE": "Prompt Şablonu",
@@ -5802,7 +5802,7 @@
     "GROUP_CHATS": {
       "META": {
         "TITLE": "{appName} İçinde Grup Sohbetleri",
-        "DESCRIPTION": "Bir konuşmada birden çok karakter: konuşmacı rotasyonu, ad anma önceliği ve karakter bazlı prompt süzme.",
+        "DESCRIPTION": "Tek {appName} sohbetinde birden çok karakter: ad anma ve konuşkanlığa göre konuşmacı sırası, token tasarrufu için karakter bazlı prompt süzme ve anlatıcı ipuçları.",
         "KEYWORDS": "grup sohbeti, çoklu karakter, konuşmacı rotasyonu, tur sırası"
       },
       "TITLE": "Grup Sohbetleri",
@@ -5821,7 +5821,7 @@
     "MULTIPLAYER": {
       "META": {
         "TITLE": "{appName} içinde çok oyunculu odalar",
-        "DESCRIPTION": "Bir rol yapma sohbetini arkadaşlarınızla paylaşın: eşler arası odalar, davet bağlantıları, ev sahibi onayı ve sıra düzeni.",
+        "DESCRIPTION": "{appName} içinde bir rol yapma sohbetini arkadaşlarınla oyna: eşler arası oda aç, davet linkini paylaş, konukları al, sırayla yaz. Konuğa hesap ve anahtar gerekmez.",
         "KEYWORDS": "çok oyunculu rol yapma, paylaşılan yapay zeka sohbeti, eşler arası RP, grup rol yapma odası, ortak yapay zeka sohbeti"
       },
       "TITLE": "Çok oyunculu odalar",
@@ -5884,7 +5884,7 @@
     "REGEX_SCRIPTS": {
       "META": {
         "TITLE": "{appName} İçinde Regex Betikleri",
-        "DESCRIPTION": "Girdi, çıktı, prompt ve görüntü metni üzerinde bul-değiştir hatları; sıra ve eylem yönergeleriyle.",
+        "DESCRIPTION": "{appName} sohbetinde regex betikleri: girdi, çıktı, prompt ve görüntü metninde bul ve değiştir; sıra etiketleri, eylem yönergeleri ve SillyTavern betik aktarımı.",
         "KEYWORDS": "regex betikleri, customscript, editdisplay, editoutput, metin dönüşümleri"
       },
       "TITLE": "Regex Betikleri",
@@ -5909,7 +5909,7 @@
     "TRIGGERS_AND_LUA": {
       "META": {
         "TITLE": "{appName} İçinde Tetikleyici Betikler ve Lua",
-        "DESCRIPTION": "Olay güdümlü otomasyon: tetikleyici VM'i, düşük seviyeli etkiler ve düzenleme kancalarıyla gömülü Lua çalışma zamanı.",
+        "DESCRIPTION": "{appName} karakterlerini RisuAI uyumlu tetikleyici betikler, düşük seviyeli etkiler ve metni anında yeniden yazan kancalı gömülü Lua ortamıyla otomatikleştir.",
         "KEYWORDS": "tetikleyici betikler, lua betikleme, editoutput kancası, rol yapma otomasyonu"
       },
       "TITLE": "Tetikleyiciler ve Lua",
@@ -5931,7 +5931,7 @@
     "PLUGINS": {
       "META": {
         "TITLE": "{appName} içinde JavaScript eklentileri",
-        "DESCRIPTION": "Korumalı alanda kendi JavaScript'iniz: her mesajın çevresinde çalışan işleyiciler, eklenti API'si ve JanitorAI betikleriyle uyumluluk.",
+        "DESCRIPTION": "{appName} sohbeti için korumalı alanda çalışan JavaScript eklentileri yaz: her mesajı saran kancalar, sohbeti okuyup yazan uno API ve JanitorAI betik desteği.",
         "KEYWORDS": "javascript eklentileri, janitorai betikleri, sohbet otomasyonu, korumalı alan"
       },
       "TITLE": "Eklentiler",
@@ -5956,7 +5956,7 @@
     "MEMORY_AND_CONTEXT": {
       "META": {
         "TITLE": "{appName} İçinde Bellek, Getirme ve Web Araması",
-        "DESCRIPTION": "Yuvarlanan hikaye özetleri, geçmiş anların anlamsal getirilmesi ve sınıflandırıcı süzgeçli web araması.",
+        "DESCRIPTION": "{appName} uzun rol yapma hikayelerini nasıl tutarlı tutar: bağlam penceresini aşan yuvarlanan özetler, eski anları geri çağırma, sohbete özel isteğe bağlı web arama.",
         "KEYWORDS": "sohbet belleği, yuvarlanan özet, anlamsal getirme, gömmeler, web araması"
       },
       "TITLE": "Bellek ve Bağlam",
@@ -5975,7 +5975,7 @@
     "IMAGES": {
       "META": {
         "TITLE": "{appName} Sohbetinde Görsel Üretimi",
-        "DESCRIPTION": "Yanıt sonrası sahne çizimleri: model seçimi, referans görseller, stil şablonları, prompt önizleme ve satır içi medya.",
+        "DESCRIPTION": "{appName} sohbetinde her yanıttan sonra sahne görselleri üret: görsel modeli ya da ücretsiz model seç, referans görseller ve stil şablonları ekle, promptları önizle.",
         "KEYWORDS": "görsel üretimi, sahne çizimi, referans görseller, stil şablonu, inlay görseller"
       },
       "TITLE": "Görseller",
@@ -6026,7 +6026,7 @@
     "DATA": {
       "META": {
         "TITLE": "{appName} İçinde Veri, Dışa Aktarma ve İnceleme",
-        "DESCRIPTION": "Konuşma dışa aktarma biçimleri, varlık taşınabilirliği, istek günlüğü ve kuru çalıştırma denetçileri ile yerel veritabanı stüdyosu.",
+        "DESCRIPTION": "{appName} sohbet ve karakterlerini yaygın biçimlerde dışa aktar, her isteği günlükte ve ücretsiz deneme çalıştırmalarında incele, yerel veritabanını stüdyoda gez.",
         "KEYWORDS": "sohbet dışa aktarma, SillyTavern JSONL, istek günlüğü, kuru çalıştırma, yerel veritabanı, veri taşınabilirliği"
       },
       "TITLE": "Verilerin",
@@ -6221,7 +6221,7 @@
     "QUICKSTART": {
       "META": {
         "TITLE": "Hızlı başlangıç: 5 dakikada ilk isteğiniz",
-        "DESCRIPTION": "Bir {appName} API anahtarı oluşturun ve curl, Python veya Node.js ile ilk OpenAI uyumlu isteğinizi yapın.",
+        "DESCRIPTION": "Bir {appName} API anahtarı oluşturun ve beş dakikada curl, Python veya Node.js ile ilk OpenAI uyumlu isteğinizi gönderin. :free ile biten modeller ücretsizdir.",
         "KEYWORDS": "hızlı başlangıç, API anahtarı, base URL, OpenAI uyumlu, ilk istek, curl, Python, Node.js"
       },
       "TITLE": "Hızlı başlangıç",
@@ -6486,7 +6486,7 @@
     "ACCOUNT_AND_BILLING": {
       "META": {
         "TITLE": "Hesap, bakiye ve faturalandırma",
-        "DESCRIPTION": "{appName} bakiyesi nasıl çalışır: yüklemeler, ücretsiz kredi, API anahtarı sınırları, istek başına ücretler ve kullanım günlüğü.",
+        "DESCRIPTION": "{appName} bakiyeniz nasıl işler: kart ya da kriptoyla tek seferlik yükleme, Discord ödüllerinden ücretsiz kredi, anahtar başına harcama sınırı ve istek günlüğü.",
         "KEYWORDS": "bakiye, yükleme, faturalandırma, API anahtarları, kullanım günlüğü, ücretsiz kredi, ortaklık"
       },
       "TITLE": "Hesap ve Faturalandırma",

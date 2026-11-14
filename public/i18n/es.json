@@ -451,7 +451,7 @@
       "PRESET_IMAGE_DESC": "Mejores modelos de generación de imágenes por coste y calidad.",
       "META": {
         "TITLE": "Comparar modelos de IA - {appName}",
-        "DESCRIPTION": "Compara modelos de IA en paralelo por precio, longitud de contexto, capacidades y uso en {appName}.",
+        "DESCRIPTION": "Compara modelos de IA lado a lado en {appName}: precios, longitud de contexto, capacidades, latencia y uso. Empieza con presets insignia, económicos o de código.",
         "KEYWORDS": "comparar modelos de IA, comparación de modelos, comparación de LLM, precios de IA",
         "TITLE_COMBO": "{models} - Comparación de modelos de IA",
         "DESCRIPTION_COMBO": "Compara {models} por precio, longitud de contexto, capacidades y uso."
@@ -1748,7 +1748,7 @@
     "CC_SWITCH": {
       "META": {
         "TITLE": "Guía de integración de CC Switch | {appName}",
-        "DESCRIPTION": "Configura CC Switch con {appName} para gestión unificada de CLI de IA",
+        "DESCRIPTION": "Configura CC Switch con {appName} y gestiona los proveedores de Claude Code, Codex y Gemini CLI en una app. Importa la config en un clic con el enlace ccswitch://.",
         "KEYWORDS": "CC Switch, Claude Code, Codex, Gemini CLI, gestión CLI"
       },
       "BADGE": "CC Switch",
@@ -1797,7 +1797,7 @@
     "CLAUDE_CODE": {
       "META": {
         "TITLE": "Integración con Claude Code - {appName}",
-        "DESCRIPTION": "Usa {appName} con Claude Code, Cursor y cualquier cliente compatible con Anthropic a través de un solo endpoint.",
+        "DESCRIPTION": "Usa Claude Code con {appName} en Windows, macOS y Linux: base URL de Anthropic y tu clave, cambio de modelo con /model y configuración de la app de escritorio.",
         "KEYWORDS": "Claude Code, API Anthropic, configuración Claude Code, Cursor AI, {appName} Claude, alternativa Anthropic"
       },
       "BADGE": "Claude Code",
@@ -1861,7 +1861,7 @@
     "CODEX": {
       "META": {
         "TITLE": "Guía de configuración de Codex CLI - {appName}",
-        "DESCRIPTION": "Configura OpenAI Codex CLI con {appName} en Windows, macOS y Linux, con capturas de pantalla.",
+        "DESCRIPTION": "Configura OpenAI Codex CLI con {appName} en Windows, macOS y Linux: proveedor personalizado en config.toml, tu clave como variable de entorno y la app de escritorio.",
         "KEYWORDS": "Codex CLI, OpenAI Codex, guía de configuración Codex, instalación Codex CLI, {appName} Codex, agente de codificación OpenAI"
       },
       "BADGE": "Codex CLI",
@@ -1894,7 +1894,7 @@
     "GEMINI_CLI": {
       "META": {
         "TITLE": "Integración con Gemini CLI - {appName}",
-        "DESCRIPTION": "Usa {appName} con Gemini CLI y cualquier cliente compatible con Google GenAI.",
+        "DESCRIPTION": "Usa Gemini CLI de Google con {appName}: GOOGLE_GEMINI_BASE_URL y tu clave en ~/.gemini/.env, una clave para todos los modelos y errores 404 o de auth resueltos ya.",
         "KEYWORDS": "Gemini CLI, API Google AI, configuración Gemini, SDK Google GenAI, {appName} Gemini, alternativa Gemini"
       },
       "BADGE": "Gemini CLI",
@@ -1927,7 +1927,7 @@
     "OPENCLAW": {
       "META": {
         "TITLE": "Integración con OpenClaw - {appName}",
-        "DESCRIPTION": "Usa {appName} como proveedor de modelos para tu agente OpenClaw.",
+        "DESCRIPTION": "Usa {appName} como proveedor de modelos compatible con OpenAI para OpenClaw. Define la base URL en openclaw.json y ejecuta tu agente en Telegram, Discord o Slack.",
         "KEYWORDS": "OpenClaw, configuración OpenClaw, agente de IA, {appName} OpenClaw, proveedor de modelos, gateway de IA"
       },
       "BADGE": "OpenClaw",
@@ -1955,7 +1955,7 @@
     "HERMES": {
       "META": {
         "TITLE": "Integración con Hermes Agent - {appName}",
-        "DESCRIPTION": "Usa {appName} como proveedor de modelos para Hermes Agent de Nous Research. Un endpoint compatible con OpenAI, todos los modelos.",
+        "DESCRIPTION": "Usa {appName} como proveedor de modelos para Hermes Agent de Nous Research. Base URL personalizada en config.yaml, tu clave en .env y listo para cualquier modelo.",
         "KEYWORDS": "Hermes Agent, Nous Research, configuración Hermes, agente de IA, {appName} Hermes, proveedor de modelos, compatible con OpenAI"
       },
       "BADGE": "Hermes Agent",
@@ -2259,7 +2259,7 @@
     "LOBECHAT": {
       "META": {
         "TITLE": "LobeChat: configuración con una API compatible con OpenAI gratis | {appName}",
-        "DESCRIPTION": "Conecta LobeChat a {appName} mediante Add Custom Provider o variables de entorno de Docker. Incluye modelos gratuitos.",
+        "DESCRIPTION": "Conecta LobeChat a {appName} con Add Custom Provider o variables de Docker para autoalojarlo. Una clave compatible con OpenAI para todo modelo, gratuitos incluidos.",
         "KEYWORDS": "LobeChat, proveedor personalizado LobeChat, {appName} LobeChat, chat web de código abierto"
       },
       "BADGE": "LobeChat",
@@ -2316,7 +2316,7 @@
     "TYPINGMIND": {
       "META": {
         "TITLE": "TypingMind: configuración con una API compatible con OpenAI gratis | {appName}",
-        "DESCRIPTION": "Conecta TypingMind a {appName} pegando un endpoint personalizado compatible con OpenAI. Incluye modelos gratuitos.",
+        "DESCRIPTION": "Conecta TypingMind a {appName} como modelo compatible con OpenAI. Define el endpoint, añade tu clave como cabecera Authorization y prueba. Incluye modelos gratuitos.",
         "KEYWORDS": "TypingMind, modelo personalizado TypingMind, {appName} TypingMind, frontend web BYOK"
       },
       "BADGE": "TypingMind",
@@ -2337,7 +2337,7 @@
     "BOLTAI": {
       "META": {
         "TITLE": "BoltAI: configuración con una API compatible con OpenAI gratis | {appName}",
-        "DESCRIPTION": "Conecta BoltAI a {appName} como servidor personalizado compatible con OpenAI. Incluye modelos gratuitos.",
+        "DESCRIPTION": "Conecta BoltAI en macOS a {appName} como servidor compatible con OpenAI. Introduce URL, clave, ID del modelo y contexto, y a chatear. Modelos gratuitos incluidos.",
         "KEYWORDS": "BoltAI, BoltAI compatible OpenAI, {appName} BoltAI, asistente de IA para macOS"
       },
       "BADGE": "BoltAI",
@@ -2356,7 +2356,7 @@
     "PAGE_ASSIST": {
       "META": {
         "TITLE": "Page Assist: configuración con una API compatible con OpenAI gratis | {appName}",
-        "DESCRIPTION": "Conecta Page Assist a {appName} como API personalizada compatible con OpenAI en el panel lateral del navegador. Incluye modelos gratuitos.",
+        "DESCRIPTION": "Conecta la extensión Page Assist a {appName} como API compatible con OpenAI. Añade la base URL y la clave y chatea en el panel lateral con modelos gratuitos.",
         "KEYWORDS": "Page Assist, Page Assist compatible OpenAI, {appName} Page Assist, extensión de IA para navegador"
       },
       "BADGE": "Page Assist",
@@ -2377,7 +2377,7 @@
     "CHATBOX": {
       "META": {
         "TITLE": "Chatbox: configuración con una API compatible con OpenAI gratis | {appName}",
-        "DESCRIPTION": "Conecta Chatbox con {appName} usando el modo OpenAI API Compatible. Divide la URL en Host y Path. Incluye modelos gratuitos.",
+        "DESCRIPTION": "Conecta Chatbox a {appName} en modo OpenAI API Compatible. Divide la URL en API Host y API Path, añade tu clave y modelos y chatea. Modelos gratuitos incluidos.",
         "KEYWORDS": "Chatbox, Chatbox compatible OpenAI, {appName} Chatbox, cliente de chat multiplataforma"
       },
       "BADGE": "Chatbox",
@@ -2398,7 +2398,7 @@
     "BIG_AGI": {
       "META": {
         "TITLE": "Big-AGI: configuración con una API compatible con OpenAI gratis | {appName}",
-        "DESCRIPTION": "Conecta Big-AGI a {appName} como fuente OpenAI. Big-AGI carga el catálogo. Incluye modelos gratuitos.",
+        "DESCRIPTION": "Conecta Big-AGI a {appName} como fuente OpenAI personalizada. Introduce tu clave y endpoint y Big-AGI carga todo el catálogo de modelos. Modelos gratuitos incluidos.",
         "KEYWORDS": "Big-AGI, fuente OpenAI Big-AGI, {appName} Big-AGI, banco de trabajo de IA web"
       },
       "BADGE": "Big-AGI",
@@ -2417,7 +2417,7 @@
     "OPENCODE": {
       "META": {
         "TITLE": "Guía de configuración de OpenCode | {appName}",
-        "DESCRIPTION": "Conecta OpenCode a {appName} con un proveedor personalizado compatible con OpenAI en opencode.json.",
+        "DESCRIPTION": "Conecta OpenCode a {appName} con un proveedor compatible con OpenAI en opencode.json. Copia la config, lista los ID exactos y evita el choque de nombre del registro.",
         "KEYWORDS": "OpenCode, configuración de OpenCode, proveedor de OpenCode, {appName} OpenCode, agente de código, compatible con OpenAI"
       },
       "BADGE": "OpenCode",
@@ -2440,7 +2440,7 @@
     "KILO_CODE": {
       "META": {
         "TITLE": "Guía de configuración de Kilo Code | {appName}",
-        "DESCRIPTION": "Conecta Kilo Code a {appName} con un proveedor personalizado compatible con OpenAI en la barra lateral de VSCode.",
+        "DESCRIPTION": "Conecta Kilo Code (VSCode) a {appName} con un proveedor compatible con OpenAI. Pega los valores, deja las tools activas y programa con cualquier modelo, gratis o no.",
         "KEYWORDS": "Kilo Code, configuración de Kilo Code, agente de código de VSCode, {appName} Kilo Code, proveedor personalizado, compatible con OpenAI"
       },
       "BADGE": "Kilo Code",
@@ -2464,7 +2464,7 @@
     "ZED": {
       "META": {
         "TITLE": "Guía de configuración de Zed IDE | {appName}",
-        "DESCRIPTION": "Conecta el agente del editor Zed a {appName} con un proveedor personalizado compatible con OpenAI.",
+        "DESCRIPTION": "Conecta el panel de agente de Zed a {appName} como proveedor compatible con OpenAI. Ajustes paso a paso, lista de modelos, trucos de llavero y modelos gratuitos.",
         "KEYWORDS": "Zed, Zed IDE, agente de Zed, {appName} Zed, proveedor personalizado, editor compatible con OpenAI"
       },
       "BADGE": "Zed IDE",
@@ -2485,7 +2485,7 @@
     "CLINE": {
       "META": {
         "TITLE": "Guía de configuración de Cline | {appName}",
-        "DESCRIPTION": "Conecta Cline a {appName} como proveedor OpenAI Compatible para que pueda leer, editar y ejecutar código con cualquier modelo.",
+        "DESCRIPTION": "Conecta Cline en VSCode a {appName} como proveedor OpenAI Compatible. Su bucle de agente lee, edita y ejecuta código con cualquier modelo, gratuitos incluidos.",
         "KEYWORDS": "Cline, configuración de Cline, agente autónomo de VSCode, {appName} Cline, OpenAI Compatible, agente de código"
       },
       "BADGE": "Cline",
@@ -2527,7 +2527,7 @@
     "CONTINUE_DEV": {
       "META": {
         "TITLE": "Guía de configuración de Continue.dev | {appName}",
-        "DESCRIPTION": "Conecta Continue.dev a {appName} con un config.yaml versionable. Continue recarga en caliente la entrada del modelo.",
+        "DESCRIPTION": "Conecta Continue.dev a {appName} con un modelo en config.yaml. Recarga en caliente en VSCode y JetBrains, una clave compatible con OpenAI, también modelos gratuitos.",
         "KEYWORDS": "Continue.dev, configuración de Continue, asistente de VSCode JetBrains, {appName} Continue, config.yaml, compatible con OpenAI"
       },
       "BADGE": "Continue.dev",
@@ -2567,7 +2567,7 @@
     "NEVIKA": {
       "META": {
         "TITLE": "Guía de integración de Nevika | {appName}",
-        "DESCRIPTION": "Conecta Nevika a {appName} como proxy personalizado. Una clave, cientos de modelos.",
+        "DESCRIPTION": "Conecta Nevika a {appName} como proxy personalizado para rol con IA. Pega tu clave en la página de configuración prerrellenada y elige modelo, gratuitos incluidos.",
         "KEYWORDS": "Nevika, proxy personalizado de Nevika, clave API de Nevika, {appName} Nevika, rol con IA, chat de personajes"
       },
       "BADGE": "Nevika",
@@ -2591,7 +2591,7 @@
     "CURSOR": {
       "META": {
         "TITLE": "Guía de configuración de Cursor | {appName}",
-        "DESCRIPTION": "Usa los modelos de {appName} en Cursor Chat y Agent con tu propia clave de API y el ajuste Override OpenAI Base URL.",
+        "DESCRIPTION": "Modelos de {appName} en Cursor Chat y Agent: pega tu clave, activa Override OpenAI Base URL y añade los ID. Explica los límites de planes de pago y los ID claude-.",
         "KEYWORDS": "Cursor, modelo personalizado en Cursor, URL base de OpenAI en Cursor, Cursor BYOK, {appName} Cursor, clave de API de Cursor"
       },
       "BADGE": "Cursor",
@@ -2613,7 +2613,7 @@
     "GITHUB_COPILOT": {
       "META": {
         "TITLE": "Guía de configuración de GitHub Copilot en VS Code | {appName}",
-        "DESCRIPTION": "Añade {appName} a GitHub Copilot Chat en VS Code como modelo Custom Endpoint con tu propia clave de API.",
+        "DESCRIPTION": "Añade {appName} a GitHub Copilot Chat en VS Code como Custom Endpoint con tu propia clave API. Usa cualquier modelo en modo chat y agente, sin plan de Copilot.",
         "KEYWORDS": "GitHub Copilot, modelo personalizado en Copilot de VS Code, Copilot con tu propia clave, Copilot Custom Endpoint, VS Code BYOK, {appName} Copilot"
       },
       "BADGE": "GitHub Copilot",
@@ -2635,7 +2635,7 @@
     "N8N": {
       "META": {
         "TITLE": "Guía de configuración de n8n | {appName}",
-        "DESCRIPTION": "Usa los modelos de {appName} en flujos de n8n con AI Agent y cadenas LLM a través de la Base URL de la credencial de OpenAI.",
+        "DESCRIPTION": "Usa modelos de {appName} en n8n con AI Agent y Basic LLM Chain. Define la Base URL en la credencial OpenAI y desactiva la Responses API para usar cualquier modelo.",
         "KEYWORDS": "n8n, URL base de OpenAI en n8n, LLM personalizado en n8n, n8n AI Agent, n8n compatible con OpenAI, {appName} n8n"
       },
       "BADGE": "n8n",
@@ -2656,7 +2656,7 @@
     "DIFY": {
       "META": {
         "TITLE": "Guía de configuración de Dify | {appName}",
-        "DESCRIPTION": "Conecta Dify a {appName} con el plugin de {appName} del Dify Marketplace o con el proveedor OpenAI-API-compatible.",
+        "DESCRIPTION": "Conecta Dify a {appName} con el plugin del Marketplace o el proveedor OpenAI-API-compatible. Añade clave y modelos, activa las llamadas a tools y úsalos en tus apps.",
         "KEYWORDS": "Dify, proveedor de modelos de Dify, Dify OpenAI-API-compatible, plugin de Dify, LLM personalizado en Dify, {appName} Dify"
       },
       "BADGE": "Dify",
@@ -2677,7 +2677,7 @@
     "JAN": {
       "META": {
         "TITLE": "Guía de configuración de Jan | {appName}",
-        "DESCRIPTION": "Añade {appName} a la app de escritorio Jan como proveedor personalizado compatible con OpenAI.",
+        "DESCRIPTION": "Añade {appName} a la app de escritorio Jan como proveedor compatible con OpenAI. Sus modelos salen junto a los locales, con consejos de tools, visión y base URL.",
         "KEYWORDS": "Jan, Jan AI, proveedor personalizado en Jan, Jan compatible con OpenAI, modelos remotos en Jan, {appName} Jan"
       },
       "BADGE": "Jan",
@@ -2698,7 +2698,7 @@
     "MSTY": {
       "META": {
         "TITLE": "Guía de configuración de Msty Studio | {appName}",
-        "DESCRIPTION": "Añade {appName} a Msty Studio como proveedor de modelos compatible con OpenAI.",
+        "DESCRIPTION": "Añade {appName} a Msty Studio como proveedor compatible con OpenAI: pega la base URL y la clave, carga la lista de modelos y chatea con modelos gratuitos y de pago.",
         "KEYWORDS": "Msty, Msty Studio, Msty compatible con OpenAI, proveedor remoto en Msty, modelo personalizado en Msty, {appName} Msty"
       },
       "BADGE": "Msty",
@@ -2719,7 +2719,7 @@
     "OBSIDIAN_COPILOT": {
       "META": {
         "TITLE": "Guía de configuración de Obsidian Copilot | {appName}",
-        "DESCRIPTION": "Añade {appName} al plugin Copilot for Obsidian como proveedor BYOK personalizado.",
+        "DESCRIPTION": "Añade {appName} a Copilot for Obsidian como proveedor BYOK y chatea con tus notas usando cualquier modelo. Sin licencia de Copilot, modelos gratuitos incluidos.",
         "KEYWORDS": "Obsidian Copilot, Copilot for Obsidian, plugin de IA para Obsidian, proveedor personalizado en Obsidian, Obsidian BYOK, {appName} Obsidian"
       },
       "BADGE": "Obsidian Copilot",
@@ -2740,7 +2740,7 @@
     "AGNAI": {
       "META": {
         "TITLE": "Guía de configuración de Agnai | {appName}",
-        "DESCRIPTION": "Conecta Agnai a {appName} como proveedor OpenAI Compat para chatear con personajes usando cualquier modelo.",
+        "DESCRIPTION": "Conecta Agnai a {appName} como proveedor OpenAI Compat para chatear con personajes. Añade base URL y clave, prueba la conexión y usa cualquier modelo en tus presets.",
         "KEYWORDS": "Agnai, Agnaistic, Agnai compatible con OpenAI, proveedor personalizado en Agnai, proxy de Agnai, {appName} Agnai"
       },
       "BADGE": "Agnai",
@@ -5304,7 +5304,7 @@
       "STAT_PROVIDERS": "Proveedores monitoreados",
       "STAT_PASS_RATE": "Tasa media de aprobacion",
       "META_TITLE": "Clasificacion de autenticidad de modelos | {appName}",
-      "META_DESCRIPTION": "Descubre que proveedores de API sirven el modelo real que dicen, ordenados por tasa de aprobacion determinista.",
+      "META_DESCRIPTION": "Descubre qué proveedores de API de IA sirven de verdad el modelo anunciado. {appName} los ordena por tasa de acierto de huella determinista, con pruebas enlazadas.",
       "DISCLAIMER": "Cada resultado publicado se vuelve a ejecutar en nuestro servidor antes de contar, y cada veredicto enlaza con las pruebas exactas que lo produjeron. Un resultado que creas erróneo puede impugnarse.",
       "REPORT_DISCORD": "Informar en Discord",
       "REPORT_GITHUB": "Abrir una incidencia en GitHub",
@@ -5672,7 +5672,7 @@
       "ALT_EDITOR": "Editor de personas con título visible, nombre, descripción y el interruptor de persona predeterminada",
       "META": {
         "TITLE": "Personas en {appName}",
-        "DESCRIPTION": "Crea la identidad con la que juegas: campos de persona, persona predeterminada e importación desde otras apps.",
+        "DESCRIPTION": "Crea la persona con la que juegas en {appName}: nombre, descripción, avatar y título, una persona predeterminada para chats nuevos e importación desde otras apps.",
         "KEYWORDS": "persona, identidad de usuario, persona de rol, persona predeterminada"
       },
       "TITLE": "Personas",
@@ -5731,7 +5731,7 @@
     "CARDS": {
       "META": {
         "TITLE": "Tarjetas (paquetes de loadout) en {appName}",
-        "DESCRIPTION": "Agrupa persona, personajes y lorebooks en una tarjeta de loadout aplicable con semántica de reemplazo o fusión.",
+        "DESCRIPTION": "Agrupa persona, personajes y lorebooks en una tarjeta de {appName} y aplica todo en un clic, en modo reemplazo o fusión. Las tarjetas se exportan en JSON.",
         "KEYWORDS": "paquete de loadout, aplicar tarjeta, paquete de escenario"
       },
       "TITLE": "Tarjetas",
@@ -5780,7 +5780,7 @@
     "PROMPT_TEMPLATE": {
       "META": {
         "TITLE": "Editor de plantilla de prompt en {appName}",
-        "DESCRIPTION": "Reordena arrastrando los bloques del prompt ensamblado: huecos, bloques libres y el marcador de historial del chat.",
+        "DESCRIPTION": "Reordena el prompt de {appName} arrastrando bloques: slots del motor, tus bloques de texto y el marcador del historial. Consulta el orden por defecto o restablécelo.",
         "KEYWORDS": "plantilla de prompt, orden del prompt, bloques de prompt, estructura de prompt personalizada"
       },
       "TITLE": "Plantilla de prompt",
@@ -5802,7 +5802,7 @@
     "GROUP_CHATS": {
       "META": {
         "TITLE": "Chats grupales en {appName}",
-        "DESCRIPTION": "Varios personajes en una conversación: rotación de hablantes, prioridad por mención de nombre y filtrado del prompt por personaje.",
+        "DESCRIPTION": "Varios personajes en un chat de {appName}: rotación por mención de nombre y locuacidad, filtrado del prompt por personaje para ahorrar tokens y consejos de narrador.",
         "KEYWORDS": "chat grupal, varios personajes, rotación de hablantes, orden de turnos"
       },
       "TITLE": "Chats grupales",
@@ -5821,7 +5821,7 @@
     "MULTIPLAYER": {
       "META": {
         "TITLE": "Salas multijugador en {appName}",
-        "DESCRIPTION": "Comparte un chat de rol con amigos: salas entre pares, enlaces de invitación, aprobación del anfitrión y turnos.",
+        "DESCRIPTION": "Un chat de rol con amigos en {appName}: abre una sala entre pares, comparte el enlace, admite invitados y jugad por turnos. Ellos no necesitan cuenta ni clave.",
         "KEYWORDS": "rol multijugador, chat de IA compartido, RP entre pares, sala de rol grupal, chat de IA colaborativo"
       },
       "TITLE": "Salas multijugador",
@@ -5884,7 +5884,7 @@
     "REGEX_SCRIPTS": {
       "META": {
         "TITLE": "Scripts regex en {appName}",
-        "DESCRIPTION": "Canales de buscar y reemplazar sobre el texto de entrada, salida, prompt y visualización, con directivas de orden y acción.",
+        "DESCRIPTION": "Scripts regex del chat de {appName}: buscar y reemplazar en entrada, salida, prompt y vista, con tags de orden, directivas de acción e importación de SillyTavern.",
         "KEYWORDS": "scripts regex, customscript, editdisplay, editoutput, transformaciones de texto"
       },
       "TITLE": "Scripts regex",
@@ -5909,7 +5909,7 @@
     "TRIGGERS_AND_LUA": {
       "META": {
         "TITLE": "Scripts de disparadores y Lua en {appName}",
-        "DESCRIPTION": "Automatización por eventos: la VM de disparadores, efectos de bajo nivel y el runtime Lua integrado con ganchos de edición.",
+        "DESCRIPTION": "Automatiza personajes de {appName} con triggers compatibles con RisuAI, efectos de bajo nivel y un runtime Lua integrado cuyos hooks reescriben el texto al vuelo.",
         "KEYWORDS": "scripts de disparadores, scripting lua, gancho editoutput, automatización de rol"
       },
       "TITLE": "Disparadores y Lua",
@@ -5931,7 +5931,7 @@
     "PLUGINS": {
       "META": {
         "TITLE": "Complementos de JavaScript en {appName}",
-        "DESCRIPTION": "JavaScript propio en un entorno aislado: manejadores alrededor de cada mensaje, la API de complementos y compatibilidad con scripts de JanitorAI.",
+        "DESCRIPTION": "Plugins JavaScript en sandbox para el chat de {appName}: hooks en torno a cada mensaje, la API uno para leer y escribir el chat y soporte de scripts de JanitorAI.",
         "KEYWORDS": "complementos javascript, scripts janitorai, automatización de chat, entorno aislado"
       },
       "TITLE": "Complementos",
@@ -5956,7 +5956,7 @@
     "MEMORY_AND_CONTEXT": {
       "META": {
         "TITLE": "Memoria, recuperación y búsqueda web en {appName}",
-        "DESCRIPTION": "Resúmenes continuos de la historia, recuperación semántica de momentos pasados y búsqueda web filtrada por clasificador.",
+        "DESCRIPTION": "Cómo {appName} mantiene coherentes los roles largos: resúmenes continuos más allá del contexto, recuperación de momentos antiguos y búsqueda web opcional por chat.",
         "KEYWORDS": "memoria de chat, resumen continuo, recuperación semántica, embeddings, búsqueda web"
       },
       "TITLE": "Memoria y contexto",
@@ -5975,7 +5975,7 @@
     "IMAGES": {
       "META": {
         "TITLE": "Generación de imágenes en el chat de {appName}",
-        "DESCRIPTION": "Ilustraciones de escena tras las respuestas: elección de modelo, imágenes de referencia, plantillas de estilo, vista previa del prompt y medios en línea.",
+        "DESCRIPTION": "Ilustra cada escena en el chat de {appName} tras la respuesta: elige un modelo de imagen o uno gratis, añade referencias y estilos, y previsualiza los prompts.",
         "KEYWORDS": "generación de imágenes, ilustración de escena, imágenes de referencia, plantilla de estilo, imágenes inlay"
       },
       "TITLE": "Imágenes",
@@ -6026,7 +6026,7 @@
     "DATA": {
       "META": {
         "TITLE": "Datos, exportación e inspección en {appName}",
-        "DESCRIPTION": "Formatos de exportación de conversaciones, portabilidad de entidades, inspectores de registro de peticiones y ensayo, y el estudio de base de datos local.",
+        "DESCRIPTION": "Exporta chats y personajes de {appName} en formatos comunes, revisa cada solicitud con el registro y simulaciones gratis, y explora tu base local en un estudio.",
         "KEYWORDS": "exportar chat, JSONL de SillyTavern, registro de peticiones, ensayo, base de datos local, portabilidad de datos"
       },
       "TITLE": "Tus datos",
@@ -6221,7 +6221,7 @@
     "QUICKSTART": {
       "META": {
         "TITLE": "Inicio rápido: tu primera solicitud en 5 minutos",
-        "DESCRIPTION": "Crea una clave de API de {appName} y haz tu primera solicitud compatible con OpenAI usando curl, Python o Node.js.",
+        "DESCRIPTION": "Crea una clave de API de {appName} y haz tu primera solicitud compatible con OpenAI con curl, Python o Node.js en cinco minutos. Los modelos con :free son gratis.",
         "KEYWORDS": "inicio rápido, clave de API, base URL, compatible con OpenAI, primera solicitud, curl, Python, Node.js"
       },
       "TITLE": "Inicio rápido",
@@ -6486,7 +6486,7 @@
     "ACCOUNT_AND_BILLING": {
       "META": {
         "TITLE": "Cuenta, saldo y facturación",
-        "DESCRIPTION": "Cómo funciona el saldo de {appName}: recargas, crédito gratuito, límites de las claves de API, cargos por solicitud y el registro de uso.",
+        "DESCRIPTION": "Cómo funciona tu saldo de {appName}: recargas únicas con tarjeta o cripto, crédito gratis por recompensas de Discord, límites de gasto por clave y registro de uso.",
         "KEYWORDS": "saldo, recarga, facturación, claves de API, registro de uso, crédito gratuito, afiliado"
       },
       "TITLE": "Cuenta y facturación",

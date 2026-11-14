@@ -451,7 +451,7 @@
       "PRESET_IMAGE_DESC": "أفضل نماذج توليد الصور من حيث التكلفة والجودة.",
       "META": {
         "TITLE": "قارن نماذج الذكاء الاصطناعي - {appName}",
-        "DESCRIPTION": "قارن نماذج الذكاء الاصطناعي جنباً إلى جنب حسب السعر وطول السياق والقدرات والاستخدام على {appName}.",
+        "DESCRIPTION": "قارن نماذج الذكاء الاصطناعي جنبًا إلى جنب على {appName}: الأسعار وطول السياق والقدرات وزمن الاستجابة والاستخدام. ابدأ من إعدادات الرائدة أو الاقتصادية أو البرمجة.",
         "KEYWORDS": "مقارنة نماذج الذكاء الاصطناعي، مقارنة النماذج، مقارنة LLM، أسعار الذكاء الاصطناعي",
         "TITLE_COMBO": "{models} - مقارنة نماذج الذكاء الاصطناعي",
         "DESCRIPTION_COMBO": "قارن {models} حسب السعر وطول السياق والقدرات والاستخدام."
@@ -1748,7 +1748,7 @@
     "CC_SWITCH": {
       "META": {
         "TITLE": "دليل تكامل CC Switch | {appName}",
-        "DESCRIPTION": "إعداد CC Switch مع {appName} لإدارة موحّدة لـ CLI الذكاء الاصطناعي",
+        "DESCRIPTION": "اضبط CC Switch مع {appName} لإدارة مزوّدي Claude Code وCodex وGemini CLI في تطبيق واحد، واستورد الإعداد بنقرة واحدة عبر الرابط العميق ccswitch://.",
         "KEYWORDS": "CC Switch، Claude Code، Codex، Gemini CLI، إدارة CLI"
       },
       "BADGE": "CC Switch",
@@ -1797,7 +1797,7 @@
     "CLAUDE_CODE": {
       "META": {
         "TITLE": "تكامل Claude Code - {appName}",
-        "DESCRIPTION": "استخدم {appName} مع Claude Code وCursor وأي عميل متوافق مع Anthropic عبر نقطة نهاية واحدة.",
+        "DESCRIPTION": "استخدم Claude Code مع {appName} على Windows وmacOS وLinux: اضبط عنوان Anthropic الأساسي ومفتاحك، وبدّل النماذج بالأمر /model، واضبط تطبيق سطح المكتب أيضًا.",
         "KEYWORDS": "Claude Code، Anthropic API، إعداد Claude Code، Cursor AI، {appName} Claude، بديل Anthropic"
       },
       "BADGE": "Claude Code",
@@ -1861,7 +1861,7 @@
     "CODEX": {
       "META": {
         "TITLE": "دليل إعداد Codex CLI - {appName}",
-        "DESCRIPTION": "اضبط OpenAI Codex CLI مع {appName} على Windows وmacOS وLinux، مع لقطات شاشة.",
+        "DESCRIPTION": "اضبط OpenAI Codex CLI مع {appName} على Windows وmacOS وLinux: مزوّد مخصص في config.toml، ومفتاحك كمتغير بيئة، وإعداد تطبيق سطح المكتب.",
         "KEYWORDS": "Codex CLI، OpenAI Codex، دليل إعداد Codex، تثبيت Codex CLI، {appName} Codex، وكيل برمجة OpenAI"
       },
       "BADGE": "Codex CLI",
@@ -1894,7 +1894,7 @@
     "GEMINI_CLI": {
       "META": {
         "TITLE": "تكامل Gemini CLI - {appName}",
-        "DESCRIPTION": "استخدم {appName} مع Gemini CLI وأي عميل متوافق مع Google GenAI.",
+        "DESCRIPTION": "شغّل Gemini CLI من Google على {appName}: اضبط GOOGLE_GEMINI_BASE_URL ومفتاحك في ~/.gemini/.env، واستخدم مفتاحًا واحدًا لكل النماذج، وأصلح أخطاء 404 والمصادقة بسرعة.",
         "KEYWORDS": "Gemini CLI، Google AI API، إعداد Gemini، Google GenAI SDK، {appName} Gemini، بديل Gemini"
       },
       "BADGE": "Gemini CLI",
@@ -1927,7 +1927,7 @@
     "OPENCLAW": {
       "META": {
         "TITLE": "تكامل OpenClaw - {appName}",
-        "DESCRIPTION": "استخدم {appName} كمزوّد النماذج لوكيل OpenClaw الخاصّ بك.",
+        "DESCRIPTION": "استخدم {appName} كمزوّد نماذج متوافق مع OpenAI في OpenClaw. اضبط عنوان URL الأساسي في openclaw.json وشغّل وكيلك على Telegram أو Discord أو Slack.",
         "KEYWORDS": "OpenClaw، إعداد OpenClaw، وكيل ذكاء اصطناعي، {appName} OpenClaw، مزوّد نماذج، بوابة ذكاء اصطناعي"
       },
       "BADGE": "OpenClaw",
@@ -1955,7 +1955,7 @@
     "HERMES": {
       "META": {
         "TITLE": "تكامل Hermes Agent - {appName}",
-        "DESCRIPTION": "استخدم {appName} كمزوّد النماذج لـ Hermes Agent من Nous Research. نقطة نهاية واحدة متوافقة مع OpenAI، وكلّ النماذج.",
+        "DESCRIPTION": "استخدم {appName} كمزوّد نماذج لـ Hermes Agent من Nous Research. اضبط عنوان URL أساسيًا مخصصًا في config.yaml ومفتاحك في .env، ثم شغّله بأي نموذج.",
         "KEYWORDS": "Hermes Agent، Nous Research، إعداد Hermes، وكيل ذكاء اصطناعي، {appName} Hermes، مزوّد نماذج، متوافق مع OpenAI"
       },
       "BADGE": "Hermes Agent",
@@ -2259,7 +2259,7 @@
     "LOBECHAT": {
       "META": {
         "TITLE": "LobeChat: الإعداد مع واجهة API مجانية متوافقة مع OpenAI | {appName}",
-        "DESCRIPTION": "اربط LobeChat بـ {appName} عبر Add Custom Provider أو متغيّرات بيئة Docker. يشمل نماذج مجانية.",
+        "DESCRIPTION": "اربط LobeChat بـ {appName} عبر Add Custom Provider أو متغيرات بيئة Docker للاستضافة الذاتية. مفتاح واحد متوافق مع OpenAI لكل النماذج، بما فيها المجانية.",
         "KEYWORDS": "LobeChat, موفر LobeChat مخصص, {appName} LobeChat, محادثة ويب مفتوحة المصدر"
       },
       "BADGE": "LobeChat",
@@ -2316,7 +2316,7 @@
     "TYPINGMIND": {
       "META": {
         "TITLE": "TypingMind: الإعداد مع واجهة API مجانية متوافقة مع OpenAI | {appName}",
-        "DESCRIPTION": "اربط TypingMind بـ {appName} بلصق نقطة نهاية مخصّصة متوافقة مع OpenAI. يشمل نماذج مجانية.",
+        "DESCRIPTION": "اربط TypingMind بـ {appName} كنموذج مخصص متوافق مع OpenAI. اضبط نقطة النهاية، وأضف مفتاحك كترويسة Authorization، ثم اختبر. النماذج المجانية متاحة.",
         "KEYWORDS": "TypingMind, نموذج TypingMind مخصص, {appName} TypingMind, واجهة ويب BYOK"
       },
       "BADGE": "TypingMind",
@@ -2337,7 +2337,7 @@
     "BOLTAI": {
       "META": {
         "TITLE": "BoltAI: الإعداد مع واجهة API مجانية متوافقة مع OpenAI | {appName}",
-        "DESCRIPTION": "اربط BoltAI بـ {appName} كخادم مخصّص متوافق مع OpenAI. يشمل نماذج مجانية.",
+        "DESCRIPTION": "اربط BoltAI على macOS بـ {appName} كخادم مخصص متوافق مع OpenAI. أدخل عنوان URL والمفتاح ومعرّف النموذج وطول السياق، ثم ابدأ المحادثة. النماذج المجانية متاحة.",
         "KEYWORDS": "BoltAI, BoltAI متوافق مع OpenAI, {appName} BoltAI, مساعد ذكاء اصطناعي macOS"
       },
       "BADGE": "BoltAI",
@@ -2356,7 +2356,7 @@
     "PAGE_ASSIST": {
       "META": {
         "TITLE": "Page Assist: الإعداد مع واجهة API مجانية متوافقة مع OpenAI | {appName}",
-        "DESCRIPTION": "اربط Page Assist بـ {appName} كواجهة API مخصّصة متوافقة مع OpenAI في اللوحة الجانبية للمتصفّح. يشمل نماذج مجانية.",
+        "DESCRIPTION": "اربط إضافة المتصفح Page Assist بـ {appName} كواجهة API مخصصة متوافقة مع OpenAI. أضف عنوان URL الأساسي والمفتاح وتحدّث في اللوحة الجانبية مع نماذج مجانية.",
         "KEYWORDS": "Page Assist, Page Assist متوافق مع OpenAI, {appName} Page Assist, امتداد ذكاء اصطناعي للمتصفح"
       },
       "BADGE": "Page Assist",
@@ -2377,7 +2377,7 @@
     "CHATBOX": {
       "META": {
         "TITLE": "Chatbox: الإعداد مع واجهة API مجانية متوافقة مع OpenAI | {appName}",
-        "DESCRIPTION": "اربط Chatbox بـ {appName} باستخدام وضع OpenAI API Compatible. قسّم عنوان URL إلى Host و Path. يشمل نماذج مجانية.",
+        "DESCRIPTION": "اربط Chatbox بـ {appName} في وضع OpenAI API Compatible. قسّم عنوان URL إلى API Host وAPI Path، وأضف مفتاحك ونماذجك، ثم ابدأ المحادثة. النماذج المجانية متاحة.",
         "KEYWORDS": "Chatbox, Chatbox متوافق مع OpenAI, {appName} Chatbox, عميل محادثة متعدد المنصات"
       },
       "BADGE": "Chatbox",
@@ -2398,7 +2398,7 @@
     "BIG_AGI": {
       "META": {
         "TITLE": "Big-AGI: الإعداد مع واجهة API مجانية متوافقة مع OpenAI | {appName}",
-        "DESCRIPTION": "اربط Big-AGI بـ {appName} كمصدر OpenAI. يجلب Big-AGI الكتالوج بنفسه. يشمل نماذج مجانية.",
+        "DESCRIPTION": "اربط Big-AGI بـ {appName} كمصدر OpenAI مخصص. أدخل مفتاحك ونقطة النهاية، وسيجلب Big-AGI كتالوج النماذج كاملًا نيابةً عنك. النماذج المجانية متاحة.",
         "KEYWORDS": "Big-AGI, مصدر OpenAI Big-AGI, {appName} Big-AGI, منصة ذكاء اصطناعي للويب"
       },
       "BADGE": "Big-AGI",
@@ -2417,7 +2417,7 @@
     "OPENCODE": {
       "META": {
         "TITLE": "دليل إعداد OpenCode | {appName}",
-        "DESCRIPTION": "اربط OpenCode بـ {appName} عبر مزوّد مخصّص متوافق مع OpenAI في opencode.json.",
+        "DESCRIPTION": "اربط OpenCode بـ {appName} عبر مزوّد مخصص متوافق مع OpenAI في opencode.json. انسخ الإعداد، وأدرج معرّفات النماذج بدقة، وتجنّب تعارض الاسم مع السجل.",
         "KEYWORDS": "OpenCode, إعداد OpenCode, موفر OpenCode, {appName} OpenCode, وكيل برمجة, متوافق مع OpenAI"
       },
       "BADGE": "OpenCode",
@@ -2440,7 +2440,7 @@
     "KILO_CODE": {
       "META": {
         "TITLE": "دليل إعداد Kilo Code | {appName}",
-        "DESCRIPTION": "اربط Kilo Code بـ {appName} عبر مزوّد مخصّص متوافق مع OpenAI في الشريط الجانبي لـ VSCode.",
+        "DESCRIPTION": "اربط Kilo Code في VSCode بـ {appName} عبر مزوّد مخصص متوافق مع OpenAI. الصق القيم، وأبقِ دعم الأدوات مفعّلًا، وبرمج بأي نموذج، مجاني أو مدفوع.",
         "KEYWORDS": "Kilo Code, إعداد Kilo Code, وكيل برمجة VSCode, {appName} Kilo Code, موفر مخصص, متوافق مع OpenAI"
       },
       "BADGE": "Kilo Code",
@@ -2464,7 +2464,7 @@
     "ZED": {
       "META": {
         "TITLE": "دليل إعداد محرر Zed | {appName}",
-        "DESCRIPTION": "اربط وكيل محرّر Zed بـ {appName} عبر مزوّد مخصّص متوافق مع OpenAI.",
+        "DESCRIPTION": "اربط لوحة الوكيل في محرّر Zed بـ {appName} كمزوّد مخصص متوافق مع OpenAI. إعدادات خطوة بخطوة، وقائمة النماذج، ونصائح سلسلة المفاتيح، والنماذج المجانية أيضًا.",
         "KEYWORDS": "Zed, محرر Zed, وكيل Zed, {appName} Zed, موفر مخصص, محرر متوافق مع OpenAI"
       },
       "BADGE": "محرر Zed",
@@ -2485,7 +2485,7 @@
     "CLINE": {
       "META": {
         "TITLE": "دليل إعداد Cline | {appName}",
-        "DESCRIPTION": "اربط Cline بـ {appName} كمزوّد OpenAI Compatible ليقرأ الكود ويحرّره ويشغّله بأي نموذج.",
+        "DESCRIPTION": "اربط Cline في VSCode بـ {appName} كمزوّد OpenAI Compatible. شغّل حلقة الوكيل الكاملة لقراءة الكود وتحريره وتشغيله بأي نموذج، بما فيها النماذج المجانية.",
         "KEYWORDS": "Cline, إعداد Cline, وكيل VSCode مستقل, {appName} Cline, OpenAI Compatible, وكيل برمجة"
       },
       "BADGE": "Cline",
@@ -2527,7 +2527,7 @@
     "CONTINUE_DEV": {
       "META": {
         "TITLE": "دليل إعداد Continue.dev | {appName}",
-        "DESCRIPTION": "اربط Continue.dev بـ {appName} عبر ملفّ config.yaml خاضع لإدارة الإصدارات. يعيد Continue تحميل مدخل النموذج فوريًا.",
+        "DESCRIPTION": "اربط Continue.dev بـ {appName} بإدخال نموذج في config.yaml. يُعاد تحميله فورًا في VSCode وJetBrains بمفتاح واحد متوافق مع OpenAI، والنماذج المجانية أيضًا.",
         "KEYWORDS": "Continue.dev, إعداد Continue, مساعد VSCode وJetBrains, {appName} Continue, config.yaml, متوافق مع OpenAI"
       },
       "BADGE": "Continue.dev",
@@ -2567,7 +2567,7 @@
     "NEVIKA": {
       "META": {
         "TITLE": "دليل تكامل Nevika | {appName}",
-        "DESCRIPTION": "اربط Nevika بـ {appName} كبروكسي مخصّص. مفتاح واحد ومئات النماذج.",
+        "DESCRIPTION": "اربط Nevika بـ {appName} كبروكسي مخصص لتقمص الأدوار بالذكاء الاصطناعي. الصق مفتاحك في صفحة الإعداد المعبأة مسبقًا واختر نموذجًا من القائمة، بما فيها النماذج المجانية.",
         "KEYWORDS": "Nevika, بروكسي Nevika المخصّص, مفتاح API لـ Nevika, {appName} Nevika, لعب أدوار بالذكاء الاصطناعي, دردشة شخصيات"
       },
       "BADGE": "Nevika",
@@ -2591,7 +2591,7 @@
     "CURSOR": {
       "META": {
         "TITLE": "دليل إعداد Cursor | {appName}",
-        "DESCRIPTION": "استخدم نماذج {appName} في Chat و Agent داخل Cursor بمفتاح API الخاص بك وإعداد Override OpenAI Base URL.",
+        "DESCRIPTION": "استخدم نماذج {appName} في Chat وAgent داخل Cursor: الصق مفتاحك، وفعّل Override OpenAI Base URL، وأضف معرّفات النماذج. يشمل حدود الخطط المدفوعة ومعرّفات claude-.",
         "KEYWORDS": "Cursor, نموذج مخصص في Cursor, Cursor OpenAI base URL, Cursor BYOK, {appName} Cursor, مفتاح API في Cursor"
       },
       "BADGE": "Cursor",
@@ -2613,7 +2613,7 @@
     "GITHUB_COPILOT": {
       "META": {
         "TITLE": "دليل إعداد GitHub Copilot في VS Code | {appName}",
-        "DESCRIPTION": "أضف {appName} إلى GitHub Copilot Chat في VS Code كنموذج Custom Endpoint بمفتاح API الخاص بك.",
+        "DESCRIPTION": "أضف {appName} إلى GitHub Copilot Chat في VS Code كـ Custom Endpoint بمفتاح API الخاص بك. استخدم أي نموذج في وضعي المحادثة والوكيل، دون الحاجة إلى خطة Copilot.",
         "KEYWORDS": "GitHub Copilot, نموذج مخصص في VS Code Copilot, Copilot بمفتاحك الخاص, Copilot Custom Endpoint, VS Code BYOK, {appName} Copilot"
       },
       "BADGE": "GitHub Copilot",
@@ -2635,7 +2635,7 @@
     "N8N": {
       "META": {
         "TITLE": "دليل إعداد n8n | {appName}",
-        "DESCRIPTION": "استخدم نماذج {appName} في سير عمل AI Agent وسلاسل LLM في n8n عبر حقل Base URL في بيانات اعتماد OpenAI.",
+        "DESCRIPTION": "استخدم نماذج {appName} في سير عمل AI Agent وBasic LLM Chain في n8n. اضبط Base URL في بيانات اعتماد OpenAI وأوقف Responses API لتشغيل أي نموذج.",
         "KEYWORDS": "n8n, n8n OpenAI base URL, نموذج LLM مخصص في n8n, n8n AI Agent, n8n متوافق مع OpenAI, {appName} n8n"
       },
       "BADGE": "n8n",
@@ -2656,7 +2656,7 @@
     "DIFY": {
       "META": {
         "TITLE": "دليل إعداد Dify | {appName}",
-        "DESCRIPTION": "اربط Dify بـ {appName} عبر إضافة {appName} من Dify Marketplace أو عبر مزوّد OpenAI-API-compatible.",
+        "DESCRIPTION": "اربط Dify بـ {appName} عبر إضافة Marketplace أو مزوّد OpenAI-API-compatible. أضف مفتاحك ونماذجك، وفعّل استدعاءات الأدوات، واستخدمها في تطبيقاتك.",
         "KEYWORDS": "Dify, مزوّد نماذج Dify, Dify OpenAI-API-compatible, إضافة Dify, نموذج LLM مخصص في Dify, {appName} Dify"
       },
       "BADGE": "Dify",
@@ -2677,7 +2677,7 @@
     "JAN": {
       "META": {
         "TITLE": "دليل إعداد Jan | {appName}",
-        "DESCRIPTION": "أضف {appName} إلى تطبيق Jan لسطح المكتب كمزوّد مخصص متوافق مع OpenAI.",
+        "DESCRIPTION": "أضف {appName} إلى تطبيق Jan لسطح المكتب كمزوّد مخصص متوافق مع OpenAI. تظهر نماذجه بجوار نماذجك المحلية، مع نصائح حول الأدوات والرؤية وعناوين URL الأساسية.",
         "KEYWORDS": "Jan, Jan AI, مزوّد مخصص في Jan, Jan متوافق مع OpenAI, نماذج بعيدة في Jan, {appName} Jan"
       },
       "BADGE": "Jan",
@@ -2698,7 +2698,7 @@
     "MSTY": {
       "META": {
         "TITLE": "دليل إعداد Msty Studio | {appName}",
-        "DESCRIPTION": "أضف {appName} إلى Msty Studio كمزوّد نماذج متوافق مع OpenAI.",
+        "DESCRIPTION": "أضف {appName} إلى Msty Studio كمزوّد متوافق مع OpenAI: الصق عنوان URL الأساسي والمفتاح، واجلب قائمة النماذج، وتحدّث مع نماذج مجانية ومدفوعة في تطبيق واحد.",
         "KEYWORDS": "Msty, Msty Studio, Msty متوافق مع OpenAI, مزوّد بعيد في Msty, نموذج مخصص في Msty, {appName} Msty"
       },
       "BADGE": "Msty",
@@ -2719,7 +2719,7 @@
     "OBSIDIAN_COPILOT": {
       "META": {
         "TITLE": "دليل إعداد Obsidian Copilot | {appName}",
-        "DESCRIPTION": "أضف {appName} إلى إضافة Copilot لـ Obsidian كمزوّد BYOK مخصص.",
+        "DESCRIPTION": "أضف {appName} إلى Copilot for Obsidian كمزوّد BYOK مخصص وتحدّث مع ملاحظاتك بأي نموذج. لا حاجة إلى ترخيص Copilot، والنماذج المجانية متاحة أيضًا.",
         "KEYWORDS": "Obsidian Copilot, Copilot for Obsidian, إضافة ذكاء اصطناعي لـ Obsidian, مزوّد مخصص في Obsidian, Obsidian BYOK, {appName} Obsidian"
       },
       "BADGE": "Obsidian Copilot",
@@ -2740,7 +2740,7 @@
     "AGNAI": {
       "META": {
         "TITLE": "دليل إعداد Agnai | {appName}",
-        "DESCRIPTION": "اربط Agnai بـ {appName} كمزوّد OpenAI Compat لمحادثات الشخصيات بأي نموذج.",
+        "DESCRIPTION": "اربط Agnai بـ {appName} كمزوّد OpenAI Compat لمحادثات الشخصيات. أضف عنوان URL الأساسي والمفتاح، واختبر الاتصال، ثم استخدم أي نموذج في إعداداتك المسبقة.",
         "KEYWORDS": "Agnai, Agnaistic, Agnai متوافق مع OpenAI, مزوّد مخصص في Agnai, وسيط Agnai, {appName} Agnai"
       },
       "BADGE": "Agnai",
@@ -5304,7 +5304,7 @@
       "STAT_PROVIDERS": "المزودون المتتبعون",
       "STAT_PASS_RATE": "متوسط معدل النجاح",
       "META_TITLE": "ترتيب اصالة النماذج | {appName}",
-      "META_DESCRIPTION": "شاهد اي مزودي الواجهات يقدمون النموذج الحقيقي الذي يدعونه، مرتبين حسب معدل النجاح الحتمي.",
+      "META_DESCRIPTION": "اعرف أي مزوّدي واجهات الذكاء الاصطناعي يقدّمون النموذج الحقيقي الذي يدّعونه. يرتّبهم {appName} حسب معدل النجاح في البصمة الحتمية، مع دليل مرتبط لكل حكم.",
       "DISCLAIMER": "تُعاد كل نتيجة منشورة على خادمنا قبل احتسابها، ويربط كل حكم بالدليل الدقيق الذي أنتجه. ويمكن الاعتراض على أي نتيجة تعتقد أنها خاطئة.",
       "REPORT_DISCORD": "أبلِغ على Discord",
       "REPORT_GITHUB": "افتح مشكلة على GitHub",
@@ -5672,7 +5672,7 @@
       "ALT_EDITOR": "محرر البرسونا مع عنوان العرض والاسم والوصف ومفتاح البرسونا الافتراضية",
       "META": {
         "TITLE": "الهويات في {appName}",
-        "DESCRIPTION": "أنشئ الهوية التي تلعب بها: حقول الهوية، والهوية الافتراضية، والاستيراد من تطبيقات أخرى.",
+        "DESCRIPTION": "أنشئ الهوية التي تلعب بها في {appName}: الاسم والوصف والصورة الرمزية واللقب، وهوية افتراضية للمحادثات الجديدة، والاستيراد من واجهات تقمص أدوار أخرى.",
         "KEYWORDS": "هوية, هوية المستخدم, هوية تقمص الأدوار, هوية افتراضية"
       },
       "TITLE": "الهويات",
@@ -5731,7 +5731,7 @@
     "CARDS": {
       "META": {
         "TITLE": "البطاقات (حزم العتاد) في {appName}",
-        "DESCRIPTION": "اجمع الهوية والشخصيات وكتب المعرفة في بطاقة عتاد واحدة قابلة للتطبيق بدلالة الاستبدال أو الدمج.",
+        "DESCRIPTION": "اجمع الهوية والشخصيات وكتب المعرفة في بطاقة واحدة في {appName} وطبّق الإعداد كله بنقرة واحدة، بوضع الاستبدال أو الدمج. تُصدَّر البطاقات بصيغة JSON.",
         "KEYWORDS": "حزمة عتاد, تطبيق بطاقة, حزمة سيناريو"
       },
       "TITLE": "البطاقات",
@@ -5780,7 +5780,7 @@
     "PROMPT_TEMPLATE": {
       "META": {
         "TITLE": "محرر قالب المطالبة في {appName}",
-        "DESCRIPTION": "أعد ترتيب كتل المطالبة المُجمَّعة بالسحب: الخانات، والكتل الحرة، وعلامة سجل الدردشة.",
+        "DESCRIPTION": "أعد ترتيب المطالبة المُجمّعة في {appName} بسحب الكتل: خانات المحرك، وكتلك النصية الخاصة، وعلامة سجل المحادثة. اطّلع على الترتيب الافتراضي أو أعد ضبطه.",
         "KEYWORDS": "قالب المطالبة, ترتيب المطالبة, كتل المطالبة, بنية مطالبة مخصصة"
       },
       "TITLE": "قالب المطالبة",
@@ -5802,7 +5802,7 @@
     "GROUP_CHATS": {
       "META": {
         "TITLE": "الدردشات الجماعية في {appName}",
-        "DESCRIPTION": "عدة شخصيات في محادثة واحدة: تدوير المتحدثين، وأولوية الذكر بالاسم، وبوابة المطالبة لكل شخصية.",
+        "DESCRIPTION": "شغّل عدة شخصيات في محادثة واحدة على {appName}: تناوب المتحدثين حسب ذكر الاسم ودرجة الثرثرة، وتقييد المطالبة لكل شخصية لتوفير الرموز، ونصائح للراوي.",
         "KEYWORDS": "دردشة جماعية, شخصيات متعددة, تدوير المتحدثين, ترتيب الأدوار"
       },
       "TITLE": "الدردشات الجماعية",
@@ -5821,7 +5821,7 @@
     "MULTIPLAYER": {
       "META": {
         "TITLE": "الغرف متعددة اللاعبين في {appName}",
-        "DESCRIPTION": "شارك محادثة تقمص الأدوار مع أصدقائك: غرف ندٍّ لند، روابط دعوة، موافقة المضيف، وتناوب الأدوار.",
+        "DESCRIPTION": "العب محادثة تقمص أدوار واحدة مع أصدقائك في {appName}: افتح غرفة ندٍّ لند، وشارك رابط الدعوة، واقبل الضيوف وتناوبوا الأدوار. لا يحتاج الضيوف إلى حساب أو مفتاح.",
         "KEYWORDS": "تقمص أدوار متعدد اللاعبين، محادثة ذكاء اصطناعي مشتركة، تقمص ندٍّ لند، غرفة تقمص جماعية، محادثة ذكاء اصطناعي تعاونية"
       },
       "TITLE": "الغرف متعددة اللاعبين",
@@ -5884,7 +5884,7 @@
     "REGEX_SCRIPTS": {
       "META": {
         "TITLE": "سكربتات التعبيرات النمطية في {appName}",
-        "DESCRIPTION": "خطوط بحث واستبدال على نص الإدخال والإخراج والمطالبة والعرض، مع توجيهات الترتيب والإجراء.",
+        "DESCRIPTION": "سكربتات Regex في محادثة {appName}: بحث واستبدال على نص الإدخال والإخراج والمطالبة والعرض، مع وسوم الترتيب وتوجيهات الإجراء واستيراد سكربتات SillyTavern.",
         "KEYWORDS": "سكربتات التعبيرات النمطية, customscript, editdisplay, editoutput, تحويلات النص"
       },
       "TITLE": "سكربتات التعبيرات النمطية",
@@ -5909,7 +5909,7 @@
     "TRIGGERS_AND_LUA": {
       "META": {
         "TITLE": "سكربتات المشغّلات وLua في {appName}",
-        "DESCRIPTION": "أتمتة مدفوعة بالأحداث: آلة المشغّلات الافتراضية، والتأثيرات منخفضة المستوى، وبيئة تشغيل Lua المضمّنة بخطاطيف تحرير.",
+        "DESCRIPTION": "أتمت شخصيات {appName} بسكربتات مشغّلات متوافقة مع RisuAI، وتأثيرات منخفضة المستوى، وبيئة Lua مدمجة بخطافات تعيد كتابة النص أثناء توليده.",
         "KEYWORDS": "سكربتات المشغّلات, برمجة lua, خطاف editoutput, أتمتة تقمص الأدوار"
       },
       "TITLE": "المشغّلات وLua",
@@ -5931,7 +5931,7 @@
     "PLUGINS": {
       "META": {
         "TITLE": "إضافات JavaScript في {appName}",
-        "DESCRIPTION": "شيفرة JavaScript خاصة بك في بيئة معزولة: معالجات حول كل رسالة، وواجهة الإضافات، والتوافق مع برامج JanitorAI النصية.",
+        "DESCRIPTION": "اكتب إضافات JavaScript معزولة لمحادثة {appName}: معالجات حول كل رسالة، وواجهة uno لقراءة المحادثة والكتابة فيها، ودعم سكربتات JanitorAI.",
         "KEYWORDS": "إضافات javascript، برامج janitorai النصية، أتمتة المحادثة، بيئة معزولة"
       },
       "TITLE": "الإضافات",
@@ -5956,7 +5956,7 @@
     "MEMORY_AND_CONTEXT": {
       "META": {
         "TITLE": "الذاكرة والاسترجاع والبحث على الويب في {appName}",
-        "DESCRIPTION": "ملخصات قصة متدحرجة، واسترجاع دلالي للحظات ماضية، وبحث على الويب مُبوَّب بمصنّف.",
+        "DESCRIPTION": "كيف يحافظ {appName} على تماسك قصص تقمص الأدوار الطويلة: ملخصات متجددة بعد نافذة السياق، واسترجاع اللحظات السابقة، وبحث اختياري على الويب لكل محادثة.",
         "KEYWORDS": "ذاكرة الدردشة, ملخص متدحرج, استرجاع دلالي, تضمينات, بحث على الويب"
       },
       "TITLE": "الذاكرة والسياق",
@@ -5975,7 +5975,7 @@
     "IMAGES": {
       "META": {
         "TITLE": "توليد الصور داخل دردشة {appName}",
-        "DESCRIPTION": "رسوم مشاهد بعد الردود: اختيار النموذج، والصور المرجعية، وقوالب الأسلوب، ومعاينة المطالبة، والوسائط المضمّنة.",
+        "DESCRIPTION": "ولّد رسومًا توضيحية للمشهد بعد كل رد في محادثة {appName}: اختر نموذج صور أو نموذجًا مجانيًا، وأضف صورًا مرجعية وقوالب أسلوب، وعاين المطالبات.",
         "KEYWORDS": "توليد الصور, رسم المشهد, صور مرجعية, قالب أسلوب, صور مضمّنة"
       },
       "TITLE": "الصور",
@@ -6026,7 +6026,7 @@
     "DATA": {
       "META": {
         "TITLE": "البيانات والتصدير والفحص في {appName}",
-        "DESCRIPTION": "تنسيقات تصدير المحادثات، وقابلية نقل الكيانات، وفاحصا سجل الطلبات والتشغيل الجاف، واستوديو قاعدة البيانات المحلية.",
+        "DESCRIPTION": "صدّر محادثات {appName} وشخصياته بصيغ شائعة، وافحص كل طلب عبر السجل والتشغيل التجريبي المجاني، وتصفّح قاعدة بيانات محادثاتك المحلية في واجهة استوديو.",
         "KEYWORDS": "تصدير الدردشة, SillyTavern JSONL, سجل الطلبات, تشغيل جاف, قاعدة بيانات محلية, قابلية نقل البيانات"
       },
       "TITLE": "بياناتك",
@@ -6221,7 +6221,7 @@
     "QUICKSTART": {
       "META": {
         "TITLE": "البدء السريع: طلبك الأول في 5 دقائق",
-        "DESCRIPTION": "أنشئ مفتاح واجهة برمجة تطبيقات {appName} وقم بطلبك الأول المتوافق مع OpenAI باستخدام curl أو Python أو Node.js.",
+        "DESCRIPTION": "أنشئ مفتاح API في {appName} وأرسل أول طلب متوافق مع OpenAI باستخدام curl أو Python أو Node.js في خمس دقائق. النماذج المنتهية بـ :free مجانية تمامًا.",
         "KEYWORDS": "البدء السريع، مفتاح API، base URL، متوافق مع OpenAI، الطلب الأول، curl، Python، Node.js"
       },
       "TITLE": "البدء السريع",
@@ -6486,7 +6486,7 @@
     "ACCOUNT_AND_BILLING": {
       "META": {
         "TITLE": "الحساب والرصيد والفوترة",
-        "DESCRIPTION": "كيف يعمل رصيد {appName}: الشحن، والرصيد المجاني، وحدود مفاتيح API، والرسوم لكل طلب، وسجل الاستخدام.",
+        "DESCRIPTION": "كيف يعمل رصيدك في {appName}: شحن لمرة واحدة بالبطاقة أو العملات المشفرة، ورصيد مجاني من مكافآت Discord، وحدود إنفاق لكل مفتاح، وسجل استخدام للطلبات.",
         "KEYWORDS": "الرصيد، الشحن، الفوترة، مفاتيح API، سجل الاستخدام، الرصيد المجاني، التسويق بالعمولة"
       },
       "TITLE": "الحساب والفوترة",

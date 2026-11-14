@@ -451,7 +451,7 @@
       "PRESET_IMAGE_DESC": "在成本與品質上領先的影像生成模型。",
       "META": {
         "TITLE": "對比 AI 模型 - {appName}",
-        "DESCRIPTION": "在 {appName} 上按價格、上下文長度、能力和使用量並排對比 AI 模型。",
+        "DESCRIPTION": "在 {appName} 上並排比較各家 AI 模型的價格、上下文長度、能力、延遲與使用量。可以從旗艦、高性價比或程式設計這三類預設開始比較。",
         "KEYWORDS": "對比 AI 模型，模型對比，LLM 對比，AI 價格",
         "TITLE_COMBO": "{models} - AI 模型對比",
         "DESCRIPTION_COMBO": "按價格、上下文長度、能力和使用量對比 {models}。"
@@ -1748,7 +1748,7 @@
     "CC_SWITCH": {
       "META": {
         "TITLE": "CC Switch 整合指南｜{appName}",
-        "DESCRIPTION": "搭配 {appName} 設定 CC Switch，一站式管理 AI CLI",
+        "DESCRIPTION": "搭配 {appName} 設定 CC Switch，在一個應用程式中管理 Claude Code、Codex 與 Gemini CLI 的供應商，用 ccswitch:// 連結一鍵匯入。",
         "KEYWORDS": "CC Switch、Claude Code、Codex、Gemini CLI、CLI 管理"
       },
       "BADGE": "CC Switch",
@@ -1797,7 +1797,7 @@
     "CLAUDE_CODE": {
       "META": {
         "TITLE": "Claude Code 整合：{appName}",
-        "DESCRIPTION": "透過單一端點，把 {appName} 用在 Claude Code、Cursor 以及任何 Anthropic 相容用戶端上。",
+        "DESCRIPTION": "在 Windows、macOS、Linux 上用 {appName} 執行 Claude Code：設定 Anthropic Base URL 與金鑰，以 /model 切換模型，含桌面版。",
         "KEYWORDS": "Claude Code、Anthropic API、Claude Code 設定、Cursor AI、{appName} Claude、Anthropic 替代方案"
       },
       "BADGE": "Claude Code",
@@ -1861,7 +1861,7 @@
     "CODEX": {
       "META": {
         "TITLE": "Codex CLI 設定指南：{appName}",
-        "DESCRIPTION": "在 Windows、macOS 與 Linux 上搭配 {appName} 設定 OpenAI Codex CLI，附螢幕截圖。",
+        "DESCRIPTION": "在 Windows、macOS 與 Linux 上搭配 {appName} 設定 Codex CLI：在 config.toml 加入自訂供應商，以環境變數存放金鑰，並設定桌面應用程式。",
         "KEYWORDS": "Codex CLI、OpenAI Codex、Codex 設定指南、Codex CLI 安裝、{appName} Codex、OpenAI 程式代理"
       },
       "BADGE": "Codex CLI",
@@ -1894,7 +1894,7 @@
     "GEMINI_CLI": {
       "META": {
         "TITLE": "Gemini CLI 整合：{appName}",
-        "DESCRIPTION": "把 {appName} 用在 Gemini CLI 以及任何 Google GenAI 相容用戶端上。",
+        "DESCRIPTION": "用 {appName} 跑 Gemini CLI：在 ~/.gemini/.env 設定 GOOGLE_GEMINI_BASE_URL 與金鑰，一把金鑰通用全模型，排解 404 與驗證錯誤。",
         "KEYWORDS": "Gemini CLI、Google AI API、Gemini 設定、Google GenAI SDK、{appName} Gemini、Gemini 替代方案"
       },
       "BADGE": "Gemini CLI",
@@ -1927,7 +1927,7 @@
     "OPENCLAW": {
       "META": {
         "TITLE": "OpenClaw 整合：{appName}",
-        "DESCRIPTION": "把 {appName} 當作 OpenClaw 代理程式的模型供應商。",
+        "DESCRIPTION": "把 {appName} 設為 OpenClaw 的 OpenAI 相容供應商：在 openclaw.json 設定 Base URL，在 Telegram、Discord、Slack 執行。",
         "KEYWORDS": "OpenClaw、OpenClaw 設定、AI 代理、{appName} OpenClaw、模型供應商、AI 閘道"
       },
       "BADGE": "OpenClaw",
@@ -1955,7 +1955,7 @@
     "HERMES": {
       "META": {
         "TITLE": "Hermes Agent 整合 - {appName}",
-        "DESCRIPTION": "把 {appName} 當作 Nous Research 的 Hermes Agent 的模型供應商。一個 OpenAI 相容端點，涵蓋所有模型。",
+        "DESCRIPTION": "把 {appName} 設為 Nous Research 的 Hermes Agent 的供應商：在 config.yaml 設定 Base URL，在 .env 填入金鑰，執行任何模型。",
         "KEYWORDS": "Hermes Agent，Nous Research，Hermes 設定，AI 代理，{appName} Hermes，模型提供方，OpenAI 相容"
       },
       "BADGE": "Hermes Agent",
@@ -2259,7 +2259,7 @@
     "LOBECHAT": {
       "META": {
         "TITLE": "LobeChat 設定：免費 OpenAI 相容 API | {appName}",
-        "DESCRIPTION": "透過 Add Custom Provider 或 Docker 環境變數把 LobeChat 連到 {appName}。含免費模型。",
+        "DESCRIPTION": "透過 Add Custom Provider 或自架用的 Docker 環境變數把 LobeChat 連到 {appName}。一把 OpenAI 相容金鑰通用所有模型，含免費模型。",
         "KEYWORDS": "LobeChat，LobeChat 自訂供應商，{appName} LobeChat，開源 Web 聊天"
       },
       "BADGE": "LobeChat",
@@ -2316,7 +2316,7 @@
     "TYPINGMIND": {
       "META": {
         "TITLE": "TypingMind 設定：免費 OpenAI 相容 API | {appName}",
-        "DESCRIPTION": "貼上一個自訂 OpenAI 相容端點，把 TypingMind 連到 {appName}。含免費模型。",
+        "DESCRIPTION": "把 TypingMind 當作自訂 OpenAI 相容模型連到 {appName}。設定端點，將金鑰加為 Authorization 標頭後進行測試，含免費模型。",
         "KEYWORDS": "TypingMind，TypingMind 自訂模型，{appName} TypingMind，BYOK Web 前端"
       },
       "BADGE": "TypingMind",
@@ -2337,7 +2337,7 @@
     "BOLTAI": {
       "META": {
         "TITLE": "BoltAI 設定：免費 OpenAI 相容 API | {appName}",
-        "DESCRIPTION": "把 BoltAI 當作自訂 OpenAI 相容伺服器連到 {appName}。含免費模型。",
+        "DESCRIPTION": "把 macOS 上的 BoltAI 當作自訂 OpenAI 相容伺服器連到 {appName}。填入 URL、金鑰、模型 ID 與上下文長度即可開始聊天，含免費模型。",
         "KEYWORDS": "BoltAI，BoltAI OpenAI 相容，{appName} BoltAI，macOS AI 助手"
       },
       "BADGE": "BoltAI",
@@ -2356,7 +2356,7 @@
     "PAGE_ASSIST": {
       "META": {
         "TITLE": "Page Assist 設定：免費 OpenAI 相容 API | {appName}",
-        "DESCRIPTION": "在瀏覽器側邊面板中把 Page Assist 當作自訂 OpenAI 相容 API 連到 {appName}。含免費模型。",
+        "DESCRIPTION": "把 Page Assist 瀏覽器擴充功能當作自訂 OpenAI 相容 API 連到 {appName}。加入 Base URL 與金鑰，即可在側邊面板與免費模型聊天。",
         "KEYWORDS": "Page Assist，Page Assist OpenAI 相容，{appName} Page Assist，瀏覽器 AI 擴充功能"
       },
       "BADGE": "Page Assist",
@@ -2377,7 +2377,7 @@
     "CHATBOX": {
       "META": {
         "TITLE": "Chatbox 設定：免費 OpenAI 相容 API | {appName}",
-        "DESCRIPTION": "使用 OpenAI API Compatible 模式將 Chatbox 連接到 {appName}。將 URL 拆分為 Host 和 Path。含免費模型。",
+        "DESCRIPTION": "以 OpenAI API Compatible 模式把 Chatbox 連到 {appName}。將 URL 拆成 API Host 與 API Path，加入金鑰與模型即可聊天。",
         "KEYWORDS": "Chatbox，Chatbox OpenAI 相容，{appName} Chatbox，跨平台聊天用戶端"
       },
       "BADGE": "Chatbox",
@@ -2398,7 +2398,7 @@
     "BIG_AGI": {
       "META": {
         "TITLE": "Big-AGI 設定：免費 OpenAI 相容 API | {appName}",
-        "DESCRIPTION": "把 Big-AGI 當作 OpenAI 來源連到 {appName}。Big-AGI 會抓取目錄。含免費模型。",
+        "DESCRIPTION": "把 Big-AGI 當作自訂 OpenAI 來源連到 {appName}。輸入金鑰與端點後，Big-AGI 會自動抓取完整的模型目錄，含免費模型。",
         "KEYWORDS": "Big-AGI，Big-AGI OpenAI 來源，{appName} Big-AGI，Web AI 工作台"
       },
       "BADGE": "Big-AGI",
@@ -2417,7 +2417,7 @@
     "OPENCODE": {
       "META": {
         "TITLE": "OpenCode 設定指南 | {appName}",
-        "DESCRIPTION": "在 opencode.json 中用自訂 OpenAI 相容供應商把 OpenCode 連到 {appName}。",
+        "DESCRIPTION": "在 opencode.json 中用自訂 OpenAI 相容供應商把 OpenCode 連到 {appName}。複製設定、列出正確的模型 ID，並避開與登錄檔名稱的衝突。",
         "KEYWORDS": "OpenCode，OpenCode 設定，OpenCode 提供者，{appName} OpenCode，編碼代理，OpenAI 相容"
       },
       "BADGE": "OpenCode",
@@ -2440,7 +2440,7 @@
     "KILO_CODE": {
       "META": {
         "TITLE": "Kilo Code 設定指南 | {appName}",
-        "DESCRIPTION": "在 VSCode 側邊欄中用自訂 OpenAI 相容供應商把 Kilo Code 連到 {appName}。",
+        "DESCRIPTION": "在 VSCode 中用自訂 OpenAI 相容供應商把 Kilo Code 連到 {appName}。貼上設定值，保持工具支援開啟，用任何免費或付費模型寫程式。",
         "KEYWORDS": "Kilo Code，Kilo Code 設定，VSCode 編碼代理，{appName} Kilo Code，自訂提供者，OpenAI 相容"
       },
       "BADGE": "Kilo Code",
@@ -2464,7 +2464,7 @@
     "ZED": {
       "META": {
         "TITLE": "Zed IDE 設定指南 | {appName}",
-        "DESCRIPTION": "用自訂 OpenAI 相容供應商把 Zed 編輯器的代理程式連到 {appName}。",
+        "DESCRIPTION": "把 Zed 編輯器的代理程式面板當作自訂 OpenAI 相容供應商連到 {appName}。逐步設定、模型清單與鑰匙圈技巧，也支援免費模型。",
         "KEYWORDS": "Zed，Zed IDE，Zed 代理，{appName} Zed，自訂提供者，OpenAI 相容編輯器"
       },
       "BADGE": "Zed IDE",
@@ -2485,7 +2485,7 @@
     "CLINE": {
       "META": {
         "TITLE": "Cline 設定指南 | {appName}",
-        "DESCRIPTION": "把 Cline 當作 OpenAI Compatible 供應商連到 {appName}，讓它用任何模型讀取、編輯並執行程式碼。",
+        "DESCRIPTION": "在 VSCode 中把 Cline 當作 OpenAI Compatible 供應商連到 {appName}。執行完整的代理迴圈，用任何模型讀取、編輯並執行程式碼，含免費模型。",
         "KEYWORDS": "Cline，Cline 設定，VSCode 自主代理，{appName} Cline，OpenAI Compatible，編碼代理"
       },
       "BADGE": "Cline",
@@ -2527,7 +2527,7 @@
     "CONTINUE_DEV": {
       "META": {
         "TITLE": "Continue.dev 設定指南 | {appName}",
-        "DESCRIPTION": "用可納入版本控制的 config.yaml 把 Continue.dev 連到 {appName}。Continue 會即時重新載入模型項目。",
+        "DESCRIPTION": "在 config.yaml 中加入模型項目，把 Continue.dev 連到 {appName}。在 VSCode 與 JetBrains 中熱重載，一把 OpenAI 相容金鑰即可。",
         "KEYWORDS": "Continue.dev，Continue 設定，VSCode JetBrains 助手，{appName} Continue，config.yaml，OpenAI 相容"
       },
       "BADGE": "Continue.dev",
@@ -2567,7 +2567,7 @@
     "NEVIKA": {
       "META": {
         "TITLE": "Nevika 整合指南 | {appName}",
-        "DESCRIPTION": "把 Nevika 當作自訂代理連到 {appName}。一把金鑰，數百個模型。",
+        "DESCRIPTION": "把 Nevika 當作自訂代理連到 {appName}，用於 AI 角色扮演。在預先填好的設定頁貼上金鑰，再從清單中挑選一個模型，含免費模型。",
         "KEYWORDS": "Nevika, Nevika 自訂代理, Nevika API 金鑰, {appName} Nevika, AI 角色扮演, 角色聊天"
       },
       "BADGE": "Nevika",
@@ -2591,7 +2591,7 @@
     "CURSOR": {
       "META": {
         "TITLE": "Cursor 設定指南 | {appName}",
-        "DESCRIPTION": "用你自己的 API 金鑰和 Override OpenAI Base URL 設定，在 Cursor 的 Chat 與 Agent 中使用 {appName} 的模型。",
+        "DESCRIPTION": "在 Cursor Chat 與 Agent 中用 {appName}：貼上金鑰，開啟 Override OpenAI Base URL，加入模型 ID，含方案限制與 claude- ID。",
         "KEYWORDS": "Cursor，Cursor 自訂模型，Cursor OpenAI 基礎 URL，Cursor BYOK，{appName} Cursor，Cursor API 金鑰"
       },
       "BADGE": "Cursor",
@@ -2613,7 +2613,7 @@
     "GITHUB_COPILOT": {
       "META": {
         "TITLE": "VS Code 中的 GitHub Copilot 設定指南 | {appName}",
-        "DESCRIPTION": "用你自己的 API 金鑰，把 {appName} 以 Custom Endpoint 模型的形式加入 VS Code 的 GitHub Copilot Chat。",
+        "DESCRIPTION": "用自己的金鑰把 {appName} 以 Custom Endpoint 加入 VS Code 的 GitHub Copilot Chat，聊天與代理模式皆可用，不需訂閱 Copilot。",
         "KEYWORDS": "GitHub Copilot，VS Code Copilot 自訂模型，Copilot 使用自己的金鑰，Copilot Custom Endpoint，VS Code BYOK，{appName} Copilot"
       },
       "BADGE": "GitHub Copilot",
@@ -2635,7 +2635,7 @@
     "N8N": {
       "META": {
         "TITLE": "n8n 設定指南 | {appName}",
-        "DESCRIPTION": "透過 OpenAI 憑證的 Base URL，在 n8n 的 AI Agent 與 LLM 鏈工作流程中使用 {appName} 的模型。",
+        "DESCRIPTION": "在 n8n 的 AI Agent 與 Basic LLM Chain 中使用 {appName}：在 OpenAI 憑證設定 Base URL，關閉 Responses API 即可執行。",
         "KEYWORDS": "n8n，n8n OpenAI 基礎 URL，n8n 自訂 LLM，n8n AI Agent，n8n OpenAI 相容，{appName} n8n"
       },
       "BADGE": "n8n",
@@ -2656,7 +2656,7 @@
     "DIFY": {
       "META": {
         "TITLE": "Dify 設定指南 | {appName}",
-        "DESCRIPTION": "透過 Dify Marketplace 中的 {appName} 外掛或 OpenAI-API-compatible 供應商，把 Dify 連到 {appName}。",
+        "DESCRIPTION": "透過 Marketplace 外掛或 OpenAI-API-compatible 供應商把 Dify 連到 {appName}。加入金鑰與模型，啟用工具呼叫，即可在應用程式中使用。",
         "KEYWORDS": "Dify，Dify 模型供應商，Dify OpenAI-API-compatible，Dify 外掛，Dify 自訂 LLM，{appName} Dify"
       },
       "BADGE": "Dify",
@@ -2677,7 +2677,7 @@
     "JAN": {
       "META": {
         "TITLE": "Jan 設定指南 | {appName}",
-        "DESCRIPTION": "把 {appName} 以自訂 OpenAI 相容供應商的形式加入 Jan 桌面應用程式。",
+        "DESCRIPTION": "把 {appName} 以自訂 OpenAI 相容供應商的形式加入 Jan 桌面應用程式。模型會與本機模型並列顯示，並附工具、視覺與 Base URL 的使用技巧。",
         "KEYWORDS": "Jan，Jan AI，Jan 自訂供應商，Jan OpenAI 相容，Jan 遠端模型，{appName} Jan"
       },
       "BADGE": "Jan",
@@ -2698,7 +2698,7 @@
     "MSTY": {
       "META": {
         "TITLE": "Msty Studio 設定指南 | {appName}",
-        "DESCRIPTION": "把 {appName} 以 OpenAI 相容模型供應商的形式加入 Msty Studio。",
+        "DESCRIPTION": "把 {appName} 以 OpenAI 相容供應商的形式加入 Msty Studio：貼上 Base URL 與金鑰，取得模型清單，在同一個應用程式裡與免費和付費模型聊天。",
         "KEYWORDS": "Msty，Msty Studio，Msty OpenAI 相容，Msty 遠端供應商，Msty 自訂模型，{appName} Msty"
       },
       "BADGE": "Msty",
@@ -2719,7 +2719,7 @@
     "OBSIDIAN_COPILOT": {
       "META": {
         "TITLE": "Obsidian Copilot 設定指南 | {appName}",
-        "DESCRIPTION": "把 {appName} 以自訂 BYOK 供應商的形式加入 Obsidian 的 Copilot 外掛。",
+        "DESCRIPTION": "把 {appName} 以自訂 BYOK 供應商的形式加入 Copilot for Obsidian，用任何模型與你的筆記對話。不需要 Copilot 授權，含免費模型。",
         "KEYWORDS": "Obsidian Copilot，Copilot for Obsidian，Obsidian AI 外掛，Obsidian 自訂供應商，Obsidian BYOK，{appName} Obsidian"
       },
       "BADGE": "Obsidian Copilot",
@@ -2740,7 +2740,7 @@
     "AGNAI": {
       "META": {
         "TITLE": "Agnai 設定指南 | {appName}",
-        "DESCRIPTION": "把 Agnai 當作 OpenAI Compat 供應商連到 {appName}，用任何模型進行角色聊天。",
+        "DESCRIPTION": "把 Agnai 當作 OpenAI Compat 供應商連到 {appName}，用於角色聊天。加入 Base URL 與金鑰並測試連線，即可在預設組合中使用任何模型。",
         "KEYWORDS": "Agnai，Agnaistic，Agnai OpenAI 相容，Agnai 自訂供應商，Agnai 代理伺服器，{appName} Agnai"
       },
       "BADGE": "Agnai",
@@ -5304,7 +5304,7 @@
       "STAT_PROVIDERS": "追蹤的提供商",
       "STAT_PASS_RATE": "平均通過率",
       "META_TITLE": "模型真實性排行榜｜{appName}",
-      "META_DESCRIPTION": "查看哪些 API 提供商真正提供其聲稱的模型，按確定性通過率排名。",
+      "META_DESCRIPTION": "查看哪些 AI API 供應商真正提供了其聲稱的模型。{appName} 依據確定性指紋檢測的通過率為它們排名，並為每一項判定附上可查看的證據連結。",
       "DISCLAIMER": "每筆已發佈的結果在計入之前都會在我們的伺服器上重新執行，且每筆判定都會連結到產生它的確切證據。你認為有誤的結果可以申訴。",
       "REPORT_DISCORD": "在 Discord 上回報",
       "REPORT_GITHUB": "提交一個 GitHub issue",
@@ -5672,7 +5672,7 @@
       "ALT_EDITOR": "角色面具編輯器，包含顯示標題、名稱、描述和預設面具開關",
       "META": {
         "TITLE": "{appName} 中的人設",
-        "DESCRIPTION": "建立你所扮演的身分：人設欄位、預設人設，以及從其他應用匯入。",
+        "DESCRIPTION": "在 {appName} 中建立你所扮演的人設：設定名稱、描述、頭像與稱號，為新對話指定預設人設，還可以從其他角色扮演前端匯入你原有的各種人設。",
         "KEYWORDS": "人設，使用者身分，角色扮演人設，預設人設"
       },
       "TITLE": "人設",
@@ -5731,7 +5731,7 @@
     "CARDS": {
       "META": {
         "TITLE": "{appName} 中的卡（套裝包）",
-        "DESCRIPTION": "把人設、角色和世界書打包成一張可套用的套裝卡，支援取代或合併語意。",
+        "DESCRIPTION": "在 {appName} 中把人設、角色與世界書打包成一張卡，再以取代或合併模式一鍵套用整套設定。每一張卡都可以匯出為 JSON 格式的檔案。",
         "KEYWORDS": "套裝包，套用卡，情境包"
       },
       "TITLE": "卡",
@@ -5780,7 +5780,7 @@
     "PROMPT_TEMPLATE": {
       "META": {
         "TITLE": "{appName} 中的提示詞範本編輯器",
-        "DESCRIPTION": "拖動重排已組裝提示詞的各區塊：槽、純文字區塊與聊天歷史標記。",
+        "DESCRIPTION": "在 {appName} 中透過拖曳區塊來重新排列組裝好的提示詞，包括引擎槽位、你自己加入的純文字區塊與聊天歷史標記。可隨時查看預設順序或一鍵重設。",
         "KEYWORDS": "提示詞範本，提示詞順序，提示詞區塊，自訂提示詞結構"
       },
       "TITLE": "提示詞範本",
@@ -5802,7 +5802,7 @@
     "GROUP_CHATS": {
       "META": {
         "TITLE": "{appName} 中的群聊",
-        "DESCRIPTION": "一次對話中的多個角色：發言者輪換、按名提及優先，以及按角色的提示詞閘控。",
+        "DESCRIPTION": "在同一段 {appName} 對話中讓多個角色登場：依名字提及與健談程度輪換發言者，按角色閘控提示詞以節省 token，並附上設定旁白的實用技巧。",
         "KEYWORDS": "群聊，多角色，發言者輪換，回合順序"
       },
       "TITLE": "群聊",
@@ -5821,7 +5821,7 @@
     "MULTIPLAYER": {
       "META": {
         "TITLE": "{appName}中的多人房間",
-        "DESCRIPTION": "和朋友共用角色扮演對話：點對點房間、邀請連結、房主審核與輪流發言。",
+        "DESCRIPTION": "在 {appName} 中和朋友一起玩同一段角色扮演對話：開啟點對點房間，分享邀請連結，核准訪客加入並輪流發言。訪客不需要註冊帳號，也不需要 API 金鑰。",
         "KEYWORDS": "多人角色扮演, 共用AI對話, 點對點RP, 團隊角色扮演房間, 協作AI聊天"
       },
       "TITLE": "多人房間",
@@ -5884,7 +5884,7 @@
     "REGEX_SCRIPTS": {
       "META": {
         "TITLE": "{appName} 中的正規表示式腳本",
-        "DESCRIPTION": "作用於輸入、輸出、提示詞和顯示文字的尋找取代管線，帶順序與動作元指令。",
+        "DESCRIPTION": "{appName} 聊天中的正規表示式腳本：對輸入、輸出、提示詞與顯示文字進行尋找取代，支援順序標籤、動作指令，並可匯入 SillyTavern 腳本。",
         "KEYWORDS": "正規表示式腳本，customscript，editdisplay，editoutput，文字變換"
       },
       "TITLE": "正規表示式腳本",
@@ -5909,7 +5909,7 @@
     "TRIGGERS_AND_LUA": {
       "META": {
         "TITLE": "{appName} 中的觸發腳本與 Lua",
-        "DESCRIPTION": "事件驅動的自動化：觸發器 VM、低階效果，以及帶編輯掛鉤的內嵌 Lua 執行環境。",
+        "DESCRIPTION": "用相容 RisuAI 的觸發器腳本、低階效果，以及內嵌的 Lua 執行環境來自動化 {appName} 中的角色，其掛鉤可在生成過程中即時改寫文字。",
         "KEYWORDS": "觸發腳本，lua 腳本，editoutput 掛鉤，角色扮演自動化"
       },
       "TITLE": "觸發器與 Lua",
@@ -5931,7 +5931,7 @@
     "PLUGINS": {
       "META": {
         "TITLE": "{appName} 中的 JavaScript 外掛",
-        "DESCRIPTION": "在沙箱中執行你自己的 JavaScript：圍繞每則訊息的處理常式、外掛 API，以及對 JanitorAI 指令碼的相容。",
+        "DESCRIPTION": "為 {appName} 聊天撰寫沙箱化的 JavaScript 外掛：圍繞每則訊息的掛鉤處理常式、讀寫對話的 uno API，並支援 JanitorAI 腳本。",
         "KEYWORDS": "javascript 外掛, janitorai 指令碼, 聊天自動化, 沙箱"
       },
       "TITLE": "外掛",
@@ -5956,7 +5956,7 @@
     "MEMORY_AND_CONTEXT": {
       "META": {
         "TITLE": "{appName} 中的記憶、擷取與網路搜尋",
-        "DESCRIPTION": "滾動的故事摘要、對過往片段的語意擷取，以及由分類器閘控的網路搜尋。",
+        "DESCRIPTION": "了解 {appName} 如何讓長篇角色扮演故事始終前後連貫：超出上下文視窗後的滾動摘要、對早期劇情片段的擷取，以及可為每段對話個別開啟的網路搜尋。",
         "KEYWORDS": "聊天記憶，滾動摘要，語意擷取，嵌入，網路搜尋"
       },
       "TITLE": "記憶與上下文",
@@ -5975,7 +5975,7 @@
     "IMAGES": {
       "META": {
         "TITLE": "{appName} 聊天內圖像生成",
-        "DESCRIPTION": "回覆後的場景插圖：模型選擇、參考圖、風格範本、提示詞預覽與內嵌媒體。",
+        "DESCRIPTION": "在 {appName} 的聊天中，每次回覆之後都可以生成一幅場景插圖：你可以選擇一個圖像模型或免費模型，加入參考圖與風格範本，並預覽提示詞。",
         "KEYWORDS": "圖像生成，場景插圖，參考圖，風格範本，內嵌圖像"
       },
       "TITLE": "圖像",
@@ -6026,7 +6026,7 @@
     "DATA": {
       "META": {
         "TITLE": "{appName} 中的資料、匯出與檢查",
-        "DESCRIPTION": "對話匯出格式、實體可攜性、請求記錄與試運行檢查器，以及本機資料庫工作室。",
+        "DESCRIPTION": "以常見格式匯出 {appName} 中的對話與角色，藉由請求記錄與免費試運行逐一檢查送出的每個請求，並在內建的工作室中瀏覽本機的聊天資料庫。",
         "KEYWORDS": "匯出聊天，SillyTavern JSONL，請求記錄，試運行，本機資料庫，資料可攜性"
       },
       "TITLE": "你的資料",
@@ -6221,7 +6221,7 @@
     "QUICKSTART": {
       "META": {
         "TITLE": "快速上手：5 分鐘內完成你的第一個請求",
-        "DESCRIPTION": "建立一個 {appName} API 金鑰，並用 curl、Python 或 Node.js 發出你的第一個相容 OpenAI 的請求。",
+        "DESCRIPTION": "建立 {appName} API 金鑰，五分鐘內用 curl、Python 或 Node.js 送出你的第一個 OpenAI 相容請求。以 :free 結尾的模型完全免費。",
         "KEYWORDS": "快速上手，API 金鑰，base URL，相容 OpenAI，第一個請求，curl，Python，Node.js"
       },
       "TITLE": "快速上手",
@@ -6486,7 +6486,7 @@
     "ACCOUNT_AND_BILLING": {
       "META": {
         "TITLE": "帳戶、餘額與帳務",
-        "DESCRIPTION": "{appName} 餘額的運作方式：儲值、免費額度、API 金鑰限制、按請求收費以及用量記錄。",
+        "DESCRIPTION": "{appName} 餘額的運作方式：以信用卡或加密貨幣單次儲值、透過 Discord 獎勵取得免費額度、為每把金鑰設定消費上限，以及請求用量記錄。",
         "KEYWORDS": "餘額，儲值，帳務，API 金鑰，用量記錄，免費額度，推廣聯盟"
       },
       "TITLE": "帳戶與帳務",

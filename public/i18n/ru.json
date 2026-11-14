@@ -451,7 +451,7 @@
       "PRESET_IMAGE_DESC": "Лучшие модели генерации изображений по цене и качеству.",
       "META": {
         "TITLE": "Сравнение моделей ИИ - {appName}",
-        "DESCRIPTION": "Сравнивайте модели ИИ по цене, длине контекста, возможностям и использованию на {appName}.",
+        "DESCRIPTION": "Сравнивайте ИИ-модели бок о бок на {appName}: цены, длина контекста, возможности, задержка и использование. Готовые пресеты: флагманские, доступные и для кода.",
         "KEYWORDS": "сравнить модели ИИ, сравнение моделей, сравнение LLM, цены ИИ",
         "TITLE_COMBO": "{models} - Сравнение моделей ИИ",
         "DESCRIPTION_COMBO": "Сравните {models} по цене, длине контекста, возможностям и использованию."
@@ -1748,7 +1748,7 @@
     "CC_SWITCH": {
       "META": {
         "TITLE": "Руководство по интеграции CC Switch | {appName}",
-        "DESCRIPTION": "Настройте CC Switch с {appName} для единого управления ИИ CLI",
+        "DESCRIPTION": "Настройте CC Switch с {appName} и управляйте провайдерами Claude Code, Codex и Gemini CLI в одном приложении. Импорт конфига в один клик по ссылке ccswitch://.",
         "KEYWORDS": "CC Switch, Claude Code, Codex, Gemini CLI, управление CLI"
       },
       "BADGE": "CC Switch",
@@ -1797,7 +1797,7 @@
     "CLAUDE_CODE": {
       "META": {
         "TITLE": "Интеграция Claude Code: {appName}",
-        "DESCRIPTION": "Используйте {appName} с Claude Code, Cursor и любым Anthropic-совместимым клиентом через один эндпоинт.",
+        "DESCRIPTION": "Используйте Claude Code с {appName} на Windows, macOS и Linux: укажите base URL Anthropic и ключ, переключайте модели через /model и настройте десктопное приложение.",
         "KEYWORDS": "Claude Code, Anthropic API, настройка Claude Code, Cursor AI, Claude в {appName}, альтернатива Anthropic"
       },
       "BADGE": "Claude Code",
@@ -1861,7 +1861,7 @@
     "CODEX": {
       "META": {
         "TITLE": "Руководство по настройке Codex CLI: {appName}",
-        "DESCRIPTION": "Настройте OpenAI Codex CLI с {appName} на Windows, macOS и Linux, со скриншотами.",
+        "DESCRIPTION": "Настройте OpenAI Codex CLI с {appName} на Windows, macOS и Linux: кастомный провайдер в config.toml, ключ в переменной окружения и настройка десктопного приложения.",
         "KEYWORDS": "Codex CLI, OpenAI Codex, руководство Codex, установка Codex CLI, Codex в {appName}, OpenAI кодирующий агент"
       },
       "BADGE": "Codex CLI",
@@ -1894,7 +1894,7 @@
     "GEMINI_CLI": {
       "META": {
         "TITLE": "Интеграция Gemini CLI: {appName}",
-        "DESCRIPTION": "Используйте {appName} с Gemini CLI и любым клиентом, совместимым с Google GenAI.",
+        "DESCRIPTION": "Запустите Gemini CLI от Google на {appName}: GOOGLE_GEMINI_BASE_URL и ключ в ~/.gemini/.env, один ключ для всех моделей и быстрое решение ошибок 404 и авторизации.",
         "KEYWORDS": "Gemini CLI, API Google AI, настройка Gemini, Google GenAI SDK, Gemini в {appName}, альтернатива Gemini"
       },
       "BADGE": "Gemini CLI",
@@ -1927,7 +1927,7 @@
     "OPENCLAW": {
       "META": {
         "TITLE": "Интеграция OpenClaw: {appName}",
-        "DESCRIPTION": "Используйте {appName} как провайдера моделей для вашего агента OpenClaw.",
+        "DESCRIPTION": "Используйте {appName} как OpenAI-совместимого провайдера моделей для OpenClaw. Укажите base URL в openclaw.json и запустите агента в Telegram, Discord или Slack.",
         "KEYWORDS": "OpenClaw, настройка OpenClaw, ИИ-агент, OpenClaw в {appName}, поставщик моделей, шлюз ИИ"
       },
       "BADGE": "OpenClaw",
@@ -1955,7 +1955,7 @@
     "HERMES": {
       "META": {
         "TITLE": "Интеграция Hermes Agent - {appName}",
-        "DESCRIPTION": "Используйте {appName} как провайдера моделей для Hermes Agent от Nous Research. Один OpenAI-совместимый эндпоинт, все модели.",
+        "DESCRIPTION": "Используйте {appName} как провайдера моделей для Hermes Agent от Nous Research. Укажите свой base URL в config.yaml и ключ в .env, затем запускайте с любой моделью.",
         "KEYWORDS": "Hermes Agent, Nous Research, настройка Hermes, ИИ-агент, {appName} Hermes, поставщик моделей, OpenAI-совместимый"
       },
       "BADGE": "Hermes Agent",
@@ -2259,7 +2259,7 @@
     "LOBECHAT": {
       "META": {
         "TITLE": "LobeChat: настройка с бесплатным OpenAI-совместимым API | {appName}",
-        "DESCRIPTION": "Подключите LobeChat к {appName} через Add Custom Provider или переменные окружения Docker. Бесплатные модели включены.",
+        "DESCRIPTION": "Подключите LobeChat к {appName} через Add Custom Provider или переменные Docker для самохостинга. Один OpenAI-совместимый ключ для всех моделей, есть бесплатные.",
         "KEYWORDS": "LobeChat, пользовательский провайдер LobeChat, {appName} LobeChat, веб-чат с открытым кодом"
       },
       "BADGE": "LobeChat",
@@ -2316,7 +2316,7 @@
     "TYPINGMIND": {
       "META": {
         "TITLE": "TypingMind: настройка с бесплатным OpenAI-совместимым API | {appName}",
-        "DESCRIPTION": "Подключите TypingMind к {appName}, вставив кастомный OpenAI-совместимый эндпоинт. Бесплатные модели включены.",
+        "DESCRIPTION": "Подключите TypingMind к {appName} как OpenAI-совместимую модель. Укажите эндпоинт, добавьте ключ в заголовок Authorization и проверьте. Есть бесплатные модели.",
         "KEYWORDS": "TypingMind, пользовательская модель TypingMind, {appName} TypingMind, веб-интерфейс BYOK"
       },
       "BADGE": "TypingMind",
@@ -2337,7 +2337,7 @@
     "BOLTAI": {
       "META": {
         "TITLE": "BoltAI: настройка с бесплатным OpenAI-совместимым API | {appName}",
-        "DESCRIPTION": "Подключите BoltAI к {appName} как кастомный OpenAI-совместимый сервер. Бесплатные модели включены.",
+        "DESCRIPTION": "Подключите BoltAI на macOS к {appName} как OpenAI-совместимый сервер. Введите URL, ключ, ID модели и длину контекста, и можно общаться. Есть бесплатные модели.",
         "KEYWORDS": "BoltAI, BoltAI совместимый с OpenAI, {appName} BoltAI, ИИ-ассистент macOS"
       },
       "BADGE": "BoltAI",
@@ -2356,7 +2356,7 @@
     "PAGE_ASSIST": {
       "META": {
         "TITLE": "Page Assist: настройка с бесплатным OpenAI-совместимым API | {appName}",
-        "DESCRIPTION": "Подключите Page Assist к {appName} как кастомный OpenAI-совместимый API в боковой панели браузера. Бесплатные модели включены.",
+        "DESCRIPTION": "Подключите расширение Page Assist к {appName} как OpenAI-совместимый API. Добавьте base URL и ключ и общайтесь в боковой панели браузера с бесплатными моделями.",
         "KEYWORDS": "Page Assist, Page Assist совместимый с OpenAI, {appName} Page Assist, ИИ-расширение для браузера"
       },
       "BADGE": "Page Assist",
@@ -2377,7 +2377,7 @@
     "CHATBOX": {
       "META": {
         "TITLE": "Chatbox: настройка с бесплатным OpenAI-совместимым API | {appName}",
-        "DESCRIPTION": "Подключите Chatbox к {appName} в режиме OpenAI API Compatible. Разделите URL на Host и Path. Бесплатные модели включены.",
+        "DESCRIPTION": "Подключите Chatbox к {appName} в режиме OpenAI API Compatible. Разделите URL на API Host и API Path, добавьте ключ и модели и общайтесь. Есть бесплатные модели.",
         "KEYWORDS": "Chatbox, Chatbox совместимый с OpenAI, {appName} Chatbox, кроссплатформенный клиент чата"
       },
       "BADGE": "Chatbox",
@@ -2398,7 +2398,7 @@
     "BIG_AGI": {
       "META": {
         "TITLE": "Big-AGI: настройка с бесплатным OpenAI-совместимым API | {appName}",
-        "DESCRIPTION": "Подключите Big-AGI к {appName} как источник OpenAI. Big-AGI сам загрузит каталог. Бесплатные модели включены.",
+        "DESCRIPTION": "Подключите Big-AGI к {appName} как кастомный источник OpenAI. Введите ключ и эндпоинт, и Big-AGI сам загрузит полный каталог моделей. Бесплатные модели тоже есть.",
         "KEYWORDS": "Big-AGI, источник OpenAI Big-AGI, {appName} Big-AGI, веб-среда для ИИ"
       },
       "BADGE": "Big-AGI",
@@ -2417,7 +2417,7 @@
     "OPENCODE": {
       "META": {
         "TITLE": "Руководство по настройке OpenCode | {appName}",
-        "DESCRIPTION": "Подключите OpenCode к {appName} через кастомного OpenAI-совместимого провайдера в opencode.json.",
+        "DESCRIPTION": "Подключите OpenCode к {appName} через OpenAI-совместимого провайдера в opencode.json. Скопируйте конфиг, укажите точные ID моделей и обойдите конфликт имён реестра.",
         "KEYWORDS": "OpenCode, настройка OpenCode, провайдер OpenCode, {appName} OpenCode, агент для кодинга, совместимость с OpenAI"
       },
       "BADGE": "OpenCode",
@@ -2440,7 +2440,7 @@
     "KILO_CODE": {
       "META": {
         "TITLE": "Руководство по настройке Kilo Code | {appName}",
-        "DESCRIPTION": "Подключите Kilo Code к {appName} через кастомного OpenAI-совместимого провайдера в боковой панели VSCode.",
+        "DESCRIPTION": "Подключите Kilo Code в VSCode к {appName} как OpenAI-совместимого провайдера: вставьте значения, оставьте инструменты и пишите код с платными и бесплатными моделями.",
         "KEYWORDS": "Kilo Code, настройка Kilo Code, агент для кодинга в VSCode, {appName} Kilo Code, пользовательский провайдер, совместимость с OpenAI"
       },
       "BADGE": "Kilo Code",
@@ -2464,7 +2464,7 @@
     "ZED": {
       "META": {
         "TITLE": "Руководство по настройке Zed IDE | {appName}",
-        "DESCRIPTION": "Подключите агента редактора Zed к {appName} через кастомного OpenAI-совместимого провайдера.",
+        "DESCRIPTION": "Подключите панель агента Zed к {appName} как OpenAI-совместимого провайдера. Пошаговые настройки, список моделей, советы по связке ключей и бесплатные модели.",
         "KEYWORDS": "Zed, Zed IDE, агент Zed, {appName} Zed, пользовательский провайдер, редактор с совместимостью с OpenAI"
       },
       "BADGE": "Zed IDE",
@@ -2485,7 +2485,7 @@
     "CLINE": {
       "META": {
         "TITLE": "Руководство по настройке Cline | {appName}",
-        "DESCRIPTION": "Подключите Cline к {appName} как провайдера OpenAI Compatible, чтобы он мог читать, править и запускать код с любой моделью.",
+        "DESCRIPTION": "Подключите Cline в VSCode к {appName} как провайдера OpenAI Compatible. Полный цикл агента читает, правит и запускает код с любой моделью, включая бесплатные.",
         "KEYWORDS": "Cline, настройка Cline, автономный агент VSCode, {appName} Cline, совместимость с OpenAI, агент для кодинга"
       },
       "BADGE": "Cline",
@@ -2527,7 +2527,7 @@
     "CONTINUE_DEV": {
       "META": {
         "TITLE": "Руководство по настройке Continue.dev | {appName}",
-        "DESCRIPTION": "Подключите Continue.dev к {appName} через версионируемый config.yaml. Continue перечитывает запись модели на лету.",
+        "DESCRIPTION": "Подключите Continue.dev к {appName} записью модели в config.yaml. Горячая перезагрузка в VSCode и JetBrains, один OpenAI-совместимый ключ, есть бесплатные модели.",
         "KEYWORDS": "Continue.dev, настройка Continue, ассистент VSCode JetBrains, {appName} Continue, config.yaml, совместимость с OpenAI"
       },
       "BADGE": "Continue.dev",
@@ -2567,7 +2567,7 @@
     "NEVIKA": {
       "META": {
         "TITLE": "Руководство по интеграции Nevika | {appName}",
-        "DESCRIPTION": "Подключите Nevika к {appName} как кастомный прокси. Один ключ, сотни моделей.",
+        "DESCRIPTION": "Подключите Nevika к {appName} как кастомный прокси для ролевых игр с ИИ. Вставьте ключ на заполненной странице настройки и выберите модель, включая бесплатные.",
         "KEYWORDS": "Nevika, пользовательский прокси Nevika, API-ключ Nevika, {appName} Nevika, ИИ-ролевые игры, чат с персонажами"
       },
       "BADGE": "Nevika",
@@ -2591,7 +2591,7 @@
     "CURSOR": {
       "META": {
         "TITLE": "Руководство по настройке Cursor | {appName}",
-        "DESCRIPTION": "Используйте модели {appName} в Cursor Chat и Agent со своим ключом API и настройкой Override OpenAI Base URL.",
+        "DESCRIPTION": "Используйте модели {appName} в Cursor Chat и Agent: вставьте ключ, включите Override OpenAI Base URL и добавьте ID моделей. Лимиты платных планов и ID claude-.",
         "KEYWORDS": "Cursor, своя модель в Cursor, Cursor OpenAI base URL, Cursor BYOK, {appName} Cursor, ключ API для Cursor"
       },
       "BADGE": "Cursor",
@@ -2613,7 +2613,7 @@
     "GITHUB_COPILOT": {
       "META": {
         "TITLE": "Руководство по настройке GitHub Copilot в VS Code | {appName}",
-        "DESCRIPTION": "Добавьте {appName} в GitHub Copilot Chat в VS Code как модель Custom Endpoint со своим ключом API.",
+        "DESCRIPTION": "Добавьте {appName} в GitHub Copilot Chat в VS Code как Custom Endpoint со своим ключом API. Любая модель в чате и режиме агента, подписка Copilot не нужна.",
         "KEYWORDS": "GitHub Copilot, своя модель в VS Code Copilot, Copilot со своим ключом, Copilot Custom Endpoint, VS Code BYOK, {appName} Copilot"
       },
       "BADGE": "GitHub Copilot",
@@ -2635,7 +2635,7 @@
     "N8N": {
       "META": {
         "TITLE": "Руководство по настройке n8n | {appName}",
-        "DESCRIPTION": "Используйте модели {appName} в сценариях n8n с AI Agent и цепочками LLM через Base URL учётных данных OpenAI.",
+        "DESCRIPTION": "Используйте модели {appName} в воркфлоу n8n с AI Agent и Basic LLM Chain. Укажите Base URL в учётных данных OpenAI и отключите Responses API для любой модели.",
         "KEYWORDS": "n8n, n8n OpenAI base URL, своя LLM в n8n, n8n AI Agent, n8n OpenAI-совместимый, {appName} n8n"
       },
       "BADGE": "n8n",
@@ -2656,7 +2656,7 @@
     "DIFY": {
       "META": {
         "TITLE": "Руководство по настройке Dify | {appName}",
-        "DESCRIPTION": "Подключите Dify к {appName} через плагин {appName} из Dify Marketplace или провайдера OpenAI-API-compatible.",
+        "DESCRIPTION": "Подключите Dify к {appName} плагином из Marketplace или провайдером OpenAI-API-compatible. Добавьте ключ и модели, включите вызов инструментов для приложений.",
         "KEYWORDS": "Dify, провайдер моделей Dify, Dify OpenAI-API-compatible, плагин Dify, своя LLM в Dify, {appName} Dify"
       },
       "BADGE": "Dify",
@@ -2677,7 +2677,7 @@
     "JAN": {
       "META": {
         "TITLE": "Руководство по настройке Jan | {appName}",
-        "DESCRIPTION": "Добавьте {appName} в десктопное приложение Jan как кастомного OpenAI-совместимого провайдера.",
+        "DESCRIPTION": "Добавьте {appName} в приложение Jan как кастомного OpenAI-совместимого провайдера. Модели появятся рядом с локальными. Советы по инструментам, зрению и base URL.",
         "KEYWORDS": "Jan, Jan AI, кастомный провайдер Jan, Jan OpenAI-совместимый, удалённые модели в Jan, {appName} Jan"
       },
       "BADGE": "Jan",
@@ -2698,7 +2698,7 @@
     "MSTY": {
       "META": {
         "TITLE": "Руководство по настройке Msty Studio | {appName}",
-        "DESCRIPTION": "Добавьте {appName} в Msty Studio как OpenAI-совместимого провайдера моделей.",
+        "DESCRIPTION": "Добавьте {appName} в Msty Studio как OpenAI-совместимого провайдера: вставьте base URL и ключ, получите список моделей и общайтесь с платными и бесплатными моделями.",
         "KEYWORDS": "Msty, Msty Studio, Msty OpenAI-совместимый, удалённый провайдер Msty, своя модель в Msty, {appName} Msty"
       },
       "BADGE": "Msty",
@@ -2719,7 +2719,7 @@
     "OBSIDIAN_COPILOT": {
       "META": {
         "TITLE": "Руководство по настройке Obsidian Copilot | {appName}",
-        "DESCRIPTION": "Добавьте {appName} в плагин Copilot for Obsidian как кастомного провайдера BYOK.",
+        "DESCRIPTION": "Добавьте {appName} в Copilot for Obsidian как BYOK-провайдера и общайтесь с заметками через любую модель. Лицензия Copilot не нужна, бесплатные модели есть.",
         "KEYWORDS": "Obsidian Copilot, Copilot for Obsidian, AI-плагин для Obsidian, кастомный провайдер Obsidian, Obsidian BYOK, {appName} Obsidian"
       },
       "BADGE": "Obsidian Copilot",
@@ -2740,7 +2740,7 @@
     "AGNAI": {
       "META": {
         "TITLE": "Руководство по настройке Agnai | {appName}",
-        "DESCRIPTION": "Подключите Agnai к {appName} как провайдера OpenAI Compat для чата с персонажами на любой модели.",
+        "DESCRIPTION": "Подключите Agnai к {appName} как провайдера OpenAI Compat для чата с персонажами. Добавьте base URL и ключ, проверьте связь и используйте любую модель в пресетах.",
         "KEYWORDS": "Agnai, Agnaistic, Agnai OpenAI-совместимый, кастомный провайдер Agnai, прокси для Agnai, {appName} Agnai"
       },
       "BADGE": "Agnai",
@@ -5304,7 +5304,7 @@
       "STAT_PROVIDERS": "Отслеживаемых провайдеров",
       "STAT_PASS_RATE": "Средний процент успеха",
       "META_TITLE": "Рейтинг подлинности моделей | {appName}",
-      "META_DESCRIPTION": "Узнайте, какие API-провайдеры выдают заявленную модель, отсортированные по детерминированному проценту успеха.",
+      "META_DESCRIPTION": "Какие API-провайдеры выдают именно заявленную модель? {appName} ранжирует их по доле пройденных детерминированных отпечатков, с доказательствами к каждому вердикту.",
       "DISCLAIMER": "Каждый опубликованный результат перед зачётом повторно прогоняется на нашем сервере, и каждый вердикт ссылается на точные доказательства, которые его породили. Результат, который вы считаете ошибочным, можно оспорить.",
       "REPORT_DISCORD": "Сообщить в Discord",
       "REPORT_GITHUB": "Открыть issue на GitHub",
@@ -5672,7 +5672,7 @@
       "ALT_EDITOR": "Редактор персон с отображаемым заголовком, именем, описанием и переключателем персоны по умолчанию",
       "META": {
         "TITLE": "Персоны в {appName}",
-        "DESCRIPTION": "Создайте личность, за которую играете: поля персоны, персона по умолчанию и импорт из других приложений.",
+        "DESCRIPTION": "Создайте персону, за которую играете в {appName}: имя, описание, аватар и титул, персона по умолчанию для новых чатов и импорт из других ролевых приложений.",
         "KEYWORDS": "персона, личность пользователя, ролевая персона, персона по умолчанию"
       },
       "TITLE": "Персоны",
@@ -5731,7 +5731,7 @@
     "CARDS": {
       "META": {
         "TITLE": "Карты (наборы лодаутов) в {appName}",
-        "DESCRIPTION": "Соберите персону, персонажей и лорбуки в одну применяемую карту лодаута с семантикой замены или слияния.",
+        "DESCRIPTION": "Соберите персону, персонажей и лорбуки в одну карту в {appName} и примените весь набор в один клик, в режиме замены или слияния. Карты экспортируются в JSON.",
         "KEYWORDS": "набор лодаута, применить карту, набор сценария"
       },
       "TITLE": "Карты",
@@ -5780,7 +5780,7 @@
     "PROMPT_TEMPLATE": {
       "META": {
         "TITLE": "Редактор шаблона промпта в {appName}",
-        "DESCRIPTION": "Перетаскивайте блоки собираемого промпта: слоты, свободные блоки и маркер истории чата.",
+        "DESCRIPTION": "Меняйте порядок собираемого промпта в {appName}, перетаскивая блоки: слоты движка, свои простые блоки и маркер истории чата. Порядок по умолчанию и сброс.",
         "KEYWORDS": "шаблон промпта, порядок промпта, блоки промпта, своя структура промпта"
       },
       "TITLE": "Шаблон промпта",
@@ -5802,7 +5802,7 @@
     "GROUP_CHATS": {
       "META": {
         "TITLE": "Групповые чаты в {appName}",
-        "DESCRIPTION": "Несколько персонажей в одном разговоре: ротация говорящих, приоритет упоминаний по имени и фильтрация промпта по персонажу.",
+        "DESCRIPTION": "Несколько персонажей в одном чате {appName}: очерёдность по упоминанию имени и разговорчивости, фильтр промпта по персонажу для экономии токенов, советы рассказчику.",
         "KEYWORDS": "групповой чат, несколько персонажей, ротация говорящих, порядок ходов"
       },
       "TITLE": "Групповые чаты",
@@ -5821,7 +5821,7 @@
     "MULTIPLAYER": {
       "META": {
         "TITLE": "Комнаты для совместной игры в {appName}",
-        "DESCRIPTION": "Общий ролевой чат с друзьями: комнаты peer-to-peer, ссылки-приглашения, подтверждение хозяином и очерёдность ходов.",
+        "DESCRIPTION": "Играйте в один ролевой чат с друзьями в {appName}: откройте P2P-комнату, отправьте приглашение, впустите гостей и ходите по очереди. Аккаунт и ключ гостям не нужны.",
         "KEYWORDS": "совместная ролевая игра, общий чат с ИИ, peer-to-peer RP, групповая ролевая комната, совместный ИИ-чат"
       },
       "TITLE": "Комнаты для совместной игры",
@@ -5884,7 +5884,7 @@
     "REGEX_SCRIPTS": {
       "META": {
         "TITLE": "Regex-скрипты в {appName}",
-        "DESCRIPTION": "Конвейеры поиска и замены над текстом ввода, вывода, промпта и отображения, с директивами порядка и действий.",
+        "DESCRIPTION": "Regex-скрипты в чате {appName}: поиск и замена в тексте ввода, вывода, промпта и отображения, с тегами порядка, директивами действий и импортом скриптов SillyTavern.",
         "KEYWORDS": "regex-скрипты, customscript, editdisplay, editoutput, преобразования текста"
       },
       "TITLE": "Regex-скрипты",
@@ -5909,7 +5909,7 @@
     "TRIGGERS_AND_LUA": {
       "META": {
         "TITLE": "Триггер-скрипты и Lua в {appName}",
-        "DESCRIPTION": "Событийная автоматизация: виртуальная машина триггеров, низкоуровневые эффекты и встроенная среда Lua с хуками правки.",
+        "DESCRIPTION": "Автоматизируйте персонажей {appName} скриптами триггеров, совместимыми с RisuAI, низкоуровневыми эффектами и встроенной средой Lua с хуками, меняющими текст на лету.",
         "KEYWORDS": "триггер-скрипты, lua-скриптинг, хук editoutput, автоматизация ролевых игр"
       },
       "TITLE": "Триггеры и Lua",
@@ -5931,7 +5931,7 @@
     "PLUGINS": {
       "META": {
         "TITLE": "JavaScript-плагины в {appName}",
-        "DESCRIPTION": "Ваш JavaScript в песочнице: обработчики вокруг каждого сообщения, API плагинов и совместимость со скриптами JanitorAI.",
+        "DESCRIPTION": "Пишите JavaScript-плагины в песочнице для чата {appName}: хуки вокруг каждого сообщения, API uno для чтения и записи чата и поддержка скриптов JanitorAI.",
         "KEYWORDS": "javascript плагины, скрипты janitorai, автоматизация чата, песочница"
       },
       "TITLE": "Плагины",
@@ -5956,7 +5956,7 @@
     "MEMORY_AND_CONTEXT": {
       "META": {
         "TITLE": "Память, извлечение и веб-поиск в {appName}",
-        "DESCRIPTION": "Скользящие сводки истории, семантическое извлечение прошлых моментов и веб-поиск за классификатором.",
+        "DESCRIPTION": "Как {appName} держит длинные ролевые истории связными: скользящие сводки за пределами окна контекста, извлечение старых моментов и веб-поиск по выбору в каждом чате.",
         "KEYWORDS": "память чата, скользящая сводка, семантическое извлечение, эмбеддинги, веб-поиск"
       },
       "TITLE": "Память и контекст",
@@ -5975,7 +5975,7 @@
     "IMAGES": {
       "META": {
         "TITLE": "Генерация изображений в чате {appName}",
-        "DESCRIPTION": "Иллюстрации сцен после ответов: выбор модели, референсные изображения, шаблоны стиля, предпросмотр промпта и встроенные медиа.",
+        "DESCRIPTION": "Создавайте иллюстрации сцен в чате {appName} после каждого ответа: модель изображений или бесплатная, референсы и шаблоны стиля, предпросмотр промптов.",
         "KEYWORDS": "генерация изображений, иллюстрация сцены, референсные изображения, шаблон стиля, inlay-изображения"
       },
       "TITLE": "Изображения",
@@ -6026,7 +6026,7 @@
     "DATA": {
       "META": {
         "TITLE": "Данные, экспорт и инспекция в {appName}",
-        "DESCRIPTION": "Форматы экспорта разговоров, переносимость сущностей, журнал запросов и холостой прогон, а также студия локальной базы данных.",
+        "DESCRIPTION": "Экспортируйте чаты и персонажей {appName} в популярных форматах, проверяйте запросы в журнале и бесплатных пробных прогонах, смотрите локальную базу чатов в студии.",
         "KEYWORDS": "экспорт чата, JSONL SillyTavern, журнал запросов, холостой прогон, локальная база данных, переносимость данных"
       },
       "TITLE": "Ваши данные",
@@ -6221,7 +6221,7 @@
     "QUICKSTART": {
       "META": {
         "TITLE": "Быстрый старт: ваш первый запрос за 5 минут",
-        "DESCRIPTION": "Создайте API-ключ {appName} и выполните свой первый OpenAI-совместимый запрос с помощью curl, Python или Node.js.",
+        "DESCRIPTION": "Создайте ключ API {appName} и отправьте первый OpenAI-совместимый запрос через curl, Python или Node.js за пять минут. Модели с окончанием :free бесплатны.",
         "KEYWORDS": "быстрый старт, API-ключ, base URL, OpenAI-совместимый, первый запрос, curl, Python, Node.js"
       },
       "TITLE": "Быстрый старт",
@@ -6486,7 +6486,7 @@
     "ACCOUNT_AND_BILLING": {
       "META": {
         "TITLE": "Аккаунт, баланс и биллинг",
-        "DESCRIPTION": "Как работает баланс {appName}: пополнения, бесплатный кредит, лимиты API-ключей, списания за запрос и журнал использования.",
+        "DESCRIPTION": "Как работает баланс {appName}: разовые пополнения картой или криптовалютой, бесплатный кредит за награды в Discord, лимиты расходов по ключам и журнал запросов.",
         "KEYWORDS": "баланс, пополнение, биллинг, API-ключи, журнал использования, бесплатный кредит, партнёрская программа"
       },
       "TITLE": "Аккаунт и биллинг",
