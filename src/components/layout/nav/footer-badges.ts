@@ -203,6 +203,12 @@ export const FOOTER_BADGES: {
     width: 132,
   },
   {
+    href: "https://findyoursaas.com/tool/unorouter",
+    src: "/images/badges/findyoursaas.png",
+    name: "FindYourSaaS",
+    width: 24,
+  },
+  {
     href: "https://openhunts.com/projects/unorouter",
     src: "https://cdn.openhunts.com/badges/club.webp",
     name: "OpenHunts",
@@ -512,12 +518,6 @@ export const FOOTER_BADGES: {
     href: "https://www.bestaitool.co/product/unorouter",
     src: "https://www.bestaitool.co/badge/badge_dark.svg",
     name: "Find the Best AI Tools for Anything",
-    width: 89,
-  },
-  {
-    href: "https://bigkr.com",
-    src: "https://bigkr.com/badge/badge_light.svg",
-    name: "BigKr",
     width: 89,
   },
   {
@@ -2278,9 +2278,17 @@ export const FOOTER_BADGES: {
     alt: "Découvrez Les IA",
     width: 80,
   },
+  {
+    href: "https://findaifor.me/tools/unorouter?utm_source=badge&utm_medium=referral&utm_campaign=featured",
+    src: "https://findaifor.me/badge/featured.svg",
+    name: "FindAIForMe",
+    alt: "Featured on FindAIForMe",
+    width: 95,
+  },
 ] as const;
 
 export const FOOTER_TEXT_LINKS = [
+  { href: "https://www.seewhatnewai.com", label: "SeeWhatNewAI" },
   {
     href: "https://www.toolpilot.ai/products/unorouter",
     label: "Toolpilot.ai",
@@ -2312,7 +2320,6 @@ export const FOOTER_TEXT_LINKS = [
     href: "https://aitop10.tools/",
     label: "AiTop10 Tools",
   },
-  { href: "https://aixlist.com/", label: "AIXList" },
   { href: "https://appstackbuilder.com", label: "appstackbuilder" },
   { href: "https://auraplusplus.com", label: "Aura++" },
   {
@@ -2354,6 +2361,10 @@ export const FOOTER_TEXT_LINKS = [
   },
   { href: "https://hotools.com/", label: "HoTools" },
   {
+    href: "https://launched.tools/tools/unorouter",
+    label: "Featured on launched.tools REVIEWED ✓",
+  },
+  {
     href: "https://launchpadly.co/startup/unorouter?ref=badge",
     label: "Proudly listed on Launchpadly Startup Directory",
   },
@@ -2372,7 +2383,6 @@ export const FOOTER_TEXT_LINKS = [
     href: "https://right-ai.com/",
     label: "RightAI Tools Diresctory",
   },
-  { href: "https://saascubes.com", label: "Listed on SaaS Cubes" },
   { href: "https://saasvault.pro/p/UnoRouter", label: "Listed on SaaSVault" },
   { href: "https://showmeyour.site", label: "ShowMeYourSite" },
   {
