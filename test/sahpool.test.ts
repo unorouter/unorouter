@@ -50,9 +50,8 @@ function send(
   });
 }
 
-// A cold CI runner took over 10s to start Chrome in about one run in five.
 async function devtoolsUrl(dir: string): Promise<string> {
-  for (let i = 0; i < 250; i++) {
+  for (let i = 0; i < 100; i++) {
     try {
       const [port, path] = readFileSync(
         join(dir, "DevToolsActivePort"),
@@ -139,7 +138,6 @@ describe.skipIf(!chrome && !process.env.CI)("sahpool data loss", () => {
         "--headless=new",
         "--no-first-run",
         "--no-default-browser-check",
-        "--disable-dev-shm-usage",
         "--remote-debugging-port=0",
         `--user-data-dir=${profile}`,
         "about:blank",
