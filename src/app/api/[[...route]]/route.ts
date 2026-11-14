@@ -15,6 +15,7 @@ import { billingDomainRoute } from "@/server/billing/route";
 import { blogDomainRoute } from "@/server/blog/route";
 import { modelsDomainRoute } from "@/server/models/route";
 import { opsDomainRoute } from "@/server/ops/route";
+import { UpstreamImageError } from "@/server/ai/image/upstream";
 import { recordServerError } from "@/server/ops/server-error";
 import { fromTypes, openapi } from "@elysiajs/openapi";
 import { APICallError, RetryError } from "ai";
@@ -106,9 +107,10 @@ export const app = new Elysia({ prefix: "/api" })
   // Elysia answers a thrown handler error itself, so Next's onRequestError never sees it.
   .onError(async ({ code, error, request, route, set }) => {
     if (code !== "UNKNOWN" && code !== "INTERNAL_SERVER_ERROR") return;
-    if (error instanceof UpstreamError && error.status < 500) return;
-    // A busy or broken lane behind the gateway: the gateway logs it, the caller
-    // gets a retryable status instead of a 500.
+    // Answers from new-api or the gateway pass through with their own status and
+    // are logged where they happened; only failures of this process are recorded.
+    if (error instanceof UpstreamError || error instanceof UpstreamImageError)
+      return;
     const call = RetryError.isInstance(error) ? error.lastError : error;
     if (APICallError.isInstance(call)) {
       set.status = call.statusCode === 429 ? 429 : 502;
