@@ -1,7 +1,7 @@
 "use client";
 
 import { useApiMutation } from "@/lib/react-query/hooks";
-import { isRecord } from "@/lib/utils/base";
+import { isRecord, safeJsonParse } from "@/lib/utils/base";
 import { msg, NATIVE_VERSION, ORPG_VERSION } from "@/lib/config/constants";
 import {
   bumpLocalConvUpdatedAt,
@@ -112,12 +112,7 @@ export function useImportConversationMutation() {
         return importSillyTavernChat(text);
       }
 
-      let parsed: unknown;
-      try {
-        parsed = JSON.parse(text);
-      } catch {
-        throw new Error(msg("ERRORS.IMPORT_INVALID_JSON"));
-      }
+      const parsed = safeJsonParse<unknown>(text, null);
       if (!isRecord(parsed)) {
         throw new Error(msg("ERRORS.IMPORT_INVALID_JSON"));
       }

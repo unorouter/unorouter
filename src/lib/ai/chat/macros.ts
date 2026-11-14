@@ -4,7 +4,9 @@ import {
   capitalize,
   clamp,
   fnv1aHex,
+  jsonArray,
   rec,
+  safeJsonParse,
 } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 
@@ -111,28 +113,15 @@ function numStr(n: number): string {
   return Number.isFinite(n) ? String(n) : "";
 }
 
-function parseArr(s: string): unknown[] {
-  try {
-    const v = JSON.parse(s);
-    return Array.isArray(v) ? v : [];
-  } catch {
-    return [];
-  }
-}
 function parseDictJSON(s: string): Record<string, unknown> {
-  try {
-    const v = JSON.parse(s);
-    return rec(v) ?? {};
-  } catch {
-    return {};
-  }
+  return rec(safeJsonParse<unknown>(s, null)) ?? {};
 }
 function elemStr(v: unknown): string {
   return typeof v === "object" && v !== null ? JSON.stringify(v) : String(v);
 }
 // Several values as separate args, or one JSON array in the first.
 function listArgs(args: string[]): string[] {
-  return args.length > 1 ? args : parseArr(args[0] ?? "").map(String);
+  return args.length > 1 ? args : jsonArray(args[0] ?? "").map(String);
 }
 function statNums(args: string[]): number[] {
   return listArgs(args).map((f) => {
@@ -163,13 +152,8 @@ function caesar(s: string, shift: number): string {
 }
 
 function parseArray(p1: string): unknown[] {
-  try {
-    const arr: unknown = JSON.parse(p1);
-    if (Array.isArray(arr)) return arr;
-    return p1.split("§");
-  } catch {
-    return p1.split("§");
-  }
+  const arr = safeJsonParse<unknown>(p1, null);
+  return Array.isArray(arr) ? arr : p1.split("§");
 }
 
 function trimLines(p1: string): string {
@@ -359,9 +343,9 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
     case "split":
       return JSON.stringify(arg0.split(args[1] ?? ""));
     case "join":
-      return parseArr(arg0).join(args[1] ?? "");
+      return jsonArray(arg0).join(args[1] ?? "");
     case "spread":
-      return parseArr(arg0).join("::");
+      return jsonArray(arg0).join("::");
     case "unicodeencode":
       return String(arg0.charCodeAt(args[1] ? Number(args[1]) : 0));
     case "unicodedecode":
@@ -405,37 +389,37 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
     case "a":
       return JSON.stringify(args);
     case "arraylength":
-      return String(parseArr(arg0).length);
+      return String(jsonArray(arg0).length);
     case "arrayelement":
-      return elemStr(parseArr(arg0).at(Number(args[1])) ?? "null");
+      return elemStr(jsonArray(arg0).at(Number(args[1])) ?? "null");
     case "arrayshift": {
-      const arr = parseArr(arg0);
+      const arr = jsonArray(arg0);
       arr.shift();
       return JSON.stringify(arr);
     }
     case "arraypop": {
-      const arr = parseArr(arg0);
+      const arr = jsonArray(arg0);
       arr.pop();
       return JSON.stringify(arr);
     }
     case "arraypush": {
-      const arr = parseArr(arg0);
+      const arr = jsonArray(arg0);
       arr.push(args[1]);
       return JSON.stringify(arr);
     }
     case "arraysplice": {
-      const arr = parseArr(arg0);
+      const arr = jsonArray(arg0);
       arr.splice(Number(args[1]), Number(args[2]), args[3]);
       return JSON.stringify(arr);
     }
     case "arrayassert": {
-      const arr = parseArr(arg0);
+      const arr = jsonArray(arg0);
       const idx = Number(args[1]);
       if (idx >= arr.length) arr[idx] = args[2];
       return JSON.stringify(arr);
     }
     case "range": {
-      const a = parseArr(arg0).map(Number);
+      const a = jsonArray(arg0).map(Number);
       const start = a.length > 1 ? a[0] : 0;
       const end = a.length > 1 ? a[1] : a[0];
       const step = a.length > 2 ? a[2] : 1;
@@ -446,7 +430,7 @@ function resolveMacro(inner: string, scope: MacroScope): string | null {
       return JSON.stringify(out);
     }
     case "filter": {
-      const arr = parseArr(arg0).map(String);
+      const arr = jsonArray(arg0).map(String);
       const mode = args[1];
       return JSON.stringify(
         arr.filter((f, i) => {

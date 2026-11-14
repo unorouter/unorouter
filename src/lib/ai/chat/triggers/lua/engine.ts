@@ -1,3 +1,4 @@
+import { safeJsonParse } from "@/lib/utils/base";
 import type { TriggerContext } from "../types";
 import { buildLuaApi } from "./api";
 
@@ -299,11 +300,7 @@ export async function runScripted(
             JSON.stringify(args.data ?? null),
             JSON.stringify(args.meta ?? {}),
           );
-          try {
-            res = JSON.parse(raw);
-          } catch {
-            res = undefined;
-          }
+          res = safeJsonParse<unknown>(raw, undefined);
         }
       }
       return { res, stopSending: flags.stopSending };

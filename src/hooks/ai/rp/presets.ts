@@ -11,7 +11,7 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { useApiMutation } from "@/lib/react-query/hooks";
 import { uid } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
-import { makeRpEntity } from "./factory";
+import { makeRpEntity, readJsonFile } from "./factory";
 import type { PresetRow } from "@/lib/db/schema/rows";
 
 const presets = makeRpEntity<
@@ -41,12 +41,7 @@ export function useImportPresetMutation() {
       if (file.name.toLowerCase().endsWith(".risup")) {
         throw new Error(msg("ERRORS.PRESET_RISUP"));
       }
-      let raw: unknown;
-      try {
-        raw = JSON.parse(await file.text());
-      } catch {
-        throw new Error(msg("ERRORS.PRESET_NOT_JSON"));
-      }
+      const raw = await readJsonFile(file, msg("ERRORS.PRESET_NOT_JSON"));
       // SillyTavern and Risu name the preset by its filename, never inside it.
       const fallbackName = file.name.replace(/\.[^.]+$/, "").trim();
       const parsed = (
@@ -65,4 +60,3 @@ export function useImportPresetMutation() {
     invalidates: [queryKeys.presets()],
   });
 }
-

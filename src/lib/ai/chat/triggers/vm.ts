@@ -1,4 +1,4 @@
-import { jsonArray, rec } from "@/lib/utils/base";
+import { jsonArray, rec, safeJsonParse } from "@/lib/utils/base";
 import { isTriggerEventMode } from "./types";
 import { cbs, runDataOpcode, type VarResolver } from "./opcodes";
 import type {
@@ -190,12 +190,9 @@ function evalIf(
 }
 
 function parseList(s: string): string[] {
-  try {
-    const v = JSON.parse(s);
-    return Array.isArray(v) ? v.map(String) : [];
-  } catch {
-    return s.split(",").map((x) => x.trim());
-  }
+  const v = safeJsonParse<unknown>(s, undefined);
+  if (v === undefined) return s.split(",").map((x) => x.trim());
+  return Array.isArray(v) ? v.map(String) : [];
 }
 
 async function runEffects(

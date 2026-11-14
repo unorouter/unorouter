@@ -24,7 +24,7 @@ import type {
   LorebookEntryBody,
   LorebookInjectionRole,
 } from "@/lib/validation/rp";
-import { makeRpEntity } from "./factory";
+import { makeRpEntity, readJsonFile } from "./factory";
 import { runUrlImport } from "./use-url-import";
 
 const lorebooks = makeRpEntity<
@@ -88,12 +88,7 @@ export function useUpdateLorebookMutation() {
 export function useImportLorebookMutation() {
   return useApiMutation({
     mutationFn: async (file: File) => {
-      let raw: unknown;
-      try {
-        raw = JSON.parse(await file.text());
-      } catch {
-        throw new Error(msg("ERRORS.REQUEST_FAILED"));
-      }
+      const raw = await readJsonFile(file, msg("ERRORS.REQUEST_FAILED"));
       const parsed = (
         await import("@/lib/ai/rp/lorebook-import")
       ).parseLorebookJson(raw, file.name.replace(/\.[^.]+$/, ""));

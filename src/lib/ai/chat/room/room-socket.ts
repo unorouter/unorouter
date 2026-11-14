@@ -1,7 +1,7 @@
 "use client";
 
 import { env } from "@/lib/config/env";
-import { rec } from "@/lib/utils/base";
+import { rec, safeJsonParse } from "@/lib/utils/base";
 import { WebSocket as ReconnectingWebSocket } from "partysocket";
 
 // A room is per-TAB, unlike the notify socket which elects one leader per
@@ -123,21 +123,17 @@ export async function fetchRoomHistory(
   const body = rec(await res.json());
   const data = rec(body?.data);
   if (!body?.success || !data) return { meta: null, messages: [] };
-  const raw = Array.isArray(data.messages) ? data.messages : [];
-  const messages: unknown[] = [];
-  for (const row of raw) {
-    if (typeof row !== "string") continue;
-    try {
-      messages.push(JSON.parse(row));
-    } catch {
-      // One unreadable row must not lose the rest of the transcript.
-    }
-  }
-  let meta: unknown = null;
-  if (typeof data.meta === "string" && data.meta) {
-    try {
-      meta = JSON.parse(data.meta);
-    } catch {}
-  }
+  const raw: unknown[] = Array.isArray(data.messages) ? data.messages : [];
+  const messages = raw.flatMap((row) => {
+    const parsed =
+      typeof row === "string"
+        ? safeJsonParse<unknown>(row, undefined)
+        : undefined;
+    return parsed === undefined ? [] : [parsed];
+  });
+  const meta =
+    typeof data.meta === "string"
+      ? safeJsonParse<unknown>(data.meta, null)
+      : null;
   return { meta, messages };
 }

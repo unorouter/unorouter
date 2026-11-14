@@ -13,7 +13,7 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { uid } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 import { msg } from "@/lib/config/constants";
-import { makeRpEntity } from "./factory";
+import { makeRpEntity, readJsonFile } from "./factory";
 
 const personas = makeRpEntity<
   PersonaRow,
@@ -38,12 +38,7 @@ export const useDuplicatePersonaMutation = personas.useDuplicate;
 export function useImportPersonaMutation() {
   return useApiMutation({
     mutationFn: async (file: File) => {
-      let raw: unknown;
-      try {
-        raw = JSON.parse(await file.text());
-      } catch {
-        throw new Error(msg("ERRORS.REQUEST_FAILED"));
-      }
+      const raw = await readJsonFile(file, msg("ERRORS.REQUEST_FAILED"));
       const parsed = parsePersonaJson(raw);
       if (parsed.length === 0) throw new Error(msg("ERRORS.REQUEST_FAILED"));
       const now = dayjs().toDate();

@@ -1,6 +1,6 @@
 "use client";
 
-import { rec } from "@/lib/utils/base";
+import { rec, safeJsonParse } from "@/lib/utils/base";
 import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { MyFormKeyedSelect } from "@/components/elements/form/my-form-keyed-select";
 import { REASONING_EFFORT_KEY } from "../../overrides/form-handler";
@@ -49,16 +49,11 @@ function parseProviderRouting(raw: string | null | undefined): {
   slugs: string;
   only: boolean;
 } {
-  if (!raw) return { slugs: "", only: false };
-  try {
-    const parsed = rec(JSON.parse(raw));
-    const only = Array.isArray(parsed?.only);
-    const list = only ? parsed?.only : parsed?.order;
-    const slugs = Array.isArray(list) ? list.map(String).join(", ") : "";
-    return { slugs, only };
-  } catch {
-    return { slugs: "", only: false };
-  }
+  const parsed = rec(safeJsonParse<unknown>(raw, null));
+  const only = Array.isArray(parsed?.only);
+  const list = only ? parsed?.only : parsed?.order;
+  const slugs = Array.isArray(list) ? list.map(String).join(", ") : "";
+  return { slugs, only };
 }
 
 function toPresetBody(data: SamplingPresetForm) {

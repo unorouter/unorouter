@@ -24,6 +24,7 @@ import { toast } from "sonner";
 import { useQuery } from "@tanstack/react-query";
 import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
+import { readJsonFile } from "./factory";
 
 const cardLinks = (
   cardId: string,
@@ -197,7 +198,7 @@ export function useImportCardFromFileMutation() {
   const t = useTranslations();
   return useApiMutation({
     mutationFn: async (file: File) => {
-      const parsed: unknown = JSON.parse(await file.text());
+      const parsed = await readJsonFile(file, msg("ERRORS.CARD_FILE_INVALID"));
       if (!isRecord(parsed) || typeof parsed.name !== "string") {
         throw new Error(msg("ERRORS.CARD_FILE_INVALID"));
       }

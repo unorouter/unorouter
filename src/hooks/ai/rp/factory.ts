@@ -1,7 +1,7 @@
 "use client";
 
 import { useApiMutation } from "@/lib/react-query/hooks";
-import { uid } from "@/lib/utils/base";
+import { safeJsonParse, uid } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
@@ -120,4 +120,13 @@ export function makeRpEntity<
       });
     },
   };
+}
+
+export async function readJsonFile(
+  file: File,
+  error: string,
+): Promise<unknown> {
+  const raw = safeJsonParse<unknown>(await file.text(), undefined);
+  if (raw === undefined) throw new Error(error);
+  return raw;
 }
