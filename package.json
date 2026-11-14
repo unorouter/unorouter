@@ -129,7 +129,6 @@
     "drizzle-kit": "0.31.11",
     "eslint": "10.14.0",
     "eslint-config-next": "16.4.6",
-    "indexnow-submitter": "1.5.0",
     "next-bun-compile": "2.2.0",
     "orval": "8.47.0",
     "prettier": "3.10.0",

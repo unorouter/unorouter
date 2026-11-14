@@ -1,41 +1,66 @@
 #!/usr/bin/env bun
+// Submits only sitemap URLs that are new, changed (lastmod) or gone since the
+// previous run; IndexNow treats resubmitting unchanged URLs as noise.
 import { error, log } from "console";
-import { IndexNowSubmitter } from "indexnow-submitter";
+import { existsSync } from "fs";
 
-const INDEXNOW_KEY = process.env.INDEXNOW_KEY;
+const KEY = process.env.INDEXNOW_KEY;
 const SITE_URL = process.env.NEXT_PUBLIC_URL;
-const SITEMAP_URL = `${SITE_URL}/sitemap.xml`;
+const STATE_FILE = process.argv[2] ?? ".indexnow-state.json";
+const BATCH = 10_000;
 
-if (!INDEXNOW_KEY) {
-  error("[IndexNow] Missing INDEXNOW_KEY env var");
+if (!KEY || !SITE_URL) {
+  error("[IndexNow] INDEXNOW_KEY and NEXT_PUBLIC_URL are required");
   process.exit(1);
 }
 
-async function submitToIndexNow() {
-  const indexNow = new IndexNowSubmitter({
-    key: INDEXNOW_KEY!,
-    host: new URL(SITE_URL).host,
-    keyLocation: `${SITE_URL}/${INDEXNOW_KEY}.txt`,
-    batchSize: 10000,
-  });
+const res = await fetch(`${SITE_URL}/sitemap.xml`);
+if (!res.ok) {
+  error(`[IndexNow] sitemap answered ${res.status}`);
+  process.exit(1);
+}
+const xml = await res.text();
 
-  log(`[IndexNow] Fetching sitemap from ${SITEMAP_URL}`);
-  await indexNow.submitFromSitemap(SITEMAP_URL);
-
-  const analytics = indexNow.getAnalytics();
-  log(`[IndexNow] Total: ${analytics.totalSubmissions}`);
-  log(`[IndexNow] Successful: ${analytics.successfulSubmissions}`);
-  log(`[IndexNow] Failed: ${analytics.failedSubmissions}`);
-  log(`[IndexNow] Avg response time: ${analytics.averageResponseTime}ms`);
-
-  return analytics;
+const current: Record<string, string> = {};
+for (const block of xml.match(/<url>[\s\S]*?<\/url>/g) ?? []) {
+  const loc = block.match(/<loc>([^<]+)<\/loc>/)?.[1];
+  if (loc) current[loc] = block.match(/<lastmod>([^<]+)<\/lastmod>/)?.[1] ?? "";
+}
+const total = Object.keys(current).length;
+// A shrunken sitemap would read as thousands of removals.
+if (total < 1000) {
+  error(`[IndexNow] sitemap has only ${total} URLs, refusing to diff`);
+  process.exit(1);
 }
 
-submitToIndexNow()
-  .then((analytics) => {
-    process.exit(analytics.failedSubmissions > 0 ? 1 : 0);
-  })
-  .catch((err) => {
-    error("[IndexNow] Fatal error:", err);
-    process.exit(1);
+const previous: Record<string, string> = existsSync(STATE_FILE)
+  ? await Bun.file(STATE_FILE).json()
+  : {};
+const changed = Object.keys(current).filter((u) => previous[u] !== current[u]);
+const removed = Object.keys(previous).filter((u) => !(u in current));
+const urls = [...changed, ...removed];
+log(
+  `[IndexNow] sitemap ${total}, new or changed ${changed.length}, removed ${removed.length}`,
+);
+
+const host = new URL(SITE_URL).host;
+for (let i = 0; i < urls.length; i += BATCH) {
+  const urlList = urls.slice(i, i + BATCH);
+  const r = await fetch("https://api.indexnow.org/indexnow", {
+    method: "POST",
+    headers: { "content-type": "application/json; charset=utf-8" },
+    body: JSON.stringify({
+      host,
+      key: KEY,
+      keyLocation: `${SITE_URL}/${KEY}.txt`,
+      urlList,
+    }),
   });
+  log(`[IndexNow] batch of ${urlList.length}: ${r.status}`);
+  if (r.status !== 200 && r.status !== 202) {
+    error(await r.text());
+    process.exit(1);
+  }
+}
+
+await Bun.write(STATE_FILE, JSON.stringify(current));

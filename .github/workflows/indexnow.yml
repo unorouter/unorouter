@@ -3,7 +3,11 @@ name: IndexNow
 on:
   workflow_dispatch:
   schedule:
-    - cron: "17 3 * * *"
+    - cron: "23 * * * *"
+
+concurrency:
+  group: indexnow
+  cancel-in-progress: false
 
 jobs:
   submit:
@@ -13,10 +17,22 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
-      - run: bun install --frozen-lockfile
-      - name: Submit sitemap
+
+      # Last submitted sitemap snapshot; a cache miss submits everything once.
+      - uses: actions/cache/restore@0400d5f644dc74513175e3cd8d07132dd4860809 # v4.2.4
+        with:
+          path: .indexnow-state.json
+          key: indexnow-state-${{ github.run_id }}
+          restore-keys: indexnow-state-
+
+      - name: Submit changed URLs
         run: |
           set -a
           . ./.env.public
           set +a
-          bun scripts/indexnow.ts
+          bun scripts/indexnow.ts .indexnow-state.json
+
+      - uses: actions/cache/save@0400d5f644dc74513175e3cd8d07132dd4860809 # v4.2.4
+        with:
+          path: .indexnow-state.json
+          key: indexnow-state-${{ github.run_id }}
