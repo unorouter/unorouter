@@ -1,4 +1,4 @@
-import { GUEST_USER_ID } from "@/lib/config/constants";
+import { GUEST_USER_ID, msg } from "@/lib/config/constants";
 import { assertGuestOwnPurposeAccess } from "@/server/auth/guest-consent.service";
 import {
   finalizeTaskBody,
@@ -36,6 +36,10 @@ import { mirrorTail, publishAbort } from "./stream-mirror";
 import { resolveWebSearch } from "./web-search.service";
 
 const customForwardLimit = rateLimit(120);
+
+function requireMember(userId: number) {
+  if (userId === GUEST_USER_ID) throw new Error(msg("ERRORS.UNAUTHORIZED"));
+}
 const resumeLimit = rateLimit(60);
 
 export const chatRoute = new Elysia({ prefix: "/chat" })
@@ -179,7 +183,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   .post(
     "/trigger-op/llm",
     async ({ body, cookie, apiKey, userId }) => {
-      await getUserId(cookie);
+      requireMember(userId);
       await assertGuestOwnPurposeAccess(cookie, userId, body.model);
       const data = await runTriggerLLM(
         apiKey,
@@ -193,8 +197,8 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   )
   .post(
     "/trigger-op/similarity",
-    async ({ body, cookie, apiKey }) => {
-      await getUserId(cookie);
+    async ({ body, apiKey, userId }) => {
+      requireMember(userId);
       const data = await runTriggerSimilarity(apiKey, body.source, body.values);
       return { success: true, data };
     },
@@ -202,8 +206,8 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   )
   .post(
     "/trigger-op/imggen",
-    async ({ body, cookie, apiKey }) => {
-      await getUserId(cookie);
+    async ({ body, apiKey, userId }) => {
+      requireMember(userId);
       const data = await generateInlayImage(apiKey, body.prompt, {
         model: body.model,
         group: body.group,
@@ -217,8 +221,8 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   )
   .post(
     "/trigger-op/imgtask",
-    async ({ body, cookie, apiKey }) => {
-      await getUserId(cookie);
+    async ({ body, apiKey, userId }) => {
+      requireMember(userId);
       const data = await submitVideoTask(
         apiKey,
         body.model,
