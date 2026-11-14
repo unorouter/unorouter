@@ -30,7 +30,7 @@ export function useResolvedChatModel(remoteId: string | null | undefined) {
   const pricingQuery = usePricingCatalogQuery();
   const authQuery = useAuthQuery();
   const conversationQuery = useConversationQuery(remoteId ?? undefined);
-  const serverModel = conversationQuery.data?.model ?? null;
+  const serverModel = conversationQuery.data?.defaultModel ?? null;
 
   const authSettled = authQuery.isSuccess;
 

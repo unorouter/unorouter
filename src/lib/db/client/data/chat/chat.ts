@@ -30,7 +30,7 @@ import {
   CONVERSATION_SETTINGS_KEYS,
   projectConversationSettings,
 } from "@/lib/db/conversation-settings";
-import { and, asc, desc, eq, inArray } from "drizzle-orm";
+import { and, asc, desc, eq, getTableColumns, inArray } from "drizzle-orm";
 import type { InferInsertModel } from "drizzle-orm";
 import { getLocalDb } from "@/lib/db/client/client";
 import { readLocalRequestLogsForConv } from "@/lib/db/client/data/chat/request-log";
@@ -61,7 +61,7 @@ const messageItemStore = makeTableStore(messageItems, messageItems.id);
 export const readLocalConversations = async () => {
   const local = await getLocalDb();
   if (!local) return [];
-  const rows = await local.db
+  return local.db
     .select({
       id: conversations.id,
       title: conversations.title,
@@ -75,7 +75,6 @@ export const readLocalConversations = async () => {
     })
     .from(conversations)
     .orderBy(desc(conversations.updatedAt));
-  return rows.map((r) => ({ ...r, model: r.defaultModel ?? null }));
 };
 
 const chatGroupStore = makeTableStore(chatGroups, chatGroups.id);
@@ -129,11 +128,7 @@ export const setChatGroupFolded = (groupId: string, folded: boolean) =>
 export const setConversationGroup = (convId: string, groupId: string | null) =>
   conversationStore.update(convId, { groupId });
 
-export const readLocalConversation = async (id: string) => {
-  const conv = await conversationStore.get(id);
-  if (!conv) return conv;
-  return { ...conv, model: conv.defaultModel ?? null };
-};
+export const readLocalConversation = (id: string) => conversationStore.get(id);
 
 export const readLocalConversationSettings = async (convId: string) => {
   const conv = await conversationStore.get(convId);
@@ -254,19 +249,16 @@ export async function readPrimaryCharacter(convId: string) {
   const local = await getLocalDb();
   if (!local) return null;
   const rows = await local.db
-    .select({ characterId: conversationCharacters.characterId })
+    .select(getTableColumns(characters))
     .from(conversationCharacters)
+    .innerJoin(
+      characters,
+      eq(characters.id, conversationCharacters.characterId),
+    )
     .where(eq(conversationCharacters.convId, convId))
     .orderBy(asc(conversationCharacters.orderIndex))
     .limit(1);
-  const charId = rows[0]?.characterId;
-  if (!charId) return null;
-  const charRows = await local.db
-    .select()
-    .from(characters)
-    .where(eq(characters.id, charId))
-    .limit(1);
-  return charRows[0] ?? null;
+  return rows[0] ?? null;
 }
 
 export async function readConvRegexScripts(
@@ -286,16 +278,11 @@ export async function readConvTriggers(
 export async function readLocalMessageItems(convId: string) {
   const local = await getLocalDb();
   if (!local) return null;
-  const msgs = await local.db
-    .select({ id: messages.id })
-    .from(messages)
-    .where(eq(messages.convId, convId));
-  if (msgs.length === 0) return [];
-  const ids = msgs.map((m) => m.id);
   return local.db
-    .select()
+    .select(getTableColumns(messageItems))
     .from(messageItems)
-    .where(inArray(messageItems.messageId, ids))
+    .innerJoin(messages, eq(messages.id, messageItems.messageId))
+    .where(eq(messages.convId, convId))
     .orderBy(asc(messageItems.sequenceIndex));
 }
 
@@ -306,8 +293,6 @@ async function readLocalConversationMedia(convId: string) {
 }
 
 export async function readLocalConversationBundle(convId: string) {
-  const local = await getLocalDb();
-  if (!local) return null;
   const conv = await readLocalConversation(convId);
   if (!conv) return null;
   const settings = projectConversationSettings(conv);
@@ -328,19 +313,15 @@ export async function readLocalConversationBundle(convId: string) {
   const [characterRows, lorebookRows, persona, preset] = await Promise.all([
     Promise.all(characterIds.map((id) => readLocalCharacter(id))),
     Promise.all(lorebookIds.map((id) => readLocalLorebookBundle(id))),
-    settings?.personaId
-      ? readLocalPersona(settings.personaId)
-      : Promise.resolve(null),
-    settings?.presetId
-      ? readLocalPreset(settings.presetId)
-      : Promise.resolve(null),
+    settings.personaId ? readLocalPersona(settings.personaId) : null,
+    settings.presetId ? readLocalPreset(settings.presetId) : null,
   ]);
   const characters = characterRows.filter((c) => c != null);
   const lorebooks = lorebookRows.filter((l) => l != null);
 
   return {
     conversation: conv,
-    settings: settings ?? null,
+    settings,
     conversationCharacters: bindings?.conversationCharacters ?? [],
     conversationLorebooks: bindings?.conversationLorebooks ?? [],
     messages: msgs ?? [],
@@ -404,15 +385,8 @@ export async function deleteLocalMessagesForConv(convId: string) {
   await local.db.delete(messages).where(eq(messages.convId, convId));
 }
 
-export async function bumpLocalConvUpdatedAt(convId: string) {
-  const conv = await readLocalConversation(convId);
-  if (conv) {
-    await upsertLocalConversation({
-      ...conv,
-      updatedAt: dayjs().toDate(),
-    });
-  }
-}
+export const bumpLocalConvUpdatedAt = (convId: string) =>
+  conversationStore.update(convId, { updatedAt: dayjs().toDate() });
 
 export async function setLocalActiveBranch(convId: string, msgId: string) {
   const msgs = (await readLocalMessages(convId)) ?? [];

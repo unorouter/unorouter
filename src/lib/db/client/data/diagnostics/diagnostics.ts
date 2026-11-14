@@ -264,7 +264,7 @@ async function buildDiagnosticsHead() {
   } catch {}
   const conversations = convs.map((c) => ({
     id: c.id,
-    model: c.model,
+    model: c.defaultModel,
     groupId: c.groupId,
     totalInputTokens: c.totalInputTokens,
     totalOutputTokens: c.totalOutputTokens,

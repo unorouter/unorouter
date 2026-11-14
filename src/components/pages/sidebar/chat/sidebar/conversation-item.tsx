@@ -20,7 +20,7 @@ type ConversationItemProps = {
   conversation: {
     id: string;
     title: string | null;
-    model: string | null;
+    defaultModel: string | null;
   };
   isSelected: boolean;
   onSelect: () => void;
@@ -36,7 +36,7 @@ export function ConversationItem(props: ConversationItemProps) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const customProvidersQuery = useCustomProvidersQuery();
-  const model = props.conversation.model;
+  const model = props.conversation.defaultModel;
   const isCustom = isCustomModelId(model);
 
   const modelData = pricingQuery.data?.models.find(
