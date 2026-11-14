@@ -8,10 +8,9 @@ import {
 } from "@/hooks/ops/logs-hook";
 import { msg, renderQuota } from "@/lib/config/constants";
 import { DataTableId } from "@/lib/types/enums";
-import { createTableAtoms } from "@/store/data-table-store";
-import type { ColumnDef, ColumnFiltersState } from "@tanstack/react-table";
+import { useLogFilters } from "./use-log-filters";
+import type { ColumnDef } from "@tanstack/react-table";
 import type { TableFeats } from "@/lib/config/table-features";
-import { useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import {
@@ -60,10 +59,8 @@ export function UsageLogs() {
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [detailsLog, setDetailsLog] = useState<LogRow | null>(null);
 
-  const tableAtoms = createTableAtoms(DataTableId.LOGS);
-  const store = useAtomValue(tableAtoms.baseAtom);
-  const setColumnFilters = useSetAtom(tableAtoms.columnFiltersAtom);
-  const setPagination = useSetAtom(tableAtoms.paginationAtom);
+  const filters = useLogFilters(DataTableId.LOGS);
+  const store = filters.store;
 
   const { filterValues, queryFilters, statFilters } = buildLogQueryFilters(
     store.columnFilters,
@@ -73,20 +70,6 @@ export function UsageLogs() {
   const logsQuery = useUsageLogsQuery(queryFilters);
   const statQuery = useUsageLogsStatQuery(statFilters);
   const stat = statQuery.data;
-
-  function handleFilterChange(id: string, value: unknown) {
-    setColumnFilters((prev: ColumnFiltersState) => {
-      const next = prev.filter((f) => f.id !== id);
-      if (value != null) next.push({ id, value });
-      return next;
-    });
-    setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-  }
-
-  function handleReset() {
-    setColumnFilters([]);
-    setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-  }
 
   const columns: ColumnDef<TableFeats, LogRow>[] = [
     {
@@ -234,8 +217,8 @@ export function UsageLogs() {
         filter={() => (
           <LogFilters
             filters={filterValues}
-            onFilterChange={handleFilterChange}
-            onReset={handleReset}
+            onFilterChange={filters.handleFilterChange}
+            onReset={filters.handleReset}
             onRefresh={() => logsQuery.refetch()}
           />
         )}

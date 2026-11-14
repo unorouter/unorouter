@@ -3,10 +3,9 @@
 import { DataTable } from "@/components/elements/table/data-table";
 import { useMidjourneyLogsQuery } from "@/hooks/ops/logs-hook";
 import { DataTableId } from "@/lib/types/enums";
-import { createTableAtoms } from "@/store/data-table-store";
-import type { ColumnDef, ColumnFiltersState } from "@tanstack/react-table";
+import { useLogFilters } from "../common/use-log-filters";
+import type { ColumnDef } from "@tanstack/react-table";
 import type { TableFeats } from "@/lib/config/table-features";
-import { useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import {
@@ -33,10 +32,8 @@ import { buildDrawingFilters, type DrawingRow } from "./drawing-helpers";
 export function DrawingLogs() {
   const t = useTranslations();
 
-  const tableAtoms = createTableAtoms(DataTableId.MIDJOURNEY_LOGS);
-  const store = useAtomValue(tableAtoms.baseAtom);
-  const setColumnFilters = useSetAtom(tableAtoms.columnFiltersAtom);
-  const setPagination = useSetAtom(tableAtoms.paginationAtom);
+  const filters = useLogFilters(DataTableId.MIDJOURNEY_LOGS);
+  const store = filters.store;
 
   const { filterValues, queryFilters } = buildDrawingFilters(
     store.columnFilters,
@@ -48,20 +45,6 @@ export function DrawingLogs() {
   const [promptOpen, setPromptOpen] = useState(false);
   const [failOpen, setFailOpen] = useState(false);
   const [activeRow, setActiveRow] = useState<DrawingRow | null>(null);
-
-  function handleFilterChange(id: string, value: unknown) {
-    setColumnFilters((prev: ColumnFiltersState) => {
-      const next = prev.filter((f) => f.id !== id);
-      if (value != null) next.push({ id, value });
-      return next;
-    });
-    setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-  }
-
-  function handleReset() {
-    setColumnFilters([]);
-    setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-  }
 
   const columns: ColumnDef<TableFeats, DrawingRow>[] = [
     logColumn(t, "LOGS.DRAWING.SUBMIT_TIME", DrawingTimeCell, {
@@ -125,8 +108,8 @@ export function DrawingLogs() {
             idField="mj_id"
             idValue={filterValues.mj_id ?? ""}
             placeholder={t("LOGS.DRAWING.FILTER_MJ_ID")}
-            onFilterChange={handleFilterChange}
-            onReset={handleReset}
+            onFilterChange={filters.handleFilterChange}
+            onReset={filters.handleReset}
           />
         )}
         emptyState={<LogsEmptyState />}

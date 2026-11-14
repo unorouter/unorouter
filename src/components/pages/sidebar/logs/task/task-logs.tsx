@@ -3,10 +3,9 @@
 import { DataTable } from "@/components/elements/table/data-table";
 import { useTaskLogsQuery } from "@/hooks/ops/logs-hook";
 import { DataTableId } from "@/lib/types/enums";
-import { createTableAtoms } from "@/store/data-table-store";
-import type { ColumnDef, ColumnFiltersState } from "@tanstack/react-table";
+import { useLogFilters } from "../common/use-log-filters";
+import type { ColumnDef } from "@tanstack/react-table";
 import type { TableFeats } from "@/lib/config/table-features";
-import { useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { FailReasonDialog } from "../drawing/drawing-dialogs";
@@ -28,10 +27,8 @@ import { buildTaskFilters, type TaskRow } from "./task-helpers";
 export function TaskLogs() {
   const t = useTranslations();
 
-  const tableAtoms = createTableAtoms(DataTableId.TASK_LOGS);
-  const store = useAtomValue(tableAtoms.baseAtom);
-  const setColumnFilters = useSetAtom(tableAtoms.columnFiltersAtom);
-  const setPagination = useSetAtom(tableAtoms.paginationAtom);
+  const filters = useLogFilters(DataTableId.TASK_LOGS);
+  const store = filters.store;
 
   const { filterValues, queryFilters } = buildTaskFilters(
     store.columnFilters,
@@ -42,20 +39,6 @@ export function TaskLogs() {
   const [failOpen, setFailOpen] = useState(false);
   const [audioOpen, setAudioOpen] = useState(false);
   const [activeRow, setActiveRow] = useState<TaskRow | null>(null);
-
-  function handleFilterChange(id: string, value: unknown) {
-    setColumnFilters((prev: ColumnFiltersState) => {
-      const next = prev.filter((f) => f.id !== id);
-      if (value != null) next.push({ id, value });
-      return next;
-    });
-    setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-  }
-
-  function handleReset() {
-    setColumnFilters([]);
-    setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-  }
 
   const columns: ColumnDef<TableFeats, TaskRow>[] = [
     logColumn(t, "LOGS.TASK.SUBMIT_TIME", TaskTimeCell, {
@@ -109,8 +92,8 @@ export function TaskLogs() {
             idField="task_id"
             idValue={filterValues.task_id ?? ""}
             placeholder={t("LOGS.TASK.FILTER_TASK_ID")}
-            onFilterChange={handleFilterChange}
-            onReset={handleReset}
+            onFilterChange={filters.handleFilterChange}
+            onReset={filters.handleReset}
           />
         )}
         emptyState={<LogsEmptyState />}
