@@ -1,11 +1,10 @@
 "use client";
 
-import { useElysiaQuery } from "@/lib/react-query/hooks";
+import { useApiMutation, useElysiaQuery } from "@/lib/react-query/hooks";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { CatalogSearchQuery } from "@/lib/validation/image";
 import { handleElysia } from "@/lib/utils/base";
-import { handleError } from "@/lib/utils/client";
 import {
   readLocalImageModels,
   rememberLocalImageModel,
@@ -16,9 +15,7 @@ import {
   saveImagePreset,
   type ImagePresetInput,
 } from "@/lib/db/client/data/image/image-presets";
-import { invalidateAndBroadcast } from "@/lib/react-query/cross-tab-invalidate";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useTranslations } from "next-intl";
+import { useQuery } from "@tanstack/react-query";
 
 export function useLoraCatalogQuery(query?: CatalogSearchQuery) {
   return useElysiaQuery(
@@ -31,13 +28,9 @@ export function useLoraCatalogQuery(query?: CatalogSearchQuery) {
 }
 
 export function useCivitaiVersionsMutation() {
-  const t = useTranslations();
-  return useMutation({
-    mutationFn: async (query: string) => {
-      const res = await rpc.api.ai.image["civitai-versions"].post({ query });
-      return handleElysia(res);
-    },
-    onError: (e) => handleError(e, t),
+  return useApiMutation({
+    mutationFn: async (query: string) =>
+      handleElysia(await rpc.api.ai.image["civitai-versions"].post({ query })),
   });
 }
 
@@ -68,9 +61,7 @@ export function useSavedImageModelsQuery() {
 }
 
 export function useRememberImageModelMutation() {
-  const t = useTranslations();
-  const qc = useQueryClient();
-  return useMutation({
+  return useApiMutation({
     mutationFn: (model: {
       air: string;
       name: string;
@@ -78,8 +69,7 @@ export function useRememberImageModelMutation() {
       heroImage: string | null;
       nsfwLevel: number | null;
     }) => rememberLocalImageModel(model),
-    onError: (e) => handleError(e, t),
-    onSuccess: () => invalidateAndBroadcast(qc, [queryKeys.savedImageModels()]),
+    invalidates: [queryKeys.savedImageModels()],
   });
 }
 
@@ -91,21 +81,15 @@ export function useImagePresetsQuery() {
 }
 
 export function useSaveImagePresetMutation() {
-  const t = useTranslations();
-  const qc = useQueryClient();
-  return useMutation({
+  return useApiMutation({
     mutationFn: (input: ImagePresetInput) => saveImagePreset(input),
-    onError: (e) => handleError(e, t),
-    onSuccess: () => invalidateAndBroadcast(qc, [queryKeys.imagePresets()]),
+    invalidates: [queryKeys.imagePresets()],
   });
 }
 
 export function useDeleteImagePresetMutation() {
-  const t = useTranslations();
-  const qc = useQueryClient();
-  return useMutation({
+  return useApiMutation({
     mutationFn: (id: string) => deleteImagePreset(id),
-    onError: (e) => handleError(e, t),
-    onSuccess: () => invalidateAndBroadcast(qc, [queryKeys.imagePresets()]),
+    invalidates: [queryKeys.imagePresets()],
   });
 }

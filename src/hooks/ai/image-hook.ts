@@ -42,15 +42,9 @@ import {
 import { safeParse } from "@/lib/validation/helpers";
 import { fnv1aHex, handleElysia, uid } from "@/lib/utils/base";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
-import { handleError } from "@/lib/utils/client";
+import { useApiMutation } from "@/lib/react-query/hooks";
 import { dayjs } from "@/lib/utils/format/date";
-import {
-  type QueryKey,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
-import { useTranslations } from "next-intl";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 type SubmitArgs = ImageSubmitBody & { sessionId?: string };
 
@@ -250,26 +244,19 @@ async function runSubmit(
 }
 
 export function useSubmitGenerationMutation() {
-  const t = useTranslations();
   const qc = useQueryClient();
-
-  return useMutation({
+  return useApiMutation({
     mutationFn: async (body: SubmitArgs) => runSubmit(body, qc),
-    onError: (e) => handleError(e, t),
-    onSuccess: (data) => {
-      invalidateAndBroadcast(qc, [
-        queryKeys.imageSessionLists(),
-        queryKeys.imageSession(data.sessionId),
-        queryKeys.imageSnapshot(data.snapshotId),
-      ]);
-    },
+    invalidates: (_body, data) => [
+      queryKeys.imageSessionLists(),
+      queryKeys.imageSession(data.sessionId),
+      queryKeys.imageSnapshot(data.snapshotId),
+    ],
   });
 }
 
 export function useDeleteSnapshotMutation() {
-  const t = useTranslations();
-  const qc = useQueryClient();
-  return useMutation({
+  return useApiMutation({
     mutationFn: async (args: { id: string }) => {
       const view = await readLocalSnapshotView(args.id);
       if (!view) return { id: args.id, sessionId: "", sessionDeleted: false };
@@ -287,48 +274,36 @@ export function useDeleteSnapshotMutation() {
       }
       return { id: args.id, sessionId, sessionDeleted };
     },
-    onError: (e) => handleError(e, t),
-    onSuccess: (data) => {
-      const keys: QueryKey[] = [queryKeys.imageSessionLists()];
-      if (data.sessionId) {
-        keys.push(queryKeys.imageSession(data.sessionId));
-      }
-      invalidateAndBroadcast(qc, keys);
-    },
+    invalidates: (_args, data) => [
+      queryKeys.imageSessionLists(),
+      ...(data.sessionId ? [queryKeys.imageSession(data.sessionId)] : []),
+    ],
   });
 }
 
 export function useDeleteImageSessionMutation() {
-  const t = useTranslations();
-  const qc = useQueryClient();
-  return useMutation({
+  return useApiMutation({
     mutationFn: async (args: { sessionId: string }) => {
       await deleteLocalImageSessionDeep(args.sessionId);
       return args;
     },
-    onError: (e) => handleError(e, t),
-    onSuccess: (data) => {
-      invalidateAndBroadcast(qc, [
-        queryKeys.imageSessionLists(),
-        queryKeys.imageSession(data.sessionId),
-      ]);
-    },
+    invalidates: (args) => [
+      queryKeys.imageSessionLists(),
+      queryKeys.imageSession(args.sessionId),
+    ],
   });
 }
 
 export function useExportSessionMutation() {
-  const t = useTranslations();
-  return useMutation({
+  return useApiMutation({
     mutationFn: async (args: { sessionId: string }) =>
       exportLocalSession(args.sessionId),
-    onError: (e) => handleError(e, t),
   });
 }
 
 export function useImportGenerationMutation() {
-  const t = useTranslations();
   const qc = useQueryClient();
-  return useMutation({
+  return useApiMutation({
     mutationFn: async (args: {
       payload: ImageSnapshotExport | SessionSnapshot;
       mode: ImageCloneMode;
@@ -372,9 +347,6 @@ export function useImportGenerationMutation() {
       }
       return { sessionId };
     },
-    onError: (e) => handleError(e, t),
-    onSuccess: () => {
-      invalidateAndBroadcast(qc, [queryKeys.imageSessionLists()]);
-    },
+    invalidates: [queryKeys.imageSessionLists()],
   });
 }
