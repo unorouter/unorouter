@@ -11,6 +11,7 @@ import {
   readLocalPreset,
 } from "@/lib/db/client/data/rp/rp";
 import { NONE_VALUE } from "@/lib/config/constants";
+import { escapeRegex } from "@/lib/utils/base";
 import { MAX_TEXT_LEN } from "@/lib/validation/chat";
 import {
   chatGroupAtom,
@@ -56,19 +57,17 @@ export class SpokeAsCharacterError extends Error {}
 function clean(raw: string, user: string, char: string): string {
   let text = raw.trim();
   // Models routinely echo the speaker label; strip our own, refuse theirs.
-  const userLabel = new RegExp(`^${escapeRe(user)}\\s*:\\s*`, "i");
-  const charLabel = new RegExp(`^${escapeRe(char)}\\s*:\\s*`, "i");
+  const userLabel = new RegExp(`^${escapeRegex(user)}\\s*:\\s*`, "i");
+  const charLabel = new RegExp(`^${escapeRegex(char)}\\s*:\\s*`, "i");
   if (charLabel.test(text)) throw new SpokeAsCharacterError();
   text = text.replace(userLabel, "").trim();
   // A trailing turn for the other side is the model continuing the scene past
   // the one reply it was asked for; keep only what comes before it.
-  const cut = text.search(new RegExp(`\\n\\s*${escapeRe(char)}\\s*:`, "i"));
+  const cut = text.search(new RegExp(`\\n\\s*${escapeRegex(char)}\\s*:`, "i"));
   if (cut > 0) text = text.slice(0, cut).trim();
   if (!text) throw new SpokeAsCharacterError();
   return text;
 }
-
-const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 // convId is optional because a brand new chat has none yet, and that is exactly
 // when a blank page is hardest to start: the persona and character then come

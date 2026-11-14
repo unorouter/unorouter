@@ -46,10 +46,8 @@ export async function computeSpeakingOrder(
   );
   const rows = await readLocalMessages(convId);
   const lastSpeakerId =
-    [...(rows ?? [])]
-      .reverse()
-      .find((m) => m.role === "assistant" && m.characterId)?.characterId ??
-    null;
+    rows?.findLast((m) => m.role === "assistant" && m.characterId)
+      ?.characterId ?? null;
   return groupOrder(members, sendArgText(sendArg), {
     orderByOrder: settings?.groupOrderByOrder === true,
     lastSpeakerId,
