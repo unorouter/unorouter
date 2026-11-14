@@ -598,17 +598,12 @@ export function createChatHistoryAdapter(
             const id = getConvId();
             if (!id) return { messages: [] };
 
-            type MsgPage = { messages: ApiMessage[]; total: number };
-            type Cached = { pages: MsgPage[]; pageParams: number[] };
-
-            const cached = queryClient.getQueryData<Cached>([
-              ...queryKeys.chatMessages(id),
-            ]);
+            const cached = queryClient.getQueryData<ApiMessage[]>(
+              queryKeys.chatMessages(id),
+            );
             const stored = await repairBrokenChain(
               id,
-              cached
-                ? cached.pages.flatMap((p) => p.messages)
-                : await readJoinedMessages(id),
+              cached ?? (await readJoinedMessages(id)),
             );
 
             // assistant-ui replaces the live list with whatever load() returns,

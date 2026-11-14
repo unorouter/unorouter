@@ -194,22 +194,10 @@ export function useConversationQuery(id?: string) {
   });
 }
 
-export function useMessagesInfiniteQuery(id?: string) {
-  return useInfiniteQuery({
+export function useMessagesQuery(id?: string) {
+  return useQuery({
     queryKey: queryKeys.chatMessages(id!),
-    queryFn: async ({ pageParam }) => {
-      if (!id)
-        return { messages: [], total: 0, page: pageParam, pageSize: PAGE_SIZE };
-      const messages = await readJoinedMessages(id);
-      return {
-        messages,
-        total: messages.length,
-        page: pageParam,
-        pageSize: PAGE_SIZE,
-      };
-    },
-    initialPageParam: 1,
-    getNextPageParam: () => undefined,
+    queryFn: () => (id ? readJoinedMessages(id) : []),
     enabled: !!id,
     placeholderData: keepPreviousData,
     retry: false,
@@ -346,11 +334,6 @@ export function useEditMessageMutation() {
         updatedAt: now,
       });
       await bumpLocalConvUpdatedAt(args.convId);
-      const after = (await readLocalMessages(args.convId)) ?? [];
-      logChatDebug("message.edit.done", {
-        msgId: args.msgId,
-        persisted: after.some((m) => m.id === args.msgId && m.isEdited),
-      });
       return { items: itemsWithMsg };
     },
     (args) => [queryKeys.chatMessages(args.convId)],
@@ -449,16 +432,9 @@ export function useDeleteMessageMutation() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (args: { convId: string; msgId: string }) => {
-      const t0 = Date.now();
-      const before = (await readLocalMessages(args.convId)) ?? [];
-      const target = before.find((m) => m.id === args.msgId);
       logChatDebug("message.delete", {
         convId: args.convId,
         msgId: args.msgId,
-        role: target?.role ?? null,
-        found: !!target,
-        children: before.filter((m) => m.parentId === args.msgId).length,
-        total: before.length,
       });
       getThreadRuntime()?.deleteMessage(args.msgId);
       // Prune the live array BEFORE the await: the splice can throw and leave a deleted message on screen and in request history.
@@ -476,13 +452,6 @@ export function useDeleteMessageMutation() {
         });
         throw e;
       }
-      const after = (await readLocalMessages(args.convId)) ?? [];
-      logChatDebug("message.delete.done", {
-        msgId: args.msgId,
-        stillThere: after.some((m) => m.id === args.msgId),
-        total: after.length,
-        ms: Date.now() - t0,
-      });
       try {
         await reloadLiveThreadFromDb(args.convId);
       } catch (e) {

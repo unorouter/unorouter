@@ -1,6 +1,6 @@
 "use client";
 
-import { useMessagesInfiniteQuery } from "@/hooks/ai/chat-hook";
+import { useMessagesQuery } from "@/hooks/ai/chat-hook";
 import { useCharactersQuery } from "@/hooks/ai/rp/characters";
 import {
   useChatBindingsQuery,
@@ -21,44 +21,28 @@ type MessageMeta = {
   cost: number | null;
 };
 
-type MessageCache = {
-  flat: ApiMessage[];
-  byId: Map<string, ApiMessage>;
-};
+const byIdCache = new WeakMap<ApiMessage[], Map<string, ApiMessage>>();
 
-const cache = new WeakMap<object, MessageCache>();
-
-function getMessageCache(pages: object[]): MessageCache {
-  let entry = cache.get(pages);
-  if (!entry) {
-    const flat = [...pages]
-      .reverse()
-      .flatMap((p) => (p as { messages: ApiMessage[] }).messages);
-    entry = {
-      flat,
-      byId: new Map(
-        flat
-          .filter((m): m is ApiMessage => !!m.id)
-          .map((m) => [m.id, m] as const),
-      ),
-    };
-    cache.set(pages, entry);
+function messagesById(list: ApiMessage[]): Map<string, ApiMessage> {
+  let byId = byIdCache.get(list);
+  if (!byId) {
+    byId = new Map(list.map((m) => [m.id, m]));
+    byIdCache.set(list, byId);
   }
-  return entry;
+  return byId;
 }
 
 export function useMessageMeta(): MessageMeta | null {
   const remoteId = useAuiState((s) => s.threadListItem?.remoteId);
   const messageId = useAuiState((s) => s.message.id);
-  const messagesQuery = useMessagesInfiniteQuery(remoteId ?? undefined);
+  const messagesQuery = useMessagesQuery(remoteId ?? undefined);
 
   if (!messagesQuery.data) return null;
 
   // Id match only: a positional fallback (render index into the flat DB list)
   // showed the WRONG row's model/cost on branched threads. An optimistic id
   // that misses simply renders no meta until the persisted id lands.
-  const { byId } = getMessageCache(messagesQuery.data.pages);
-  const msg = byId.get(messageId);
+  const msg = messagesById(messagesQuery.data).get(messageId);
   if (!msg) return null;
 
   return {

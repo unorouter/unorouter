@@ -27,10 +27,7 @@ const row = (
 
 function loadWith(stored: ApiMessage[]) {
   const queryClient = new QueryClient();
-  queryClient.setQueryData([...queryKeys.chatMessages(CONV)], {
-    pages: [{ messages: stored, total: stored.length }],
-    pageParams: [1],
-  });
+  queryClient.setQueryData(queryKeys.chatMessages(CONV), stored);
   return createChatHistoryAdapter(queryClient, () => CONV)
     .withFormat?.(aiSDKV6FormatAdapter)
     .load();
