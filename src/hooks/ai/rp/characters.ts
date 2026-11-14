@@ -58,9 +58,7 @@ async function persistCharacterSetupFromFile(
   const regexScripts = regexScriptsFromCardData(card.raw.data);
   const ext = rec(rec(card.raw.data)?.extensions);
   const tavernHelper = !!(ext?.tavern_helper || ext?.TavernHelper_scripts);
-  const risuTriggers = rec(
-    rec(rec(card.raw.data)?.extensions)?.risuai,
-  )?.triggerscript;
+  const risuTriggers = rec(ext?.risuai)?.triggerscript;
 
   let avatarMediaId: string | null = null;
   if (imageBytes && imageMime) {
@@ -113,11 +111,7 @@ async function persistCharacterSetupFromFile(
   let lorebookId: string | null = null;
   let reusedLorebooks = 0;
   try {
-    const rawData = card.raw.data;
-    const characterBook =
-      rawData && typeof rawData === "object" && "character_book" in rawData
-        ? rawData.character_book
-        : undefined;
+    const characterBook = rec(card.raw.data)?.character_book;
     if (characterBook) {
       const parsed = await import("@/lib/ai/rp/lorebook-import").then((m) =>
         m.parseLorebookJson(characterBook, `${card.name} lorebook`),
