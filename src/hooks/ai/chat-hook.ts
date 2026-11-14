@@ -14,7 +14,7 @@ import {
 import { handleElysia, uid } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
-import type { MessageItemType } from "@/lib/validation/chat";
+import type { PersistMessageItem } from "@/lib/validation/chat";
 import {
   deleteLocalChatGroup,
   deleteLocalConversation,
@@ -37,6 +37,7 @@ import {
   upsertLocalChatGroup,
   upsertLocalConversation,
   upsertLocalConversationSettings,
+  updateLocalMessage,
   upsertLocalMessage,
   upsertLocalMessageItem,
   readJoinedMessages,
@@ -51,14 +52,7 @@ import type { QueryClient } from "@tanstack/react-query";
 
 type ConvIdArg = { id: string };
 type UpdateConvBody = { title?: string | null; model?: string };
-type EditMessageBody = {
-  items: Array<{
-    id?: string;
-    type: MessageItemType;
-    output_index?: number | null;
-    data: Record<string, unknown>;
-  }>;
-};
+type EditMessageBody = { items: PersistMessageItem[] };
 
 export function useConversationsInfiniteQuery(keyword?: string) {
   return useInfiniteQuery({
@@ -306,20 +300,16 @@ export function useEditMessageMutation() {
       });
       if (!existing) throw new Error(msg("ERRORS.MESSAGE_NOT_FOUND"));
       const itemsWithMsg = args.body.items.map((it, seq) => ({
-        id: it.id ?? uid(),
+        id: uid(),
         messageId: args.msgId,
         sequenceIndex: seq,
-        outputIndex: it.output_index ?? null,
+        outputIndex: null,
         type: it.type,
         data: it.data,
       }));
       await replaceLocalMessageItems(args.msgId, itemsWithMsg);
       const now = dayjs().toDate();
-      await upsertLocalMessage({
-        ...existing,
-        isEdited: true,
-        updatedAt: now,
-      });
+      await updateLocalMessage(args.msgId, { isEdited: true, updatedAt: now });
       await bumpLocalConvUpdatedAt(args.convId);
       return { items: itemsWithMsg };
     },

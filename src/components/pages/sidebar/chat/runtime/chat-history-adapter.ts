@@ -16,6 +16,7 @@ import {
   readLocalMessages,
   upsertLocalConversation,
   upsertLocalConversationSettings,
+  updateLocalMessage,
   upsertLocalMessage,
   upsertLocalMessageItem,
   readJoinedMessages,
@@ -368,8 +369,7 @@ async function activateAncestors(
       if ((sib.parentId ?? null) !== parent) continue;
       const active = sib.id === cur.id;
       if ((sib.isActiveBranch !== false) === active) continue;
-      await upsertLocalMessage({
-        ...sib,
+      await updateLocalMessage(sib.id, {
         isActiveBranch: active,
         updatedAt: now,
       });
@@ -444,11 +444,7 @@ async function placeOnBranch(
           siblings.length - 1,
         ) + 1;
   for (const sib of siblings) {
-    await upsertLocalMessage({
-      ...sib,
-      isActiveBranch: false,
-      updatedAt: now,
-    });
+    await updateLocalMessage(sib.id, { isActiveBranch: false, updatedAt: now });
   }
   await activateAncestors(convId, existing, parentId, now);
   return { parentId, parentBranchVars, nextBranchIndex };

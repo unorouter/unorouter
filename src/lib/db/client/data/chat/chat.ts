@@ -354,6 +354,11 @@ export async function bumpLocalConversationTotals(
   });
 }
 
+export const updateLocalMessage = (
+  id: string,
+  patch: Partial<typeof messages.$inferInsert>,
+) => messageStore.update(id, patch);
+
 export const upsertLocalMessage = (
   row: LocalRowInput & { id: string; convId: string },
 ) => messageStore.upsert(row);
@@ -406,8 +411,7 @@ export async function setLocalActiveBranch(convId: string, msgId: string) {
   const now = dayjs().toDate();
   for (const m of msgs) {
     if ((m.parentId ?? null) === parentId) {
-      await upsertLocalMessage({
-        ...m,
+      await messageStore.update(m.id, {
         isActiveBranch: m.id === msgId,
         updatedAt: now,
       });
@@ -448,26 +452,11 @@ export async function spliceDeleteLocalMessage(convId: string, msgId: string) {
   if (doomed.size > 0)
     logChatDebug("delete.drop_swipes", { msgId, removed: doomed.size });
   for (const id of doomed) await deleteLocalMessage(id);
-  const children = keep ? [keep] : [];
-
-  const childIds: string[] = [];
-  for (const m of children) {
-    childIds.push(m.id);
-    await upsertLocalMessage({ ...m, parentId: newParentId, updatedAt: now });
-  }
-  if (childIds.length > 0) {
-    const check = (await readLocalMessages(convId)) ?? [];
-    for (const id of childIds) {
-      const child = check.find((m) => m.id === id);
-      if (child && child.parentId === msgId) {
-        logChatDebug("delete.splice_retry", { msgId, child: id });
-        await upsertLocalMessage({
-          ...child,
-          parentId: newParentId,
-          updatedAt: now,
-        });
-      }
-    }
+  if (keep) {
+    await messageStore.update(keep.id, {
+      parentId: newParentId,
+      updatedAt: now,
+    });
   }
   await deleteLocalMessage(msgId);
   await bumpLocalConvUpdatedAt(convId);
