@@ -124,11 +124,8 @@ const AttachmentThumb: FC = () => {
       <AvatarImage
         src={src}
         alt={t("CHAT.ATTACHMENT.PREVIEW")}
-        // The tile is ~96px but src is the attachment's full-resolution base64
-        // data URI, so the browser holds a whole decoded bitmap
-        // (width x height x 4 bytes) to paint a thumbnail. Decode lazily and
-        // off the main thread so a thread full of attachments does not decode
-        // every one of them at once.
+        // A ~96px tile decodes the full-resolution data URI, so lazily and off
+        // the main thread.
         loading="lazy"
         decoding="async"
         className="aui-attachment-tile-image object-cover"

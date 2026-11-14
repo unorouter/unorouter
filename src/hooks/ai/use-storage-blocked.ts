@@ -6,11 +6,8 @@ import {
 } from "@/lib/db/client/client";
 import { useEffect, useState, useSyncExternalStore } from "react";
 
-// Firefox refuses OPFS with a SecurityError whenever site data is blocked for
-// the origin (private window, "block cookies", strict tracking protection), and
-// Safari does the same in some lockdown configurations. The chat DB is the only
-// copy of a user's chats, so a browser that cannot open it must say so rather
-// than failing every action with a generic error.
+// Firefox refuses OPFS with a SecurityError when site data is blocked (private
+// window, "block cookies", strict tracking protection), as does Safari lockdown.
 export function useStorageBlocked(): "blocked" | "held" | "emptied" | null {
   const [probeFailed, setProbeFailed] = useState(false);
   useEffect(() => {

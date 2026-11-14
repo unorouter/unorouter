@@ -113,11 +113,9 @@ function ChatRuntimeHook() {
   }, [threadId, remoteId, isMain]);
   const history = useHistoryAdapter(getConvId);
   const historyAdapter = history.adapter;
-  // Writing the turn as the request leaves is what survives a run that never
-  // settles (tab discarded mid-stream): the completion path is otherwise the
-  // only writer, and a killed run loses what the user typed. The ai-sdk fills
-  // its message list a microtask after sendMessage(), so the outgoing request
-  // is the first point the message exists with its final id.
+  // Persisted as the request leaves so a run that never settles (tab discarded
+  // mid-stream) keeps what the user typed; the outgoing request is the first
+  // point the message has its final id.
   const persistUserTurn = async (messages: ChatUIMessage[]) => {
     const persist = history.persistRef.current;
     const last = messages.at(-1);

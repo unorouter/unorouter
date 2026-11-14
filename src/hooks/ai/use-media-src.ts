@@ -13,11 +13,8 @@ function useMediaQuery(mediaId: string | null | undefined) {
       if (!mediaId) return null;
       const row = await readLocalMedia(mediaId);
       if (!row?.dataBase64) return null;
-      // Blob URL, not a data: URI: the base64 for a full-resolution image is a
-      // multi-megabyte string that would sit in the query cache and re-parse on
-      // every paint. Keyed by media id and deliberately never revoked here: the
-      // same id renders in several places at once and across remounts, so a
-      // revoke on unmount would break the live ones.
+      // A blob URL keeps megabytes of base64 out of the query cache. Never
+      // revoked: one id renders in several places at once.
       return {
         url: mediaBlobUrl(mediaId, row.dataBase64, row.mimeType),
         focalX: row.focalX,

@@ -111,11 +111,8 @@ function TaskCard(props: Props) {
   const t = useTranslations();
   const finalizedRef = useRef(false);
 
-  // Poll while not FAILURE (the hook stops itself on FAILURE). A finalized
-  // SUCCESS unmounts this card (its item is rewritten to a video), so a card
-  // still rendering as SUCCESS means finalize never ran (e.g. status flipped
-  // to SUCCESS before the result URL was ready, or a reload) - keep polling so
-  // it fetches the URL and finalizes.
+  // A card still rendering as SUCCESS means finalize never ran (finalizing
+  // rewrites it to a video), so it keeps polling until it can.
   const statusQuery = useTaskStatusQuery(
     props.part.taskId,
     true,
@@ -167,10 +164,8 @@ function TaskCard(props: Props) {
         },
       );
     }
-    // Deliberately keyed on the poll result alone. useFinalizeTaskMutation
-    // returns a new object every render and the body reads its isPending, so
-    // listing it would re-run this the moment the mutation starts; finalizedRef
-    // is the real once-only guard. The props are stable for a card's lifetime.
+    // Keyed on the poll result alone: the mutation object changes every render,
+    // and finalizedRef is the once-only guard.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 

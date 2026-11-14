@@ -54,11 +54,9 @@ export function buildModelParams(
   effectiveMaxOutputTokens: number,
   modelInfo: PricingCatalogDetail | undefined,
 ) {
-  // Only put max_tokens on the wire when the user asked for one. Metadata
-  // output ceilings drift from what upstreams enforce (262144 published against
-  // a 131072 limit, on the same model), and a too-high literal is a hard 400 on
-  // strict providers, so an absent field is safer than a computed one. The
-  // gateway fills in the model's own cap when nothing arrives.
+  // max_tokens only when the user set one: published ceilings drift from what
+  // upstreams enforce (262144 against 131072), a too-high value is a hard 400,
+  // and the gateway fills in the model's cap when it is absent.
   const userSetMax = assembled.sampling.maxOutputTokens != null;
   return stripUnsupported(
     defined({
@@ -191,11 +189,8 @@ export function buildWritebacks(
   return { varsWriteback, globalVarsWriteback };
 }
 
-// Request logs are per-message and grow quadratically with thread length; an
-// inline `data:` URI (3-4MB parts measured) drives the DB past 500MB, where it
-// can no longer be exported or imported on a phone. Text is kept whole: the
-// log is the only way to see what went upstream, and retention already empties
-// all but the newest payloads per conversation.
+// Request logs grow quadratically with thread length; inline `data:` URIs
+// (3-4MB parts) pushed the DB past 500MB, where a phone cannot export it.
 const DATA_URI_IN_TEXT = /data:[\w.+-]+\/[\w.+-]+;base64,[A-Za-z0-9+/=]+/g;
 
 function leanParts(parts: unknown): unknown {

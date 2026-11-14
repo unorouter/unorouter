@@ -13,11 +13,8 @@ import {
 } from "./foreign-preset";
 import { Value } from "@sinclair/typebox/value";
 
-// Accepts our own .preset.json export and anything shaped like it, plus the
-// SillyTavern, RisuAI and LoreBary exports, which carry the same settings under their own
-// names and carry no name of their own. Keys the file leaves out become null
-// where the schema allows it, so a hand-trimmed file still imports; isDefault
-// never survives an import.
+// Our export plus SillyTavern, RisuAI and LoreBary presets. Missing keys become
+// null so a hand-trimmed file still imports; isDefault never survives.
 export function parsePresetJson(
   raw: unknown,
   fallbackName = "Imported preset",

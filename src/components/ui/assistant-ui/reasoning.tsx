@@ -87,10 +87,7 @@ function ReasoningRoot({
   const isOpen = isControlled
     ? controlledOpen
     : (userOpen ?? streaming ?? initialOpen);
-  // Scroll follow is about a box that is STREAMING and OPEN, whichever way it got
-  // opened. Gating it on auto-mode only left anyone who clicked the box open with
-  // no follow logic at all: no listener, no observer, just the browser shoving the
-  // view as the content grows.
+  // Not gated on auto-open: a box the user clicked open must follow too.
   const isStreamingOpen = streaming === true && isOpen;
 
   const prevStreamingRef = useRef(streaming);
@@ -100,14 +97,9 @@ function ReasoningRoot({
     if (!isControlled && userOpen === null) lockScroll();
   }, [streaming, isControlled, userOpen, lockScroll]);
 
-  // NO scroll lock on collapse. Native scroll anchoring (overflow-anchor is
-  // auto on the viewport) already keeps the reading position while the box
-  // shrinks; the lock fights it by forcing the pre-collapse scrollTop back,
-  // and near the bottom that value exceeds the new maximum, so the browser
-  // clamps to the end - which the viewport's at-bottom detector reads as the
-  // user scrolling down, re-arming the follow pin and making the stream yank
-  // the view again. Expanding keeps the lock: the old position stays valid
-  // when content grows, so restoring it is harmless there.
+  // No lock on collapse: scroll anchoring already holds the position, and near
+  // the bottom the restored scrollTop clamps to the end, which the viewport
+  // reads as the user scrolling down and re-arms the follow pin.
   const handleOpenChange = useCallback(
     (open: boolean) => {
       if (open) lockScroll();
@@ -246,15 +238,9 @@ function ReasoningText({
     const scrollEl = scrollRef.current;
     const contentEl = contentRef.current;
     if (!scrollEl || !contentEl) return;
-    // Follow the newest token only while the reader sits at the bottom - the
-    // same contract as the thread. Once they scroll up to read mid-stream the
-    // pin disengages; scrolling back to the bottom re-engages it.
-    //
-    // The at-bottom test must IGNORE the scrolls this effect causes itself.
-    // `pin` sets scrollTop past the end and the browser clamps it, so the
-    // resulting event always measures as at-bottom; re-deriving `follow` from
-    // that re-armed the pin one frame after the reader scrolled away, and any
-    // nudge downward stuck it back on for good.
+    // Follows only while the reader sits at the bottom. The at-bottom test must
+    // ignore this effect's own scrolls: `pin` overshoots and the clamp always
+    // measures as at-bottom, which re-armed the pin after the reader left.
     let follow = true;
     let selfScrolling = false;
     const AT_BOTTOM_SLACK = 24;

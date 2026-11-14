@@ -154,13 +154,9 @@ const MarkdownTextImpl = () => {
   );
   const hidden = splitHiddenBlocks(stripThinkForDisplay(messageText));
   const html = hasAllowedHtml(hidden.text);
-  // Subscribe to the media version counters ONLY when this message actually
-  // carries a token. They are global counters bumped once per resolved image,
-  // so an unconditional subscription re-ran every message's full markdown
-  // pipeline (remark + rehype + mdast-to-React) on every resolution: N messages
-  // x M images re-parses. Inlay/img sources are inlined base64 data URIs, so
-  // each of those re-parses tokenizes hundreds of KB of URI text, which froze
-  // the thread outright on image-heavy chats.
+  // The media counters are global and bump per resolved image; subscribing
+  // every message re-parsed N messages x M images of base64 URIs and froze
+  // image-heavy threads.
   const hasInlayToken = useAuiState((s) =>
     s.message.content.some(
       (p) => p.type === "text" && p.text.includes("{{inlay::"),
@@ -173,11 +169,8 @@ const MarkdownTextImpl = () => {
   );
   useAtomValue(hasInlayToken ? inlayVersionAtom : ZERO_ATOM);
   useAtomValue(hasImgToken ? imgVersionAtom : ZERO_ATOM);
-  // Plugin display handlers resolve asynchronously into a cache; the version
-  // bump re-renders once the transformed text is ready. Subscribed
-  // unconditionally: gating on a handler existing would leave every message
-  // listening to the inert atom until a reload, so enabling a plugin mid-session
-  // would bump a counter nobody reads. The atom never changes without plugins.
+  // Unconditional: gated on a handler existing, a plugin enabled mid-session
+  // would bump a counter nobody reads. It never changes without plugins.
   useAtomValue(jsDisplayVersionAtom);
   return (
     <>
@@ -507,12 +500,9 @@ const defaultComponents = memoizeMarkdownComponents({
       copyToClipboard(imgSrc);
     };
 
-    // A zero-height image that pops to full size on decode grows the thread under
-    // the reader, and the viewport's bottom-pin reads that as the user scrolling
-    // away mid-stream. Generated media rows carry probed dimensions from birth
-    // (the alt token rides them in as `@WxH`), so the box is reserved exactly.
-    // Rows persisted before the probe existed are measured here once and
-    // backfilled; only their first-ever view falls back to a square box.
+    // An image growing from zero height on decode reads to the bottom-pin as the
+    // user scrolling away. Rows saved before dimensions were probed are measured
+    // here once and backfilled.
     const handleLoad = (e: SyntheticEvent<HTMLImageElement>) => {
       const el = e.currentTarget;
       if (media.aspectRatio || !inlayMediaId) return;
@@ -556,14 +546,8 @@ const defaultComponents = memoizeMarkdownComponents({
                     // from zero that shoves the thread while a reply streams.
                     { minHeight: "12rem" }
             }
-            // Chat media are inline base64 data URIs, so next/image cannot
-            // optimize them: the browser decodes the FULL-resolution bitmap
-            // (width x height x 4 bytes, independent of the encoded size), and
-            // sizes="100vw" told it to decode for a full-viewport render. A
-            // handful of camera/4K images that way costs GBs of RAM and the
-            // decode work to match. Cap the hint at the real column width, and
-            // decode lazily so a thread of images does not decode all of them
-            // at once on load.
+            // Data URIs bypass next/image, so the browser decodes for the sizes
+            // hint: "100vw" cost GBs of RAM on a few 4K images.
             sizes="(max-width: 768px) 100vw, 768px"
             loading="lazy"
             decoding="async"

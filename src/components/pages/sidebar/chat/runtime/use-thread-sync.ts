@@ -12,11 +12,9 @@ import {
 import { useSetAtom } from "jotai";
 import { useEffect, useRef } from "react";
 
-// One instance per mounted thread, all writing the same atom, and threads overlap
-// during a switch. Claiming on mount and releasing ONLY the id this thread claimed
-// keeps a late-unmounting predecessor from restoring its own conversation over the
-// new one, which sent the next message into the previous chat. The prewarmed
-// new-thread draft also mounts one and must not claim while it is not shown.
+// Threads overlap during a switch: releasing only the id this thread claimed
+// stops a late-unmounting predecessor from sending the next message into the
+// previous chat. The prewarmed draft must not claim while hidden.
 export function useConvIdSync(
   remoteId: string | null | undefined,
   isMain: boolean,

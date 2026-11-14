@@ -192,13 +192,10 @@ export const Thread: FC = () => {
     };
   }, [historyLoaded, threadId]);
   const settling = !!params.convId && settledFor !== threadId;
-  // The viewport library keeps a pending scroll-to-bottom that it re-applies
-  // on every content resize until it observes the bottom, ignoring autoScroll.
-  // Six weeks of chasing that state machine did not make the toggle reliable,
-  // so the invariant is enforced here instead: with the setting off, a
-  // programmatic scroll during a reply is dropped unless the user just
-  // touched the viewport. A synthetic pointerdown at run start is the
-  // library's own cancel path for that pending scroll.
+  // The viewport library re-applies a pending scroll-to-bottom on every resize,
+  // ignoring autoScroll. With the setting off, a programmatic scroll during a
+  // reply is dropped unless the user just touched the viewport; a synthetic
+  // pointerdown is the library's own cancel path for the pending scroll.
   const isRunning = useAuiState((s) => s.thread.isRunning);
   const runningRef = useRef(false);
   useEffect(() => {
@@ -723,11 +720,8 @@ const StorageBlockedNotice: FC = () => {
 
 const CONTINUE_PROMPT = "(OOC: Continue.)";
 
-// Writes into the composer and never into history, so the draft stays the
-// user's to edit or discard. An empty composer asks for a fresh message; a
-// non-empty one rewrites what is already there rather than replacing it blind,
-// because losing a half-written draft to a misfire is the loudest complaint
-// about the equivalent feature elsewhere.
+// Writes into the composer, never history. A non-empty composer is rewritten,
+// not replaced, so a misfire cannot lose a half-written draft.
 const ComposerImpersonateButton: FC = () => {
   const t = useTranslations();
   const aui = useAui();
@@ -855,11 +849,8 @@ type StreamErrorDetail = {
   requestId?: string | null;
 };
 
-// The live-stream error reaches the card as the JSON envelope streamErrorText
-// serialized (message + status + code + requestId, the real upstream body dug
-// out of APICallError.responseBody). Parse it back to the full detail so the
-// live card shows the same fields as the persisted card. Falls back to the bare
-// message for legacy {message} envelopes and plain strings.
+// The live error arrives as streamErrorText's JSON envelope; parsed back so the
+// live card matches the persisted one. Plain strings fall back to the message.
 function parseStreamErrorEnvelope(raw: string): StreamErrorDetail {
   if (raw.startsWith("{")) {
     try {
@@ -1196,11 +1187,8 @@ const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
       return;
     }
 
-    // Instant visual update, then the DB-derived rebuild as the authority: the
-    // transport sends the live array as the model's history, so a lost patch
-    // here meant the model kept answering the pre-edit prompt. The rebuild is
-    // best-effort: the write already landed, and a reader that throws (SQLocal
-    // contention on iOS) must not strand the editor open over an applied edit.
+    // The rebuild is best-effort: the write already landed, and a reader that
+    // throws (SQLocal contention on iOS) must not strand the editor open.
     replaceMessageParts(messageId, () => newParts);
     try {
       await reloadLiveThreadFromDb(convId);

@@ -4,14 +4,9 @@ import type { Pluggable, Plugin, Processor, TransformCallback } from "unified";
 import type { Root } from "hast";
 import type { VFile } from "vfile";
 
-// A rehype plugin that removes a node by splicing its parent's children while
-// unist-util-visit is mid-traversal leaves a HOLE: visit re-reads
-// parent.children[index] against a length that already shrank, gets undefined,
-// and the next visitor throws "Cannot use 'in' operator to search for
-// 'children' in undefined", which unmounts the whole message.
-//
-// Running last, this drops those holes plus any non-object entry before the
-// remaining visitors walk the tree.
+// A plugin splicing children mid-visit leaves an undefined HOLE, and the next
+// visitor throws "Cannot use 'in' operator to search for 'children' in
+// undefined", unmounting the message. This drops holes before later visitors.
 //
 // The mutator is rehype-mathjax: it calls visitParents itself and replaces
 // nodes during that walk. Bracketing it is NOT enough, because the throw

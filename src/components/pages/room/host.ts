@@ -38,11 +38,8 @@ import {
   type RoomSocket,
 } from "@/lib/ai/chat/room/room-socket";
 
-// A guest turn is handed to the runtime via append(), which is fire and forget:
-// it swallows its own promise, so a turn that never starts (the conversation
-// lock is held by another tab, the model errors before streaming) would leave
-// the queue wedged forever. Nothing is awaited; the queue is released either by
-// an observed run or by this timeout.
+// append() swallows its own promise, so a guest turn that never starts would
+// wedge the queue forever; an observed run or this timeout releases it.
 const TURN_START_TIMEOUT_MS = 15_000;
 
 let socket: RoomSocket | null = null;
