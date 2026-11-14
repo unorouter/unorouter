@@ -111,17 +111,17 @@ export async function loadJsPlugins(rows: LoadedJsPlugin[]): Promise<void> {
   const [
     { SandboxHost },
     { buildPluginApi, PLUGIN_API_BOOTSTRAP },
-    { transpilePluginCode },
+    { transform },
   ] = await Promise.all([
     import("./sandbox-host"),
     import("./api"),
-    import("./transpile"),
+    import("sucrase"),
   ]);
 
   for (const row of enabled) {
     let code = row.script;
     try {
-      code = await transpilePluginCode(row.script);
+      code = transform(row.script, { transforms: ["typescript"] }).code;
     } catch {
       // plain JS that sucrase rejects still gets a chance to run verbatim
     }
