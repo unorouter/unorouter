@@ -18,7 +18,6 @@ import {
   bumpLocalConversationTotals,
   updateLocalConversationSettings,
   upsertLocalConversation,
-  upsertLocalConversationSettings,
   updateLocalMessage,
   upsertLocalMessage,
   upsertLocalMessageItem,
@@ -881,6 +880,6 @@ async function runOutputTriggers(
   }
   const after = JSON.stringify(vars);
   if (after === before) return null;
-  await upsertLocalConversationSettings({ convId, vars: after });
+  await updateLocalConversationSettings({ convId, vars: after });
   return after;
 }

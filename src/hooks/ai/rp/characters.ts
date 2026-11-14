@@ -9,6 +9,7 @@ import {
   readLocalCharacter,
   readLocalCharacters,
   upsertLocalCardBundle,
+  updateLocalCharacter,
   upsertLocalCharacter,
 } from "@/lib/db/client/data/rp/rp";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -289,6 +290,7 @@ async function persistImportedCard(result: ImportedResult) {
   const file = new File([json], "card.json", { type: "application/json" });
   const setup = await persistCharacterSetupFromFile(file, lorebookIds);
 
+  const patch: Partial<CharacterRow> = {};
   if (result.avatar) {
     const mediaId = uid();
     await upsertLocalMedia({
@@ -298,14 +300,8 @@ async function persistImportedCard(result: ImportedResult) {
       sizeBytes: base64ToUint8(result.avatar.base64).byteLength,
       dataBase64: result.avatar.base64,
     });
-    await upsertLocalCharacter({
-      ...(await readLocalCharacter(setup.characterId)),
-      id: setup.characterId,
-      avatarMediaId: mediaId,
-      updatedAt: dayjs().toDate(),
-    });
+    patch.avatarMediaId = mediaId;
   }
-
   const assets: { name: string; mediaId: string }[] = [];
   for (const asset of rich?.assets ?? []) {
     const mediaId = uid();
@@ -319,15 +315,12 @@ async function persistImportedCard(result: ImportedResult) {
     });
     assets.push({ name: asset.name, mediaId });
   }
-
-  if (rich?.regexScripts || rich?.triggers || assets.length > 0) {
-    const existing = await readLocalCharacter(setup.characterId);
-    await upsertLocalCharacter({
-      ...existing,
-      id: setup.characterId,
-      regexScripts: rich?.regexScripts ?? existing?.regexScripts ?? null,
-      triggers: rich?.triggers ?? existing?.triggers ?? null,
-      assets: assets.length > 0 ? assets : (existing?.assets ?? null),
+  if (assets.length > 0) patch.assets = assets;
+  if (rich?.regexScripts) patch.regexScripts = rich.regexScripts;
+  if (rich?.triggers) patch.triggers = rich.triggers;
+  if (Object.keys(patch).length > 0) {
+    await updateLocalCharacter(setup.characterId, {
+      ...patch,
       updatedAt: dayjs().toDate(),
     });
   }

@@ -139,6 +139,10 @@ export async function readLocalCard(id: string) {
 }
 export const upsertLocalCharacter = (row: LocalRowInput & { id: string }) =>
   characterStore.upsert(row);
+export const updateLocalCharacter = (
+  id: string,
+  patch: Partial<typeof characters.$inferInsert>,
+) => characterStore.update(id, patch);
 export const deleteLocalCharacter = (id: string) => characterStore.drop(id);
 
 export const upsertLocalPersona = (row: LocalRowInput & { id: string }) =>
