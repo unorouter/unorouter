@@ -1,3 +1,4 @@
+import type { PersistMessageItem } from "@/lib/validation/chat";
 import type { ApiMessage, MessagePart } from "@/lib/ai/chat/messages";
 import { isCustomModelId } from "@/lib/ai/chat/custom-provider-id";
 import {
@@ -75,8 +76,6 @@ function toEncoded(v: Record<string, unknown>): EncodedContent {
     throw new Error("unexpected history format");
   return { role: v.role, parts: v.parts };
 }
-
-type MessageItem = ReturnType<typeof partsToItems>[number];
 
 type IllustratorJob = {
   taskId: string;
@@ -164,9 +163,9 @@ function withLiveTurn<TMessage>(
           isActiveBranch: true,
           createdAt: now,
           items: partsToItems(content.parts).map((it, seq) => ({
-            id: it.id ?? uid(),
+            id: uid(),
             sequenceIndex: seq,
-            outputIndex: it.output_index ?? null,
+            outputIndex: null,
             type: it.type,
             data: it.data,
           })),
@@ -264,7 +263,7 @@ async function applyAssistantOutputTransforms(
 }
 
 function appendStreamErrorItem(
-  items: MessageItem[],
+  items: PersistMessageItem[],
   resolvedModel: string | null,
 ): void {
   const streamError = chatStore.get(lastStreamErrorAtom);
@@ -286,7 +285,7 @@ function appendStreamErrorItem(
 
 async function prepareIllustratorJob(
   convId: string,
-  items: MessageItem[],
+  items: PersistMessageItem[],
   resolvedModel: string | null,
 ): Promise<IllustratorJob | null> {
   const { resolveIllustratorSettings } =
@@ -768,10 +767,10 @@ export function createChatHistoryAdapter(
         }
 
         const itemRows = items.map((it, seq) => ({
-          id: it.id ?? uid(),
+          id: uid(),
           messageId,
           sequenceIndex: seq,
-          outputIndex: it.output_index ?? null,
+          outputIndex: null,
           type: it.type,
           data: it.data,
           createdAt: now,

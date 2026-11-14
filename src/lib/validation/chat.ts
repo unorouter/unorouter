@@ -12,83 +12,39 @@ const MAX_ID_LEN = 64;
 // roleplay 422s here and the feature reads as permanently broken.
 export const MAX_TEXT_LEN = 100_000;
 const MAX_MODEL_LEN = 128;
-const MAX_URL_LEN = 2048;
 // Exported: the sender truncates to it. A first message longer than this used
 // to be posted whole and 422'd, so pasting a script meant the chat silently
 // never got a title.
 export const MAX_TITLE_SEED_LEN = 10_000;
 const MAX_MESSAGES_PER_STREAM = 200;
 
-const itemTextData = t.Object({ text: t.String({ maxLength: MAX_TEXT_LEN }) });
-const itemReasoningData = t.Object({
-  text: t.String({ maxLength: MAX_TEXT_LEN }),
-  status: t.Optional(t.String({ maxLength: 32 })),
-});
-const itemToolCallData = t.Object(
-  {
-    tool_name: t.String({ maxLength: MAX_ID_LEN }),
-    tool_call_id: t.String({ maxLength: MAX_ID_LEN }),
-    args: t.Unknown(),
-  },
-  { additionalProperties: true },
-);
-const itemToolResultData = t.Object(
-  {
-    tool_call_id: t.String({ maxLength: MAX_ID_LEN }),
-    result: t.Unknown(),
-  },
-  { additionalProperties: true },
-);
-const itemFileData = t.Object(
-  {
-    url: t.String({ maxLength: MAX_URL_LEN }),
-    mime_type: t.String({ maxLength: 128 }),
-    name: t.Optional(t.String({ maxLength: 256 })),
-    r2_key: t.Optional(t.String({ maxLength: 512 })),
-  },
-  { additionalProperties: true },
-);
-const itemTaskData = t.Object(
-  {
-    task_id: t.String({ maxLength: MAX_ID_LEN }),
-    model: t.String({ maxLength: MAX_MODEL_LEN }),
-    status: t.String({ maxLength: 32 }),
-    progress: t.Optional(t.String({ maxLength: 16 })),
-    kind: t.Optional(t.String({ maxLength: 16 })),
-  },
-  { additionalProperties: true },
-);
-const itemErrorData = t.Object(
-  {
-    message: t.String({ maxLength: 4_096 }),
-    model: t.Optional(t.String({ maxLength: MAX_MODEL_LEN })),
-  },
-  { additionalProperties: true },
-);
-
-const ITEM_DATA_SCHEMAS = [
-  ["text", itemTextData],
-  ["reasoning", itemReasoningData],
-  ["tool_call", itemToolCallData],
-  ["tool_result", itemToolResultData],
-  ["file", itemFileData],
-  ["image", itemFileData],
-  ["task", itemTaskData],
-  ["error", itemErrorData],
-] as const;
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const _persistMessageItem = t.Union(
-  ITEM_DATA_SCHEMAS.map(([type, data]) =>
-    t.Object({
-      id: t.Optional(t.String({ maxLength: MAX_ID_LEN })),
-      type: t.Literal(type),
-      output_index: t.Optional(t.Number()),
-      data,
-    }),
-  ),
-);
-export type PersistMessageItem = Static<typeof _persistMessageItem>;
+export type PersistMessageItem =
+  | { type: "text" | "reasoning"; data: { text: string } }
+  | {
+      type: "file" | "image";
+      data: { url: string; mime_type: string; name?: string };
+    }
+  | {
+      type: "task";
+      data: {
+        task_id: string;
+        model: string;
+        status: string;
+        progress?: string;
+        kind?: string;
+      };
+    }
+  | {
+      type: "error";
+      data: {
+        message: string;
+        model?: string;
+        code?: string;
+        param?: string;
+        status?: number;
+        requestId?: string;
+      };
+    };
 
 export type MessageRole = "system" | "user" | "assistant";
 
