@@ -86,7 +86,7 @@ export function SamplingFields<TForm extends Record<string, unknown>>(
                       detailsLabel={t("RP.SAMPLING_ADVANCED")}
                     />
                   }
-                  value={(field.value as number | null) ?? null}
+                  value={typeof field.value === "number" ? field.value : null}
                   onChange={field.onChange}
                   min={param.min}
                   max={fieldMax}

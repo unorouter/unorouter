@@ -105,8 +105,15 @@ export function PromptTemplateEditor(props: Props) {
     );
   };
 
-  const update = (id: string, patch: Partial<PromptItem>) => {
-    commit(cards.map((c) => (c.id === id ? ({ ...c, ...patch } as Card) : c)));
+  const updatePlain = (
+    id: string,
+    patch: { text?: string; role?: PromptItemRole },
+  ) => {
+    commit(
+      cards.map((c) =>
+        c.id === id && c.type === "plain" ? { ...c, ...patch } : c,
+      ),
+    );
   };
 
   const remove = (id: string) => {
@@ -224,9 +231,10 @@ export function PromptTemplateEditor(props: Props) {
                   <div className="flex items-center gap-1.5">
                     <Select
                       value={card.role}
-                      onValueChange={(v) =>
-                        update(card.id, { role: v as PromptItemRole })
-                      }
+                      onValueChange={(v) => {
+                        const role = ROLES.find((r) => r === v);
+                        if (role) updatePlain(card.id, { role });
+                      }}
                     >
                       <SelectTrigger className="h-7 w-32">
                         <SelectValue>{card.role}</SelectValue>
@@ -262,7 +270,9 @@ export function PromptTemplateEditor(props: Props) {
                   </div>
                   <Textarea
                     value={card.text}
-                    onChange={(e) => update(card.id, { text: e.target.value })}
+                    onChange={(e) =>
+                      updatePlain(card.id, { text: e.target.value })
+                    }
                     className={
                       expanded.has(card.id) && !isDragging
                         ? "max-h-[60vh]"

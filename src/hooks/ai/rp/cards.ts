@@ -20,12 +20,28 @@ import {
 import { queryKeys } from "@/lib/react-query/keys";
 import type { CardBody } from "@/lib/validation/rp";
 import { isRecord, uid } from "@/lib/utils/base";
-import { handleError } from "@/lib/utils/client";
 import { msg } from "@/lib/config/constants";
 import { toast } from "sonner";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
+
+const cardLinks = (
+  cardId: string,
+  characterIds: string[],
+  lorebookIds: string[],
+) => ({
+  cardCharacters: characterIds.map((characterId, orderIndex) => ({
+    cardId,
+    characterId,
+    orderIndex,
+  })),
+  cardLorebooks: lorebookIds.map((lorebookId, orderIndex) => ({
+    cardId,
+    lorebookId,
+    orderIndex,
+  })),
+});
 
 export function useCardsQuery() {
   return useQuery({
@@ -64,16 +80,7 @@ export function useCreateCardMutation() {
       };
       await upsertLocalCardBundle({
         card,
-        cardCharacters: (body.characterIds ?? []).map((cid, i) => ({
-          cardId: card.id,
-          characterId: cid,
-          orderIndex: i,
-        })),
-        cardLorebooks: (body.lorebookIds ?? []).map((lid, i) => ({
-          cardId: card.id,
-          lorebookId: lid,
-          orderIndex: i,
-        })),
+        ...cardLinks(card.id, body.characterIds ?? [], body.lorebookIds ?? []),
       });
       return card;
     },
@@ -102,16 +109,7 @@ export function useUpdateCardMutation() {
         body.lorebookIds ?? existing.cardLorebooks.map((l) => l.lorebookId);
       await upsertLocalCardBundle({
         card: updatedCard,
-        cardCharacters: characterIds.map((cid, i) => ({
-          cardId: args.id,
-          characterId: cid,
-          orderIndex: i,
-        })),
-        cardLorebooks: lorebookIds.map((lid, i) => ({
-          cardId: args.id,
-          lorebookId: lid,
-          orderIndex: i,
-        })),
+        ...cardLinks(args.id, characterIds, lorebookIds),
       });
       return updatedCard;
     },
@@ -128,15 +126,13 @@ export function useDeleteCardMutation() {
     },
     invalidates: [queryKeys.cards()],
     onSuccess: (_data, id, qc) => {
-      qc.removeQueries({ queryKey: [...queryKeys.card(id)] });
+      qc.removeQueries({ queryKey: queryKeys.card(id) });
     },
   });
 }
 
 export function useApplyCardMutation() {
-  const t = useTranslations();
-  const qc = useQueryClient();
-  return useMutation({
+  return useApiMutation({
     mutationFn: async (args: {
       id: string;
       body: { convId: string; mode: "replace" | "merge" };
@@ -193,23 +189,17 @@ export function useApplyCardMutation() {
 
       return { id: args.id };
     },
-    onSuccess: (_data, args) => {
-      qc.invalidateQueries({
-        queryKey: queryKeys.chatBindings(args.body.convId),
-      });
-      qc.invalidateQueries({
-        queryKey: queryKeys.chatSettings(args.body.convId),
-      });
-    },
-    onError: (e) => handleError(e, t),
+    invalidates: (args) => [
+      queryKeys.chatBindings(args.body.convId),
+      queryKeys.chatSettings(args.body.convId),
+    ],
   });
 }
 
 // A card file holds IDS, not entities, so import keeps only what resolves locally.
 export function useImportCardFromFileMutation() {
   const t = useTranslations();
-  const qc = useQueryClient();
-  return useMutation({
+  return useApiMutation({
     mutationFn: async (file: File) => {
       const parsed: unknown = JSON.parse(await file.text());
       if (!isRecord(parsed) || typeof parsed.name !== "string") {
@@ -249,16 +239,7 @@ export function useImportCardFromFileMutation() {
           createdAt: now,
           updatedAt: now,
         },
-        cardCharacters: characterIds.map((characterId, orderIndex) => ({
-          cardId: id,
-          characterId,
-          orderIndex,
-        })),
-        cardLorebooks: lorebookIds.map((lorebookId, orderIndex) => ({
-          cardId: id,
-          lorebookId,
-          orderIndex,
-        })),
+        ...cardLinks(id, characterIds, lorebookIds),
       });
       return {
         name: parsed.name,
@@ -268,12 +249,11 @@ export function useImportCardFromFileMutation() {
           (wantLorebooks.length - lorebookIds.length),
       };
     },
+    invalidates: [queryKeys.cards()],
     onSuccess: (res) => {
-      qc.invalidateQueries({ queryKey: queryKeys.cards() });
       if (res.missing > 0) {
         toast.warning(t("RP.CARDS_IMPORT_PARTIAL", { count: res.missing }));
       }
     },
-    onError: (e) => handleError(e, t),
   });
 }

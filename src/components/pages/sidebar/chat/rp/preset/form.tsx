@@ -67,51 +67,22 @@ function parseProviderRouting(raw: string | null | undefined): {
 }
 
 function toPresetBody(data: SamplingPresetForm) {
+  const { providersOnly, ...rest } = data;
   const slugs = data.providers
     .split(",")
     .map((s) => s.trim())
     .filter(Boolean);
-  const providers =
-    slugs.length > 0
-      ? JSON.stringify(data.providersOnly ? { only: slugs } : { order: slugs })
-      : null;
-  const promptTemplate = data.promptTemplate?.trim()
-    ? data.promptTemplate
-    : null;
   // Both sentinels are TRUTHY, so storing them verbatim ships "__none__" upstream
   // as a model name and pins an "auto" lane no channel serves.
   const unset = (v: string) => (v && v !== NONE_VALUE ? v : null);
   const unpinned = (v: string) => (v && v !== AUTO_GROUP ? v : null);
-  const body: Omit<
-    SamplingPresetForm,
-    | "providers"
-    | "promptTemplate"
-    | "providersOnly"
-    | "reasoningEffort"
-    | "utilityModel"
-    | "titleModel"
-    | "imageModel"
-    | "utilityGroup"
-    | "titleGroup"
-    | "imageGroup"
-  > & {
-    providers: string | null;
-    promptTemplate: string | null;
-    providersOnly?: boolean;
-    utilityModel: string | null;
-    titleModel: string | null;
-    imageModel: string | null;
-    utilityGroup: string | null;
-    titleGroup: string | null;
-    imageGroup: string | null;
-    reasoningEffort: Exclude<
-      SamplingPresetForm["reasoningEffort"],
-      typeof NONE_VALUE
-    > | null;
-  } = {
-    ...data,
-    providers,
-    promptTemplate,
+  return {
+    ...rest,
+    providers:
+      slugs.length > 0
+        ? JSON.stringify(providersOnly ? { only: slugs } : { order: slugs })
+        : null,
+    promptTemplate: data.promptTemplate?.trim() ? data.promptTemplate : null,
     reasoningEffort:
       data.reasoningEffort === NONE_VALUE ? null : data.reasoningEffort,
     utilityModel: unset(data.utilityModel),
@@ -121,8 +92,6 @@ function toPresetBody(data: SamplingPresetForm) {
     titleGroup: unpinned(data.titleGroup),
     imageGroup: unpinned(data.imageGroup),
   };
-  delete body.providersOnly;
-  return body;
 }
 
 export function PresetForm(props: Props) {
@@ -439,11 +408,12 @@ export function PresetForm(props: Props) {
                 <Label>{t("RP.PRESET_POST_HISTORY")}</Label>
                 <Select
                   value={form.watch("postHistoryRole")}
-                  onValueChange={(v) =>
-                    form.setValue("postHistoryRole", v as "system" | "user", {
-                      shouldDirty: true,
-                    })
-                  }
+                  onValueChange={(v) => {
+                    if (v === "system" || v === "user")
+                      form.setValue("postHistoryRole", v, {
+                        shouldDirty: true,
+                      });
+                  }}
                 >
                   <SelectTrigger size="sm" className="h-7 w-28 text-xs">
                     <SelectValue>
