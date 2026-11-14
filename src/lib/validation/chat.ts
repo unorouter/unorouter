@@ -1,6 +1,6 @@
 import { NONE_VALUE } from "@/lib/config/constants";
 import { AIR_PATTERN } from "@/lib/ai/image/constants";
-import { isRecord } from "@/lib/utils/base";
+import { isOneOf, isRecord } from "@/lib/utils/base";
 import type { ConversationRow } from "@/lib/db/schema/rows";
 import type { Static } from "elysia";
 import { t } from "elysia";
@@ -90,17 +90,20 @@ const _persistMessageItem = t.Union(
 );
 export type PersistMessageItem = Static<typeof _persistMessageItem>;
 
-export type MessageRole = "system" | "user" | "assistant" | "tool";
+export type MessageRole = "system" | "user" | "assistant";
 
-export type MessageItemType =
-  | "text"
-  | "reasoning"
-  | "tool_call"
-  | "tool_result"
-  | "file"
-  | "image"
-  | "task"
-  | "error";
+const MESSAGE_ITEM_TYPES = [
+  "text",
+  "reasoning",
+  "tool_call",
+  "tool_result",
+  "file",
+  "image",
+  "task",
+  "error",
+] as const;
+export type MessageItemType = (typeof MESSAGE_ITEM_TYPES)[number];
+export const isMessageItemType = isOneOf(MESSAGE_ITEM_TYPES);
 
 export const reasoningEffort = t.Union([
   t.Literal("max"),

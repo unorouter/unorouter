@@ -64,9 +64,18 @@ import {
 import type { QueryClient } from "@tanstack/react-query";
 
 type EncodedContent = {
-  role: "system" | "user" | "assistant" | "tool";
+  role: "system" | "user" | "assistant";
   parts: MessagePart[];
 };
+
+function toEncoded(v: Record<string, unknown>): EncodedContent {
+  if (
+    (v.role !== "system" && v.role !== "user" && v.role !== "assistant") ||
+    !Array.isArray(v.parts)
+  )
+    throw new Error("unexpected history format");
+  return { role: v.role, parts: v.parts };
+}
 
 type MessageItem = ReturnType<typeof partsToItems>[number];
 
@@ -608,15 +617,10 @@ export function createChatHistoryAdapter(
             // vanishes and the reply lands as a sibling of its stored row.
             const thread = getThreadRuntime()?.getState();
             const allMessages = thread?.isRunning
-              ? withLiveTurn<TMessage>(
-                  id,
-                  stored,
-                  thread.messages,
-                  (m) =>
-                    formatAdapter.encode({
-                      message: m,
-                      parentId: null,
-                    }) as unknown as EncodedContent,
+              ? withLiveTurn<TMessage>(id, stored, thread.messages, (m) =>
+                  toEncoded(
+                    formatAdapter.encode({ message: m, parentId: null }),
+                  ),
                 )
               : stored;
             logChatDebug("history.load", {
@@ -669,7 +673,7 @@ export function createChatHistoryAdapter(
           parentId: item.parentId ?? null,
           existing: !!existingRow,
         });
-        const content = formatAdapter.encode(item) as unknown as EncodedContent;
+        const content = toEncoded(formatAdapter.encode(item));
         if (existingRow && content.role !== "assistant") return;
         const isAssistant = content.role === "assistant";
         const originalAssistantText = assistantTextOf(content);

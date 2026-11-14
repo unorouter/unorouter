@@ -590,9 +590,9 @@ export async function upsertLocalConversationBundle(bundle: {
   >;
   conversationLorebooks: Array<InferInsertModel<typeof conversationLorebooks>>;
   messages: Array<AnyRow & { updatedAt?: BundleStamp }>;
-  messageItems: Array<AnyRow & { messageId: string }>;
+  messageItems: Array<InferInsertModel<typeof messageItems>>;
   media: Array<InferInsertModel<typeof media>>;
-  requestLogs: ChildRow[];
+  requestLogs: Array<InferInsertModel<typeof requestLogs>>;
 }): Promise<void> {
   const local = await requireLocalDb();
   const convRow = bundle.settings
@@ -652,7 +652,7 @@ export async function upsertLocalConversationBundle(bundle: {
   const replacedSet = new Set(replacedMsgIds);
   for (const it of bundle.messageItems) {
     if (!replacedSet.has(it.messageId)) continue;
-    await local.db.insert(messageItems).values(it as never);
+    await local.db.insert(messageItems).values(it);
   }
 
   const remoteConvStamp = bundle.conversation.updatedAt
@@ -708,7 +708,7 @@ export async function upsertLocalConversationBundle(bundle: {
   for (const log of bundle.requestLogs) {
     await local.db
       .insert(requestLogs)
-      .values(log as never)
+      .values(log)
       .onConflictDoUpdate({ target: requestLogs.msgId, set: log });
   }
 }

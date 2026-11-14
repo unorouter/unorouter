@@ -61,7 +61,7 @@ import {
 } from "@/lib/ai/chat/custom-provider-id";
 import { partsToItems } from "@/lib/ai/chat/messages";
 import { OWN_PURPOSE_OBJECTED } from "@/lib/api/own-purpose";
-import { msg } from "@/lib/config/constants";
+import { msg, NONE_VALUE, type TranslationKey } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { cn } from "@/lib/utils";
 import { copyToClipboard } from "@/lib/utils/base";
@@ -96,7 +96,6 @@ import {
   useAuiState,
   type TextMessagePartProps,
 } from "@assistant-ui/react";
-import { NONE_VALUE } from "@/lib/config/constants";
 import { useStorageBlocked } from "@/hooks/ai/use-storage-blocked";
 import { useChatSettingsQuery } from "@/hooks/ai/rp/conversations";
 import { updateLocalConversationSettings } from "@/lib/db/client/data/chat/chat";
@@ -935,11 +934,6 @@ const ComposerAction: FC = () => {
   );
 };
 
-type LooseT = {
-  has: (key: string) => boolean;
-  (key: string): string;
-};
-
 type StreamErrorDetail = {
   message: string;
   status?: number | null;
@@ -1081,13 +1075,14 @@ const PersistedErrorPart: FC<{
 
 const MessageErrorBody: FC = () => {
   const error = useMessageError();
-  const t = useTranslations() as unknown as LooseT;
+  const t = useTranslations();
   if (error === undefined) return null;
   const detail =
     typeof error === "string"
       ? parseStreamErrorEnvelope(error)
       : extractErrorDetail(error);
-  const message = t.has(detail.message) ? t(detail.message) : detail.message;
+  const key = detail.message as TranslationKey;
+  const message = t.has(key) ? t(key) : detail.message;
   return (
     <ErrorCard
       message={message}

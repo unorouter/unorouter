@@ -9,11 +9,14 @@ import type {
 } from "@/lib/types";
 import { ORPG_EXTENSION_KEY } from "@/lib/config/constants";
 import { dayjs } from "@/lib/utils/format/date";
+import { isMessageItemType, type MessageItemType } from "@/lib/validation/chat";
 import type { InferInsertModel } from "drizzle-orm";
 import {
   conversationCharacters,
   conversationLorebooks,
   media,
+  messageItems as messageItemsTable,
+  requestLogs as requestLogsTable,
 } from "@/lib/db/schema/shared";
 
 export type MappedImport = {
@@ -35,9 +38,9 @@ export type MappedImport = {
       InferInsertModel<typeof conversationLorebooks>
     >;
     messages: Array<LocalAnyRow>;
-    messageItems: Array<LocalAnyRow & { messageId: string }>;
+    messageItems: Array<InferInsertModel<typeof messageItemsTable>>;
     media: Array<InferInsertModel<typeof media>>;
-    requestLogs: Array<Record<string, unknown>>;
+    requestLogs: Array<InferInsertModel<typeof requestLogsTable>>;
   };
 };
 
@@ -180,13 +183,23 @@ export function mapNativeImport(native: NativeImport): MappedImport {
     };
   });
 
-  const messageItems = (native.items ?? []).map((it) => ({
-    ...it,
-    id: uid(),
-    messageId: msgIdMap.get(str(it.messageId) ?? "")!,
-    sequenceIndex: num(it.sequenceIndex) ?? 0,
-    type: str(it.type) ?? "text",
-  }));
+  const messageItems = (native.items ?? []).flatMap((it) => {
+    const messageId = msgIdMap.get(str(it.messageId) ?? "");
+    const type = str(it.type) ?? "text";
+    const data = rec(it.data);
+    if (!messageId || !data || !isMessageItemType(type)) return [];
+    return [
+      {
+        id: uid(),
+        messageId,
+        sequenceIndex: num(it.sequenceIndex) ?? 0,
+        outputIndex: num(it.outputIndex),
+        type,
+        data,
+        createdAt: date(it.createdAt) ?? undefined,
+      },
+    ];
+  });
 
   const s = native.settings;
   return {
@@ -221,11 +234,9 @@ export function mapNativeImport(native: NativeImport): MappedImport {
   };
 }
 
-function orpgItemType(orpgType: string): string {
-  if (orpgType === "reasoning") return "reasoning";
-  if (orpgType === "tool_call") return "tool_call";
-  if (orpgType === "message" || orpgType === "text") return "text";
-  return orpgType;
+function orpgItemType(orpgType: string): MessageItemType | null {
+  if (orpgType === "message") return "text";
+  return isMessageItemType(orpgType) ? orpgType : null;
 }
 
 function orpgTextPayload(content: unknown): { text: string } {
@@ -314,7 +325,7 @@ export function mapOrpgImport(data: OrpgImport): MappedImport {
     };
   });
 
-  const messageItems: Array<LocalAnyRow & { messageId: string }> = [];
+  const messageItems: Array<InferInsertModel<typeof messageItemsTable>> = [];
   for (const m of Object.values(orpgMessages)) {
     const newMsgId = msgIdMap.get(str(m.id) ?? "")!;
     const itemRefs = recArr(m.items);
@@ -325,7 +336,8 @@ export function mapOrpgImport(data: OrpgImport): MappedImport {
       const ourType = orpgItemType(
         str(ref.type) ?? str(itemData.type) ?? "text",
       );
-      let payload: unknown;
+      if (!ourType) continue;
+      let payload: Record<string, unknown>;
       if (ourType === "text") {
         payload = orpgTextPayload(itemData.content);
       } else if (ourType === "reasoning") {
@@ -409,7 +421,7 @@ export function mapStImport(parsed: StParsed, baseTime: Date): MappedImport {
       : "Imported chat";
 
   const messages: Array<LocalAnyRow> = [];
-  const messageItems: Array<LocalAnyRow & { messageId: string }> = [];
+  const messageItems: Array<InferInsertModel<typeof messageItemsTable>> = [];
   let prevId: string | null = null;
   for (let i = 0; i < parsed.messages.length; i++) {
     const m = parsed.messages[i];

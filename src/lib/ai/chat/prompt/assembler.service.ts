@@ -9,6 +9,7 @@ import {
   type StreamOverrides,
 } from "@/lib/validation/chat";
 import type { LoadedConvContext } from "@/lib/types";
+import type { CharacterRow } from "@/lib/db/schema/rows";
 import { countTokens } from "@/lib/ai/chat/tokenizer";
 import { keyHits, selectLorebookEntries } from "./lorebook";
 import { parseExampleMessages } from "./example-messages";
@@ -117,19 +118,20 @@ const CHAR_OVERRIDE_FIELDS = [
   "exampleMessages",
   "systemPrompt",
   "postHistoryInstructions",
-];
+] as const;
 
-function applyCharOverrides<T extends Record<string, unknown>>(
-  character: T,
+function applyCharOverrides(
+  character: CharacterRow,
   overrides: unknown,
-): T {
+): CharacterRow {
   const ov = rec(overrides);
   if (!ov) return character;
-  const merged: Record<string, unknown> = { ...character };
+  const merged = { ...character };
   for (const f of CHAR_OVERRIDE_FIELDS) {
-    if (ov[f] != null) merged[f] = ov[f];
+    const v = ov[f];
+    if (typeof v === "string") merged[f] = v;
   }
-  return merged as T;
+  return merged;
 }
 
 const PROVIDER_ROUTING_LIST_KEYS: readonly ("order" | "only" | "ignore")[] = [

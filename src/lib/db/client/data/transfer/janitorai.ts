@@ -4,6 +4,8 @@ import { msg } from "@/lib/config/constants";
 import type { LocalAnyRow } from "@/lib/types";
 import { rec, uid } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
+import type { InferInsertModel } from "drizzle-orm";
+import { messageItems as messageItemsTable } from "@/lib/db/schema/shared";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { upsertLocalConversationBundle } from "@/lib/db/client/data/chat/chat";
 import {
@@ -219,7 +221,7 @@ function mapChat(
   const memory = chat.summary?.trim() || null;
 
   const messages: LocalAnyRow[] = [];
-  const messageItems: Array<LocalAnyRow & { messageId: string }> = [];
+  const messageItems: Array<InferInsertModel<typeof messageItemsTable>> = [];
   let prevId: string | null = null;
 
   source.forEach((m, i) => {
