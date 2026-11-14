@@ -26,10 +26,7 @@ export function mkMsg(
   return { role, parts: [{ type: "text", text }] };
 }
 
-export function textOf(
-  parts: StreamMessages[number]["parts"] | undefined,
-): string {
-  if (!Array.isArray(parts)) return "";
+export function textOf(parts: StreamMessages[number]["parts"]): string {
   return parts
     .filter((p) => p.type === "text")
     .map((p) => p.text)
@@ -40,10 +37,9 @@ function mapTextParts(
   m: StreamMessages[number],
   fn: (text: string) => string,
 ): StreamMessages[number] {
-  if (!Array.isArray(m.parts)) return m;
   let changed = false;
   const parts = m.parts.map((p) => {
-    if (p.type !== "text" || typeof p.text !== "string") return p;
+    if (p.type !== "text") return p;
     const next = fn(p.text);
     if (next === p.text) return p;
     changed = true;
@@ -56,16 +52,8 @@ export function extractLastUserText(messages: StreamMessages): string | null {
   for (let i = messages.length - 1; i >= 0; i--) {
     const msg = messages[i];
     if (msg.role !== "user") continue;
-    if (Array.isArray(msg.parts)) {
-      for (const part of msg.parts) {
-        if (
-          part.type === "text" &&
-          typeof part.text === "string" &&
-          part.text.trim()
-        ) {
-          return part.text.trim();
-        }
-      }
+    for (const part of msg.parts) {
+      if (part.type === "text" && part.text.trim()) return part.text.trim();
     }
   }
   return null;
@@ -77,7 +65,6 @@ export function extractLastUserImageRefs(messages: StreamMessages): ImageRef[] {
   for (let i = messages.length - 1; i >= 0; i--) {
     const msg = messages[i];
     if (msg.role !== "user") continue;
-    if (!Array.isArray(msg.parts)) return [];
     const refs: ImageRef[] = [];
     for (const part of msg.parts) {
       if (part.type !== "file" && part.type !== "source-url") continue;
@@ -141,7 +128,7 @@ export function appendReasoningPrefill(
   text: string,
 ): StreamMessages {
   const last = messages[messages.length - 1];
-  if (last?.role !== "assistant" || !Array.isArray(last.parts)) {
+  if (last?.role !== "assistant") {
     return [
       ...messages,
       { role: "assistant", parts: [{ type: "reasoning", text }] },
@@ -183,9 +170,7 @@ export function dropFailedAssistantTurns(
 ): StreamMessages {
   return messages.filter(
     (m) =>
-      m.role !== "assistant" ||
-      !Array.isArray(m.parts) ||
-      !m.parts.some((p) => p.type === "data-error"),
+      m.role !== "assistant" || !m.parts.some((p) => p.type === "data-error"),
   );
 }
 
@@ -194,7 +179,6 @@ export function stripReasoningParts(
   keepReasoning = false,
 ): StreamMessages {
   return messages.map((m) => {
-    if (!Array.isArray(m.parts)) return m;
     let changed = false;
     const parts = m.parts
       .filter((p) => {
@@ -208,13 +192,7 @@ export function stripReasoningParts(
         return true;
       })
       .map((p) => {
-        if (
-          m.role !== "assistant" ||
-          p.type !== "text" ||
-          typeof p.text !== "string"
-        ) {
-          return p;
-        }
+        if (m.role !== "assistant" || p.type !== "text") return p;
         const stripped = stripThinkBlocks(p.text);
         if (stripped === p.text) return p;
         changed = true;
@@ -233,19 +211,15 @@ export function stripReasoningParts(
 }
 
 function hasRenderableContent(parts: StreamMessages[number]["parts"]): boolean {
-  return (
-    Array.isArray(parts) &&
-    parts.some((p) => (p.type === "text" ? p.text.trim() !== "" : true))
-  );
+  return parts.some((p) => (p.type === "text" ? p.text.trim() !== "" : true));
 }
 
 function salvageReasoningText(parts: StreamMessages[number]["parts"]): string {
-  if (!Array.isArray(parts)) return "";
   const chunks: string[] = [];
   for (const p of parts) {
-    if (p.type === "reasoning" && typeof p.text === "string" && p.text.trim()) {
+    if (p.type === "reasoning" && p.text.trim()) {
       chunks.push(p.text.trim());
-    } else if (p.type === "text" && typeof p.text === "string") {
+    } else if (p.type === "text") {
       const inner = unwrapThinkTags(p.text).trim();
       if (inner) chunks.push(inner);
     }
@@ -258,12 +232,7 @@ export function mergeAlternateRoles(messages: StreamMessages): StreamMessages {
   const out: StreamMessages = [];
   for (const m of messages) {
     const prev = out[out.length - 1];
-    if (
-      prev &&
-      prev.role === m.role &&
-      Array.isArray(prev.parts) &&
-      Array.isArray(m.parts)
-    ) {
+    if (prev && prev.role === m.role) {
       const prevLast = prev.parts[prev.parts.length - 1];
       const mFirst = m.parts[0];
       const needsNewline = prevLast?.type === "text" && mFirst?.type === "text";
@@ -289,12 +258,8 @@ export function mergeAlternateRoles(messages: StreamMessages): StreamMessages {
 export function dropEmptyMessages(messages: StreamMessages): StreamMessages {
   const out: StreamMessages = [];
   for (const m of messages) {
-    if (!Array.isArray(m.parts)) {
-      out.push(m);
-      continue;
-    }
     const parts = m.parts.filter((p) =>
-      p.type === "text" ? (p.text ?? "").trim() !== "" : true,
+      p.type === "text" ? p.text.trim() !== "" : true,
     );
     if (parts.length === 0) continue;
     out.push(parts.length === m.parts.length ? m : { ...m, parts });
@@ -333,12 +298,7 @@ export function collectRecentUserTexts(
   for (let i = messages.length - 1; i >= 0 && out.length < limit; i--) {
     const m = messages[i];
     if (m.role !== "user") continue;
-    if (!Array.isArray(m.parts)) continue;
-    for (const part of m.parts) {
-      if (part.type === "text" && typeof part.text === "string") {
-        out.push(part.text);
-      }
-    }
+    for (const part of m.parts) if (part.type === "text") out.push(part.text);
   }
   return out;
 }
@@ -353,7 +313,7 @@ export function applyRegexScripts(
   return messages.map((m, idx) => {
     const isLastUser = idx === lastUserIdx;
     const prevSameRole: string | undefined = lastTextByRole[m.role];
-    if (Array.isArray(m.parts)) lastTextByRole[m.role] = textOf(m.parts);
+    lastTextByRole[m.role] = textOf(m.parts);
     return mapTextParts(m, (text) => {
       const t = runRegexScripts(text, scripts, "editprocess", { prevSameRole });
       return isLastUser
@@ -414,13 +374,8 @@ export function dropSummarizedPrefix(
 
 export function messageTokens(m: StreamMessages[number]): number {
   let n = 4;
-  if (!Array.isArray(m.parts)) return n;
   for (const part of m.parts) {
-    if (part.type === "text" && typeof part.text === "string") {
-      n += countTokens(part.text);
-    } else {
-      n += 256;
-    }
+    n += part.type === "text" ? countTokens(part.text) : 256;
   }
   return n;
 }

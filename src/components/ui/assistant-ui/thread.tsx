@@ -1,6 +1,6 @@
 "use client";
 
-import type { CssVars } from "@/lib/types";
+import type { ChatUIMessage, CssVars } from "@/lib/types";
 import { Link } from "@/i18n/navigation";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { SectionBoundary } from "@/components/elements/feedback/section-boundary";
@@ -59,7 +59,7 @@ import {
   isCustomModelId,
   parseCustomModelId,
 } from "@/lib/ai/chat/custom-provider-id";
-import { partsToItems } from "@/lib/ai/chat/messages";
+import { partsToItems, type MessagePart } from "@/lib/ai/chat/messages";
 import { OWN_PURPOSE_OBJECTED } from "@/lib/api/own-purpose";
 import { msg, NONE_VALUE, type TranslationKey } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
@@ -1140,7 +1140,6 @@ const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
       .flatMap((p) => (p.type === "text" ? [p.text] : []))
       .join("\n\n");
   });
-  const renderedParts = useAuiState((s) => s.message.content);
   const threadMessage = useAuiState((s) => s.message);
   const [text, setText] = useState(initialText);
   const editMut = useEditMessageMutation();
@@ -1152,11 +1151,9 @@ const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
     // Prefer the RAW useChat parts (getExternalStoreMessages is the accessor the
     // AI-SDK runtime itself uses): writing aui-CONVERTED shapes back into ai-sdk
     // state corrupts non-text parts (file/task/error) on the next render.
-    const rawParts = getExternalStoreMessages<{
-      parts?: Array<{ type: string; [k: string]: unknown }>;
-    }>(threadMessage)[0]?.parts;
-    const liveParts = rawParts ?? renderedParts ?? [];
-    const newParts: Array<{ type: string; [k: string]: unknown }> = [];
+    const liveParts =
+      getExternalStoreMessages<ChatUIMessage>(threadMessage)[0]?.parts ?? [];
+    const newParts: MessagePart[] = [];
     let textInjected = false;
     for (const p of liveParts) {
       if (p.type === "text") {

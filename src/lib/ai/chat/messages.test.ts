@@ -84,7 +84,7 @@ describe("parts persistence", () => {
     ]);
   });
 
-  test("typed tool parts are stored as call and result", () => {
+  test("tool parts are not stored", () => {
     expect(
       partsToItems([
         {
@@ -107,20 +107,7 @@ describe("parts persistence", () => {
           errorText: "boom",
         },
       ]),
-    ).toEqual([
-      {
-        type: "tool_call",
-        data: { tool_name: "search", tool_call_id: "t1", args: { q: "x" } },
-      },
-      {
-        type: "tool_result",
-        data: { tool_call_id: "t2", result: { ok: true } },
-      },
-      {
-        type: "tool_result",
-        data: { tool_call_id: "t3", result: { error: "boom" } },
-      },
-    ]);
+    ).toEqual([]);
   });
 
   test("an error part survives a reload", () => {

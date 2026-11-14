@@ -66,9 +66,7 @@ async function applyEditInput(
   });
   const parts = await Promise.all(
     m.parts.map(async (p) =>
-      p.type === "text" && typeof p.text === "string"
-        ? { ...p, text: await edit(editCtx, p.text) }
-        : p,
+      p.type === "text" ? { ...p, text: await edit(editCtx, p.text) } : p,
     ),
   );
   return messages.map((mm, i) => (i === lastUserIdx ? { ...mm, parts } : mm));

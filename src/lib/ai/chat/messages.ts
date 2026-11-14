@@ -1,11 +1,8 @@
+import type { ChatUIMessage } from "@/lib/types";
+import { rec } from "@/lib/utils/base";
 import type { PersistMessageItem } from "@/lib/validation/chat";
 
-type MessageItemData = PersistMessageItem;
-export type MessagePart = {
-  type: string;
-  data?: Record<string, unknown>;
-  [key: string]: unknown;
-};
+export type MessagePart = ChatUIMessage["parts"][number];
 
 export type ApiMessage = {
   id: string;
@@ -89,120 +86,69 @@ export function joinItemsToMessages<
 const REASONING_JOIN = "\n\n";
 
 function mergeReasoningParts(parts: MessagePart[]): MessagePart[] {
-  const reasoningCount = parts.filter((p) => p.type === "reasoning").length;
-  if (reasoningCount < 2) return parts;
-  const texts = parts
-    .filter((p) => p.type === "reasoning" && typeof p.text === "string")
-    .map((p) => String(p.text).trim())
-    .filter((s) => s.length > 0);
-  const merged = texts.join(REASONING_JOIN);
-  const out: MessagePart[] = [];
+  const texts = parts.flatMap((p) => (p.type === "reasoning" ? [p.text] : []));
+  if (texts.length < 2) return parts;
+  const merged = texts
+    .map((t) => t.trim())
+    .filter(Boolean)
+    .join(REASONING_JOIN);
   let placed = false;
-  for (const part of parts) {
-    if (part.type !== "reasoning") {
-      out.push(part);
-      continue;
-    }
-    // Keep the FIRST slot.
-    if (placed) continue;
-    out.push({ ...part, text: merged });
+  return parts.flatMap((p): MessagePart[] => {
+    if (p.type !== "reasoning") return [p];
+    if (placed) return [];
     placed = true;
-  }
-  return out;
+    return [{ ...p, text: merged }];
+  });
 }
 
-export function partsToItems(parts: MessagePart[]): MessageItemData[] {
-  const out: MessageItemData[] = [];
+function errorData(d: Record<string, unknown>) {
+  return {
+    message: String(d.message ?? ""),
+    ...(typeof d.model === "string" && { model: d.model }),
+    ...(typeof d.code === "string" && { code: d.code }),
+    ...(typeof d.param === "string" && { param: d.param }),
+    ...(typeof d.status === "number" && { status: d.status }),
+    ...(typeof d.requestId === "string" && { requestId: d.requestId }),
+  };
+}
+
+// Tool parts are neither stored nor read back: chat sends no tools, and a
+// stored tool item converts to a nameless, id-less tool call upstream.
+export function partsToItems(parts: MessagePart[]): PersistMessageItem[] {
+  const out: PersistMessageItem[] = [];
   for (const part of mergeReasoningParts(parts)) {
-    if (part.type === "text" && typeof part.text === "string") {
+    if (part.type === "text") {
       out.push({ type: "text", data: { text: part.text } });
-    } else if (part.type === "reasoning" && typeof part.text === "string") {
+    } else if (part.type === "reasoning") {
       out.push({ type: "reasoning", data: { text: part.text } });
-    } else if (part.type === "tool-invocation") {
-      const toolCallId = String(part.toolInvocationId ?? part.toolCallId ?? "");
-      if (part.state === "result" || part.result !== undefined) {
-        out.push({
-          type: "tool_result",
-          data: {
-            tool_call_id: toolCallId,
-            result: part.result,
-          },
-        });
-      } else {
-        out.push({
-          type: "tool_call",
-          data: {
-            tool_name: String(part.toolName ?? ""),
-            tool_call_id: toolCallId,
-            args: part.args ?? part.toolInput ?? {},
-          },
-        });
-      }
-    } else if (part.type.startsWith("tool-") || part.type === "dynamic-tool") {
-      const toolCallId = String(part.toolCallId ?? "");
-      const toolName =
-        part.type === "dynamic-tool"
-          ? String(part.toolName ?? "")
-          : part.type.slice("tool-".length);
-      if (part.state === "output-available" || part.state === "output-error") {
-        out.push({
-          type: "tool_result",
-          data: {
-            tool_call_id: toolCallId,
-            result:
-              part.state === "output-error"
-                ? { error: String(part.errorText ?? "") }
-                : part.output,
-          },
-        });
-      } else {
-        out.push({
-          type: "tool_call",
-          data: {
-            tool_name: toolName,
-            tool_call_id: toolCallId,
-            args: part.input ?? {},
-          },
-        });
-      }
-    } else if (part.type === "file" || part.type === "source-url") {
+    } else if (part.type === "file") {
       out.push({
-        type: part.type === "file" ? "file" : "image",
+        type: "file",
         data: {
-          url: String(part.url ?? ""),
-          mime_type: String(
-            part.mediaType ?? part.mimeType ?? "application/octet-stream",
-          ),
-          ...(typeof part.filename === "string" && { name: part.filename }),
+          url: part.url,
+          mime_type: part.mediaType,
+          ...(part.filename && { name: part.filename }),
         },
       });
-    } else if (
-      part.type === "data-task" ||
-      (part.type === "data" && part.name === "task")
-    ) {
-      const data = part.data ?? part;
+    } else if (part.type === "source-url") {
+      out.push({
+        type: "image",
+        data: { url: part.url, mime_type: "application/octet-stream" },
+      });
+    } else if (part.type === "data-task") {
+      const d = rec(part.data) ?? {};
       out.push({
         type: "task",
         data: {
-          task_id: String(data.taskId ?? data.task_id ?? ""),
-          model: String(data.model ?? ""),
-          status: String(data.status ?? "pending"),
-          ...(typeof data.progress === "string" && { progress: data.progress }),
-          ...(typeof data.kind === "string" && { kind: data.kind }),
+          task_id: String(d.taskId ?? ""),
+          model: String(d.model ?? ""),
+          status: String(d.status ?? "pending"),
+          ...(typeof d.progress === "string" && { progress: d.progress }),
+          ...(typeof d.kind === "string" && { kind: d.kind }),
         },
       });
-    } else if (
-      part.type === "data-error" ||
-      (part.type === "data" && part.name === "error")
-    ) {
-      const data = part.data ?? part;
-      out.push({
-        type: "error",
-        data: {
-          message: String(data.message ?? ""),
-          ...(typeof data.model === "string" && { model: data.model }),
-        },
-      });
+    } else if (part.type === "data-error") {
+      out.push({ type: "error", data: errorData(rec(part.data) ?? {}) });
     }
   }
   return out;
@@ -214,26 +160,8 @@ export function itemsToParts(items: ApiMessage["items"]): MessagePart[] {
     const data = it.data ?? {};
     switch (it.type) {
       case "text":
-        parts.push({ type: "text", text: String(data.text ?? "") });
-        break;
       case "reasoning":
-        parts.push({ type: "reasoning", text: String(data.text ?? "") });
-        break;
-      case "tool_call":
-        parts.push({
-          type: "tool-invocation",
-          toolInvocationId: String(data.tool_call_id ?? ""),
-          toolName: String(data.tool_name ?? ""),
-          args: data.args ?? {},
-        });
-        break;
-      case "tool_result":
-        parts.push({
-          type: "tool-invocation",
-          toolInvocationId: String(data.tool_call_id ?? ""),
-          result: data.result,
-          state: "result",
-        });
+        parts.push({ type: it.type, text: String(data.text ?? "") });
         break;
       case "file":
       case "image":
@@ -245,19 +173,7 @@ export function itemsToParts(items: ApiMessage["items"]): MessagePart[] {
         });
         break;
       case "error":
-        parts.push({
-          type: "data-error",
-          data: {
-            message: String(data.message ?? ""),
-            ...(typeof data.model === "string" && { model: data.model }),
-            ...(typeof data.code === "string" && { code: data.code }),
-            ...(typeof data.param === "string" && { param: data.param }),
-            ...(typeof data.status === "number" && { status: data.status }),
-            ...(typeof data.requestId === "string" && {
-              requestId: data.requestId,
-            }),
-          },
-        });
+        parts.push({ type: "data-error", data: errorData(data) });
         break;
       case "task":
         parts.push({

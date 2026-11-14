@@ -118,7 +118,7 @@ function mergeDbHistory(
   captured: ChatUIMessage[],
 ): ChatUIMessage[] {
   if (!convId || !db) return captured;
-  const branch = db.branch as unknown as ChatUIMessage[];
+  const branch: ChatUIMessage[] = db.branch;
   logChatDebug("send.history_source", {
     convId,
     dbBranch: branch.length,

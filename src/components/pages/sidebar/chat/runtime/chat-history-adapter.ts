@@ -212,11 +212,7 @@ function buildRepository<TMessage>(
 function assistantTextOf(content: EncodedContent): string {
   if (content.role !== "assistant") return "";
   return content.parts
-    .filter(
-      (p): p is MessagePart & { text: string } =>
-        p.type === "text" && typeof p.text === "string",
-    )
-    .map((p) => p.text)
+    .flatMap((p) => (p.type === "text" ? [p.text] : []))
     .join("\n");
 }
 
@@ -226,9 +222,7 @@ function mapText(
 ): Promise<MessagePart[]> {
   return Promise.all(
     parts.map(async (p) =>
-      p.type === "text" && typeof p.text === "string"
-        ? { ...p, text: await fn(p.text) }
-        : p,
+      p.type === "text" ? { ...p, text: await fn(p.text) } : p,
     ),
   );
 }
