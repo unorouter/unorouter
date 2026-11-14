@@ -15,7 +15,7 @@ export type ClientReport = {
   release: string;
 };
 
-type Frame = {
+export type Frame = {
   fn: string;
   file: string;
   line: number;
@@ -86,13 +86,24 @@ function normalise(message: string): string {
   return message
     .replace(/(["'`]).*?\1/g, "'*'")
     .replace(/\b[0-9a-f]{8,}\b/gi, "*")
-    .replace(/\d+/g, "#")
+    .replace(/<n>|\d+/g, "#")
     .slice(0, 200);
+}
+
+export async function parseFrames(stack: string): Promise<Frame[]> {
+  const lines = scrubStack(stack).split("\n").slice(0, 40);
+  const frames = await Promise.all(lines.map(toFrame));
+  return frames.filter((f): f is Frame => f !== null);
 }
 
 // Same idea as PostHog's: our own resolved frames identify the bug, the
 // message only when nothing resolved, so one bug is one fingerprint.
-function fingerprint(name: string, message: string, frames: Frame[]): string {
+export function fingerprint(
+  name: string,
+  message: string,
+  frames: Frame[],
+  scope = "",
+): string {
   const own = frames.filter(
     (f) => f.resolved && !f.file.includes("node_modules"),
   );
@@ -102,7 +113,10 @@ function fingerprint(name: string, message: string, frames: Frame[]): string {
         .map((f) => `${f.file}:${f.fn}`)
         .join("|")
     : normalise(message);
-  return createHash("sha1").update(`${name}|${key}`).digest("hex").slice(0, 12);
+  return createHash("sha1")
+    .update(`${scope}|${name}|${key}`)
+    .digest("hex")
+    .slice(0, 12);
 }
 
 function browserOf(ua: string): string {
@@ -118,10 +132,7 @@ export async function recordClientReport(
   report: ClientReport,
   userAgent: string,
 ): Promise<void> {
-  const lines = scrubStack(report.stack).split("\n").slice(0, 40);
-  const frames = (await Promise.all(lines.map(toFrame))).filter(
-    (f): f is Frame => f !== null,
-  );
+  const frames = await parseFrames(report.stack);
   const message = scrubText(report.message);
   logger.error(`${report.name}: ${message}`, {
     context: "client.error",

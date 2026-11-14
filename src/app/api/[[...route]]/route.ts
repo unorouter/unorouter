@@ -14,6 +14,7 @@ import { billingDomainRoute } from "@/server/billing/route";
 import { blogDomainRoute } from "@/server/blog/route";
 import { modelsDomainRoute } from "@/server/models/route";
 import { opsDomainRoute } from "@/server/ops/route";
+import { recordServerError } from "@/server/ops/server-error";
 import { fromTypes, openapi } from "@elysiajs/openapi";
 import { Elysia } from "elysia";
 import { readFileSync } from "node:fs";
@@ -99,6 +100,16 @@ export const app = new Elysia({ prefix: "/api" })
     if (typeof sealed !== "string") return;
     const userId = await verifyUserId(sealed);
     if (userId !== null) setEdgeSessionCookie(cookie, userId);
+  })
+  // Elysia answers a thrown handler error itself, so Next's onRequestError never sees it.
+  .onError(async ({ code, error, request, route }) => {
+    if (code !== "UNKNOWN" && code !== "INTERNAL_SERVER_ERROR") return;
+    await recordServerError(error, {
+      source: "bff",
+      route,
+      path: new URL(request.url).pathname,
+      method: request.method,
+    });
   })
   .use(aiDomainRoute)
   .use(authDomainRoute)
