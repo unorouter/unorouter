@@ -1,5 +1,5 @@
 diff --git a/dist/runtime/serve.js b/dist/runtime/serve.js
-index 1425ee3a476bdf34ebbf51d08652cce755493129..91310245c977f8a392337140b0daa88e139265ac 100644
+index 743b8df8a9a5eb9a0cc672a26a3715b6ea9adc87..f117e476699c7eb18cfeaceb0c922d532c4a5e2c 100644
 --- a/dist/runtime/serve.js
 +++ b/dist/runtime/serve.js
 @@ -214,8 +214,92 @@ class NodeResponseShim extends Writable {
@@ -135,7 +135,7 @@ index 1425ee3a476bdf34ebbf51d08652cce755493129..91310245c977f8a392337140b0daa88e
      });
    };
  }
-@@ -1323,7 +1417,11 @@ async function start(opts) {
+@@ -1572,7 +1666,11 @@ async function start(opts) {
      return handlerPromise;
    };
    let handler = null;
