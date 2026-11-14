@@ -334,6 +334,10 @@ export function RpListDialog(props: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   titleKey: TranslationKey;
+  // Replaces the title while an editor is open; onBack shows a back button.
+  title?: ReactNode;
+  onBack?: () => void;
+  className?: string;
   emptyKey: TranslationKey;
   isEmpty: boolean;
   editingId: EntityEditId;
@@ -348,9 +352,21 @@ export function RpListDialog(props: {
 
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
-      <DialogContent className="flex max-h-[85svh] flex-col overflow-x-hidden sm:max-w-xl">
+      <DialogContent
+        className={cn(
+          "flex max-h-[85svh] flex-col overflow-x-hidden sm:max-w-xl",
+          props.className,
+        )}
+      >
         <DialogHeader>
-          <DialogTitle>{t(props.titleKey)}</DialogTitle>
+          <DialogTitle className="flex items-center gap-2">
+            {props.onBack && (
+              <Button variant="ghost" size="icon-sm" onClick={props.onBack}>
+                <Icon name="arrow-left" className="size-4" />
+              </Button>
+            )}
+            {props.title ?? t(props.titleKey)}
+          </DialogTitle>
         </DialogHeader>
 
         <div className="flex min-h-0 flex-1 flex-col gap-3">

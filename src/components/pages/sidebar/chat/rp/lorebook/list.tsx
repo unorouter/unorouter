@@ -1,14 +1,7 @@
 "use client";
 
 import { Icon } from "@/components/ui/icon";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import {
   useCreateLorebookMutation,
   useDeleteLorebookMutation,
@@ -24,13 +17,13 @@ import { useState } from "react";
 import { useRpExportMutation } from "@/hooks/ai/rp/use-export-mutation";
 import {
   confirmRpDelete,
-  RpEmptyCard,
   RpAvatar,
   RpEntityRow,
   rpFilter,
   RpExportMenu,
   RP_ACTION_BUTTON,
   RpImportControl,
+  RpListDialog,
 } from "../shared/rp-list-parts";
 import { useToggleFavoriteMutation } from "@/hooks/ai/rp/favorites";
 import { LorebookEditor } from "./editor";
@@ -74,146 +67,114 @@ export function LorebookList(props: Props) {
     exportMut.mutate({ kind: "lorebooks", id, format });
 
   return (
-    <Dialog open={props.open} onOpenChange={props.onOpenChange}>
-      <DialogContent className="flex max-h-[85svh] flex-col overflow-hidden sm:max-w-2xl">
-        <DialogHeader className="shrink-0">
-          <DialogTitle className="flex items-center gap-2">
-            {openLbId && (
-              <Button
-                variant="ghost"
-                size="icon-sm"
-                onClick={() => setOpenLbId(null)}
-              >
-                <Icon name="arrow-left" className="size-4" />
-              </Button>
-            )}
-            {openLbId
-              ? (lorebooksQuery.data?.find((l) => l.id === openLbId)?.name ??
-                t("RP.LOREBOOKS_TITLE"))
-              : t("RP.LOREBOOKS_TITLE")}
-          </DialogTitle>
-        </DialogHeader>
-
-        <div className="-mx-6 min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-6">
-          {openLbId ? (
-            <LorebookEditor
-              key={openLbId}
-              lorebookId={openLbId}
-              onDeleted={() => setOpenLbId(null)}
+    <RpListDialog
+      open={props.open}
+      onOpenChange={props.onOpenChange}
+      className="sm:max-w-2xl"
+      titleKey="RP.LOREBOOKS_TITLE"
+      title={
+        openLbId
+          ? lorebooksQuery.data?.find((l) => l.id === openLbId)?.name
+          : undefined
+      }
+      onBack={openLbId ? () => setOpenLbId(null) : undefined}
+      emptyKey="RP.LOREBOOKS_EMPTY"
+      isEmpty={lorebooksQuery.data?.length === 0}
+      editingId={openLbId}
+      query={rpQuery}
+      setQuery={setRpQuery}
+      actions={
+        <>
+          <RpImportControl
+            accept=".json,application/json"
+            labelKey="RP.LOREBOOKS_IMPORT"
+            isPending={importMut.isPending || importUrlMut.isPending}
+            onFile={(file) => importMut.mutateAsync(file).then(() => {})}
+            onUrl={(input) =>
+              importUrlMut.mutateAsync(input).then((r) => {
+                if (r?.importedAsPlugin) {
+                  toast.success(
+                    t("RP.LOREBOOKS_IMPORTED_AS_SCRIPT", {
+                      name: r.importedAsPlugin,
+                    }),
+                  );
+                }
+                if (r?.importedAsPreset) {
+                  toast.success(
+                    t("RP.LOREBOOKS_IMPORTED_AS_PRESET", {
+                      name: r.importedAsPreset,
+                    }),
+                  );
+                }
+              })
+            }
+            urlLabelKey="RP.LOREBOOKS_IMPORT_LINK"
+            urlPlaceholderKey="RP.LOREBOOKS_IMPORT_LINK_PLACEHOLDER"
+          />
+          <Button
+            onClick={handleCreate}
+            disabled={createMut.isPending}
+            className={RP_ACTION_BUTTON}
+          >
+            <Icon name="plus" className="size-4" />
+            {t("RP.LOREBOOKS_NEW")}
+          </Button>
+        </>
+      }
+      editor={
+        openLbId && (
+          <LorebookEditor
+            key={openLbId}
+            lorebookId={openLbId}
+            onDeleted={() => setOpenLbId(null)}
+          />
+        )
+      }
+    >
+      {rpFilter(lorebooksQuery.data, rpQuery, (l) => [
+        l.name,
+        l.description,
+      ]).map((l) => (
+        <RpEntityRow
+          createdAt={l.createdAt}
+          updatedAt={l.updatedAt}
+          key={l.id}
+          favorite={{
+            on: l.isFavorite,
+            onToggle: () =>
+              favoriteMut.mutate({ id: l.id, isFavorite: !l.isFavorite }),
+          }}
+          onOpen={() => setOpenLbId(l.id)}
+          leading={<RpAvatar mediaId={l.avatarMediaId} name={l.name} />}
+          name={l.name}
+          description={l.description}
+          actions={
+            <RpExportMenu
+              ariaLabel={t("RP.LOREBOOKS_EXPORT")}
+              items={[
+                {
+                  label: t("RP.EXPORT_SILLYTAVERN"),
+                  onClick: () => handleExport(l.id, "sillytavern"),
+                },
+                {
+                  label: t("RP.EXPORT_AGNAI"),
+                  onClick: () => handleExport(l.id, "agnai"),
+                },
+                {
+                  label: t("RP.EXPORT_RISU"),
+                  onClick: () => handleExport(l.id, "risu"),
+                },
+                {
+                  label: t("RP.EXPORT_CCV3"),
+                  onClick: () => handleExport(l.id, "ccv3"),
+                },
+              ]}
             />
-          ) : (
-            <div className="flex min-h-0 flex-1 flex-col gap-3">
-              <div className="flex flex-wrap items-center gap-2 sm:justify-end">
-                <RpImportControl
-                  accept=".json,application/json"
-                  labelKey="RP.LOREBOOKS_IMPORT"
-                  isPending={importMut.isPending || importUrlMut.isPending}
-                  onFile={(file) => importMut.mutateAsync(file).then(() => {})}
-                  onUrl={(input) =>
-                    importUrlMut.mutateAsync(input).then((r) => {
-                      if (r?.importedAsPlugin) {
-                        toast.success(
-                          t("RP.LOREBOOKS_IMPORTED_AS_SCRIPT", {
-                            name: r.importedAsPlugin,
-                          }),
-                        );
-                      }
-                      if (r?.importedAsPreset) {
-                        toast.success(
-                          t("RP.LOREBOOKS_IMPORTED_AS_PRESET", {
-                            name: r.importedAsPreset,
-                          }),
-                        );
-                      }
-                    })
-                  }
-                  urlLabelKey="RP.LOREBOOKS_IMPORT_LINK"
-                  urlPlaceholderKey="RP.LOREBOOKS_IMPORT_LINK_PLACEHOLDER"
-                />
-                <Button
-                  onClick={handleCreate}
-                  disabled={createMut.isPending}
-                  className={RP_ACTION_BUTTON}
-                >
-                  <Icon name="plus" className="size-4" />
-                  {t("RP.LOREBOOKS_NEW")}
-                </Button>
-              </div>
-
-              <Input
-                value={rpQuery}
-
-                onChange={(e) => setRpQuery(e.target.value)}
-
-                placeholder={t("RP.LIST_SEARCH")}
-
-                aria-label={t("RP.LIST_SEARCH")}
-              />
-
-              {lorebooksQuery.data?.length === 0 && (
-                <RpEmptyCard labelKey="RP.LOREBOOKS_EMPTY" />
-              )}
-
-              {/* The ROWS scroll, not the dialog: an import can bring many items at
-                once, and scrolling the whole card pushes the search box and the
-                import buttons off screen. */}
-              <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto">
-                {rpFilter(lorebooksQuery.data, rpQuery, (l) => [
-                  l.name,
-                  l.description,
-                ]).map((l) => (
-                  <RpEntityRow
-                    createdAt={l.createdAt}
-                    updatedAt={l.updatedAt}
-                    key={l.id}
-                    favorite={{
-                      on: l.isFavorite,
-                      onToggle: () =>
-                        favoriteMut.mutate({
-                          id: l.id,
-                          isFavorite: !l.isFavorite,
-                        }),
-                    }}
-                    onOpen={() => {
-                      setOpenLbId(l.id);
-                    }}
-                    leading={
-                      <RpAvatar mediaId={l.avatarMediaId} name={l.name} />
-                    }
-                    name={l.name}
-                    description={l.description}
-                    actions={
-                      <RpExportMenu
-                        ariaLabel={t("RP.LOREBOOKS_EXPORT")}
-                        items={[
-                          {
-                            label: t("RP.EXPORT_SILLYTAVERN"),
-                            onClick: () => handleExport(l.id, "sillytavern"),
-                          },
-                          {
-                            label: t("RP.EXPORT_AGNAI"),
-                            onClick: () => handleExport(l.id, "agnai"),
-                          },
-                          {
-                            label: t("RP.EXPORT_RISU"),
-                            onClick: () => handleExport(l.id, "risu"),
-                          },
-                          {
-                            label: t("RP.EXPORT_CCV3"),
-                            onClick: () => handleExport(l.id, "ccv3"),
-                          },
-                        ]}
-                      />
-                    }
-                    onDuplicate={() => duplicateMut.mutate(l.id)}
-                    onDelete={() => handleDelete(l.id)}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-      </DialogContent>
-    </Dialog>
+          }
+          onDuplicate={() => duplicateMut.mutate(l.id)}
+          onDelete={() => handleDelete(l.id)}
+        />
+      ))}
+    </RpListDialog>
   );
 }
