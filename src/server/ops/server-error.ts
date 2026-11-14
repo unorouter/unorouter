@@ -1,35 +1,61 @@
-import { logger } from "@/lib/utils/logger";
-import { scrubText } from "@/lib/utils/scrub";
-import {
-  fingerprint,
-  parseFrames,
-} from "@/server/ops/client-report/client-report.service";
+import { NO_PERSONAL_DATA, stripEvent } from "@/lib/config/error-tracking";
+import { env } from "@/lib/config/env";
+import { serverEnv } from "@/server/env";
+import { Scope, createStackParser, createTransport } from "@sentry/core";
+import { ServerRuntimeClient, nodeStackLineParser } from "@sentry/core/server";
 
-// Server chunks ship without maps, so frames stay minified and the route plus
-// the normalised message carry the fingerprint.
-export async function recordServerError(
+// Server render and BFF errors into the same GlitchTip project as the browser's,
+// sent straight to its in-cluster address.
+let client: ServerRuntimeClient | null | undefined;
+
+function getClient(): ServerRuntimeClient | null {
+  if (client !== undefined) return client;
+  if (!env.glitchtipDsn) return (client = null);
+  const dsn = new URL(env.glitchtipDsn);
+  const internal = new URL(serverEnv.glitchtipUrl);
+  dsn.protocol = internal.protocol;
+  dsn.host = internal.host;
+  client = new ServerRuntimeClient({
+    dsn: dsn.toString(),
+    release: process.env.NEXT_DEPLOYMENT_ID || undefined,
+    platform: "node",
+    stackParser: createStackParser(nodeStackLineParser()),
+    integrations: [],
+    dataCollection: NO_PERSONAL_DATA,
+    beforeSend: stripEvent,
+    transport: (options) =>
+      createTransport(options, async (request) => {
+        const res = await fetch(options.url, {
+          method: "POST",
+          body:
+            typeof request.body === "string"
+              ? request.body
+              : new Uint8Array(request.body),
+          signal: AbortSignal.timeout(5000),
+        });
+        return {
+          statusCode: res.status,
+          headers: {
+            "x-sentry-rate-limits": res.headers.get("x-sentry-rate-limits"),
+            "retry-after": res.headers.get("retry-after"),
+          },
+        };
+      }),
+  });
+  client.init();
+  return client;
+}
+
+export function recordServerError(
   error: unknown,
   where: { source: string; route: string; path: string; method: string },
-): Promise<void> {
-  const err = error instanceof Error ? error : new Error(String(error));
-  const message = scrubText(err.message);
-  const frames = await parseFrames(err.stack ?? "");
-  const digest =
-    "digest" in err && typeof err.digest === "string" ? err.digest : undefined;
-  logger.error(`${err.name}: ${message}`, {
-    context: "server.error",
-    fingerprint: fingerprint(err.name, message, frames, where.route),
-    source: where.source,
-    route: where.route,
-    path: scrubText(where.path.split(/[?#]/)[0]),
-    method: where.method,
-    digest,
-    release: process.env.NEXT_DEPLOYMENT_ID ?? "",
-    frames: frames
-      .slice(0, 10)
-      .map(
-        (f) =>
-          `${f.fn} ${f.file.replace(/^.*?\.next\//, "")}:${f.line}:${f.col}`,
-      ),
-  });
+): void {
+  const reporter = getClient();
+  if (!reporter) return;
+  const scope = new Scope();
+  scope.setTag("source", where.source);
+  scope.setTag("route", where.route);
+  scope.setTag("method", where.method);
+  scope.setContext("request", { path: where.path.split(/[?#]/)[0] });
+  reporter.captureException(error, undefined, scope);
 }

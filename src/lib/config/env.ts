@@ -32,6 +32,7 @@ export const env = {
   statusUrl: statusUrlObj.origin,
   supportEmail,
   githubUrl: process.env.NEXT_PUBLIC_GITHUB_URL,
+  glitchtipDsn: process.env.NEXT_PUBLIC_GLITCHTIP_DSN,
   discordUrl: process.env.NEXT_PUBLIC_DISCORD_URL,
   twitterHandle: process.env.NEXT_PUBLIC_TWITTER_HANDLE,
   twitterUrl: process.env.NEXT_PUBLIC_TWITTER_HANDLE

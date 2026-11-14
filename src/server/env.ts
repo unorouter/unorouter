@@ -16,6 +16,9 @@ export const serverEnv = {
   bffServiceToken: process.env.BFF_SERVICE_TOKEN ?? "",
   // Cluster-internal Discord bot. Serves the live reward amounts; no public ingress.
   botInternalUrl: process.env.BOT_INTERNAL_URL ?? "http://unorouter-bot:4000",
+  glitchtipUrl:
+    process.env.GLITCHTIP_URL ??
+    "http://glitchtip.glitchtip.svc.cluster.local:8000",
   tursoUrl: process.env.TURSO_DATABASE_URL,
   tursoToken: process.env.TURSO_AUTH_TOKEN,
   tavilyApiKey: process.env.TAVILY_API_KEY,

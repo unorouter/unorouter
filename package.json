@@ -48,6 +48,8 @@
     "@phosphor-icons/react": "2.1.10",
     "@radix-ui/react-hover-card": "1.2.1",
     "@remixicon/react": "4.9.0",
+    "@sentry/browser": "11.9.0",
+    "@sentry/core": "11.9.0",
     "@serwist/turbopack": "9.5.13",
     "@sinclair/typebox": "0.34.52",
     "@sqlite.org/sqlite-wasm": "3.54.1-build1",

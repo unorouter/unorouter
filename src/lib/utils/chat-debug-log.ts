@@ -340,11 +340,8 @@ export function captureCaughtError(detail: {
     0,
     500,
   );
-  reportError({
+  reportError(err, {
     source: detail.source,
-    name,
-    message,
-    stack: isError ? (err.stack ?? "") : "",
     componentStack: detail.componentStack,
   });
   const entries = caughtLog.get();

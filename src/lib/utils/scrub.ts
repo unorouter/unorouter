@@ -1,5 +1,5 @@
 // Error reports leave the device, so anything that could identify a person or
-// unlock an account is masked before they do, and again on the server.
+// unlock an account is masked before they do.
 const PATTERNS: [RegExp, string][] = [
   [/eyJ[\w-]+\.[\w-]+\.[\w-]+/g, "<jwt>"],
   [/\bBearer\s+[\w.~+/-]+=*/gi, "Bearer <key>"],
@@ -16,10 +16,4 @@ export function scrubText(text: string): string {
     (s, [re, to]) => s.replace(re, to),
     text,
   );
-}
-
-// Stacks keep the query (?dpl= names the build) and long numbers: a minified
-// bundle is one line, so columns past 100000 are normal.
-export function scrubStack(text: string): string {
-  return PATTERNS.reduce((s, [re, to]) => s.replace(re, to), text);
 }
