@@ -16,9 +16,7 @@ import type { LoadedConvContext } from "@/lib/types";
 import type { CharacterRow } from "@/lib/db/schema/rows";
 import { runStartTriggers } from "../../triggers/run-triggers";
 import type { AssemblerDeps, InlayImage } from "../deps";
-import { createAgentPipeline, resolveAgent } from "@/lib/ai/agents/pipeline";
-import { summaryAgent } from "@/lib/ai/agents/builtin/summary/agent";
-import type { AgentRuntime } from "@/lib/ai/agents/types";
+import { rollSummary } from "@/lib/ai/chat/prompt/rolling-summary";
 import {
   assembleForStream,
   assembleFromOverrides,
@@ -108,7 +106,7 @@ export async function assemblePrompt(
     summaryMemory: convSettings?.summaryMemory,
     summaryAnchor: convSettings?.summaryAnchor,
   };
-  const memory = await buildMemoryViaAgent(
+  const memory = await buildMemory(
     apiKey,
     body,
     deps,
@@ -228,7 +226,7 @@ export async function assemblePrompt(
   };
 }
 
-async function buildMemoryViaAgent(
+async function buildMemory(
   apiKey: string,
   body: StreamBody,
   deps: AssemblerDeps,
@@ -254,40 +252,21 @@ async function buildMemoryViaAgent(
 
   const utilityModel = settings.utilityModel || body.model;
   const utilityGroup = settings.utilityModel ? settings.utilityGroup : null;
-  const runtime: AgentRuntime = {
-    listFreeModels: async () => [utilityModel],
+  const summary = await rollSummary({
     generate: (modelName, opts) =>
       deps.runUtilityLLM(modelName, { ...opts, group: utilityGroup }),
-  };
-  const pipeline = createAgentPipeline(
-    [
-      resolveAgent(summaryAgent, {
-        memoryEnabled: true,
-        priorSummary: settings.summaryMemory ?? "",
-        priorAnchor: settings.summaryAnchor ?? 0,
-      }),
-    ],
-    {
-      apiKey,
-      convId: body.convId ?? null,
-      model: utilityModel,
-      recentMessages: history,
-      lastUserText,
-    },
-    runtime,
-  );
-  const results = await pipeline.preGenerate();
-  const summary = results.find((r) => r.type === "summary");
-  if (summary && summary.type === "summary") {
-    out.memoryBlock = summary.memoryBlock;
+    model: utilityModel,
+    history,
+    priorSummary: settings.summaryMemory ?? "",
+    priorAnchor: settings.summaryAnchor ?? 0,
+  });
+  if (summary) {
+    out.memoryBlock = `[Story so far]\n${summary.summary}`;
     if (
       summary.summary !== (settings.summaryMemory ?? "") ||
       summary.anchor !== (settings.summaryAnchor ?? 0)
     ) {
-      out.summaryWriteback = {
-        summary: summary.summary,
-        anchor: summary.anchor,
-      };
+      out.summaryWriteback = summary;
     }
   }
 

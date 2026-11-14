@@ -25,7 +25,7 @@ git worktree remove --force /tmp/uno-build
 - Local DB mutation, then `invalidateQueries`. No `setQueryData` patches, no optimistic rollback. React Query defaults `staleTime: Infinity`, no focus refetch, so nothing invalidates itself.
 - ONE local database per device: `getLocalDb()` takes no argument. Only the model-tester tables carry `userId`, from `useAuthUserId()`/`authUserId()`. No client user-id atom, no per-user OPFS path.
 - Pass upstream shapes through; when the shape is wrong, fix it in new-api (ours), never remap, filter, sort, count or cache in the BFF. Target route body: `async () => getSomething()`. BFF keeps auth, cookies, composing several upstream calls and unorouter-only view state. `handleElysia` unwraps `{success, data}` and DROPS siblings, so our own DTOs never use that envelope. Pass-through routes `return unwrap(res)`; local-logic routes (`ai/chat`, `ops/health`) `return { success, data }`; never mix in one route. No try/catch in handlers.
-- Dependency direction one way: `route.ts` -> `*.service.ts` -> data. `src/lib/ai/chat/` is PURE of secrets and data sources; everything injected through `AssemblerDeps` (`pipeline/deps.ts`). `providers/` and `agents/` are leaf modules.
+- Dependency direction one way: `route.ts` -> `*.service.ts` -> data. `src/lib/ai/chat/` is PURE of secrets and data sources; everything injected through `AssemblerDeps` (`pipeline/deps.ts`). `providers/` is a leaf module.
 - Any remote fetch goes through `src/lib/config/safe-fetch.ts` (SSRF policy).
 - nuqs owns URL filter state; never `useSearchParams` + `router.replace`. `/models` bridges nuqs to jotai at the store level (cookie hydration lands after first-commit subscribers).
 - jotai: `chatStore.set(atom, fn)` runs fn as an updater. `set(atom, () => fn)`.
@@ -70,7 +70,7 @@ Four guards in `src/lib/db/client/`, each commented at the site with its data-lo
 - Failed assistant turns are dropped WHOLE from history. No auto-replay: `maxRetries: 0` on the client, only server media retries on 429/5xx.
 - Tokenizers are for budgeting only, never billing; load failure falls back to approximate, never throws. Loaded on demand from HF, cached in SQLocal.
 - `freeModelRace` fires every model in its list concurrently, so server wiring passes the fixed `UTILITY_RACE_MODELS` trio, never the live free catalog (was 172 requests per title). Title gen strips think-tags.
-- Agents: capability gate, runner refuses results whose capability was not declared. Illustrator fires async after persist.
+- Illustrator fires async after persist.
 - Request history is DB-sourced (`mergeDbHistory`); the useChat array is a render projection. `seedConversation` is the one creation path and MUST be awaited before send.
 - `triggers/lua/`: lazy import + `serverExternalPackages` + turbopack alias to `empty-module.ts`; removing any lands wasmoon's node path in the client bundle.
 - Plugins (`plugins/`, RisuAI apiV3 port, GPL-3.0 Kwaroran) run in an `allow-scripts`-only iframe with `connect-src 'none'`; `httpRequest` is the only egress and carries the Lua policy. Bridged capabilities execute on the HOST origin: check ambient authority before exposing one.

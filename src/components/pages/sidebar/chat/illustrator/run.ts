@@ -1,8 +1,5 @@
 "use client";
 
-import { createAgentPipeline, resolveAgent } from "@/lib/ai/agents/pipeline";
-import { illustratorAgent } from "@/lib/ai/agents/builtin/illustrator/agent";
-import type { AgentRuntime } from "@/lib/ai/agents/types";
 import {
   isCustomModelId,
   parseCustomModelId,
@@ -182,6 +179,27 @@ export async function resolveRefUrls(mediaIds: string[]): Promise<string[]> {
   return urls;
 }
 
+const DEFAULT_INSTRUCTION =
+  "You write image-generation prompts. Given the latest roleplay response, write a single concise, " +
+  "vivid image prompt describing the current scene (subjects, setting, lighting, mood, composition). " +
+  "Output ONLY the prompt text, no preamble, no quotes.";
+
+async function writeImagePrompt(input: IllustratorRunInput) {
+  const target = await resolveModelTarget(input.utilityModel);
+  try {
+    const result = await target.deps.runUtilityLLM(target.model, {
+      systemPrompt: input.promptInstruction ?? DEFAULT_INSTRUCTION,
+      prompt: input.responseText,
+      maxOutputTokens: 200,
+    });
+    const prompt = result.text.trim();
+    if (!prompt || !input.reviewPrompt) return prompt || null;
+    return (await input.reviewPrompt(prompt))?.trim() || null;
+  } catch {
+    return null;
+  }
+}
+
 type IllustratorRunInput = {
   convId: string;
   messageId: string;
@@ -198,61 +216,38 @@ type IllustratorRunInput = {
 export async function runIllustrator(
   input: IllustratorRunInput,
 ): Promise<boolean> {
-  const target = await resolveModelTarget(input.utilityModel);
-  const refUrls = input.refMediaIds?.length
-    ? await resolveRefUrls(input.refMediaIds)
-    : [];
-  // The agent pipeline settles every agent, so a failed image would vanish.
+  const prompt = input.responseText.trim()
+    ? await writeImagePrompt(input)
+    : null;
   let imageError: unknown;
-  const runtime: AgentRuntime = {
-    listFreeModels: async () => [target.model],
-    generate: target.deps.runUtilityLLM,
-    generateImage: async (prompt) => {
-      try {
-        const img = await requestImggen(prompt, {
-          imageModel: input.imageModel,
-          imageGroup: input.imageGroup,
-          refUrls,
-        });
-        if (!img) return null;
+  let image: InlayImage | null = null;
+  if (prompt) {
+    try {
+      image = await requestImggen(prompt, {
+        imageModel: input.imageModel,
+        imageGroup: input.imageGroup,
+        refUrls: input.refMediaIds?.length
+          ? await resolveRefUrls(input.refMediaIds)
+          : [],
+      });
+      if (image)
         await upsertLocalMedia({
-          id: img.id,
+          id: image.id,
           convId: input.convId,
-          mimeType: img.mimeType,
-          sizeBytes: img.sizeBytes,
-          dataBase64: img.dataBase64,
+          mimeType: image.mimeType,
+          sizeBytes: image.sizeBytes,
+          dataBase64: image.dataBase64,
           r2Key: null,
           r2Url: null,
-          width: img.width,
-          height: img.height,
+          width: image.width,
+          height: image.height,
           promptText: prompt,
         });
-        return img;
-      } catch (err) {
-        imageError = err;
-        throw err;
-      }
-    },
-  };
-  const pipeline = createAgentPipeline(
-    [
-      resolveAgent(illustratorAgent, {
-        imageEnabled: true,
-        promptInstruction: input.promptInstruction,
-        reviewPrompt: input.reviewPrompt,
-      }),
-    ],
-    {
-      apiKey: target.apiKey,
-      convId: input.convId,
-      model: target.model,
-      recentMessages: [],
-      lastUserText: null,
-    },
-    runtime,
-  );
-  const results = await pipeline.postGenerate(input.responseText);
-  const image = results.find((r) => r.type === "inlay_image");
+    } catch (err) {
+      imageError = err;
+      image = null;
+    }
+  }
 
   const items = (await readLocalMessageItems(input.convId)) ?? [];
   const mine = items.filter((it) => it.messageId === input.messageId);
@@ -261,12 +256,12 @@ export async function runIllustrator(
       const isPlaceholder =
         it.type === "task" && rec(it.data)?.task_id === input.taskId;
       if (!isPlaceholder) return [it];
-      if (image && image.type === "inlay_image") {
+      if (image) {
         return [
           {
             ...it,
             type: "text" as const,
-            data: { text: `\n\n${image.token}` },
+            data: { text: `\n\n{{inlay::${image.id}}}` },
           },
         ];
       }
@@ -286,10 +281,7 @@ export async function runIllustrator(
   // The placeholder rendered BEFORE the media row existed, so requestInlay may have cached
   // the resolved-empty marker for this id and, by design, never re-reads it. Without
   // dropping that entry the finished image stays blank until a reload.
-  if (image && image.type === "inlay_image") {
-    const id = image.token.match(/\{\{inlay::([\w-]+)\}\}/)?.[1];
-    if (id) invalidateInlay(id);
-  }
-  if (!image && imageError) throw imageError;
+  if (image) invalidateInlay(image.id);
+  if (imageError) throw imageError;
   return !!image;
 }
