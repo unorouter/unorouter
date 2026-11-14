@@ -22,11 +22,9 @@ import { usePresetsQuery } from "@/hooks/ai/rp/presets";
 import { useModelDetailQuery } from "@/hooks/models/pricing-hook";
 import { useIsMobile } from "@/hooks/ui/use-mobile";
 import { NONE_VALUE } from "@/lib/config/constants";
-import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { handleError } from "@/lib/utils/client";
 import {
   conversationOverridesFormSchema,
-  SAMPLING_FIELDS,
   type ConversationOverridesForm,
 } from "@/lib/validation/rp-forms";
 import {
@@ -38,7 +36,6 @@ import {
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
-import { useEffect, useRef } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import { SamplingFields } from "../rp/sampling-fields";
@@ -104,30 +101,6 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
     preset: boundPreset,
   });
 
-  const drawerState = JSON.stringify({
-    convId: props.convId,
-    settingsStatus: settingsQuery.status,
-    settingsFound: !!settings,
-    bindingsFound: !!bindings,
-    presetId: settings?.presetId ?? null,
-    presetsCount: presetsQuery.data?.length ?? null,
-    boundPresetFound: !!boundPreset,
-    standalone:
-      typeof window !== "undefined" &&
-      (window.matchMedia?.("(display-mode: standalone)")?.matches ?? false),
-    reasoningEffort: formValues?.reasoningEffort ?? null,
-    showReasoning: formValues?.showReasoning ?? null,
-    sampling: formValues
-      ? Object.fromEntries(SAMPLING_FIELDS.map((f) => [f, formValues[f]]))
-      : null,
-  });
-  const lastDrawerState = useRef("");
-  useEffect(() => {
-    if (!props.open || lastDrawerState.current === drawerState) return;
-    lastDrawerState.current = drawerState;
-    logChatDebug("settings.drawer_state", JSON.parse(drawerState));
-  }, [props.open, drawerState]);
-
   const form = useForm({
     resolver: typeboxResolver(conversationOverridesFormSchema),
     defaultValues: formDefaults(conversationOverridesFormSchema),
@@ -142,16 +115,6 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
   });
 
   const onSubmit = async (data: ConversationOverridesForm) => {
-    logChatDebug("settings.saved", {
-      convId: props.convId,
-      isDefaultsMode,
-      dirty: Object.keys(form.formState.dirtyFields),
-      presetId: data.presetId === NONE_VALUE ? null : data.presetId,
-      reasoningEffort:
-        data.reasoningEffort === NONE_VALUE ? null : data.reasoningEffort,
-      showReasoning: data.showReasoning ?? null,
-      sampling: Object.fromEntries(SAMPLING_FIELDS.map((f) => [f, data[f]])),
-    });
     writeSamplerMemory(
       data,
       activeModelName,

@@ -5,7 +5,7 @@ import { PriceWatch } from "@/components/pages/sidebar/chat/layout/price-watch";
 import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
 import { RpDialogs } from "@/components/pages/sidebar/chat/rp/rp-dialogs";
 import { ChatRuntimeProvider } from "@/components/pages/sidebar/chat/runtime/chat-runtime-provider";
-import { ViewportDebugLogger } from "@/components/pages/sidebar/chat/layout/viewport-debug-logger";
+import { ViewportFixes } from "@/components/pages/sidebar/chat/layout/viewport-fixes";
 import { ConversationList } from "@/components/pages/sidebar/chat/sidebar/conversation-list";
 import { AuthHydration } from "@/components/provider/state/auth-hydration";
 import { ChatStoreProvider } from "@/components/provider/state/chat-store-provider";
@@ -41,7 +41,7 @@ export default async function ChatLayout(props: Props) {
     <AuthHydration withBestKey>
       <ChatStoreProvider data={chatStoreCookie}>
         <ChatRuntimeProvider>
-          <ViewportDebugLogger />
+          <ViewportFixes />
           <BackupReminder />
           <PriceWatch />
           <PullToRefresh />
