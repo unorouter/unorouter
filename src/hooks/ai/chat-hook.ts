@@ -2,7 +2,7 @@
 
 import { useApiMutation, useElysiaQuery } from "@/lib/react-query/hooks";
 
-import { msg, PAGE_SIZE } from "@/lib/config/constants";
+import { msg } from "@/lib/config/constants";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import {
@@ -44,7 +44,6 @@ import {
 } from "@/lib/db/client/data/chat/chat";
 import {
   keepPreviousData,
-  useInfiniteQuery,
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
@@ -54,28 +53,16 @@ type ConvIdArg = { id: string };
 type UpdateConvBody = { title?: string | null; model?: string };
 type EditMessageBody = { items: PersistMessageItem[] };
 
-export function useConversationsInfiniteQuery(keyword?: string) {
-  return useInfiniteQuery({
+export function useConversationsQuery(keyword?: string) {
+  return useQuery({
     queryKey: queryKeys.conversations(keyword),
-    queryFn: async ({ pageParam }) => {
-      const local = (await readLocalConversations()) ?? [];
-      const filtered = keyword
-        ? local.filter((c) =>
-            (c.title ?? "").toLowerCase().includes(keyword.toLowerCase()),
-          )
-        : local;
-      const start = (pageParam - 1) * PAGE_SIZE;
-      const slice = filtered.slice(start, start + PAGE_SIZE);
-      return {
-        items: slice,
-        total: filtered.length,
-        page: pageParam,
-        pageSize: PAGE_SIZE,
-      };
+    queryFn: async () => {
+      const all = await readLocalConversations();
+      const k = keyword?.toLowerCase();
+      return k
+        ? all.filter((c) => (c.title ?? "").toLowerCase().includes(k))
+        : all;
     },
-    initialPageParam: 1,
-    getNextPageParam: (lastPage, allPages) =>
-      lastPage.items.length < PAGE_SIZE ? undefined : allPages.length + 1,
     placeholderData: keepPreviousData,
   });
 }

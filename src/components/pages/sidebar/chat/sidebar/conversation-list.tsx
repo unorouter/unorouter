@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/sidebar";
 import {
   useChatGroupsQuery,
-  useConversationsInfiniteQuery,
+  useConversationsQuery,
   useCreateChatGroupMutation,
   useDeleteConversationMutation,
   useDeleteConversationsMutation,
@@ -37,6 +37,7 @@ import {
 import { ConversationItem } from "./conversation-item";
 import { ChatGroupSection } from "./chat-group-section";
 import { useDebouncedValue } from "@/hooks/ui/use-debounced-value";
+import { PAGE_SIZE } from "@/lib/config/constants";
 
 export function ConversationList() {
   const t = useTranslations();
@@ -49,17 +50,18 @@ export function ConversationList() {
   const sentinelRef = useRef<HTMLDivElement>(null);
   const debouncedSearch = useDebouncedValue(search.trim(), 300);
 
-  const conversationsQuery = useConversationsInfiniteQuery(
+  const conversationsQuery = useConversationsQuery(
     debouncedSearch || undefined,
   );
+  const [visible, setVisible] = useState(PAGE_SIZE);
   const deleteMutation = useDeleteConversationMutation();
   const deleteManyMutation = useDeleteConversationsMutation();
   const groupsQuery = useChatGroupsQuery();
   const createGroup = useCreateChatGroupMutation();
   const toggleFolded = useToggleChatGroupFoldedMutation();
 
-  const conversations =
-    conversationsQuery.data?.pages.flatMap((p) => p.items) ?? [];
+  const conversations = conversationsQuery.data ?? [];
+  const empty = conversations.length === 0;
   const groups = groupsQuery.data ?? [];
   const grouped = !debouncedSearch && groups.length > 0;
 
@@ -68,24 +70,13 @@ export function ConversationList() {
     if (!el) return;
     const observer = new IntersectionObserver(
       (entries) => {
-        if (
-          entries[0]?.isIntersecting &&
-          conversationsQuery.hasNextPage &&
-          !conversationsQuery.isFetchingNextPage
-        ) {
-          conversationsQuery.fetchNextPage();
-        }
+        if (entries[0]?.isIntersecting) setVisible((v) => v + PAGE_SIZE);
       },
       { threshold: 0.1 },
     );
     observer.observe(el);
     return () => observer.disconnect();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    conversationsQuery.hasNextPage,
-    conversationsQuery.isFetchingNextPage,
-    conversationsQuery.fetchNextPage,
-  ]);
+  }, [empty]);
 
   const handleSelect = (id: string) => {
     aui.threads().switchToThread(id);
@@ -269,17 +260,9 @@ export function ConversationList() {
           {grouped &&
             buildGroupTree(groups).map((node) => renderGroup(node, 1))}
 
-          {flat.map(renderItem)}
+          {flat.slice(0, visible).map(renderItem)}
 
           <div ref={sentinelRef} className="h-1" />
-          {conversationsQuery.isFetchingNextPage && (
-            <div className="flex items-center justify-center py-2">
-              <Icon
-                name="loader"
-                className="text-muted-foreground h-4 w-4 animate-spin"
-              />
-            </div>
-          )}
         </>
       )}
     </div>
