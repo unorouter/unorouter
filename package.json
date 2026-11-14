@@ -36,7 +36,6 @@
     "@heroicons/react": "2.2.0",
     "@hookform/resolvers": "6.0.0",
     "@huggingface/transformers": "4.3.2",
-    "@jridgewell/trace-mapping": "0.3.31",
     "@kitajs/html": "4.2.13",
     "@lenml/tokenizer-claude": "3.7.2",
     "@lenml/tokenizers": "3.7.2",
@@ -74,7 +73,6 @@
     "fumadocs-core": "16.19.0",
     "gpt-tokenizer": "4.1.2",
     "harfbuzzjs": "1.6.4",
-    "http-message-sig": "0.3.0",
     "iconoir-react": "7.12.2",
     "input-otp": "1.5.0",
     "ioredis": "6.0.0",
@@ -141,7 +139,6 @@
     "typescript": "7.0.2"
   },
   "patchedDependencies": {
-    "iconoir-react@7.11.1": "patches/iconoir-react@7.11.1.patch",
     "@sqlite.org/sqlite-wasm@3.54.1-build1": "patches/@sqlite.org%2Fsqlite-wasm@3.54.1-build1.patch",
     "next-bun-compile@2.2.0": "patches/next-bun-compile@2.2.0.patch"
   },
