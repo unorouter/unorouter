@@ -18,10 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  ImageModelField,
-  UtilityModelField,
-} from "@/components/pages/sidebar/chat/overrides/model-fields";
+import { ModelField } from "@/components/pages/sidebar/chat/overrides/model-fields";
 import { IMAGE_STYLE_TEMPLATES } from "@/lib/ai/chat/image-style-templates";
 import { AUTO_GROUP, msg, NONE_VALUE } from "@/lib/config/constants";
 import { STARTER_PRESETS } from "@/lib/ai/rp/starter-presets";
@@ -303,14 +300,14 @@ export function PresetForm(props: Props) {
                   name="imageEnabled"
                   label={t("RP.PRESET_IMAGE_ENABLED")}
                 />
-                <UtilityModelField
+                <ModelField
                   control={form.control}
                   name="utilityModel"
                   groupName="utilityGroup"
                   labelKey="RP.PRESET_UTILITY_MODEL"
                   hintKey="RP.PRESET_UTILITY_MODEL_HINT"
                 />
-                <UtilityModelField
+                <ModelField
                   control={form.control}
                   name="titleModel"
                   groupName="titleGroup"
@@ -333,7 +330,8 @@ export function PresetForm(props: Props) {
                   name="useCharAvatarRef"
                   label={t("RP.PRESET_USE_CHAR_AVATAR_REF")}
                 />
-                <ImageModelField
+                <ModelField
+                  image
                   control={form.control}
                   name="imageModel"
                   groupName="imageGroup"

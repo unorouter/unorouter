@@ -888,6 +888,18 @@ const ComposerAction: FC = () => {
     const tip = threadRuntime.getState().messages.at(-1);
     if (tip) threadRuntime.startRun({ parentId: tip.id });
   };
+  const sendButton = (
+    <TooltipIconButton
+      tooltip={t("CHAT.ACTION.SEND")}
+      side="bottom"
+      variant="default"
+      className="aui-composer-send size-8 rounded-full"
+      aria-label={t("CHAT.ACTION.SEND")}
+      onClick={emptySend ? runFromTip : undefined}
+    >
+      <Icon name="arrow-up" className="aui-composer-send-icon size-4" />
+    </TooltipIconButton>
+  );
   return (
     <div className="aui-composer-action-wrapper relative flex items-center justify-between">
       <div className="text-primary flex items-center">
@@ -898,28 +910,9 @@ const ComposerAction: FC = () => {
       </div>
       <AuiIf condition={(s) => !s.thread.isRunning}>
         {emptySend ? (
-          <TooltipIconButton
-            tooltip={t("CHAT.ACTION.SEND")}
-            side="bottom"
-            variant="default"
-            className="aui-composer-send size-8 rounded-full"
-            aria-label={t("CHAT.ACTION.SEND")}
-            onClick={runFromTip}
-          >
-            <Icon name="arrow-up" className="aui-composer-send-icon size-4" />
-          </TooltipIconButton>
+          sendButton
         ) : (
-          <ComposerPrimitive.Send asChild>
-            <TooltipIconButton
-              tooltip={t("CHAT.ACTION.SEND")}
-              side="bottom"
-              variant="default"
-              className="aui-composer-send size-8 rounded-full"
-              aria-label={t("CHAT.ACTION.SEND")}
-            >
-              <Icon name="arrow-up" className="aui-composer-send-icon size-4" />
-            </TooltipIconButton>
-          </ComposerPrimitive.Send>
+          <ComposerPrimitive.Send asChild>{sendButton}</ComposerPrimitive.Send>
         )}
       </AuiIf>
       <AuiIf condition={(s) => s.thread.isRunning}>

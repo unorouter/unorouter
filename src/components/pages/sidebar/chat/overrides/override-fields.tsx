@@ -27,10 +27,7 @@ import { useCharactersQuery } from "@/hooks/ai/rp/characters";
 import { useLorebooksQuery } from "@/hooks/ai/rp/lorebooks";
 import { usePersonasQuery } from "@/hooks/ai/rp/personas";
 import { usePresetsQuery } from "@/hooks/ai/rp/presets";
-import {
-  ImageModelField,
-  UtilityModelField,
-} from "@/components/pages/sidebar/chat/overrides/model-fields";
+import { ModelField } from "@/components/pages/sidebar/chat/overrides/model-fields";
 import { IMAGE_STYLE_TEMPLATES } from "@/lib/ai/chat/image-style-templates";
 import {
   DEFAULT_CHAT_MEMORY,
@@ -285,19 +282,20 @@ export function OverridesGenerationFields(props: {
             hintKey="CHAT.OVERRIDES.USE_CHAR_AVATAR_REF_HINT"
           />
         </div>
-        <UtilityModelField
+        <ModelField
           control={props.control}
           name="utilityModel"
           labelKey="CHAT.OVERRIDES.UTILITY_MODEL"
         />
-        <UtilityModelField
+        <ModelField
           control={props.control}
           name="titleModel"
           labelKey="CHAT.OVERRIDES.TITLE_MODEL"
           hintKey="CHAT.OVERRIDES.TITLE_MODEL_HINT"
         />
         <TitlePromptField control={props.control} />
-        <ImageModelField
+        <ModelField
+          image
           control={props.control}
           name="imageModel"
           labelKey="CHAT.OVERRIDES.IMAGE_MODEL"

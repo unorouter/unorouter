@@ -284,56 +284,6 @@ function GroupRow(props: {
   );
 }
 
-export function UtilityModelField<TForm extends FieldValues>(props: {
-  control: Control<TForm>;
-  name: FieldPath<TForm>;
-  groupName?: FieldPath<TForm>;
-  labelKey: TranslationKey;
-  hintKey?: TranslationKey;
-}) {
-  const t = useTranslations();
-  const catalogQuery = usePricingCatalogQuery();
-  const customProvidersQuery = useCustomProvidersQuery();
-  const catalogModels = (catalogQuery.data?.models ?? []).filter(
-    (m) => m.type === "text",
-  );
-  const customOptions = (customProvidersQuery.data ?? []).flatMap((provider) =>
-    provider.models
-      .filter((m) => m.type !== "image")
-      .map((m) => ({
-        id: makeCustomModelId(provider.id, m.key),
-        name: `${provider.name} / ${m.label}`,
-      })),
-  );
-  return (
-    <FormField
-      control={props.control}
-      name={props.name}
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel className="text-muted-foreground text-xs">
-            {t(props.labelKey)}
-          </FormLabel>
-          <ModelIdPicker
-            value={field.value}
-            onPick={field.onChange}
-            customOptions={customOptions}
-            catalogModels={catalogModels}
-          />
-          <ModelGroupField
-            control={props.control}
-            groupName={props.groupName}
-            model={field.value}
-          />
-          {props.hintKey && (
-            <p className="text-muted-foreground text-xs">{t(props.hintKey)}</p>
-          )}
-        </FormItem>
-      )}
-    />
-  );
-}
-
 function ModelGroupField<TForm extends FieldValues>(props: {
   control: Control<TForm>;
   groupName?: FieldPath<TForm>;
@@ -384,28 +334,25 @@ function CivitaiAirInput(props: {
   );
 }
 
-export function ImageModelField<TForm extends FieldValues>(props: {
+export function ModelField<TForm extends FieldValues>(props: {
   control: Control<TForm>;
   name: FieldPath<TForm>;
   groupName?: FieldPath<TForm>;
   labelKey: TranslationKey;
   hintKey?: TranslationKey;
+  image?: boolean;
 }) {
   const t = useTranslations();
-  const imageModels = useImageModelsQuery().data;
-  const taskImageModels = useTaskImageModelsQuery().data;
+  const catalogQuery = usePricingCatalogQuery();
+  const imageModels = useImageModelsQuery().data ?? [];
+  const taskImageModels = useTaskImageModelsQuery().data ?? [];
   const customProvidersQuery = useCustomProvidersQuery();
-  const catalogModels = [
-    ...(imageModels ?? []),
-    ...(taskImageModels ?? []),
-  ].map((m) => ({
-    model_name: m.model_name,
-    is_free: m.is_free,
-    vendor: m.vendor,
-  }));
+  const catalogModels = props.image
+    ? [...imageModels, ...taskImageModels]
+    : (catalogQuery.data?.models ?? []).filter((m) => m.type === "text");
   const customOptions = (customProvidersQuery.data ?? []).flatMap((provider) =>
     provider.models
-      .filter((m) => m.type === "image")
+      .filter((m) => (m.type === "image") === !!props.image)
       .map((m) => ({
         id: makeCustomModelId(provider.id, m.key),
         name: `${provider.name} / ${m.label}`,
@@ -426,8 +373,9 @@ export function ImageModelField<TForm extends FieldValues>(props: {
             customOptions={customOptions}
             catalogModels={catalogModels}
           />
-          {field.value === CUSTOM_CIVITAI_MODEL_ID ||
-          isValidAir(field.value) ? (
+          {props.image &&
+          (field.value === CUSTOM_CIVITAI_MODEL_ID ||
+            isValidAir(field.value)) ? (
             <CivitaiAirInput value={field.value} onChange={field.onChange} />
           ) : (
             <ModelGroupField
