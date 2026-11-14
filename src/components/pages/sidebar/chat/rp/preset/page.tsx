@@ -1,7 +1,5 @@
 "use client";
 
-import { Icon } from "@/components/ui/icon";
-import { Button } from "@/components/ui/button";
 import {
   useDeletePresetMutation,
   useDuplicatePresetMutation,
@@ -20,6 +18,7 @@ import {
   RpEntityRow,
   rpFilter,
   RpImportControl,
+  RpRowButton,
 } from "../shared/rp-list-parts";
 import { useToggleFavoriteMutation } from "@/hooks/ai/rp/favorites";
 
@@ -115,17 +114,11 @@ export function PresetsPage() {
                 </>
               }
               actions={
-                <Button
-                  variant="ghost"
-                  size="icon-sm"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    void handleExport(p.id);
-                  }}
-                  aria-label={t("RP.PRESETS_EXPORT")}
-                >
-                  <Icon name="download" className="size-4" />
-                </Button>
+                <RpRowButton
+                  icon="download"
+                  label={t("RP.PRESETS_EXPORT")}
+                  onClick={() => void handleExport(p.id)}
+                />
               }
               onDuplicate={() => duplicateMut.mutate(p.id)}
               onDelete={() => handleDelete(p.id)}

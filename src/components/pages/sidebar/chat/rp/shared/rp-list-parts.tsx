@@ -17,6 +17,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Icon } from "@/components/ui/icon";
+import type { IconName } from "@/lib/config/icon-map";
 import { Input } from "@/components/ui/input";
 import {
   Popover,
@@ -117,6 +118,27 @@ function RpEntityDates(props: {
   );
 }
 
+export function RpRowButton(props: {
+  icon: IconName;
+  label: string;
+  onClick: () => void;
+  iconClassName?: string;
+}) {
+  return (
+    <Button
+      variant="ghost"
+      size="icon-sm"
+      aria-label={props.label}
+      onClick={(e) => {
+        e.stopPropagation();
+        props.onClick();
+      }}
+    >
+      <Icon name={props.icon} className={cn("size-4", props.iconClassName)} />
+    </Button>
+  );
+}
+
 export function RpEntityRow(props: {
   onOpen: () => void;
   name: ReactNode;
@@ -151,48 +173,28 @@ export function RpEntityRow(props: {
       </div>
       <div className="flex shrink-0 items-center gap-1 max-sm:ml-auto">
         {props.favorite && (
-          <Button
-            variant="ghost"
-            size="icon-sm"
-            aria-label={t(props.favorite.on ? "RP.UNFAVORITE" : "RP.FAVORITE")}
-            onClick={(e) => {
-              e.stopPropagation();
-              props.favorite!.onToggle();
-            }}
-          >
-            <Icon
-              name="star"
-              className={cn(
-                "size-4",
-                props.favorite.on && "fill-current text-amber-500",
-              )}
-            />
-          </Button>
+          <RpRowButton
+            icon="star"
+            label={t(props.favorite.on ? "RP.UNFAVORITE" : "RP.FAVORITE")}
+            onClick={props.favorite.onToggle}
+            iconClassName={
+              props.favorite.on ? "fill-current text-amber-500" : undefined
+            }
+          />
         )}
         {props.actions}
         {props.onDuplicate && (
-          <Button
-            variant="ghost"
-            size="icon-sm"
-            aria-label={t("RP.DUPLICATE")}
-            onClick={(e) => {
-              e.stopPropagation();
-              void props.onDuplicate!();
-            }}
-          >
-            <Icon name="copy" className="size-4" />
-          </Button>
+          <RpRowButton
+            icon="copy"
+            label={t("RP.DUPLICATE")}
+            onClick={() => void props.onDuplicate!()}
+          />
         )}
-        <Button
-          variant="ghost"
-          size="icon-sm"
-          onClick={(e) => {
-            e.stopPropagation();
-            void props.onDelete();
-          }}
-        >
-          <Icon name="trash-2" className="size-4" />
-        </Button>
+        <RpRowButton
+          icon="trash-2"
+          label={t("COMMON.DELETE")}
+          onClick={() => void props.onDelete()}
+        />
       </div>
     </Card>
   );

@@ -19,6 +19,7 @@ import {
   RP_ACTION_BUTTON,
   RpImportControl,
   RpListDialog,
+  RpRowButton,
 } from "../shared/rp-list-parts";
 import { useToggleFavoriteMutation } from "@/hooks/ai/rp/favorites";
 import { PersonaEditor } from "./editor";
@@ -124,17 +125,11 @@ export function PersonaList(props: Props) {
           }
           description={p.description}
           actions={
-            <Button
-              variant="ghost"
-              size="icon-sm"
-              onClick={(e) => {
-                e.stopPropagation();
-                exportMut.mutate({ kind: "personas", id: p.id });
-              }}
-              aria-label={t("RP.PERSONAS_EXPORT")}
-            >
-              <Icon name="download" className="size-4" />
-            </Button>
+            <RpRowButton
+              icon="download"
+              label={t("RP.PERSONAS_EXPORT")}
+              onClick={() => exportMut.mutate({ kind: "personas", id: p.id })}
+            />
           }
           onDuplicate={() => duplicateMut.mutate(p.id)}
           onDelete={() => handleDelete(p.id)}

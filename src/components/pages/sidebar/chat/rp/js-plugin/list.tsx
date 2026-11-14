@@ -19,6 +19,7 @@ import {
   rpFilter,
   RpImportControl,
   RpListDialog,
+  RpRowButton,
 } from "../shared/rp-list-parts";
 import { JsPluginEditor } from "./editor";
 import { useRpExportMutation } from "@/hooks/ai/rp/use-export-mutation";
@@ -130,17 +131,13 @@ export function JsPluginList(props: Props) {
                 : "CHAT.JS_PLUGIN.SUMMARY_DISABLED",
             )}
             actions={
-              <Button
-                variant="ghost"
-                size="icon-sm"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  exportMut.mutate({ kind: "js_plugins", id: plugin.id });
-                }}
-                aria-label={t("CHAT.JS_PLUGIN.EXPORT")}
-              >
-                <Icon name="download" className="size-4" />
-              </Button>
+              <RpRowButton
+                icon="download"
+                label={t("CHAT.JS_PLUGIN.EXPORT")}
+                onClick={() =>
+                  exportMut.mutate({ kind: "js_plugins", id: plugin.id })
+                }
+              />
             }
             onDelete={() => handleDelete(plugin.id)}
           />

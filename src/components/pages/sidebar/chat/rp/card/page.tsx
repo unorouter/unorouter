@@ -9,7 +9,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Icon } from "@/components/ui/icon";
 import {
   useApplyCardMutation,
   useCardsQuery,
@@ -30,6 +29,7 @@ import {
   RpEntityRow,
   rpFilter,
   RpImportControl,
+  RpRowButton,
 } from "../shared/rp-list-parts";
 import { useToggleFavoriteMutation } from "@/hooks/ai/rp/favorites";
 import { CardForm } from "./form";
@@ -159,28 +159,18 @@ export function CardsPage() {
                 description={cardSummary(c) || c.description}
                 actions={
                   <>
-                    <Button
-                      variant="ghost"
-                      size="icon-sm"
-                      aria-label={t("RP.CARDS_APPLY")}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setApplyTarget({ cardId: c.id, cardName: c.name });
-                      }}
-                    >
-                      <Icon name="play" className="size-4" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="icon-sm"
-                      aria-label={t("RP.CARDS_EXPORT")}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        void handleExport(c.id);
-                      }}
-                    >
-                      <Icon name="download" className="size-4" />
-                    </Button>
+                    <RpRowButton
+                      icon="play"
+                      label={t("RP.CARDS_APPLY")}
+                      onClick={() =>
+                        setApplyTarget({ cardId: c.id, cardName: c.name })
+                      }
+                    />
+                    <RpRowButton
+                      icon="download"
+                      label={t("RP.CARDS_EXPORT")}
+                      onClick={() => void handleExport(c.id)}
+                    />
                   </>
                 }
                 onDelete={() => handleDelete(c.id)}

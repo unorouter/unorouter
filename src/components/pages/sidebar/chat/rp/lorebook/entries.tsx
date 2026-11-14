@@ -24,7 +24,7 @@ import {
   INJECTION_ROLE_LABEL_KEY,
   LorebookEntryForm,
 } from "./lorebook-entry-form";
-import { confirmRpDelete } from "../shared/rp-list-parts";
+import { confirmRpDelete, RpRowButton } from "../shared/rp-list-parts";
 
 export function LorebookEntries(props: { lorebookId: string }) {
   const t = useTranslations();
@@ -133,16 +133,11 @@ export function LorebookEntries(props: { lorebookId: string }) {
                   {e.content}
                 </span>
               </div>
-              <Button
-                variant="ghost"
-                size="icon-sm"
-                onClick={(ev) => {
-                  ev.stopPropagation();
-                  handleDelete(e.id);
-                }}
-              >
-                <Icon name="trash-2" className="size-4" />
-              </Button>
+              <RpRowButton
+                icon="trash-2"
+                label={t("COMMON.DELETE")}
+                onClick={() => handleDelete(e.id)}
+              />
             </Card>
           )}
         />
