@@ -5,6 +5,7 @@ import { chatStore } from "@/store/chat-store";
 import { atom } from "jotai";
 import type { JsPluginKind } from "@/lib/validation/js-plugin";
 import type { TriggerContext } from "../triggers/types";
+import { makeTriggerContext } from "../triggers/vm";
 import type {
   JanitorContextSnapshot,
   JanitorRunResult,
@@ -99,7 +100,9 @@ export function unloadJsPlugins(): void {
 
 export async function loadJsPlugins(rows: LoadedJsPlugin[]): Promise<void> {
   const enabled = rows.filter((r) => r.enabled);
-  const key = enabled.map((r) => `${r.id}:${r.script.length}`).join("|");
+  const key = enabled
+    .map((r) => `${r.id}:${r.kind}:${r.characterId}:${fnv1aHex(r.script)}`)
+    .join("|");
   if (key === loadedKey) return;
   unloadJsPlugins();
   loadedKey = key;
@@ -242,20 +245,14 @@ export function transformDisplayJsSync(text: string): string {
   if (cached !== undefined) return cached;
   if (!displayPending.has(key)) {
     displayPending.add(key);
-    const ctx: TriggerContext = {
+    const ctx = makeTriggerContext({
       mode: "display",
       vars: {},
       globalVars: {},
       chat: [],
-      charDesc: "",
-      personaDesc: "",
-      authorNote: "",
-      replaceGlobalNote: "",
-      lore: [],
-      additionalSysPrompt: { start: "", historyend: "", promptend: "" },
       charName: "",
       userName: "",
-    };
+    });
     void runJsEditTrigger("display", ctx, text)
       .then((res) => {
         displayCache.set(key, typeof res === "string" ? res : text);
