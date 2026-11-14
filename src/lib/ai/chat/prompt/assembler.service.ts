@@ -9,6 +9,10 @@ import {
   type StreamOverrides,
 } from "@/lib/validation/chat";
 import type { LoadedConvContext } from "@/lib/types";
+import {
+  SAMPLING_FIELDS,
+  type SamplingFieldName,
+} from "@/lib/validation/rp-forms";
 import type { CharacterRow } from "@/lib/db/schema/rows";
 import { countTokens } from "@/lib/ai/chat/tokenizer";
 import { keyHits, selectLorebookEntries } from "./lorebook";
@@ -29,57 +33,20 @@ export type DepthInjection = {
   role?: "system" | "user" | "assistant";
 };
 
-type SamplingSource = {
-  temperature?: number | null;
-  topP?: number | null;
-  topK?: number | null;
-  minP?: number | null;
-  topA?: number | null;
-  frequencyPenalty?: number | null;
-  presencePenalty?: number | null;
-  repetitionPenalty?: number | null;
-  maxTokens?: number | null;
-};
-
-const SAMPLING_FIELD_MAP = [
-  ["temperature", "temperature"],
-  ["topP", "topP"],
-  ["topK", "topK"],
-  ["minP", "minP"],
-  ["topA", "topA"],
-  ["frequencyPenalty", "frequencyPenalty"],
-  ["presencePenalty", "presencePenalty"],
-  ["repetitionPenalty", "repetitionPenalty"],
-  ["maxTokens", "maxOutputTokens"],
-] as const satisfies readonly (readonly [
-  keyof SamplingSource,
-  keyof AssembledSystem["sampling"],
-])[];
-
 function mergeSampling(
   dest: AssembledSystem["sampling"],
-  src: SamplingSource | null | undefined,
+  src: Partial<Record<SamplingFieldName, number | null>> | null | undefined,
 ): void {
   if (!src) return;
-  for (const [from, to] of SAMPLING_FIELD_MAP) {
-    const v = src[from];
-    if (v != null) dest[to] = v;
+  for (const field of SAMPLING_FIELDS) {
+    const v = src[field];
+    if (v != null) dest[field] = v;
   }
 }
 
 export type AssembledSystem = {
   system: string | undefined;
-  sampling: {
-    temperature?: number;
-    topP?: number;
-    topK?: number;
-    minP?: number;
-    topA?: number;
-    frequencyPenalty?: number;
-    presencePenalty?: number;
-    repetitionPenalty?: number;
-    maxOutputTokens?: number;
-  };
+  sampling: Partial<Record<SamplingFieldName, number>>;
   reasoningEffort?: string;
   chatMemory: number;
   contextTokens?: number;
@@ -259,14 +226,10 @@ export async function assembleForStream(
   convId: string,
   recentUserTexts: string[],
   fallbackSystemMessage: string | undefined,
-  preloadedCtx: LoadedConvContext,
+  ctx: LoadedConvContext,
   opts?: AssembleOpts,
 ): Promise<AssembledSystem> {
-  const globalVars = opts?.globalVars;
   const history = opts?.history;
-  const ctx = preloadedCtx;
-  if (!ctx) return baseAssembled(fallbackSystemMessage);
-
   const { settings, persona, preset, lbRows, lbEntries } = ctx;
 
   let boundCharacters = ctx.boundCharacters;
@@ -299,7 +262,7 @@ export async function assembleForStream(
     scenario,
     personality: primary?.personality ?? "",
     vars: opts?.seedVars ?? parseStringMap(settings.vars),
-    globalVars: parseStringMap(globalVars),
+    globalVars: parseStringMap(opts?.globalVars),
     tempVars: {},
     history,
     seed: `${convId}:${history?.length ?? 0}`,

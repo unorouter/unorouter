@@ -223,23 +223,10 @@ export type LoadedConvContext = {
   preset: PresetRow | undefined;
   lbRows: LorebookRow[];
   lbEntries: LorebookEntryRow[];
-} | null;
+};
 
-export type LbEntry = LoadedConvContext extends infer T
-  ? T extends { lbEntries: infer E }
-    ? E extends ReadonlyArray<infer Item>
-      ? Item
-      : never
-    : never
-  : never;
-
-export type LbRow = LoadedConvContext extends infer T
-  ? T extends { lbRows: infer R }
-    ? R extends ReadonlyArray<infer Item>
-      ? Item
-      : never
-    : never
-  : never;
+export type LbEntry = LoadedConvContext["lbEntries"][number];
+export type LbRow = LoadedConvContext["lbRows"][number];
 
 export class ParamError extends Error {
   public readonly params: Record<string, string | number>;

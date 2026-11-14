@@ -15,7 +15,7 @@ import {
 export async function buildChatContextFromLocalDb(
   convId: string,
   tipVars: string | null,
-): Promise<NonNullable<LoadedConvContext> | undefined> {
+): Promise<LoadedConvContext | undefined> {
   const stored = await readLocalConversationSettings(convId);
   if (!stored) return undefined;
   const settings = tipVars != null ? { ...stored, vars: tipVars } : stored;

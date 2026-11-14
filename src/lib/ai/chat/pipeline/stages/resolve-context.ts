@@ -4,7 +4,7 @@ import type { AssemblerDeps } from "../deps";
 import { extractLastUserText, type StreamMessages } from "../transforms";
 
 type ResolvedContext = {
-  convCtx: LoadedConvContext;
+  convCtx: LoadedConvContext | null;
   effectiveWebSearch: boolean;
   searchSystemMessage: string | undefined;
 };
@@ -13,7 +13,7 @@ export async function resolveContext(
   apiKey: string,
   body: {
     convId?: string | null;
-    chatContext?: NonNullable<LoadedConvContext>;
+    chatContext?: LoadedConvContext;
     webSearch?: boolean;
     messages: StreamMessages;
   },

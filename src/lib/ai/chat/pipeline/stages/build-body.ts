@@ -57,7 +57,7 @@ export function buildModelParams(
   // max_tokens only when the user set one: published ceilings drift from what
   // upstreams enforce (262144 against 131072), a too-high value is a hard 400,
   // and the gateway fills in the model's cap when it is absent.
-  const userSetMax = assembled.sampling.maxOutputTokens != null;
+  const userSetMax = assembled.sampling.maxTokens != null;
   return stripUnsupported(
     defined({
       maxOutputTokens: userSetMax
@@ -255,7 +255,7 @@ export function buildDebugSnapshot(
       chatMemory: assembled?.chatMemory ?? null,
       contextTokens: assembled?.contextTokens ?? null,
       streamingEnabled: assembled?.streamingEnabled ?? null,
-      maxOutputTokens: assembled?.sampling.maxOutputTokens ?? null,
+      maxOutputTokens: assembled?.sampling.maxTokens ?? null,
       authorNote: assembled?.authorNote
         ? { depth: assembled.authorNote.depth, role: assembled.authorNote.role }
         : null,

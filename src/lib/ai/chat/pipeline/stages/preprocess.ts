@@ -20,7 +20,7 @@ type Preprocessed = {
 
 export async function preprocessMessages(
   messages: StreamMessages,
-  convCtx: LoadedConvContext,
+  convCtx: LoadedConvContext | null,
   inlinePdfText: AssemblerDeps["inlinePdfText"],
 ): Promise<Preprocessed> {
   const primaryChar = convCtx?.boundCharacters[0]?.character;

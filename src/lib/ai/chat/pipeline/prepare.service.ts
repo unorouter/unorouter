@@ -29,7 +29,7 @@ export type StreamBody = {
   webSearch?: boolean;
   group?: string | null;
   overrides?: StreamOverrides;
-  chatContext?: NonNullable<LoadedConvContext>;
+  chatContext?: LoadedConvContext;
   globalVars?: string | null;
   speakingCharacterId?: string | null;
   messageTimes?: Record<string, number>;

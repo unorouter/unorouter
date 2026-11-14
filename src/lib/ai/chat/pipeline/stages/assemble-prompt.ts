@@ -59,7 +59,7 @@ type AssembledPrompt = {
 export async function assemblePrompt(
   apiKey: string,
   body: StreamBody,
-  convCtx: LoadedConvContext,
+  convCtx: LoadedConvContext | null,
   messages: StreamMessages,
   searchSystemMessage: string | undefined,
   modelInfo: PricingCatalogDetail | undefined,
@@ -134,7 +134,7 @@ export async function assemblePrompt(
   const janitorCtx = await applyJanitorScripts(perchance.ctx, messages, body);
 
   const assembled =
-    body.convId && convCtx
+    body.convId && janitorCtx
       ? await assembleForStream(
           body.convId,
           recentUserTexts,
@@ -304,7 +304,7 @@ function clampOutputTokens(
 ): number {
   const ceiling = modelInfo?.metadata?.maxOutputTokens;
   return Math.min(
-    assembled.sampling.maxOutputTokens ?? ceiling ?? UNKNOWN_MODEL_OUTPUT_CAP,
+    assembled.sampling.maxTokens ?? ceiling ?? UNKNOWN_MODEL_OUTPUT_CAP,
     ceiling ?? Number.POSITIVE_INFINITY,
   );
 }
@@ -313,10 +313,10 @@ function clampOutputTokens(
 // reminderMessage (our post history instructions). Messages it adds that the
 // model may see ride along as extra system text for this turn only.
 async function applyPerchanceScripts(
-  convCtx: LoadedConvContext,
+  convCtx: LoadedConvContext | null,
   messages: StreamMessages,
   body: StreamBody,
-): Promise<{ ctx: LoadedConvContext; extraSystem: string }> {
+): Promise<{ ctx: LoadedConvContext | null; extraSystem: string }> {
   const none = { ctx: convCtx, extraSystem: "" };
   if (!convCtx) return none;
   const primary = convCtx.boundCharacters[0]?.character;
@@ -358,10 +358,10 @@ async function applyPerchanceScripts(
 
 // Returns a CLONED context: user scripts must never mutate the stored conversation.
 async function applyJanitorScripts(
-  convCtx: LoadedConvContext,
+  convCtx: LoadedConvContext | null,
   messages: StreamMessages,
   body: StreamBody,
-): Promise<LoadedConvContext> {
+): Promise<LoadedConvContext | null> {
   if (!convCtx) return convCtx;
   const primary = convCtx.boundCharacters[0]?.character;
   if (!primary || !hasJanitorScripts()) return convCtx;
@@ -413,7 +413,7 @@ async function applyJanitorScripts(
 }
 
 function patchPrimary(
-  convCtx: NonNullable<LoadedConvContext>,
+  convCtx: LoadedConvContext,
   patch: Partial<CharacterRow>,
 ): LoadedConvContext {
   const boundCharacters = convCtx.boundCharacters.map((b, i) =>

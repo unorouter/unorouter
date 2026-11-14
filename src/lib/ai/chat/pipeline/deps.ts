@@ -14,7 +14,7 @@ export type InlayImage = {
 };
 type SemanticHit = { id: string; text: string };
 
-type ConvSettings = NonNullable<LoadedConvContext>["settings"];
+type ConvSettings = LoadedConvContext["settings"];
 
 export type AssemblerDeps = {
   getModelInfo: (model: string) => Promise<PricingCatalogDetail | undefined>;

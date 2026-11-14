@@ -14,7 +14,7 @@ type StartTriggerResult = {
 };
 
 export async function runStartTriggers(
-  convCtx: NonNullable<LoadedConvContext>,
+  convCtx: LoadedConvContext,
   vars: Record<string, string>,
   globalVars: Record<string, string>,
   history: { role: "user" | "assistant" | "system"; text: string }[],
