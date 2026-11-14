@@ -469,7 +469,10 @@ async function persistRequestLog(
     createdAt: now,
   };
   await insertLocalRequestLog(logRow);
-  invalidateAndBroadcast(queryClient, [queryKeys.requestLog(messageId)]);
+  invalidateAndBroadcast(queryClient, [
+    queryKeys.requestLog(messageId),
+    queryKeys.requestLogList(convId),
+  ]);
   const reqId = logRow.requestId;
   if (reqId && !isCustomModelId(resolvedModel)) {
     await enqueueLogEnrich(messageId, reqId);

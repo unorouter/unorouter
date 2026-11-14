@@ -44,6 +44,7 @@ export async function enrichRequestLogFromUpstream(
   // which is nothing for a lane that never sends usage. Move them by the
   // difference so the chat total reflects the gateway's numbers.
   if (before) {
+    keys.push(queryKeys.requestLogList(before.convId));
     const delta = {
       inputTokens: (patch.inputTokens ?? 0) - (before.inputTokens ?? 0),
       outputTokens: (patch.outputTokens ?? 0) - (before.outputTokens ?? 0),
