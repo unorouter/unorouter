@@ -184,7 +184,7 @@ export function RpImageField(props: {
 
       {props.shape === "circle" && <AvatarSizeRow />}
 
-      {props.preview && (
+      {props.preview && positioning && (
         <AvatarPositionDialog
           open={positioning}
           onOpenChange={setPositioning}
