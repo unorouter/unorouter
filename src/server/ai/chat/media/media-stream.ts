@@ -1,7 +1,5 @@
 import type { PricingCatalogDetail } from "@/openapi";
-import { getModelByName } from "@/server/models/pricing/pricing.service";
 import { msg } from "@/lib/config/constants";
-import { downloadGenerationBytes } from "@/lib/config/safe-fetch";
 import { base64ToDataUri, uid } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import {
@@ -19,8 +17,8 @@ import {
   upstreamApiUrl,
 } from "@/server/constants";
 import {
+  fetchGeneratedImage,
   postImageRequest,
-  probeImageSize,
   UpstreamImageError,
   type UpstreamImageResponse,
 } from "@/server/ai/image/upstream";
@@ -287,9 +285,11 @@ async function generateImage(
   };
 }
 
-export async function handleImageStream(apiKey: string, body: MediaStreamBody) {
-  const model = (await getModelByName(body.model)) ?? undefined;
-
+export async function handleImageStream(
+  apiKey: string,
+  body: MediaStreamBody,
+  model: PricingCatalogDetail | undefined,
+) {
   // AI Horde has no sync image endpoint; it polls through the video task flow.
   if ((model?.supported_endpoint_types ?? []).includes("aihorde")) {
     return streamResponse(async (writer) => {
@@ -330,16 +330,14 @@ export async function handleImageStream(apiKey: string, body: MediaStreamBody) {
       await Promise.all(
         result.uris.map(async (img: string) => {
           try {
-            const { buffer, mime } = await downloadGenerationBytes(img);
-            const parsed = { base64: buffer.toString("base64"), mime };
-            const size = await probeImageSize(buffer);
+            const fetched = await fetchGeneratedImage(img);
             return {
               id: uid(16),
-              dataBase64: parsed.base64,
-              mimeType: parsed.mime,
-              sizeBytes: Math.floor((parsed.base64.length * 3) / 4),
-              width: size.width,
-              height: size.height,
+              dataBase64: fetched.base64,
+              mimeType: fetched.mimeType,
+              sizeBytes: fetched.sizeBytes,
+              width: fetched.width,
+              height: fetched.height,
             };
           } catch (err) {
             logger.warn("image download to base64 failed", {
@@ -430,7 +428,11 @@ async function generateSpeech(
   };
 }
 
-export async function handleAudioStream(apiKey: string, body: MediaStreamBody) {
+export async function handleAudioStream(
+  apiKey: string,
+  body: MediaStreamBody,
+  model: PricingCatalogDetail | undefined,
+) {
   if (isSttModel(body.model)) {
     return streamResponse(async (writer) => {
       writeBufferedMessage(
@@ -439,8 +441,6 @@ export async function handleAudioStream(apiKey: string, body: MediaStreamBody) {
       );
     }, body.model);
   }
-
-  const model = (await getModelByName(body.model)) ?? undefined;
 
   return streamResponse(async (writer) => {
     const input = extractLastUserText(body.messages);
@@ -466,7 +466,6 @@ export async function generateEmbedding(
   input: string,
   group?: string | null,
 ): Promise<{
-  dims: number;
   vector: number[];
   usage: UpstreamUsage | undefined;
   requestId: string | null;
@@ -487,7 +486,6 @@ export async function generateEmbedding(
   } = await res.json();
   const vector = json.data?.[0]?.embedding ?? [];
   return {
-    dims: vector.length,
     vector,
     usage: json.usage,
     requestId: res.headers.get("x-oneapi-request-id"),
@@ -498,9 +496,8 @@ export async function generateEmbedding(
 export async function handleEmbeddingStream(
   apiKey: string,
   body: MediaStreamBody,
+  model: PricingCatalogDetail | undefined,
 ) {
-  const model = (await getModelByName(body.model)) ?? undefined;
-
   return streamResponse(async (writer) => {
     const input = extractLastUserText(body.messages);
     if (!input) throw new Error(msg("ERRORS.NO_EMBEDDING_INPUT"));
@@ -509,7 +506,7 @@ export async function handleEmbeddingStream(
     const preview = emb.vector.slice(0, 8).map((n) => n.toFixed(6));
     const tail = emb.vector.length > 8 ? ", ..." : "";
     const text = [
-      `Embedding vector (${emb.dims} dimensions):`,
+      `Embedding vector (${emb.vector.length} dimensions):`,
       "",
       "```json",
       `[${preview.join(", ")}${tail}]`,

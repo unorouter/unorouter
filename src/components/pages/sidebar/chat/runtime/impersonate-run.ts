@@ -18,7 +18,7 @@ import {
   chatLoadoutAtom,
   chatStore,
 } from "@/store/chat-store";
-import { resolveModelTargetFromStore } from "@/components/pages/sidebar/chat/runtime/transport/resolve-model-target";
+import { resolveModelTarget } from "@/components/pages/sidebar/chat/runtime/transport/resolve-model-target";
 
 // SillyTavern's impersonation prompt, which is the one open-source wording with
 // years of RP mileage behind it. The two prohibitions are the load-bearing part:
@@ -139,7 +139,7 @@ export async function runImpersonate(
 
   const modelId = chatStore.get(chatModelAtom);
   if (!modelId) throw new Error("impersonate: no model selected");
-  const target = await resolveModelTargetFromStore(modelId);
+  const target = await resolveModelTarget(modelId);
   // Folded into the user turn rather than passed as systemPrompt: the utility
   // lane renders that as a real system message, and models like glm reject one
   // outright ("System messages are not allowed").

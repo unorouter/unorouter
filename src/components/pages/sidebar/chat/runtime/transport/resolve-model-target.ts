@@ -11,7 +11,7 @@ import { readLocalCustomProvider } from "@/lib/db/client/data/rp/custom-provider
 import { buildClientDeps } from "@/components/pages/sidebar/chat/runtime/transport/client-deps";
 import { buildDefaultClientDeps } from "@/components/pages/sidebar/chat/runtime/transport/default-deps";
 
-export type ModelTarget = {
+type ModelTarget = {
   isCustom: boolean;
   model: string;
   apiKey: string;
@@ -25,8 +25,8 @@ export type ModelTarget = {
 
 export async function resolveModelTarget(
   modelId: string,
-  origin: string,
 ): Promise<ModelTarget> {
+  const origin = window.location.origin;
   if (isCustomModelId(modelId)) {
     const parsed = parseCustomModelId(modelId);
     if (!parsed) throw new Error("invalid custom model id");
@@ -52,10 +52,4 @@ export async function resolveModelTarget(
     baseURL: `${origin}/api/ai/chat/forward`,
     deps: buildDefaultClientDeps(),
   };
-}
-
-export function resolveModelTargetFromStore(
-  modelId: string,
-): Promise<ModelTarget> {
-  return resolveModelTarget(modelId, window.location.origin);
 }

@@ -330,23 +330,7 @@ export const streamBody = t.Object({
   model: t.String({ maxLength: MAX_MODEL_LEN }),
   messages: t.Array(t.Any(), { maxItems: MAX_MESSAGES_PER_STREAM }),
   convId: t.Optional(t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()])),
-  webSearch: t.Optional(t.Boolean()),
   group: t.Optional(t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()])),
-  overrides: t.Optional(streamOverrides),
-  chatContext: t.Optional(chatContext),
-  globalVars: t.Optional(t.Union([t.String(), t.Null()])),
-  speakingCharacterId: t.Optional(
-    t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()]),
-  ),
-  messageTimes: t.Optional(t.Record(t.String(), t.Number())),
-  clientEnv: t.Optional(
-    t.Object({
-      viewportW: t.Optional(t.Number()),
-      viewportH: t.Optional(t.Number()),
-      locale: t.Optional(t.String({ maxLength: 32 })),
-      timeZone: t.Optional(t.String({ maxLength: 64 })),
-    }),
-  ),
 });
 
 export const triggerLlmBody = t.Object({
@@ -401,7 +385,6 @@ export const webSearchBody = t.Object({
 });
 
 export const finalizeTaskBody = t.Object({
-  msgId: t.String({ maxLength: MAX_ID_LEN }),
   taskId: t.String({ pattern: "^[A-Za-z0-9_-]{1,128}$" }),
 });
 

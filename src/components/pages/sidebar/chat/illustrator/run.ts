@@ -9,7 +9,15 @@ import {
 } from "@/lib/ai/chat/custom-provider-id";
 import { CUSTOM_CIVITAI_MODEL_ID, isValidAir } from "@/lib/ai/image/constants";
 import { rpc } from "@/lib/rpc";
-import { base64ToUint8, handleElysia, rec, uid } from "@/lib/utils/base";
+import {
+  base64ToDataUri,
+  base64ToUint8,
+  handleElysia,
+  parseDataUri,
+  rec,
+  safeJsonParse,
+  uid,
+} from "@/lib/utils/base";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import type { InlayImage } from "@/lib/ai/chat/pipeline/deps";
@@ -26,7 +34,7 @@ import {
 import { invalidateInlay } from "@/lib/db/client/data/media/inlay-render";
 import { readLocalCustomProvider } from "@/lib/db/client/data/rp/custom-providers";
 import { readLocalPreset } from "@/lib/db/client/data/rp/rp";
-import { resolveModelTargetFromStore } from "@/components/pages/sidebar/chat/runtime/transport/resolve-model-target";
+import { resolveModelTarget } from "@/components/pages/sidebar/chat/runtime/transport/resolve-model-target";
 
 export type IllustratorConvSettings = {
   imageEnabled: boolean;
@@ -45,13 +53,10 @@ export async function resolveIllustratorSettings(
   const s = await readLocalConversationSettings(convId);
   if (!s) return null;
   const preset = s.presetId ? await readLocalPreset(s.presetId) : null;
-  let refMediaIds: string[] = [];
-  try {
-    const parsed: unknown = JSON.parse(s.imageRefIds ?? "[]");
-    if (Array.isArray(parsed)) {
-      refMediaIds = parsed.filter((x): x is string => typeof x === "string");
-    }
-  } catch {}
+  const parsed = safeJsonParse<unknown>(s.imageRefIds, []);
+  let refMediaIds = Array.isArray(parsed)
+    ? parsed.filter((x): x is string => typeof x === "string")
+    : [];
   if (s.useCharAvatarRef ?? preset?.useCharAvatarRef) {
     const primary = await readPrimaryCharacter(convId);
     const avatarId = primary?.avatarMediaId;
@@ -109,18 +114,15 @@ async function generateTaskImage(
     }
     if (state.status !== "SUCCESS" || !state.resultUrl) continue;
     const done = handleElysia(
-      await rpc.api.ai.chat.task.finalize.post({
-        msgId: task.taskId,
-        taskId: task.taskId,
-      }),
+      await rpc.api.ai.chat.task.finalize.post({ taskId: task.taskId }),
     );
-    const comma = done.url.indexOf(",");
-    const dataBase64 = done.url.slice(comma + 1);
+    const data = parseDataUri(done.url);
+    if (!data) throw new Error("image task returned no image");
     return {
       id: uid(),
-      dataBase64,
-      mimeType: done.url.slice(5, done.url.indexOf(";")),
-      sizeBytes: base64ToUint8(dataBase64).byteLength,
+      dataBase64: data.base64,
+      mimeType: data.mime,
+      sizeBytes: base64ToUint8(data.base64).byteLength,
       width: null,
       height: null,
     };
@@ -173,48 +175,14 @@ export async function resolveRefUrls(mediaIds: string[]): Promise<string[]> {
     const row = await readLocalMedia(id);
     if (!row) continue;
     const url = row.dataBase64
-      ? `data:${row.mimeType};base64,${row.dataBase64}`
+      ? base64ToDataUri(row.dataBase64, row.mimeType)
       : row.r2Url;
     if (url) urls.push(url);
   }
   return urls;
 }
 
-function makeGenerateImage(
-  convId: string,
-  opts: {
-    imageModel?: string | null;
-    imageGroup?: string | null;
-    refUrls?: string[];
-  },
-): NonNullable<AgentRuntime["generateImage"]> {
-  return async (prompt) => {
-    const img = await requestImggen(prompt, opts);
-    if (!img) return null;
-    await upsertLocalMedia({
-      id: img.id,
-      convId,
-      mimeType: img.mimeType,
-      sizeBytes: img.sizeBytes,
-      dataBase64: img.dataBase64,
-      r2Key: null,
-      r2Url: null,
-      width: img.width,
-      height: img.height,
-      promptText: prompt,
-    });
-    return {
-      id: img.id,
-      dataBase64: img.dataBase64,
-      mimeType: img.mimeType,
-      sizeBytes: img.sizeBytes,
-      width: img.width,
-      height: img.height,
-    };
-  };
-}
-
-export type IllustratorRunInput = {
+type IllustratorRunInput = {
   convId: string;
   messageId: string;
   taskId: string;
@@ -230,25 +198,41 @@ export type IllustratorRunInput = {
 export async function runIllustrator(
   input: IllustratorRunInput,
 ): Promise<boolean> {
-  const target = await resolveModelTargetFromStore(input.utilityModel);
+  const target = await resolveModelTarget(input.utilityModel);
   const refUrls = input.refMediaIds?.length
     ? await resolveRefUrls(input.refMediaIds)
     : [];
-  const generateImage = makeGenerateImage(input.convId, {
-    imageModel: input.imageModel,
-    imageGroup: input.imageGroup,
-    refUrls,
-  });
   // The agent pipeline settles every agent, so a failed image would vanish.
   let imageError: unknown;
   const runtime: AgentRuntime = {
     listFreeModels: async () => [target.model],
     generate: target.deps.runUtilityLLM,
-    generateImage: (prompt) =>
-      generateImage(prompt).catch((err: unknown) => {
+    generateImage: async (prompt) => {
+      try {
+        const img = await requestImggen(prompt, {
+          imageModel: input.imageModel,
+          imageGroup: input.imageGroup,
+          refUrls,
+        });
+        if (!img) return null;
+        await upsertLocalMedia({
+          id: img.id,
+          convId: input.convId,
+          mimeType: img.mimeType,
+          sizeBytes: img.sizeBytes,
+          dataBase64: img.dataBase64,
+          r2Key: null,
+          r2Url: null,
+          width: img.width,
+          height: img.height,
+          promptText: prompt,
+        });
+        return img;
+      } catch (err) {
         imageError = err;
         throw err;
-      }),
+      }
+    },
   };
   const pipeline = createAgentPipeline(
     [

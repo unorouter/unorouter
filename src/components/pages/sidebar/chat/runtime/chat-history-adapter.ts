@@ -26,6 +26,8 @@ import { requestImagePromptReview } from "@/components/pages/sidebar/chat/illust
 import { makeTriggerContext, runTriggers } from "@/lib/ai/chat/triggers/vm";
 import type { TriggerScript } from "@/lib/ai/chat/triggers/types";
 import { makeClientTriggerOps } from "@/components/pages/sidebar/chat/runtime/transport/trigger-ops-client";
+import { hasJsHandlers, runJsEditTrigger } from "@/lib/ai/chat/plugins/engine";
+import { autoplayReply } from "@/components/pages/sidebar/chat/rp/voice/voice-run";
 import { insertLocalRequestLog } from "@/lib/db/client/data/chat/request-log";
 import {
   drainSoon,
@@ -210,6 +212,19 @@ function assistantTextOf(content: EncodedContent): string {
     .join("\n");
 }
 
+function mapText(
+  parts: MessagePart[],
+  fn: (text: string) => string | Promise<string>,
+): Promise<MessagePart[]> {
+  return Promise.all(
+    parts.map(async (p) =>
+      p.type === "text" && typeof p.text === "string"
+        ? { ...p, text: await fn(p.text) }
+        : p,
+    ),
+  );
+}
+
 async function applyAssistantOutputTransforms(
   convId: string,
   parts: MessagePart[],
@@ -217,57 +232,31 @@ async function applyAssistantOutputTransforms(
   let out = parts;
   const scripts = await readConvRegexScripts(convId);
   if (scripts.length > 0) {
-    out = out.map((p) =>
-      p.type === "text" && typeof p.text === "string"
-        ? { ...p, text: runRegexScripts(p.text, scripts, "editoutput") }
-        : p,
+    out = await mapText(out, (text) =>
+      runRegexScripts(text, scripts, "editoutput"),
     );
   }
+  const editCtx = makeTriggerContext({
+    mode: "output",
+    vars: {},
+    globalVars: {},
+    chat: [],
+  });
   const triggers = await readConvTriggers(convId);
   if (triggers.length > 0) {
     const { extractLuaCodes, runLuaEditTrigger } =
       await import("@/lib/ai/chat/triggers/lua/engine");
     const luaCodes = extractLuaCodes(triggers);
     if (luaCodes.length > 0) {
-      const editCtx = makeTriggerContext({
-        mode: "output",
-        vars: {},
-        globalVars: {},
-        chat: [],
-      });
-      out = await Promise.all(
-        out.map(async (p) =>
-          p.type === "text" && typeof p.text === "string"
-            ? {
-                ...p,
-                text: await runLuaEditTrigger(
-                  luaCodes,
-                  "editoutput",
-                  editCtx,
-                  p.text,
-                ),
-              }
-            : p,
-        ),
+      out = await mapText(out, (text) =>
+        runLuaEditTrigger(luaCodes, "editoutput", editCtx, text),
       );
     }
     await runOutputTriggers(convId, triggers, out);
   }
-  const { hasJsHandlers, runJsEditTrigger } =
-    await import("@/lib/ai/chat/plugins/engine");
   if (hasJsHandlers("output")) {
-    const editCtx = makeTriggerContext({
-      mode: "output",
-      vars: {},
-      globalVars: {},
-      chat: [],
-    });
-    out = await Promise.all(
-      out.map(async (p) =>
-        p.type === "text" && typeof p.text === "string"
-          ? { ...p, text: await runJsEditTrigger("output", editCtx, p.text) }
-          : p,
-      ),
+    out = await mapText(out, (text) =>
+      runJsEditTrigger("output", editCtx, text),
     );
   }
   return out;
@@ -351,9 +340,6 @@ type BranchPlacement = {
   nextBranchIndex: number;
 };
 
-// Existing siblings MUST be deactivated and the new one take the next
-// branchIndex, else walkActiveBranch picks the wrong tip and a branch switch
-// renders an empty thread.
 // A message is only ever added to the branch on screen, so its ancestors ARE
 // the active branch. A swipe whose switch never reached the database left an
 // older reply inactive under a live continuation, and the next reload from the
@@ -391,6 +377,9 @@ async function activateAncestors(
     logChatDebug("branch.reactivated", { convId, messages: fixed });
 }
 
+// Existing siblings MUST be deactivated and the new one take the next
+// branchIndex, else walkActiveBranch picks the wrong tip and a branch switch
+// renders an empty thread.
 async function placeOnBranch(
   convId: string,
   messageId: string,
@@ -545,6 +534,7 @@ async function fireIllustrator(
       utilityModel: job.utilityModel,
       promptInstruction: job.settings.promptInstruction,
       imageModel: job.settings.imageModel,
+      imageGroup: job.settings.imageGroup,
       refMediaIds: job.settings.refMediaIds,
       reviewPrompt: job.settings.imagePreview
         ? requestImagePromptReview
@@ -602,10 +592,6 @@ export function createChatHistoryAdapter(
             type MsgPage = { messages: ApiMessage[]; total: number };
             type Cached = { pages: MsgPage[]; pageParams: number[] };
 
-            // useMessageMeta mounts the infinite query on the SAME key while
-            // the thread renders, so the cache is usually warm here. Repair
-            // either way: it is idempotent and returns its input untouched
-            // when the chain is whole.
             const cached = queryClient.getQueryData<Cached>([
               ...queryKeys.chatMessages(id),
             ]);
@@ -820,16 +806,12 @@ export function createChatHistoryAdapter(
         }
 
         if (isAssistant && !existingRow && originalAssistantText.trim()) {
-          void import("@/components/pages/sidebar/chat/rp/voice/voice-run")
-            .then((m) =>
-              m.autoplayReply(
-                id,
-                messageId,
-                originalAssistantText,
-                speakingCharId,
-              ),
-            )
-            .catch((e) => handleError(e));
+          void autoplayReply(
+            id,
+            messageId,
+            originalAssistantText,
+            speakingCharId,
+          ).catch((e) => handleError(e));
         }
 
         if (illustratorJob) {
@@ -880,13 +862,7 @@ async function runOutputTriggers(
   const before = JSON.stringify(vars);
   const globalVars = parseStringMap(chatStore.get(globalVarsAtom));
   const globalsBefore = JSON.stringify(globalVars);
-  const replyText = parts
-    .filter(
-      (p): p is MessagePart & { text: string } =>
-        p.type === "text" && typeof p.text === "string",
-    )
-    .map((p) => p.text)
-    .join("\n");
+  const replyText = assistantTextOf({ role: "assistant", parts });
 
   const ctx = makeTriggerContext({
     mode: "output",

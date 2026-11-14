@@ -1,5 +1,4 @@
 "use client";
-import { sleep } from "@/lib/utils/base";
 
 import type { ChatContext } from "@/lib/validation/chat";
 import { walkActiveBranch } from "@/lib/ai/chat/messages";
@@ -17,13 +16,8 @@ import {
 
 export async function buildChatContextFromLocalDb(
   convId: string,
-  opts?: { expectBindings?: boolean },
 ): Promise<ChatContext | undefined> {
   let settings = await readLocalConversationSettings(convId);
-  for (let attempt = 0; !settings && attempt < 5; attempt++) {
-    await sleep(40);
-    settings = await readLocalConversationSettings(convId);
-  }
   if (!settings) return undefined;
 
   {
@@ -35,18 +29,7 @@ export async function buildChatContextFromLocalDb(
     }
   }
 
-  let bindings = await readLocalConversationBindings(convId);
-  for (
-    let attempt = 0;
-    opts?.expectBindings &&
-    (bindings?.conversationCharacters?.length ?? 0) === 0 &&
-    (bindings?.conversationLorebooks?.length ?? 0) === 0 &&
-    attempt < 10;
-    attempt++
-  ) {
-    await sleep(40);
-    bindings = await readLocalConversationBindings(convId);
-  }
+  const bindings = await readLocalConversationBindings(convId);
 
   const charBindings = bindings?.conversationCharacters ?? [];
   const lorebookIds = (bindings?.conversationLorebooks ?? []).map(

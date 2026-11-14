@@ -3,14 +3,14 @@ import { logChatDebug } from "@/lib/utils/chat-debug-log";
 
 const LAG_PROBE_MS = 250;
 
-// Splits one reply's wait into phases, so a slow report shows whether the time
-// went to our assembly, the upstream's first byte, its thinking, or a busy page.
 function roundDb(d: Record<string, number>) {
   return Object.fromEntries(
     Object.entries(d).map(([k, v]) => [k, Math.round(v)]),
   );
 }
 
+// Splits one reply's wait into phases, so a slow report shows whether the time
+// went to our assembly, the upstream's first byte, its thinking, or a busy page.
 export function makeStreamTimer(model: string) {
   const t0 = performance.now();
   const marks: Record<string, number> = {};

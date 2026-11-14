@@ -46,8 +46,7 @@ type SeedArgs = {
   noModelsError: string;
 };
 
-// Idempotency key for the send-wrapper vs initialize race assistant-ui runs unordered.
-// Creation MUST stay awaited-before-send or a fast first send assembles without the greeting.
+// The send wrapper and thread initialize both seed, unordered; send MUST await it.
 const seeding = new Map<string, Promise<void>>();
 
 export function seedConversation(args: SeedArgs): Promise<void> {
@@ -83,10 +82,9 @@ async function seed(args: SeedArgs): Promise<void> {
     CHAT_STORE_KEY,
     INITIAL_CHAT_STATE,
   );
-  const atomDefaults = chatStore.get(chatDefaultsAtom);
   const defaults = {
     ...(cookieState.defaults ?? {}),
-    ...atomDefaults,
+    ...chatStore.get(chatDefaultsAtom),
   };
   const loadout = chatStore.get(chatLoadoutAtom);
   const hasPreset = !!loadout.presetId;
@@ -111,7 +109,7 @@ async function seed(args: SeedArgs): Promise<void> {
     systemPromptOverride: null,
     authorNote: null,
     authorNoteDepth: DEFAULT_AUTHOR_NOTE_DEPTH,
-    chatMemory: hasPreset ? null : (defaults.chatMemory ?? null),
+    chatMemory: seedField("chatMemory"),
     reasoningEffort: defaults.reasoningEffort ?? null,
     webSearchEnabled: defaults.webSearchEnabled ?? false,
     webSearchEngine: defaults.webSearchEngine ?? "auto",
@@ -125,11 +123,11 @@ async function seed(args: SeedArgs): Promise<void> {
     presencePenalty: seedField("presencePenalty"),
     repetitionPenalty: seedField("repetitionPenalty"),
     maxTokens: seedMaxTokens,
-    extraBody: hasPreset ? null : (defaults.extraBody ?? null),
-    streamingEnabled: hasPreset ? null : (defaults.streamingEnabled ?? null),
+    extraBody: seedField("extraBody"),
+    streamingEnabled: seedField("streamingEnabled"),
     autoScrollStream:
       boundPreset?.autoScrollStream ?? defaults.autoScrollStream ?? null,
-    showReasoning: hasPreset ? null : (defaults.showReasoning ?? null),
+    showReasoning: seedField("showReasoning"),
     memoryEnabled: seedField("memoryEnabled"),
     imageEnabled: seedField("imageEnabled"),
     voiceEnabled: defaults.voiceEnabled ?? null,
@@ -153,7 +151,7 @@ async function seed(args: SeedArgs): Promise<void> {
     lorebookCount: loadout.lorebookIds.length,
     temperature: seedField("temperature"),
     maxTokens: seedMaxTokens,
-    chatMemory: hasPreset ? null : (defaults.chatMemory ?? null),
+    chatMemory: seedField("chatMemory"),
     defaultsPresent: Object.entries(defaults)
       .filter(([, v]) => v != null)
       .map(([k]) => k),

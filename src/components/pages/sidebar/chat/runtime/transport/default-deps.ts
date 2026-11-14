@@ -12,9 +12,6 @@ import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { makeClientTriggerOps } from "@/components/pages/sidebar/chat/runtime/transport/trigger-ops-client";
 
-// One model, fetched (and then cached by React Query) on demand. The old
-// version scanned a full pricing payload held in the query cache, which is why
-// every chat surface had to load the whole catalog just to send a message.
 async function fetchModelInfo(
   model: string,
 ): Promise<PricingCatalogDetail | undefined> {
@@ -35,24 +32,19 @@ async function fetchModelInfo(
   }
 }
 
-function llmCall(model: string, group?: string | null): FreeModelGenerate {
-  return async (_modelName, opts) => {
-    const prompt = opts.systemPrompt
-      ? `<|im_start|>system<|im_sep|>${opts.systemPrompt}<|im_end|><|im_start|>user<|im_sep|>${opts.prompt}<|im_end|>`
-      : opts.prompt;
-    const text = handleElysia(
-      await rpc.api.ai.chat["trigger-op"].llm.post({
-        prompt,
-        model,
-        ...(group ? { group } : {}),
-      }),
-    );
-    return { text };
-  };
-}
-
-const runUtilityLLM: FreeModelGenerate = (modelName, opts) =>
-  llmCall(modelName, opts.group)("", opts);
+const runUtilityLLM: FreeModelGenerate = async (model, opts) => {
+  const prompt = opts.systemPrompt
+    ? `<|im_start|>system<|im_sep|>${opts.systemPrompt}<|im_end|><|im_start|>user<|im_sep|>${opts.prompt}<|im_end|>`
+    : opts.prompt;
+  const text = handleElysia(
+    await rpc.api.ai.chat["trigger-op"].llm.post({
+      prompt,
+      model,
+      ...(opts.group ? { group: opts.group } : {}),
+    }),
+  );
+  return { text };
+};
 
 export function buildDefaultClientDeps(): AssemblerDeps {
   return {

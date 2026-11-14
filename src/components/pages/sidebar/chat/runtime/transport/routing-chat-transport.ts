@@ -36,10 +36,15 @@ import {
   stashOutgoingRequest,
 } from "@/lib/utils/chat-debug-log";
 import {
+  activeConvOverridesAtom,
+  chatDefaultsAtom,
   chatGroupAtom,
-  groupByModelAtom,
   chatModelAtom,
   chatStore,
+  chatWebSearchAtom,
+  globalVarsAtom,
+  groupByModelAtom,
+  speakingCharacterIdAtom,
 } from "@/store/chat-store";
 import { authUserId } from "@/hooks/auth/auth-hook";
 import getQueryClient from "@/lib/react-query/client";
@@ -48,23 +53,23 @@ import { handleElysia } from "@/lib/utils/base";
 import { queryKeys } from "@/lib/react-query/keys";
 import { isMediaType } from "@/lib/api/pricing";
 import { gatewayCodeMessage } from "@/lib/api/own-purpose";
-import type { PricingCatalogData } from "@/openapi";
-import {
-  buildChatRequestBody,
-  buildMediaRequestBody,
-} from "@/components/pages/sidebar/chat/runtime/transport/chat-transport";
-import { resolveModelTargetFromStore } from "@/components/pages/sidebar/chat/runtime/transport/resolve-model-target";
+import { dayjs } from "@/lib/utils/format/date";
+import { buildChatContextFromLocalDb } from "@/lib/db/client/data/chat/chat-context";
+import { resolveModelTarget } from "@/components/pages/sidebar/chat/runtime/transport/resolve-model-target";
 import { makeStreamTimer } from "@/components/pages/sidebar/chat/runtime/transport/stream-timer";
-import { readConvHistoryForSend } from "@/lib/db/client/data/chat/chat";
+import {
+  readConvHistoryForSend,
+  readLocalMessages,
+} from "@/lib/db/client/data/chat/chat";
 
 type SendOptions = Parameters<ChatTransport<ChatUIMessage>["sendMessages"]>[0];
 
-// toUIMessageStream flattens the stream error to a STRING, so the detail ships as a
-// JSON envelope the card parses back.
 // The sdk's wording when the response body stops mid-read: the connection
 // dropped, the request itself had succeeded.
 const BODY_READ_FAILED = "Failed to process successful response";
 
+// toUIMessageStream flattens the stream error to a STRING, so the detail ships as a
+// JSON envelope the card parses back.
 function streamErrorText(error: unknown): string {
   const detail = extractErrorDetail(error);
   return JSON.stringify({
@@ -101,16 +106,13 @@ function prefillOpensThink(
 // The catalog decides media versus text. An empty cache used to mean "text",
 // which sent an image model down chat completions.
 async function isMediaModel(model: string): Promise<boolean> {
-  const client = getQueryClient();
-  const data: PricingCatalogData | undefined =
-    client.getQueryData<PricingCatalogData>(queryKeys.pricingCatalog()) ??
-    (await client
-      .ensureQueryData({
-        queryKey: queryKeys.pricingCatalog(),
-        queryFn: async () =>
-          handleElysia(await rpc.api.models.pricing.catalog.get()),
-      })
-      .catch(() => undefined));
+  const data = await getQueryClient()
+    .ensureQueryData({
+      queryKey: queryKeys.pricingCatalog(),
+      queryFn: async () =>
+        handleElysia(await rpc.api.models.pricing.catalog.get()),
+    })
+    .catch(() => undefined);
   return isMediaType(data?.models?.find((m) => m.model_name === model)?.type);
 }
 
@@ -156,6 +158,40 @@ async function mergeDbHistory(
   return [...base, ...suffix];
 }
 
+async function buildChatRequestBody(convId: string | null) {
+  const chatContext = convId
+    ? await buildChatContextFromLocalDb(convId)
+    : undefined;
+  let messageTimes: Record<string, number> | undefined;
+  if (convId) {
+    const rows = await readLocalMessages(convId);
+    if (rows && rows.length > 0) {
+      messageTimes = {};
+      for (const r of rows) {
+        messageTimes[r.id] = dayjs(r.createdAt).valueOf();
+      }
+    }
+  }
+  return {
+    model: chatStore.get(chatModelAtom),
+    convId,
+    webSearch: chatStore.get(chatWebSearchAtom),
+    group: chatStore.get(chatGroupAtom),
+    overrides:
+      chatStore.get(activeConvOverridesAtom) ?? chatStore.get(chatDefaultsAtom),
+    chatContext,
+    globalVars: chatStore.get(globalVarsAtom),
+    speakingCharacterId: chatStore.get(speakingCharacterIdAtom),
+    messageTimes,
+    clientEnv: {
+      viewportW: window.innerWidth,
+      viewportH: window.innerHeight,
+      locale: Intl.DateTimeFormat().resolvedOptions().locale,
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    },
+  };
+}
+
 async function runClientStream(args: {
   apiKey: string;
   baseURL: string;
@@ -168,22 +204,29 @@ async function runClientStream(args: {
   includeUsage?: boolean;
 }): Promise<ReadableStream<UIMessageChunk>> {
   const timer = makeStreamTimer(args.model);
-  const history = await mergeDbHistory(args.getConvId(), args.options.messages);
-  timer.mark("history");
-  const fields = await buildChatRequestBody(args.getConvId);
-  const body = {
-    ...fields,
-    model: args.model,
-    messages: history,
-    ...(args.tokenizer ? { tokenizer: args.tokenizer } : {}),
-  };
-  const prepared: PreparedChatRequest = await prepareChatRequest(
-    args.apiKey,
-    body,
-    authUserId(),
-    args.deps,
-    args.options.abortSignal,
-  );
+  let body: Parameters<typeof prepareChatRequest>[1];
+  let prepared: PreparedChatRequest;
+  try {
+    const convId = args.getConvId();
+    const history = await mergeDbHistory(convId, args.options.messages);
+    timer.mark("history");
+    body = {
+      ...(await buildChatRequestBody(convId)),
+      model: args.model,
+      messages: history,
+      ...(args.tokenizer ? { tokenizer: args.tokenizer } : {}),
+    };
+    prepared = await prepareChatRequest(
+      args.apiKey,
+      body,
+      authUserId(),
+      args.deps,
+      args.options.abortSignal,
+    );
+  } catch (err) {
+    timer.end("prepare_error");
+    throw err;
+  }
   timer.mark("prepared");
 
   const group = chatStore.get(chatGroupAtom);
@@ -270,6 +313,7 @@ async function runClientStream(args: {
     });
 
   if (prepared.stopRequested) {
+    timer.end("stopped");
     return createUIMessageStream({
       execute: ({ writer }) => {
         for (const a of prepared.startAlerts) {
@@ -320,8 +364,6 @@ async function runClientStream(args: {
       const isEmptyStream = detail.message
         .toLowerCase()
         .includes("no output generated");
-      // A cut-off is reported by the user rather than caught here, so the
-      // counts have to be in the log they send back.
       logChatDebug("stream.failed", {
         model: args.model,
         group: group ?? null,
@@ -374,13 +416,10 @@ async function runClientStream(args: {
   // makes the copy a SECOND message, so the previous character's reply renders
   // and persists twice; keeping the id lets the sdk replace its own message.
   const last = args.options.messages.at(-1);
-  const continuedId =
-    args.options.messageId && last?.role === "assistant"
-      ? last.id === args.options.messageId
-        ? args.options.messageId
-        : null
-      : null;
-  const responseMessageId = continuedId ?? uid();
+  const responseMessageId =
+    last?.role === "assistant" && last.id === args.options.messageId
+      ? last.id
+      : uid();
   const uiStream = toUIMessageStream({
     stream: result.stream,
     generateMessageId: () => responseMessageId,
@@ -450,26 +489,12 @@ export function makeRoutingTransport(
 ): ChatTransport<ChatUIMessage> {
   const mediaTransport = new DefaultChatTransport<ChatUIMessage>({
     api: "/api/ai/chat/stream",
-    body: () => buildMediaRequestBody(getConvId),
+    body: () => ({
+      model: chatStore.get(chatModelAtom),
+      convId: getConvId(),
+      group: chatStore.get(chatGroupAtom),
+    }),
   });
-
-  const sendText = async (
-    modelId: string,
-    options: SendOptions,
-  ): Promise<ReadableStream<UIMessageChunk>> => {
-    const target = await resolveModelTargetFromStore(modelId);
-    return runClientStream({
-      apiKey: target.apiKey,
-      baseURL: target.baseURL,
-      model: target.model,
-      deps: target.deps,
-      options,
-      getConvId,
-      ...(target.tokenizer ? { tokenizer: target.tokenizer } : {}),
-      ...(target.extraHeaders ? { extraHeaders: target.extraHeaders } : {}),
-      ...(target.isCustom ? {} : { includeUsage: true }),
-    });
-  };
 
   return {
     sendMessages: async (options) => {
@@ -477,7 +502,18 @@ export function makeRoutingTransport(
       const modelId = chatStore.get(chatModelAtom) ?? "";
       if (await isMediaModel(modelId))
         return mediaTransport.sendMessages(options);
-      return sendText(modelId, options);
+      const target = await resolveModelTarget(modelId);
+      return runClientStream({
+        apiKey: target.apiKey,
+        baseURL: target.baseURL,
+        model: target.model,
+        deps: target.deps,
+        options,
+        getConvId,
+        ...(target.tokenizer ? { tokenizer: target.tokenizer } : {}),
+        ...(target.extraHeaders ? { extraHeaders: target.extraHeaders } : {}),
+        ...(target.isCustom ? {} : { includeUsage: true }),
+      });
     },
     reconnectToStream: async () => null,
   };
