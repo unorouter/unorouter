@@ -4340,7 +4340,9 @@
       "IMAGE_REFS": "参照画像",
       "IMAGE_REFS_ADD": "追加",
       "IMAGE_REFS_HINT": "チャット内の画像生成ごとに最大6枚の画像を参照として送信します。対応はモデルにより異なります。",
-      "IMAGE_STYLE_TEMPLATE": "スタイルテンプレート"
+      "IMAGE_STYLE_TEMPLATE": "スタイルテンプレート",
+      "VOICE_ENABLED": "音声",
+      "VOICE_ENABLED_HINT": "音声設定でこのチャットを読み上げます。オフにするとこのチャットは読み上げません。"
     },
     "SAMPLING": {
       "UNSUPPORTED": "このモデルを提供するすべてのプロバイダーで対応していません。設定しても効果はありません。",
@@ -4617,7 +4619,10 @@
       "PLAY": "読み上げる",
       "STOP": "読み上げを停止",
       "CHARACTER_VOICE": "声",
-      "CHARACTER_VOICE_HINT": "このキャラクターの Fish Audio の声。空欄なら音声設定のデフォルトの声を使います。"
+      "CHARACTER_VOICE_HINT": "このキャラクターの Fish Audio の声。空欄なら音声設定のデフォルトの声を使います。",
+      "PAUSE": "一時停止",
+      "RESUME": "再開",
+      "LOADING": "音声を生成中"
     }
   },
   "ROOM": {

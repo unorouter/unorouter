@@ -4340,7 +4340,9 @@
       "IMAGE_REFS": "Referenzbilder",
       "IMAGE_REFS_ADD": "Hinzufügen",
       "IMAGE_REFS_HINT": "Bis zu 6 Bilder werden bei jeder Generierung im Chat als Referenz mitgesendet. Modellunterstützung variiert.",
-      "IMAGE_STYLE_TEMPLATE": "Stilvorlage"
+      "IMAGE_STYLE_TEMPLATE": "Stilvorlage",
+      "VOICE_ENABLED": "Stimme",
+      "VOICE_ENABLED_HINT": "Diesen Chat mit deinen Stimmeinstellungen vorlesen. Ausschalten, damit dieser Chat stumm bleibt."
     },
     "SAMPLING": {
       "UNSUPPORTED": "Wird nicht von allen Anbietern dieses Modells unterstützt. Eine Änderung hat keine Wirkung.",
@@ -4617,7 +4619,10 @@
       "PLAY": "Vorlesen",
       "STOP": "Vorlesen stoppen",
       "CHARACTER_VOICE": "Stimme",
-      "CHARACTER_VOICE_HINT": "Fish-Audio-Stimme für diesen Charakter. Leer lassen für die Standardstimme aus den Stimmeinstellungen."
+      "CHARACTER_VOICE_HINT": "Fish-Audio-Stimme für diesen Charakter. Leer lassen für die Standardstimme aus den Stimmeinstellungen.",
+      "PAUSE": "Pausieren",
+      "RESUME": "Fortsetzen",
+      "LOADING": "Audio wird erzeugt"
     }
   },
   "ROOM": {

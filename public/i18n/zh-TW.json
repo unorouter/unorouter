@@ -4340,7 +4340,9 @@
       "IMAGE_REFS": "參考圖",
       "IMAGE_REFS_ADD": "新增",
       "IMAGE_REFS_HINT": "聊天中每次生成最多傳送 6 張參考圖。支援情況因模型而異。",
-      "IMAGE_STYLE_TEMPLATE": "風格模板"
+      "IMAGE_STYLE_TEMPLATE": "風格模板",
+      "VOICE_ENABLED": "語音",
+      "VOICE_ENABLED_HINT": "依你的語音設定朗讀此聊天。關閉後此聊天不再朗讀。"
     },
     "SAMPLING": {
       "UNSUPPORTED": "此模型並非所有提供者都支援。設定後不會生效。",
@@ -4617,7 +4619,10 @@
       "PLAY": "朗讀",
       "STOP": "停止朗讀",
       "CHARACTER_VOICE": "聲音",
-      "CHARACTER_VOICE_HINT": "這個角色的 Fish Audio 聲音。留空則使用語音設定中的預設聲音。"
+      "CHARACTER_VOICE_HINT": "這個角色的 Fish Audio 聲音。留空則使用語音設定中的預設聲音。",
+      "PAUSE": "暫停",
+      "RESUME": "繼續",
+      "LOADING": "正在產生音訊"
     }
   },
   "ROOM": {

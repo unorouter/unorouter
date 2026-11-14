@@ -7,6 +7,7 @@ import {
   MAX_TTS_TEXT,
   type FishTtsBody,
 } from "@/lib/validation/voice";
+import { chatStore } from "@/store/chat-store";
 import { atom } from "jotai";
 
 const QUOTE_RE =
@@ -103,8 +104,11 @@ async function synthesize(apiKey: string, body: FishTtsBody): Promise<Blob> {
   return res.blob();
 }
 
-// The key of whatever is playing or loading, so its button can show stop.
-export const playingVoiceAtom = atom<string | null>(null);
+// Whatever is loading, playing or paused, so its button can switch.
+export type VoicePlayback = { key: string; paused: boolean; loading: boolean };
+export const voicePlaybackAtom = atom<VoicePlayback | null>(null);
+const setPlayback = (v: VoicePlayback | null) =>
+  chatStore.set(voicePlaybackAtom, v);
 
 // iOS only lets audio start without a tap once a tap has resumed the context,
 // so one AudioContext is resumed on the first touch and reused.
@@ -132,7 +136,7 @@ export function primeVoicePlayback() {
   );
 }
 
-export function stopVoice(set: (key: string | null) => void) {
+export function stopVoice() {
   generation++;
   const playing = source;
   source = null;
@@ -140,7 +144,23 @@ export function stopVoice(set: (key: string | null) => void) {
     playing.onended = null;
     playing.stop();
   }
-  set(null);
+  setPlayback(null);
+}
+
+// Suspending the context freezes the one source in place; resuming continues
+// it without asking Fish again.
+export function pauseVoice() {
+  const current = chatStore.get(voicePlaybackAtom);
+  if (!ctx || !source || !current) return;
+  void ctx.suspend();
+  setPlayback({ key: current.key, paused: true, loading: false });
+}
+
+export function resumeVoice() {
+  const current = chatStore.get(voicePlaybackAtom);
+  if (!ctx || !source || !current) return;
+  void ctx.resume();
+  setPlayback({ key: current.key, paused: false, loading: false });
 }
 
 export async function speak(
@@ -148,13 +168,12 @@ export async function speak(
   settings: VoiceSettingsRow,
   text: string,
   characterVoiceId: string | null,
-  set: (key: string | null) => void,
 ): Promise<void> {
   const body = buildTtsBody(settings, text, characterVoiceId);
   if (!body) return;
-  stopVoice(set);
+  stopVoice();
   const mine = generation;
-  set(key);
+  setPlayback({ key, paused: false, loading: true });
   try {
     const ac = context();
     const blob = await synthesize(settings.apiKey, body);
@@ -165,12 +184,13 @@ export async function speak(
     node.buffer = buffer;
     node.connect(ac.destination);
     node.onended = () => {
-      if (source === node) stopVoice(set);
+      if (source === node) stopVoice();
     };
     source = node;
     node.start();
+    setPlayback({ key, paused: false, loading: false });
   } catch (err) {
-    if (mine === generation) stopVoice(set);
+    if (mine === generation) stopVoice();
     throw err;
   }
 }

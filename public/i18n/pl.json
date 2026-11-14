@@ -4340,7 +4340,9 @@
       "IMAGE_REFS": "Obrazy referencyjne",
       "IMAGE_REFS_ADD": "Dodaj",
       "IMAGE_REFS_HINT": "Do 6 obrazów wysyłanych jako referencje przy każdym generowaniu na czacie. Wsparcie zależy od modelu.",
-      "IMAGE_STYLE_TEMPLATE": "Szablon stylu"
+      "IMAGE_STYLE_TEMPLATE": "Szablon stylu",
+      "VOICE_ENABLED": "Głos",
+      "VOICE_ENABLED_HINT": "Czytaj ten czat na głos według ustawień głosu. Wyłącz, aby ten czat pozostał cichy."
     },
     "SAMPLING": {
       "UNSUPPORTED": "Nie obsługiwane przez wszystkich dostawców obsługujących ten model. Ustawienie tego nie ma efektu.",
@@ -4617,7 +4619,10 @@
       "PLAY": "Czytaj na głos",
       "STOP": "Zatrzymaj czytanie",
       "CHARACTER_VOICE": "Głos",
-      "CHARACTER_VOICE_HINT": "Głos Fish Audio dla tej postaci. Zostaw puste, aby użyć głosu domyślnego z ustawień głosu."
+      "CHARACTER_VOICE_HINT": "Głos Fish Audio dla tej postaci. Zostaw puste, aby użyć głosu domyślnego z ustawień głosu.",
+      "PAUSE": "Wstrzymaj",
+      "RESUME": "Wznów",
+      "LOADING": "Generowanie dźwięku"
     }
   },
   "ROOM": {

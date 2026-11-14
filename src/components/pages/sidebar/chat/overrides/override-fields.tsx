@@ -319,6 +319,30 @@ export function OverridesGenerationFields(props: {
         {t("CHAT.OVERRIDES.AUTO_SCROLL_STREAM_HINT")}
       </span>
 
+      <div className="flex flex-col gap-1 border-t pt-3">
+        <FormField
+          control={props.control}
+          name="voiceEnabled"
+          render={(r) => (
+            <FormItem className="flex-row items-center gap-2">
+              <FormLabel className="text-xs">
+                {t("CHAT.OVERRIDES.VOICE_ENABLED")}
+              </FormLabel>
+              <FormControl>
+                <Switch
+                  size="sm"
+                  checked={r.field.value}
+                  onCheckedChange={r.field.onChange}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <span className="text-muted-foreground text-xs">
+          {t("CHAT.OVERRIDES.VOICE_ENABLED_HINT")}
+        </span>
+      </div>
+
       <div className="flex flex-col gap-3 border-t pt-3">
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
           <FormField

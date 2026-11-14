@@ -132,6 +132,7 @@ async function seed(args: SeedArgs): Promise<void> {
     showReasoning: hasPreset ? null : (defaults.showReasoning ?? null),
     memoryEnabled: seedField("memoryEnabled"),
     imageEnabled: seedField("imageEnabled"),
+    voiceEnabled: defaults.voiceEnabled ?? null,
     utilityModel: seedField("utilityModel"),
     titleModel: seedField("titleModel"),
     titlePrompt: seedField("titlePrompt"),

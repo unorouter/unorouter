@@ -190,6 +190,7 @@ export function formReasoningEffortToValue(
 const toolSettings = {
   memoryEnabled: t.Optional(t.Union([t.Boolean(), t.Null()])),
   imageEnabled: t.Optional(t.Union([t.Boolean(), t.Null()])),
+  voiceEnabled: t.Optional(t.Union([t.Boolean(), t.Null()])),
   utilityModel: t.Optional(
     t.Union([t.String({ maxLength: MAX_MODEL_LEN }), t.Null()]),
   ),

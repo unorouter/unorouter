@@ -119,6 +119,7 @@ import PanelLeft from "lucide-react/dist/esm/icons/panel-left.mjs";
 import Pencil from "lucide-react/dist/esm/icons/pencil.mjs";
 import PencilRuler from "lucide-react/dist/esm/icons/pencil-ruler.mjs";
 import Percent from "lucide-react/dist/esm/icons/percent.mjs";
+import Pause from "lucide-react/dist/esm/icons/pause.mjs";
 import Play from "lucide-react/dist/esm/icons/play.mjs";
 import Plus from "lucide-react/dist/esm/icons/plus.mjs";
 import Power from "lucide-react/dist/esm/icons/power.mjs";
@@ -266,6 +267,7 @@ export const LUCIDE_STATIC: Record<string, IconComponent> = {
   pencil: Pencil,
   "pencil-ruler": PencilRuler,
   percent: Percent,
+  pause: Pause,
   play: Play,
   plus: Plus,
   power: Power,

@@ -4340,7 +4340,9 @@
       "IMAGE_REFS": "Images de référence",
       "IMAGE_REFS_ADD": "Ajouter",
       "IMAGE_REFS_HINT": "Jusqu'à 6 images sont envoyées comme références à chaque génération dans le chat. La prise en charge varie selon le modèle.",
-      "IMAGE_STYLE_TEMPLATE": "Modèle de style"
+      "IMAGE_STYLE_TEMPLATE": "Modèle de style",
+      "VOICE_ENABLED": "Voix",
+      "VOICE_ENABLED_HINT": "Lit ce chat à voix haute avec tes réglages de voix. Désactive-le pour garder ce chat silencieux."
     },
     "SAMPLING": {
       "UNSUPPORTED": "Non pris en charge par tous les fournisseurs de ce modèle. Le définir n'a aucun effet.",
@@ -4617,7 +4619,10 @@
       "PLAY": "Lire à voix haute",
       "STOP": "Arrêter la lecture",
       "CHARACTER_VOICE": "Voix",
-      "CHARACTER_VOICE_HINT": "Voix Fish Audio de ce personnage. Laisse vide pour utiliser la voix par défaut des réglages de voix."
+      "CHARACTER_VOICE_HINT": "Voix Fish Audio de ce personnage. Laisse vide pour utiliser la voix par défaut des réglages de voix.",
+      "PAUSE": "Pause",
+      "RESUME": "Reprendre",
+      "LOADING": "Génération de l’audio"
     }
   },
   "ROOM": {

@@ -4340,7 +4340,9 @@
       "IMAGE_REFS": "Ảnh tham chiếu",
       "IMAGE_REFS_ADD": "Thêm",
       "IMAGE_REFS_HINT": "Tối đa 6 ảnh được gửi làm tham chiếu với mỗi lần tạo trong trò chuyện. Hỗ trợ tùy theo mô hình.",
-      "IMAGE_STYLE_TEMPLATE": "Mẫu phong cách"
+      "IMAGE_STYLE_TEMPLATE": "Mẫu phong cách",
+      "VOICE_ENABLED": "Giọng nói",
+      "VOICE_ENABLED_HINT": "Đọc to cuộc trò chuyện này theo cài đặt giọng nói của bạn. Tắt để cuộc trò chuyện này im lặng."
     },
     "SAMPLING": {
       "UNSUPPORTED": "Không phải tất cả nhà cung cấp của mô hình này đều hỗ trợ. Đặt giá trị sẽ không có tác dụng.",
@@ -4617,7 +4619,10 @@
       "PLAY": "Đọc to",
       "STOP": "Dừng đọc",
       "CHARACTER_VOICE": "Giọng nói",
-      "CHARACTER_VOICE_HINT": "Giọng Fish Audio cho nhân vật này. Để trống để dùng giọng mặc định trong cài đặt giọng nói."
+      "CHARACTER_VOICE_HINT": "Giọng Fish Audio cho nhân vật này. Để trống để dùng giọng mặc định trong cài đặt giọng nói.",
+      "PAUSE": "Tạm dừng",
+      "RESUME": "Tiếp tục",
+      "LOADING": "Đang tạo âm thanh"
     }
   },
   "ROOM": {

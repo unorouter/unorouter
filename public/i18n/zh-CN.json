@@ -4340,7 +4340,9 @@
       "IMAGE_REFS": "参考图",
       "IMAGE_REFS_ADD": "添加",
       "IMAGE_REFS_HINT": "聊天中每次生成最多发送 6 张参考图。支持情况因模型而异。",
-      "IMAGE_STYLE_TEMPLATE": "风格模板"
+      "IMAGE_STYLE_TEMPLATE": "风格模板",
+      "VOICE_ENABLED": "语音",
+      "VOICE_ENABLED_HINT": "按你的语音设置朗读此聊天。关闭后此聊天不再朗读。"
     },
     "SAMPLING": {
       "UNSUPPORTED": "并非该模型的所有提供方都支持。设置后不会生效。",
@@ -4617,7 +4619,10 @@
       "PLAY": "朗读",
       "STOP": "停止朗读",
       "CHARACTER_VOICE": "声音",
-      "CHARACTER_VOICE_HINT": "该角色的 Fish Audio 声音。留空则使用语音设置中的默认声音。"
+      "CHARACTER_VOICE_HINT": "该角色的 Fish Audio 声音。留空则使用语音设置中的默认声音。",
+      "PAUSE": "暂停",
+      "RESUME": "继续",
+      "LOADING": "正在生成音频"
     }
   },
   "ROOM": {

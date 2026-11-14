@@ -134,6 +134,13 @@
       "when": 1794617950828,
       "tag": "0018_first_sentry",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "6",
+      "when": 1794620220421,
+      "tag": "0019_red_veda",
+      "breakpoints": true
     }
   ]
 }

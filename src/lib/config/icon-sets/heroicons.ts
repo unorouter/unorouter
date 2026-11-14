@@ -85,52 +85,53 @@ import i81 from "@heroicons/react/24/outline/PaintBrushIcon";
 import i82 from "@heroicons/react/24/outline/PencilIcon";
 import i83 from "@heroicons/react/24/outline/PencilSquareIcon";
 import i84 from "@heroicons/react/24/outline/PercentBadgeIcon";
-import i85 from "@heroicons/react/24/outline/PlayIcon";
-import i86 from "@heroicons/react/24/outline/PlusIcon";
-import i87 from "@heroicons/react/24/outline/PowerIcon";
+import i85 from "@heroicons/react/24/outline/PauseIcon";
+import i86 from "@heroicons/react/24/outline/PlayIcon";
+import i87 from "@heroicons/react/24/outline/PlusIcon";
 import i88 from "@heroicons/react/24/outline/PowerIcon";
-import i89 from "@heroicons/react/24/outline/ArrowPathIcon";
+import i89 from "@heroicons/react/24/outline/PowerIcon";
 import i90 from "@heroicons/react/24/outline/ArrowPathIcon";
-import i91 from "@heroicons/react/24/outline/ArrowPathRoundedSquareIcon";
-import i92 from "@heroicons/react/24/outline/ArrowUturnLeftIcon";
-import i93 from "@heroicons/react/24/outline/ArrowUturnRightIcon";
-import i94 from "@heroicons/react/24/outline/RssIcon";
-import i95 from "@heroicons/react/24/outline/DocumentTextIcon";
-import i96 from "@heroicons/react/24/outline/MagnifyingGlassIcon";
-import i97 from "@heroicons/react/24/outline/PaperAirplaneIcon";
-import i98 from "@heroicons/react/24/outline/ServerIcon";
-import i99 from "@heroicons/react/24/outline/Cog6ToothIcon";
-import i100 from "@heroicons/react/24/outline/ShieldCheckIcon";
+import i91 from "@heroicons/react/24/outline/ArrowPathIcon";
+import i92 from "@heroicons/react/24/outline/ArrowPathRoundedSquareIcon";
+import i93 from "@heroicons/react/24/outline/ArrowUturnLeftIcon";
+import i94 from "@heroicons/react/24/outline/ArrowUturnRightIcon";
+import i95 from "@heroicons/react/24/outline/RssIcon";
+import i96 from "@heroicons/react/24/outline/DocumentTextIcon";
+import i97 from "@heroicons/react/24/outline/MagnifyingGlassIcon";
+import i98 from "@heroicons/react/24/outline/PaperAirplaneIcon";
+import i99 from "@heroicons/react/24/outline/ServerIcon";
+import i100 from "@heroicons/react/24/outline/Cog6ToothIcon";
 import i101 from "@heroicons/react/24/outline/ShieldCheckIcon";
-import i102 from "@heroicons/react/24/outline/AdjustmentsHorizontalIcon";
-import i103 from "@heroicons/react/24/outline/SparklesIcon";
-import i104 from "@heroicons/react/24/outline/StarIcon";
-import i105 from "@heroicons/react/24/outline/SunIcon";
-import i106 from "@heroicons/react/24/outline/TagIcon";
-import i107 from "@heroicons/react/24/outline/CommandLineIcon";
-import i108 from "@heroicons/react/24/outline/TicketIcon";
-import i109 from "@heroicons/react/24/outline/TrashIcon";
-import i110 from "@heroicons/react/24/outline/TrophyIcon";
-import i111 from "@heroicons/react/24/outline/ArrowUpTrayIcon";
-import i112 from "@heroicons/react/24/outline/UserIcon";
-import i113 from "@heroicons/react/24/outline/UserPlusIcon";
-import i114 from "@heroicons/react/24/outline/UsersIcon";
-import i115 from "@heroicons/react/24/outline/VideoCameraIcon";
-import i116 from "@heroicons/react/24/outline/WalletIcon";
-import i117 from "@heroicons/react/24/outline/SparklesIcon";
-import i118 from "@heroicons/react/24/outline/BoltIcon";
-import i119 from "@heroicons/react/24/outline/TableCellsIcon";
-import i120 from "@heroicons/react/24/outline/ArrowsPointingOutIcon";
-import i121 from "@heroicons/react/24/outline/AdjustmentsHorizontalIcon";
-import i122 from "@heroicons/react/24/outline/TrashIcon";
-import i123 from "@heroicons/react/24/outline/XCircleIcon";
-import i124 from "@heroicons/react/24/outline/ExclamationCircleIcon";
-import i125 from "@heroicons/react/24/outline/DocumentTextIcon";
-import i126 from "@heroicons/react/24/outline/StopIcon";
-import i127 from "@heroicons/react/24/outline/WrenchIcon";
-import i128 from "@heroicons/react/24/outline/ListBulletIcon";
-import i129 from "@heroicons/react/24/outline/PlusCircleIcon";
-import i130 from "@heroicons/react/24/outline/CreditCardIcon";
+import i102 from "@heroicons/react/24/outline/ShieldCheckIcon";
+import i103 from "@heroicons/react/24/outline/AdjustmentsHorizontalIcon";
+import i104 from "@heroicons/react/24/outline/SparklesIcon";
+import i105 from "@heroicons/react/24/outline/StarIcon";
+import i106 from "@heroicons/react/24/outline/SunIcon";
+import i107 from "@heroicons/react/24/outline/TagIcon";
+import i108 from "@heroicons/react/24/outline/CommandLineIcon";
+import i109 from "@heroicons/react/24/outline/TicketIcon";
+import i110 from "@heroicons/react/24/outline/TrashIcon";
+import i111 from "@heroicons/react/24/outline/TrophyIcon";
+import i112 from "@heroicons/react/24/outline/ArrowUpTrayIcon";
+import i113 from "@heroicons/react/24/outline/UserIcon";
+import i114 from "@heroicons/react/24/outline/UserPlusIcon";
+import i115 from "@heroicons/react/24/outline/UsersIcon";
+import i116 from "@heroicons/react/24/outline/VideoCameraIcon";
+import i117 from "@heroicons/react/24/outline/WalletIcon";
+import i118 from "@heroicons/react/24/outline/SparklesIcon";
+import i119 from "@heroicons/react/24/outline/BoltIcon";
+import i120 from "@heroicons/react/24/outline/TableCellsIcon";
+import i121 from "@heroicons/react/24/outline/ArrowsPointingOutIcon";
+import i122 from "@heroicons/react/24/outline/AdjustmentsHorizontalIcon";
+import i123 from "@heroicons/react/24/outline/TrashIcon";
+import i124 from "@heroicons/react/24/outline/XCircleIcon";
+import i125 from "@heroicons/react/24/outline/ExclamationCircleIcon";
+import i126 from "@heroicons/react/24/outline/DocumentTextIcon";
+import i127 from "@heroicons/react/24/outline/StopIcon";
+import i128 from "@heroicons/react/24/outline/WrenchIcon";
+import i129 from "@heroicons/react/24/outline/ListBulletIcon";
+import i130 from "@heroicons/react/24/outline/PlusCircleIcon";
+import i131 from "@heroicons/react/24/outline/CreditCardIcon";
 
 export const ICONS: Record<string, IconComponent> = {
   "arrow-down": i0,
@@ -218,50 +219,51 @@ export const ICONS: Record<string, IconComponent> = {
   "pencil": i82,
   "pencil-ruler": i83,
   "percent": i84,
-  "play": i85,
-  "plus": i86,
-  "power": i87,
-  "power-off": i88,
-  "refresh-ccw": i89,
-  "refresh-cw": i90,
-  "repeat": i91,
-  "rotate-ccw": i92,
-  "rotate-cw": i93,
-  "rss": i94,
-  "scroll-text": i95,
-  "search": i96,
-  "send": i97,
-  "server": i98,
-  "settings": i99,
-  "shield": i100,
-  "shield-check": i101,
-  "sliders-horizontal": i102,
-  "sparkles": i103,
-  "star": i104,
-  "sun": i105,
-  "tag": i106,
-  "terminal": i107,
-  "ticket": i108,
-  "trash": i109,
-  "trophy": i110,
-  "upload": i111,
-  "user": i112,
-  "user-plus": i113,
-  "users": i114,
-  "video": i115,
-  "wallet": i116,
-  "wand": i117,
-  "zap": i118,
-  "grid-3x3": i119,
-  "maximize-2": i120,
-  "settings-2": i121,
-  "trash-2": i122,
-  "x-circle": i123,
-  "alert-circle": i124,
-  "file-text": i125,
-  "square": i126,
-  "wrench": i127,
-  "list": i128,
-  "plus-circle": i129,
-  "credit-card": i130,
+  "pause": i85,
+  "play": i86,
+  "plus": i87,
+  "power": i88,
+  "power-off": i89,
+  "refresh-ccw": i90,
+  "refresh-cw": i91,
+  "repeat": i92,
+  "rotate-ccw": i93,
+  "rotate-cw": i94,
+  "rss": i95,
+  "scroll-text": i96,
+  "search": i97,
+  "send": i98,
+  "server": i99,
+  "settings": i100,
+  "shield": i101,
+  "shield-check": i102,
+  "sliders-horizontal": i103,
+  "sparkles": i104,
+  "star": i105,
+  "sun": i106,
+  "tag": i107,
+  "terminal": i108,
+  "ticket": i109,
+  "trash": i110,
+  "trophy": i111,
+  "upload": i112,
+  "user": i113,
+  "user-plus": i114,
+  "users": i115,
+  "video": i116,
+  "wallet": i117,
+  "wand": i118,
+  "zap": i119,
+  "grid-3x3": i120,
+  "maximize-2": i121,
+  "settings-2": i122,
+  "trash-2": i123,
+  "x-circle": i124,
+  "alert-circle": i125,
+  "file-text": i126,
+  "square": i127,
+  "wrench": i128,
+  "list": i129,
+  "plus-circle": i130,
+  "credit-card": i131,
 };

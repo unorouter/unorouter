@@ -87,51 +87,52 @@ import { SidebarCollapse as i83 } from "iconoir-react/regular";
 import { EditPencil as i84 } from "iconoir-react/regular";
 import { DesignPencil as i85 } from "iconoir-react/regular";
 import { Percentage as i86 } from "iconoir-react/regular";
-import { Play as i87 } from "iconoir-react/regular";
-import { Plus as i88 } from "iconoir-react/regular";
-import { RefreshDouble as i89 } from "iconoir-react/regular";
-import { Refresh as i90 } from "iconoir-react/regular";
-import { Repeat as i91 } from "iconoir-react/regular";
-import { Undo as i92 } from "iconoir-react/regular";
-import { Redo as i93 } from "iconoir-react/regular";
-import { RssFeed as i94 } from "iconoir-react/regular";
-import { Search as i95 } from "iconoir-react/regular";
-import { Send as i96 } from "iconoir-react/regular";
-import { Server as i97 } from "iconoir-react/regular";
-import { Settings as i98 } from "iconoir-react/regular";
-import { Shield as i99 } from "iconoir-react/regular";
-import { ShieldCheck as i100 } from "iconoir-react/regular";
-import { Shuffle as i101 } from "iconoir-react/regular";
-import { Sparks as i102 } from "iconoir-react/regular";
-import { Star as i103 } from "iconoir-react/regular";
-import { SunLight as i104 } from "iconoir-react/regular";
-import { Label as i105 } from "iconoir-react/regular";
-import { Terminal as i106 } from "iconoir-react/regular";
-import { Trash as i107 } from "iconoir-react/regular";
-import { Trophy as i108 } from "iconoir-react/regular";
-import { Type as i109 } from "iconoir-react/regular";
-import { Upload as i110 } from "iconoir-react/regular";
-import { User as i111 } from "iconoir-react/regular";
-import { UserPlus as i112 } from "iconoir-react/regular";
-import { Group as i113 } from "iconoir-react/regular";
-import { VideoCamera as i114 } from "iconoir-react/regular";
-import { Wallet as i115 } from "iconoir-react/regular";
-import { MagicWand as i116 } from "iconoir-react/regular";
-import { Flash as i117 } from "iconoir-react/regular";
-import { ViewGrid as i118 } from "iconoir-react/regular";
-import { Expand as i119 } from "iconoir-react/regular";
-import { Settings as i120 } from "iconoir-react/regular";
-import { Trash as i121 } from "iconoir-react/regular";
-import { Brain as i122 } from "iconoir-react/regular";
-import { WifiOff as i123 } from "iconoir-react/regular";
-import { XmarkCircle as i124 } from "iconoir-react/regular";
-import { WarningCircle as i125 } from "iconoir-react/regular";
-import { Page as i126 } from "iconoir-react/regular";
-import { Square as i127 } from "iconoir-react/regular";
-import { Wrench as i128 } from "iconoir-react/regular";
-import { List as i129 } from "iconoir-react/regular";
-import { PlusCircle as i130 } from "iconoir-react/regular";
-import { CreditCard as i131 } from "iconoir-react/regular";
+import { Pause as i87 } from "iconoir-react/regular";
+import { Play as i88 } from "iconoir-react/regular";
+import { Plus as i89 } from "iconoir-react/regular";
+import { RefreshDouble as i90 } from "iconoir-react/regular";
+import { Refresh as i91 } from "iconoir-react/regular";
+import { Repeat as i92 } from "iconoir-react/regular";
+import { Undo as i93 } from "iconoir-react/regular";
+import { Redo as i94 } from "iconoir-react/regular";
+import { RssFeed as i95 } from "iconoir-react/regular";
+import { Search as i96 } from "iconoir-react/regular";
+import { Send as i97 } from "iconoir-react/regular";
+import { Server as i98 } from "iconoir-react/regular";
+import { Settings as i99 } from "iconoir-react/regular";
+import { Shield as i100 } from "iconoir-react/regular";
+import { ShieldCheck as i101 } from "iconoir-react/regular";
+import { Shuffle as i102 } from "iconoir-react/regular";
+import { Sparks as i103 } from "iconoir-react/regular";
+import { Star as i104 } from "iconoir-react/regular";
+import { SunLight as i105 } from "iconoir-react/regular";
+import { Label as i106 } from "iconoir-react/regular";
+import { Terminal as i107 } from "iconoir-react/regular";
+import { Trash as i108 } from "iconoir-react/regular";
+import { Trophy as i109 } from "iconoir-react/regular";
+import { Type as i110 } from "iconoir-react/regular";
+import { Upload as i111 } from "iconoir-react/regular";
+import { User as i112 } from "iconoir-react/regular";
+import { UserPlus as i113 } from "iconoir-react/regular";
+import { Group as i114 } from "iconoir-react/regular";
+import { VideoCamera as i115 } from "iconoir-react/regular";
+import { Wallet as i116 } from "iconoir-react/regular";
+import { MagicWand as i117 } from "iconoir-react/regular";
+import { Flash as i118 } from "iconoir-react/regular";
+import { ViewGrid as i119 } from "iconoir-react/regular";
+import { Expand as i120 } from "iconoir-react/regular";
+import { Settings as i121 } from "iconoir-react/regular";
+import { Trash as i122 } from "iconoir-react/regular";
+import { Brain as i123 } from "iconoir-react/regular";
+import { WifiOff as i124 } from "iconoir-react/regular";
+import { XmarkCircle as i125 } from "iconoir-react/regular";
+import { WarningCircle as i126 } from "iconoir-react/regular";
+import { Page as i127 } from "iconoir-react/regular";
+import { Square as i128 } from "iconoir-react/regular";
+import { Wrench as i129 } from "iconoir-react/regular";
+import { List as i130 } from "iconoir-react/regular";
+import { PlusCircle as i131 } from "iconoir-react/regular";
+import { CreditCard as i132 } from "iconoir-react/regular";
 
 export const ICONS: Record<string, IconComponent> = {
   "arrow-down": i0,
@@ -221,49 +222,50 @@ export const ICONS: Record<string, IconComponent> = {
   "pencil": i84,
   "pencil-ruler": i85,
   "percent": i86,
-  "play": i87,
-  "plus": i88,
-  "refresh-ccw": i89,
-  "refresh-cw": i90,
-  "repeat": i91,
-  "rotate-ccw": i92,
-  "rotate-cw": i93,
-  "rss": i94,
-  "search": i95,
-  "send": i96,
-  "server": i97,
-  "settings": i98,
-  "shield": i99,
-  "shield-check": i100,
-  "shuffle": i101,
-  "sparkles": i102,
-  "star": i103,
-  "sun": i104,
-  "tag": i105,
-  "terminal": i106,
-  "trash": i107,
-  "trophy": i108,
-  "type": i109,
-  "upload": i110,
-  "user": i111,
-  "user-plus": i112,
-  "users": i113,
-  "video": i114,
-  "wallet": i115,
-  "wand": i116,
-  "zap": i117,
-  "grid-3x3": i118,
-  "maximize-2": i119,
-  "settings-2": i120,
-  "trash-2": i121,
-  "brain": i122,
-  "wifi-off": i123,
-  "x-circle": i124,
-  "alert-circle": i125,
-  "file-text": i126,
-  "square": i127,
-  "wrench": i128,
-  "list": i129,
-  "plus-circle": i130,
-  "credit-card": i131,
+  "pause": i87,
+  "play": i88,
+  "plus": i89,
+  "refresh-ccw": i90,
+  "refresh-cw": i91,
+  "repeat": i92,
+  "rotate-ccw": i93,
+  "rotate-cw": i94,
+  "rss": i95,
+  "search": i96,
+  "send": i97,
+  "server": i98,
+  "settings": i99,
+  "shield": i100,
+  "shield-check": i101,
+  "shuffle": i102,
+  "sparkles": i103,
+  "star": i104,
+  "sun": i105,
+  "tag": i106,
+  "terminal": i107,
+  "trash": i108,
+  "trophy": i109,
+  "type": i110,
+  "upload": i111,
+  "user": i112,
+  "user-plus": i113,
+  "users": i114,
+  "video": i115,
+  "wallet": i116,
+  "wand": i117,
+  "zap": i118,
+  "grid-3x3": i119,
+  "maximize-2": i120,
+  "settings-2": i121,
+  "trash-2": i122,
+  "brain": i123,
+  "wifi-off": i124,
+  "x-circle": i125,
+  "alert-circle": i126,
+  "file-text": i127,
+  "square": i128,
+  "wrench": i129,
+  "list": i130,
+  "plus-circle": i131,
+  "credit-card": i132,
 };

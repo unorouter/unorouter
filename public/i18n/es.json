@@ -4340,7 +4340,9 @@
       "IMAGE_REFS": "Imágenes de referencia",
       "IMAGE_REFS_ADD": "Añadir",
       "IMAGE_REFS_HINT": "Hasta 6 imágenes se envían como referencia con cada generación en el chat. El soporte varía según el modelo.",
-      "IMAGE_STYLE_TEMPLATE": "Plantilla de estilo"
+      "IMAGE_STYLE_TEMPLATE": "Plantilla de estilo",
+      "VOICE_ENABLED": "Voz",
+      "VOICE_ENABLED_HINT": "Lee este chat en voz alta con tus ajustes de voz. Desactívalo para que este chat quede en silencio."
     },
     "SAMPLING": {
       "UNSUPPORTED": "No soportado por todos los proveedores que sirven este modelo. Configurarlo no tiene efecto.",
@@ -4617,7 +4619,10 @@
       "PLAY": "Leer en voz alta",
       "STOP": "Detener lectura",
       "CHARACTER_VOICE": "Voz",
-      "CHARACTER_VOICE_HINT": "Voz de Fish Audio para este personaje. Déjalo vacío para usar la voz predeterminada de los ajustes de voz."
+      "CHARACTER_VOICE_HINT": "Voz de Fish Audio para este personaje. Déjalo vacío para usar la voz predeterminada de los ajustes de voz.",
+      "PAUSE": "Pausar",
+      "RESUME": "Reanudar",
+      "LOADING": "Generando audio"
     }
   },
   "ROOM": {

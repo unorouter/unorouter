@@ -4340,7 +4340,9 @@
       "IMAGE_REFS": "참조 이미지",
       "IMAGE_REFS_ADD": "추가",
       "IMAGE_REFS_HINT": "채팅 내 이미지 생성마다 최대 6개의 이미지를 참조로 전송합니다. 지원 여부는 모델마다 다릅니다.",
-      "IMAGE_STYLE_TEMPLATE": "스타일 템플릿"
+      "IMAGE_STYLE_TEMPLATE": "스타일 템플릿",
+      "VOICE_ENABLED": "음성",
+      "VOICE_ENABLED_HINT": "음성 설정으로 이 채팅을 소리 내어 읽습니다. 끄면 이 채팅은 읽지 않습니다."
     },
     "SAMPLING": {
       "UNSUPPORTED": "이 모델을 제공하는 모든 공급자가 지원하지 않습니다. 설정해도 효과가 없습니다.",
@@ -4617,7 +4619,10 @@
       "PLAY": "소리 내어 읽기",
       "STOP": "읽기 중지",
       "CHARACTER_VOICE": "음성",
-      "CHARACTER_VOICE_HINT": "이 캐릭터의 Fish Audio 음성입니다. 비워 두면 음성 설정의 기본 음성을 사용합니다."
+      "CHARACTER_VOICE_HINT": "이 캐릭터의 Fish Audio 음성입니다. 비워 두면 음성 설정의 기본 음성을 사용합니다.",
+      "PAUSE": "일시 정지",
+      "RESUME": "계속 재생",
+      "LOADING": "오디오 생성 중"
     }
   },
   "ROOM": {

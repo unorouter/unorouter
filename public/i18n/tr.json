@@ -4340,7 +4340,9 @@
       "IMAGE_REFS": "Referans görseller",
       "IMAGE_REFS_ADD": "Ekle",
       "IMAGE_REFS_HINT": "Sohbetteki her oluşturmada en fazla 6 görsel referans olarak gönderilir. Destek modele göre değişir.",
-      "IMAGE_STYLE_TEMPLATE": "Stil şablonu"
+      "IMAGE_STYLE_TEMPLATE": "Stil şablonu",
+      "VOICE_ENABLED": "Ses",
+      "VOICE_ENABLED_HINT": "Bu sohbeti ses ayarlarınla sesli oku. Bu sohbetin sessiz kalması için kapat."
     },
     "SAMPLING": {
       "UNSUPPORTED": "Bu modeli sunan tüm sağlayıcılar tarafından desteklenmez. Ayarlamak etkisizdir.",
@@ -4617,7 +4619,10 @@
       "PLAY": "Sesli oku",
       "STOP": "Okumayı durdur",
       "CHARACTER_VOICE": "Ses",
-      "CHARACTER_VOICE_HINT": "Bu karakter için Fish Audio sesi. Ses ayarlarındaki varsayılan sesi kullanmak için boş bırak."
+      "CHARACTER_VOICE_HINT": "Bu karakter için Fish Audio sesi. Ses ayarlarındaki varsayılan sesi kullanmak için boş bırak.",
+      "PAUSE": "Duraklat",
+      "RESUME": "Devam et",
+      "LOADING": "Ses oluşturuluyor"
     }
   },
   "ROOM": {

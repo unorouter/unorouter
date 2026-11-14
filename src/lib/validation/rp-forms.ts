@@ -169,6 +169,7 @@ export const conversationOverridesFormSchema = t.Object({
   }),
   memoryEnabled: t.Boolean({ default: false }),
   imageEnabled: t.Boolean({ default: false }),
+  voiceEnabled: t.Boolean({ default: true }),
   utilityModel: t.String({ default: NONE_VALUE }),
   titleModel: t.String({ default: NONE_VALUE }),
   titlePrompt: t.String({ default: "", maxLength: 4_096 }),

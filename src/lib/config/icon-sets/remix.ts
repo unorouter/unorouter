@@ -94,56 +94,57 @@ import { RiLayoutLeftLine as i90 } from "@remixicon/react";
 import { RiPencilLine as i91 } from "@remixicon/react";
 import { RiPencilRulerLine as i92 } from "@remixicon/react";
 import { RiPercentLine as i93 } from "@remixicon/react";
-import { RiPlayLine as i94 } from "@remixicon/react";
-import { RiAddLine as i95 } from "@remixicon/react";
-import { RiShutDownLine as i96 } from "@remixicon/react";
+import { RiPauseLine as i94 } from "@remixicon/react";
+import { RiPlayLine as i95 } from "@remixicon/react";
+import { RiAddLine as i96 } from "@remixicon/react";
 import { RiShutDownLine as i97 } from "@remixicon/react";
-import { RiResetLeftLine as i98 } from "@remixicon/react";
-import { RiRefreshLine as i99 } from "@remixicon/react";
-import { RiRepeatLine as i100 } from "@remixicon/react";
-import { RiAnticlockwise2Line as i101 } from "@remixicon/react";
-import { RiClockwise2Line as i102 } from "@remixicon/react";
-import { RiRssLine as i103 } from "@remixicon/react";
-import { RiFileList3Line as i104 } from "@remixicon/react";
-import { RiSearchLine as i105 } from "@remixicon/react";
-import { RiSendPlaneLine as i106 } from "@remixicon/react";
-import { RiServerLine as i107 } from "@remixicon/react";
-import { RiSettingsLine as i108 } from "@remixicon/react";
-import { RiShieldLine as i109 } from "@remixicon/react";
-import { RiShieldCheckLine as i110 } from "@remixicon/react";
-import { RiShuffleLine as i111 } from "@remixicon/react";
-import { RiEqualizerLine as i112 } from "@remixicon/react";
-import { RiSparklingLine as i113 } from "@remixicon/react";
-import { RiStarLine as i114 } from "@remixicon/react";
-import { RiSunLine as i115 } from "@remixicon/react";
-import { RiPriceTag3Line as i116 } from "@remixicon/react";
-import { RiTerminalLine as i117 } from "@remixicon/react";
-import { RiTicketLine as i118 } from "@remixicon/react";
-import { RiDeleteBinLine as i119 } from "@remixicon/react";
-import { RiTrophyLine as i120 } from "@remixicon/react";
-import { RiText as i121 } from "@remixicon/react";
-import { RiUploadLine as i122 } from "@remixicon/react";
-import { RiUserLine as i123 } from "@remixicon/react";
-import { RiUserAddLine as i124 } from "@remixicon/react";
-import { RiGroupLine as i125 } from "@remixicon/react";
-import { RiVideoLine as i126 } from "@remixicon/react";
-import { RiWalletLine as i127 } from "@remixicon/react";
-import { RiMagicLine as i128 } from "@remixicon/react";
-import { RiFlashlightLine as i129 } from "@remixicon/react";
-import { RiGridLine as i130 } from "@remixicon/react";
-import { RiExpandDiagonalLine as i131 } from "@remixicon/react";
-import { RiSettings2Line as i132 } from "@remixicon/react";
-import { RiDeleteBin2Line as i133 } from "@remixicon/react";
-import { RiBrainLine as i134 } from "@remixicon/react";
-import { RiWifiOffLine as i135 } from "@remixicon/react";
-import { RiCloseCircleLine as i136 } from "@remixicon/react";
-import { RiErrorWarningLine as i137 } from "@remixicon/react";
-import { RiFileTextLine as i138 } from "@remixicon/react";
-import { RiSquareLine as i139 } from "@remixicon/react";
-import { RiWrenchLine as i140 } from "@remixicon/react";
-import { RiListUnordered as i141 } from "@remixicon/react";
-import { RiAddCircleLine as i142 } from "@remixicon/react";
-import { RiBankCardLine as i143 } from "@remixicon/react";
+import { RiShutDownLine as i98 } from "@remixicon/react";
+import { RiResetLeftLine as i99 } from "@remixicon/react";
+import { RiRefreshLine as i100 } from "@remixicon/react";
+import { RiRepeatLine as i101 } from "@remixicon/react";
+import { RiAnticlockwise2Line as i102 } from "@remixicon/react";
+import { RiClockwise2Line as i103 } from "@remixicon/react";
+import { RiRssLine as i104 } from "@remixicon/react";
+import { RiFileList3Line as i105 } from "@remixicon/react";
+import { RiSearchLine as i106 } from "@remixicon/react";
+import { RiSendPlaneLine as i107 } from "@remixicon/react";
+import { RiServerLine as i108 } from "@remixicon/react";
+import { RiSettingsLine as i109 } from "@remixicon/react";
+import { RiShieldLine as i110 } from "@remixicon/react";
+import { RiShieldCheckLine as i111 } from "@remixicon/react";
+import { RiShuffleLine as i112 } from "@remixicon/react";
+import { RiEqualizerLine as i113 } from "@remixicon/react";
+import { RiSparklingLine as i114 } from "@remixicon/react";
+import { RiStarLine as i115 } from "@remixicon/react";
+import { RiSunLine as i116 } from "@remixicon/react";
+import { RiPriceTag3Line as i117 } from "@remixicon/react";
+import { RiTerminalLine as i118 } from "@remixicon/react";
+import { RiTicketLine as i119 } from "@remixicon/react";
+import { RiDeleteBinLine as i120 } from "@remixicon/react";
+import { RiTrophyLine as i121 } from "@remixicon/react";
+import { RiText as i122 } from "@remixicon/react";
+import { RiUploadLine as i123 } from "@remixicon/react";
+import { RiUserLine as i124 } from "@remixicon/react";
+import { RiUserAddLine as i125 } from "@remixicon/react";
+import { RiGroupLine as i126 } from "@remixicon/react";
+import { RiVideoLine as i127 } from "@remixicon/react";
+import { RiWalletLine as i128 } from "@remixicon/react";
+import { RiMagicLine as i129 } from "@remixicon/react";
+import { RiFlashlightLine as i130 } from "@remixicon/react";
+import { RiGridLine as i131 } from "@remixicon/react";
+import { RiExpandDiagonalLine as i132 } from "@remixicon/react";
+import { RiSettings2Line as i133 } from "@remixicon/react";
+import { RiDeleteBin2Line as i134 } from "@remixicon/react";
+import { RiBrainLine as i135 } from "@remixicon/react";
+import { RiWifiOffLine as i136 } from "@remixicon/react";
+import { RiCloseCircleLine as i137 } from "@remixicon/react";
+import { RiErrorWarningLine as i138 } from "@remixicon/react";
+import { RiFileTextLine as i139 } from "@remixicon/react";
+import { RiSquareLine as i140 } from "@remixicon/react";
+import { RiWrenchLine as i141 } from "@remixicon/react";
+import { RiListUnordered as i142 } from "@remixicon/react";
+import { RiAddCircleLine as i143 } from "@remixicon/react";
+import { RiBankCardLine as i144 } from "@remixicon/react";
 
 export const ICONS: Record<string, IconComponent> = {
   "arrow-down": i0,
@@ -240,54 +241,55 @@ export const ICONS: Record<string, IconComponent> = {
   "pencil": i91,
   "pencil-ruler": i92,
   "percent": i93,
-  "play": i94,
-  "plus": i95,
-  "power": i96,
-  "power-off": i97,
-  "refresh-ccw": i98,
-  "refresh-cw": i99,
-  "repeat": i100,
-  "rotate-ccw": i101,
-  "rotate-cw": i102,
-  "rss": i103,
-  "scroll-text": i104,
-  "search": i105,
-  "send": i106,
-  "server": i107,
-  "settings": i108,
-  "shield": i109,
-  "shield-check": i110,
-  "shuffle": i111,
-  "sliders-horizontal": i112,
-  "sparkles": i113,
-  "star": i114,
-  "sun": i115,
-  "tag": i116,
-  "terminal": i117,
-  "ticket": i118,
-  "trash": i119,
-  "trophy": i120,
-  "type": i121,
-  "upload": i122,
-  "user": i123,
-  "user-plus": i124,
-  "users": i125,
-  "video": i126,
-  "wallet": i127,
-  "wand": i128,
-  "zap": i129,
-  "grid-3x3": i130,
-  "maximize-2": i131,
-  "settings-2": i132,
-  "trash-2": i133,
-  "brain": i134,
-  "wifi-off": i135,
-  "x-circle": i136,
-  "alert-circle": i137,
-  "file-text": i138,
-  "square": i139,
-  "wrench": i140,
-  "list": i141,
-  "plus-circle": i142,
-  "credit-card": i143,
+  "pause": i94,
+  "play": i95,
+  "plus": i96,
+  "power": i97,
+  "power-off": i98,
+  "refresh-ccw": i99,
+  "refresh-cw": i100,
+  "repeat": i101,
+  "rotate-ccw": i102,
+  "rotate-cw": i103,
+  "rss": i104,
+  "scroll-text": i105,
+  "search": i106,
+  "send": i107,
+  "server": i108,
+  "settings": i109,
+  "shield": i110,
+  "shield-check": i111,
+  "shuffle": i112,
+  "sliders-horizontal": i113,
+  "sparkles": i114,
+  "star": i115,
+  "sun": i116,
+  "tag": i117,
+  "terminal": i118,
+  "ticket": i119,
+  "trash": i120,
+  "trophy": i121,
+  "type": i122,
+  "upload": i123,
+  "user": i124,
+  "user-plus": i125,
+  "users": i126,
+  "video": i127,
+  "wallet": i128,
+  "wand": i129,
+  "zap": i130,
+  "grid-3x3": i131,
+  "maximize-2": i132,
+  "settings-2": i133,
+  "trash-2": i134,
+  "brain": i135,
+  "wifi-off": i136,
+  "x-circle": i137,
+  "alert-circle": i138,
+  "file-text": i139,
+  "square": i140,
+  "wrench": i141,
+  "list": i142,
+  "plus-circle": i143,
+  "credit-card": i144,
 };

@@ -824,7 +824,12 @@ export function createChatHistoryAdapter(
         if (isAssistant && !existingRow && originalAssistantText.trim()) {
           void import("./voice-run")
             .then((m) =>
-              m.autoplayReply(messageId, originalAssistantText, speakingCharId),
+              m.autoplayReply(
+                id,
+                messageId,
+                originalAssistantText,
+                speakingCharId,
+              ),
             )
             .catch((e) => handleError(e));
         }

@@ -35,6 +35,7 @@ export const CONVERSATION_SETTINGS_KEYS = [
   "titleModel",
   "titlePrompt",
   "imageEnabled",
+  "voiceEnabled",
   "promptInstruction",
   "imageModel",
   "imagePreview",

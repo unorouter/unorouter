@@ -26,7 +26,7 @@ import {
   useVoiceSettingsQuery,
 } from "@/hooks/ai/voice-hook";
 import { useRpForm } from "@/hooks/ui/use-rp-form";
-import { playingVoiceAtom, speak } from "@/lib/ai/voice/speak";
+import { speak, voicePlaybackAtom } from "@/lib/ai/voice/speak";
 import { cn } from "@/lib/utils";
 import { handleError } from "@/lib/utils/client";
 import { dayjs } from "@/lib/utils/format/date";
@@ -62,7 +62,7 @@ export function VoiceSettingsDialog(props: {
   const t = useTranslations();
   const settingsQuery = useVoiceSettingsQuery();
   const saveMut = useSaveVoiceSettingsMutation();
-  const playing = useAtomValue(playingVoiceAtom, { store: chatStore });
+  const playing = useAtomValue(voicePlaybackAtom, { store: chatStore })?.key;
   const row = settingsQuery.data;
   const form = useRpForm(
     voiceSettingsForm,
@@ -76,8 +76,6 @@ export function VoiceSettingsDialog(props: {
   );
   const apiKey = form.watch("apiKey");
 
-  const setPlaying = (key: string | null) =>
-    chatStore.set(playingVoiceAtom, key);
   const test = (values: VoiceSettingsForm) => {
     const now = dayjs().toDate();
     speak(
@@ -92,7 +90,6 @@ export function VoiceSettingsDialog(props: {
       },
       t("CHAT.VOICE.TEST_TEXT"),
       null,
-      setPlaying,
     ).catch((e) => handleError(e, t));
   };
 

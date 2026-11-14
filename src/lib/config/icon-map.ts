@@ -1537,6 +1537,22 @@ export const ICON_MAP: Record<string, IconEntry> = {
     iconoir: () =>
       import("iconoir-react/regular").then((m) => ({ default: m.Percentage })),
   },
+  pause: {
+    lucide: () => import("lucide-react/dist/esm/icons/pause.mjs"),
+    tabler: () =>
+      import("@tabler/icons-react/dist/esm/icons/IconPlayerPause.mjs"),
+    phosphor: () =>
+      import("@phosphor-icons/react/dist/ssr/Pause").then((m) => ({
+        default: m.Pause,
+      })),
+    heroicons: () => import("@heroicons/react/24/outline/PauseIcon"),
+    remix: () =>
+      import("@remixicon/react").then((m) => ({
+        default: m.RiPauseLine,
+      })),
+    iconoir: () =>
+      import("iconoir-react/regular").then((m) => ({ default: m.Pause })),
+  },
   play: {
     lucide: () => import("lucide-react/dist/esm/icons/play.mjs"),
     tabler: () =>

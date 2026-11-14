@@ -75,6 +75,10 @@
     {
       "tag": "0018_first_sentry",
       "sql": "CREATE TABLE `voice_settings` (\n\t`id` text PRIMARY KEY NOT NULL,\n\t`api_key` text DEFAULT '' NOT NULL,\n\t`model` text DEFAULT 's2.1-pro-free' NOT NULL,\n\t`voice_id` text,\n\t`narrator_voice_id` text,\n\t`read_mode` text DEFAULT 'all' NOT NULL,\n\t`speed` real DEFAULT 1 NOT NULL,\n\t`volume` real DEFAULT 0 NOT NULL,\n\t`autoplay` integer DEFAULT false NOT NULL,\n\t`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,\n\t`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL\n);\n--> statement-breakpoint\nALTER TABLE `characters` ADD `voice_id` text;"
+    },
+    {
+      "tag": "0019_red_veda",
+      "sql": "ALTER TABLE `conversations` ADD `voice_enabled` integer;"
     }
   ]
 }

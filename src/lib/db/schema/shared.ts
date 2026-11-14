@@ -85,6 +85,7 @@ export const conversations = sqliteTable(
     titleModel: text("title_model"),
     titlePrompt: text("title_prompt"),
     imageEnabled: integer("image_enabled", { mode: "boolean" }),
+    voiceEnabled: integer("voice_enabled", { mode: "boolean" }),
     promptInstruction: text("prompt_instruction"),
     imageModel: text("image_model"),
     imagePreview: integer("image_preview", { mode: "boolean" }),

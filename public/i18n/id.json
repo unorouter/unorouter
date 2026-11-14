@@ -4340,7 +4340,9 @@
       "IMAGE_REFS": "Gambar referensi",
       "IMAGE_REFS_ADD": "Tambah",
       "IMAGE_REFS_HINT": "Hingga 6 gambar dikirim sebagai referensi pada setiap generasi di chat. Dukungan tiap model berbeda.",
-      "IMAGE_STYLE_TEMPLATE": "Templat gaya"
+      "IMAGE_STYLE_TEMPLATE": "Templat gaya",
+      "VOICE_ENABLED": "Suara",
+      "VOICE_ENABLED_HINT": "Bacakan obrolan ini dengan pengaturan suaramu. Matikan agar obrolan ini tetap senyap."
     },
     "SAMPLING": {
       "UNSUPPORTED": "Tidak didukung oleh semua penyedia yang melayani model ini. Mengaturnya tidak berpengaruh.",
@@ -4617,7 +4619,10 @@
       "PLAY": "Bacakan",
       "STOP": "Hentikan pembacaan",
       "CHARACTER_VOICE": "Suara",
-      "CHARACTER_VOICE_HINT": "Suara Fish Audio untuk karakter ini. Kosongkan untuk memakai suara bawaan dari pengaturan suara."
+      "CHARACTER_VOICE_HINT": "Suara Fish Audio untuk karakter ini. Kosongkan untuk memakai suara bawaan dari pengaturan suara.",
+      "PAUSE": "Jeda",
+      "RESUME": "Lanjutkan",
+      "LOADING": "Membuat audio"
     }
   },
   "ROOM": {

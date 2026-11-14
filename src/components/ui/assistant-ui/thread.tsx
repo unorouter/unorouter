@@ -36,11 +36,14 @@ import {
 } from "@/hooks/ai/chat-hook";
 import { useCustomProvidersQuery } from "@/hooks/ai/custom-providers-hook";
 import { useVoiceSettingsQuery } from "@/hooks/ai/voice-hook";
-import { playingVoiceAtom, primeVoicePlayback } from "@/lib/ai/voice/speak";
 import {
-  speakMessage,
-  stopMessageVoice,
-} from "@/components/pages/sidebar/chat/runtime/voice-run";
+  pauseVoice,
+  primeVoicePlayback,
+  resumeVoice,
+  stopVoice,
+  voicePlaybackAtom,
+} from "@/lib/ai/voice/speak";
+import { speakMessage } from "@/components/pages/sidebar/chat/runtime/voice-run";
 import { useForkConversationMutation } from "@/hooks/ai/rp/conversations";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { usePricingCatalogQuery } from "@/hooks/models/pricing-hook";
@@ -1567,23 +1570,46 @@ const VoiceButton: FC = () => {
       .flatMap((p) => (p.type === "text" ? [p.text] : []))
       .join("\n"),
   );
-  const playing = useAtomValue(playingVoiceAtom);
+  const playback = useAtomValue(voicePlaybackAtom);
+  const convId = useAuiState((s) => s.threadListItem?.remoteId);
+  const chatVoice = useChatSettingsQuery(convId ?? undefined).data
+    ?.voiceEnabled;
   const autoplay = settings?.autoplay ?? false;
   useEffect(() => {
     if (autoplay) primeVoicePlayback();
   }, [autoplay]);
-  if (!settings?.apiKey) return null;
-  const active = playing === messageId;
+  if (!settings?.apiKey || chatVoice === false || !text.trim()) return null;
+  const mine = playback?.key === messageId ? playback : null;
+  if (!mine) {
+    return (
+      <TooltipIconButton
+        tooltip={t("CHAT.VOICE.PLAY")}
+        onClick={() =>
+          speakMessage(messageId, text).catch((e) => handleError(e, t))
+        }
+      >
+        <Icon name="volume-2" />
+      </TooltipIconButton>
+    );
+  }
   return (
-    <TooltipIconButton
-      tooltip={t(active ? "CHAT.VOICE.STOP" : "CHAT.VOICE.PLAY")}
-      onClick={() => {
-        if (active) return stopMessageVoice();
-        speakMessage(messageId, text).catch((e) => handleError(e, t));
-      }}
-    >
-      <Icon name={active ? "square" : "volume-2"} />
-    </TooltipIconButton>
+    <>
+      {mine.loading ? (
+        <TooltipIconButton tooltip={t("CHAT.VOICE.LOADING")} disabled>
+          <Icon name="loader" className="animate-spin" />
+        </TooltipIconButton>
+      ) : (
+        <TooltipIconButton
+          tooltip={t(mine.paused ? "CHAT.VOICE.RESUME" : "CHAT.VOICE.PAUSE")}
+          onClick={mine.paused ? resumeVoice : pauseVoice}
+        >
+          <Icon name={mine.paused ? "play" : "pause"} />
+        </TooltipIconButton>
+      )}
+      <TooltipIconButton tooltip={t("CHAT.VOICE.STOP")} onClick={stopVoice}>
+        <Icon name="square" />
+      </TooltipIconButton>
+    </>
   );
 };
 
