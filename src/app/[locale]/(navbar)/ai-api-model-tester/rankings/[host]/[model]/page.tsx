@@ -44,6 +44,7 @@ export default async function ModelTesterRankingPage(props: Props) {
     queryClient,
     queryKeys.modelTesterRankingDetail(host, model),
     () => rpc.api.models["model-tester"].rankings({ host })({ model }).get(),
+    { public: true },
   );
 
   return (

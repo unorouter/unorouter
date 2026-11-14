@@ -38,13 +38,20 @@ export default async function ModelTesterRankingsPage(props: {
   const queryClient = getQueryClient();
 
   await Promise.all([
-    prefetchElysia(queryClient, queryKeys.modelTesterStats(), () =>
-      rpc.api.models["model-tester"].stats.get(),
+    prefetchElysia(
+      queryClient,
+      queryKeys.modelTesterStats(),
+      () => rpc.api.models["model-tester"].stats.get(),
+      { public: true },
     ),
-    prefetchElysia(queryClient, queryKeys.modelTesterRankings(1, 20), () =>
-      rpc.api.models["model-tester"].rankings.get({
-        query: { page: 1, pageSize: 20 },
-      }),
+    prefetchElysia(
+      queryClient,
+      queryKeys.modelTesterRankings(1, 20),
+      () =>
+        rpc.api.models["model-tester"].rankings.get({
+          query: { page: 1, pageSize: 20 },
+        }),
+      { public: true },
     ),
   ]);
 

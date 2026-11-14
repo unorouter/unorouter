@@ -30,16 +30,26 @@ export default async function StatusRoute(props: {
   const queryClient = getQueryClient();
 
   await Promise.all([
-    prefetchElysia(queryClient, queryKeys.modelStatusComponents(), () =>
-      rpc.api.models["model-status"].components.get(),
+    prefetchElysia(
+      queryClient,
+      queryKeys.modelStatusComponents(),
+      () => rpc.api.models["model-status"].components.get(),
+      { public: true },
     ),
-    prefetchElysia(queryClient, queryKeys.pricingVendors(), () =>
-      rpc.api.models.pricing.vendors.get(),
+    prefetchElysia(
+      queryClient,
+      queryKeys.pricingVendors(),
+      () => rpc.api.models.pricing.vendors.get(),
+      { public: true },
     ),
-    prefetchElysia(queryClient, queryKeys.perfMetricsSummary(24), () =>
-      rpc.api.models["perf-metrics"].summary.get({
-        query: { hours: 24 },
-      }),
+    prefetchElysia(
+      queryClient,
+      queryKeys.perfMetricsSummary(24),
+      () =>
+        rpc.api.models["perf-metrics"].summary.get({
+          query: { hours: 24 },
+        }),
+      { public: true },
     ),
   ]);
 

@@ -23,6 +23,7 @@ export function prefetchElysia<T extends ElysiaResult>(
   qc: QueryClient,
   queryKey: QueryKey,
   call: (headers: RequestHeaders) => Promise<T>,
+  options?: { public?: boolean },
 ) {
   // query() throws where prefetchQuery swallowed; a failed prefetch must stay
   // a cache miss, not a crashed render.
@@ -30,7 +31,10 @@ export function prefetchElysia<T extends ElysiaResult>(
     .query({
       queryKey,
       queryFn: async () => {
-        if (!(await sessionUsable(qc))) throw new Error("session unusable");
+        // Public data must not wait on a dead session: an expired token cookie
+        // rendered the home page with 0 models.
+        if (!options?.public && !(await sessionUsable(qc)))
+          throw new Error("session unusable");
         return handleElysia(await call(await serverRequestHeaders()));
       },
     })

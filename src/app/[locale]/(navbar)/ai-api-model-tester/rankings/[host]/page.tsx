@@ -43,6 +43,7 @@ export default async function ModelTesterProviderPage(props: Props) {
     queryClient,
     queryKeys.modelTesterProviderDetail(host),
     () => rpc.api.models["model-tester"].rankings({ host }).get(),
+    { public: true },
   );
 
   return (

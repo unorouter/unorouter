@@ -29,14 +29,23 @@ export default async function HomePage(props: {
 
   const queryClient = getQueryClient();
   await Promise.all([
-    prefetchElysia(queryClient, queryKeys.pricingCounts(), () =>
-      rpc.api.models.pricing.counts.get(),
+    prefetchElysia(
+      queryClient,
+      queryKeys.pricingCounts(),
+      () => rpc.api.models.pricing.counts.get(),
+      { public: true },
     ),
-    prefetchElysia(queryClient, queryKeys.pricingVendors(), () =>
-      rpc.api.models.pricing.vendors.get(),
+    prefetchElysia(
+      queryClient,
+      queryKeys.pricingVendors(),
+      () => rpc.api.models.pricing.vendors.get(),
+      { public: true },
     ),
-    prefetchElysia(queryClient, queryKeys.statsHistory(), () =>
-      rpc.api.ops.stats.history.get(),
+    prefetchElysia(
+      queryClient,
+      queryKeys.statsHistory(),
+      () => rpc.api.ops.stats.history.get(),
+      { public: true },
     ),
   ]);
 
