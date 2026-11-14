@@ -1,11 +1,9 @@
 "use client";
 
-import { invalidateAndBroadcast } from "@/lib/react-query/cross-tab-invalidate";
+import { useApiMutation } from "@/lib/react-query/hooks";
 import { uid } from "@/lib/utils/base";
-import { handleError } from "@/lib/utils/client";
 import { dayjs } from "@/lib/utils/format/date";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import type { LocalAnyRow, LocalRowInput } from "@/lib/types";
 
@@ -50,10 +48,8 @@ export function makeRpEntity<
       });
     },
 
-    useCreate: () => {
-      const t = useTranslations();
-      const qc = useQueryClient();
-      return useMutation({
+    useCreate: () =>
+      useApiMutation({
         mutationFn: async (args: { body: TCreateBody }) => {
           const now = dayjs().toDate();
           const id = uid();
@@ -65,57 +61,40 @@ export function makeRpEntity<
           });
           return { id };
         },
-        onSuccess: () => {
-          invalidateAndBroadcast(qc, [opts.listKey()]);
-          toast.success(t("COMMON.SAVED"));
-        },
-        onError: (e) => handleError(e, t),
-      });
-    },
+        invalidates: [opts.listKey()],
+        successKey: "COMMON.SAVED",
+      }),
 
-    useUpdate: () => {
-      const t = useTranslations();
-      const qc = useQueryClient();
-      return useMutation({
+    useUpdate: () =>
+      useApiMutation({
         mutationFn: async (args: { id: string; body: TUpdateBody }) => {
           const existing = await opts.readItem(args.id);
           if (!existing) throw new Error("not-found");
-          const now = dayjs().toDate();
           await opts.upsertLocal({
             ...existing,
             ...args.body,
-            updatedAt: now,
+            updatedAt: dayjs().toDate(),
           });
           return { id: args.id };
         },
-        onSuccess: (_data, args) => {
-          invalidateAndBroadcast(qc, [opts.listKey(), opts.itemKey(args.id)]);
-          toast.success(t("COMMON.SAVED"));
-        },
-        onError: (e) => handleError(e, t),
-      });
-    },
+        invalidates: (args) => [opts.listKey(), opts.itemKey(args.id)],
+        successKey: "COMMON.SAVED",
+      }),
 
-    useDelete: () => {
-      const t = useTranslations();
-      const qc = useQueryClient();
-      return useMutation({
+    useDelete: () =>
+      useApiMutation({
         mutationFn: async (id: string) => {
           await opts.deleteLocal(id);
           return { id };
         },
-        onSuccess: (_data, id) => {
-          qc.removeQueries({ queryKey: opts.itemKey(id) });
-          invalidateAndBroadcast(qc, [opts.listKey()]);
-        },
-        onError: (e) => handleError(e, t),
-      });
-    },
+        invalidates: [opts.listKey()],
+        onSuccess: (_data, id, qc) =>
+          qc.removeQueries({ queryKey: opts.itemKey(id) }),
+      }),
 
     useDuplicate: () => {
       const t = useTranslations();
-      const qc = useQueryClient();
-      return useMutation({
+      return useApiMutation({
         mutationFn: async (id: string) => {
           const detail = await opts.readItem(id);
           if (!detail) throw new Error("not-found");
@@ -137,10 +116,7 @@ export function makeRpEntity<
           }
           return { id: newId };
         },
-        onSuccess: () => {
-          invalidateAndBroadcast(qc, [opts.listKey()]);
-        },
-        onError: (e) => handleError(e, t),
+        invalidates: [opts.listKey()],
       });
     },
   };

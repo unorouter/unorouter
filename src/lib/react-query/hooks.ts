@@ -1,5 +1,6 @@
 "use client";
 
+import { invalidateAndBroadcast } from "@/lib/react-query/cross-tab-invalidate";
 import { handleElysia } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import {
@@ -30,11 +31,12 @@ export function useApiMutation<TData, TVariables = void>(opts: {
     mutationFn: opts.mutationFn,
     onError: (e) => handleError(e, t),
     onSuccess: (data, vars) => {
-      const keys =
+      invalidateAndBroadcast(
+        qc,
         typeof opts.invalidates === "function"
           ? opts.invalidates(vars, data)
-          : (opts.invalidates ?? []);
-      for (const queryKey of keys) qc.invalidateQueries({ queryKey });
+          : (opts.invalidates ?? []),
+      );
       if (opts.successKey) toast.success(t(opts.successKey));
       opts.onSuccess?.(data, vars, qc);
     },
