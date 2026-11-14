@@ -3,7 +3,7 @@
 // GPLv3 section 13.
 
 type RpcMessage = {
-  type: "CALL_ROOT" | "CALLBACK_RETURN" | "RESPONSE";
+  type: "CALL_ROOT" | "CALLBACK_RETURN" | "EXEC_RESULT" | "RESPONSE";
   reqId?: string;
   method?: string;
   args?: unknown[];
@@ -165,16 +165,7 @@ export class SandboxHost {
     if (!frame) return Promise.reject(new Error("sandbox not running"));
     return new Promise((resolve, reject) => {
       const reqId = "exec_" + Math.random().toString(36).substring(2);
-      const handler = (event: MessageEvent) => {
-        if (event.source !== frame.contentWindow) return;
-        const data = event.data;
-        if (data?.type === "EXEC_RESULT" && data.reqId === reqId) {
-          window.removeEventListener("message", handler);
-          if (data.error) reject(new Error(data.error));
-          else resolve(data.result);
-        }
-      };
-      window.addEventListener("message", handler);
+      this.pendingCallbacks.set(reqId, { resolve, reject });
       frame.contentWindow?.postMessage(
         { type: "EXECUTE_CODE", reqId, code },
         "*",
@@ -223,7 +214,7 @@ export class SandboxHost {
       const data: RpcMessage = event.data;
       if (!data?.reqId) return;
 
-      if (data.type === "CALLBACK_RETURN") {
+      if (data.type === "CALLBACK_RETURN" || data.type === "EXEC_RESULT") {
         const req = this.pendingCallbacks.get(data.reqId);
         if (!req) return;
         this.pendingCallbacks.delete(data.reqId);
@@ -305,6 +296,8 @@ ${escapeForScriptBlock(userCode)}
     }
     this.iframe?.remove();
     this.iframe = null;
+    for (const pending of this.pendingCallbacks.values())
+      pending.reject(new Error("sandbox terminated"));
     this.pendingCallbacks.clear();
     this.callbackWrapperCache.clear();
   }
