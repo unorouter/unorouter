@@ -40,7 +40,7 @@ import {
   type SessionSnapshot,
 } from "@/lib/validation/image";
 import { safeParse } from "@/lib/validation/helpers";
-import { fnv1aHex, handleElysia, uid } from "@/lib/utils/base";
+import { fnv1aHex, handleElysia, uid, sleep } from "@/lib/utils/base";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { useApiMutation } from "@/lib/react-query/hooks";
 import { dayjs } from "@/lib/utils/format/date";
@@ -83,7 +83,7 @@ async function backfillSnapshotCost(
 ): Promise<void> {
   if (!requestIds.length) return;
   for (let attempt = 0; attempt < 5; attempt++) {
-    await new Promise((r) => setTimeout(r, 400 * (attempt + 1)));
+    await sleep(400 * (attempt + 1));
     let total = 0;
     let missing = false;
     for (const requestId of requestIds) {

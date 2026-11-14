@@ -1,5 +1,6 @@
 "use client";
 
+import { sleep } from "@/lib/utils/base";
 import {
   getApiJobsById,
   postApiJobs,
@@ -85,7 +86,7 @@ export async function runUrlImport<T>(
     if (Date.now() > deadline) {
       throw new Error(msg("ERRORS.CARD_IMPORT_FETCH_FAILED"));
     }
-    await new Promise((r) => setTimeout(r, POLL_MS));
+    await sleep(POLL_MS);
     const polled = await getApiJobsById(submitted.data.jobId);
     if (polled.status !== 200) throw rejected(polled.data);
 

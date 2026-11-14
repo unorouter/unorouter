@@ -1,5 +1,6 @@
 "use client";
 
+import { sleep } from "@/lib/utils/base";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 
 const MAX_RESUMES = 6;
@@ -63,7 +64,7 @@ export function resumableFetch(inner: typeof fetch): typeof fetch {
       if (signal?.aborted || resumes >= MAX_RESUMES) throw broken;
       resumes++;
       await visibleAgain();
-      await new Promise((r) => setTimeout(r, 300 * resumes));
+      await sleep(300 * resumes);
       const next = await fetch(`${path}?from=${received}`, { signal }).catch(
         () => null,
       );

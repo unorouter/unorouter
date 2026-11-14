@@ -18,7 +18,7 @@ import {
 } from "@/lib/db/client/data/rp/rp";
 import { queryKeys } from "@/lib/react-query/keys";
 import type { CardBody } from "@/lib/validation/rp";
-import { isRecord, uid } from "@/lib/utils/base";
+import { isRecord, uid, stringItems } from "@/lib/utils/base";
 import { msg } from "@/lib/config/constants";
 import { toast } from "sonner";
 import { useQuery } from "@tanstack/react-query";
@@ -202,12 +202,8 @@ export function useImportCardFromFileMutation() {
       if (!isRecord(parsed) || typeof parsed.name !== "string") {
         throw new Error(msg("ERRORS.CARD_FILE_INVALID"));
       }
-      const ids = (v: unknown): string[] =>
-        Array.isArray(v)
-          ? v.filter((x): x is string => typeof x === "string")
-          : [];
-      const wantCharacters = ids(parsed.characterIds);
-      const wantLorebooks = ids(parsed.lorebookIds);
+      const wantCharacters = stringItems(parsed.characterIds);
+      const wantLorebooks = stringItems(parsed.lorebookIds);
 
       const [characters, lorebooks, personas] = await Promise.all([
         readLocalCharacters(),

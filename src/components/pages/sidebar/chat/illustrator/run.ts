@@ -14,6 +14,7 @@ import {
   rec,
   jsonArray,
   uid,
+  sleep,
 } from "@/lib/utils/base";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -102,7 +103,7 @@ async function generateTaskImage(
   );
   const deadline = Date.now() + TASK_TIMEOUT_MS;
   while (Date.now() < deadline) {
-    await new Promise((resolve) => setTimeout(resolve, TASK_POLL_MS));
+    await sleep(TASK_POLL_MS);
     const state = handleElysia(
       await rpc.api.ai.chat.task({ taskId: task.taskId }).get(),
     );

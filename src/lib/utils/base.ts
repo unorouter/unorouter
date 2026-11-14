@@ -35,6 +35,12 @@ export function isStringArray(v: unknown): v is string[] {
   return Array.isArray(v) && v.every((x) => typeof x === "string");
 }
 
+export function stringItems(v: unknown): string[] {
+  return Array.isArray(v)
+    ? v.filter((x): x is string => typeof x === "string")
+    : [];
+}
+
 export function safeJsonParse<T = Record<string, unknown>>(
   raw: string | undefined | null,
   fallback: T,

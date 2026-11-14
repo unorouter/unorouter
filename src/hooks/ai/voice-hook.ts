@@ -6,7 +6,7 @@ import {
 } from "@/lib/db/client/data/voice";
 import { queryKeys } from "@/lib/react-query/keys";
 import { useApiMutation } from "@/lib/react-query/hooks";
-import { rec, recArr } from "@/lib/utils/base";
+import { rec, recArr, stringItems } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 import type { FishVoice, VoiceSettingsForm } from "@/lib/validation/voice";
 import { useQuery } from "@tanstack/react-query";
@@ -36,9 +36,6 @@ export function useSaveVoiceSettingsMutation() {
   });
 }
 
-const strings = (v: unknown) =>
-  Array.isArray(v) ? v.filter((x): x is string => typeof x === "string") : [];
-
 export function useFishVoicesQuery(query: string, apiKey: string) {
   return useQuery({
     queryKey: queryKeys.fishVoices(query),
@@ -56,8 +53,8 @@ export function useFishVoicesQuery(query: string, apiKey: string) {
               {
                 id: m._id,
                 title: m.title,
-                languages: strings(m.languages),
-                tags: strings(m.tags),
+                languages: stringItems(m.languages),
+                tags: stringItems(m.tags),
               },
             ]
           : [],
