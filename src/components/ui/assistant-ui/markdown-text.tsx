@@ -142,7 +142,7 @@ const HiddenBlocks: FC<{ blocks: string[] }> = (props) => {
   );
 };
 
-const MarkdownTextImpl = () => {
+export const MarkdownText = () => {
   const hasMath = useAuiState((s) =>
     s.message.content.some(
       (p) => p.type === "text" && hasMathOutsideCode(p.text),
@@ -214,8 +214,6 @@ const MarkdownTextImpl = () => {
     </>
   );
 };
-
-export const MarkdownText = MarkdownTextImpl;
 
 // For text outside a chat runtime (a room guest's transcript): the same
 // components and quote styling, without the message-scope lookups that drive
