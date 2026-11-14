@@ -13,6 +13,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Icon } from "@/components/ui/icon";
 import type { DbExportOptions } from "@/lib/db/client/data/diagnostics/db-export";
+import type {
+  ImportMode,
+  ReconcileImportResult,
+} from "@/lib/db/client/data-migrate/reconcile-import";
 import { queryKeys } from "@/lib/react-query/keys";
 import {
   readBackupState,
@@ -20,6 +24,7 @@ import {
   setReminderInterval,
 } from "@/lib/utils/backup-reminder";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
+import { pickFile } from "@/lib/utils/client";
 import { logger } from "@/lib/utils/logger";
 import { dbTransferAtom } from "@/store/chat-store";
 import { useQueryClient } from "@tanstack/react-query";
@@ -27,6 +32,49 @@ import { useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
+
+type T = ReturnType<typeof useTranslations<never>>;
+
+export async function askImportMode(t: T): Promise<ImportMode | null> {
+  const choice = await confirmChoice({
+    title: t("COMMON.CONFIRM.IMPORT_DB_TITLE"),
+    description: `${t("CHAT.MORE.LOCAL_DB_IMPORT_CHOICE")} ${t("CHAT.MORE.LOCAL_DB_UPLOAD_KEEP_OPEN")}`,
+    confirmLabel: t("CHAT.MORE.LOCAL_DB_IMPORT_MERGE"),
+    altLabel: t("CHAT.MORE.LOCAL_DB_IMPORT_REPLACE"),
+    altDestructive: true,
+    cancelLabel: t("COMMON.CANCEL"),
+  });
+  if (!choice) return null;
+  return choice === "primary" ? "merge" : "replace";
+}
+
+export function toastImportResult(
+  t: T,
+  mode: ImportMode,
+  res: ReconcileImportResult,
+) {
+  toast.success(
+    t(
+      mode === "merge"
+        ? "CHAT.MORE.LOCAL_DB_MERGE_SUMMARY"
+        : "CHAT.MORE.LOCAL_DB_IMPORT_SUMMARY",
+      {
+        imported: res.imported,
+        updated: res.updated,
+        skipped: res.skipped,
+        tables: res.tables,
+      },
+    ),
+  );
+  setTimeout(() => location.reload(), 1200);
+}
+
+const EXPORT_OPTIONS = [
+  ["includeChats", "CHAT.MORE.LOCAL_DB_EXPORT_CHATS"],
+  ["includeRequestLogs", "CHAT.MORE.LOCAL_DB_EXPORT_LOGS"],
+  ["includeMedia", "CHAT.MORE.LOCAL_DB_EXPORT_MEDIA"],
+  ["directFromDisk", "CHAT.MORE.LOCAL_DB_EXPORT_DIRECT"],
+] as const;
 
 export function DatabaseSubmenu() {
   const t = useTranslations();
@@ -57,34 +105,13 @@ export function DatabaseSubmenu() {
   };
 
   const upload = async (file: File) => {
-    const choice = await confirmChoice({
-      title: t("COMMON.CONFIRM.IMPORT_DB_TITLE"),
-      description: `${t("CHAT.MORE.LOCAL_DB_IMPORT_CHOICE")} ${t("CHAT.MORE.LOCAL_DB_UPLOAD_KEEP_OPEN")}`,
-      confirmLabel: t("CHAT.MORE.LOCAL_DB_IMPORT_MERGE"),
-      altLabel: t("CHAT.MORE.LOCAL_DB_IMPORT_REPLACE"),
-      altDestructive: true,
-      cancelLabel: t("COMMON.CANCEL"),
-    });
-    if (!choice) return;
-    const mode = choice === "primary" ? "merge" : "replace";
+    const mode = await askImportMode(t);
+    if (!mode) return;
     try {
       const { importDatabaseBuffer } =
         await import("@/lib/db/client/transfer/transfer");
       const res = await importDatabaseBuffer(await file.arrayBuffer(), mode);
-      toast.success(
-        t(
-          mode === "merge"
-            ? "CHAT.MORE.LOCAL_DB_MERGE_SUMMARY"
-            : "CHAT.MORE.LOCAL_DB_IMPORT_SUMMARY",
-          {
-            imported: res.imported,
-            updated: res.updated,
-            skipped: res.skipped,
-            tables: res.tables,
-          },
-        ),
-      );
-      setTimeout(() => location.reload(), 1200);
+      toastImportResult(t, mode, res);
     } catch (err) {
       logger.error("DB reconcile-import failed", {
         context: "local-db.menu",
@@ -122,115 +149,82 @@ export function DatabaseSubmenu() {
     location.reload();
   };
 
-  // Not rendered: clicking the menu item CLOSES the menu, which unmounts
-  // anything rendered alongside it, so a ref to a JSX input is already null by
-  // the time the handler runs and .click() silently no-ops. The picker has to
-  // outlive the menu, so it lives on document.body.
-  const pickFile = () => {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = ".sqlite,.sqlite3,.db,application/octet-stream";
-    input.style.display = "none";
-    input.addEventListener("change", () => {
-      const file = input.files?.[0];
-      input.remove();
-      if (file) void upload(file);
-    });
-    // Cancelling the dialog fires no change event, so the node would leak.
-    input.addEventListener("cancel", () => input.remove());
-    document.body.appendChild(input);
-    input.click();
-  };
-
   return (
-    <>
-      <DropdownMenuSub>
-        <DropdownMenuSubTrigger>
-          <Icon name="database" className="size-4" />
-          {t("CHAT.MORE.LOCAL_DB")}
-        </DropdownMenuSubTrigger>
-        <DropdownMenuSubContent>
+    <DropdownMenuSub>
+      <DropdownMenuSubTrigger>
+        <Icon name="database" className="size-4" />
+        {t("CHAT.MORE.LOCAL_DB")}
+      </DropdownMenuSubTrigger>
+      <DropdownMenuSubContent>
+        {EXPORT_OPTIONS.map(([key, label]) => (
           <DropdownMenuCheckboxItem
-            checked={opts.includeChats}
-            onCheckedChange={(v) => setOpts({ ...opts, includeChats: v })}
+            key={key}
+            checked={opts[key]}
+            onCheckedChange={(v) => setOpts({ ...opts, [key]: v })}
             closeOnClick={false}
           >
-            {t("CHAT.MORE.LOCAL_DB_EXPORT_CHATS")}
+            {t(label)}
           </DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem
-            checked={opts.includeRequestLogs}
-            onCheckedChange={(v) => setOpts({ ...opts, includeRequestLogs: v })}
-            closeOnClick={false}
-          >
-            {t("CHAT.MORE.LOCAL_DB_EXPORT_LOGS")}
-          </DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem
-            checked={opts.includeMedia}
-            onCheckedChange={(v) => setOpts({ ...opts, includeMedia: v })}
-            closeOnClick={false}
-          >
-            {t("CHAT.MORE.LOCAL_DB_EXPORT_MEDIA")}
-          </DropdownMenuCheckboxItem>
-          <DropdownMenuCheckboxItem
-            checked={opts.directFromDisk}
-            onCheckedChange={(v) => setOpts({ ...opts, directFromDisk: v })}
-            closeOnClick={false}
-          >
-            {t("CHAT.MORE.LOCAL_DB_EXPORT_DIRECT")}
-          </DropdownMenuCheckboxItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => download(opts)}>
-            <Icon name="download" className="size-4" />
-            {t("CHAT.MORE.LOCAL_DB_DOWNLOAD")}
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={pickFile}>
-            <Icon name="upload" className="size-4" />
-            {t("CHAT.MORE.LOCAL_DB_UPLOAD")}
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => setTransfer({ mode: "send", opts })}>
-            <Icon name="send" className="size-4" />
-            {t("CHAT.MORE.LOCAL_DB_SEND")}
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setTransfer({ mode: "receive" })}>
-            <Icon name="download" className="size-4" />
-            {t("CHAT.MORE.LOCAL_DB_RECEIVE")}
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuSub>
-            <DropdownMenuSubTrigger>
-              <Icon name="bell" className="size-4" />
-              {t("CHAT.MORE.BACKUP_REMINDER")}
-            </DropdownMenuSubTrigger>
-            <DropdownMenuSubContent>
-              <DropdownMenuRadioGroup
-                value={String(reminderDays)}
-                onValueChange={(v) => {
-                  const days = Number(v);
-                  setReminderInterval(days);
-                  setReminderDays(days);
-                  void qc.invalidateQueries({
-                    queryKey: queryKeys.backupReminder(),
-                  });
-                }}
-              >
-                {REMINDER_INTERVALS.map((days) => (
-                  <DropdownMenuRadioItem key={days} value={String(days)}>
-                    {days === 0
-                      ? t("CHAT.MORE.BACKUP_REMINDER_OFF")
-                      : t("CHAT.MORE.BACKUP_REMINDER_EVERY", { days })}
-                  </DropdownMenuRadioItem>
-                ))}
-              </DropdownMenuRadioGroup>
-            </DropdownMenuSubContent>
-          </DropdownMenuSub>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem variant="destructive" onClick={wipe}>
-            <Icon name="trash-2" className="size-4" />
-            {t("CHAT.MORE.LOCAL_DB_WIPE")}
-          </DropdownMenuItem>
-        </DropdownMenuSubContent>
-      </DropdownMenuSub>
-    </>
+        ))}
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={() => download(opts)}>
+          <Icon name="download" className="size-4" />
+          {t("CHAT.MORE.LOCAL_DB_DOWNLOAD")}
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() =>
+            pickFile(
+              ".sqlite,.sqlite3,.db,application/octet-stream",
+              (file) => void upload(file),
+            )
+          }
+        >
+          <Icon name="upload" className="size-4" />
+          {t("CHAT.MORE.LOCAL_DB_UPLOAD")}
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onClick={() => setTransfer({ mode: "send", opts })}>
+          <Icon name="send" className="size-4" />
+          {t("CHAT.MORE.LOCAL_DB_SEND")}
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTransfer({ mode: "receive" })}>
+          <Icon name="download" className="size-4" />
+          {t("CHAT.MORE.LOCAL_DB_RECEIVE")}
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuSub>
+          <DropdownMenuSubTrigger>
+            <Icon name="bell" className="size-4" />
+            {t("CHAT.MORE.BACKUP_REMINDER")}
+          </DropdownMenuSubTrigger>
+          <DropdownMenuSubContent>
+            <DropdownMenuRadioGroup
+              value={String(reminderDays)}
+              onValueChange={(v) => {
+                const days = Number(v);
+                setReminderInterval(days);
+                setReminderDays(days);
+                void qc.invalidateQueries({
+                  queryKey: queryKeys.backupReminder(),
+                });
+              }}
+            >
+              {REMINDER_INTERVALS.map((days) => (
+                <DropdownMenuRadioItem key={days} value={String(days)}>
+                  {days === 0
+                    ? t("CHAT.MORE.BACKUP_REMINDER_OFF")
+                    : t("CHAT.MORE.BACKUP_REMINDER_EVERY", { days })}
+                </DropdownMenuRadioItem>
+              ))}
+            </DropdownMenuRadioGroup>
+          </DropdownMenuSubContent>
+        </DropdownMenuSub>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem variant="destructive" onClick={wipe}>
+          <Icon name="trash-2" className="size-4" />
+          {t("CHAT.MORE.LOCAL_DB_WIPE")}
+        </DropdownMenuItem>
+      </DropdownMenuSubContent>
+    </DropdownMenuSub>
   );
 }

@@ -36,6 +36,7 @@ import {
 } from "@/lib/db/client/data/chat/group-tree";
 import { ConversationItem } from "./conversation-item";
 import { ChatGroupSection } from "./chat-group-section";
+import { useDebouncedValue } from "@/hooks/ui/use-debounced-value";
 
 export function ConversationList() {
   const t = useTranslations();
@@ -43,15 +44,10 @@ export function ConversationList() {
   const sidebar = useSidebar();
   const activeThreadId = useAuiState((s) => s.threadListItem.remoteId);
   const [search, setSearch] = useState("");
-  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [selectedIds, setSelectedIds] = useState<Set<string> | null>(null);
   const sentinelRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setDebouncedSearch(search.trim()), 300);
-    return () => clearTimeout(timer);
-  }, [search]);
+  const debouncedSearch = useDebouncedValue(search.trim(), 300);
 
   const conversationsQuery = useConversationsInfiniteQuery(
     debouncedSearch || undefined,
@@ -168,7 +164,9 @@ export function ConversationList() {
     />
   );
 
-  const ungrouped = conversations.filter((c) => !c.groupId);
+  const flat = grouped
+    ? conversations.filter((c) => !c.groupId)
+    : conversations;
 
   const subtreeCount = (node: GroupNode): number =>
     conversations.filter((c) => c.groupId === node.group.id).length +
@@ -271,7 +269,7 @@ export function ConversationList() {
           {grouped &&
             buildGroupTree(groups).map((node) => renderGroup(node, 1))}
 
-          {ungrouped.map(renderItem)}
+          {flat.map(renderItem)}
 
           <div ref={sentinelRef} className="h-1" />
           {conversationsQuery.isFetchingNextPage && (

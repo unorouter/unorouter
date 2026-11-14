@@ -439,3 +439,23 @@ export function sameOriginPath(target: unknown): string | null {
     ? url.pathname + url.search + url.hash
     : null;
 }
+
+// Not rendered: clicking a menu item CLOSES the menu, which unmounts anything
+// rendered alongside it, so a ref to a JSX input is already null by the time
+// the handler runs and .click() silently no-ops. The picker has to outlive the
+// menu, so it lives on document.body.
+export function pickFile(accept: string, onFile: (file: File) => void) {
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = accept;
+  input.style.display = "none";
+  input.addEventListener("change", () => {
+    const file = input.files?.[0];
+    input.remove();
+    if (file) onFile(file);
+  });
+  // Cancelling the dialog fires no change event, so the node would leak.
+  input.addEventListener("cancel", () => input.remove());
+  document.body.appendChild(input);
+  input.click();
+}

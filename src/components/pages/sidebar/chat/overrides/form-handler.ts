@@ -114,27 +114,12 @@ function buildDefaultsForm(
   // Precedence must stay identical to seedConversation's, else the drawer shows
   // values that differ from the ones sent.
   const p = pendingPreset ?? {};
-  const layered = {
-    temperature:
-      modelMemory.temperature ?? p.temperature ?? chatDefaults.temperature,
-    topP: modelMemory.topP ?? p.topP ?? chatDefaults.topP,
-    topK: modelMemory.topK ?? p.topK ?? chatDefaults.topK,
-    minP: modelMemory.minP ?? p.minP ?? chatDefaults.minP,
-    topA: modelMemory.topA ?? p.topA ?? chatDefaults.topA,
-    frequencyPenalty:
-      modelMemory.frequencyPenalty ??
-      p.frequencyPenalty ??
-      chatDefaults.frequencyPenalty,
-    presencePenalty:
-      modelMemory.presencePenalty ??
-      p.presencePenalty ??
-      chatDefaults.presencePenalty,
-    repetitionPenalty:
-      modelMemory.repetitionPenalty ??
-      p.repetitionPenalty ??
-      chatDefaults.repetitionPenalty,
-    maxTokens: modelMemory.maxTokens ?? p.maxTokens ?? chatDefaults.maxTokens,
-  };
+  const layered = Object.fromEntries(
+    SAMPLING_FIELDS.map((field) => [
+      field,
+      modelMemory[field] ?? p[field] ?? chatDefaults[field],
+    ]),
+  );
   return {
     personaId: NONE_VALUE,
     presetId: NONE_VALUE,
@@ -168,8 +153,6 @@ function buildDefaultsForm(
   };
 }
 
-type ConvSettings = ConversationSettingsProjection;
-
 type ConvBindings = {
   characters: { characterId: string }[];
   lorebooks: { lorebookId: string }[];
@@ -201,7 +184,7 @@ function resolveNum(
 }
 
 function buildSettingsForm(
-  settings: ConvSettings,
+  settings: ConversationSettingsProjection,
   bindings: ConvBindings,
   preset: InheritSource | null,
 ): ConversationOverridesForm {
@@ -253,7 +236,7 @@ export function computeFormValues(args: {
   chatDefaults: StreamOverrides;
   activeModelName: string | null | undefined;
   samplerMemoryByModel: Record<string, ModelSamplerMemory>;
-  settings: ConvSettings | null | undefined;
+  settings: ConversationSettingsProjection | null | undefined;
   bindings: ConvBindings | null | undefined;
   preset: InheritSource | null;
 }): ConversationOverridesForm | undefined {
@@ -267,13 +250,9 @@ export function computeFormValues(args: {
   return buildSettingsForm(args.settings, args.bindings, args.preset);
 }
 
-export function buildDefaultsOverrides(
-  data: ConversationOverridesForm,
-): StreamOverrides {
+function sharedOverrides(data: ConversationOverridesForm) {
   return {
     reasoningEffort: formReasoningEffortToValue(data.reasoningEffort),
-    chatMemory: data.chatMemory,
-    contextTokens: data.contextTokens,
     systemPromptOverride: data.systemPromptOverride || null,
     authorNote: data.authorNote || null,
     authorNoteDepth: data.authorNoteDepth,
@@ -282,9 +261,6 @@ export function buildDefaultsOverrides(
     webSearchContextSize: data.webSearchContextSize,
     ...samplingValues(data),
     extraBody: data.extraBody || null,
-    streamingEnabled: data.streamingEnabled,
-    autoScrollStream: data.autoScrollStream,
-    showReasoning: data.showReasoning,
     memoryEnabled: data.memoryEnabled,
     imageEnabled: data.imageEnabled,
     voiceEnabled: data.voiceEnabled,
@@ -295,6 +271,19 @@ export function buildDefaultsOverrides(
     imageModel: data.imageModel === NONE_VALUE ? null : data.imageModel,
     imagePreview: data.imagePreview,
     useCharAvatarRef: data.useCharAvatarRef,
+  };
+}
+
+export function buildDefaultsOverrides(
+  data: ConversationOverridesForm,
+): StreamOverrides {
+  return {
+    ...sharedOverrides(data),
+    chatMemory: data.chatMemory,
+    contextTokens: data.contextTokens,
+    streamingEnabled: data.streamingEnabled,
+    autoScrollStream: data.autoScrollStream,
+    showReasoning: data.showReasoning,
   };
 }
 
@@ -312,29 +301,11 @@ export function buildSettingsBody(
   preset: InheritSource | null,
 ) {
   return {
+    ...sharedOverrides(data),
     chatMemory: data.chatMemory ?? null,
     contextTokens: data.contextTokens ?? null,
-    authorNoteDepth: data.authorNoteDepth,
-    systemPromptOverride: data.systemPromptOverride || null,
-    authorNote: data.authorNote || null,
     personaId: data.personaId === NONE_VALUE ? null : data.personaId,
     presetId: data.presetId === NONE_VALUE ? null : data.presetId,
-    reasoningEffort: formReasoningEffortToValue(data.reasoningEffort),
-    webSearchEnabled: data.webSearchEnabled,
-    webSearchEngine: data.webSearchEngine,
-    webSearchContextSize: data.webSearchContextSize,
-    memoryEnabled: data.memoryEnabled,
-    imageEnabled: data.imageEnabled,
-    voiceEnabled: data.voiceEnabled,
-    utilityModel: data.utilityModel === NONE_VALUE ? null : data.utilityModel,
-    titleModel: data.titleModel === NONE_VALUE ? null : data.titleModel,
-    titlePrompt: data.titlePrompt || null,
-    promptInstruction: data.promptInstruction || null,
-    imageModel: data.imageModel === NONE_VALUE ? null : data.imageModel,
-    imagePreview: data.imagePreview,
-    useCharAvatarRef: data.useCharAvatarRef,
-    ...samplingValues(data),
-    extraBody: data.extraBody || null,
     streamingEnabled: overrideOrInherit(
       data.streamingEnabled,
       preset?.streamingEnabled,

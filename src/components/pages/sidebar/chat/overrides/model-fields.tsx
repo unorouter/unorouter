@@ -49,7 +49,7 @@ import type { Control, FieldPath, FieldValues } from "react-hook-form";
 
 type ModelOption = { id: string; name: string };
 
-export function ModelIdPicker(props: {
+function ModelIdPicker(props: {
   value: string;
   onPick: (id: string) => void;
   customOptions: ModelOption[];

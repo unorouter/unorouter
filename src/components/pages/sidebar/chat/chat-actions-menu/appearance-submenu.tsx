@@ -34,7 +34,7 @@ export function AppearanceSubmenu(props: { onOpenCustomizer: () => void }) {
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
-  const { setTheme } = useTheme();
+  const theme = useTheme();
 
   const switchLocale = (next: Locale) => {
     const matched = matchPathname(pathname, locale);
@@ -49,7 +49,6 @@ export function AppearanceSubmenu(props: { onOpenCustomizer: () => void }) {
         {t("CHAT.MORE.APPEARANCE")}
       </DropdownMenuSubTrigger>
       <DropdownMenuSubContent>
-        {/* Theme + Language only on mobile (desktop has the header toggles). */}
         <div className="md:hidden">
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
@@ -57,15 +56,15 @@ export function AppearanceSubmenu(props: { onOpenCustomizer: () => void }) {
               {t("THEME.TITLE")}
             </DropdownMenuSubTrigger>
             <DropdownMenuSubContent>
-              <DropdownMenuItem onClick={() => setTheme("light")}>
+              <DropdownMenuItem onClick={() => theme.setTheme("light")}>
                 <Icon name="sun" className="size-4" />
                 {t("THEME.LIGHT")}
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme("dark")}>
+              <DropdownMenuItem onClick={() => theme.setTheme("dark")}>
                 <Icon name="moon" className="size-4" />
                 {t("THEME.DARK")}
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setTheme("system")}>
+              <DropdownMenuItem onClick={() => theme.setTheme("system")}>
                 <Icon name="monitor" className="size-4" />
                 {t("THEME.SYSTEM")}
               </DropdownMenuItem>

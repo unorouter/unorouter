@@ -39,10 +39,13 @@ export function RequestLogSheet(props: {
 
   // Retention EMPTIES the heavy columns rather than deleting the row, so an old
   // log opens with every payload as `[]` and no other signal that it was trimmed.
-  const trimmed =
-    !!row &&
+  const trimmedNote = !!row &&
     (row.finalMessages == null ||
-      (Array.isArray(row.finalMessages) && row.finalMessages.length === 0));
+      (Array.isArray(row.finalMessages) && row.finalMessages.length === 0)) && (
+      <p className="text-muted-foreground mb-2 text-xs italic">
+        {t("CHAT.REQUEST_LOG.TRIMMED")}
+      </p>
+    );
 
   const sent = rec(row?.sent);
   const sentReasoning = rec(sent?.providerOptions)?.reasoningEffort;
@@ -165,33 +168,21 @@ export function RequestLogSheet(props: {
               <p className="text-muted-foreground mb-2 text-xs">
                 {t("CHAT.REQUEST_LOG.TAB_UPSTREAM_HINT")}
               </p>
-              {trimmed && (
-                <p className="text-muted-foreground mb-2 text-xs italic">
-                  {t("CHAT.REQUEST_LOG.TRIMMED")}
-                </p>
-              )}
+              {trimmedNote}
               <Highlight code={formatJson(upstreamBody)} />
             </TabsContent>
             <TabsContent value="system" className="min-h-0 overflow-auto">
               <p className="text-muted-foreground mb-2 text-xs">
                 {t("CHAT.REQUEST_LOG.TAB_SYSTEM_HINT")}
               </p>
-              {trimmed && (
-                <p className="text-muted-foreground mb-2 text-xs italic">
-                  {t("CHAT.REQUEST_LOG.TRIMMED")}
-                </p>
-              )}
+              {trimmedNote}
               <Highlight code={row.assembledSystem ?? ""} language="markdown" />
             </TabsContent>
             <TabsContent value="final" className="min-h-0 overflow-auto">
               <p className="text-muted-foreground mb-2 text-xs">
                 {t("CHAT.REQUEST_LOG.TAB_FINAL_HINT")}
               </p>
-              {trimmed && (
-                <p className="text-muted-foreground mb-2 text-xs italic">
-                  {t("CHAT.REQUEST_LOG.TRIMMED")}
-                </p>
-              )}
+              {trimmedNote}
               <Highlight code={formatJson(row.finalMessages)} />
             </TabsContent>
             <TabsContent value="headers" className="min-h-0 overflow-auto">

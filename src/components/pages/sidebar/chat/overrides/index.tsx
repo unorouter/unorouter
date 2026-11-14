@@ -4,7 +4,6 @@ import { useMarkDirtyForm } from "@/hooks/ui/use-rp-form";
 
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { Icon } from "@/components/ui/icon";
 import {
   Sheet,
   SheetContent,
@@ -12,7 +11,6 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "@/components/ui/sheet";
 import {
   useChatBindingsQuery,
@@ -62,16 +60,14 @@ import { formDefaults } from "@/lib/validation/helpers";
 
 type DrawerProps = {
   convId: string | null;
-  trigger?: React.ReactElement;
-  open?: boolean;
-  onOpenChange?: (open: boolean) => void;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 };
 
 export function ConversationOverridesDrawer(props: DrawerProps) {
   const t = useTranslations();
   const isMobile = useIsMobile();
   const isDefaultsMode = !props.convId;
-  const showConversationFields = !isDefaultsMode;
   const [chatDefaults, setChatDefaults] = useAtom(chatDefaultsAtom);
   const setLoadout = useSetAtom(chatLoadoutAtom);
   const [samplerMemoryByModel, setSamplerMemoryByModel] = useAtom(
@@ -80,12 +76,8 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
   const activeModelName = useAtomValue(chatModelAtom);
   const activeModel = useModelDetailQuery(activeModelName ?? null).data;
   const activeModelMetadata = activeModel?.metadata;
-  const settingsQuery = useChatSettingsQuery(
-    !isDefaultsMode ? props.convId! : undefined,
-  );
-  const bindingsQuery = useChatBindingsQuery(
-    !isDefaultsMode ? props.convId! : undefined,
-  );
+  const settingsQuery = useChatSettingsQuery(props.convId ?? undefined);
+  const bindingsQuery = useChatBindingsQuery(props.convId ?? undefined);
 
   const updateSettings = useUpdateChatSettingsMutation();
   const updateBindings = useUpdateChatBindingsMutation();
@@ -131,7 +123,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
   });
   const lastDrawerState = useRef("");
   useEffect(() => {
-    if (props.open === false || lastDrawerState.current === drawerState) return;
+    if (!props.open || lastDrawerState.current === drawerState) return;
     lastDrawerState.current = drawerState;
     logChatDebug("settings.drawer_state", JSON.parse(drawerState));
   }, [props.open, drawerState]);
@@ -193,25 +185,8 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
     }
   };
 
-  const controlled = props.open !== undefined;
-
   return (
     <Sheet open={props.open} onOpenChange={props.onOpenChange}>
-      {!controlled && (
-        <SheetTrigger
-          render={
-            props.trigger ?? (
-              <Button
-                variant="ghost"
-                size="icon"
-                aria-label={t("CHAT.OVERRIDES.OPEN")}
-              >
-                <Icon name="settings-2" className="size-4" />
-              </Button>
-            )
-          }
-        />
-      )}
       <SheetContent
         side={isMobile ? "bottom" : "right"}
         className="max-h-[90dvh] overflow-x-hidden overflow-y-auto sm:max-w-md"
@@ -227,7 +202,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
             className="flex min-h-0 flex-1 flex-col"
           >
             <div className="flex flex-col gap-5 px-4">
-              {showConversationFields && (
+              {!isDefaultsMode && (
                 <OverridesBindingFields control={form.control} />
               )}
 
@@ -236,9 +211,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                 webSearchEnabled={webSearchEnabled}
               />
 
-              {showConversationFields && (
-                <ImageRefsField convId={props.convId!} />
-              )}
+              {!isDefaultsMode && <ImageRefsField convId={props.convId!} />}
 
               <SamplingFields
                 control={form.control}

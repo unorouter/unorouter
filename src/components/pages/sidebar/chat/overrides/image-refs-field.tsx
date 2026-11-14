@@ -9,7 +9,7 @@ import {
 } from "@/hooks/ai/rp/conversations";
 import { upsertLocalMedia } from "@/lib/db/client/data/media/media";
 import { handleError } from "@/lib/utils/client";
-import { uid } from "@/lib/utils/base";
+import { fileToBase64, uid } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
 import { useRef } from "react";
 import { useMediaSrc } from "@/hooks/ai/use-media-src";
@@ -26,18 +26,6 @@ function parseRefIds(raw: string | null | undefined): string[] {
   } catch {
     return [];
   }
-}
-
-function readFileBase64(file: File): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      const result = String(reader.result ?? "");
-      resolve(result.slice(result.indexOf(",") + 1));
-    };
-    reader.onerror = () => reject(reader.error);
-    reader.readAsDataURL(file);
-  });
 }
 
 export function ImageRefsField(props: { convId: string }) {
@@ -69,7 +57,7 @@ export function ImageRefsField(props: { convId: string }) {
           convId: props.convId,
           mimeType: file.type,
           sizeBytes: file.size,
-          dataBase64: await readFileBase64(file),
+          dataBase64: await fileToBase64(file),
         });
         ids.push(id);
       }

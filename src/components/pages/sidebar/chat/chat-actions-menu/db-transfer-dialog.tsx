@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { confirmChoice } from "@/components/ui/confirm";
 import {
   Dialog,
   DialogContent,
@@ -12,6 +11,7 @@ import {
 import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import type { DbExportOptions } from "@/lib/db/client/data/diagnostics/db-export";
+import type { ImportMode } from "@/lib/db/client/data-migrate/reconcile-import";
 import {
   parseTransferCode,
   receiveDatabase,
@@ -29,6 +29,7 @@ import { useQueryState } from "nuqs";
 import { QRCodeSVG } from "qrcode.react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
+import { askImportMode, toastImportResult } from "./database-submenu";
 
 const STAGE_KEY: Record<TransferStage, TranslationKey> = {
   export: "CHAT.DB_TRANSFER.STAGE_EXPORT",
@@ -161,34 +162,14 @@ function ReceiveBody(props: {
     }
     props.onBusy(true);
     try {
-      let merged = false;
+      let mode: ImportMode = "replace";
       const result = await receiveDatabase(parsed, setStage, async () => {
-        const choice = await confirmChoice({
-          title: t("COMMON.CONFIRM.IMPORT_DB_TITLE"),
-          description: `${t("CHAT.MORE.LOCAL_DB_IMPORT_CHOICE")} ${t("CHAT.MORE.LOCAL_DB_UPLOAD_KEEP_OPEN")}`,
-          confirmLabel: t("CHAT.MORE.LOCAL_DB_IMPORT_MERGE"),
-          altLabel: t("CHAT.MORE.LOCAL_DB_IMPORT_REPLACE"),
-          altDestructive: true,
-          cancelLabel: t("COMMON.CANCEL"),
-        });
-        merged = choice === "primary";
-        return choice ? (merged ? "merge" : "replace") : null;
+        const choice = await askImportMode(t);
+        if (choice) mode = choice;
+        return choice;
       });
       if (!result) return;
-      toast.success(
-        t(
-          merged
-            ? "CHAT.MORE.LOCAL_DB_MERGE_SUMMARY"
-            : "CHAT.MORE.LOCAL_DB_IMPORT_SUMMARY",
-          {
-            imported: result.imported,
-            updated: result.updated,
-            skipped: result.skipped,
-            tables: result.tables,
-          },
-        ),
-      );
-      setTimeout(() => location.reload(), 1200);
+      toastImportResult(t, mode, result);
     } catch (err) {
       fail(err, stage ?? "receive");
     } finally {

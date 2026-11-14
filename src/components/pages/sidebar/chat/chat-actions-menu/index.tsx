@@ -22,6 +22,7 @@ import {
   conversationSettingsOpenAtom,
   focusMemoryFieldAtom,
 } from "@/store/chat-store";
+import { useAuiState } from "@assistant-ui/react";
 import { useAtom, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
@@ -30,10 +31,6 @@ import { AppearanceSubmenu } from "./appearance-submenu";
 import { RpNavItems } from "./rp-nav-items";
 import { RequestLogListSheet } from "../request-log/request-log-list-sheet";
 import { ToolsSubmenu } from "./tools-submenu";
-
-type Props = {
-  convId: string | null;
-};
 
 const ConversationOverridesDrawer = dynamic(
   () =>
@@ -50,8 +47,9 @@ const ThemeCustomizerSheet = dynamic(
   { ssr: false },
 );
 
-export function ChatActionsMenu(props: Props) {
+export function ChatActionsMenu() {
   const t = useTranslations();
+  const convId = useAuiState((s) => s.threadListItem?.remoteId) ?? null;
   const [themeOpen, setThemeOpen] = useState(false);
   const [logsOpen, setLogsOpen] = useState(false);
   const [consentsOpen, setConsentsOpen] = useState(false);
@@ -81,7 +79,7 @@ export function ChatActionsMenu(props: Props) {
             <Icon name="settings-2" className="size-4" />
             {t("CHAT.OVERRIDES.OPEN")}
           </DropdownMenuItem>
-          {props.convId && (
+          {convId && (
             <DropdownMenuItem
               onClick={() => {
                 setFocusMemory(true);
@@ -93,13 +91,11 @@ export function ChatActionsMenu(props: Props) {
             </DropdownMenuItem>
           )}
           <DropdownMenuSeparator />
-          {/* Library: priority, flat + top-level. */}
           <RpNavItems />
           <DropdownMenuSeparator />
-          {/* Everything else grouped: look-and-feel + utilities. */}
           <AppearanceSubmenu onOpenCustomizer={() => setThemeOpen(true)} />
           <ToolsSubmenu
-            convId={props.convId}
+            convId={convId}
             onOpenRequestLogs={() => setLogsOpen(true)}
           />
           <DropdownMenuSeparator />
@@ -112,7 +108,7 @@ export function ChatActionsMenu(props: Props) {
       </DropdownMenu>
       {settingsOpen && (
         <ConversationOverridesDrawer
-          convId={props.convId}
+          convId={convId}
           open={settingsOpen}
           onOpenChange={setSettingsOpen}
         />
@@ -141,9 +137,9 @@ export function ChatActionsMenu(props: Props) {
           </div>
         </DialogContent>
       </Dialog>
-      {logsOpen && props.convId && (
+      {logsOpen && convId && (
         <RequestLogListSheet
-          convId={props.convId}
+          convId={convId}
           open={logsOpen}
           onOpenChange={setLogsOpen}
         />

@@ -31,7 +31,6 @@ import { useAui, useAuiState } from "@assistant-ui/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { Button } from "../../../ui/button";
-import { ChatActionsMenu } from "./chat-actions-menu";
 
 export function ChatControls() {
   const t = useTranslations();
@@ -196,15 +195,6 @@ export function CharacterBackground(props: { convId?: string }) {
       <div className="bg-background/55 absolute inset-0 -z-10" />
       <style>{".aui-thread-root{background-color:transparent}"}</style>
     </>
-  );
-}
-
-export function ChatShareSlot() {
-  const threadId = useAuiState((s) => s.threadListItem?.remoteId);
-  return (
-    <div className="flex items-center gap-1">
-      <ChatActionsMenu convId={threadId ?? null} />
-    </div>
   );
 }
 
