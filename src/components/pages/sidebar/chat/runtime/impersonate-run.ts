@@ -18,7 +18,7 @@ import {
   chatLoadoutAtom,
   chatStore,
 } from "@/store/chat-store";
-import { resolveModelTargetFromStore } from "./resolve-model-target";
+import { resolveModelTargetFromStore } from "@/components/pages/sidebar/chat/runtime/transport/resolve-model-target";
 
 // SillyTavern's impersonation prompt, which is the one open-source wording with
 // years of RP mileage behind it. The two prohibitions are the load-bearing part:

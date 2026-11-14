@@ -21,11 +21,11 @@ import {
   replaceLocalMessageItems,
 } from "@/lib/db/client/data/chat/chat";
 import { runRegexScripts } from "@/lib/ai/chat/regex-scripts";
-import type { IllustratorConvSettings } from "./illustrator-run";
-import { requestImagePromptReview } from "@/components/pages/sidebar/chat/image-prompt-dialog-store";
+import type { IllustratorConvSettings } from "@/components/pages/sidebar/chat/illustrator/run";
+import { requestImagePromptReview } from "@/components/pages/sidebar/chat/illustrator/prompt-dialog-store";
 import { makeTriggerContext, runTriggers } from "@/lib/ai/chat/triggers/vm";
 import type { TriggerScript } from "@/lib/ai/chat/triggers/types";
-import { makeClientTriggerOps } from "./trigger-ops-client";
+import { makeClientTriggerOps } from "@/components/pages/sidebar/chat/runtime/transport/trigger-ops-client";
 import { insertLocalRequestLog } from "@/lib/db/client/data/chat/request-log";
 import {
   drainSoon,
@@ -299,7 +299,8 @@ async function prepareIllustratorJob(
   items: MessageItem[],
   resolvedModel: string | null,
 ): Promise<IllustratorJob | null> {
-  const { resolveIllustratorSettings } = await import("./illustrator-run");
+  const { resolveIllustratorSettings } =
+    await import("@/components/pages/sidebar/chat/illustrator/run");
   const illu = await resolveIllustratorSettings(convId);
   const hasError = items.some((it) => it.type === "error");
   if (!illu?.imageEnabled || hasError) return null;
@@ -534,7 +535,8 @@ async function fireIllustrator(
   },
 ): Promise<void> {
   try {
-    const { runIllustrator } = await import("./illustrator-run");
+    const { runIllustrator } =
+      await import("@/components/pages/sidebar/chat/illustrator/run");
     await runIllustrator({
       convId: args.convId,
       messageId: args.messageId,
@@ -818,7 +820,7 @@ export function createChatHistoryAdapter(
         }
 
         if (isAssistant && !existingRow && originalAssistantText.trim()) {
-          void import("./voice-run")
+          void import("@/components/pages/sidebar/chat/rp/voice/voice-run")
             .then((m) =>
               m.autoplayReply(
                 id,

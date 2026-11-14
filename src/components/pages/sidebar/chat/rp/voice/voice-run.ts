@@ -6,7 +6,7 @@ import {
 } from "@/lib/db/client/data/chat/chat";
 import { readLocalCharacter } from "@/lib/db/client/data/rp/rp";
 import { readLocalVoiceSettings } from "@/lib/db/client/data/voice";
-import { speak } from "@/lib/ai/voice/speak";
+import { speak } from "@/components/pages/sidebar/chat/rp/voice/speak";
 
 // The speaking character's own voice wins over the default, which is what gives
 // a group chat one voice per character.

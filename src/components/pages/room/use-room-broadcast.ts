@@ -10,7 +10,7 @@ import {
   isHosting,
   onRunStateChange,
   speakerName,
-} from "./host";
+} from "@/components/pages/room/host";
 
 const textOf = (msg: ChatUIMessage) => {
   const text = msg.parts

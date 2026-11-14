@@ -7,12 +7,12 @@ import {
   createChatHistoryAdapter,
   type PersistTurn,
 } from "@/components/pages/sidebar/chat/runtime/chat-history-adapter";
-import { makeRoutingTransport } from "@/components/pages/sidebar/chat/runtime/routing-chat-transport";
+import { makeRoutingTransport } from "@/components/pages/sidebar/chat/runtime/transport/routing-chat-transport";
 import { createLocalAttachmentAdapter } from "@/components/pages/sidebar/chat/runtime/chat-utils";
 import { computeSpeakingOrder } from "@/components/pages/sidebar/chat/runtime/group-rotation";
 import { seedConversation } from "@/components/pages/sidebar/chat/runtime/conversation-seed";
 import { createThreadListAdapter } from "@/components/pages/sidebar/chat/runtime/thread-list-adapter";
-import { ImagePromptDialogHost } from "@/components/pages/sidebar/chat/image-prompt-dialog";
+import { ImagePromptDialogHost } from "@/components/pages/sidebar/chat/illustrator/prompt-dialog";
 import {
   useConvIdSync,
   useSettingsSync,
@@ -20,7 +20,7 @@ import {
 import { useResolvedChatModel } from "@/components/pages/sidebar/chat/runtime/use-resolved-chat-model";
 import { useJsPluginLoader } from "@/hooks/ai/use-js-plugin-loader";
 import { usePendingDrainScheduler } from "@/hooks/ai/use-pending-drain-scheduler";
-import { useRoomBroadcast } from "@/lib/ai/chat/room/use-room-broadcast";
+import { useRoomBroadcast } from "@/components/pages/room/use-room-broadcast";
 import { acquireLock, releaseLock } from "@/lib/db/client/outbox/resource-lock";
 import type { ChatUIMessage } from "@/lib/types";
 import { captureFailedRequest, logChatDebug } from "@/lib/utils/chat-debug-log";

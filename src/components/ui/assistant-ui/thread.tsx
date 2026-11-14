@@ -42,8 +42,8 @@ import {
   resumeVoice,
   stopVoice,
   voicePlaybackAtom,
-} from "@/lib/ai/voice/speak";
-import { speakMessage } from "@/components/pages/sidebar/chat/runtime/voice-run";
+} from "@/components/pages/sidebar/chat/rp/voice/speak";
+import { speakMessage } from "@/components/pages/sidebar/chat/rp/voice/voice-run";
 import { useForkConversationMutation } from "@/hooks/ai/rp/conversations";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { usePricingCatalogQuery } from "@/hooks/models/pricing-hook";

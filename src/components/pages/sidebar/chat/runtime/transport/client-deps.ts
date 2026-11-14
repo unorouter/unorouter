@@ -5,13 +5,13 @@ import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import type { AssemblerDeps } from "@/lib/ai/chat/pipeline/deps";
 import type { FreeModelGenerate } from "@/lib/ai/chat/free-model-race";
 import { normalizeBaseUrl } from "@/lib/ai/chat/custom-provider-id";
-import { inlinePdfText } from "@/lib/ai/chat/pdf-extract";
+import { inlinePdfText } from "@/lib/ai/chat/pipeline/pdf-extract";
 import { cosineSimilarity } from "@/lib/utils/base";
 import {
   makeUpstreamFetch,
   type BodyMutations,
 } from "@/lib/ai/chat/provider-mutations";
-import { makeClientTriggerOps } from "./trigger-ops-client";
+import { makeClientTriggerOps } from "@/components/pages/sidebar/chat/runtime/transport/trigger-ops-client";
 import type { CustomProviderRow } from "@/lib/db/schema/rows";
 
 function makeProvider(

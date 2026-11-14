@@ -23,7 +23,7 @@ import { useEffect, useState } from "react";
 import {
   imagePromptRequestAtom,
   type ImagePromptRequest,
-} from "./image-prompt-dialog-store";
+} from "@/components/pages/sidebar/chat/illustrator/prompt-dialog-store";
 
 function settleReview(
   request: ImagePromptRequest | null,
@@ -72,7 +72,7 @@ function ImagePromptEditor(props: { request: ImagePromptRequest }) {
     setBusy(true);
     try {
       const { requestImggen, resolveIllustratorSettings, resolveRefUrls } =
-        await import("./runtime/illustrator-run");
+        await import("@/components/pages/sidebar/chat/illustrator/run");
       const settings = convId ? await resolveIllustratorSettings(convId) : null;
       const refUrls = settings?.refMediaIds.length
         ? await resolveRefUrls(settings.refMediaIds)

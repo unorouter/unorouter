@@ -5,12 +5,12 @@ import type { AssemblerDeps } from "@/lib/ai/chat/pipeline/deps";
 import type { FreeModelGenerate } from "@/lib/ai/chat/free-model-race";
 import { env } from "@/lib/config/env";
 import { API_ENDPOINTS } from "@/lib/ai/endpoints";
-import { inlinePdfText } from "@/lib/ai/chat/pdf-extract";
+import { inlinePdfText } from "@/lib/ai/chat/pipeline/pdf-extract";
 import { handleElysia } from "@/lib/utils/base";
 import { rpc } from "@/lib/rpc";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
-import { makeClientTriggerOps } from "./trigger-ops-client";
+import { makeClientTriggerOps } from "@/components/pages/sidebar/chat/runtime/transport/trigger-ops-client";
 
 // One model, fetched (and then cached by React Query) on demand. The old
 // version scanned a full pricing payload held in the query cache, which is why

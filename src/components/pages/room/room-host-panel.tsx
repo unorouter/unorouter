@@ -14,7 +14,7 @@ import {
   roomActions,
   startRoom,
   stopRoom,
-} from "@/lib/ai/chat/room/host";
+} from "@/components/pages/room/host";
 import type { TranslationKey } from "@/lib/types";
 import { convIdAtom } from "@/store/chat-store";
 import {

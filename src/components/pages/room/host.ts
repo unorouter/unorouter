@@ -32,8 +32,11 @@ import {
   type RoomMessage,
   type RoomParticipant,
   type TurnState,
-} from "./protocol";
-import { openRoomSocket, type RoomSocket } from "./room-socket";
+} from "@/lib/ai/chat/room/protocol";
+import {
+  openRoomSocket,
+  type RoomSocket,
+} from "@/lib/ai/chat/room/room-socket";
 
 // A guest turn is handed to the runtime via append(), which is fire and forget:
 // it swallows its own promise, so a turn that never starts (the conversation

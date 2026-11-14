@@ -2,7 +2,7 @@ import { extractReasoningMiddleware, type LanguageModelMiddleware } from "ai";
 import {
   prefillThinkMiddleware,
   type StreamChunk,
-} from "./prefill-think-middleware";
+} from "@/lib/ai/chat/stream/prefill-think-middleware";
 
 const NATIVE = "native-";
 

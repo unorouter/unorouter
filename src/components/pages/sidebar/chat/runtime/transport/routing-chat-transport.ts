@@ -14,7 +14,7 @@ import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import type { ChatUIMessage } from "@/lib/types";
 import { uid } from "@/lib/utils/base";
 import { extractErrorDetail } from "@/lib/utils/client";
-import { chatReasoningMiddleware } from "@/lib/ai/chat/coalesce-reasoning-middleware";
+import { chatReasoningMiddleware } from "@/lib/ai/chat/stream/coalesce-reasoning-middleware";
 import {
   prepareChatRequest,
   type PreparedChatRequest,
@@ -27,7 +27,7 @@ import {
   type TotalUsage,
 } from "@/lib/ai/chat/pipeline/finish-meta";
 import { makeUpstreamFetch } from "@/lib/ai/chat/provider-mutations";
-import { resumableFetch } from "@/lib/ai/chat/resumable-fetch";
+import { resumableFetch } from "@/lib/ai/chat/stream/resumable-fetch";
 import type { TokenizerRef } from "@/lib/ai/chat/tokenizer";
 import { CHAT_PROVIDER_NAME, msg } from "@/lib/config/constants";
 import {
@@ -49,9 +49,12 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { isMediaType } from "@/lib/api/pricing";
 import { gatewayCodeMessage } from "@/lib/api/own-purpose";
 import type { PricingCatalogData } from "@/openapi";
-import { buildChatRequestBody, buildMediaRequestBody } from "./chat-transport";
-import { resolveModelTargetFromStore } from "./resolve-model-target";
-import { makeStreamTimer } from "./stream-timer";
+import {
+  buildChatRequestBody,
+  buildMediaRequestBody,
+} from "@/components/pages/sidebar/chat/runtime/transport/chat-transport";
+import { resolveModelTargetFromStore } from "@/components/pages/sidebar/chat/runtime/transport/resolve-model-target";
+import { makeStreamTimer } from "@/components/pages/sidebar/chat/runtime/transport/stream-timer";
 import { readConvHistoryForSend } from "@/lib/db/client/data/chat/chat";
 
 type SendOptions = Parameters<ChatTransport<ChatUIMessage>["sendMessages"]>[0];

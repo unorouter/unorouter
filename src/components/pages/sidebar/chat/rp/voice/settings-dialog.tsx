@@ -26,7 +26,10 @@ import {
   useVoiceSettingsQuery,
 } from "@/hooks/ai/voice-hook";
 import { useRpForm } from "@/hooks/ui/use-rp-form";
-import { speak, voicePlaybackAtom } from "@/lib/ai/voice/speak";
+import {
+  speak,
+  voicePlaybackAtom,
+} from "@/components/pages/sidebar/chat/rp/voice/speak";
 import { cn } from "@/lib/utils";
 import { handleError } from "@/lib/utils/client";
 import { dayjs } from "@/lib/utils/format/date";

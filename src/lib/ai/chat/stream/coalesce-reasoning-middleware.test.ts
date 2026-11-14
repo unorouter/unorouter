@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import { readUIMessageStream, streamText, wrapLanguageModel } from "ai";
-import { chatReasoningMiddleware } from "./coalesce-reasoning-middleware";
+import { chatReasoningMiddleware } from "@/lib/ai/chat/stream/coalesce-reasoning-middleware";
 
 type Delta = Record<string, unknown>;
 

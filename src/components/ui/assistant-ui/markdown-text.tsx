@@ -610,7 +610,7 @@ const defaultComponents = memoizeMarkdownComponents({
                 variant="outline"
                 className="bg-background/80 size-7 backdrop-blur-sm"
                 onClick={() =>
-                  void import("@/components/pages/sidebar/chat/image-prompt-dialog-store").then(
+                  void import("@/components/pages/sidebar/chat/illustrator/prompt-dialog-store").then(
                     (m) => m.openImagePromptDialog(inlayMediaId),
                   )
                 }

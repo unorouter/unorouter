@@ -26,7 +26,7 @@ import {
 import { invalidateInlay } from "@/lib/db/client/data/media/inlay-render";
 import { readLocalCustomProvider } from "@/lib/db/client/data/rp/custom-providers";
 import { readLocalPreset } from "@/lib/db/client/data/rp/rp";
-import { resolveModelTargetFromStore } from "./resolve-model-target";
+import { resolveModelTargetFromStore } from "@/components/pages/sidebar/chat/runtime/transport/resolve-model-target";
 
 export type IllustratorConvSettings = {
   imageEnabled: boolean;
@@ -142,7 +142,7 @@ export async function requestImggen(
     const provider = await readLocalCustomProvider(parsed.providerId);
     if (!provider) throw new Error("custom provider not found");
     const { generateCustomProviderImage } =
-      await import("@/lib/ai/chat/custom-image-gen");
+      await import("@/components/pages/sidebar/chat/illustrator/custom-image-gen");
     return generateCustomProviderImage(
       provider,
       parsed.modelKey,

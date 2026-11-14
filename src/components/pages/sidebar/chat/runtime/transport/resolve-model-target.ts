@@ -8,8 +8,8 @@ import {
 import type { TokenizerRef } from "@/lib/ai/chat/tokenizer";
 import type { AssemblerDeps } from "@/lib/ai/chat/pipeline/deps";
 import { readLocalCustomProvider } from "@/lib/db/client/data/rp/custom-providers";
-import { buildClientDeps } from "./client-deps";
-import { buildDefaultClientDeps } from "./default-deps";
+import { buildClientDeps } from "@/components/pages/sidebar/chat/runtime/transport/client-deps";
+import { buildDefaultClientDeps } from "@/components/pages/sidebar/chat/runtime/transport/default-deps";
 
 export type ModelTarget = {
   isCustom: boolean;

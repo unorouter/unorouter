@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { joinRoom, leaveRoom, submitTurn } from "@/lib/ai/chat/room/guest";
+import { joinRoom, leaveRoom, submitTurn } from "@/components/pages/room/guest";
 import { MAX_TURN_CHARS } from "@/lib/ai/chat/room/protocol";
 import { cn } from "@/lib/utils";
 import {

@@ -1,11 +1,11 @@
 import { AuthRedirectCleanup } from "@/components/provider/app/auth-redirect-cleanup";
-import { PullToRefresh } from "@/components/pages/sidebar/chat/runtime/pull-to-refresh";
-import { BackupReminder } from "@/components/pages/sidebar/chat/runtime/backup-reminder";
-import { PriceWatch } from "@/components/pages/sidebar/chat/runtime/price-watch";
+import { PullToRefresh } from "@/components/pages/sidebar/chat/layout/pull-to-refresh";
+import { BackupReminder } from "@/components/pages/sidebar/chat/layout/backup-reminder";
+import { PriceWatch } from "@/components/pages/sidebar/chat/layout/price-watch";
 import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
 import { RpDialogs } from "@/components/pages/sidebar/chat/rp/rp-dialogs";
 import { ChatRuntimeProvider } from "@/components/pages/sidebar/chat/runtime/chat-runtime-provider";
-import { ViewportDebugLogger } from "@/components/pages/sidebar/chat/viewport-debug-logger";
+import { ViewportDebugLogger } from "@/components/pages/sidebar/chat/layout/viewport-debug-logger";
 import { ConversationList } from "@/components/pages/sidebar/chat/sidebar/conversation-list";
 import { AuthHydration } from "@/components/provider/state/auth-hydration";
 import { ChatStoreProvider } from "@/components/provider/state/chat-store-provider";

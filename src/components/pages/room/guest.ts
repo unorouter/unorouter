@@ -19,12 +19,12 @@ import {
   sanitizeName,
   type GuestToHost,
   type RoomMessage,
-} from "./protocol";
+} from "@/lib/ai/chat/room/protocol";
 import {
   fetchRoomHistory,
   openRoomSocket,
   type RoomSocket,
-} from "./room-socket";
+} from "@/lib/ai/chat/room/room-socket";
 
 // The guest opens no database. Everything it knows lives in these atoms and is
 // gone when the tab closes, which is the whole reason a guest needs no account.
