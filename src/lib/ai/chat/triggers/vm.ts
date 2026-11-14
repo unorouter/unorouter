@@ -1,4 +1,4 @@
-import { rec } from "@/lib/utils/base";
+import { jsonArray, rec } from "@/lib/utils/base";
 import { isTriggerEventMode } from "./types";
 import { cbs, runDataOpcode, type VarResolver } from "./opcodes";
 import type {
@@ -413,18 +413,8 @@ export async function runTriggers(
 }
 
 export function parseTriggerScripts(raw: unknown): TriggerScript[] {
-  if (!raw) return [];
-  let arr: unknown = raw;
-  if (typeof raw === "string") {
-    try {
-      arr = JSON.parse(raw);
-    } catch {
-      return [];
-    }
-  }
-  if (!Array.isArray(arr)) return [];
   const out: TriggerScript[] = [];
-  for (const c of arr) {
+  for (const c of jsonArray(raw)) {
     const o = rec(c);
     if (!o) continue;
     const mode = o.type;

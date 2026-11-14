@@ -47,6 +47,11 @@ export function safeJsonParse<T = Record<string, unknown>>(
   }
 }
 
+export function jsonArray(raw: unknown): unknown[] {
+  const v = typeof raw === "string" ? safeJsonParse<unknown>(raw, null) : raw;
+  return Array.isArray(v) ? v : [];
+}
+
 export function parseStringMap(
   raw: string | null | undefined,
 ): Record<string, string> {

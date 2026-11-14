@@ -1,4 +1,4 @@
-import { rec } from "@/lib/utils/base";
+import { jsonArray, rec } from "@/lib/utils/base";
 
 type RegexScriptMode =
   | "editinput" // user input before send
@@ -26,6 +26,12 @@ type ParsedScript = {
   rawFlag: string;
 };
 
+const isMove = (p: ParsedScript, outScript: string) =>
+  outScript.startsWith("@@move_top") ||
+  outScript.startsWith("@@move_bottom") ||
+  p.actions.includes("move_top") ||
+  p.actions.includes("move_bottom");
+
 function parseScriptMeta(script: RegexScript): ParsedScript {
   let order = 0;
   const actions: string[] = [];
@@ -46,14 +52,7 @@ function parseScriptMeta(script: RegexScript): ParsedScript {
 
 function normalizeFlag(p: ParsedScript, outScript: string): string {
   let flag = p.rawFlag;
-  if (
-    outScript.startsWith("@@move_top") ||
-    outScript.startsWith("@@move_bottom") ||
-    p.actions.includes("move_top") ||
-    p.actions.includes("move_bottom")
-  ) {
-    flag = flag.replace("g", "");
-  }
+  if (isMove(p, outScript)) flag = flag.replace("g", "");
   flag = flag.trim().replace(/[^dgimsuvy]/g, "");
   flag = flag
     .split("")
@@ -180,12 +179,7 @@ function executeScript(
     if (outScript.startsWith("@@inject") || p.actions.includes("inject")) {
       return data.replace(reg, "");
     }
-    if (
-      outScript.startsWith("@@move_top") ||
-      outScript.startsWith("@@move_bottom") ||
-      p.actions.includes("move_top") ||
-      p.actions.includes("move_bottom")
-    ) {
+    if (isMove(p, outScript)) {
       const isGlobal = flag.includes("g");
       const matchAll = isGlobal ? [...data.matchAll(reg)] : [data.match(reg)];
       let stripped = data.replace(reg, "");
@@ -235,18 +229,8 @@ function executeScript(
 }
 
 export function parseRegexScripts(raw: unknown): RegexScript[] {
-  if (!raw) return [];
-  let arr: unknown = raw;
-  if (typeof raw === "string") {
-    try {
-      arr = JSON.parse(raw);
-    } catch {
-      return [];
-    }
-  }
-  if (!Array.isArray(arr)) return [];
   const out: RegexScript[] = [];
-  for (const c of arr) {
+  for (const c of jsonArray(raw)) {
     const o = rec(c);
     if (!o) continue;
     if (typeof o.in !== "string" || typeof o.out !== "string") continue;
