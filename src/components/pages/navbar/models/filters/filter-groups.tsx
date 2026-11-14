@@ -6,7 +6,14 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { Icon } from "@/components/ui/icon";
-import { SidebarGroup, SidebarGroupContent } from "@/components/ui/sidebar";
+import { Button } from "@/components/ui/button";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarHeader,
+} from "@/components/ui/sidebar";
 import { Slider } from "@/components/ui/slider";
 import { AGE_STEPS_DAYS } from "@/lib/api/model-modality";
 import { msg } from "@/lib/config/constants";
@@ -14,6 +21,7 @@ import { cn } from "@/lib/utils";
 import { formatTokenCount } from "@/lib/utils/format/number";
 import { PRICE_MAX } from "@/store/models-store";
 import { useLocale, useTranslations } from "next-intl";
+import type { ReactNode } from "react";
 
 export function GroupShell(props: {
   label: string;
@@ -296,5 +304,47 @@ export function MultiSelectGroup(props: {
         ))}
       </div>
     </GroupShell>
+  );
+}
+
+export function toggled<T>(values: readonly T[], value: T): T[] {
+  return values.includes(value)
+    ? values.filter((v) => v !== value)
+    : [...values, value];
+}
+
+export function FilterSidebarShell(props: {
+  showReset: boolean;
+  onReset: () => void;
+  children: ReactNode;
+}) {
+  const t = useTranslations();
+  return (
+    <Sidebar
+      collapsible="offcanvas"
+      className="absolute! inset-y-0 h-full! bg-transparent"
+    >
+      <div className="sticky top-14 flex max-h-[calc(100svh-3.5rem)] flex-col">
+        <SidebarHeader className="flex-row items-center justify-between px-3 py-2">
+          <span className="font-mono text-sm font-medium">
+            {t("MODELS.FILTER.TITLE")}
+          </span>
+          {props.showReset && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={props.onReset}
+              className="h-7 px-2"
+            >
+              {t("MODELS.FILTER.RESET")}
+              <Icon name="x" className="ml-1 h-3.5 w-3.5" />
+            </Button>
+          )}
+        </SidebarHeader>
+        <SidebarContent className="gap-4 overflow-y-auto px-3 py-2">
+          {props.children}
+        </SidebarContent>
+      </div>
+    </Sidebar>
   );
 }
