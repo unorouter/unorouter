@@ -28,6 +28,7 @@ import {
 } from "@/lib/ai/chat/pipeline/finish-meta";
 import { makeUpstreamFetch } from "@/lib/ai/chat/provider-mutations";
 import { resumableFetch } from "@/lib/ai/chat/stream/resumable-fetch";
+import { isCustomModelId } from "@/lib/ai/chat/custom-provider-id";
 import type { TokenizerRef } from "@/lib/ai/chat/tokenizer";
 import { CHAT_PROVIDER_NAME, msg } from "@/lib/config/constants";
 import {
@@ -92,24 +93,21 @@ function prefillOpensThink(
   const last = messages.at(-1);
   if (last?.role !== "assistant") return false;
   const text = (last.parts ?? [])
-    .filter((p) => p.type === "text")
-    .map((p) => p.text ?? "")
+    .flatMap((p) => (p.type === "text" ? [p.text] : []))
     .join("");
   const open = text.lastIndexOf("<think>");
   return open !== -1 && !text.includes("</think>", open);
 }
 
-// The catalog decides media versus text. An empty cache used to mean "text",
-// which sent an image model down chat completions.
+// No fallback to "text" when the catalog is unavailable: that sent image models
+// down chat completions.
 async function isMediaModel(model: string): Promise<boolean> {
-  const data = await getQueryClient()
-    .ensureQueryData({
-      queryKey: queryKeys.pricingCatalog(),
-      queryFn: async () =>
-        handleElysia(await rpc.api.models.pricing.catalog.get()),
-    })
-    .catch(() => undefined);
-  return isMediaType(data?.models?.find((m) => m.model_name === model)?.type);
+  const data = await getQueryClient().ensureQueryData({
+    queryKey: queryKeys.pricingCatalog(),
+    queryFn: async () =>
+      handleElysia(await rpc.api.models.pricing.catalog.get()),
+  });
+  return isMediaType(data.models?.find((m) => m.model_name === model)?.type);
 }
 
 function mergeDbHistory(
@@ -490,7 +488,7 @@ export function makeRoutingTransport(
     sendMessages: async (options) => {
       onSend?.(options.messages);
       const modelId = chatStore.get(chatModelAtom) ?? "";
-      if (await isMediaModel(modelId))
+      if (!isCustomModelId(modelId) && (await isMediaModel(modelId)))
         return mediaTransport.sendMessages(options);
       const target = await resolveModelTarget(modelId);
       return runClientStream({
