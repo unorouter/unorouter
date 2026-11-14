@@ -211,9 +211,9 @@ function ChatRuntimeHook() {
     },
     onFinish: ({ message }) => {
       releaseStreamLock();
-      const parts = message.parts ?? [];
+      const parts = message.parts;
       const partText = (p: (typeof parts)[number]) =>
-        "text" in p && typeof p.text === "string" ? p.text : "";
+        "text" in p ? p.text : "";
       const reasoningParts = parts.filter((p) => p.type === "reasoning").length;
       const speakerTagHits = parts
         .filter((p) => p.type === "text")

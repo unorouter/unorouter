@@ -29,6 +29,7 @@ import {
 import { makeUpstreamFetch } from "@/lib/ai/chat/provider-mutations";
 import { resumableFetch } from "@/lib/ai/chat/stream/resumable-fetch";
 import { isCustomModelId } from "@/lib/ai/chat/custom-provider-id";
+import type { StreamMessages } from "@/lib/ai/chat/pipeline/transforms";
 import type { TokenizerRef } from "@/lib/ai/chat/tokenizer";
 import { CHAT_PROVIDER_NAME, msg } from "@/lib/config/constants";
 import {
@@ -84,15 +85,10 @@ function streamErrorText(error: unknown): string {
 
 // Reasoning then streams with NO opening tag, so the extractor must start in
 // reasoning mode or the chain of thought lands in the visible reply.
-function prefillOpensThink(
-  messages: ReadonlyArray<{
-    role: string;
-    parts?: ReadonlyArray<{ type: string; text?: string }>;
-  }>,
-): boolean {
+function prefillOpensThink(messages: StreamMessages): boolean {
   const last = messages.at(-1);
   if (last?.role !== "assistant") return false;
-  const text = (last.parts ?? [])
+  const text = last.parts
     .flatMap((p) => (p.type === "text" ? [p.text] : []))
     .join("");
   const open = text.lastIndexOf("<think>");
@@ -233,11 +229,7 @@ async function runClientStream(args: {
     systemChars: prepared.effectiveSystem?.length ?? 0,
     messages: prepared.messagesForUpstream.map((m) => ({
       role: m.role,
-      chars: (m.parts ?? []).reduce(
-        (n, p) =>
-          n + ("text" in p && typeof p.text === "string" ? p.text.length : 0),
-        0,
-      ),
+      chars: m.parts.reduce((n, p) => n + ("text" in p ? p.text.length : 0), 0),
     })),
     modelParams: prepared.modelParams,
     options: Object.fromEntries(
@@ -268,10 +260,7 @@ async function runClientStream(args: {
     messages: prepared.messagesForUpstream.map((m) => ({
       role: m.role,
       ...fingerprintText(
-        (m.parts ?? [])
-          .filter((p) => "text" in p && typeof p.text === "string")
-          .map((p) => ("text" in p ? p.text : ""))
-          .join("\n"),
+        m.parts.flatMap((p) => ("text" in p ? [p.text] : [])).join("\n"),
       ),
     })),
     modelParams: prepared.modelParams,
