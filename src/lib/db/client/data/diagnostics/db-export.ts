@@ -3,7 +3,7 @@ import { getLocalDb } from "@/lib/db/client/client";
 import { findPoolFile } from "@/lib/db/client/sahpool/pool-file";
 import type { LocalClient } from "@/lib/types";
 import { downloadJson, streamFileToDisk } from "@/lib/utils/client";
-import { logChatDebug } from "@/lib/utils/chat-debug-log";
+import { getChatDebugLog, logChatDebug } from "@/lib/utils/chat-debug-log";
 import { markBackedUp } from "@/lib/utils/backup-reminder";
 import { env } from "@/lib/config/env";
 
@@ -16,7 +16,6 @@ export async function downloadDiagnostics(filename: string): Promise<void> {
   } catch (e) {
     logChatDebug("export.diagnostics.error", { error: String(e) });
     try {
-      const { getChatDebugLog } = await import("@/lib/utils/chat-debug-log");
       downloadJson(
         {
           generatedAt: new Date().toISOString(),

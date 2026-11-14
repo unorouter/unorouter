@@ -11,6 +11,8 @@ import {
   globalVarsAtom,
   speakingCharacterIdAtom,
 } from "@/store/chat-store";
+import { buildChatContextFromLocalDb } from "@/lib/db/client/data/chat/chat-context";
+import { readLocalMessages } from "@/lib/db/client/data/chat/chat";
 
 // Media generation reads only model/group/convId plus the latest user turn, so
 // it skips the text path's assembly entirely: no chatContext (which lazy-loads
@@ -29,18 +31,14 @@ export async function buildChatRequestBody(getConvId: () => string | null) {
   const convId = getConvId();
   const loadout = chatStore.get(chatLoadoutAtom);
   const chatContext = convId
-    ? await import("@/lib/db/client/data/chat/chat-context").then((m) =>
-        m.buildChatContextFromLocalDb(convId, {
-          expectBindings:
-            loadout.characterIds.length > 0 || loadout.lorebookIds.length > 0,
-        }),
-      )
+    ? await buildChatContextFromLocalDb(convId, {
+        expectBindings:
+          loadout.characterIds.length > 0 || loadout.lorebookIds.length > 0,
+      })
     : undefined;
   let messageTimes: Record<string, number> | undefined;
   if (convId) {
-    const rows = await import("@/lib/db/client/data/chat/chat").then((m) =>
-      m.readLocalMessages(convId),
-    );
+    const rows = await readLocalMessages(convId);
     if (rows && rows.length > 0) {
       messageTimes = {};
       for (const r of rows) {

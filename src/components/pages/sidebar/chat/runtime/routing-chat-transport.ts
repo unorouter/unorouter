@@ -52,6 +52,7 @@ import type { PricingCatalogData } from "@/openapi";
 import { buildChatRequestBody, buildMediaRequestBody } from "./chat-transport";
 import { resolveModelTargetFromStore } from "./resolve-model-target";
 import { makeStreamTimer } from "./stream-timer";
+import { readConvHistoryForSend } from "@/lib/db/client/data/chat/chat";
 
 type SendOptions = Parameters<ChatTransport<ChatUIMessage>["sendMessages"]>[0];
 
@@ -115,8 +116,7 @@ async function mergeDbHistory(
   captured: ChatUIMessage[],
 ): Promise<ChatUIMessage[]> {
   if (!convId) return captured;
-  const chatData = await import("@/lib/db/client/data/chat/chat");
-  const db = await chatData.readConvHistoryForSend(convId);
+  const db = await readConvHistoryForSend(convId);
   const branch = db.branch as unknown as ChatUIMessage[];
   logChatDebug("send.history_source", {
     convId,

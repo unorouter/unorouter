@@ -5,7 +5,11 @@ import {
   readLocalConversationSettings,
   readPrimaryCharacter,
 } from "@/lib/db/client/data/chat/chat";
-import { readLocalPersona, readLocalPreset } from "@/lib/db/client/data/rp/rp";
+import {
+  readLocalCharacter,
+  readLocalPersona,
+  readLocalPreset,
+} from "@/lib/db/client/data/rp/rp";
 import { NONE_VALUE } from "@/lib/config/constants";
 import { MAX_TEXT_LEN } from "@/lib/validation/chat";
 import {
@@ -70,7 +74,6 @@ const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 // when a blank page is hardest to start: the persona and character then come
 // from the loadout instead of the conversation row.
 async function firstLoadoutCharacter(ids: string[]) {
-  const { readLocalCharacter } = await import("@/lib/db/client/data/rp/rp");
   for (const id of ids) {
     const row = await readLocalCharacter(id);
     if (row) return row;

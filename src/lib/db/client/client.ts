@@ -38,6 +38,7 @@ import { reportDbActivity } from "@/lib/db/client/db-activity";
 import { logger } from "@/lib/utils/logger";
 import { drizzle } from "drizzle-orm/sqlite-proxy";
 import type { SQLocalDrizzle } from "sqlocal/drizzle";
+import { salvagePoolDatabases } from "@/lib/db/client/sahpool/salvage";
 
 let cached: Promise<LocalClient> | null = null;
 
@@ -384,8 +385,6 @@ async function assertNotSilentlyEmptied(
 
   let orphanBytes = 0;
   try {
-    const { salvagePoolDatabases } =
-      await import("@/lib/db/client/sahpool/salvage");
     for (const candidate of await salvagePoolDatabases(dbPath)) {
       // A root `.pre-sahpool` copy is the normal leftover of a clean migration
       // and is routinely larger than a fresh empty db.

@@ -17,6 +17,12 @@ import {
   type TransferExpiry,
   type TransferHost,
 } from "./hosts";
+import {
+  getLocalDb,
+  resetLocalDbCache,
+  resumeLocalDb,
+  suspendLocalDb,
+} from "@/lib/db/client/client";
 
 export type TransferStage =
   "export" | "encrypt" | "upload" | "download" | "decrypt" | "import";
@@ -91,8 +97,6 @@ export async function importDatabaseBuffer(
   buffer: ArrayBuffer,
   mode: ImportMode,
 ): Promise<ReconcileImportResult> {
-  const { getLocalDb, suspendLocalDb, resumeLocalDb, resetLocalDbCache } =
-    await import("@/lib/db/client/client");
   try {
     const local = await getLocalDb();
     // Suspend BEFORE destroy: a query hook racing the close would otherwise

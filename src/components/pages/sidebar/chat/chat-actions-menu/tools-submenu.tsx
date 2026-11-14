@@ -19,6 +19,7 @@ import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { DatabaseSubmenu } from "./database-submenu";
 import { ImportExportSubmenu } from "./import-export-submenu";
+import { readActiveBranchTranscript } from "@/lib/db/client/data/chat/chat";
 
 type Props = {
   convId: string | null;
@@ -45,11 +46,7 @@ export function ToolsSubmenu(props: Props) {
   const handleCopyChat = () => {
     if (!props.convId) return;
     const convId = props.convId;
-    copyToClipboardAsync(async () => {
-      const { readActiveBranchTranscript } =
-        await import("@/lib/db/client/data/chat/chat");
-      return readActiveBranchTranscript(convId);
-    })
+    copyToClipboardAsync(() => readActiveBranchTranscript(convId))
       .then(() => toast.success(t("CHAT.MORE.COPY_CHAT_SUCCESS")))
       .catch((e) => toast.error(String(e)));
   };

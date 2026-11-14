@@ -22,6 +22,7 @@ import {
 import { chatStore, convIdAtom, historyLoadedAtom } from "@/store/chat-store";
 import { dayjs } from "@/lib/utils/format/date";
 import { RELEASE } from "@/lib/utils/client-runtime-guards";
+import { readLocalPresets } from "@/lib/db/client/data/rp/rp";
 
 export type TableStorageStat = {
   table: string;
@@ -274,7 +275,6 @@ async function buildDiagnosticsHead() {
 
   let presets: unknown[] = [];
   try {
-    const { readLocalPresets } = await import("@/lib/db/client/data/rp/rp");
     presets = ((await readLocalPresets()) ?? []).map((p) => ({
       id: p.id,
       name: p.name,
