@@ -50,8 +50,9 @@ function send(
   });
 }
 
+// A cold CI runner took over 10s to start Chrome in about one run in five.
 async function devtoolsUrl(dir: string): Promise<string> {
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 250; i++) {
     try {
       const [port, path] = readFileSync(
         join(dir, "DevToolsActivePort"),
@@ -59,10 +60,16 @@ async function devtoolsUrl(dir: string): Promise<string> {
       ).split("\n");
       return `ws://127.0.0.1:${port}${path}`;
     } catch {
+      if (browser.exitCode !== null) break;
       await Bun.sleep(100);
     }
   }
-  throw new Error("Chrome did not start");
+  const stderr = await Bun.file(join(dir, "stderr.log"))
+    .text()
+    .catch(() => "");
+  throw new Error(
+    `Chrome did not start (exit ${browser.exitCode}): ${stderr.slice(-2000)}`,
+  );
 }
 
 async function run(scenario: string): Promise<Record<string, unknown>> {
@@ -132,11 +139,12 @@ describe.skipIf(!chrome && !process.env.CI)("sahpool data loss", () => {
         "--headless=new",
         "--no-first-run",
         "--no-default-browser-check",
+        "--disable-dev-shm-usage",
         "--remote-debugging-port=0",
         `--user-data-dir=${profile}`,
         "about:blank",
       ],
-      { stdout: "ignore", stderr: "ignore" },
+      { stdout: "ignore", stderr: Bun.file(join(profile, "stderr.log")) },
     );
     cdp = new WebSocket(await devtoolsUrl(profile));
     cdp.onmessage = (e) => {
