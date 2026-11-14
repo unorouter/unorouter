@@ -1678,13 +1678,6 @@ export const FOOTER_BADGES: {
     width: 81,
   },
   {
-    href: "https://aitevon.com",
-    src: "https://aitevon.com/badges/aitevon-featured-light.svg",
-    name: "AITevon",
-    alt: "Featured on AITevon",
-    width: 76,
-  },
-  {
     href: "https://alternativasia.com",
     src: "https://alternativasia.com/api/badge",
     name: "12 categorías de alternativas",
