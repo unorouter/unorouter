@@ -27,13 +27,6 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
       - run: bun install --frozen-lockfile
-      # The runner's own Chrome moves with each image: 156.0.8078.79 (image
-      # 20261101.360) failed to start in about one test run in five, .47 never.
-      - if: matrix.check == 'test'
-        run: |
-          curl -sSfL -o /tmp/chrome.zip https://storage.googleapis.com/chrome-for-testing-public/156.0.8078.47/linux64/chrome-linux64.zip
-          unzip -q /tmp/chrome.zip -d /tmp
-          echo "CHROME_BIN=/tmp/chrome-linux64/chrome" >> "$GITHUB_ENV"
       - run: bun run ${{ matrix.check }}
 
   build:

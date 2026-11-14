@@ -136,6 +136,9 @@ describe.skipIf(!chrome && !process.env.CI)("sahpool data loss", () => {
       [
         chrome,
         "--headless=new",
+        // Ubuntu 24.04 runners restrict the user namespaces Chrome's sandbox
+        // needs, and Chrome aborts on start; this page is our own local file.
+        "--no-sandbox",
         "--no-first-run",
         "--no-default-browser-check",
         "--remote-debugging-port=0",
