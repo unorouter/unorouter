@@ -8,6 +8,7 @@ import {
   readLocalConversationBindings,
   readLocalConversationSettings,
   replaceLocalConversationBindings,
+  updateLocalConversationSettings,
   upsertLocalConversationSettings,
 } from "@/lib/db/client/data/chat/chat";
 import {
@@ -54,16 +55,15 @@ export function useUpdateChatSettingsMutation() {
       convId: string;
       body: UpdateConversationSettingsBody;
     }) => {
-      const existing = await readLocalConversationSettings(args.convId);
-      const now = dayjs().toDate();
-      const updated = {
-        ...(existing ?? { convId: args.convId, defaultModel: "" }),
+      const patch = {
         ...args.body,
         convId: args.convId,
-        updatedAt: now,
+        updatedAt: dayjs().toDate(),
       };
-      await upsertLocalConversationSettings(updated);
-      return updated;
+      if (await readLocalConversationSettings(args.convId))
+        await updateLocalConversationSettings(patch);
+      else
+        await upsertLocalConversationSettings({ defaultModel: "", ...patch });
     },
     invalidates: (args) => [queryKeys.chatSettings(args.convId)],
   });
