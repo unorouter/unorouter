@@ -401,9 +401,7 @@ export function useDeleteMessageMutation() {
       });
       getThreadRuntime()?.deleteMessage(args.msgId);
       // Prune the live array BEFORE the await: the splice can throw and leave a deleted message on screen and in request history.
-      setLiveMessages((msgs) =>
-        (msgs as { id?: string }[]).filter((m) => m.id !== args.msgId),
-      );
+      setLiveMessages((msgs) => msgs.filter((m) => m.id !== args.msgId));
       clearLiveError();
       qc.removeQueries({ queryKey: queryKeys.chatMessages(args.convId) });
       try {

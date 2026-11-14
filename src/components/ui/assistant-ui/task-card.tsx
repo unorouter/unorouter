@@ -148,18 +148,10 @@ function TaskCard(props: Props) {
             // without a reload (the DB write + query invalidate alone don't
             // re-render the assistant-ui runtime's in-memory messages).
             const alt = result.kind === "image" ? "image" : "video";
-            const newPart = {
-              type: "text",
-              text: `![${alt}](${result.url})`,
-            };
-            const isTaskPart = (p: Record<string, unknown>) =>
-              p.type === "data-task" ||
-              (p.type === "data" && p.name === "task");
-            replaceMessageParts(props.msgId, (parts) =>
-              recArr(parts)
-                .filter((p) => !isTaskPart(p))
-                .concat(newPart),
-            );
+            replaceMessageParts(props.msgId, (parts) => [
+              ...parts.filter((p) => p.type !== "data-task"),
+              { type: "text", text: `![${alt}](${result.url})` },
+            ]);
           },
         },
       );

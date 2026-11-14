@@ -18,7 +18,7 @@ import { expandMacros } from "@/lib/ai/chat/macros";
 import type { LorebookRow } from "@/lib/db/schema/rows";
 import { DEFAULT_AUTHOR_NOTE_DEPTH } from "@/lib/config/constants";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
-import { recArr, uid } from "@/lib/utils/base";
+import { uid } from "@/lib/utils/base";
 import type { ChatUIMessage } from "@/lib/types";
 import type { PricingCatalogData } from "@/openapi";
 import { invalidateAndBroadcast } from "@/lib/react-query/cross-tab-invalidate";
@@ -242,7 +242,7 @@ async function seed(args: SeedArgs): Promise<void> {
       };
       setLiveMessages(
         (msgs) =>
-          recArr(msgs).some((m) => m.id === seededGreeting.id)
+          msgs.some((m) => m.id === seededGreeting.id)
             ? msgs
             : [greetingMessage, ...msgs],
         id,

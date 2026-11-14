@@ -26,6 +26,7 @@ import type { ChatUIMessage } from "@/lib/types";
 import { captureFailedRequest, logChatDebug } from "@/lib/utils/chat-debug-log";
 import { gatewayCodeMessage, CONSENT_REQUIRED } from "@/lib/api/own-purpose";
 import { msg } from "@/lib/config/constants";
+import { rec } from "@/lib/utils/base";
 import { queryKeys } from "@/lib/react-query/keys";
 import { extractErrorDetail, handleError } from "@/lib/utils/client";
 import {
@@ -80,10 +81,8 @@ function useLiveOpsBridge(
   useEffect(() => {
     if (!convId) return;
     const ops = {
-      setMessages: (updater: (msgs: unknown[]) => unknown[]) =>
-        setMessagesRef.current(
-          updater as Parameters<typeof setMessagesRef.current>[0],
-        ),
+      setMessages: (updater: (msgs: ChatUIMessage[]) => ChatUIMessage[]) =>
+        setMessagesRef.current(updater),
       clearError: () => clearErrorRef.current(),
     };
     return registerLiveThread(convId, ops);
@@ -154,8 +153,8 @@ function ChatRuntimeHook() {
     transport,
     onData: (part) => {
       if (part.type === "data-alert") {
-        const a = part.data as { kind?: string; text?: string };
-        if (!a?.text) return;
+        const a = rec(part.data);
+        if (typeof a?.text !== "string" || !a.text) return;
         if (a.kind === "error") toast.error(a.text);
         else toast.info(a.text);
       }

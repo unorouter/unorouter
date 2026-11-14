@@ -6,6 +6,7 @@ import { uid } from "@/lib/utils/base";
 import { atom, createStore } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import type { AssistantRuntime } from "@assistant-ui/react";
+import type { ChatUIMessage } from "@/lib/types";
 
 export const CHAT_STORE_KEY = "chat-store";
 
@@ -210,8 +211,10 @@ export const focusMemoryFieldAtom = atom(false);
 
 export const chatStore = createStore();
 
+type MessagesUpdater = (msgs: ChatUIMessage[]) => ChatUIMessage[];
+
 type LiveThreadOps = {
-  setMessages: (updater: (msgs: unknown[]) => unknown[]) => void;
+  setMessages: (updater: MessagesUpdater) => void;
   clearError: () => void;
 };
 
@@ -238,7 +241,7 @@ export function getThreadRuntime() {
 }
 
 export function setLiveMessages(
-  updater: (msgs: unknown[]) => unknown[],
+  updater: MessagesUpdater,
   forConvId?: string,
 ): void {
   const ops = forConvId ? liveThreads.get(forConvId) : activeOps();
@@ -247,12 +250,10 @@ export function setLiveMessages(
 
 export function replaceMessageParts(
   msgId: string,
-  mapParts: (parts: readonly unknown[]) => unknown[],
+  mapParts: (parts: ChatUIMessage["parts"]) => ChatUIMessage["parts"],
 ): void {
   setLiveMessages((msgs) =>
-    (msgs as Array<{ id?: string; parts?: unknown[] }>).map((m) =>
-      m.id === msgId ? { ...m, parts: mapParts(m.parts ?? []) } : m,
-    ),
+    msgs.map((m) => (m.id === msgId ? { ...m, parts: mapParts(m.parts) } : m)),
   );
 }
 
