@@ -2,6 +2,7 @@
 /* eslint-disable react-hooks/refs -- assistant-ui calls runtimeHook per render;
    transport/adapter built once in refs, latest-value refs feed async callbacks. */
 
+import { textOf } from "@/lib/ai/chat/pipeline/transforms";
 import { maybeAutoContinue } from "@/components/pages/sidebar/chat/runtime/auto-continue";
 import {
   createChatHistoryAdapter,
@@ -219,10 +220,7 @@ function ChatRuntimeHook() {
         .flatMap(
           (p) => partText(p).match(/\[[^\]\n]{1,40}\]\s*:/g) ?? [],
         ).length;
-      const visibleText = parts
-        .filter((p) => p.type === "text")
-        .map(partText)
-        .join("");
+      const visibleText = textOf(parts);
       const leakedThinkTags = (visibleText.match(/<\/?think(?:ing)?>/gi) ?? [])
         .length;
       logChatDebug("stream.finish", {

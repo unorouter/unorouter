@@ -28,12 +28,9 @@ const ALLOWED_HTML_TAGS = new Set([
 
 const TAG_RE = /<\/?([a-zA-Z][a-zA-Z0-9-]*)(\s[^<>]*)?\/?>/g;
 
-// Roleplay prose is full of `<gasps>` and `<Unknown Entity>`, which react
-// markdown shows verbatim today because it turns raw nodes into text. Parsing
-// HTML for real would swallow them, so everything outside the allowlist is
-// escaped back into text before the parser sees it. Attributes go too: an
-// allowed tag carrying `onclick` reaches React as a string listener and throws,
-// which blanks the whole message.
+// Roleplay prose is full of `<gasps>`, which a real HTML parse would swallow.
+// Attributes go too: an allowed tag carrying `onclick` reaches React as a string
+// listener and throws, which blanks the whole message.
 export function escapeUnknownTags(chunk: string): string {
   return chunk.replace(TAG_RE, (match, name: string, attrs?: string) => {
     if (!ALLOWED_HTML_TAGS.has(name.toLowerCase()))
@@ -52,9 +49,8 @@ const COMMENT_PARTIAL_RE = /<(?:!(?:-(?:-)?)?)?$/;
 
 export type HiddenBlocks = { text: string; blocks: string[] };
 
-// The same shape as stripThinkForDisplay: closed blocks come out, an unclosed
-// one truncates the rest, and the content resurfaces in its own panel instead of
-// being lost. Without this a tracking block prints in the middle of the reply.
+// Same shape as stripThinkForDisplay: closed blocks come out, an unclosed one
+// truncates the rest, and the content resurfaces in its own panel.
 export function splitHiddenBlocks(chunk: string): HiddenBlocks {
   const blocks: string[] = [];
   let text = chunk.replace(COMMENT_BLOCK_RE, (match) => {
@@ -71,12 +67,9 @@ export function splitHiddenBlocks(chunk: string): HiddenBlocks {
   return { text: text.replace(COMMENT_PARTIAL_RE, ""), blocks };
 }
 
-// Second line of defence behind escapeUnknownTags, written from scratch rather
-// than extended from the library default, which allows far more than this.
-// Nothing survives that could execute, fetch or navigate; script and style lose
-// their contents as well as their tag. The one attribute is the fence language,
-// which the highlighter and the code header read: no utility class starts with
-// `language-`, so it cannot be turned into a layout that covers the page.
+// Not extended from the library default, which allows far more. The one
+// attribute is the fence language: no utility class starts with `language-`, so
+// it cannot become a layout that covers the page.
 export const HTML_SANITIZE_SCHEMA = {
   tagNames: [...ALLOWED_HTML_TAGS],
   attributes: { code: [["className", /^language-[\w+#.-]+$/]] },

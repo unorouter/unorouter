@@ -29,9 +29,9 @@ import {
 import { makeUpstreamFetch } from "@/lib/ai/chat/provider-mutations";
 import { resumableFetch } from "@/lib/ai/chat/stream/resumable-fetch";
 import { isCustomModelId } from "@/lib/ai/chat/custom-provider-id";
-import type { StreamMessages } from "@/lib/ai/chat/pipeline/transforms";
+import { textOf, type StreamMessages } from "@/lib/ai/chat/pipeline/transforms";
 import type { TokenizerRef } from "@/lib/ai/chat/tokenizer";
-import { CHAT_PROVIDER_NAME, msg } from "@/lib/config/constants";
+import { AUTO_GROUP, CHAT_PROVIDER_NAME, msg } from "@/lib/config/constants";
 import {
   fingerprintText,
   logChatDebug,
@@ -88,9 +88,7 @@ function streamErrorText(error: unknown): string {
 function prefillOpensThink(messages: StreamMessages): boolean {
   const last = messages.at(-1);
   if (last?.role !== "assistant") return false;
-  const text = last.parts
-    .flatMap((p) => (p.type === "text" ? [p.text] : []))
-    .join("");
+  const text = textOf(last.parts);
   const open = text.lastIndexOf("<think>");
   return open !== -1 && !text.includes("</think>", open);
 }
@@ -214,6 +212,8 @@ async function runClientStream(args: {
   timer.mark("prepared");
 
   const group = chatStore.get(chatGroupAtom);
+  const xGroup = group && group !== AUTO_GROUP ? group : null;
+  const prefill = prefillOpensThink(prepared.messagesForUpstream);
   const pinnedModels = group
     ? null
     : Object.keys(chatStore.get(groupByModelAtom));
@@ -224,8 +224,8 @@ async function runClientStream(args: {
     selectedModel: chatStore.get(chatModelAtom) ?? null,
     group: group ?? null,
     pinnedModels,
-    xGroupSent: group && group !== "auto" ? group : null,
-    prefill: prefillOpensThink(prepared.messagesForUpstream),
+    xGroupSent: xGroup,
+    prefill,
     systemChars: prepared.effectiveSystem?.length ?? 0,
     messages: prepared.messagesForUpstream.map((m) => ({
       role: m.role,
@@ -309,14 +309,7 @@ async function runClientStream(args: {
     // Without stream_options.include_usage the gateway only relays usage when
     // the upstream volunteers it, and most lanes do not.
     ...(args.includeUsage ? { includeUsage: true } : {}),
-    ...((group && group !== "auto") || args.extraHeaders
-      ? {
-          headers: {
-            ...(group && group !== "auto" ? { "X-Group": group } : {}),
-            ...args.extraHeaders,
-          },
-        }
-      : {}),
+    headers: { ...(xGroup ? { "X-Group": xGroup } : {}), ...args.extraHeaders },
     fetch: timer.wrapFetch(
       resumableFetch(makeUpstreamFetch(prepared.bodyMutations)),
     ),
@@ -325,9 +318,7 @@ async function runClientStream(args: {
   const result = streamText({
     model: wrapLanguageModel({
       model: sdk.chatModel(args.model),
-      middleware: chatReasoningMiddleware(
-        prefillOpensThink(prepared.messagesForUpstream),
-      ),
+      middleware: chatReasoningMiddleware(prefill),
     }),
     messages: await convertToModelMessages(prepared.messagesForUpstream),
     system: prepared.effectiveSystem,

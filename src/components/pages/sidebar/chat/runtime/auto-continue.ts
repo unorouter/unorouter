@@ -2,6 +2,7 @@
 
 import { readLocalConversationSettings } from "@/lib/db/client/data/chat/chat";
 import type { ChatUIMessage } from "@/lib/types";
+import { textOf } from "@/lib/ai/chat/pipeline/transforms";
 import {
   chatStore,
   rotatingGroupTurnAtom,
@@ -89,10 +90,7 @@ export async function maybeAutoContinue(
   // before the last character's onFinish: the message itself is the only
   // reliable witness that this generation belonged to a group turn.
   if (message.metadata?.speakingCharacterId != null) return;
-  const text = message.parts
-    .filter((p) => p.type === "text")
-    .map((p) => p.text)
-    .join("");
+  const text = textOf(message.parts);
   if (!text.trim() || endsTerminally(text)) {
     autoContinueDepth.delete(remoteId);
     return;

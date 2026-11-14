@@ -11,6 +11,7 @@ import {
   readLocalPreset,
 } from "@/lib/db/client/data/rp/rp";
 import { NONE_VALUE } from "@/lib/config/constants";
+import { textOf } from "@/lib/ai/chat/pipeline/transforms";
 import { escapeRegex } from "@/lib/utils/base";
 import { MAX_TEXT_LEN } from "@/lib/validation/chat";
 import {
@@ -21,16 +22,11 @@ import {
 } from "@/store/chat-store";
 import { resolveModelTarget } from "@/components/pages/sidebar/chat/runtime/transport/resolve-model-target";
 
-// SillyTavern's impersonation prompt, which is the one open-source wording with
-// years of RP mileage behind it. The two prohibitions are the load-bearing part:
-// without them the model answers AS the character, which is the single most
-// reported failure of JanitorAI's equivalent feature.
+// SillyTavern's wording. Without the two prohibitions the model answers AS the
+// character, the most reported failure of JanitorAI's equivalent.
 const IMPERSONATE_PROMPT =
   "[Write your next reply from the point of view of {{user}}, using the chat history so far as a guideline for the writing style of {{user}}. Write 1 reply only in internet RP style. Don't write as {{char}} or system. Don't describe actions of {{char}}.]";
 
-// Whatever is already in the composer steers the reply rather than being
-// rewritten literally, so both "be angry" and a half-written paragraph work:
-// one is direction, the other is a draft, and the model reads both as guidance.
 const DIRECTION_LINE =
   "Additional direction for this reply, follow it closely: {{direction}}";
 
@@ -42,16 +38,6 @@ const PROMPT_HEADROOM = 4_000;
 const macro = (text: string, user: string, char: string) =>
   text.replaceAll("{{user}}", user).replaceAll("{{char}}", char);
 
-const partsToText = (parts: { type: string; text?: string }[]) =>
-  parts
-    .filter((p) => p.type === "text" && p.text)
-    .map((p) => p.text)
-    .join("\n")
-    .trim();
-
-// The model is asked for the USER's turn, so anything opening as the character
-// is the model having ignored that entirely. Pasting it would put the
-// character's words in the user's mouth, so it is discarded rather than shown.
 export class SpokeAsCharacterError extends Error {}
 
 function clean(raw: string, user: string, char: string): string {
@@ -69,9 +55,6 @@ function clean(raw: string, user: string, char: string): string {
   return text;
 }
 
-// convId is optional because a brand new chat has none yet, and that is exactly
-// when a blank page is hardest to start: the persona and character then come
-// from the loadout instead of the conversation row.
 async function firstLoadoutCharacter(ids: string[]) {
   for (const id of ids) {
     const row = await readLocalCharacter(id);
@@ -121,15 +104,12 @@ export async function runImpersonate(
     .slice(0, MAX_TEXT_LEN - PROMPT_HEADROOM);
 
   const history = convId ? await readConvHistoryForSend(convId) : null;
-  // Newest first until the budget runs out: the turns nearest the reply are the
-  // ones worth keeping, and a dozen turns of a long roleplay is far past what
-  // the route accepts.
   const budget = MAX_TEXT_LEN - systemPrompt.length - PROMPT_HEADROOM;
   const recent: string[] = [];
   let used = 0;
   for (const m of (history?.branch ?? []).slice(-HISTORY_TURNS).reverse()) {
     const who = m.role === "user" ? userName : charName;
-    const line = `${who}: ${partsToText(m.parts)}`.slice(-budget);
+    const line = `${who}: ${textOf(m.parts).trim()}`.slice(-budget);
     if (recent.length > 0 && used + line.length > budget) break;
     recent.unshift(line);
     used += line.length;
