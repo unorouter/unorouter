@@ -24,7 +24,6 @@ import { runRegexScripts } from "@/lib/ai/chat/regex-scripts";
 import type { IllustratorConvSettings } from "@/components/pages/sidebar/chat/illustrator/run";
 import { requestImagePromptReview } from "@/components/pages/sidebar/chat/illustrator/prompt-dialog-store";
 import { makeTriggerContext, runTriggers } from "@/lib/ai/chat/triggers/vm";
-import type { TriggerScript } from "@/lib/ai/chat/triggers/types";
 import { makeClientTriggerOps } from "@/components/pages/sidebar/chat/runtime/transport/trigger-ops-client";
 import { hasJsHandlers, runJsEditTrigger } from "@/lib/ai/chat/plugins/engine";
 import { autoplayReply } from "@/components/pages/sidebar/chat/rp/voice/voice-run";
@@ -261,7 +260,6 @@ async function applyAssistantOutputTransforms(
         runLuaEditTrigger(luaCodes, "editoutput", editCtx, text),
       );
     }
-    await runOutputTriggers(convId, triggers, out);
   }
   if (hasJsHandlers("output")) {
     out = await mapText(out, (text) =>
@@ -343,6 +341,8 @@ async function persistInlayMedia(
   }
 }
 
+type MessageRows = NonNullable<Awaited<ReturnType<typeof readLocalMessages>>>;
+
 type BranchPlacement = {
   parentId: string | null;
   parentBranchVars: string | null;
@@ -355,10 +355,10 @@ type BranchPlacement = {
 // database jumped back to the stale swipe.
 async function activateAncestors(
   convId: string,
+  rows: MessageRows,
   parentId: string | null,
   now: Date,
 ): Promise<void> {
-  const rows = (await readLocalMessages(convId)) ?? [];
   const byId = new Map(rows.map((m) => [m.id, m]));
   const fixed: string[] = [];
   const seen = new Set<string>();
@@ -398,7 +398,7 @@ async function placeOnBranch(
 ): Promise<BranchPlacement> {
   let parentId = requestedParentId;
   let parentBranchVars: string | null = null;
-  let siblings: NonNullable<Awaited<ReturnType<typeof readLocalMessages>>> = [];
+  let siblings: MessageRows = [];
   const existing = (await readLocalMessages(convId)) ?? [];
   if (existing.length > 0) {
     const tipRow = walkActiveBranch(existing).path.at(-1);
@@ -457,7 +457,7 @@ async function placeOnBranch(
       updatedAt: now,
     });
   }
-  await activateAncestors(convId, parentId, now);
+  await activateAncestors(convId, existing, parentId, now);
   return { parentId, parentBranchVars, nextBranchIndex };
 }
 
@@ -665,15 +665,15 @@ export function createChatHistoryAdapter(
         const existingRow = ((await readLocalMessages(id)) ?? []).find(
           (m) => m.id === messageId,
         );
+        const content = toEncoded(formatAdapter.encode(item));
         logChatDebug("history.append", {
           convId: id,
           convIdAtom: chatStore.get(convIdAtom),
           messageId,
-          role: (item.message as { role?: string }).role,
+          role: content.role,
           parentId: item.parentId ?? null,
           existing: !!existingRow,
         });
-        const content = toEncoded(formatAdapter.encode(item));
         if (existingRow && content.role !== "assistant") return;
         const isAssistant = content.role === "assistant";
         const originalAssistantText = assistantTextOf(content);
@@ -722,9 +722,12 @@ export function createChatHistoryAdapter(
               now,
               content.role,
             );
-        const branchVars = isAssistant
+        const turnVars = isAssistant
           ? (varsWriteback ?? placement.parentBranchVars)
           : placement.parentBranchVars;
+        const branchVars = isAssistant
+          ? ((await runOutputTriggers(id, parts, turnVars)) ?? turnVars)
+          : turnVars;
         const newMessage = {
           ...(existingRow ?? {}),
           id: messageId,
@@ -855,14 +858,18 @@ export function createChatHistoryAdapter(
   };
 }
 
+// Starts from the reply's own branch vars and returns the changed set, which
+// becomes the reply's branchVars; null when nothing changed.
 async function runOutputTriggers(
   convId: string,
-  triggers: TriggerScript[],
   parts: MessagePart[],
-): Promise<void> {
+  turnVars: string | null,
+): Promise<string | null> {
+  const triggers = await readConvTriggers(convId);
+  if (triggers.length === 0) return null;
   const settings = await readLocalConversationSettings(convId);
-  if (!settings) return;
-  const vars = parseStringMap(settings.vars ?? null);
+  if (!settings) return null;
+  const vars = parseStringMap(turnVars ?? settings.vars ?? null);
   const before = JSON.stringify(vars);
   const globalVars = parseStringMap(chatStore.get(globalVarsAtom));
   const globalsBefore = JSON.stringify(globalVars);
@@ -894,14 +901,12 @@ async function runOutputTriggers(
     if (thread && tip) thread.startRun({ parentId: tip.id });
   }
 
-  if (JSON.stringify(vars) !== before) {
-    await upsertLocalConversationSettings({
-      convId,
-      vars: JSON.stringify(vars),
-    });
-  }
   const globalsAfter = JSON.stringify(globalVars);
   if (globalsAfter !== globalsBefore) {
     chatStore.set(globalVarsAtom, globalsAfter);
   }
+  const after = JSON.stringify(vars);
+  if (after === before) return null;
+  await upsertLocalConversationSettings({ convId, vars: after });
+  return after;
 }
