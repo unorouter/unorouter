@@ -50,13 +50,17 @@ function send(
   });
 }
 
+// A cold start on the CI runners measured 7.3 s on a passing run and over 10 s
+// on failing ones, with Chrome alive the whole time.
 async function devtoolsUrl(dir: string): Promise<string> {
-  for (let i = 0; i < 100; i++) {
+  const started = Date.now();
+  for (let i = 0; i < 250; i++) {
     try {
       const [port, path] = readFileSync(
         join(dir, "DevToolsActivePort"),
         "utf8",
       ).split("\n");
+      console.info(`Chrome ready in ${Date.now() - started} ms`);
       return `ws://127.0.0.1:${port}${path}`;
     } catch {
       if (browser.exitCode !== null) break;
