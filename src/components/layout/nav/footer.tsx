@@ -75,6 +75,9 @@ export function Footer() {
   // The marquee copy only exists for the seamless loop; leaving it out of the
   // server HTML halves the footer for crawlers and badge checkers.
   const hydrated = useHydrated();
+  // Badge checkers fetch the home page; elsewhere 400+ sponsored links only bloat
+  // the HTML and read as a sitewide link block.
+  const isHome = pathname === "/" || /^\/[^/]+\/?$/.test(pathname);
 
   const visibleBadges = FOOTER_BADGES.filter(
     (badge) =>
@@ -229,92 +232,94 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Every badge and text link must stay in the server-rendered DOM: huzzler,
-            dododirectory and saasbison auto-delist when their link is missing.
+        {/* Every badge and text link must stay in the home page's server-rendered DOM:
+            huzzler, dododirectory and saasbison auto-delist when their link is missing.
             They are sponsored nofollow because a required badge is a link exchange
             under Google's link spam policy. */}
-        <div className="border-muted/50 space-y-4 border-t pt-8 pb-4">
-          {badgeRows.map((row, rowIndex) => (
-            <div
-              key={rowIndex}
-              className="marquee-row relative overflow-hidden opacity-70"
-            >
+        {isHome && (
+          <div className="border-muted/50 space-y-4 border-t pt-8 pb-4">
+            {badgeRows.map((row, rowIndex) => (
               <div
-                className={cn(
-                  "flex w-max items-center gap-4",
-                  rowIndex % 2 === 0
-                    ? "animate-marquee-slow"
-                    : "animate-marquee-slow-reverse",
-                )}
-                style={{ animationDuration: `${row.length * 3}s` }}
+                key={rowIndex}
+                className="marquee-row relative overflow-hidden opacity-70"
               >
-                {(hydrated ? [false, true] : [false]).map((isDup) => (
-                  <div
-                    key={String(isDup)}
-                    className={cn(
-                      "flex shrink-0 items-center gap-4",
-                      isDup && "marquee-dup",
-                    )}
-                    aria-hidden={isDup || undefined}
-                    inert={isDup}
-                  >
-                    {row.map((item) =>
-                      "src" in item ? (
-                        <NextLink
-                          key={item.href}
-                          {...("data" in item ? item.data : undefined)}
-                          href={item.href}
-                          target="_blank"
-                          rel="sponsored nofollow noopener noreferrer"
-                          className="shrink-0"
-                          tabIndex={isDup ? -1 : undefined}
-                        >
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={item.src}
-                            alt={
-                              "alt" in item && item.alt
-                                ? item.alt
-                                : t(
-                                    "verified" in item && item.verified
-                                      ? "FOOTER.BADGE_VERIFIED_ON"
-                                      : "FOOTER.BADGE_FEATURED_ON",
-                                    { name: item.name },
-                                  )
-                            }
-                            width={item.width}
-                            height={24}
-                            loading="lazy"
-                            decoding="async"
-                            className={cn(
-                              "h-6 w-auto max-w-none",
-                              "lightBg" in item &&
-                                item.lightBg &&
-                                "rounded-sm bg-white/90 px-1 py-0.5",
-                            )}
-                          />
-                        </NextLink>
-                      ) : (
-                        <NextLink
-                          key={item.href}
-                          href={item.href}
-                          target="_blank"
-                          rel="sponsored nofollow noopener noreferrer"
-                          tabIndex={isDup ? -1 : undefined}
-                          className="text-foreground/50 hover:text-foreground/70 shrink-0 text-xs whitespace-nowrap transition-colors"
-                        >
-                          {item.label}
-                        </NextLink>
-                      ),
-                    )}
-                  </div>
-                ))}
+                <div
+                  className={cn(
+                    "flex w-max items-center gap-4",
+                    rowIndex % 2 === 0
+                      ? "animate-marquee-slow"
+                      : "animate-marquee-slow-reverse",
+                  )}
+                  style={{ animationDuration: `${row.length * 3}s` }}
+                >
+                  {(hydrated ? [false, true] : [false]).map((isDup) => (
+                    <div
+                      key={String(isDup)}
+                      className={cn(
+                        "flex shrink-0 items-center gap-4",
+                        isDup && "marquee-dup",
+                      )}
+                      aria-hidden={isDup || undefined}
+                      inert={isDup}
+                    >
+                      {row.map((item) =>
+                        "src" in item ? (
+                          <NextLink
+                            key={item.href}
+                            {...("data" in item ? item.data : undefined)}
+                            href={item.href}
+                            target="_blank"
+                            rel="sponsored nofollow noopener noreferrer"
+                            className="shrink-0"
+                            tabIndex={isDup ? -1 : undefined}
+                          >
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={item.src}
+                              alt={
+                                "alt" in item && item.alt
+                                  ? item.alt
+                                  : t(
+                                      "verified" in item && item.verified
+                                        ? "FOOTER.BADGE_VERIFIED_ON"
+                                        : "FOOTER.BADGE_FEATURED_ON",
+                                      { name: item.name },
+                                    )
+                              }
+                              width={item.width}
+                              height={24}
+                              loading="lazy"
+                              decoding="async"
+                              className={cn(
+                                "h-6 w-auto max-w-none",
+                                "lightBg" in item &&
+                                  item.lightBg &&
+                                  "rounded-sm bg-white/90 px-1 py-0.5",
+                              )}
+                            />
+                          </NextLink>
+                        ) : (
+                          <NextLink
+                            key={item.href}
+                            href={item.href}
+                            target="_blank"
+                            rel="sponsored nofollow noopener noreferrer"
+                            tabIndex={isDup ? -1 : undefined}
+                            className="text-foreground/50 hover:text-foreground/70 shrink-0 text-xs whitespace-nowrap transition-colors"
+                          >
+                            {item.label}
+                          </NextLink>
+                        ),
+                      )}
+                    </div>
+                  ))}
+                </div>
+                <div className="from-background pointer-events-none absolute inset-y-0 left-0 w-24 bg-linear-to-r to-transparent" />
+                <div className="from-background pointer-events-none absolute inset-y-0 right-0 w-24 bg-linear-to-l to-transparent" />
               </div>
-              <div className="from-background pointer-events-none absolute inset-y-0 left-0 w-24 bg-linear-to-r to-transparent" />
-              <div className="from-background pointer-events-none absolute inset-y-0 right-0 w-24 bg-linear-to-l to-transparent" />
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
         <div className="border-muted/50 relative border-t pt-8">
           <div className="via-primary/70 absolute top-0 left-1/2 h-px w-1/2 -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"></div>
