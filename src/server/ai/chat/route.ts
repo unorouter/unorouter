@@ -19,7 +19,7 @@ import {
 import { getUserId } from "@/server/constants";
 import { serverEnv } from "@/server/env";
 import { rateLimit } from "@/server/rate-limit";
-import { Elysia } from "elysia";
+import { Elysia, status } from "elysia";
 import { generateInlayImage } from "./media/inlay.service";
 import {
   fetchVideoTaskStatus,
@@ -38,7 +38,7 @@ import { resolveWebSearch } from "./web-search.service";
 const customForwardLimit = rateLimit(120);
 
 function requireMember(userId: number) {
-  if (userId === GUEST_USER_ID) throw new Error(msg("ERRORS.UNAUTHORIZED"));
+  if (userId === GUEST_USER_ID) throw status(401, msg("ERRORS.UNAUTHORIZED"));
 }
 const resumeLimit = rateLimit(60);
 

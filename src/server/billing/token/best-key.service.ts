@@ -10,7 +10,7 @@ import { addToken, getTokenKey, searchTokens } from "@/openapi";
 import { bffServiceHeader, cookieString, getApiKey } from "@/server/constants";
 import { serverEnv } from "@/server/env";
 import { getModelByName } from "@/server/models/pricing/pricing.service";
-import type { Cookie } from "elysia";
+import { status, type Cookie } from "elysia";
 
 // Of the key resolutions, only the chat path carries the service secret. The
 // dashboard's own reveal route (billing/token/route.ts) must keep producing an
@@ -22,7 +22,7 @@ function resolveHeaders(headers: Record<string, string>) {
 export async function assertGuestFreeModel(userId: number, model?: string) {
   if (userId !== GUEST_USER_ID || !model) return;
   if (!(await getModelByName(model))?.is_free)
-    throw new Error(msg("ERRORS.UNAUTHORIZED"));
+    throw status(401, msg("ERRORS.UNAUTHORIZED"));
 }
 
 function isGuestToken(maskedKey: string | undefined): boolean {
@@ -123,5 +123,5 @@ export async function resolveChatApiKey(
   }
 
   if (serverEnv.guestApiKey) return serverEnv.guestApiKey;
-  throw new Error(msg("ERRORS.UNAUTHORIZED"));
+  throw status(401, msg("ERRORS.UNAUTHORIZED"));
 }

@@ -17,7 +17,7 @@ import {
 } from "@/lib/ai/chat/provider-mutations";
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import { parseCookie } from "cookie";
-import type { Cookie } from "elysia";
+import { status, type Cookie } from "elysia";
 
 export const upstreamApiUrl = serverEnv.internalApiUrl ?? env.apiUrl;
 
@@ -56,7 +56,7 @@ export async function getUserId(
   );
   if (verified === null) {
     if (optional) return null;
-    throw new Error(msg("ERRORS.UNAUTHORIZED"));
+    throw status(401, msg("ERRORS.UNAUTHORIZED"));
   }
   return verified;
 }
@@ -65,19 +65,24 @@ export function cookieString(value: unknown): string | undefined {
   return typeof value === "string" && value ? value : undefined;
 }
 
+function parseClientStore(raw: unknown): unknown {
+  if (typeof raw !== "string") return raw;
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return undefined;
+  }
+}
+
 export function getApiKey(cookie: Record<string, Cookie<unknown>>): string {
   const raw = cookie[CLIENT_STORE_KEY]?.value;
-  if (!raw) throw new Error(msg("ERRORS.UNAUTHORIZED"));
-  try {
-    const parsed: unknown = typeof raw === "string" ? JSON.parse(raw) : raw;
-    const apiKey = isRecord(parsed) ? parsed.apiKey : undefined;
-    if (typeof apiKey !== "string" || !apiKey) {
-      throw new Error(msg("ERRORS.NO_API_KEY"));
-    }
-    return apiKey;
-  } catch {
-    throw new Error(msg("ERRORS.UNAUTHORIZED"));
-  }
+  if (!raw) throw status(401, msg("ERRORS.UNAUTHORIZED"));
+  const parsed = parseClientStore(raw);
+  if (!isRecord(parsed)) throw status(401, msg("ERRORS.UNAUTHORIZED"));
+  const apiKey = parsed.apiKey;
+  if (typeof apiKey !== "string" || !apiKey)
+    throw status(401, msg("ERRORS.NO_API_KEY"));
+  return apiKey;
 }
 
 export function getProvider(
@@ -95,12 +100,10 @@ export function getProvider(
   });
 }
 
+// Cloudflare sets this and overwrites any client copy; X-Forwarded-For and
+// X-Real-IP come from the client and would let anyone pick their own key.
 export function getClientIp(headers: Headers): string | null {
-  return (
-    headers.get("cf-connecting-ip") ??
-    headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-    headers.get("x-real-ip")
-  );
+  return headers.get("cf-connecting-ip");
 }
 
 export async function deriveUpstream({ request }: { request: Request }) {

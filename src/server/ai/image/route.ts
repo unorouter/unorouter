@@ -5,7 +5,7 @@ import { assertGuestOwnPurposeAccess } from "@/server/auth/guest-consent.service
 import { getUserId } from "@/server/constants";
 import { rateLimit } from "@/server/rate-limit";
 import { resolveChatApiKey } from "@/server/billing/token/best-key.service";
-import { Elysia, t } from "elysia";
+import { Elysia, t, status } from "elysia";
 import { submitGeneration } from "./image-submit.service";
 import { UpstreamImageError } from "./upstream";
 import {
@@ -16,7 +16,7 @@ import {
 
 async function assertGuestAllowedModel(model: string): Promise<void> {
   if (!(await getModelByName(model))?.is_free) {
-    throw new Error(msg("ERRORS.UNAUTHORIZED"));
+    throw status(401, msg("ERRORS.UNAUTHORIZED"));
   }
 }
 

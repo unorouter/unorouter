@@ -55,22 +55,6 @@ async function getServerHeader(name: string): Promise<string> {
   }
 }
 
-async function getServerClientIp(): Promise<string> {
-  if (typeof window !== "undefined") return "";
-  try {
-    const { headers } = await import("next/headers");
-    const h = await headers();
-    return (
-      h.get("cf-connecting-ip")?.trim() ??
-      h.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-      h.get("x-real-ip")?.trim() ??
-      ""
-    );
-  } catch {
-    return "";
-  }
-}
-
 async function readOkBody(res: Response): Promise<unknown> {
   const ct = res.headers.get("content-type") ?? "";
   if (ct.includes("application/json")) return res.json();
@@ -110,7 +94,7 @@ export const customFetch = async <T>(
     upstreamIsProxied ||
     getHeader(headers, "CF-Connecting-IP")
       ? ""
-      : await getServerClientIp();
+      : await getServerHeader("cf-connecting-ip");
   const edgeOnly = hasExplicitAuth || upstreamIsProxied;
   const country =
     edgeOnly || getHeader(headers, "CF-IPCountry")
