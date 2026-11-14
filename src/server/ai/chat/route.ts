@@ -110,11 +110,13 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   // so every guest gate keyed on userId waved it through on the shared key.
   .resolve(async ({ cookie }) => {
     const apiKey = await resolveChatApiKey(cookie);
-    const userId =
-      apiKey === serverEnv.guestApiKey
-        ? GUEST_USER_ID
-        : ((await getUserId(cookie, true)) ?? GUEST_USER_ID);
-    return { apiKey, userId };
+    const cookieUser = await getUserId(cookie, true);
+    const onGuestKey = apiKey === serverEnv.guestApiKey;
+    return {
+      apiKey,
+      userId: onGuestKey ? GUEST_USER_ID : (cookieUser ?? GUEST_USER_ID),
+      sessionExpired: onGuestKey && cookieUser !== null,
+    };
   })
 
   .post(
@@ -153,7 +155,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
 
   .post(
     "/forward/chat/completions",
-    async ({ body, cookie, request, apiKey, userId }) => {
+    async ({ body, cookie, request, apiKey, userId, sessionExpired }) => {
       await assertGuestOwnPurposeAccess(
         cookie,
         userId,
@@ -162,6 +164,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       return forwardChatCompletions({
         apiKey,
         userId,
+        sessionExpired,
         body,
         requestId: request.headers.get("x-request-id"),
         group: request.headers.get("x-group"),

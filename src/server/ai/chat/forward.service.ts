@@ -3,7 +3,6 @@ import { GUEST_USER_ID, msg } from "@/lib/config/constants";
 import { uid } from "@/lib/utils/base";
 import { API_ENDPOINTS } from "@/lib/ai/endpoints";
 import { groupHeader, upstreamApiUrl } from "@/server/constants";
-import { serverEnv } from "@/server/env";
 import { resumableResponse } from "./stream-buffer";
 
 const FORWARD_RESPONSE_HEADERS = [
@@ -20,21 +19,22 @@ type WireBody = { model?: string; group?: string | null } & Record<
 export async function forwardChatCompletions(args: {
   apiKey: string;
   userId: number;
+  sessionExpired: boolean;
   body: WireBody;
   requestId: string | null;
   group?: string | null;
 }): Promise<Response> {
   const model = typeof args.body.model === "string" ? args.body.model : "";
 
-  const onGuestKey =
-    args.userId === GUEST_USER_ID || args.apiKey === serverEnv.guestApiKey;
-  if (onGuestKey && !(await getModelByName(model))?.is_free) {
+  if (
+    args.userId === GUEST_USER_ID &&
+    !(await getModelByName(model))?.is_free
+  ) {
     return new Response(
       JSON.stringify({
-        error:
-          args.userId === GUEST_USER_ID
-            ? msg("ERRORS.UNAUTHORIZED")
-            : `Your session expired, so this request used the guest key (free models only). Log in again to use ${model}.`,
+        error: args.sessionExpired
+          ? `Your session expired, so this request used the guest key (free models only). Log in again to use ${model}.`
+          : msg("ERRORS.UNAUTHORIZED"),
       }),
       { status: 401, headers: { "content-type": "application/json" } },
     );
