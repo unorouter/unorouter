@@ -19,6 +19,12 @@ export default function GlobalError(props: RouteErrorProps) {
   const details = formatError(props.error);
 
   const reset = async () => {
+    if (
+      !window.confirm(
+        "This deletes every chat, character and setting stored in this browser. Continue?",
+      )
+    )
+      return;
     setClearing(true);
     await clearAllClientStorage();
     location.reload();

@@ -73,7 +73,10 @@ export function ErrorFallback(props: ErrorFallbackProps) {
   const details = formatError(props.error);
   const chunkError = isChunkLoadError(props.error);
 
+  // The local database is the only copy of every chat; the app's own dialog
+  // may be what crashed, so the browser's confirm guards the wipe.
   const resetData = async () => {
+    if (!window.confirm(t("CHAT.MORE.LOCAL_DB_WIPE_CONFIRM"))) return;
     setClearing(true);
     await clearAllClientStorage();
     window.location.reload();
