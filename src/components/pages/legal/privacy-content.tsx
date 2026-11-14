@@ -10,6 +10,7 @@ const SECTIONS: LegalDocSection[] = [
       { title: "COLLECTION_VOLUNTARY_TITLE", para: "COLLECTION_VOLUNTARY" },
       { title: "COLLECTION_AUTO_TITLE", para: "COLLECTION_AUTO" },
       { title: "COLLECTION_COOKIES_TITLE", para: "COLLECTION_COOKIES" },
+      { title: "COLLECTION_ERRORS_TITLE", para: "COLLECTION_ERRORS" },
     ],
   },
   { title: "USE_TITLE", para: { key: "USE_CONTENT" } },
