@@ -4,9 +4,8 @@ import { useApiMutation } from "@/lib/react-query/hooks";
 
 import {
   readLocalConversationBindings,
-  readLocalConversationSettings,
   replaceLocalConversationBindings,
-  upsertLocalConversationSettings,
+  updateLocalConversationSettings,
 } from "@/lib/db/client/data/chat/chat";
 import {
   deleteLocalCard,
@@ -177,14 +176,11 @@ export function useApplyCardMutation() {
       }
 
       if (card.personaId) {
-        const settings = await readLocalConversationSettings(args.body.convId);
-        if (settings) {
-          await upsertLocalConversationSettings({
-            ...settings,
-            personaId: card.personaId,
-            updatedAt: dayjs().toDate(),
-          });
-        }
+        await updateLocalConversationSettings({
+          convId: args.body.convId,
+          personaId: card.personaId,
+          updatedAt: dayjs().toDate(),
+        });
       }
 
       return { id: args.id };
