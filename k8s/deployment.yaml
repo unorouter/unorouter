@@ -73,18 +73,15 @@ spec:
           # served from memory): ~750Mi typical, one pod peaked at 1.47Gi over 30 days
           # (2026-10-24). On 2026-11-04 two flood-bloated pods on one node grew toward a 3Gi
           # limit, the node went into global OOM and took etcd and both database primaries
-          # with it: the limit must OOM this container long before the node runs out. The
-          # admission cap (ANON_RENDER_CAP, 12 here) bounds a flooded pod, so 1Gi covers the
-          # steady state without the cluster overcommitting its spare node.
+          # with it: the limit must OOM this container long before the node runs out. Floods
+          # stop at the edge (tiered cache, HTTP/1 and datacenter challenges); one that gets
+          # through OOM kills this container while Cloudflare serves stale pages.
           resources:
             requests: { memory: 1Gi, cpu: "1" }
             limits: { memory: 2Gi }
           envFrom:
             - secretRef: { name: unorouter-env }
           env:
-            # 24 still OOM killed three pods on 2026-11-05: real /en renders are heavier than
-            # the offline load test, and throughput already peaks near 16 concurrent renders.
-            - { name: ANON_RENDER_CAP, value: "12" }
             # chat resume mirror on the gateway's Sentinel set (src/server/ai/chat/stream-mirror.ts)
             - name: REDIS_SENTINEL_ADDRS
               value: newapi-redis-ha-0.newapi-redis-ha.services.svc.cluster.local:26379,newapi-redis-ha-1.newapi-redis-ha.services.svc.cluster.local:26379,newapi-redis-ha-2.newapi-redis-ha.services.svc.cluster.local:26379
