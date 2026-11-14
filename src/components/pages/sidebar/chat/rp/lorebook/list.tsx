@@ -20,7 +20,7 @@ import {
 import type { LorebookExportFormat } from "@/lib/validation/rp";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRpExportMutation } from "@/hooks/ai/rp/use-export-mutation";
 import {
   confirmRpDelete,
@@ -53,11 +53,6 @@ export function LorebookList(props: Props) {
   const favoriteMut = useToggleFavoriteMutation("lorebook");
 
   const [openLbId, setOpenLbId] = useState<string | null>(null);
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- reset selection when dialog closes
-    if (!props.open) setOpenLbId(null);
-  }, [props.open]);
 
   const handleCreate = async () => {
     await createMut.mutateAsync({

@@ -19,7 +19,7 @@ import {
 import type { EditorState } from "@/lib/types";
 import type { CharacterExportFormat } from "@/lib/validation/rp";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRpExportMutation } from "@/hooks/ai/rp/use-export-mutation";
 import {
   confirmRpDelete,
@@ -51,11 +51,6 @@ export function CharacterList(props: Props) {
   const favoriteMut = useToggleFavoriteMutation("character");
 
   const [view, setView] = useState<EditorState>({ mode: "list" });
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- reset editor when dialog closes
-    if (!props.open) setView({ mode: "list" });
-  }, [props.open]);
 
   const handleExport = (id: string, format: CharacterExportFormat) =>
     exportMut.mutate({ kind: "characters", id, format });
