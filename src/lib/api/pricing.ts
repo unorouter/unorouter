@@ -1,5 +1,27 @@
-import type { PricingCatalogModel } from "@/openapi";
+import type { PricingCatalogDetail, PricingCatalogModel } from "@/openapi";
 import { escapeRegex, vendorSlug } from "@/lib/utils/base";
+
+export function modelCost(
+  model:
+    | Pick<
+        PricingCatalogDetail,
+        | "is_free"
+        | "is_fixed_price"
+        | "fixed_price"
+        | "input_price"
+        | "output_price"
+      >
+    | undefined,
+  inputTokens: number,
+  outputTokens: number,
+): number {
+  if (!model || model.is_free) return 0;
+  if (model.is_fixed_price) return model.fixed_price ?? 0;
+  return (
+    (inputTokens * model.input_price + outputTokens * model.output_price) /
+    1_000_000
+  );
+}
 
 export function isMediaType(type: string | undefined): boolean {
   return type != null && type !== "text";

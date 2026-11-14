@@ -309,12 +309,3 @@ export function buildDebugSnapshot(
     url: target?.url ?? null,
   };
 }
-
-export function makeCostEstimator(modelInfo: PricingCatalogDetail | undefined) {
-  return (inputTokens: number, outputTokens: number): number =>
-    modelInfo && !modelInfo.is_free
-      ? (inputTokens * modelInfo.input_price +
-          outputTokens * modelInfo.output_price) /
-        1_000_000
-      : 0;
-}

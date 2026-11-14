@@ -1,3 +1,4 @@
+import { modelCost } from "@/lib/api/pricing";
 import type { StreamOverrides } from "@/lib/validation/chat";
 import type { LoadedConvContext } from "@/lib/types";
 import type { AssemblerDeps } from "./deps";
@@ -19,7 +20,6 @@ import {
   buildModelParams,
   buildProviderOptions,
   buildWritebacks,
-  makeCostEstimator,
 } from "./stages/build-body";
 
 export type StreamBody = {
@@ -128,7 +128,8 @@ export async function prepareChatRequest(
 
   return {
     modelInfo,
-    estimateCost: makeCostEstimator(modelInfo),
+    estimateCost: (inputTokens: number, outputTokens: number) =>
+      modelCost(modelInfo, inputTokens, outputTokens),
     effectiveWebSearch,
     effectiveSystem,
     messagesForUpstream,

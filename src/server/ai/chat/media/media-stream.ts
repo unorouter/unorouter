@@ -10,6 +10,7 @@ import {
   type SyncImageEndpoint,
 } from "@/lib/ai/image/dispatch";
 import { API_ENDPOINTS } from "@/lib/ai/endpoints";
+import { modelCost } from "@/lib/api/pricing";
 import { digErrorMessage } from "@/lib/api/video-task";
 import {
   bffServiceHeader,
@@ -61,7 +62,7 @@ function buildMediaMeta(args: {
     args.usage?.input_tokens ?? args.usage?.prompt_tokens ?? 0;
   const outputTokens =
     args.usage?.output_tokens ?? args.usage?.completion_tokens ?? 0;
-  const cost = mediaCost(args.model, inputTokens, outputTokens);
+  const cost = modelCost(args.model, inputTokens, outputTokens);
   const meta: Record<string, unknown> = {
     debug: {
       requestBody: args.wireBody,
@@ -87,19 +88,6 @@ function buildMediaMeta(args: {
     };
   }
   return meta;
-}
-
-function mediaCost(
-  model: PricingCatalogDetail | undefined,
-  inputTokens: number,
-  outputTokens: number,
-): number {
-  if (!model || model.is_free) return 0;
-  if (model.is_fixed_price) return model.fixed_price ?? 0;
-  return (
-    (inputTokens * model.input_price + outputTokens * model.output_price) /
-    1_000_000
-  );
 }
 
 const KEEPALIVE_INTERVAL_MS = 20_000;
