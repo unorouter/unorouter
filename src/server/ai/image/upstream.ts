@@ -1,5 +1,5 @@
 import type { Built, ExtractedResult } from "@/lib/ai/image/dispatch";
-import { downloadGenerationBytes } from "@/lib/config/safe-fetch";
+import { downloadGenerationBytes } from "@/lib/ai/image/generated-bytes";
 import type { GeneratedImage, ImageSubmitBody } from "@/lib/validation/image";
 import { bffServiceHeader, upstreamApiUrl } from "@/server/constants";
 import sharp from "sharp";

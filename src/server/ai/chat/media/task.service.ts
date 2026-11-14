@@ -8,7 +8,7 @@ import {
 } from "@/lib/api/video-task";
 import { msg } from "@/lib/config/constants";
 import { bffServiceHeader, groupHeader } from "@/server/constants";
-import { downloadGenerationBytes } from "@/lib/config/safe-fetch";
+import { downloadGenerationBytes } from "@/lib/ai/image/generated-bytes";
 import { base64ToDataUri } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 

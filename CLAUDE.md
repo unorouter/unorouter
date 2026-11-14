@@ -26,7 +26,7 @@ git worktree remove --force /tmp/uno-build
 - ONE local database per device: `getLocalDb()` takes no argument. Only the model-tester tables carry `userId`, from `useAuthUserId()`/`authUserId()`. No client user-id atom, no per-user OPFS path.
 - Pass upstream shapes through; when the shape is wrong, fix it in new-api (ours), never remap, filter, sort, count or cache in the BFF. Target route body: `async () => getSomething()`. BFF keeps auth, cookies, composing several upstream calls and unorouter-only view state. `handleElysia` unwraps `{success, data}` and DROPS siblings, so our own DTOs never use that envelope. Pass-through routes `return unwrap(res)`; local-logic routes (`ai/chat`, `ops/health`) `return { success, data }`; never mix in one route. No try/catch in handlers.
 - Dependency direction one way: `route.ts` -> `*.service.ts` -> data. `src/lib/ai/chat/` is PURE of secrets and data sources; everything injected through `AssemblerDeps` (`pipeline/deps.ts`). `providers/` is a leaf module.
-- Any remote fetch goes through `src/lib/config/safe-fetch.ts` (SSRF policy).
+- Any remote fetch of a URL a user or provider chooses goes through `src/lib/config/safe-fetch.ts` (scheme, port, our own zones, no redirects, size and time limits). Private and reserved addresses are refused by the cluster network, not the app: Cilium `private-egress-deny` in infra `services/cluster-egress.yaml` (namespaces services and uno-import). Local dev has no such guard.
 - nuqs owns URL filter state; never `useSearchParams` + `router.replace`. `/models` bridges nuqs to jotai at the store level (cookie hydration lands after first-commit subscribers).
 - jotai: `chatStore.set(atom, fn)` runs fn as an updater. `set(atom, () => fn)`.
 

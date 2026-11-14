@@ -10,7 +10,8 @@ export function toSyncImageEndpoint(
 ): SyncImageEndpoint | undefined {
   return SYNC_IMAGE_ENDPOINTS.find((e) => e === raw);
 }
-import { safeFetchBytes, verifyMagicBytes } from "@/lib/config/safe-fetch";
+import { safeFetchBytes } from "@/lib/config/safe-fetch";
+import { verifyMagicBytes } from "@/lib/ai/image/generated-bytes";
 import {
   base64ToDataUri,
   nonEmptyString as str,
