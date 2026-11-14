@@ -12,7 +12,7 @@ import type { PersonaRow } from "@/lib/db/schema/rows";
 import { queryKeys } from "@/lib/react-query/keys";
 import { uid } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
-import { useTranslations } from "next-intl";
+import { msg } from "@/lib/config/constants";
 import { makeRpEntity } from "./factory";
 
 const personas = makeRpEntity<
@@ -36,18 +36,16 @@ export const useDeletePersonaMutation = personas.useDelete;
 export const useDuplicatePersonaMutation = personas.useDuplicate;
 
 export function useImportPersonaMutation() {
-  const t = useTranslations();
-
   return useApiMutation({
     mutationFn: async (file: File) => {
       let raw: unknown;
       try {
         raw = JSON.parse(await file.text());
       } catch {
-        throw new Error(t("ERRORS.REQUEST_FAILED"));
+        throw new Error(msg("ERRORS.REQUEST_FAILED"));
       }
       const parsed = parsePersonaJson(raw);
-      if (parsed.length === 0) throw new Error(t("ERRORS.REQUEST_FAILED"));
+      if (parsed.length === 0) throw new Error(msg("ERRORS.REQUEST_FAILED"));
       const now = dayjs().toDate();
       const rows = parsed.map((p) => ({
         id: uid(),
@@ -69,4 +67,3 @@ export function useImportPersonaMutation() {
     invalidates: [queryKeys.personas()],
   });
 }
-

@@ -27,11 +27,13 @@ import type { TranslationKey } from "@/lib/config/constants";
 import { clamp, csvToArray } from "@/lib/utils/base";
 import { formDefaults } from "@/lib/validation/helpers";
 import {
-  LOREBOOK_INJECTION_ROLES,
   lorebookEntryFormSchema,
   type LorebookEntryForm as LorebookEntryFormValues,
-  type LorebookInjectionRole,
 } from "@/lib/validation/rp-forms";
+import {
+  LOREBOOK_INJECTION_ROLES,
+  type LorebookInjectionRole,
+} from "@/lib/validation/rp";
 import type { LorebookEntryRow } from "@/lib/db/schema/rows";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";

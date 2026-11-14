@@ -10,13 +10,7 @@ import {
   NONE_VALUE,
   type TranslationKey,
 } from "../config/constants";
-import {
-  LOREBOOK_INJECTION_ROLES,
-  MAX_DESC_LEN,
-  MAX_NAME_LEN,
-  type LorebookInjectionRole,
-} from "./rp";
-export { LOREBOOK_INJECTION_ROLES, type LorebookInjectionRole };
+import { lorebookInjectionRole, MAX_DESC_LEN, MAX_NAME_LEN } from "./rp";
 
 export const SAMPLING_PARAMS = [
   {
@@ -123,9 +117,7 @@ export const SAMPLING_PARAMS = [
   fallback: number;
 }>;
 
-export type SamplingParam = (typeof SAMPLING_PARAMS)[number];
-
-export type SamplingFieldName = SamplingParam["field"];
+export type SamplingFieldName = (typeof SAMPLING_PARAMS)[number]["field"];
 export const SAMPLING_FIELDS: SamplingFieldName[] = SAMPLING_PARAMS.map(
   (p) => p.field,
 );
@@ -145,10 +137,6 @@ const reasoningEffortLiterals = [
 ];
 const webSearchEngineLiterals = webSearchEngine.anyOf;
 const webSearchContextSizeLiterals = webSearchContextSize.anyOf;
-
-const lorebookInjectionRoleLiterals = LOREBOOK_INJECTION_ROLES.map((r) =>
-  t.Literal(r),
-);
 
 const nullableNumber = (min: number, max: number) =>
   nullable(t.Number({ minimum: min, maximum: max }));
@@ -189,13 +177,16 @@ export type ConversationOverridesForm = Static<
   typeof conversationOverridesFormSchema
 >;
 
-export const samplingPresetFormSchema = t.Object({
-  name: t.String({
+const requiredName = () =>
+  t.String({
     minLength: 1,
     maxLength: MAX_NAME_LEN,
     default: "",
     error: msg("FORM.ERROR.REQUIRED"),
-  }),
+  });
+
+export const samplingPresetFormSchema = t.Object({
+  name: requiredName(),
   ...samplingNullable({ temperatureMax: 4, maxTokensMax: 1_000_000 }),
   streamingEnabled: nullable(t.Boolean()),
   autoScrollStream: nullable(t.Boolean()),
@@ -244,12 +235,7 @@ export type SamplingPresetForm = Static<typeof samplingPresetFormSchema>;
 
 export const personaFormSchema = t.Object({
   title: t.String({ maxLength: MAX_NAME_LEN, default: "" }),
-  name: t.String({
-    minLength: 1,
-    maxLength: MAX_NAME_LEN,
-    default: "",
-    error: msg("FORM.ERROR.REQUIRED"),
-  }),
+  name: requiredName(),
   description: t.String({ maxLength: MAX_DESC_LEN, default: "" }),
   personality: t.String({ maxLength: MAX_DESC_LEN, default: "" }),
   avatarMediaId: t.Union([t.String({ maxLength: 64 }), t.Null()], {
@@ -260,12 +246,7 @@ export const personaFormSchema = t.Object({
 export type PersonaForm = Static<typeof personaFormSchema>;
 
 export const lorebookFormSchema = t.Object({
-  name: t.String({
-    minLength: 1,
-    maxLength: MAX_NAME_LEN,
-    default: "",
-    error: msg("FORM.ERROR.REQUIRED"),
-  }),
+  name: requiredName(),
   description: t.String({ maxLength: MAX_DESC_LEN, default: "" }),
   greeting: t.String({ maxLength: MAX_DESC_LEN, default: "" }),
   scanDepth: t.Number({ minimum: 0, maximum: 100, default: 4 }),
@@ -292,17 +273,12 @@ export const lorebookEntryFormSchema = t.Object({
   selective: t.Boolean({ default: false }),
   enabled: t.Boolean({ default: true }),
   matchWholeWords: t.Boolean({ default: false }),
-  injectionRole: t.Union(lorebookInjectionRoleLiterals, { default: "system" }),
+  injectionRole: t.Union(lorebookInjectionRole.anyOf, { default: "system" }),
 });
 export type LorebookEntryForm = Static<typeof lorebookEntryFormSchema>;
 
 export const characterFormSchema = t.Object({
-  name: t.String({
-    minLength: 1,
-    maxLength: MAX_NAME_LEN,
-    default: "",
-    error: msg("FORM.ERROR.REQUIRED"),
-  }),
+  name: requiredName(),
   description: t.String({ maxLength: MAX_DESC_LEN, default: "" }),
   personality: t.String({ maxLength: MAX_DESC_LEN, default: "" }),
   scenario: t.String({ maxLength: MAX_DESC_LEN, default: "" }),
@@ -319,12 +295,7 @@ export const characterFormSchema = t.Object({
 export type CharacterForm = Static<typeof characterFormSchema>;
 
 export const cardFormSchema = t.Object({
-  name: t.String({
-    minLength: 1,
-    maxLength: MAX_NAME_LEN,
-    default: "",
-    error: msg("FORM.ERROR.REQUIRED"),
-  }),
+  name: requiredName(),
   description: t.String({ maxLength: MAX_DESC_LEN, default: "" }),
   personaId: t.String({ default: NONE_VALUE }),
   characterIds: t.Array(t.String(), { default: [] }),

@@ -57,6 +57,17 @@ const SLOTS: SlotName[] = [
 
 const ROLES: PromptItemRole[] = ["system", "user", "assistant"];
 
+const PREFILL_TEXT = {
+  prefill: {
+    placeholder: "RP.PRESET_PREFILL_PLACEHOLDER",
+    hint: "RP.PRESET_PREFILL_HINT",
+  },
+  reasoningPrefill: {
+    placeholder: "RP.PRESET_REASONING_PREFILL_PLACEHOLDER",
+    hint: "RP.PRESET_REASONING_PREFILL_HINT",
+  },
+} as const satisfies Record<string, Record<string, TranslationKey>>;
+
 let idCounter = 0;
 function makeId(): string {
   idCounter += 1;
@@ -169,131 +180,119 @@ export function PromptTemplateEditor(props: Props) {
       <SortableList
         items={cards}
         onReorder={reorder}
-        renderItem={(card, handle, isDragging) => (
-          <Card className="flex flex-row items-start gap-2 p-2">
-            <div className="pt-1">{handle}</div>
-            <div className="flex min-w-0 flex-1 flex-col gap-1.5">
-              {card.type === "slot" && (
-                <div className="flex flex-col gap-1.5">
-                  <span className="text-sm font-medium">
-                    {t(SLOT_LABELS[card.slot])}
-                  </span>
-                  {card.slot === "prefill" && (
-                    <>
-                      <Textarea
-                        value={form.watch("prefill") ?? ""}
-                        onChange={(e) =>
-                          form.setValue("prefill", e.target.value, {
-                            shouldDirty: true,
-                          })
-                        }
-                        className="max-h-24 overflow-y-auto"
-                        placeholder={t("RP.PRESET_PREFILL_PLACEHOLDER")}
-                      />
-                      <p className="text-muted-foreground text-xs">
-                        {t("RP.PRESET_PREFILL_HINT")}
-                      </p>
-                    </>
-                  )}
-                  {card.slot === "reasoningPrefill" && (
-                    <>
-                      <Textarea
-                        value={form.watch("reasoningPrefill") ?? ""}
-                        onChange={(e) =>
-                          form.setValue("reasoningPrefill", e.target.value, {
-                            shouldDirty: true,
-                          })
-                        }
-                        className="max-h-24 overflow-y-auto"
-                        placeholder={t(
-                          "RP.PRESET_REASONING_PREFILL_PLACEHOLDER",
-                        )}
-                      />
-                      <p className="text-muted-foreground text-xs">
-                        {t("RP.PRESET_REASONING_PREFILL_HINT")}
-                      </p>
-                    </>
-                  )}
-                </div>
-              )}
-              {card.type === "chat" && (
-                <div className="flex flex-col gap-1">
-                  <span className="text-sm font-medium">
-                    {t("RP.PRESET_TEMPLATE_CHAT")}
-                  </span>
-                  <p className="text-muted-foreground text-xs">
-                    {t("RP.PRESET_TEMPLATE_CHAT_HINT")}
-                  </p>
-                </div>
-              )}
-              {card.type === "plain" && (
-                <div className="flex flex-col gap-1.5">
-                  <div className="flex items-center gap-1.5">
-                    <Select
-                      value={card.role}
-                      onValueChange={(v) => {
-                        const role = ROLES.find((r) => r === v);
-                        if (role) updatePlain(card.id, { role });
-                      }}
-                    >
-                      <SelectTrigger className="h-7 w-32">
-                        <SelectValue>{card.role}</SelectValue>
-                      </SelectTrigger>
-                      <SelectContent>
-                        {ROLES.map((r) => (
-                          <SelectItem key={r} value={r}>
-                            {r}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon-sm"
-                      onClick={() => toggleExpanded(card.id)}
-                      aria-label={t(
-                        expanded.has(card.id)
-                          ? "RP.PRESET_TEMPLATE_COLLAPSE"
-                          : "RP.PRESET_TEMPLATE_EXPAND",
-                      )}
-                    >
-                      <Icon
-                        name={
-                          expanded.has(card.id)
-                            ? "chevrons-up"
-                            : "chevrons-down"
-                        }
-                        className="size-4"
-                      />
-                    </Button>
+        renderItem={(card, handle, isDragging) => {
+          const prefill =
+            card.type === "slot" &&
+            (card.slot === "prefill" || card.slot === "reasoningPrefill")
+              ? card.slot
+              : null;
+          return (
+            <Card className="flex flex-row items-start gap-2 p-2">
+              <div className="pt-1">{handle}</div>
+              <div className="flex min-w-0 flex-1 flex-col gap-1.5">
+                {card.type === "slot" && (
+                  <div className="flex flex-col gap-1.5">
+                    <span className="text-sm font-medium">
+                      {t(SLOT_LABELS[card.slot])}
+                    </span>
+                    {prefill && (
+                      <>
+                        <Textarea
+                          value={form.watch(prefill) ?? ""}
+                          onChange={(e) =>
+                            form.setValue(prefill, e.target.value, {
+                              shouldDirty: true,
+                            })
+                          }
+                          className="max-h-24 overflow-y-auto"
+                          placeholder={t(PREFILL_TEXT[prefill].placeholder)}
+                        />
+                        <p className="text-muted-foreground text-xs">
+                          {t(PREFILL_TEXT[prefill].hint)}
+                        </p>
+                      </>
+                    )}
                   </div>
-                  <Textarea
-                    value={card.text}
-                    onChange={(e) =>
-                      updatePlain(card.id, { text: e.target.value })
-                    }
-                    className={
-                      expanded.has(card.id) && !isDragging
-                        ? "max-h-[60vh]"
-                        : "max-h-24 overflow-y-auto"
-                    }
-                    placeholder={t("RP.PRESET_TEMPLATE_PLAIN_PLACEHOLDER")}
-                  />
-                </div>
-              )}
-            </div>
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon-sm"
-              onClick={() => remove(card.id)}
-              aria-label={t("COMMON.DELETE")}
-            >
-              <Icon name="trash-2" className="size-4" />
-            </Button>
-          </Card>
-        )}
+                )}
+                {card.type === "chat" && (
+                  <div className="flex flex-col gap-1">
+                    <span className="text-sm font-medium">
+                      {t("RP.PRESET_TEMPLATE_CHAT")}
+                    </span>
+                    <p className="text-muted-foreground text-xs">
+                      {t("RP.PRESET_TEMPLATE_CHAT_HINT")}
+                    </p>
+                  </div>
+                )}
+                {card.type === "plain" && (
+                  <div className="flex flex-col gap-1.5">
+                    <div className="flex items-center gap-1.5">
+                      <Select
+                        value={card.role}
+                        onValueChange={(v) => {
+                          const role = ROLES.find((r) => r === v);
+                          if (role) updatePlain(card.id, { role });
+                        }}
+                      >
+                        <SelectTrigger className="h-7 w-32">
+                          <SelectValue>{card.role}</SelectValue>
+                        </SelectTrigger>
+                        <SelectContent>
+                          {ROLES.map((r) => (
+                            <SelectItem key={r} value={r}>
+                              {r}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon-sm"
+                        onClick={() => toggleExpanded(card.id)}
+                        aria-label={t(
+                          expanded.has(card.id)
+                            ? "RP.PRESET_TEMPLATE_COLLAPSE"
+                            : "RP.PRESET_TEMPLATE_EXPAND",
+                        )}
+                      >
+                        <Icon
+                          name={
+                            expanded.has(card.id)
+                              ? "chevrons-up"
+                              : "chevrons-down"
+                          }
+                          className="size-4"
+                        />
+                      </Button>
+                    </div>
+                    <Textarea
+                      value={card.text}
+                      onChange={(e) =>
+                        updatePlain(card.id, { text: e.target.value })
+                      }
+                      className={
+                        expanded.has(card.id) && !isDragging
+                          ? "max-h-[60vh]"
+                          : "max-h-24 overflow-y-auto"
+                      }
+                      placeholder={t("RP.PRESET_TEMPLATE_PLAIN_PLACEHOLDER")}
+                    />
+                  </div>
+                )}
+              </div>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon-sm"
+                onClick={() => remove(card.id)}
+                aria-label={t("COMMON.DELETE")}
+              >
+                <Icon name="trash-2" className="size-4" />
+              </Button>
+            </Card>
+          );
+        }}
       />
 
       <DropdownMenu>

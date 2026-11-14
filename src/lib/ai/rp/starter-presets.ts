@@ -55,6 +55,18 @@ const NULL_SAMPLING: Pick<
   contextTokens: null,
 };
 
+const FLAGS_OFF = {
+  forceAlternateRoles: false,
+  noSystemRole: false,
+  mustStartWithUserInput: false,
+  geminiBlockOff: false,
+  disableCaching: false,
+  keepReasoning: false,
+  keepSystemRoles: false,
+  providers: null,
+  promptTemplate: null,
+};
+
 const RISU_RP_MAIN_PROMPT = `1. This is role-playing. You play the roles of actor and novelist. You should actively research and utilize the various cultural contents of various countries, such as history, myth, literature, visual media, games, etc.
 
 2. You are never {{user}}. Only I have the authority to control {{user}}. Write only from the point of view of the characters.
@@ -107,15 +119,7 @@ export const STARTER_PRESETS: StarterPreset[] = [
       mainPrompt: null,
       postHistory: null,
       maxTokens: 2048,
-      forceAlternateRoles: false,
-      noSystemRole: false,
-      mustStartWithUserInput: false,
-      geminiBlockOff: false,
-      disableCaching: false,
-      keepReasoning: false,
-      keepSystemRoles: false,
-      providers: null,
-      promptTemplate: null,
+      ...FLAGS_OFF,
     },
   },
   {
@@ -129,15 +133,8 @@ export const STARTER_PRESETS: StarterPreset[] = [
       mainPrompt: RISU_RP_MAIN_PROMPT,
       postHistory: RISU_RP_GLOBAL_NOTE,
       maxTokens: 4096,
-      forceAlternateRoles: false,
-      noSystemRole: false,
-      mustStartWithUserInput: false,
+      ...FLAGS_OFF,
       geminiBlockOff: true,
-      disableCaching: false,
-      keepReasoning: false,
-      keepSystemRoles: false,
-      providers: null,
-      promptTemplate: null,
     },
   },
   {
@@ -151,15 +148,9 @@ export const STARTER_PRESETS: StarterPreset[] = [
       mainPrompt: TURN_BASED_MAIN_PROMPT,
       postHistory: IN_CHARACTER_POST_HISTORY,
       maxTokens: 1024,
+      ...FLAGS_OFF,
       forceAlternateRoles: true,
-      noSystemRole: false,
       mustStartWithUserInput: true,
-      geminiBlockOff: false,
-      disableCaching: false,
-      keepReasoning: false,
-      keepSystemRoles: false,
-      providers: null,
-      promptTemplate: null,
     },
   },
 ];

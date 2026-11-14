@@ -4,29 +4,28 @@ import { useTranslations } from "next-intl";
 import { Input } from "@/components/ui/input";
 import type { TranslationKey } from "@/lib/types";
 
-export const TOKENIZER_OPTIONS: { value: string; labelKey: TranslationKey }[] =
-  [
-    { value: "auto", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_AUTO" },
-    { value: "cl100k", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_CL100K" },
-    { value: "o200k", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_O200K" },
-    { value: "claude", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_CLAUDE" },
-    { value: "glm5", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_GLM5" },
-    { value: "glm4", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_GLM4" },
-    { value: "deepseek", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_DEEPSEEK" },
-    {
-      value: "deepseek-v4",
-      labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_DEEPSEEK_V4",
-    },
-    { value: "llama3", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_LLAMA3" },
-    { value: "gemma", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_GEMMA" },
-    { value: "qwen", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_QWEN" },
-    { value: "mistral", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_MISTRAL" },
-    { value: "cohere", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_COHERE" },
-    {
-      value: "hf-custom",
-      labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_HF_CUSTOM",
-    },
-  ];
+const TOKENIZER_OPTIONS: { value: string; labelKey: TranslationKey }[] = [
+  { value: "auto", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_AUTO" },
+  { value: "cl100k", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_CL100K" },
+  { value: "o200k", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_O200K" },
+  { value: "claude", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_CLAUDE" },
+  { value: "glm5", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_GLM5" },
+  { value: "glm4", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_GLM4" },
+  { value: "deepseek", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_DEEPSEEK" },
+  {
+    value: "deepseek-v4",
+    labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_DEEPSEEK_V4",
+  },
+  { value: "llama3", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_LLAMA3" },
+  { value: "gemma", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_GEMMA" },
+  { value: "qwen", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_QWEN" },
+  { value: "mistral", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_MISTRAL" },
+  { value: "cohere", labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_COHERE" },
+  {
+    value: "hf-custom",
+    labelKey: "CHAT.CUSTOM_PROVIDER.TOKENIZER_HF_CUSTOM",
+  },
+];
 
 // Stored as one string `hf:<slug>`; empty means "auto".
 export function TokenizerSelect(props: {
