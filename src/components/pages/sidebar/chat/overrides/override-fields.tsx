@@ -3,6 +3,7 @@
 import { MyFormCombobox } from "@/components/elements/form/my-form-combobox";
 import { MyFormEntitySelect } from "@/components/elements/form/my-form-entity-select";
 import { MyFormKeyedSelect } from "@/components/elements/form/my-form-keyed-select";
+import { MyFormTextarea } from "@/components/elements/form/my-form-textarea";
 import {
   FormControl,
   FormField,
@@ -36,8 +37,12 @@ import {
   NONE_VALUE,
   type TranslationKey,
 } from "@/lib/config/constants";
+import { clamp } from "@/lib/utils/base";
 import { parseExtraBody } from "@/lib/validation/chat";
-import type { ConversationOverridesForm } from "@/lib/validation/rp-forms";
+import {
+  conversationOverridesFormSchema,
+  type ConversationOverridesForm,
+} from "@/lib/validation/rp-forms";
 import { focusMemoryFieldAtom } from "@/store/chat-store";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
@@ -150,7 +155,7 @@ export function OverridesGenerationFields(props: {
                     if (raw === "") return field.onChange(null);
                     const n = Math.round(Number(raw));
                     if (!Number.isFinite(n)) return;
-                    field.onChange(Math.min(MAX_CHAT_MEMORY, Math.max(1, n)));
+                    field.onChange(clamp(n, 1, MAX_CHAT_MEMORY));
                   }}
                 />
               </div>
@@ -293,7 +298,18 @@ export function OverridesGenerationFields(props: {
           labelKey="CHAT.OVERRIDES.TITLE_MODEL"
           hintKey="CHAT.OVERRIDES.TITLE_MODEL_HINT"
         />
-        <TitlePromptField control={props.control} />
+        <MyFormTextarea
+          control={props.control}
+          name="titlePrompt"
+          schema={conversationOverridesFormSchema}
+          label={
+            <span className="text-muted-foreground text-xs">
+              {t("CHAT.OVERRIDES.TITLE_PROMPT")}
+            </span>
+          }
+          className="min-h-16 text-xs"
+          placeholder={t("CHAT.OVERRIDES.TITLE_PROMPT_PLACEHOLDER")}
+        />
         <ModelField
           image
           control={props.control}
@@ -343,33 +359,6 @@ function SwitchField(props: {
               size="sm"
               checked={r.field.value ?? props.fallback}
               onCheckedChange={r.field.onChange}
-            />
-          </FormControl>
-        </FormItem>
-      )}
-    />
-  );
-}
-
-function TitlePromptField(props: {
-  control: Control<ConversationOverridesForm>;
-}) {
-  const t = useTranslations();
-  return (
-    <FormField
-      control={props.control}
-      name="titlePrompt"
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel className="text-muted-foreground text-xs">
-            {t("CHAT.OVERRIDES.TITLE_PROMPT")}
-          </FormLabel>
-          <FormControl>
-            <Textarea
-              className="min-h-16 text-xs"
-              placeholder={t("CHAT.OVERRIDES.TITLE_PROMPT_PLACEHOLDER")}
-              value={field.value}
-              onChange={field.onChange}
             />
           </FormControl>
         </FormItem>
@@ -471,21 +460,13 @@ export function OverridesPromptFields(props: {
         }}
       />
 
-      <FormField
+      <MyFormTextarea
         control={props.control}
         name="systemPromptOverride"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>{t("CHAT.OVERRIDES.SYSTEM_PROMPT")}</FormLabel>
-            <FormControl>
-              <Textarea
-                {...field}
-                placeholder={t("CHAT.OVERRIDES.SYSTEM_PROMPT_PLACEHOLDER")}
-                rows={4}
-              />
-            </FormControl>
-          </FormItem>
-        )}
+        schema={conversationOverridesFormSchema}
+        label={t("CHAT.OVERRIDES.SYSTEM_PROMPT")}
+        placeholder={t("CHAT.OVERRIDES.SYSTEM_PROMPT_PLACEHOLDER")}
+        rows={4}
       />
 
       <div className="flex flex-col gap-2">
@@ -527,7 +508,7 @@ export function OverridesPromptFields(props: {
                 <Input
                   type="number"
                   min={0}
-                  max={50}
+                  max={100}
                   value={field.value}
                   onChange={(e) => field.onChange(Number(e.target.value) || 0)}
                   className="w-20"
