@@ -275,7 +275,7 @@ export async function readConvTriggers(
   return parseTriggerScripts(ch?.triggers);
 }
 
-export async function readLocalMessageItems(convId: string) {
+async function readLocalMessageItems(convId: string) {
   const local = await getLocalDb();
   if (!local) return null;
   return local.db
@@ -283,6 +283,15 @@ export async function readLocalMessageItems(convId: string) {
     .from(messageItems)
     .innerJoin(messages, eq(messages.id, messageItems.messageId))
     .where(eq(messages.convId, convId))
+    .orderBy(asc(messageItems.sequenceIndex));
+}
+
+export async function readLocalItemsForMessage(messageId: string) {
+  const local = await requireLocalDb();
+  return local.db
+    .select()
+    .from(messageItems)
+    .where(eq(messageItems.messageId, messageId))
     .orderBy(asc(messageItems.sequenceIndex));
 }
 

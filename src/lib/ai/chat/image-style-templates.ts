@@ -12,6 +12,8 @@ const BASE =
 
 const OUTPUT = " Output ONLY the prompt text, no preamble, no quotes.";
 
+export const DEFAULT_IMAGE_INSTRUCTION = BASE + OUTPUT.trimStart();
+
 export const IMAGE_STYLE_TEMPLATES: ImageStyleTemplate[] = [
   {
     id: "anime",

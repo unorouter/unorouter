@@ -24,13 +24,14 @@ import {
 } from "@/lib/db/client/data/media/media";
 import {
   readLocalConversationSettings,
-  readLocalMessageItems,
+  readLocalItemsForMessage,
   readPrimaryCharacter,
   replaceLocalMessageItems,
 } from "@/lib/db/client/data/chat/chat";
 import { invalidateInlay } from "@/lib/db/client/data/media/inlay-render";
 import { readLocalCustomProvider } from "@/lib/db/client/data/rp/custom-providers";
 import { readLocalPreset } from "@/lib/db/client/data/rp/rp";
+import { DEFAULT_IMAGE_INSTRUCTION } from "@/lib/ai/chat/image-style-templates";
 import { resolveModelTarget } from "@/components/pages/sidebar/chat/runtime/transport/resolve-model-target";
 
 export type IllustratorConvSettings = {
@@ -178,16 +179,11 @@ export async function resolveRefUrls(mediaIds: string[]): Promise<string[]> {
   return urls;
 }
 
-const DEFAULT_INSTRUCTION =
-  "You write image-generation prompts. Given the latest roleplay response, write a single concise, " +
-  "vivid image prompt describing the current scene (subjects, setting, lighting, mood, composition). " +
-  "Output ONLY the prompt text, no preamble, no quotes.";
-
 async function writeImagePrompt(input: IllustratorRunInput) {
   const target = await resolveModelTarget(input.utilityModel);
   try {
     const result = await target.deps.runUtilityLLM(target.model, {
-      systemPrompt: input.promptInstruction ?? DEFAULT_INSTRUCTION,
+      systemPrompt: input.promptInstruction ?? DEFAULT_IMAGE_INSTRUCTION,
       prompt: input.responseText,
       maxOutputTokens: 200,
     });
@@ -248,9 +244,7 @@ export async function runIllustrator(
     }
   }
 
-  const items = (await readLocalMessageItems(input.convId)) ?? [];
-  const mine = items.filter((it) => it.messageId === input.messageId);
-  const rewritten = mine
+  const rewritten = (await readLocalItemsForMessage(input.messageId))
     .flatMap((it) => {
       const isPlaceholder =
         it.type === "task" && rec(it.data)?.task_id === input.taskId;
@@ -266,15 +260,7 @@ export async function runIllustrator(
       }
       return []; // gen failed/noop: drop the placeholder
     })
-    .map((it, seq) => ({
-      id: it.id ?? uid(),
-      messageId: input.messageId,
-      sequenceIndex: seq,
-      outputIndex: it.outputIndex ?? null,
-      type: it.type,
-      data: it.data,
-      createdAt: it.createdAt,
-    }));
+    .map((it, seq) => ({ ...it, sequenceIndex: seq }));
 
   await replaceLocalMessageItems(input.messageId, rewritten);
   // The placeholder rendered BEFORE the media row existed, so requestInlay may have cached
