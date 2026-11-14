@@ -1,7 +1,10 @@
-import { guestFetch } from "@/lib/ai/chat/guest-fetch";
-import { sha256Hex } from "@/lib/utils/base";
-import { countTokens } from "@/lib/ai/chat/tokenizer";
-import type { TriggerContext, TriggerMessage } from "../triggers/types";
+import type { TriggerContext } from "../triggers/types";
+import {
+  buildRisuChatApi,
+  fromRisuRole,
+  makeRequestLimiter,
+  toRisuRole,
+} from "../triggers/risu-chat-api";
 
 export type PluginHookMode = "input" | "output" | "request" | "display";
 
@@ -20,14 +23,6 @@ type PluginHostBridge = {
   getCtx: () => TriggerContext | null;
 };
 
-const toPluginRole = (r: TriggerMessage["role"]) =>
-  r === "assistant" ? "char" : r;
-const fromPluginRole = (r: string): TriggerMessage["role"] =>
-  r === "user" ? "user" : "assistant";
-
-let lastRequestsCount = 0;
-let lastRequestResetTime = 0;
-
 export function buildPluginApi(
   bridge: PluginHostBridge,
 ): Record<string, unknown> {
@@ -43,10 +38,6 @@ export function buildPluginApi(
     const c = ctx();
     if (c.mode === "display") throw new Error("display handlers are read-only");
     return c;
-  };
-  const parse = (s: string) => {
-    const c = ctx();
-    return c.parse ? c.parse(s) : s;
   };
 
   const isMode = (v: unknown): v is PluginHookMode =>
@@ -65,147 +56,26 @@ export function buildPluginApi(
     },
     log: () => {},
 
+    ...buildRisuChatApi(ctx, write),
     getChatVar: (key: string) => ctx().vars[key] ?? null,
-    setChatVar: (key: string, value: string) => {
-      write().vars[key] = String(value);
-    },
     getGlobalVar: (key: string) => ctx().globalVars[key] ?? null,
-
     stopChat: () => {
       write().stopSending = true;
     },
-
-    alertNormal: (value: string) => {
-      void ctx().ops?.alert?.("normal", String(value));
-    },
-    alertError: (value: string) => {
-      void ctx().ops?.alert?.("error", String(value));
-    },
-    alertInput: (value: string) =>
-      ctx().ops?.alert?.("input", String(value)) ?? "",
-    alertSelect: (options: string[]) =>
-      ctx().ops?.alert?.("select", options.join("§"), options) ?? "",
-    alertConfirm: async (value: string) => {
-      const res = await ctx().ops?.alert?.("select", String(value), [
-        "OK",
-        "Cancel",
-      ]);
-      return res === "OK";
-    },
-
     getChat: (index: number) => {
       const m = ctx().chat.at(index);
-      return m ? { role: toPluginRole(m.role), data: m.data } : null;
+      return m ? { role: toRisuRole(m.role), data: m.data } : null;
     },
     getFullChat: () =>
-      ctx().chat.map((m) => ({ role: toPluginRole(m.role), data: m.data })),
+      ctx().chat.map((m) => ({ role: toRisuRole(m.role), data: m.data })),
     setFullChat: (value: { role: string; data: string }[]) => {
       const c = write();
       c.chat.length = 0;
       for (const v of value) {
-        c.chat.push({ role: fromPluginRole(v.role), data: String(v.data) });
+        c.chat.push({ role: fromRisuRole(v.role), data: String(v.data) });
       }
     },
-    setChat: (index: number, value: string) => {
-      const m = write().chat.at(index);
-      if (m) m.data = String(value ?? "");
-    },
-    setChatRole: (index: number, role: string) => {
-      const m = write().chat.at(index);
-      if (m) m.role = fromPluginRole(role);
-    },
-    cutChat: (start: number, end: number) => {
-      const c = write();
-      const next = c.chat.slice(start, end);
-      c.chat.length = 0;
-      c.chat.push(...next);
-    },
-    removeChat: (index: number) => {
-      write().chat.splice(index, 1);
-    },
-    addChat: (role: string, value: string) => {
-      write().chat.push({
-        role: fromPluginRole(role),
-        data: String(value ?? ""),
-      });
-    },
-    insertChat: (index: number, role: string, value: string) => {
-      write().chat.splice(index, 0, {
-        role: fromPluginRole(role),
-        data: String(value ?? ""),
-      });
-    },
-    getChatLength: () => ctx().chat.length,
-
-    getName: () => ctx().charName,
-    setName: (name: string) => {
-      if (typeof name !== "string") throw new Error("Invalid data type");
-      write().charName = name;
-    },
-    getDescription: () => ctx().charDesc,
-    setDescription: (desc: string) => {
-      if (typeof desc !== "string") throw new Error("Invalid data type");
-      write().charDesc = desc;
-    },
-    getAuthorsNote: () => ctx().authorNote,
-    getPersonaName: () => ctx().userName,
-    getPersonaDescription: () => ctx().personaDesc,
-    getCharacterFirstMessage: () => ctx().firstMessage ?? "",
-    setCharacterFirstMessage: (value: string) => {
-      if (typeof value !== "string") return false;
-      write().firstMessage = value;
-      return true;
-    },
-    getCharacterLastMessage: () => {
-      const c = ctx();
-      for (let i = c.chat.length - 1; i >= 0; i--) {
-        if (c.chat[i].role === "assistant") return c.chat[i].data;
-      }
-      return c.firstMessage ?? "";
-    },
-    getUserLastMessage: () => {
-      const c = ctx();
-      for (let i = c.chat.length - 1; i >= 0; i--) {
-        if (c.chat[i].role === "user") return c.chat[i].data;
-      }
-      return "";
-    },
-
-    getLoreBooks: (search?: string) =>
-      ctx().lore.filter(
-        (l) => !search || l.comment === search || l.key.includes(search),
-      ),
-    upsertLoreBook: (key: string, content: string, comment: string) => {
-      const c = write();
-      const existing = c.lore.find((l) => l.comment === comment);
-      if (existing) {
-        existing.key = key;
-        existing.content = content;
-      } else {
-        c.lore.push({ comment, content, key, alwaysActive: false });
-      }
-    },
-
-    cbs: (value: string) => parse(String(value)),
-    getTokens: (value: string) => countTokens(String(value ?? "")),
-    hash: (value: string) => sha256Hex(String(value)),
-    sleep: (time: number) =>
-      new Promise((r) => setTimeout(() => r(true), Math.min(time, 10_000))),
-
-    httpRequest: async (url: string) => {
-      if (lastRequestResetTime + 60_000 < Date.now()) {
-        lastRequestsCount = 0;
-        lastRequestResetTime = Date.now();
-      }
-      if (lastRequestsCount > 5) {
-        return {
-          status: 429,
-          data: "Too many requests. you can request 5 times per minute",
-        };
-      }
-      lastRequestsCount++;
-      return guestFetch(url);
-    },
+    httpRequest: makeRequestLimiter(),
 
     ...PLUGIN_API_BOOTSTRAP,
   };

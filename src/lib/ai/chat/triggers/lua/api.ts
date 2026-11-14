@@ -1,18 +1,16 @@
-import { recArr, sha256Hex } from "@/lib/utils/base";
-import { countTokens } from "@/lib/ai/chat/tokenizer";
-import type { TriggerContext, TriggerMessage } from "../types";
-import { guestFetch } from "@/lib/ai/chat/guest-fetch";
+import { recArr } from "@/lib/utils/base";
+import type { TriggerContext } from "../types";
+import {
+  buildRisuChatApi,
+  fromRisuRole,
+  makeRequestLimiter,
+  toRisuRole,
+} from "../risu-chat-api";
 import { luaLowLevelIds, luaSafeIds } from "./engine";
 
 type LuaFn = (...args: never[]) => unknown;
 
-const toLuaRole = (r: TriggerMessage["role"]) =>
-  r === "assistant" ? "char" : r;
-const fromLuaRole = (r: string): TriggerMessage["role"] =>
-  r === "user" ? "user" : "assistant";
-
-let lastRequestsCount = 0;
-let lastRequestResetTime = 0;
+const request = makeRequestLimiter();
 
 function promptToChatML(prompt: { role: string; content: string }[]): string {
   return prompt
@@ -26,7 +24,6 @@ export function buildLuaApi(
 ): Record<string, LuaFn> {
   const safe = (id: string) => luaSafeIds.has(id);
   const low = (id: string) => luaLowLevelIds.has(id);
-  const parse = (s: string) => (ctx.parse ? ctx.parse(s) : s);
 
   const llm = async (id: string, promptStr: string): Promise<string> => {
     if (!low(id)) return JSON.stringify(null);
@@ -50,12 +47,22 @@ export function buildLuaApi(
     }
   };
 
+  const api = buildRisuChatApi(
+    () => ctx,
+    () => ctx,
+  );
+  const gated =
+    <A extends unknown[], R>(fn: (...a: A) => R) =>
+    (id: string, ...a: A) =>
+      safe(id) ? fn(...a) : undefined;
+  const open =
+    <A extends unknown[], R>(fn: (...a: A) => R) =>
+    (_id: string, ...a: A) =>
+      fn(...a);
+
   return {
     getChatVar: (_id: string, key: string) => ctx.vars[key] ?? "null",
-    setChatVar: (id: string, key: string, value: string) => {
-      if (!safe(id)) return;
-      ctx.vars[key] = value;
-    },
+    setChatVar: gated(api.setChatVar),
     getGlobalVar: (_id: string, key: string) => ctx.globalVars[key] ?? "null",
 
     stopChat: (id: string) => {
@@ -64,40 +71,25 @@ export function buildLuaApi(
       ctx.stopSending = true;
     },
 
-    alertNormal: (id: string, value: string) => {
-      if (!safe(id)) return;
-      void ctx.ops?.alert?.("normal", value);
-    },
-    alertError: (id: string, value: string) => {
-      if (!safe(id)) return;
-      void ctx.ops?.alert?.("error", value);
-    },
-    alertInput: (id: string, value: string) => {
-      if (!safe(id)) return;
-      return ctx.ops?.alert?.("input", value) ?? Promise.resolve("");
-    },
-    alertSelect: (id: string, value: string[]) => {
-      if (!safe(id)) return;
-      return (
-        ctx.ops?.alert?.("select", value.join("§"), value) ??
-        Promise.resolve("")
-      );
-    },
-    alertConfirm: async (id: string, value: string) => {
-      if (!safe(id)) return;
-      const res = await ctx.ops?.alert?.("select", value, ["OK", "Cancel"]);
-      return res === "OK";
-    },
+    alertNormal: gated(api.alertNormal),
+    alertError: gated(api.alertError),
+    alertInput: gated(api.alertInput),
+    alertSelect: gated(api.alertSelect),
+    alertConfirm: gated(api.alertConfirm),
 
     getChatMain: (_id: string, index: number) => {
       const m = ctx.chat.at(index);
       if (!m) return JSON.stringify(null);
-      return JSON.stringify({ role: toLuaRole(m.role), data: m.data, time: 0 });
+      return JSON.stringify({
+        role: toRisuRole(m.role),
+        data: m.data,
+        time: 0,
+      });
     },
     getFullChatMain: () =>
       JSON.stringify(
         ctx.chat.map((m) => ({
-          role: toLuaRole(m.role),
+          role: toRisuRole(m.role),
           data: m.data,
           time: 0,
         })),
@@ -108,96 +100,33 @@ export function buildLuaApi(
       ctx.chat.length = 0;
       for (const v of real) {
         if (typeof v.role !== "string" || typeof v.data !== "string") continue;
-        ctx.chat.push({ role: fromLuaRole(v.role), data: v.data });
+        ctx.chat.push({ role: fromRisuRole(v.role), data: v.data });
       }
     },
-    setChat: (id: string, index: number, value: string) => {
-      if (!safe(id)) return;
-      const m = ctx.chat.at(index);
-      if (m) m.data = value ?? "";
-    },
-    setChatRole: (id: string, index: number, value: string) => {
-      if (!safe(id)) return;
-      const m = ctx.chat.at(index);
-      if (m) m.role = fromLuaRole(value);
-    },
-    cutChat: (id: string, start: number, end: number) => {
-      if (!safe(id)) return;
-      const next = ctx.chat.slice(start, end);
-      ctx.chat.length = 0;
-      ctx.chat.push(...next);
-    },
-    removeChat: (id: string, index: number) => {
-      if (!safe(id)) return;
-      ctx.chat.splice(index, 1);
-    },
-    addChat: (id: string, role: string, value: string) => {
-      if (!safe(id)) return;
-      ctx.chat.push({ role: fromLuaRole(role), data: value ?? "" });
-    },
-    insertChat: (id: string, index: number, role: string, value: string) => {
-      if (!safe(id)) return;
-      ctx.chat.splice(index, 0, { role: fromLuaRole(role), data: value ?? "" });
-    },
-    getChatLength: () => ctx.chat.length,
+    setChat: gated(api.setChat),
+    setChatRole: gated(api.setChatRole),
+    cutChat: gated(api.cutChat),
+    removeChat: gated(api.removeChat),
+    addChat: gated(api.addChat),
+    insertChat: gated(api.insertChat),
+    getChatLength: open(api.getChatLength),
 
-    getName: () => ctx.charName,
-    setName: (id: string, name: string) => {
-      if (!safe(id)) return;
-      if (typeof name !== "string") throw new Error("Invalid data type");
-      ctx.charName = name;
-    },
-    getDescription: () => ctx.charDesc,
-    setDescription: (id: string, desc: string) => {
-      if (!safe(id)) return;
-      if (typeof desc !== "string") throw new Error("Invalid data type");
-      ctx.charDesc = desc;
-    },
-    getAuthorsNote: () => ctx.authorNote,
-    getPersonaName: () => ctx.userName,
-    getPersonaDescription: () => ctx.personaDesc,
-    getCharacterFirstMessage: () => ctx.firstMessage ?? "",
-    setCharacterFirstMessage: (id: string, value: string) => {
-      if (!safe(id)) return false;
-      if (typeof value !== "string") return false;
-      ctx.firstMessage = value;
-      return true;
-    },
-    getCharacterLastMessage: () => {
-      for (let i = ctx.chat.length - 1; i >= 0; i--) {
-        if (ctx.chat[i].role === "assistant") return ctx.chat[i].data;
-      }
-      return ctx.firstMessage ?? "";
-    },
-    getUserLastMessage: () => {
-      for (let i = ctx.chat.length - 1; i >= 0; i--) {
-        if (ctx.chat[i].role === "user") return ctx.chat[i].data;
-      }
-      return "";
-    },
+    getName: open(api.getName),
+    setName: gated(api.setName),
+    getDescription: open(api.getDescription),
+    setDescription: gated(api.setDescription),
+    getAuthorsNote: open(api.getAuthorsNote),
+    getPersonaName: open(api.getPersonaName),
+    getPersonaDescription: open(api.getPersonaDescription),
+    getCharacterFirstMessage: open(api.getCharacterFirstMessage),
+    setCharacterFirstMessage: gated(api.setCharacterFirstMessage),
+    getCharacterLastMessage: open(api.getCharacterLastMessage),
+    getUserLastMessage: open(api.getUserLastMessage),
 
     getLoreBooksMain: (_id: string, search: string) =>
-      JSON.stringify(
-        ctx.lore.filter(
-          (l) => !search || l.comment === search || l.key.includes(search),
-        ),
-      ),
+      JSON.stringify(api.getLoreBooks(search)),
     loadLoreBooksMain: async () => JSON.stringify(ctx.lore),
-    upsertLocalLoreBook: (
-      id: string,
-      key: string,
-      content: string,
-      comment: string,
-    ) => {
-      if (!safe(id)) return;
-      const existing = ctx.lore.find((l) => l.comment === comment);
-      if (existing) {
-        existing.key = key;
-        existing.content = content;
-      } else {
-        ctx.lore.push({ comment, content, key, alwaysActive: false });
-      }
-    },
+    upsertLocalLoreBook: gated(api.upsertLoreBook),
 
     getBackgroundEmbedding: () => ctx.vars["__backgroundEmbedding"] ?? "",
     setBackgroundEmbedding: (id: string, value: string) => {
@@ -205,18 +134,10 @@ export function buildLuaApi(
       ctx.vars["__backgroundEmbedding"] = value;
     },
 
-    cbs: (value: string) => parse(value),
-    getTokens: (id: string, value: string) => {
-      if (!safe(id)) return;
-      return countTokens(value ?? "");
-    },
-    hash: (_id: string, value: string) => sha256Hex(value),
-    sleep: (id: string, time: number) => {
-      if (!safe(id)) return;
-      return new Promise((r) =>
-        setTimeout(() => r(true), Math.min(time, 10_000)),
-      );
-    },
+    cbs: api.cbs,
+    getTokens: gated(api.getTokens),
+    hash: open(api.hash),
+    sleep: gated(api.sleep),
     reloadDisplay: () => undefined,
     reloadChat: () => undefined,
     getCharacterImageMain: async () => "",
@@ -228,18 +149,7 @@ export function buildLuaApi(
     },
     request: async (id: string, url: string) => {
       if (!low(id)) return;
-      if (lastRequestResetTime + 60000 < Date.now()) {
-        lastRequestsCount = 0;
-        lastRequestResetTime = Date.now();
-      }
-      if (lastRequestsCount > 5) {
-        return JSON.stringify({
-          status: 429,
-          data: "Too many requests. you can request 5 times per minute",
-        });
-      }
-      lastRequestsCount++;
-      return JSON.stringify(await guestFetch(url));
+      return JSON.stringify(await request(url));
     },
     generateImage: async (id: string, value: string, negValue = "") => {
       if (!low(id)) return;
