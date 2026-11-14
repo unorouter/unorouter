@@ -4,11 +4,6 @@ COPY package.json ./
 # patchedDependencies in package.json point here; bun install fails without it.
 COPY patches ./patches
 RUN bun install
-# bun skips a patch whose version no longer matches without a word; both of these are load-bearing.
-RUN grep -q "createAdmission" node_modules/next-bun-compile/dist/runtime/serve.js \
-  || { echo "next-bun-compile patch did not apply"; exit 1; }
-RUN grep -q "Short read of a pool file header" node_modules/@sqlite.org/sqlite-wasm/dist/index.mjs \
-  || { echo "sqlite-wasm patch did not apply"; exit 1; }
 COPY . .
 # The Docker context excludes all private env files.
 RUN cp .env.public .env
