@@ -9,7 +9,7 @@ import {
 } from "@/hooks/ai/rp/conversations";
 import { upsertLocalMedia } from "@/lib/db/client/data/media/media";
 import { handleError } from "@/lib/utils/client";
-import { fileToBase64, uid } from "@/lib/utils/base";
+import { fileToBase64, jsonArray, uid } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
 import { useRef } from "react";
 import { useMediaSrc } from "@/hooks/ai/use-media-src";
@@ -17,24 +17,15 @@ import { useMediaSrc } from "@/hooks/ai/use-media-src";
 const MAX_REFS = 6;
 const MAX_REF_BYTES = 5 * 1024 * 1024;
 
-function parseRefIds(raw: string | null | undefined): string[] {
-  try {
-    const parsed: unknown = JSON.parse(raw ?? "[]");
-    return Array.isArray(parsed)
-      ? parsed.filter((x): x is string => typeof x === "string")
-      : [];
-  } catch {
-    return [];
-  }
-}
-
 export function ImageRefsField(props: { convId: string }) {
   const t = useTranslations();
   const settingsQuery = useChatSettingsQuery(props.convId);
   const updateSettings = useUpdateChatSettingsMutation();
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const refIds = parseRefIds(settingsQuery.data?.imageRefIds);
+  const refIds = jsonArray(settingsQuery.data?.imageRefIds).filter(
+    (x) => typeof x === "string",
+  );
 
   const saveRefIds = async (ids: string[]) => {
     await updateSettings.mutateAsync({

@@ -12,7 +12,7 @@ import {
   handleElysia,
   parseDataUri,
   rec,
-  safeJsonParse,
+  jsonArray,
   uid,
 } from "@/lib/utils/base";
 import getQueryClient from "@/lib/react-query/client";
@@ -50,10 +50,9 @@ export async function resolveIllustratorSettings(
   const s = await readLocalConversationSettings(convId);
   if (!s) return null;
   const preset = s.presetId ? await readLocalPreset(s.presetId) : null;
-  const parsed = safeJsonParse<unknown>(s.imageRefIds, []);
-  let refMediaIds = Array.isArray(parsed)
-    ? parsed.filter((x): x is string => typeof x === "string")
-    : [];
+  let refMediaIds = jsonArray(s.imageRefIds).filter(
+    (x) => typeof x === "string",
+  );
   if (s.useCharAvatarRef ?? preset?.useCharAvatarRef) {
     const primary = await readPrimaryCharacter(convId);
     const avatarId = primary?.avatarMediaId;
