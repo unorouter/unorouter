@@ -24,7 +24,7 @@ import { dayjs } from "@/lib/utils/format/date";
 import { RELEASE } from "@/lib/utils/client-runtime-guards";
 import { readLocalPresets } from "@/lib/db/client/data/rp/rp";
 
-export type TableStorageStat = {
+type TableStorageStat = {
   table: string;
   rows: number;
   bytes: number;

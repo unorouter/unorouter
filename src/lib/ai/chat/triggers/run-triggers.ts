@@ -7,7 +7,7 @@ import type { TriggerLore, TriggerOps } from "@/lib/ai/chat/triggers/types";
 import type { LoadedConvContext } from "@/lib/types";
 import { expandMacros, type MacroScope } from "@/lib/ai/chat/macros";
 
-export type StartTriggerResult = {
+type StartTriggerResult = {
   extraSystemPrompt: string;
   stopSending: boolean;
   alerts: { kind: string; text: string }[];

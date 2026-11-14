@@ -1,6 +1,6 @@
 import { msg, type TranslationKey } from "@/lib/config/constants";
 
-export type ImageStyleTemplate = {
+type ImageStyleTemplate = {
   id: string;
   labelKey: TranslationKey;
   instruction: string;

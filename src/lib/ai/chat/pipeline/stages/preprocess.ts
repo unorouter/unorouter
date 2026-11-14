@@ -13,7 +13,7 @@ import type { LoadedConvContext } from "@/lib/types";
 import type { AssemblerDeps } from "../deps";
 import { applyRegexScripts, type StreamMessages } from "../transforms";
 
-export type Preprocessed = {
+type Preprocessed = {
   messages: StreamMessages;
   luaCodes: string[];
 };

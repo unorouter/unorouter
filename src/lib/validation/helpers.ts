@@ -61,26 +61,6 @@ type SamplingBoundOpts = {
   maxTokensMax?: number;
 };
 
-const optNullNum = (minimum: number, maximum?: number) =>
-  t.Optional(
-    t.Union([
-      t.Number({ minimum, ...(maximum === undefined ? {} : { maximum }) }),
-      t.Null(),
-    ]),
-  );
-
-export const samplingOptional = (opts?: SamplingBoundOpts) => ({
-  temperature: optNullNum(0, opts?.temperatureMax ?? 2),
-  topP: optNullNum(0, 1),
-  topK: optNullNum(0, 1000),
-  minP: optNullNum(0, 1),
-  topA: optNullNum(0, 1),
-  frequencyPenalty: optNullNum(-2, 2),
-  presencePenalty: optNullNum(-2, 2),
-  repetitionPenalty: optNullNum(0, 2),
-  maxTokens: optNullNum(1, opts?.maxTokensMax ?? 1_000_000),
-});
-
 const nullNum = (minimum: number, maximum?: number) =>
   nullable(
     t.Number({ minimum, ...(maximum === undefined ? {} : { maximum }) }),

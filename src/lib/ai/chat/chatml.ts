@@ -1,4 +1,4 @@
-export type ChatMLMessage = {
+type ChatMLMessage = {
   role: "system" | "user" | "assistant";
   content: string;
 };

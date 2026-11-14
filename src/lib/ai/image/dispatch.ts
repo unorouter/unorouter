@@ -1,10 +1,6 @@
 import { API_ENDPOINTS } from "@/lib/ai/endpoints";
 
-export const SYNC_IMAGE_ENDPOINTS = [
-  "image-generation",
-  "openai",
-  "gemini",
-] as const;
+const SYNC_IMAGE_ENDPOINTS = ["image-generation", "openai", "gemini"] as const;
 export type SyncImageEndpoint = (typeof SYNC_IMAGE_ENDPOINTS)[number];
 
 // The catalog types `endpoint` as a plain string, so it must be narrowed at

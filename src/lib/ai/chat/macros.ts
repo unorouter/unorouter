@@ -176,7 +176,7 @@ function trimLines(p1: string): string {
 }
 
 const ESCAPED = "{}()";
-export function risuEscape(text: string): string {
+function risuEscape(text: string): string {
   return text.replace(/[{}()]/g, (f) =>
     String.fromCharCode(0xe9b8 + ESCAPED.indexOf(f)),
   );

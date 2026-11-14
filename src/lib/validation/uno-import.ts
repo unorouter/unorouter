@@ -48,7 +48,7 @@ const cardPayload = t.Object({
 
 const source = { source: t.String(), sourceUrl: t.String() };
 
-export const importedResultSchema = t.Union([
+const importedResultSchema = t.Union([
   t.Object({
     kind: t.Optional(t.Literal("character")),
     ...source,

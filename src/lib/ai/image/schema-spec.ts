@@ -1,6 +1,6 @@
 import { rec } from "@/lib/utils/base";
 
-export type ParamSpec = {
+type ParamSpec = {
   type?: string;
   min?: number;
   max?: number;

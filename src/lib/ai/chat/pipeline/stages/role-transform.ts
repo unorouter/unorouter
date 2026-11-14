@@ -24,7 +24,7 @@ import {
   type StreamMessages,
 } from "../transforms";
 
-export type RoleTransformed = {
+type RoleTransformed = {
   messagesForUpstream: StreamMessages;
   effectiveSystem: string | undefined;
   deepSeekReasoningContent: string | undefined;

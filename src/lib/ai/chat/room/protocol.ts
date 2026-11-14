@@ -178,7 +178,7 @@ export function parseHostMessage(raw: unknown): HostToGuest | null {
 }
 
 export const MAX_TURN_CHARS = 4000;
-export const MAX_NAME_CHARS = 32;
+const MAX_NAME_CHARS = 32;
 export const MAX_GUESTS = 8;
 
 export function sanitizeName(raw: string): string {

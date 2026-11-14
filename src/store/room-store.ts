@@ -10,7 +10,7 @@ import { atom, createStore } from "jotai";
 // whole point is that it never opens a database.
 export const roomStore = createStore();
 
-export type PendingJoin = {
+type PendingJoin = {
   peerId: string;
   name: string;
 };

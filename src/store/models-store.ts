@@ -52,7 +52,7 @@ export type ModelsStoreState = {
   discountedOnly: boolean;
 };
 
-export const MODELS_STORE_KEY = "models-store";
+const MODELS_STORE_KEY = "models-store";
 
 export const PRICE_MAX = 100;
 
@@ -98,7 +98,7 @@ export const outputModalityAtom = field("outputModality");
 export const viewModeAtom = field("viewMode", (v) =>
   v === "table" || v === "list" ? v : "table",
 );
-export const sortOrderAtom = field("sortOrder");
+const sortOrderAtom = field("sortOrder");
 export const sortKeysAtom = field("sortKeys", (v) =>
   Array.isArray(v) ? v.filter((k) => SORT_VALUES.includes(k)) : [],
 );

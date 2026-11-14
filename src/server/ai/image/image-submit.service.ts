@@ -210,7 +210,7 @@ async function refineWithAdetailer(
   return refined ?? uri;
 }
 
-export type SubmitGenerationResult = {
+type SubmitGenerationResult = {
   status: "success";
   images: GeneratedImage[];
   droppedParams: string[];

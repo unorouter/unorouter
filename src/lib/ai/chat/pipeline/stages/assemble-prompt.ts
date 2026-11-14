@@ -43,7 +43,7 @@ type MemoryContext = {
   summaryWriteback: { summary: string; anchor: number } | null;
 };
 
-export type AssembledPrompt = {
+type AssembledPrompt = {
   assembled: AssembledSystem;
   memory: MemoryContext;
   inlayMedia: InlayImage[];

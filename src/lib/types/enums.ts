@@ -134,7 +134,7 @@ export enum OS {
   LINUX = "linux",
 }
 
-export const OS_VALUES = Object.values(OS);
+const OS_VALUES = Object.values(OS);
 
 export const isOS = isOneOf(OS_VALUES);
 

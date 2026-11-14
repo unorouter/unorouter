@@ -7,7 +7,7 @@ export const CLIENT_STORE_KEY = "client-store";
 
 export type PaymentMethod = "card" | "crypto" | "paypal";
 
-export type ClientState = {
+type ClientState = {
   apiKey: string | null;
   apiKeyRevealed: boolean;
   os: OS | undefined;
@@ -16,7 +16,7 @@ export type ClientState = {
   expanded: Record<string, boolean>;
 };
 
-export const INITIAL_CLIENT_STATE: ClientState = {
+const INITIAL_CLIENT_STATE: ClientState = {
   apiKey: null,
   apiKeyRevealed: false,
   os: OS.WINDOWS,
@@ -25,7 +25,7 @@ export const INITIAL_CLIENT_STATE: ClientState = {
   expanded: {},
 };
 
-export const clientStoreAtom = atomWithStorage<ClientState>(
+const clientStoreAtom = atomWithStorage<ClientState>(
   CLIENT_STORE_KEY,
   INITIAL_CLIENT_STATE,
   jotaiCookieStorage,

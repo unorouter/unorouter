@@ -14,7 +14,7 @@ import type {
   PluginHookMode,
 } from "./api";
 
-export type LoadedJsPlugin = {
+type LoadedJsPlugin = {
   id: string;
   name: string;
   script: string;
@@ -230,7 +230,7 @@ export const jsDisplayVersionAtom = atom(0);
 const displayCache = new Map<string, string>();
 const displayPending = new Set<string>();
 
-export function invalidateJsDisplayCache(): void {
+function invalidateJsDisplayCache(): void {
   displayCache.clear();
   chatStore.set(jsDisplayVersionAtom, (v) => v + 1);
 }

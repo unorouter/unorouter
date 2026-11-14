@@ -14,7 +14,7 @@ const QUOTE_RE =
   /"[^"\n]+"|\u201c[^\u201d\n]+\u201d|\u201e[^\u201c\n]+\u201c|\u00ab[^\u00bb\n]+\u00bb|\u300c[^\u300d\n]+\u300d/g;
 
 // What a reader would say aloud: no reasoning, code, markup, links or images.
-export function speechText(raw: string): string {
+function speechText(raw: string): string {
   return stripThinkBlocks(raw)
     .replace(/```[\s\S]*?```/g, " ")
     .replace(/<[^>]+>/g, " ")
@@ -48,7 +48,7 @@ const isFishModel = (m: string): m is FishTtsBody["model"] =>
 
 // Split mode speaks narration and dialogue in two voices in one request, using
 // Fish's speaker tags; any other case is a single voice.
-export function buildTtsBody(
+function buildTtsBody(
   settings: VoiceSettingsRow,
   rawText: string,
   characterVoiceId: string | null,
@@ -105,7 +105,7 @@ async function synthesize(apiKey: string, body: FishTtsBody): Promise<Blob> {
 }
 
 // Whatever is loading, playing or paused, so its button can switch.
-export type VoicePlayback = { key: string; paused: boolean; loading: boolean };
+type VoicePlayback = { key: string; paused: boolean; loading: boolean };
 export const voicePlaybackAtom = atom<VoicePlayback | null>(null);
 const setPlayback = (v: VoicePlayback | null) =>
   chatStore.set(voicePlaybackAtom, v);

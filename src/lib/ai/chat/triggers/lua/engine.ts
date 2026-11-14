@@ -225,7 +225,7 @@ ${code}
 `;
 }
 
-export type RunScriptedArgs = {
+type RunScriptedArgs = {
   code: string;
   mode: string;
   ctx: TriggerContext;
@@ -234,7 +234,7 @@ export type RunScriptedArgs = {
   meta?: object;
 };
 
-export type RunScriptedResult = {
+type RunScriptedResult = {
   res: unknown;
   stopSending: boolean;
 };

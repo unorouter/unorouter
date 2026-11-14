@@ -2,8 +2,8 @@
 // with GPU wall-clock. A fitted formula mispredicted Flux by 200%.
 
 // Must mirror the adaptor's clamp (new-api relay/channel/runware/types.go).
-export const CLAMP_MAX_PIXELS = 1024 * 1024;
-export const CLAMP_MAX_STEPS = 50;
+const CLAMP_MAX_PIXELS = 1024 * 1024;
+const CLAMP_MAX_STEPS = 50;
 
 const MEGAPIXEL = 1024 * 1024;
 
@@ -13,7 +13,7 @@ const TYPICAL_COST_PER_MEGAPIXEL = 0.0013;
 // Worst single-image cost across ~60 probes at the clamped size (~1 in 10 calls).
 const WORST_COST_PER_MEGAPIXEL = 0.0092;
 
-export type CostEstimateInput = {
+type CostEstimateInput = {
   width: number;
   height: number;
   count: number;
@@ -21,7 +21,7 @@ export type CostEstimateInput = {
   floorPrice: number;
 };
 
-export type CostEstimate = {
+type CostEstimate = {
   /** USD. Typical, not guaranteed: the upstream price is not deterministic. */
   estimate: number;
   /** USD ceiling. Exact, since the gateway clamps every request. */

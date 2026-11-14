@@ -122,14 +122,8 @@ export const SAMPLING_FIELDS: SamplingFieldName[] = SAMPLING_PARAMS.map(
   (p) => p.field,
 );
 
-export const RP_TABS = [
-  "characters",
-  "personas",
-  "lorebooks",
-  "js-plugins",
-  "voice",
-] as const;
-export type RpTab = (typeof RP_TABS)[number];
+export type RpTab =
+  "characters" | "personas" | "lorebooks" | "js-plugins" | "voice";
 
 const reasoningEffortLiterals = [
   t.Literal(NONE_VALUE),

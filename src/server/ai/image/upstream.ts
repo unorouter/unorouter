@@ -6,7 +6,7 @@ import sharp from "sharp";
 
 // The request's width/height are not authoritative: the gateway clamps to 1MP
 // and hosted models pick their own size.
-export async function probeImageSize(
+async function probeImageSize(
   buffer: Buffer,
 ): Promise<{ width: number | null; height: number | null }> {
   try {

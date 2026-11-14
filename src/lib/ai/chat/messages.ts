@@ -1,6 +1,6 @@
 import type { PersistMessageItem } from "@/lib/validation/chat";
 
-export type MessageItemData = PersistMessageItem;
+type MessageItemData = PersistMessageItem;
 export type MessagePart = {
   type: string;
   data?: Record<string, unknown>;
@@ -88,7 +88,7 @@ export function joinItemsToMessages<
 
 const REASONING_JOIN = "\n\n";
 
-export function mergeReasoningParts(parts: MessagePart[]): MessagePart[] {
+function mergeReasoningParts(parts: MessagePart[]): MessagePart[] {
   const reasoningCount = parts.filter((p) => p.type === "reasoning").length;
   if (reasoningCount < 2) return parts;
   const texts = parts

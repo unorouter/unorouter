@@ -22,7 +22,9 @@ export function mkMsg(
   return { role, parts: [{ type: "text", text }] };
 }
 
-export function textOf(parts: StreamMessages[number]["parts"] | undefined): string {
+export function textOf(
+  parts: StreamMessages[number]["parts"] | undefined,
+): string {
   if (!Array.isArray(parts)) return "";
   return parts
     .filter((p) => p.type === "text")
@@ -65,7 +67,7 @@ export function extractLastUserText(messages: StreamMessages): string | null {
   return null;
 }
 
-export type ImageRef = { url: string; mimeType: string };
+type ImageRef = { url: string; mimeType: string };
 
 export function extractLastUserImageRefs(messages: StreamMessages): ImageRef[] {
   for (let i = messages.length - 1; i >= 0; i--) {
@@ -396,7 +398,8 @@ export function collectHistory(
 function metaSpeakingCharacterId(
   m: StreamMessages[number],
 ): string | undefined {
-  const said = "metadata" in m ? rec(m.metadata)?.speakingCharacterId : undefined;
+  const said =
+    "metadata" in m ? rec(m.metadata)?.speakingCharacterId : undefined;
   return typeof said === "string" ? said : undefined;
 }
 

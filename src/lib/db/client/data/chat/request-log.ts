@@ -166,7 +166,7 @@ export async function readLocalRequestLogsNewestForConv(
     .limit(limit);
 }
 
-export type RequestLogMeta = {
+type RequestLogMeta = {
   msgId: string | null;
   convId: string | null;
   requestId: string | null;
@@ -179,7 +179,7 @@ export type RequestLogMeta = {
 // so selecting them for a 700-message thread would pull tens of megabytes to
 // render a table that shows none of it. Retention empties those columns anyway
 // while keeping these, so this list stays complete for the whole history.
-export type RequestLogListRow = {
+type RequestLogListRow = {
   msgId: string;
   convId: string;
   convTitle: string | null;

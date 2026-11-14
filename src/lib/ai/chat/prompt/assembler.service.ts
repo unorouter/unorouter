@@ -233,7 +233,7 @@ export function assembleFromOverrides(
   };
 }
 
-export type AssembleOpts = {
+type AssembleOpts = {
   globalVars?: string | null;
   history?: {
     role: "user" | "assistant" | "system";

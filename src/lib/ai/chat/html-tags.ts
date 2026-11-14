@@ -1,7 +1,7 @@
 // Formatting only, and deliberately attribute free. Model output, imported
 // character cards and other people's messages in a room all reach the renderer,
 // so this list is the whole defence: nothing here can load, link out or run.
-export const ALLOWED_HTML_TAGS = new Set([
+const ALLOWED_HTML_TAGS = new Set([
   "b",
   "strong",
   "i",

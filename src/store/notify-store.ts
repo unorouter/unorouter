@@ -3,15 +3,15 @@ import type { NotifyEvent } from "@/lib/validation/notify";
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 
-export const NOTIFY_STORE_KEY = "notify-store";
+const NOTIFY_STORE_KEY = "notify-store";
 
 export const NOTIFY_TOPIC_FREE_MODELS = "free-models";
 
 export type { NotifyEvent, NotifyEventType } from "@/lib/validation/notify";
 
-export type SessionNotification = NotifyEvent & { read: boolean };
+type SessionNotification = NotifyEvent & { read: boolean };
 
-export type NotifyState = {
+type NotifyState = {
   topics: string[];
   mutedTopics: string[];
   pushEnabled: boolean;
@@ -19,7 +19,7 @@ export type NotifyState = {
   soundEnabled: boolean;
 };
 
-export const INITIAL_NOTIFY_STATE: NotifyState = {
+const INITIAL_NOTIFY_STATE: NotifyState = {
   topics: [],
   mutedTopics: [],
   pushEnabled: false,
@@ -27,7 +27,7 @@ export const INITIAL_NOTIFY_STATE: NotifyState = {
   soundEnabled: true,
 };
 
-export const notifyStoreAtom = atomWithStorage<NotifyState>(
+const notifyStoreAtom = atomWithStorage<NotifyState>(
   NOTIFY_STORE_KEY,
   INITIAL_NOTIFY_STATE,
   jotaiCookieStorage,

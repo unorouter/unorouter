@@ -20,7 +20,7 @@ const MAX_BYTES = 48 * 1024 * 1024;
 
 // Relay replies (custom providers through uno) get their own pool: sharing one
 // let a relay flood evict and abort paid replies to make room.
-export type StreamPool = "chat" | "relay";
+type StreamPool = "chat" | "relay";
 const POOLS: Record<StreamPool, { maxEntries: number; budget: number }> = {
   chat: { maxEntries: 500, budget: 256 * 1024 * 1024 },
   relay: { maxEntries: 100, budget: 64 * 1024 * 1024 },
@@ -48,7 +48,7 @@ function drop(id: string) {
   mirrorDrop(id);
 }
 
-export const STREAM_ID_HEADER = "x-uno-stream";
+const STREAM_ID_HEADER = "x-uno-stream";
 const MIRROR_TTL_S = (MAX_RUN_MS + KEEP_AFTER_DONE_MS) / 1000;
 
 function sweep(pool: StreamPool) {
@@ -96,7 +96,7 @@ const TOO_LONG_FRAME = new TextEncoder().encode(
 
 // Reads the source to the end whether or not anyone is listening; `abort`
 // stops it for real (the Stop button), a dropped connection does not.
-export function bufferStream(
+function bufferStream(
   source: ReadableStream<Uint8Array>,
   userId: number,
   abort: () => void,

@@ -1,9 +1,9 @@
-export type MarkdownMediaKind = "image" | "video" | "audio";
+type MarkdownMediaKind = "image" | "video" | "audio";
 
 const VIDEO_EXT_RE = /\.(mp4|webm|mov|avi|mkv)(\?.*)?$/i;
 const AUDIO_EXT_RE = /\.(mp3|wav|ogg|m4a|flac|aac)(\?.*)?$/i;
 
-export type ResolvedMarkdownMedia = {
+type ResolvedMarkdownMedia = {
   kind: MarkdownMediaKind;
   inlayMediaId: string | null;
   isDataUri: boolean;

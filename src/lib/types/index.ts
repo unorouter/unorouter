@@ -136,7 +136,7 @@ export type PasskeyMode = "register" | "delete";
 type MigrationEntry = { tag: string; sql: string };
 export type MigrationManifest = { migrations: MigrationEntry[] };
 
-export type LocalDb = SqliteRemoteDatabase<typeof shared & typeof client>;
+type LocalDb = SqliteRemoteDatabase<typeof shared & typeof client>;
 
 export type LocalRawExec = (
   sql: string,
@@ -360,7 +360,7 @@ export type BlogEntry = {
   heroImage?: string;
 };
 
-export type ExportRow = Record<string, unknown> & { id: string };
+type ExportRow = Record<string, unknown> & { id: string };
 
 export type NativeImport = {
   version?: string;

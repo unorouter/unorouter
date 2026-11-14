@@ -10,7 +10,7 @@ export type BodyMutations = {
   cacheBust?: boolean;
 };
 
-export function hasBodyMutation(opts?: BodyMutations): opts is BodyMutations {
+function hasBodyMutation(opts?: BodyMutations): opts is BodyMutations {
   return Object.values(opts ?? {}).some(Boolean);
 }
 

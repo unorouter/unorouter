@@ -17,7 +17,7 @@ export const TOKENIZER_PRESETS = [
   "qwen",
   "mistral",
 ] as const;
-export type TokenizerPreset = (typeof TOKENIZER_PRESETS)[number];
+type TokenizerPreset = (typeof TOKENIZER_PRESETS)[number];
 
 export type TokenizerRef = TokenizerPreset | `hf:${string}`;
 
@@ -199,7 +199,7 @@ function resolveSource(ref: TokenizerRef): {
   return { source: "cl100k", name: "cl100k", load: loadCl100k };
 }
 
-export async function loadTokenizer(ref: TokenizerRef): Promise<Encoder> {
+async function loadTokenizer(ref: TokenizerRef): Promise<Encoder> {
   const target = resolveSource(ref);
   const hit = instanceCache.get(target.source);
   if (hit) return hit;
@@ -263,9 +263,7 @@ export function tokenizerRefForModel(
   return inferTokenizerPreset(modelName);
 }
 
-export function inferTokenizerPreset(
-  model: string | undefined,
-): TokenizerPreset {
+function inferTokenizerPreset(model: string | undefined): TokenizerPreset {
   if (!model) return "cl100k";
   const m = model.toLowerCase();
   if (/glm[-_ ]?5/.test(m)) return "glm5";

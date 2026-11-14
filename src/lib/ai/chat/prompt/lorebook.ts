@@ -54,7 +54,7 @@ export function keyHits(
     .includes(key.toLowerCase().replace(/ /g, ""));
 }
 
-export type EntryDecorators = {
+type EntryDecorators = {
   body: string;
   probability?: number;
   priority?: number;
@@ -89,7 +89,7 @@ const csv = (s: string) =>
     .map((x) => x.trim())
     .filter(Boolean);
 
-export function parseDecorators(content: string): EntryDecorators {
+function parseDecorators(content: string): EntryDecorators {
   const out: EntryDecorators = { body: content };
   if (!content.includes("@@")) return out;
   const lines = content.split("\n");
@@ -257,7 +257,7 @@ function passesChatGates(
   return true;
 }
 
-export type SelectOpts = {
+type SelectOpts = {
   chatLength?: number;
   greetingIndex?: number;
   vars?: Record<string, string>;

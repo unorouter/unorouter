@@ -1,12 +1,11 @@
 import { Type as t, type Static } from "@sinclair/typebox/type";
 
-export const VOICE_READ_MODES = ["all", "dialogue", "split"] as const;
-export const voiceReadMode = t.Union(VOICE_READ_MODES.map((m) => t.Literal(m)));
-export type VoiceReadMode = Static<typeof voiceReadMode>;
+const VOICE_READ_MODES = ["all", "dialogue", "split"] as const;
+export type VoiceReadMode = (typeof VOICE_READ_MODES)[number];
 
 // s2.1-pro-free is the only one a key without credit can call; the others 402.
 export const FISH_MODELS = ["s2.1-pro-free", "s2.1-pro", "s1"] as const;
-export const DEFAULT_FISH_MODEL = FISH_MODELS[0];
+const DEFAULT_FISH_MODEL = FISH_MODELS[0];
 
 export const MAX_TTS_TEXT = 5_000;
 const voiceRef = t.String({ pattern: "^[a-f0-9]{32}$" });

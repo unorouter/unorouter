@@ -61,7 +61,7 @@ export const registerSchema = t.Object({
 export const registerChecker = TypeCompiler.Compile(registerSchema);
 export type RegisterSchema = Static<typeof registerSchema>;
 
-export const authRequestInfoSchema = t.Object({
+const authRequestInfoSchema = t.Object({
   client_id: t.String(),
   scope: t.String(),
   redirect_uri: t.String(),
@@ -78,7 +78,7 @@ export type AuthRequestInfo = Static<typeof authRequestInfoSchema>;
 // data must admit null: gin marshals the error envelope as {"success":false,
 // "message":"...","data":null}, and an Optional-only field rejects that body,
 // which made handleAuthResponse return undefined and a wrong password "log in".
-export const authResponseSchema = t.Object(
+const authResponseSchema = t.Object(
   {
     success: t.Optional(t.Boolean()),
     message: t.Optional(t.String()),

@@ -3,7 +3,7 @@ import type { LoadedConvContext } from "@/lib/types";
 import type { AssemblerDeps } from "../deps";
 import { extractLastUserText, type StreamMessages } from "../transforms";
 
-export type ResolvedContext = {
+type ResolvedContext = {
   convCtx: LoadedConvContext;
   effectiveWebSearch: boolean;
   searchSystemMessage: string | undefined;

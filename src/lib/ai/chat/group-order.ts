@@ -1,6 +1,6 @@
 import { seededRand } from "./calc";
 
-export type GroupMember = {
+type GroupMember = {
   id: string;
   name: string;
   talkness: number | null;

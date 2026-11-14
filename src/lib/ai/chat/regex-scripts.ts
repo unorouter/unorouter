@@ -1,6 +1,6 @@
 import { rec } from "@/lib/utils/base";
 
-export type RegexScriptMode =
+type RegexScriptMode =
   | "editinput" // user input before send
   | "editoutput" // model output after generation
   | "editprocess" // history messages before send
@@ -14,7 +14,7 @@ export type RegexScript = {
   ableFlag?: boolean;
 };
 
-export type RunRegexOpts = {
+type RunRegexOpts = {
   expand?: (s: string) => string;
   prevSameRole?: string;
 };

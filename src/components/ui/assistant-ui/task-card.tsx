@@ -107,7 +107,7 @@ function StatusIcon(props: { status: TaskStatus; kind: MediaKind }) {
 
 const POLL_INTERVAL_MS = 4000;
 
-export function TaskCard(props: Props) {
+function TaskCard(props: Props) {
   const t = useTranslations();
   const finalizedRef = useRef(false);
 

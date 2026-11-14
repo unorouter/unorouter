@@ -18,7 +18,8 @@ export function buildGroupTree(groups: ChatGroupRow[]): GroupNode[] {
   const roots: GroupNode[] = [];
   for (const g of [...groups].sort(byOrder)) {
     const node = nodes.get(g.id)!;
-    const parent = g.parentId && ids.has(g.parentId) ? nodes.get(g.parentId) : null;
+    const parent =
+      g.parentId && ids.has(g.parentId) ? nodes.get(g.parentId) : null;
     (parent ? parent.children : roots).push(node);
   }
   return roots;
@@ -34,7 +35,7 @@ export function flattenGroupTree(
   ]);
 }
 
-export function groupDepth(groups: ChatGroupRow[], id: string): number {
+function groupDepth(groups: ChatGroupRow[], id: string): number {
   const byId = new Map(groups.map((g) => [g.id, g]));
   let depth = 0;
   let cur = byId.get(id);
@@ -47,7 +48,7 @@ export function groupDepth(groups: ChatGroupRow[], id: string): number {
   return depth;
 }
 
-export function subtreeHeight(groups: ChatGroupRow[], id: string): number {
+function subtreeHeight(groups: ChatGroupRow[], id: string): number {
   const kids = groups.filter((g) => g.parentId === id);
   return 1 + Math.max(0, ...kids.map((k) => subtreeHeight(groups, k.id)));
 }

@@ -1,14 +1,10 @@
-import {
-  MAX_CHAT_MEMORY,
-  MAX_CONTEXT_TOKENS,
-  MIN_CONTEXT_TOKENS,
-  NONE_VALUE,
-} from "@/lib/config/constants";
+import { NONE_VALUE } from "@/lib/config/constants";
 import { AIR_PATTERN } from "@/lib/ai/image/constants";
 import { isRecord } from "@/lib/utils/base";
+import type { ConversationRow } from "@/lib/db/schema/rows";
 import type { Static } from "elysia";
 import { t } from "elysia";
-import { samplingOptional, unionLiterals } from "./helpers";
+import { unionLiterals } from "./helpers";
 
 const MAX_ID_LEN = 64;
 // Exported for the same reason as MAX_TITLE_SEED_LEN below: a sender that
@@ -94,25 +90,17 @@ const _persistMessageItem = t.Union(
 );
 export type PersistMessageItem = Static<typeof _persistMessageItem>;
 
-export const messageRole = t.Union([
-  t.Literal("system"),
-  t.Literal("user"),
-  t.Literal("assistant"),
-  t.Literal("tool"),
-]);
-export type MessageRole = Static<typeof messageRole>;
+export type MessageRole = "system" | "user" | "assistant" | "tool";
 
-export const messageItemType = t.Union([
-  t.Literal("text"),
-  t.Literal("reasoning"),
-  t.Literal("tool_call"),
-  t.Literal("tool_result"),
-  t.Literal("file"),
-  t.Literal("image"),
-  t.Literal("task"),
-  t.Literal("error"),
-]);
-export type MessageItemType = Static<typeof messageItemType>;
+export type MessageItemType =
+  | "text"
+  | "reasoning"
+  | "tool_call"
+  | "tool_result"
+  | "file"
+  | "image"
+  | "task"
+  | "error";
 
 export const reasoningEffort = t.Union([
   t.Literal("max"),
@@ -161,7 +149,7 @@ export function narrowWebSearchContextSize(
   return WEB_SEARCH_CONTEXT_SIZES.find((v) => v === raw) ?? "medium";
 }
 
-export type ExtraBodyParse =
+type ExtraBodyParse =
   | { state: "empty" }
   | { state: "valid"; parsed: Record<string, unknown> }
   | { state: "invalid" };
@@ -187,102 +175,46 @@ export function formReasoningEffortToValue(
 }
 
 // Also new-chat defaults, so a fresh chat can be set up before its first send.
-const toolSettings = {
-  memoryEnabled: t.Optional(t.Union([t.Boolean(), t.Null()])),
-  imageEnabled: t.Optional(t.Union([t.Boolean(), t.Null()])),
-  voiceEnabled: t.Optional(t.Union([t.Boolean(), t.Null()])),
-  utilityModel: t.Optional(
-    t.Union([t.String({ maxLength: MAX_MODEL_LEN }), t.Null()]),
-  ),
-  titleModel: t.Optional(
-    t.Union([t.String({ maxLength: MAX_MODEL_LEN }), t.Null()]),
-  ),
-  titlePrompt: t.Optional(t.Union([t.String({ maxLength: 4_096 }), t.Null()])),
-  promptInstruction: t.Optional(
-    t.Union([t.String({ maxLength: 4_096 }), t.Null()]),
-  ),
-  imageModel: t.Optional(t.Union([t.String({ maxLength: 512 }), t.Null()])),
-  imagePreview: t.Optional(t.Union([t.Boolean(), t.Null()])),
-  useCharAvatarRef: t.Optional(t.Union([t.Boolean(), t.Null()])),
-};
+export type StreamOverrides = Partial<
+  Pick<
+    ConversationRow,
+    | "reasoningEffort"
+    | "chatMemory"
+    | "contextTokens"
+    | "systemPromptOverride"
+    | "authorNote"
+    | "authorNoteDepth"
+    | "webSearchEnabled"
+    | "webSearchEngine"
+    | "webSearchContextSize"
+    | "temperature"
+    | "topP"
+    | "topK"
+    | "minP"
+    | "topA"
+    | "frequencyPenalty"
+    | "presencePenalty"
+    | "repetitionPenalty"
+    | "maxTokens"
+    | "extraBody"
+    | "streamingEnabled"
+    | "autoScrollStream"
+    | "showReasoning"
+    | "memoryEnabled"
+    | "imageEnabled"
+    | "voiceEnabled"
+    | "utilityModel"
+    | "titleModel"
+    | "titlePrompt"
+    | "promptInstruction"
+    | "imageModel"
+    | "imagePreview"
+    | "useCharAvatarRef"
+  >
+>;
 
-export const streamOverrides = t.Object({
-  reasoningEffort: t.Optional(t.Union([reasoningEffort, t.Null()])),
-  chatMemory: t.Optional(
-    t.Union([t.Number({ minimum: 1, maximum: MAX_CHAT_MEMORY }), t.Null()]),
-  ),
-  contextTokens: t.Optional(
-    t.Union([
-      t.Number({ minimum: MIN_CONTEXT_TOKENS, maximum: MAX_CONTEXT_TOKENS }),
-      t.Null(),
-    ]),
-  ),
-  systemPromptOverride: t.Optional(
-    t.Union([t.String({ maxLength: MAX_TEXT_LEN }), t.Null()]),
-  ),
-  authorNote: t.Optional(
-    t.Union([t.String({ maxLength: MAX_TEXT_LEN }), t.Null()]),
-  ),
-  authorNoteDepth: t.Optional(t.Number({ minimum: 0, maximum: 100 })),
-  webSearchEnabled: t.Optional(t.Boolean()),
-  webSearchEngine: t.Optional(webSearchEngine),
-  webSearchContextSize: t.Optional(webSearchContextSize),
-  ...samplingOptional(),
-  extraBody: t.Optional(t.Union([t.String({ maxLength: 8_192 }), t.Null()])),
-  streamingEnabled: t.Optional(t.Union([t.Boolean(), t.Null()])),
-  autoScrollStream: t.Optional(t.Union([t.Boolean(), t.Null()])),
-  showReasoning: t.Optional(t.Union([t.Boolean(), t.Null()])),
-  ...toolSettings,
-});
-export type StreamOverrides = Static<typeof streamOverrides>;
-
-export const updateConversationSettingsBody = t.Object({
-  defaultModel: t.Optional(t.String({ maxLength: MAX_MODEL_LEN })),
-  personaId: t.Optional(
-    t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()]),
-  ),
-  presetId: t.Optional(
-    t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()]),
-  ),
-  systemPromptOverride: t.Optional(
-    t.Union([t.String({ maxLength: MAX_TEXT_LEN }), t.Null()]),
-  ),
-  authorNote: t.Optional(
-    t.Union([t.String({ maxLength: MAX_TEXT_LEN }), t.Null()]),
-  ),
-  authorNoteDepth: t.Optional(t.Number({ minimum: 0, maximum: 100 })),
-  chatMemory: t.Optional(
-    t.Union([t.Number({ minimum: 1, maximum: MAX_CHAT_MEMORY }), t.Null()]),
-  ),
-  contextTokens: t.Optional(
-    t.Union([
-      t.Number({ minimum: MIN_CONTEXT_TOKENS, maximum: MAX_CONTEXT_TOKENS }),
-      t.Null(),
-    ]),
-  ),
-  reasoningEffort: t.Optional(t.Union([reasoningEffort, t.Null()])),
-  webSearchEnabled: t.Optional(t.Boolean()),
-  webSearchEngine: t.Optional(webSearchEngine),
-  webSearchContextSize: t.Optional(webSearchContextSize),
-  group: t.Optional(t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()])),
-  ...samplingOptional(),
-  extraBody: t.Optional(t.Union([t.String({ maxLength: 8_192 }), t.Null()])),
-  vars: t.Optional(t.Union([t.String({ maxLength: 65_536 }), t.Null()])),
-  streamingEnabled: t.Optional(t.Union([t.Boolean(), t.Null()])),
-  autoScrollStream: t.Optional(t.Union([t.Boolean(), t.Null()])),
-  showReasoning: t.Optional(t.Union([t.Boolean(), t.Null()])),
-  groupOrderByOrder: t.Optional(t.Union([t.Boolean(), t.Null()])),
-  autoContinue: t.Optional(t.Union([t.Boolean(), t.Null()])),
-  ...toolSettings,
-  imageRefIds: t.Optional(t.Union([t.String({ maxLength: 4_096 }), t.Null()])),
-  summaryMemory: t.Optional(
-    t.Union([t.String({ maxLength: 16_384 }), t.Null()]),
-  ),
-  summaryAnchor: t.Optional(t.Union([t.Number(), t.Null()])),
-  firstMsgIndex: t.Optional(t.Number({ minimum: -1, maximum: 31 })),
-});
-export type UpdateConversationSettingsBody = Static<
-  typeof updateConversationSettingsBody
+export type UpdateConversationSettingsBody = Partial<
+  Omit<ConversationRow, "id" | "createdAt" | "updatedAt">
 >;
 
 export type UpdateConversationBindingsBody = {

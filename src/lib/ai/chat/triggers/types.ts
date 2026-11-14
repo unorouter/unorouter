@@ -1,5 +1,5 @@
 import { isOneOf } from "@/lib/utils/base";
-export const TRIGGER_EVENT_MODES = [
+const TRIGGER_EVENT_MODES = [
   "start", // before send, during assembly
   "input", // after user input
   "output", // after AI output
@@ -11,8 +11,7 @@ export const TRIGGER_EVENT_MODES = [
 export type TriggerEventMode = (typeof TRIGGER_EVENT_MODES)[number];
 
 export const isTriggerEventMode = isOneOf(TRIGGER_EVENT_MODES);
-export type ConditionOperator =
-  "=" | "!=" | ">" | "<" | ">=" | "<=" | "null" | "true";
+type ConditionOperator = "=" | "!=" | ">" | "<" | ">=" | "<=" | "null" | "true";
 
 export type TriggerCondition =
   | {

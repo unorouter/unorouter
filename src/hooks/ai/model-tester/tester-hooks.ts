@@ -62,14 +62,14 @@ export function useDeleteTest() {
   });
 }
 
-export type VerifyPublishVars = {
+type VerifyPublishVars = {
   provider: VerifyProviderValue;
   baseUrl: string;
   apiKey: string;
   model: string;
 };
 
-export type VerifyPublishResult =
+type VerifyPublishResult =
   | { published: boolean; result: VerifyResult }
   | { published: false; deduped?: true; error?: string; result?: VerifyResult };
 

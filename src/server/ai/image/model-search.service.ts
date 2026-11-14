@@ -152,7 +152,7 @@ export async function searchModelCatalog(
   return { items };
 }
 
-export type ResolvedCheckpoint = {
+type ResolvedCheckpoint = {
   air: string;
   name: string;
   isInpaint: boolean;

@@ -1,15 +1,10 @@
 import { Type as t, type Static } from "@sinclair/typebox/type";
 import { msg } from "../config/constants";
 
-export const VERIFY_VERDICTS = ["genuine", "suspicious", "unverified"] as const;
-export const verifyVerdict = t.Union(VERIFY_VERDICTS.map((v) => t.Literal(v)));
-export type VerifyVerdictValue = Static<typeof verifyVerdict>;
+export type VerifyVerdictValue = "genuine" | "suspicious" | "unverified";
 
 export const VERIFY_PROVIDERS = ["anthropic", "openai", "gemini"] as const;
-export const verifyProviderValue = t.Union(
-  VERIFY_PROVIDERS.map((p) => t.Literal(p)),
-);
-export type VerifyProviderValue = Static<typeof verifyProviderValue>;
+export type VerifyProviderValue = (typeof VERIFY_PROVIDERS)[number];
 
 const MAX_URL_LEN = 2_048;
 const MAX_KEY_LEN = 4_096;

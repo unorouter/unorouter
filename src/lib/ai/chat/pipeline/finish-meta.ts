@@ -1,6 +1,6 @@
 import type { PreparedChatRequest } from "./prepare.service";
 
-export type StreamUsage = {
+type StreamUsage = {
   inputTokens: number;
   outputTokens: number;
   cachedInputTokens: number | null;
@@ -42,7 +42,7 @@ export function createMetaCollector() {
   };
 }
 
-export type MetaCollector = ReturnType<typeof createMetaCollector>;
+type MetaCollector = ReturnType<typeof createMetaCollector>;
 
 export function makeBuildUsage(
   prepared: Pick<PreparedChatRequest, "estimateCost">,

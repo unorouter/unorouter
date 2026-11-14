@@ -1,7 +1,7 @@
 import { TypeCompiler } from "@sinclair/typebox/compiler";
 import { Type as t, type Static } from "@sinclair/typebox/type";
 
-export const NOTIFY_EVENT_TYPES = [
+const NOTIFY_EVENT_TYPES = [
   "model_online",
   "model_offline",
   "model_price_change",
@@ -10,9 +10,7 @@ export const NOTIFY_EVENT_TYPES = [
   "model_bulk_change",
 ] as const;
 
-export const notifyEventType = t.Union(
-  NOTIFY_EVENT_TYPES.map((v) => t.Literal(v)),
-);
+const notifyEventType = t.Union(NOTIFY_EVENT_TYPES.map((v) => t.Literal(v)));
 export type NotifyEventType = Static<typeof notifyEventType>;
 
 // The generated openapi NotifyEvent is WIDER than this (type: string, nullable

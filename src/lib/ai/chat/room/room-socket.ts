@@ -10,9 +10,9 @@ import { WebSocket as ReconnectingWebSocket } from "partysocket";
 // socket where there is no runtime to append a turn into.
 
 const PING_MS = 40_000;
-export const ROOM_TOPIC_PREFIX = "room:";
+const ROOM_TOPIC_PREFIX = "room:";
 
-export type RoomSocketEvents = {
+type RoomSocketEvents = {
   onOpen: (connId: string) => void;
   onFrame: (data: unknown, fromConnId: string | null) => void;
   onClose: () => void;

@@ -31,7 +31,7 @@ export type HistoryProviderRow = {
   lastTestedAt: Date;
 };
 
-export type HistoryModelRow = {
+type HistoryModelRow = {
   baseUrlHost: string;
   provider: VerifyProviderValue;
   requestedModel: string;

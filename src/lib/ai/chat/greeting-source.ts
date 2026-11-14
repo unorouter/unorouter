@@ -5,7 +5,7 @@ import type {
 } from "@/lib/db/schema/rows";
 import type { MacroScope } from "./macros";
 
-export type GreetingSource = {
+type GreetingSource = {
   greetings: string[];
   characterId: string | null;
   scope: MacroScope;

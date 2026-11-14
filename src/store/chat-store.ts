@@ -38,7 +38,7 @@ const EMPTY_LOADOUT: ChatLoadout = {
   lorebookIds: [],
 };
 
-export type BestDeal = { enabled: boolean; pool: string[] };
+type BestDeal = { enabled: boolean; pool: string[] };
 
 export type ChatState = {
   model: string | null;
@@ -138,7 +138,7 @@ export const chatGroupAtom = atom(
 
 export const activeConvOverridesAtom = atom<StreamOverrides | null>(null);
 
-export type DbTransferRequest =
+type DbTransferRequest =
   | { mode: "send"; opts: Required<DbExportOptions> }
   | { mode: "receive"; code?: string };
 export const dbTransferAtom = atom<DbTransferRequest | null>(null);
@@ -150,7 +150,7 @@ export const globalVarsAtom = atomWithStorage<string>(
   { getOnInit: true },
 );
 
-export type ChatRuntimeState = {
+type ChatRuntimeState = {
   convId: string | null;
   historyLoaded: boolean;
   settingsOpen: boolean;

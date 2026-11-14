@@ -5,7 +5,7 @@ import type { TriggerContext, TriggerMessage } from "../triggers/types";
 
 export type PluginHookMode = "input" | "output" | "request" | "display";
 
-export const PLUGIN_HOOK_MODES: readonly PluginHookMode[] = [
+const PLUGIN_HOOK_MODES: readonly PluginHookMode[] = [
   "input",
   "output",
   "request",
@@ -14,7 +14,7 @@ export const PLUGIN_HOOK_MODES: readonly PluginHookMode[] = [
 
 export type PluginHandler = (content: unknown) => Promise<unknown>;
 
-export type PluginHostBridge = {
+type PluginHostBridge = {
   registerHandler: (mode: PluginHookMode, fn: PluginHandler) => void;
   removeHandler: (mode: PluginHookMode, fn: PluginHandler) => void;
   getCtx: () => TriggerContext | null;
@@ -282,7 +282,7 @@ export function buildJanitorRunSource(
 
 // Perchance AI Character Chat custom code: an `oc` object, MessageAdded
 // handlers, and per-thread and per-character customData that persist.
-export type PerchanceMessage = {
+type PerchanceMessage = {
   author: "user" | "ai" | "system";
   content: string;
   name?: string;
