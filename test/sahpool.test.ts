@@ -8,6 +8,7 @@ import type { Subprocess } from "bun";
 // Chrome against the sqlite-wasm in node_modules, patch applied.
 const ROOT = join(import.meta.dir, "..");
 const SQLITE_DIST = join(ROOT, "node_modules/@sqlite.org/sqlite-wasm/dist");
+const GUARD_SRC = join(ROOT, "src/lib/db/client/sahpool/short-read-guard.ts");
 const ROWS = 300;
 
 const chrome = [
@@ -120,6 +121,13 @@ describe.skipIf(!chrome && !process.env.CI)("sahpool data loss", () => {
       port: 0,
       async fetch(req) {
         const path = new URL(req.url).pathname;
+        if (path === "/guard.js")
+          return new Response(
+            new Bun.Transpiler({ loader: "ts" }).transformSync(
+              await Bun.file(GUARD_SRC).text(),
+            ),
+            { headers: { "content-type": "text/javascript" } },
+          );
         const file = path.startsWith("/sqlite/")
           ? join(SQLITE_DIST, path.slice("/sqlite/".length))
           : join(

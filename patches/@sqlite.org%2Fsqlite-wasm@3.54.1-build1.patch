@@ -1,22 +1,8 @@
 diff --git a/dist/index.mjs b/dist/index.mjs
-index 6e875c76b1a84572471fbd03d2b8a8f60df89bc3..44120eaf4637bb01b68dc31128cc9d9f8f0a1f55 100644
+index 6e875c76b1a84572471fbd03d2b8a8f60df89bc3..acf6e13e67195af34b123f998e7e48c89ffeadbf 100644
 --- a/dist/index.mjs
 +++ b/dist/index.mjs
-@@ -16145,9 +16145,12 @@ async function sqlite3InitModule$1(moduleArg = {}) {
- 					const file = pool.getOFileForS3File(pFile);
- 					pool.log(`xRead ${file.path} ${n} @ ${offset64}`);
- 					try {
--						const nRead = file.sah.read(wasm.heap8u().subarray(Number(pDest), Number(pDest) + n), { at: HEADER_OFFSET_DATA + Number(offset64) });
-+						const at = HEADER_OFFSET_DATA + Number(offset64);
-+						let nRead = file.sah.read(wasm.heap8u().subarray(Number(pDest), Number(pDest) + n), { at });
-+						if (nRead < n && file.sah.getSize() >= at + n) nRead = file.sah.read(wasm.heap8u().subarray(Number(pDest), Number(pDest) + n), { at });
- 						if (nRead < n) {
- 							wasm.heap8u().fill(0, Number(pDest) + nRead, Number(pDest) + n);
-+							if (file.sah.getSize() >= at + n) return capi.SQLITE_IOERR_READ;
- 							return capi.SQLITE_IOERR_SHORT_READ;
- 						}
- 						return 0;
-@@ -16502,9 +16505,20 @@ async function sqlite3InitModule$1(moduleArg = {}) {
+@@ -16502,9 +16502,20 @@ async function sqlite3InitModule$1(moduleArg = {}) {
  				returns an empty string.
  				*/
  				getAssociatedPath(sah) {
@@ -38,7 +24,7 @@ index 6e875c76b1a84572471fbd03d2b8a8f60df89bc3..44120eaf4637bb01b68dc31128cc9d9f
  						warn(`Removing file with unexpected flags ${flags.toString(16)}`, this.#apBody);
  						this.setAssociatedPath(sah, "", 0);
  						return "";
-@@ -16513,9 +16527,11 @@ async function sqlite3InitModule$1(moduleArg = {}) {
+@@ -16513,9 +16524,11 @@ async function sqlite3InitModule$1(moduleArg = {}) {
  					sah.read(fileDigest, { at: HEADER_OFFSET_DIGEST });
  					const compDigest = this.computeDigest(this.#apBody, flags);
  					if (fileDigest.every((v, i) => v === compDigest[i])) {
@@ -53,24 +39,10 @@ index 6e875c76b1a84572471fbd03d2b8a8f60df89bc3..44120eaf4637bb01b68dc31128cc9d9f
  						warn("Disassociating file with bad digest.");
  						this.setAssociatedPath(sah, "", 0);
 diff --git a/dist/sqlite3-worker1.mjs b/dist/sqlite3-worker1.mjs
-index 134ae669b84a0707b891f927d70f4c30881ffdfe..e6bf66f35dab70c4394cc7c24a7a37a54dd182b7 100644
+index 134ae669b84a0707b891f927d70f4c30881ffdfe..b7a6646f1473c10147123e38d5334d7d8cedf759 100644
 --- a/dist/sqlite3-worker1.mjs
 +++ b/dist/sqlite3-worker1.mjs
-@@ -16220,9 +16220,12 @@ async function sqlite3InitModule(moduleArg = {}) {
- 					const file = pool.getOFileForS3File(pFile);
- 					pool.log(`xRead ${file.path} ${n} @ ${offset64}`);
- 					try {
--						const nRead = file.sah.read(wasm.heap8u().subarray(Number(pDest), Number(pDest) + n), { at: HEADER_OFFSET_DATA + Number(offset64) });
-+						const at = HEADER_OFFSET_DATA + Number(offset64);
-+						let nRead = file.sah.read(wasm.heap8u().subarray(Number(pDest), Number(pDest) + n), { at });
-+						if (nRead < n && file.sah.getSize() >= at + n) nRead = file.sah.read(wasm.heap8u().subarray(Number(pDest), Number(pDest) + n), { at });
- 						if (nRead < n) {
- 							wasm.heap8u().fill(0, Number(pDest) + nRead, Number(pDest) + n);
-+							if (file.sah.getSize() >= at + n) return capi.SQLITE_IOERR_READ;
- 							return capi.SQLITE_IOERR_SHORT_READ;
- 						}
- 						return 0;
-@@ -16577,9 +16580,20 @@ async function sqlite3InitModule(moduleArg = {}) {
+@@ -16577,9 +16577,20 @@ async function sqlite3InitModule(moduleArg = {}) {
  				returns an empty string.
  				*/
  				getAssociatedPath(sah) {
@@ -92,7 +64,7 @@ index 134ae669b84a0707b891f927d70f4c30881ffdfe..e6bf66f35dab70c4394cc7c24a7a37a5
  						warn(`Removing file with unexpected flags ${flags.toString(16)}`, this.#apBody);
  						this.setAssociatedPath(sah, "", 0);
  						return "";
-@@ -16588,9 +16602,11 @@ async function sqlite3InitModule(moduleArg = {}) {
+@@ -16588,9 +16599,11 @@ async function sqlite3InitModule(moduleArg = {}) {
  					sah.read(fileDigest, { at: HEADER_OFFSET_DIGEST });
  					const compDigest = this.computeDigest(this.#apBody, flags);
  					if (fileDigest.every((v, i) => v === compDigest[i])) {

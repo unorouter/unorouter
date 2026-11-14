@@ -2,6 +2,7 @@ import { errMessage, rec } from "@/lib/utils/base";
 import { SQLocalProcessor } from "sqlocal";
 import { SQLiteSahPoolDriver } from "./sqlite-sahpool-driver";
 import { poolLog } from "./pool-log";
+import { installShortReadGuard } from "./short-read-guard";
 
 type Sqlite3Logger = (...args: unknown[]) => void;
 declare global {
@@ -28,6 +29,8 @@ globalThis.sqlite3ApiConfig = {
   warn: forward("db.pool.warn", console.warn.bind(console)),
   error: forward("db.pool.error", console.error.bind(console)),
 };
+
+installShortReadGuard();
 
 // Replaces sqlocal's own worker entry, which hardwires the isolation-requiring
 // opfs driver; its client accepts this one via the `processor` config.

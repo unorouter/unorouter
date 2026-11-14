@@ -25,6 +25,10 @@ proto.read = function (buffer, options) {
   return realRead.call(this, buffer, options);
 };
 
+// The app's guard wraps the failing read, as it wraps the browser's in prod.
+const { installShortReadGuard } = await import("/guard.js");
+installShortReadGuard();
+
 const sqlite3 = await init({ print: () => {}, printErr: () => {} });
 const root = await navigator.storage.getDirectory();
 let seq = 0;
