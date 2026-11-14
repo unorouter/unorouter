@@ -1,7 +1,7 @@
 // The new-api spec has every admin and relay route; generating all of it made
 // src/openapi.ts 24k lines for the hundred or so this app calls. Add a route
 // here before using its generated function.
-const USED_OPERATIONS = new Set([
+export const NEW_API_OPERATIONS = new Set([
   "DELETE /api/notify/subscription",
   "DELETE /api/token/{id}",
   "DELETE /api/user/bindings/{binding_type}",
@@ -108,8 +108,10 @@ const USED_OPERATIONS = new Set([
   "PUT /api/user/self/own-purpose-objection",
 ]);
 
-// Schemas imported by name but not reachable from a kept operation.
-const KEEP_SCHEMAS: string[] = [];
+export const UNO_IMPORT_OPERATIONS = new Set([
+  "POST /api/jobs",
+  "GET /api/jobs/{id}",
+]);
 
 type Spec = {
   paths?: Record<string, Record<string, unknown>>;
@@ -126,31 +128,33 @@ function refsIn(node: unknown, out: Set<string>) {
     }
 }
 
-export function pruneSpec<T extends Spec>(spec: T): T {
-  const paths: NonNullable<Spec["paths"]> = {};
-  for (const [path, item] of Object.entries(spec.paths ?? {})) {
-    const kept = Object.fromEntries(
-      Object.entries(item).filter(([method]) =>
-        USED_OPERATIONS.has(`${method.toUpperCase()} ${path}`),
-      ),
-    );
-    if (Object.keys(kept).length > 0) paths[path] = kept;
-  }
-  const schemas = spec.components?.schemas ?? {};
-  const keep = new Set(KEEP_SCHEMAS);
-  refsIn(paths, keep);
-  for (let size = 0; size !== keep.size;) {
-    size = keep.size;
-    for (const name of [...keep]) refsIn(schemas[name], keep);
-  }
-  return {
-    ...spec,
-    paths,
-    components: {
-      ...spec.components,
-      schemas: Object.fromEntries(
-        Object.entries(schemas).filter(([name]) => keep.has(name)),
-      ),
-    },
+export const pruneSpec =
+  (used: Set<string>) =>
+  <T extends Spec>(spec: T): T => {
+    const paths: NonNullable<Spec["paths"]> = {};
+    for (const [path, item] of Object.entries(spec.paths ?? {})) {
+      const kept = Object.fromEntries(
+        Object.entries(item).filter(([method]) =>
+          used.has(`${method.toUpperCase()} ${path}`),
+        ),
+      );
+      if (Object.keys(kept).length > 0) paths[path] = kept;
+    }
+    const schemas = spec.components?.schemas ?? {};
+    const keep = new Set<string>();
+    refsIn(paths, keep);
+    for (let size = 0; size !== keep.size;) {
+      size = keep.size;
+      for (const name of [...keep]) refsIn(schemas[name], keep);
+    }
+    return {
+      ...spec,
+      paths,
+      components: {
+        ...spec.components,
+        schemas: Object.fromEntries(
+          Object.entries(schemas).filter(([name]) => keep.has(name)),
+        ),
+      },
+    };
   };
-}
