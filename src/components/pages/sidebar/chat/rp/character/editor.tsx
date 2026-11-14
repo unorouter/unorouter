@@ -348,16 +348,12 @@ export function CharacterEditor(props: Props) {
           <p className="text-muted-foreground text-xs">
             {t("RP.CHARACTER_ACTIVATION_HINT")}
           </p>
-          <div className="flex flex-col gap-1">
-            <MyFormSwitch
-              control={form.control}
-              name="alwaysActive"
-              label={t("RP.CHARACTER_ALWAYS_ACTIVE")}
-            />
-            <p className="text-muted-foreground text-xs">
-              {t("RP.CHARACTER_ALWAYS_ACTIVE_HINT")}
-            </p>
-          </div>
+          <MyFormSwitch
+            control={form.control}
+            name="alwaysActive"
+            label={t("RP.CHARACTER_ALWAYS_ACTIVE")}
+            hint={t("RP.CHARACTER_ALWAYS_ACTIVE_HINT")}
+          />
           <MyFormInput
             control={form.control}
             name="triggers"
@@ -366,16 +362,12 @@ export function CharacterEditor(props: Props) {
             placeholder="alice, knight, sword"
             description={t("RP.CHARACTER_TRIGGERS_HINT")}
           />
-          <div className="flex flex-col gap-1">
-            <MyFormSwitch
-              control={form.control}
-              name="matchWholeWords"
-              label={t("RP.CHARACTER_MATCH_WHOLE_WORDS")}
-            />
-            <p className="text-muted-foreground text-xs">
-              {t("RP.CHARACTER_MATCH_WHOLE_WORDS_HINT")}
-            </p>
-          </div>
+          <MyFormSwitch
+            control={form.control}
+            name="matchWholeWords"
+            label={t("RP.CHARACTER_MATCH_WHOLE_WORDS")}
+            hint={t("RP.CHARACTER_MATCH_WHOLE_WORDS_HINT")}
+          />
         </div>
 
         <div className="flex justify-end gap-2 pt-2">

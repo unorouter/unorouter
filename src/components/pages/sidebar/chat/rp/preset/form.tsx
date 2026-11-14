@@ -220,36 +220,24 @@ export function PresetForm(props: Props) {
                   {t("CHAT.OVERRIDES.CONTEXT_TOKENS_HINT")}
                 </p>
               </div>
-              <div className="flex flex-col gap-1">
-                <MyFormSwitch
-                  control={form.control}
-                  name="streamingEnabled"
-                  label={t("RP.PRESET_STREAMING")}
-                />
-                <p className="text-muted-foreground text-xs">
-                  {t("RP.PRESET_STREAMING_HINT")}
-                </p>
-              </div>
-              <div className="flex flex-col gap-1">
-                <MyFormSwitch
-                  control={form.control}
-                  name="autoScrollStream"
-                  label={t("RP.PRESET_AUTO_SCROLL_STREAM")}
-                />
-                <p className="text-muted-foreground text-xs">
-                  {t("RP.PRESET_AUTO_SCROLL_STREAM_HINT")}
-                </p>
-              </div>
-              <div className="flex flex-col gap-1">
-                <MyFormSwitch
-                  control={form.control}
-                  name="showReasoning"
-                  label={t("RP.PRESET_SHOW_REASONING")}
-                />
-                <p className="text-muted-foreground text-xs">
-                  {t("RP.PRESET_SHOW_REASONING_HINT")}
-                </p>
-              </div>
+              <MyFormSwitch
+                control={form.control}
+                name="streamingEnabled"
+                label={t("RP.PRESET_STREAMING")}
+                hint={t("RP.PRESET_STREAMING_HINT")}
+              />
+              <MyFormSwitch
+                control={form.control}
+                name="autoScrollStream"
+                label={t("RP.PRESET_AUTO_SCROLL_STREAM")}
+                hint={t("RP.PRESET_AUTO_SCROLL_STREAM_HINT")}
+              />
+              <MyFormSwitch
+                control={form.control}
+                name="showReasoning"
+                label={t("RP.PRESET_SHOW_REASONING")}
+                hint={t("RP.PRESET_SHOW_REASONING_HINT")}
+              />
               <div className="flex flex-col gap-1">
                 <MyFormKeyedSelect
                   control={form.control}
@@ -432,16 +420,12 @@ export function PresetForm(props: Props) {
                 placeholder="novita, deepinfra"
                 description={t("RP.PRESET_PROVIDERS_HINT")}
               />
-              <div className="flex flex-col gap-1">
-                <MyFormSwitch
-                  control={form.control}
-                  name="providersOnly"
-                  label={t("RP.PRESET_PROVIDERS_ONLY")}
-                />
-                <p className="text-muted-foreground text-xs">
-                  {t("RP.PRESET_PROVIDERS_ONLY_HINT")}
-                </p>
-              </div>
+              <MyFormSwitch
+                control={form.control}
+                name="providersOnly"
+                label={t("RP.PRESET_PROVIDERS_ONLY")}
+                hint={t("RP.PRESET_PROVIDERS_ONLY_HINT")}
+              />
             </div>
 
             <div className="border-border/40 flex flex-col gap-3 rounded-lg border p-3">
@@ -460,76 +444,48 @@ export function PresetForm(props: Props) {
               <p className="text-muted-foreground text-xs">
                 {t("RP.PRESET_FLAGS_HINT")}
               </p>
-              <div className="flex flex-col gap-1">
-                <MyFormSwitch
-                  control={form.control}
-                  name="forceAlternateRoles"
-                  label={t("RP.PRESET_FORCE_ALTERNATE_ROLES")}
-                />
-                <p className="text-muted-foreground text-xs">
-                  {t("RP.PRESET_FORCE_ALTERNATE_ROLES_HINT")}
-                </p>
-              </div>
-              <div className="flex flex-col gap-1">
-                <MyFormSwitch
-                  control={form.control}
-                  name="noSystemRole"
-                  label={t("RP.PRESET_NO_SYSTEM_ROLE")}
-                />
-                <p className="text-muted-foreground text-xs">
-                  {t("RP.PRESET_NO_SYSTEM_ROLE_HINT")}
-                </p>
-              </div>
-              <div className="flex flex-col gap-1">
-                <MyFormSwitch
-                  control={form.control}
-                  name="mustStartWithUserInput"
-                  label={t("RP.PRESET_MUST_START_WITH_USER")}
-                />
-                <p className="text-muted-foreground text-xs">
-                  {t("RP.PRESET_MUST_START_WITH_USER_HINT")}
-                </p>
-              </div>
-              <div className="flex flex-col gap-1">
-                <MyFormSwitch
-                  control={form.control}
-                  name="geminiBlockOff"
-                  label={t("RP.PRESET_GEMINI_BLOCK_OFF")}
-                />
-                <p className="text-muted-foreground text-xs">
-                  {t("RP.PRESET_GEMINI_BLOCK_OFF_HINT")}
-                </p>
-              </div>
-              <div className="flex flex-col gap-1">
-                <MyFormSwitch
-                  control={form.control}
-                  name="disableCaching"
-                  label={t("RP.PRESET_DISABLE_CACHING")}
-                />
-                <p className="text-muted-foreground text-xs">
-                  {t("RP.PRESET_DISABLE_CACHING_HINT")}
-                </p>
-              </div>
-              <div className="flex flex-col gap-1">
-                <MyFormSwitch
-                  control={form.control}
-                  name="keepReasoning"
-                  label={t("RP.PRESET_KEEP_REASONING")}
-                />
-                <p className="text-muted-foreground text-xs">
-                  {t("RP.PRESET_KEEP_REASONING_HINT")}
-                </p>
-              </div>
-              <div className="flex flex-col gap-1">
-                <MyFormSwitch
-                  control={form.control}
-                  name="keepSystemRoles"
-                  label={t("RP.PRESET_KEEP_SYSTEM_ROLES")}
-                />
-                <p className="text-muted-foreground text-xs">
-                  {t("RP.PRESET_KEEP_SYSTEM_ROLES_HINT")}
-                </p>
-              </div>
+              <MyFormSwitch
+                control={form.control}
+                name="forceAlternateRoles"
+                label={t("RP.PRESET_FORCE_ALTERNATE_ROLES")}
+                hint={t("RP.PRESET_FORCE_ALTERNATE_ROLES_HINT")}
+              />
+              <MyFormSwitch
+                control={form.control}
+                name="noSystemRole"
+                label={t("RP.PRESET_NO_SYSTEM_ROLE")}
+                hint={t("RP.PRESET_NO_SYSTEM_ROLE_HINT")}
+              />
+              <MyFormSwitch
+                control={form.control}
+                name="mustStartWithUserInput"
+                label={t("RP.PRESET_MUST_START_WITH_USER")}
+                hint={t("RP.PRESET_MUST_START_WITH_USER_HINT")}
+              />
+              <MyFormSwitch
+                control={form.control}
+                name="geminiBlockOff"
+                label={t("RP.PRESET_GEMINI_BLOCK_OFF")}
+                hint={t("RP.PRESET_GEMINI_BLOCK_OFF_HINT")}
+              />
+              <MyFormSwitch
+                control={form.control}
+                name="disableCaching"
+                label={t("RP.PRESET_DISABLE_CACHING")}
+                hint={t("RP.PRESET_DISABLE_CACHING_HINT")}
+              />
+              <MyFormSwitch
+                control={form.control}
+                name="keepReasoning"
+                label={t("RP.PRESET_KEEP_REASONING")}
+                hint={t("RP.PRESET_KEEP_REASONING_HINT")}
+              />
+              <MyFormSwitch
+                control={form.control}
+                name="keepSystemRoles"
+                label={t("RP.PRESET_KEEP_SYSTEM_ROLES")}
+                hint={t("RP.PRESET_KEEP_SYSTEM_ROLES_HINT")}
+              />
               <MyFormTextarea
                 control={form.control}
                 name="continuePrompt"

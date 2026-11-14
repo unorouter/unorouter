@@ -13,13 +13,15 @@ type MyFormSwitchProps<T extends FieldValues> = {
   name: Path<T>;
   label?: ReactNode;
   description?: ReactNode;
+  // Below the row, unlike description, which sits beside the label.
+  hint?: ReactNode;
   size?: "sm" | "default";
 };
 
 export const MyFormSwitch = <T extends FieldValues>(
   props: MyFormSwitchProps<T>,
 ) => {
-  return (
+  const field = (
     <FormField
       control={props.control}
       name={props.name}
@@ -47,5 +49,12 @@ export const MyFormSwitch = <T extends FieldValues>(
         </FormItem>
       )}
     />
+  );
+  if (!props.hint) return field;
+  return (
+    <div className="flex flex-col gap-1">
+      {field}
+      <p className="text-muted-foreground text-xs">{props.hint}</p>
+    </div>
   );
 };

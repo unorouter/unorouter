@@ -163,16 +163,12 @@ export function LorebookEntryForm(props: {
             <TokenEstimate control={form.control} name="content" />
           </div>
 
-          <div className="flex flex-col gap-1">
-            <MyFormSwitch
-              control={form.control}
-              name="constant"
-              label={t("RP.LOREBOOK_ENTRY_CONSTANT")}
-            />
-            <p className="text-muted-foreground text-xs">
-              {t("RP.LOREBOOK_ENTRY_CONSTANT_HINT")}
-            </p>
-          </div>
+          <MyFormSwitch
+            control={form.control}
+            name="constant"
+            label={t("RP.LOREBOOK_ENTRY_CONSTANT")}
+            hint={t("RP.LOREBOOK_ENTRY_CONSTANT_HINT")}
+          />
 
           {!alwaysActive && (
             <>
@@ -197,16 +193,12 @@ export function LorebookEntryForm(props: {
                   label={t("RP.LOREBOOK_ENTRY_SECONDARY_KEYS")}
                 />
               )}
-              <div className="flex flex-col gap-1">
-                <MyFormSwitch
-                  control={form.control}
-                  name="matchWholeWords"
-                  label={t("RP.LOREBOOK_ENTRY_MATCH_WHOLE_WORDS")}
-                />
-                <p className="text-muted-foreground text-xs">
-                  {t("RP.LOREBOOK_ENTRY_MATCH_WHOLE_WORDS_HINT")}
-                </p>
-              </div>
+              <MyFormSwitch
+                control={form.control}
+                name="matchWholeWords"
+                label={t("RP.LOREBOOK_ENTRY_MATCH_WHOLE_WORDS")}
+                hint={t("RP.LOREBOOK_ENTRY_MATCH_WHOLE_WORDS_HINT")}
+              />
             </>
           )}
 
