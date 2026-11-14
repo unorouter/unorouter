@@ -4168,13 +4168,6 @@
       "NEEDS_TOKEN_TITLE": "需要 API 金鑰",
       "NEEDS_TOKEN_DESC": "產生一把 API 金鑰，開始與 AI 模型對話。"
     },
-    "TOOL": {
-      "USED": "已使用工具",
-      "CANCELLED": "工具已取消",
-      "RESULT": "結果：",
-      "ERROR": "錯誤：",
-      "CANCELLED_REASON": "取消原因："
-    },
     "TASK": {
       "STATUS_SUBMITTED": "已送出",
       "STATUS_QUEUED": "排隊中",

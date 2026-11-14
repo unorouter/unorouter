@@ -4168,13 +4168,6 @@
       "NEEDS_TOKEN_TITLE": "API 키 필요",
       "NEEDS_TOKEN_DESC": "AI 모델과 채팅을 시작하려면 API 키를 생성하세요."
     },
-    "TOOL": {
-      "USED": "사용된 도구",
-      "CANCELLED": "취소된 도구",
-      "RESULT": "결과:",
-      "ERROR": "오류:",
-      "CANCELLED_REASON": "취소 이유:"
-    },
     "TASK": {
       "STATUS_SUBMITTED": "제출됨",
       "STATUS_QUEUED": "대기 중",

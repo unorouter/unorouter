@@ -4168,13 +4168,6 @@
       "NEEDS_TOKEN_TITLE": "Clé API requise",
       "NEEDS_TOKEN_DESC": "Générez une clé API pour commencer à discuter avec les modèles IA."
     },
-    "TOOL": {
-      "USED": "Outil utilisé",
-      "CANCELLED": "Outil annulé",
-      "RESULT": "Résultat :",
-      "ERROR": "Erreur :",
-      "CANCELLED_REASON": "Raison de l'annulation :"
-    },
     "TASK": {
       "STATUS_SUBMITTED": "Soumis",
       "STATUS_QUEUED": "En file d'attente",

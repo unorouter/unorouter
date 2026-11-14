@@ -4168,13 +4168,6 @@
       "NEEDS_TOKEN_TITLE": "API Anahtarı Gerekli",
       "NEEDS_TOKEN_DESC": "AI modelleriyle sohbet etmeye başlamak için bir API anahtarı oluşturun."
     },
-    "TOOL": {
-      "USED": "Kullanılan araç",
-      "CANCELLED": "İptal edilen araç",
-      "RESULT": "Sonuç:",
-      "ERROR": "Hata:",
-      "CANCELLED_REASON": "İptal nedeni:"
-    },
     "TASK": {
       "STATUS_SUBMITTED": "Gönderildi",
       "STATUS_QUEUED": "Sıraya Alındı",

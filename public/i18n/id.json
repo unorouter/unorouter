@@ -4168,13 +4168,6 @@
       "NEEDS_TOKEN_TITLE": "Kunci API Diperlukan",
       "NEEDS_TOKEN_DESC": "Buat kunci API untuk mulai chatting dengan model AI."
     },
-    "TOOL": {
-      "USED": "Tool digunakan",
-      "CANCELLED": "Tool dibatalkan",
-      "RESULT": "Hasil:",
-      "ERROR": "Error:",
-      "CANCELLED_REASON": "Alasan pembatalan:"
-    },
     "TASK": {
       "STATUS_SUBMITTED": "Dikirim",
       "STATUS_QUEUED": "Antri",

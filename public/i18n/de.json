@@ -4168,13 +4168,6 @@
       "NEEDS_TOKEN_TITLE": "API-Schlüssel erforderlich",
       "NEEDS_TOKEN_DESC": "Erstelle einen API-Schlüssel, um mit KI-Modellen zu chatten."
     },
-    "TOOL": {
-      "USED": "Verwendetes Werkzeug",
-      "CANCELLED": "Abgebrochenes Werkzeug",
-      "RESULT": "Ergebnis:",
-      "ERROR": "Fehler:",
-      "CANCELLED_REASON": "Abbruchgrund:"
-    },
     "TASK": {
       "STATUS_SUBMITTED": "Eingereicht",
       "STATUS_QUEUED": "In der Warteschlange",

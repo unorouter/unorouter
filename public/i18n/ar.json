@@ -4168,13 +4168,6 @@
       "NEEDS_TOKEN_TITLE": "مفتاح API مطلوب",
       "NEEDS_TOKEN_DESC": "ولّد مفتاح API لتبدأ الدردشة مع نماذج الذكاء الاصطناعي."
     },
-    "TOOL": {
-      "USED": "استخدمت الأداة",
-      "CANCELLED": "أُلغيت الأداة",
-      "RESULT": "النتيجة:",
-      "ERROR": "خطأ:",
-      "CANCELLED_REASON": "سبب الإلغاء:"
-    },
     "TASK": {
       "STATUS_SUBMITTED": "أُرسل",
       "STATUS_QUEUED": "في الطابور",

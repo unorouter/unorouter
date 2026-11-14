@@ -4168,13 +4168,6 @@
       "NEEDS_TOKEN_TITLE": "Wymagany klucz API",
       "NEEDS_TOKEN_DESC": "Wygeneruj klucz API, aby zacząć czatować z modelami AI."
     },
-    "TOOL": {
-      "USED": "Użyto narzędzia",
-      "CANCELLED": "Anulowano narzędzie",
-      "RESULT": "Wynik:",
-      "ERROR": "Błąd:",
-      "CANCELLED_REASON": "Powód anulowania:"
-    },
     "TASK": {
       "STATUS_SUBMITTED": "Wysłane",
       "STATUS_QUEUED": "W kolejce",

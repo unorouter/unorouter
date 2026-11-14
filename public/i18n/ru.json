@@ -4168,13 +4168,6 @@
       "NEEDS_TOKEN_TITLE": "Требуется ключ API",
       "NEEDS_TOKEN_DESC": "Создайте ключ API, чтобы начать чат с моделями ИИ."
     },
-    "TOOL": {
-      "USED": "Использован инструмент",
-      "CANCELLED": "Инструмент отменён",
-      "RESULT": "Результат:",
-      "ERROR": "Ошибка:",
-      "CANCELLED_REASON": "Причина отмены:"
-    },
     "TASK": {
       "STATUS_SUBMITTED": "Отправлено",
       "STATUS_QUEUED": "В очереди",

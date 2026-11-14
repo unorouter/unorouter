@@ -4168,13 +4168,6 @@
       "NEEDS_TOKEN_TITLE": "API Key आवश्यक",
       "NEEDS_TOKEN_DESC": "AI मॉडलों के साथ chat करना शुरू करने के लिए एक API key बनाएं।"
     },
-    "TOOL": {
-      "USED": "Tool उपयोग किया",
-      "CANCELLED": "Tool रद्द किया गया",
-      "RESULT": "परिणाम:",
-      "ERROR": "Error:",
-      "CANCELLED_REASON": "रद्द करने का कारण:"
-    },
     "TASK": {
       "STATUS_SUBMITTED": "Submitted",
       "STATUS_QUEUED": "Queued",

@@ -4168,13 +4168,6 @@
       "NEEDS_TOKEN_TITLE": "APIキーが必要です",
       "NEEDS_TOKEN_DESC": "APIキーを生成して AI モデルとチャットを始めましょう。"
     },
-    "TOOL": {
-      "USED": "ツールを使用",
-      "CANCELLED": "ツールをキャンセル",
-      "RESULT": "結果：",
-      "ERROR": "エラー：",
-      "CANCELLED_REASON": "キャンセル理由："
-    },
     "TASK": {
       "STATUS_SUBMITTED": "送信済み",
       "STATUS_QUEUED": "キューに追加",

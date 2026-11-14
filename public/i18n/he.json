@@ -4168,13 +4168,6 @@
       "NEEDS_TOKEN_TITLE": "נדרש מפתח API",
       "NEEDS_TOKEN_DESC": "ייצרו מפתח API כדי להתחיל לצ'אט עם מודלי AI."
     },
-    "TOOL": {
-      "USED": "השתמש בכלי",
-      "CANCELLED": "בוטל כלי",
-      "RESULT": "תוצאה:",
-      "ERROR": "שגיאה:",
-      "CANCELLED_REASON": "סיבת ביטול:"
-    },
     "TASK": {
       "STATUS_SUBMITTED": "נשלח",
       "STATUS_QUEUED": "בתור",

@@ -4168,13 +4168,6 @@
       "NEEDS_TOKEN_TITLE": "需要 API 密钥",
       "NEEDS_TOKEN_DESC": "生成 API 密钥以开始与 AI 模型对话。"
     },
-    "TOOL": {
-      "USED": "已使用工具",
-      "CANCELLED": "已取消工具",
-      "RESULT": "结果：",
-      "ERROR": "错误：",
-      "CANCELLED_REASON": "取消原因："
-    },
     "TASK": {
       "STATUS_SUBMITTED": "已提交",
       "STATUS_QUEUED": "排队中",

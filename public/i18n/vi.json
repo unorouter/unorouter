@@ -4168,13 +4168,6 @@
       "NEEDS_TOKEN_TITLE": "Cần API Key",
       "NEEDS_TOKEN_DESC": "Tạo API key để bắt đầu trò chuyện với các mô hình AI."
     },
-    "TOOL": {
-      "USED": "Đã dùng công cụ",
-      "CANCELLED": "Đã hủy công cụ",
-      "RESULT": "Kết quả:",
-      "ERROR": "Lỗi:",
-      "CANCELLED_REASON": "Lý do hủy:"
-    },
     "TASK": {
       "STATUS_SUBMITTED": "Đã gửi",
       "STATUS_QUEUED": "Đang chờ xử lý",

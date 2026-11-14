@@ -23,7 +23,6 @@ import {
   OwnPurposeObjectionWithdrawButton,
   parseObjectedProviders,
 } from "@/components/elements/model/own-purpose-objection-withdraw";
-import { ToolFallback } from "@/components/ui/assistant-ui/tool-fallback";
 import { TooltipIconButton } from "@/components/ui/assistant-ui/tooltip-icon-button";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
@@ -1101,9 +1100,6 @@ const AssistantMessage: FC = () => {
                     ReasoningGroup: showReasoning
                       ? ReasoningGroup
                       : HideReasoning,
-                    tools: {
-                      Fallback: ToolFallback,
-                    },
                     data: {
                       by_name: { task: () => null, error: PersistedErrorPart },
                     },

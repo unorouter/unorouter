@@ -4168,13 +4168,6 @@
       "NEEDS_TOKEN_TITLE": "Clave API requerida",
       "NEEDS_TOKEN_DESC": "Genera una clave API para empezar a chatear con modelos de IA."
     },
-    "TOOL": {
-      "USED": "Herramienta usada",
-      "CANCELLED": "Herramienta cancelada",
-      "RESULT": "Resultado:",
-      "ERROR": "Error:",
-      "CANCELLED_REASON": "Razón de cancelación:"
-    },
     "TASK": {
       "STATUS_SUBMITTED": "Enviado",
       "STATUS_QUEUED": "En cola",
