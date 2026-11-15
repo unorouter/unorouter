@@ -158,13 +158,30 @@ print(res.choices[0].message.content)`;
   const lastUpdatedMs = m.created_time ? m.created_time * 1000 : released;
   const lastUpdatedLabel = lastUpdatedMs ? formatMsDate(lastUpdatedMs) : "";
   const knowledgeCutoff = formatYearMonth(m.metadata?.knowledgeCutoff) ?? "";
-  const hasReleaseRow = Boolean(
-    releaseDateLabel || knowledgeCutoff || lastUpdatedLabel,
-  );
+  const releaseRow = (
+    [
+      ["calendar", t("MODEL_PAGE.RELEASE_DATE"), releaseDateLabel],
+      ["clock", t("MODEL_PAGE.KNOWLEDGE_CUTOFF"), knowledgeCutoff],
+      ["refresh-cw", t("MODEL_PAGE.LAST_UPDATED"), lastUpdatedLabel],
+    ] as const
+  )
+    .filter((row) => row[2])
+    .map((row) => ({ icon: row[0], label: row[1], value: row[2] }));
 
   const endpointPills = m.supported_endpoint_types ?? [];
 
   const glow = theme.primary ?? "#94a3b8";
+  // Rendered twice: above the title on phones, beside it from sm up.
+  const actions = (
+    <>
+      <TryInChatButton
+        modelName={m.model_name}
+        label={t("MODEL_PAGE.OPEN_CHAT")}
+        disabled={props.offline}
+      />
+      <WatchModelButton modelName={m.model_name} />
+    </>
+  );
 
   return (
     <div className="relative mx-auto max-w-5xl px-6 pt-20 pb-16">
@@ -190,18 +207,7 @@ print(res.choices[0].message.content)`;
         modelName={m.model_name}
       />
       <section className="pt-8 pb-6">
-        {/* Mobile: chat action rides above the title so the name has full width. */}
-        <div className="mb-4 flex gap-2 sm:hidden">
-          <TryInChatButton
-            modelName={m.model_name}
-            label={t("MODEL_PAGE.OPEN_CHAT")}
-            loginLabel={t("MODEL_PAGE.OPEN_CHAT")}
-            icon
-            badge
-            disabled={props.offline}
-          />
-          <WatchModelButton modelName={m.model_name} />
-        </div>
+        <div className="mb-4 flex gap-2 sm:hidden">{actions}</div>
         <div className="flex items-start justify-between gap-4">
           <div className="flex min-w-0 items-start gap-3">
             <div
@@ -233,15 +239,7 @@ print(res.choices[0].message.content)`;
             </div>
           </div>
           <div className="hidden shrink-0 items-center gap-2 sm:flex">
-            <TryInChatButton
-              modelName={m.model_name}
-              label={t("MODEL_PAGE.OPEN_CHAT")}
-              loginLabel={t("MODEL_PAGE.OPEN_CHAT")}
-              icon
-              badge
-              disabled={props.offline}
-            />
-            <WatchModelButton modelName={m.model_name} />
+            {actions}
           </div>
         </div>
 
@@ -252,26 +250,14 @@ print(res.choices[0].message.content)`;
           />
         </div>
 
-        {hasReleaseRow && (
+        {releaseRow.length > 0 && (
           <div className="text-muted-foreground mt-3 flex flex-wrap items-center gap-x-5 gap-y-1 font-mono text-xs">
-            {releaseDateLabel && (
-              <span className="inline-flex items-center gap-1.5">
-                <Icon name="calendar" className="h-3 w-3" />
-                {t("MODEL_PAGE.RELEASE_DATE")} {releaseDateLabel}
+            {releaseRow.map((row) => (
+              <span key={row.icon} className="inline-flex items-center gap-1.5">
+                <Icon name={row.icon} className="h-3 w-3" />
+                {row.label} {row.value}
               </span>
-            )}
-            {knowledgeCutoff && (
-              <span className="inline-flex items-center gap-1.5">
-                <Icon name="clock" className="h-3 w-3" />
-                {t("MODEL_PAGE.KNOWLEDGE_CUTOFF")} {knowledgeCutoff}
-              </span>
-            )}
-            {lastUpdatedLabel && (
-              <span className="inline-flex items-center gap-1.5">
-                <Icon name="refresh-cw" className="h-3 w-3" />
-                {t("MODEL_PAGE.LAST_UPDATED")} {lastUpdatedLabel}
-              </span>
-            )}
+            ))}
           </div>
         )}
 
