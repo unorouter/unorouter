@@ -3371,11 +3371,7 @@
       "STATUS_CHANGED": "API key स्थिति अपडेट की गई"
     },
     "ERROR": {
-      "FETCH_KEY": "Token key fetch करने में विफल",
-      "STATUS_UPDATE": "स्थिति अपडेट करने में विफल",
-      "DELETE": "Token हटाने में विफल",
-      "CREATE": "Token बनाने में विफल",
-      "UPDATE": "Token अपडेट करने में विफल"
+      "FETCH_KEY": "Token key fetch करने में विफल"
     },
     "KEY_DISPLAY": {
       "HIDE": "छिपाएं",
@@ -3576,9 +3572,6 @@
     },
     "SUCCESS": {
       "TRANSFER": "स्थानांतरण सफलतापूर्वक पूरा हुआ"
-    },
-    "ERROR": {
-      "TRANSFER": "स्थानांतरण विफल"
     },
     "TITLE": "Affiliate Program",
     "DESCRIPTION": "नए यूज़र रेफ़र करके क्रेडिट कमाएँ। अपना इनवाइट लिंक शेयर करें और उनके टॉप-अप का एक हिस्सा अकाउंट बैलेंस के रूप में पाएँ।",

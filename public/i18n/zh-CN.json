@@ -3371,11 +3371,7 @@
       "STATUS_CHANGED": "API 密钥状态已更新"
     },
     "ERROR": {
-      "FETCH_KEY": "获取令牌密钥失败",
-      "STATUS_UPDATE": "状态更新失败",
-      "DELETE": "令牌删除失败",
-      "CREATE": "创建令牌失败",
-      "UPDATE": "更新令牌失败"
+      "FETCH_KEY": "获取令牌密钥失败"
     },
     "KEY_DISPLAY": {
       "HIDE": "隐藏",
@@ -3576,9 +3572,6 @@
     },
     "SUCCESS": {
       "TRANSFER": "转账成功"
-    },
-    "ERROR": {
-      "TRANSFER": "转账失败"
     },
     "TITLE": "推广联盟",
     "DESCRIPTION": "邀请新用户即可获得额度。分享你的邀请链接，按他们充值金额的一定比例获得账户余额。",

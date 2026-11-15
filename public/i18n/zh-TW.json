@@ -3371,11 +3371,7 @@
       "STATUS_CHANGED": "API 金鑰狀態已更新"
     },
     "ERROR": {
-      "FETCH_KEY": "取得金鑰失敗",
-      "STATUS_UPDATE": "更新狀態失敗",
-      "DELETE": "刪除金鑰失敗",
-      "CREATE": "建立金鑰失敗",
-      "UPDATE": "更新金鑰失敗"
+      "FETCH_KEY": "取得金鑰失敗"
     },
     "KEY_DISPLAY": {
       "HIDE": "隱藏",
@@ -3576,9 +3572,6 @@
     },
     "SUCCESS": {
       "TRANSFER": "轉帳成功"
-    },
-    "ERROR": {
-      "TRANSFER": "轉帳失敗"
     },
     "TITLE": "聯盟推廣",
     "DESCRIPTION": "邀請新使用者即可獲得額度。分享你的邀請連結，按他們儲值金額的一定比例獲得帳戶餘額。",

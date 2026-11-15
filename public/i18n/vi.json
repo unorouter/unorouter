@@ -3371,11 +3371,7 @@
       "STATUS_CHANGED": "Cập nhật trạng thái API key"
     },
     "ERROR": {
-      "FETCH_KEY": "Không lấy được token key",
-      "STATUS_UPDATE": "Không cập nhật được trạng thái",
-      "DELETE": "Không xóa được token",
-      "CREATE": "Không tạo được token",
-      "UPDATE": "Không cập nhật được token"
+      "FETCH_KEY": "Không lấy được token key"
     },
     "KEY_DISPLAY": {
       "HIDE": "Ẩn",
@@ -3576,9 +3572,6 @@
     },
     "SUCCESS": {
       "TRANSFER": "Chuyển khoản thành công"
-    },
-    "ERROR": {
-      "TRANSFER": "Chuyển khoản thất bại"
     },
     "TITLE": "Chương trình tiếp thị liên kết",
     "DESCRIPTION": "Nhận tín dụng khi giới thiệu người dùng mới. Chia sẻ liên kết mời và nhận một phần số tiền nạp của họ vào số dư tài khoản.",

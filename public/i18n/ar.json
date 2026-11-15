@@ -3371,11 +3371,7 @@
       "STATUS_CHANGED": "تمّ تحديث حالة مفتاح API"
     },
     "ERROR": {
-      "FETCH_KEY": "فشل جلب مفتاح token",
-      "STATUS_UPDATE": "فشل تحديث الحالة",
-      "DELETE": "فشل حذف token",
-      "CREATE": "فشل إنشاء token",
-      "UPDATE": "فشل تحديث token"
+      "FETCH_KEY": "فشل جلب مفتاح token"
     },
     "KEY_DISPLAY": {
       "HIDE": "إخفاء",
@@ -3576,9 +3572,6 @@
     },
     "SUCCESS": {
       "TRANSFER": "اكتمل التحويل بنجاح"
-    },
-    "ERROR": {
-      "TRANSFER": "فشل التحويل"
     },
     "TITLE": "برنامج الشراكة",
     "DESCRIPTION": "اكسب رصيدًا عبر دعوة مستخدمين جدد. شارك رابط الدعوة واحصل على حصة من شحناتهم كرصيد في حسابك.",

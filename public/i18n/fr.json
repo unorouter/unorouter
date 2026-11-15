@@ -3371,11 +3371,7 @@
       "STATUS_CHANGED": "Statut de la clé API mis à jour"
     },
     "ERROR": {
-      "FETCH_KEY": "Échec de récupération de la clé",
-      "STATUS_UPDATE": "Échec de mise à jour du statut",
-      "DELETE": "Échec de la suppression du token",
-      "CREATE": "Échec de la création du token",
-      "UPDATE": "Échec de la mise à jour du token"
+      "FETCH_KEY": "Échec de récupération de la clé"
     },
     "KEY_DISPLAY": {
       "HIDE": "Masquer",
@@ -3576,9 +3572,6 @@
     },
     "SUCCESS": {
       "TRANSFER": "Transfert effectué avec succès"
-    },
-    "ERROR": {
-      "TRANSFER": "Échec du transfert"
     },
     "TITLE": "Programme d'affiliation",
     "DESCRIPTION": "Gagnez du crédit en parrainant de nouveaux utilisateurs. Partagez votre lien d'invitation et recevez une part de leurs recharges en solde de compte.",

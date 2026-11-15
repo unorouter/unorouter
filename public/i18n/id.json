@@ -3371,11 +3371,7 @@
       "STATUS_CHANGED": "Status kunci API diperbarui"
     },
     "ERROR": {
-      "FETCH_KEY": "Gagal mengambil kunci token",
-      "STATUS_UPDATE": "Gagal memperbarui status",
-      "DELETE": "Gagal menghapus token",
-      "CREATE": "Gagal membuat token",
-      "UPDATE": "Gagal memperbarui token"
+      "FETCH_KEY": "Gagal mengambil kunci token"
     },
     "KEY_DISPLAY": {
       "HIDE": "Sembunyikan",
@@ -3576,9 +3572,6 @@
     },
     "SUCCESS": {
       "TRANSFER": "Transfer berhasil diselesaikan"
-    },
-    "ERROR": {
-      "TRANSFER": "Transfer gagal"
     },
     "TITLE": "Program Afiliasi",
     "DESCRIPTION": "Dapatkan kredit dengan mengajak pengguna baru. Bagikan tautan undanganmu dan dapatkan bagian dari top-up mereka sebagai saldo akun.",

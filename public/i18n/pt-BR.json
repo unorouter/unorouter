@@ -3371,11 +3371,7 @@
       "STATUS_CHANGED": "Status da chave API atualizado"
     },
     "ERROR": {
-      "FETCH_KEY": "Falha ao buscar chave de token",
-      "STATUS_UPDATE": "Falha ao atualizar status",
-      "DELETE": "Falha ao deletar token",
-      "CREATE": "Falha ao criar token",
-      "UPDATE": "Falha ao atualizar token"
+      "FETCH_KEY": "Falha ao buscar chave de token"
     },
     "KEY_DISPLAY": {
       "HIDE": "Ocultar",
@@ -3576,9 +3572,6 @@
     },
     "SUCCESS": {
       "TRANSFER": "Transferência concluída com sucesso"
-    },
-    "ERROR": {
-      "TRANSFER": "Transferência falhou"
     },
     "TITLE": "Programa de afiliado",
     "DESCRIPTION": "Ganhe crédito indicando novos usuários. Compartilhe seu link de convite e receba uma parte das recargas deles como saldo da conta.",

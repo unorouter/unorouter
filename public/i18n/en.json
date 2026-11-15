@@ -3371,11 +3371,7 @@
       "STATUS_CHANGED": "API key status updated"
     },
     "ERROR": {
-      "FETCH_KEY": "Failed to fetch token key",
-      "STATUS_UPDATE": "Failed to update status",
-      "DELETE": "Failed to delete token",
-      "CREATE": "Failed to create token",
-      "UPDATE": "Failed to update token"
+      "FETCH_KEY": "Failed to fetch token key"
     },
     "KEY_DISPLAY": {
       "HIDE": "Hide",
@@ -3576,9 +3572,6 @@
     },
     "SUCCESS": {
       "TRANSFER": "Transfer completed successfully"
-    },
-    "ERROR": {
-      "TRANSFER": "Transfer failed"
     },
     "TITLE": "Affiliate Program",
     "DESCRIPTION": "Earn credit by referring new users. Share your invite link and get a share of their top-ups as account balance.",

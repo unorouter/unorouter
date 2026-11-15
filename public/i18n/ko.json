@@ -3371,11 +3371,7 @@
       "STATUS_CHANGED": "API 키 상태 업데이트됨"
     },
     "ERROR": {
-      "FETCH_KEY": "토큰 키 가져오기 실패",
-      "STATUS_UPDATE": "상태 업데이트 실패",
-      "DELETE": "토큰 삭제 실패",
-      "CREATE": "토큰 생성 실패",
-      "UPDATE": "토큰 업데이트 실패"
+      "FETCH_KEY": "토큰 키 가져오기 실패"
     },
     "KEY_DISPLAY": {
       "HIDE": "숨기기",
@@ -3576,9 +3572,6 @@
     },
     "SUCCESS": {
       "TRANSFER": "이체가 성공적으로 완료됨"
-    },
-    "ERROR": {
-      "TRANSFER": "이체 실패"
     },
     "TITLE": "제휴 프로그램",
     "DESCRIPTION": "새 사용자를 추천하고 크레딧을 받으세요. 초대 링크를 공유하면 그들의 충전 금액 일부가 계정 잔액으로 적립됩니다.",

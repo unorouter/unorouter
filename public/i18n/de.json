@@ -3371,11 +3371,7 @@
       "STATUS_CHANGED": "API-Schlüssel-Status aktualisiert"
     },
     "ERROR": {
-      "FETCH_KEY": "Token-Schlüssel konnte nicht abgerufen werden",
-      "STATUS_UPDATE": "Status konnte nicht aktualisiert werden",
-      "DELETE": "Token konnte nicht gelöscht werden",
-      "CREATE": "Token konnte nicht erstellt werden",
-      "UPDATE": "Token konnte nicht aktualisiert werden"
+      "FETCH_KEY": "Token-Schlüssel konnte nicht abgerufen werden"
     },
     "KEY_DISPLAY": {
       "HIDE": "Verbergen",
@@ -3576,9 +3572,6 @@
     },
     "SUCCESS": {
       "TRANSFER": "Übertragung erfolgreich abgeschlossen"
-    },
-    "ERROR": {
-      "TRANSFER": "Übertragung fehlgeschlagen"
     },
     "TITLE": "Partnerprogramm",
     "DESCRIPTION": "Verdiene Guthaben, indem du neue Nutzer einlädst. Teile deinen Einladungslink und erhalte einen Anteil ihrer Aufladungen als Kontoguthaben.",

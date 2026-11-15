@@ -3371,11 +3371,7 @@
       "STATUS_CHANGED": "API anahtarı durumu güncellendi"
     },
     "ERROR": {
-      "FETCH_KEY": "Token anahtarı alınamadı",
-      "STATUS_UPDATE": "Durum güncellenemedi",
-      "DELETE": "Token silinemedi",
-      "CREATE": "Token oluşturulamadı",
-      "UPDATE": "Token güncellenemedi"
+      "FETCH_KEY": "Token anahtarı alınamadı"
     },
     "KEY_DISPLAY": {
       "HIDE": "Gizle",
@@ -3576,9 +3572,6 @@
     },
     "SUCCESS": {
       "TRANSFER": "Transfer başarıyla tamamlandı"
-    },
-    "ERROR": {
-      "TRANSFER": "Transfer başarısız"
     },
     "TITLE": "Affiliate Programı",
     "DESCRIPTION": "Yeni kullanıcıları davet ederek kredi kazanın. Davet bağlantınızı paylaşın ve onların yüklemelerinden bir payı hesap bakiyesi olarak alın.",

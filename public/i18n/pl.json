@@ -3371,11 +3371,7 @@
       "STATUS_CHANGED": "Status klucza API zaktualizowany"
     },
     "ERROR": {
-      "FETCH_KEY": "Nie udało się pobrać klucza tokenu",
-      "STATUS_UPDATE": "Nie udało się zaktualizować statusu",
-      "DELETE": "Nie udało się usunąć tokenu",
-      "CREATE": "Nie udało się utworzyć tokenu",
-      "UPDATE": "Nie udało się zaktualizować tokenu"
+      "FETCH_KEY": "Nie udało się pobrać klucza tokenu"
     },
     "KEY_DISPLAY": {
       "HIDE": "Ukryj",
@@ -3576,9 +3572,6 @@
     },
     "SUCCESS": {
       "TRANSFER": "Transfer zakończony pomyślnie"
-    },
-    "ERROR": {
-      "TRANSFER": "Transfer nie powiódł się"
     },
     "TITLE": "Program partnerski",
     "DESCRIPTION": "Zdobywaj kredyt, polecając nowych użytkowników. Udostępnij link z zaproszeniem i otrzymuj część ich doładowań jako saldo konta.",

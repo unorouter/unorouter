@@ -3371,11 +3371,7 @@
       "STATUS_CHANGED": "Stato chiave API aggiornato"
     },
     "ERROR": {
-      "FETCH_KEY": "Recupero chiave token fallito",
-      "STATUS_UPDATE": "Aggiornamento stato fallito",
-      "DELETE": "Eliminazione token fallita",
-      "CREATE": "Creazione token fallita",
-      "UPDATE": "Aggiornamento token fallito"
+      "FETCH_KEY": "Recupero chiave token fallito"
     },
     "KEY_DISPLAY": {
       "HIDE": "Nascondi",
@@ -3576,9 +3572,6 @@
     },
     "SUCCESS": {
       "TRANSFER": "Trasferimento completato con successo"
-    },
-    "ERROR": {
-      "TRANSFER": "Trasferimento fallito"
     },
     "TITLE": "Programma affiliato",
     "DESCRIPTION": "Guadagna credito invitando nuovi utenti. Condividi il tuo link di invito e ricevi una parte delle loro ricariche come saldo dell'account.",
