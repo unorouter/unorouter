@@ -1,3 +1,4 @@
+import { safeJsonParse } from "@/lib/utils/base";
 import { msg, type TranslationKey } from "@/lib/config/constants";
 import type { TableFeats } from "@/lib/config/table-features";
 import { dayjs } from "@/lib/utils/format/date";
@@ -161,12 +162,7 @@ export interface ParsedOther {
 export function parseOther(
   other: string | null | undefined,
 ): ParsedOther | null {
-  if (!other) return null;
-  try {
-    return JSON.parse(other);
-  } catch {
-    return null;
-  }
+  return safeJsonParse<ParsedOther | null>(other, null);
 }
 
 export function getEffectiveGroupRatio(

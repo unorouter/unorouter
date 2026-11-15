@@ -1,4 +1,4 @@
-import { isRecord, rec } from "@/lib/utils/base";
+import { isRecord, rec, safeJsonParse } from "@/lib/utils/base";
 
 export type UpstreamSubmitResp = {
   id?: string;
@@ -38,10 +38,8 @@ export function digErrorMessage(value: unknown): string | null {
     if (typeof node === "string") {
       const s = node.trim();
       if (s.startsWith("{") || s.startsWith("[")) {
-        try {
-          const found = digErrorMessage(JSON.parse(s));
-          if (found) return found;
-        } catch {}
+        const found = digErrorMessage(safeJsonParse<unknown>(s, null));
+        if (found) return found;
       }
       continue;
     }

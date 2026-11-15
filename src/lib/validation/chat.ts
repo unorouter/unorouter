@@ -1,6 +1,6 @@
 import { NONE_VALUE } from "@/lib/config/constants";
 import { AIR_PATTERN } from "@/lib/ai/image/constants";
-import { isOneOf, isRecord } from "@/lib/utils/base";
+import { isOneOf, isRecord, safeJsonParse } from "@/lib/utils/base";
 import type { ConversationRow } from "@/lib/db/schema/rows";
 import type { Static } from "elysia";
 import { t } from "elysia";
@@ -115,15 +115,8 @@ type ExtraBodyParse =
 
 export function parseExtraBody(raw: string | null | undefined): ExtraBodyParse {
   if (!raw || raw.trim().length === 0) return { state: "empty" };
-  try {
-    const parsed: unknown = JSON.parse(raw);
-    if (isRecord(parsed)) {
-      return { state: "valid", parsed };
-    }
-    return { state: "invalid" };
-  } catch {
-    return { state: "invalid" };
-  }
+  const parsed = safeJsonParse<unknown>(raw, null);
+  return isRecord(parsed) ? { state: "valid", parsed } : { state: "invalid" };
 }
 
 export function formReasoningEffortToValue(

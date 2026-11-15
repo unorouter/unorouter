@@ -1,5 +1,6 @@
 "use client";
 
+import { safeJsonParse } from "@/lib/utils/base";
 import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { OAuthButtons } from "@/components/pages/auth/oauth-buttons";
 import { TermsNotice } from "@/components/pages/auth/terms-notice";
@@ -70,12 +71,7 @@ export function LoginForm() {
     const raw = getCookie(LOGIN_CHALLENGE_COOKIE);
     if (typeof raw !== "string") return;
     deleteCookie(LOGIN_CHALLENGE_COOKIE, { path: "/" });
-    let challenge: unknown;
-    try {
-      challenge = JSON.parse(raw);
-    } catch {
-      return;
-    }
+    const challenge = safeJsonParse<unknown>(raw, null);
     if (!loginChallengeChecker.Check(challenge)) return;
     // eslint-disable-next-line react-hooks/set-state-in-effect -- the cookie is only readable after hydration
     setTwoFAFlowToken(challenge.flow_token);

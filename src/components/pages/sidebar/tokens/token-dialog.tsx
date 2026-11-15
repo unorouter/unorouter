@@ -43,7 +43,11 @@ import {
   useUserGroupsQuery,
 } from "@/hooks/billing/token-hook";
 import { dollarsToQuota, quotaToDollars } from "@/lib/config/constants";
-import { copyToClipboard, copyToClipboardAsync } from "@/lib/utils/base";
+import {
+  copyToClipboard,
+  copyToClipboardAsync,
+  safeJsonParse,
+} from "@/lib/utils/base";
 import { tokenFormSchema, type TokenFormSchema } from "@/lib/validation/token";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { useTranslations } from "next-intl";
@@ -54,7 +58,6 @@ import type { TokenRow } from "./token-columns";
 import {
   TokenGroupMapping,
   normalizeGroupMapping,
-  type GroupMapping,
 } from "./token-group-mapping";
 import { TokenKeyDisplay } from "./token-key-display";
 import { TokenModelSelect } from "./token-model-select";
@@ -136,15 +139,9 @@ export function TokenDialog(props: TokenDialogProps) {
   useEffect(() => {
     if (!props.open) return;
     if (props.token) {
-      let tokenMapping: GroupMapping = {};
-      const rawMapping = props.token.group_mapping;
-      if (rawMapping) {
-        try {
-          tokenMapping = normalizeGroupMapping(JSON.parse(rawMapping));
-        } catch {
-          tokenMapping = {};
-        }
-      }
+      const tokenMapping = normalizeGroupMapping(
+        safeJsonParse<unknown>(props.token.group_mapping, {}),
+      );
       form.reset({
         name: props.token.name || "",
         remain_quota: props.token.remain_quota ?? 0,

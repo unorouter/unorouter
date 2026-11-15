@@ -7,7 +7,7 @@ import {
   USER_ID_COOKIE,
 } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
-import { isRecord } from "@/lib/utils/base";
+import { isRecord, safeJsonParse } from "@/lib/utils/base";
 import { verifyUserId } from "@/lib/utils/session-cookie";
 import { serverEnv } from "@/server/env";
 import { CLIENT_STORE_KEY } from "@/store/client-store";
@@ -66,12 +66,7 @@ export function cookieString(value: unknown): string | undefined {
 }
 
 function parseClientStore(raw: unknown): unknown {
-  if (typeof raw !== "string") return raw;
-  try {
-    return JSON.parse(raw);
-  } catch {
-    return undefined;
-  }
+  return typeof raw === "string" ? safeJsonParse<unknown>(raw, undefined) : raw;
 }
 
 export function getApiKey(cookie: Record<string, Cookie<unknown>>): string {

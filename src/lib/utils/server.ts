@@ -1,3 +1,4 @@
+import { safeJsonParse } from "@/lib/utils/base";
 import { redirect } from "@/i18n/navigation";
 import type { Redirect } from "@/i18n/routing";
 import { getCookie } from "cookies-next/server";
@@ -54,11 +55,7 @@ export const getCookieValue = async <T>(
   key: string,
 ): Promise<T | undefined> => {
   const cookieStore = await cookies();
-  try {
-    return JSON.parse(cookieStore.get(key)?.value ?? "");
-  } catch {
-    return undefined;
-  }
+  return safeJsonParse<T | undefined>(cookieStore.get(key)?.value, undefined);
 };
 
 export const serverLocale = async (props?: {

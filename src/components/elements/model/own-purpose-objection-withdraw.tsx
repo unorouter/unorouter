@@ -1,5 +1,6 @@
 "use client";
 
+import { safeJsonParse } from "@/lib/utils/base";
 import { countryName } from "@/components/elements/model/group-data-policy";
 import { Button } from "@/components/ui/button";
 import { useSetOwnPurposeObjectionMutation } from "@/hooks/auth/own-purpose-objection-hook";
@@ -24,13 +25,8 @@ function isObjectedProvider(value: unknown): value is ObjectedProvider {
 export function parseObjectedProviders(
   param: string | null | undefined,
 ): ObjectedProvider[] {
-  if (!param) return [];
-  try {
-    const parsed: unknown = JSON.parse(param);
-    return Array.isArray(parsed) ? parsed.filter(isObjectedProvider) : [];
-  } catch {
-    return [];
-  }
+  const parsed = safeJsonParse<unknown>(param, null);
+  return Array.isArray(parsed) ? parsed.filter(isObjectedProvider) : [];
 }
 
 export function objectedProvidersText(

@@ -1,6 +1,6 @@
 import type { PricingCatalogDetail } from "@/openapi";
 import { msg } from "@/lib/config/constants";
-import { base64ToDataUri, uid } from "@/lib/utils/base";
+import { base64ToDataUri, uid, safeJsonParse } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import {
   buildBody,
@@ -95,11 +95,7 @@ const KEEPALIVE_INTERVAL_MS = 20_000;
 function upstreamErrorMessage(raw: string, fallback: string): string {
   const text = raw.trim();
   if (!text) return fallback;
-  try {
-    return digErrorMessage(JSON.parse(text)) ?? text;
-  } catch {
-    return text;
-  }
+  return digErrorMessage(safeJsonParse<unknown>(text, null)) ?? text;
 }
 
 function resolveThrownMessage(err: unknown, fallback: string): string {

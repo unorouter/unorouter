@@ -1,3 +1,4 @@
+import { safeJsonParse } from "@/lib/utils/base";
 import type { StoreId } from "@/lib/types/enums";
 import { environmentManager } from "@tanstack/react-query";
 import type { TableState } from "@tanstack/react-table";
@@ -77,12 +78,7 @@ export const jotaiCookieStorage = {
   getItem<T>(key: string, initialValue: T): T {
     if (environmentManager.isServer()) return initialValue;
     const value = getCookie(key);
-    if (!value) return initialValue;
-    try {
-      return JSON.parse(String(value));
-    } catch {
-      return initialValue;
-    }
+    return value ? safeJsonParse<T>(String(value), initialValue) : initialValue;
   },
   setItem(key: string, value: unknown) {
     if (environmentManager.isServer()) return;

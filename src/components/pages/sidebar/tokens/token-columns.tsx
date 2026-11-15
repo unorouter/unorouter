@@ -21,7 +21,11 @@ import {
 import { usePricingVendorsQuery } from "@/hooks/models/pricing-hook";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { renderQuota } from "@/lib/config/constants";
-import { copyToClipboard, copyToClipboardAsync } from "@/lib/utils/base";
+import {
+  copyToClipboard,
+  copyToClipboardAsync,
+  safeJsonParse,
+} from "@/lib/utils/base";
 import type { TokenResponse } from "@/openapi";
 import type { CellContext } from "@tanstack/react-table";
 import type { TableFeats } from "@/lib/config/table-features";
@@ -160,15 +164,10 @@ export function TokenGroupCell(props: CellContext<TableFeats, TokenRow>) {
   const pricingQuery = usePricingVendorsQuery();
   const models = pricingQuery.data?.model_vendors ?? [];
 
-  let mapping: Record<string, string[]> = {};
-  const rawMapping = token.group_mapping;
-  if (rawMapping) {
-    try {
-      mapping = JSON.parse(rawMapping);
-    } catch {
-      mapping = {};
-    }
-  }
+  const mapping = safeJsonParse<Record<string, string[]>>(
+    token.group_mapping,
+    {},
+  );
   const mappedModels = Object.keys(mapping);
 
   if (mappedModels.length === 0) {
