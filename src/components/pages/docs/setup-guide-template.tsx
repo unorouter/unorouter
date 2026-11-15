@@ -67,61 +67,36 @@ ${t("DOCS.SETUP_GUIDE.API_KEY_LABEL")}: ${docs.placeholder}`;
 
   const hasOverview = t.has(docKey(guide.i18nPrefix, "OVERVIEW_DESC"));
 
-  const tocItems: TOCItemType[] = [];
-  if (hasOverview)
-    tocItems.push({
-      title: t("DOCS.SETUP_GUIDE.TOC_OVERVIEW"),
-      url: "#overview",
-      depth: 2,
-    });
-  tocItems.push({
-    title: t("DOCS.SETUP_GUIDE.TOC_QUICK_CONFIG"),
-    url: "#quick-config",
+  const h2 = (title: string, url: string): TOCItemType => ({
+    title,
+    url,
     depth: 2,
   });
-  if (hasCompat)
-    tocItems.push({
-      title: t("DOCS.SETUP_GUIDE.TOC_COMPATIBILITY"),
-      url: "#compatibility",
-      depth: 2,
-    });
-  if (hasSteps) {
-    tocItems.push({
-      title: t("DOCS.SETUP_GUIDE.TOC_STEPS"),
-      url: "#steps",
-      depth: 2,
-    });
-    guide.steps.forEach((step, idx) =>
-      tocItems.push({
-        title: t(step.titleKey, APP_VALUES),
-        url: `#step-${idx + 1}`,
-        depth: 3,
-      }),
-    );
-  }
-  if (guide.install)
-    tocItems.push({
-      title: t(guide.install.titleKey, APP_VALUES),
-      url: "#install",
-      depth: 2,
-    });
-  tocItems.push({
-    title: t("DOCS.SETUP_GUIDE.TOC_MODELS"),
-    url: "#models",
-    depth: 2,
-  });
-  if (hasGotchas)
-    tocItems.push({
-      title: t("DOCS.SETUP_GUIDE.TOC_GOTCHAS"),
-      url: "#gotchas",
-      depth: 2,
-    });
-  if (faq.length > 0)
-    tocItems.push({
-      title: t("DOCS.SETUP_GUIDE.TOC_FAQ"),
-      url: "#faq",
-      depth: 2,
-    });
+  const tocItems: TOCItemType[] = [
+    ...(hasOverview
+      ? [h2(t("DOCS.SETUP_GUIDE.TOC_OVERVIEW"), "#overview")]
+      : []),
+    h2(t("DOCS.SETUP_GUIDE.TOC_QUICK_CONFIG"), "#quick-config"),
+    ...(hasCompat
+      ? [h2(t("DOCS.SETUP_GUIDE.TOC_COMPATIBILITY"), "#compatibility")]
+      : []),
+    ...(hasSteps
+      ? [
+          h2(t("DOCS.SETUP_GUIDE.TOC_STEPS"), "#steps"),
+          ...guide.steps.map((step, idx) => ({
+            title: t(step.titleKey, APP_VALUES),
+            url: `#step-${idx + 1}`,
+            depth: 3,
+          })),
+        ]
+      : []),
+    ...(guide.install
+      ? [h2(t(guide.install.titleKey, APP_VALUES), "#install")]
+      : []),
+    h2(t("DOCS.SETUP_GUIDE.TOC_MODELS"), "#models"),
+    ...(hasGotchas ? [h2(t("DOCS.SETUP_GUIDE.TOC_GOTCHAS"), "#gotchas")] : []),
+    ...(faq.length > 0 ? [h2(t("DOCS.SETUP_GUIDE.TOC_FAQ"), "#faq")] : []),
+  ];
 
   const toc = createTOC(tocItems, t("DOCS.TOC_TITLE"));
 
