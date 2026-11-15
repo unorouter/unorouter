@@ -19,7 +19,7 @@ import {
   parseAsStringLiteral,
   useQueryStates,
 } from "nuqs";
-import { useEffect } from "react";
+import { useEffect, useEffectEvent } from "react";
 
 const PARSERS = {
   input_modalities: parseAsArrayOf(parseAsString),
@@ -44,6 +44,9 @@ const PARSERS = {
 export function ModelsUrlSync() {
   const store = useStore();
   const [params, setParams] = useQueryStates(PARSERS);
+  // The link's values, read once at mount.
+  const readSeed = useEffectEvent(() => params);
+  const pushParams = useEffectEvent(setParams);
 
   useEffect(() => {
     // setParams writes the URL and the atom's own setItem re-notifies this
@@ -86,13 +89,13 @@ export function ModelsUrlSync() {
       const key = JSON.stringify(nextParams);
       if (key === lastPushed) return;
       lastPushed = key;
-      void setParams(nextParams);
+      void pushParams(nextParams);
     };
     const unsub = store.sub(modelsStoreAtom, writeback);
 
-    // Mount-time params: subscribing above mounts the storage atom, whose
+    // Read before the tick: subscribing above mounts the storage atom, whose
     // cookie-hydration fires the writeback and rewrites the URL first.
-    const seed = params;
+    const seed = readSeed();
 
     // Deferred one tick: this effect runs BEFORE the page components' own
     // subscription effects (child before parent), and jotai does not reconcile
@@ -159,9 +162,6 @@ export function ModelsUrlSync() {
       clearTimeout(timer);
       unsub();
     };
-    // params is deliberately mount-time-only (the link's values); setParams is
-    // referentially stable.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [store]);
 
   return null;

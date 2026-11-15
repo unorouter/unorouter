@@ -28,10 +28,7 @@ import { ModelsFilterSidebar } from "./filters/models-filter-sidebar";
 // Static import chained recharts (PerformanceSection) into the initial models
 // bundle; the sheet only renders after a row click.
 const ModelDetailSheet = dynamic(
-  () =>
-    import("./detail/model-detail-sheet").then((m) => ({
-      default: m.ModelDetailSheet,
-    })),
+  () => import("./detail/model-detail-sheet").then((m) => m.ModelDetailSheet),
   { ssr: false },
 );
 
@@ -46,10 +43,6 @@ export function ModelsPage() {
   const columnSorting = useAtomValue(modelsTableAtoms.sortingAtom);
   const setColumnSorting = useSetAtom(modelsTableAtoms.sortingAtom);
   const showReset = isDirty || columnSorting.length > 0;
-
-  const openDetail = (name: string) => {
-    m.setSelectedModelName(name);
-  };
 
   function resetAll() {
     clearFilters();
@@ -92,7 +85,7 @@ export function ModelsPage() {
             <ModalityTabs
               models={m.tabModels}
               value={m.outputModality}
-              onChange={(value) => m.setOutputModality(value)}
+              onChange={m.setOutputModality}
             />
           </div>
 
@@ -116,7 +109,7 @@ export function ModelsPage() {
                 localSorting
                 windowVirtual
                 stickyHeaderTop="calc(3.5rem + 2.4375rem)"
-                onRowClick={(model) => openDetail(model.model_name)}
+                onRowClick={(model) => m.setSelectedModelName(model.model_name)}
               />
             ) : (
               m.filtered.map((model) => (
@@ -124,7 +117,7 @@ export function ModelsPage() {
                   key={model.model_name}
                   model={model}
                   rank={m.rankMap.get(model.model_name)}
-                  onClick={() => openDetail(model.model_name)}
+                  onClick={() => m.setSelectedModelName(model.model_name)}
                 />
               ))
             )}
