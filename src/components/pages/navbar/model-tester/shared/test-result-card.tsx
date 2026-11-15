@@ -229,19 +229,17 @@ function HighlightedResponse(props: {
   );
 }
 
-/** Stored signals are plain strings; only the ones the library still maps get a rule. */
-function ruleForSignal(signal: string): VerdictRuleId | null {
-  for (const [key, rule] of Object.entries(RULE_FOR_SIGNAL))
-    if (key === signal) return rule;
-  return null;
-}
+// Stored signals are plain strings; only the ones the library still maps get a rule.
+const RULE_BY_SIGNAL = new Map<string, VerdictRuleId | null>(
+  Object.entries(RULE_FOR_SIGNAL),
+);
 
 function ProbeRow(props: { probe: TestResultProbe; provider: VendorId }) {
   const t = useTranslations();
   const [open, setOpen] = useState(false);
   const probe = props.probe;
   const labelKey = PROBE_KEY[probe.label];
-  const ruleId = probe.signal ? ruleForSignal(probe.signal) : null;
+  const ruleId = probe.signal ? RULE_BY_SIGNAL.get(probe.signal) : undefined;
   const ruleTitleKey = ruleId ? RULE_TITLE_KEY[ruleId] : undefined;
   const ruleWhyKey = ruleId ? RULE_WHY_KEY[ruleId] : undefined;
   const intentChecksKey = PROBE_INTENT_CHECKS[probe.label];
