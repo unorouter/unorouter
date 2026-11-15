@@ -92,7 +92,6 @@ export const queryKeys = {
   fishVoices: (q: string) => ["fish-voices", q] as const,
 
   imageSessionLists: () => ["image-sessions"] as const,
-  imageSessionList: (params?: unknown) => ["image-sessions", params] as const,
   imageSession: (id: string) => ["image-session", id] as const,
   imageSnapshot: (id: string) => ["image-snapshot", id] as const,
   checkpointSearch: (q: string) => ["checkpoint-search", q] as const,
