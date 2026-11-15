@@ -3038,7 +3038,9 @@
     "TOTAL_COUNT": "共 {count} 条",
     "ROWS": "每页行数",
     "COLUMNS": "列",
-    "TOGGLE_COLUMNS": "显示或隐藏列"
+    "TOGGLE_COLUMNS": "显示或隐藏列",
+    "TOGGLE_THEME": "切换主题",
+    "SWITCH_LANGUAGE": "切换语言"
   },
   "LANGUAGE": {
     "EN": "English",

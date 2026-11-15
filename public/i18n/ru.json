@@ -3038,7 +3038,9 @@
     "TOTAL_COUNT": "всего {count}",
     "ROWS": "Строки",
     "COLUMNS": "Столбцы",
-    "TOGGLE_COLUMNS": "Показать или скрыть столбцы"
+    "TOGGLE_COLUMNS": "Показать или скрыть столбцы",
+    "TOGGLE_THEME": "Переключить тему",
+    "SWITCH_LANGUAGE": "Сменить язык"
   },
   "LANGUAGE": {
     "EN": "English",

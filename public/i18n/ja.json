@@ -3038,7 +3038,9 @@
     "TOTAL_COUNT": "合計 {count} 件",
     "ROWS": "行数",
     "COLUMNS": "列",
-    "TOGGLE_COLUMNS": "列の表示切り替え"
+    "TOGGLE_COLUMNS": "列の表示切り替え",
+    "TOGGLE_THEME": "テーマを切り替え",
+    "SWITCH_LANGUAGE": "言語を切り替え"
   },
   "LANGUAGE": {
     "EN": "English",

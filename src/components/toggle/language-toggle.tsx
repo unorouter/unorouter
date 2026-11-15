@@ -25,11 +25,7 @@ export function LanguageToggle() {
   const handleLanguageChange = (newLocale: Locale) => {
     const matched = matchPathname(pathname, locale);
     startTransition(() => {
-      if (matched) {
-        router.replace(matched, { locale: newLocale });
-      } else {
-        router.replace("/", { locale: newLocale });
-      }
+      router.replace(matched ?? "/", { locale: newLocale });
     });
   };
 
@@ -42,7 +38,7 @@ export function LanguageToggle() {
             variant="ghost"
             size="icon-sm"
             className={isPending ? "opacity-30 transition-opacity" : ""}
-            aria-label="Switch language"
+            aria-label={t("COMMON.SWITCH_LANGUAGE")}
           />
         }
       >

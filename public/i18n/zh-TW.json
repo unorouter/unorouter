@@ -3038,7 +3038,9 @@
     "TOTAL_COUNT": "共 {count} 筆",
     "ROWS": "每頁列數",
     "COLUMNS": "欄位",
-    "TOGGLE_COLUMNS": "顯示或隱藏欄位"
+    "TOGGLE_COLUMNS": "顯示或隱藏欄位",
+    "TOGGLE_THEME": "切換主題",
+    "SWITCH_LANGUAGE": "切換語言"
   },
   "LANGUAGE": {
     "EN": "English",

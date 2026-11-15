@@ -3038,7 +3038,9 @@
     "TOTAL_COUNT": "कुल {count}",
     "ROWS": "पंक्तियाँ",
     "COLUMNS": "कॉलम",
-    "TOGGLE_COLUMNS": "कॉलम दिखाएँ या छिपाएँ"
+    "TOGGLE_COLUMNS": "कॉलम दिखाएँ या छिपाएँ",
+    "TOGGLE_THEME": "Theme toggle करें",
+    "SWITCH_LANGUAGE": "भाषा बदलें"
   },
   "LANGUAGE": {
     "EN": "English",

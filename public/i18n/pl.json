@@ -3038,7 +3038,9 @@
     "TOTAL_COUNT": "łącznie {count}",
     "ROWS": "Wiersze",
     "COLUMNS": "Kolumny",
-    "TOGGLE_COLUMNS": "Pokaż lub ukryj kolumny"
+    "TOGGLE_COLUMNS": "Pokaż lub ukryj kolumny",
+    "TOGGLE_THEME": "Przełącz motyw",
+    "SWITCH_LANGUAGE": "Zmień język"
   },
   "LANGUAGE": {
     "EN": "English",

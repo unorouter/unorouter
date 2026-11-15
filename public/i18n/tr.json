@@ -3038,7 +3038,9 @@
     "TOTAL_COUNT": "toplam {count}",
     "ROWS": "Satır",
     "COLUMNS": "Sütunlar",
-    "TOGGLE_COLUMNS": "Sütunları göster veya gizle"
+    "TOGGLE_COLUMNS": "Sütunları göster veya gizle",
+    "TOGGLE_THEME": "Tema değiştir",
+    "SWITCH_LANGUAGE": "Dili değiştir"
   },
   "LANGUAGE": {
     "EN": "English",

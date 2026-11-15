@@ -3038,7 +3038,9 @@
     "TOTAL_COUNT": "{count} إجمالاً",
     "ROWS": "الصفوف",
     "COLUMNS": "الأعمدة",
-    "TOGGLE_COLUMNS": "إظهار الأعمدة أو إخفاؤها"
+    "TOGGLE_COLUMNS": "إظهار الأعمدة أو إخفاؤها",
+    "TOGGLE_THEME": "تبديل السمة",
+    "SWITCH_LANGUAGE": "تغيير اللغة"
   },
   "LANGUAGE": {
     "EN": "English",

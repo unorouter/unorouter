@@ -3038,7 +3038,9 @@
     "TOTAL_COUNT": "total {count}",
     "ROWS": "Baris",
     "COLUMNS": "Kolom",
-    "TOGGLE_COLUMNS": "Tampilkan atau sembunyikan kolom"
+    "TOGGLE_COLUMNS": "Tampilkan atau sembunyikan kolom",
+    "TOGGLE_THEME": "Ganti tema",
+    "SWITCH_LANGUAGE": "Ganti bahasa"
   },
   "LANGUAGE": {
     "EN": "English",

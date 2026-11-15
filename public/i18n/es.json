@@ -3038,7 +3038,9 @@
     "TOTAL_COUNT": "{count} en total",
     "ROWS": "Filas",
     "COLUMNS": "Columnas",
-    "TOGGLE_COLUMNS": "Mostrar u ocultar columnas"
+    "TOGGLE_COLUMNS": "Mostrar u ocultar columnas",
+    "TOGGLE_THEME": "Alternar tema",
+    "SWITCH_LANGUAGE": "Cambiar idioma"
   },
   "LANGUAGE": {
     "EN": "English",

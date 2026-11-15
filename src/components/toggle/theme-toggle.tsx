@@ -18,43 +18,29 @@ import { useTheme } from "next-themes";
 import { useState } from "react";
 import { Icon } from "@/components/ui/icon";
 
+const THEME_OPTIONS = [
+  { theme: "light", icon: "sun", label: "THEME.LIGHT" },
+  { theme: "dark", icon: "moon", label: "THEME.DARK" },
+  { theme: "system", icon: "monitor", label: "THEME.SYSTEM" },
+] as const;
+
 export function ThemeToggle() {
   const t = useTranslations();
   const setTheme = useTheme().setTheme;
   const [sheetOpen, setSheetOpen] = useState(false);
-  const styleId = "theme-transition-styles";
-
-  const updateStyles = (css: string) => {
-    if (typeof window === "undefined") return;
-
-    let styleElement = document.getElementById(styleId);
-
-    if (!styleElement) {
-      styleElement = document.createElement("style");
-      styleElement.id = styleId;
-      document.head.appendChild(styleElement);
-    }
-
-    styleElement.textContent = css;
-  };
 
   const handleThemeChange = (theme: string) => {
     const anim = getRandomAnimation();
-    const animation = createAnimation(anim.variant, anim.start);
-    updateStyles(animation.css);
-
-    if (typeof window === "undefined") return;
-
-    const switchTheme = () => {
-      setTheme(theme);
-    };
-
-    if (!document.startViewTransition) {
-      switchTheme();
-      return;
+    let style = document.getElementById("theme-transition-styles");
+    if (!style) {
+      style = document.createElement("style");
+      style.id = "theme-transition-styles";
+      document.head.appendChild(style);
     }
-
-    document.startViewTransition(switchTheme);
+    style.textContent = createAnimation(anim.variant, anim.start).css;
+    if (document.startViewTransition)
+      document.startViewTransition(() => setTheme(theme));
+    else setTheme(theme);
   };
 
   return (
@@ -62,7 +48,11 @@ export function ThemeToggle() {
       <DropdownMenu>
         <DropdownMenuTrigger
           render={
-            <Button variant="ghost" size="icon-sm" aria-label="Toggle theme" />
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              aria-label={t("COMMON.TOGGLE_THEME")}
+            />
           }
         >
           <Icon
@@ -75,27 +65,16 @@ export function ThemeToggle() {
           />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem
-            onClick={() => handleThemeChange("light")}
-            className="cursor-pointer"
-          >
-            <Icon name="sun" className="h-4 w-4" />
-            {t("THEME.LIGHT")}
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => handleThemeChange("dark")}
-            className="cursor-pointer"
-          >
-            <Icon name="moon" className="h-4 w-4" />
-            {t("THEME.DARK")}
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => handleThemeChange("system")}
-            className="cursor-pointer"
-          >
-            <Icon name="monitor" className="h-4 w-4" />
-            {t("THEME.SYSTEM")}
-          </DropdownMenuItem>
+          {THEME_OPTIONS.map((option) => (
+            <DropdownMenuItem
+              key={option.theme}
+              onClick={() => handleThemeChange(option.theme)}
+              className="cursor-pointer"
+            >
+              <Icon name={option.icon} className="h-4 w-4" />
+              {t(option.label)}
+            </DropdownMenuItem>
+          ))}
           <DropdownMenuSeparator />
           <DropdownMenuItem
             onClick={() => setSheetOpen(true)}

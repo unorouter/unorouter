@@ -3038,7 +3038,9 @@
     "TOTAL_COUNT": "{count} סה״כ",
     "ROWS": "שורות",
     "COLUMNS": "עמודות",
-    "TOGGLE_COLUMNS": "הצגה או הסתרה של עמודות"
+    "TOGGLE_COLUMNS": "הצגה או הסתרה של עמודות",
+    "TOGGLE_THEME": "החלף ערכת נושא",
+    "SWITCH_LANGUAGE": "החלפת שפה"
   },
   "LANGUAGE": {
     "EN": "English",

@@ -3038,7 +3038,9 @@
     "TOTAL_COUNT": "총 {count}개",
     "ROWS": "행",
     "COLUMNS": "열",
-    "TOGGLE_COLUMNS": "열 표시 전환"
+    "TOGGLE_COLUMNS": "열 표시 전환",
+    "TOGGLE_THEME": "테마 전환",
+    "SWITCH_LANGUAGE": "언어 전환"
   },
   "LANGUAGE": {
     "EN": "English",

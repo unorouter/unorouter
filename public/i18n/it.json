@@ -3038,7 +3038,9 @@
     "TOTAL_COUNT": "{count} in totale",
     "ROWS": "Righe",
     "COLUMNS": "Colonne",
-    "TOGGLE_COLUMNS": "Mostra o nascondi colonne"
+    "TOGGLE_COLUMNS": "Mostra o nascondi colonne",
+    "TOGGLE_THEME": "Cambia tema",
+    "SWITCH_LANGUAGE": "Cambia lingua"
   },
   "LANGUAGE": {
     "EN": "English",

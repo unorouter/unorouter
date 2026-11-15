@@ -3038,7 +3038,9 @@
     "TOTAL_COUNT": "{count} total",
     "ROWS": "Rows",
     "COLUMNS": "Columns",
-    "TOGGLE_COLUMNS": "Toggle columns"
+    "TOGGLE_COLUMNS": "Toggle columns",
+    "TOGGLE_THEME": "Toggle theme",
+    "SWITCH_LANGUAGE": "Switch language"
   },
   "LANGUAGE": {
     "EN": "English",

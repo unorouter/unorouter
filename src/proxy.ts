@@ -11,9 +11,11 @@ function isAnonymousDocument(request: NextRequest): boolean {
   return request.headers.get("accept")?.includes("text/html") ?? false;
 }
 
+const intlMiddleware = createMiddleware(routing);
+
 export default function proxy(request: NextRequest) {
   request.headers.set(SERVER_URL_KEY, request.url);
-  const response = createMiddleware(routing)(request);
+  const response = intlMiddleware(request);
   if (response.status === 200 && isAnonymousDocument(request)) {
     response.headers.set(
       "Cache-Control",

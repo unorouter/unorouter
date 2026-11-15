@@ -3038,7 +3038,9 @@
     "TOTAL_COUNT": "{count} gesamt",
     "ROWS": "Zeilen",
     "COLUMNS": "Spalten",
-    "TOGGLE_COLUMNS": "Spalten ein- und ausblenden"
+    "TOGGLE_COLUMNS": "Spalten ein- und ausblenden",
+    "TOGGLE_THEME": "Theme wechseln",
+    "SWITCH_LANGUAGE": "Sprache wechseln"
   },
   "LANGUAGE": {
     "EN": "English",
