@@ -3824,9 +3824,6 @@
       "CUSTOM_AMOUNT": "Własna kwota",
       "PAY": "Zapłać"
     },
-    "ERROR": {
-      "PAYMENT_FAILED": "Płatność nie powiodła się. Spróbuj ponownie."
-    },
     "PORTAL": {
       "MANAGE": "Zarządzaj rozliczeniami",
       "ERROR": "Nie można otworzyć portalu rozliczeń. Spróbuj ponownie."

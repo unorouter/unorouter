@@ -3824,9 +3824,6 @@
       "CUSTOM_AMOUNT": "कस्टम राशि",
       "PAY": "भुगतान करें"
     },
-    "ERROR": {
-      "PAYMENT_FAILED": "भुगतान विफल। कृपया पुनः प्रयास करें।"
-    },
     "PORTAL": {
       "MANAGE": "Billing प्रबंधित करें",
       "ERROR": "Billing portal नहीं खोला जा सका। कृपया पुनः प्रयास करें।"

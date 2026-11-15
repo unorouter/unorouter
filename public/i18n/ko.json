@@ -3824,9 +3824,6 @@
       "CUSTOM_AMOUNT": "직접 입력 금액",
       "PAY": "결제"
     },
-    "ERROR": {
-      "PAYMENT_FAILED": "결제 실패. 다시 시도하세요."
-    },
     "PORTAL": {
       "MANAGE": "결제 관리",
       "ERROR": "결제 포털을 열 수 없습니다. 다시 시도하세요."

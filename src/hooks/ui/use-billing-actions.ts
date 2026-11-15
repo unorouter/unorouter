@@ -1,39 +1,39 @@
 "use client";
 
-import {
-  useCreemSubscriptionMutation,
-  useCreemTopUpMutation,
-  useDeloPaySubscriptionMutation,
-  useDeloPayTopUpMutation,
-  useNowPaymentsSubscriptionMutation,
-  useNowPaymentsTopUpMutation,
-  useStripeSubscriptionMutation,
-  useStripeTopUpMutation,
-  useTopUpInfoQuery,
-} from "@/hooks/billing/billing-hook";
+import { useTopUpInfoQuery } from "@/hooks/billing/billing-hook";
+import { useApiMutation } from "@/lib/react-query/hooks";
+import { rpc } from "@/lib/rpc";
+import { handleElysia } from "@/lib/utils/base";
 import type { SubscriptionPlanDTO } from "@/openapi";
 import { paymentMethodAtom, type PaymentMethod } from "@/store/client-store";
 import { useAtom } from "jotai";
-import { useTranslations } from "next-intl";
 import { useEffect } from "react";
-import { toast } from "sonner";
 
 type SubscribeOptions = {
   onUnauthorized?: () => void;
   isLoggedIn?: boolean;
 };
 
+const core = rpc.api.billing.core;
+
+// Same tab on purpose: this runs after the mutation resolves, outside the
+// click gesture, and mobile browsers silently block window.open there. The
+// checkout was created and nothing opened; one user reached 67 pending orders.
+function openPayLink(url: string | undefined) {
+  if (url) window.location.assign(url);
+}
+
+function useCheckoutMutation() {
+  return useApiMutation({
+    mutationFn: (start: () => Promise<string | undefined>) => start(),
+    onSuccess: openPayLink,
+  });
+}
+
 export function useBillingActions() {
-  const t = useTranslations();
   const topUpInfoQuery = useTopUpInfoQuery();
-  const stripeSubMutation = useStripeSubscriptionMutation();
-  const creemSubMutation = useCreemSubscriptionMutation();
-  const nowPaymentsSubMutation = useNowPaymentsSubscriptionMutation();
-  const deloPaySubMutation = useDeloPaySubscriptionMutation();
-  const stripeTopUpMutation = useStripeTopUpMutation();
-  const creemTopUpMutation = useCreemTopUpMutation();
-  const nowPaymentsTopUpMutation = useNowPaymentsTopUpMutation();
-  const deloPayTopUpMutation = useDeloPayTopUpMutation();
+  const subMutation = useCheckoutMutation();
+  const topUpMutation = useCheckoutMutation();
   const [paymentMethod, setPaymentMethod] = useAtom(paymentMethodAtom);
 
   const topUpInfo = topUpInfoQuery.data;
@@ -58,17 +58,6 @@ export function useBillingActions() {
   if (enableCard) availableMethods.push("card");
   if (enablePayPal) availableMethods.push("paypal");
   if (enableCrypto) availableMethods.push("crypto");
-
-  const isSubMutating =
-    stripeSubMutation.isPending ||
-    creemSubMutation.isPending ||
-    nowPaymentsSubMutation.isPending ||
-    deloPaySubMutation.isPending;
-  const isTopUpMutating =
-    stripeTopUpMutation.isPending ||
-    creemTopUpMutation.isPending ||
-    nowPaymentsTopUpMutation.isPending ||
-    deloPayTopUpMutation.isPending;
 
   // The stored choice can outlive its provider being switched off upstream, so
   // fall back to the first one still offered.
@@ -122,133 +111,84 @@ export function useBillingActions() {
     return Math.round((amount - discountedAmount(amount)) * 100) / 100;
   }
 
-  function failToast() {
-    toast.error(t("BILLING.ERROR.PAYMENT_FAILED"));
-  }
-
-  // Same tab on purpose: this runs after the mutation resolves, outside the
-  // click gesture, and mobile browsers silently block window.open there. The
-  // checkout was created and nothing opened; one user reached 67 pending orders.
-  function openPayLink(url: string | undefined) {
-    if (url) window.location.assign(url);
-  }
-
   function subscribe(plan: SubscriptionPlanDTO, opts?: SubscribeOptions) {
-    if (opts?.isLoggedIn === false) {
-      opts.onUnauthorized?.();
-      return;
-    }
-
-    if (paymentMethod === "paypal" && enableDeloPay) {
-      deloPaySubMutation.mutate(
-        { body: { plan_id: plan.plan.id } },
-        {
-          onSuccess: (data) => openPayLink(data?.pay_link),
-          onError: failToast,
-        },
+    if (opts?.isLoggedIn === false) return opts.onUnauthorized?.();
+    const body = { plan_id: plan.plan.id };
+    const sub = core.subscription;
+    const crypto =
+      enableNowPayments &&
+      (paymentMethod === "crypto" || (!enableStripe && !enableCreem));
+    if (paymentMethod === "paypal" && enableDeloPay)
+      subMutation.mutate(
+        async () => handleElysia(await sub["delopay-pay"].post(body)).pay_link,
       );
-      return;
-    }
-
-    if (paymentMethod === "crypto" && enableNowPayments) {
-      nowPaymentsSubMutation.mutate(
-        { body: { plan_id: plan.plan.id } },
-        {
-          onSuccess: (data) => openPayLink(data?.pay_link),
-          onError: failToast,
-        },
+    else if (crypto)
+      subMutation.mutate(
+        async () =>
+          handleElysia(await sub["nowpayments-pay"].post(body)).pay_link,
       );
-      return;
-    }
-
-    if (enableStripe) {
-      stripeSubMutation.mutate(
-        { body: { plan_id: plan.plan.id } },
-        {
-          onSuccess: (data) => openPayLink(data?.pay_link),
-          onError: failToast,
-        },
+    else if (enableStripe)
+      subMutation.mutate(
+        async () => handleElysia(await sub["stripe-pay"].post(body)).pay_link,
       );
-      return;
-    }
-    if (enableCreem) {
-      creemSubMutation.mutate(
-        { body: { plan_id: plan.plan.id } },
-        {
-          onSuccess: (data) => openPayLink(data?.checkout_url),
-          onError: failToast,
-        },
+    else if (enableCreem)
+      subMutation.mutate(
+        async () =>
+          handleElysia(await sub["creem-pay"].post(body)).checkout_url,
       );
-      return;
-    }
-    if (enableNowPayments) {
-      nowPaymentsSubMutation.mutate(
-        { body: { plan_id: plan.plan.id } },
-        {
-          onSuccess: (data) => openPayLink(data?.pay_link),
-          onError: failToast,
-        },
-      );
-      return;
-    }
-    opts?.onUnauthorized?.();
+    else opts?.onUnauthorized?.();
   }
 
   function payStripe(amount: number) {
     const returnUrl = new URL(window.location.href);
     returnUrl.hash = "";
-    const cancelUrl = returnUrl.toString();
+    const cancel_url = returnUrl.toString();
     returnUrl.searchParams.set("topup", "success");
-    const successUrl = returnUrl.toString();
-    stripeTopUpMutation.mutate(
-      {
-        body: {
-          amount,
-          payment_method: "stripe",
-          success_url: successUrl,
-          cancel_url: cancelUrl,
-        },
-      },
-      {
-        onSuccess: (data) => openPayLink(data?.pay_link),
-        onError: failToast,
-      },
+    const success_url = returnUrl.toString();
+    topUpMutation.mutate(
+      async () =>
+        handleElysia(
+          await core["stripe-pay"].post({
+            amount,
+            payment_method: "stripe",
+            success_url,
+            cancel_url,
+          }),
+        ).pay_link,
     );
   }
 
   function payCreem(productId: string, amount?: number, custom?: boolean) {
-    creemTopUpMutation.mutate(
-      {
-        body: {
-          product_id: productId,
-          payment_method: "creem",
-          ...(custom && amount ? { amount } : {}),
-        },
-      },
-      {
-        onSuccess: (data) => openPayLink(data?.checkout_url),
-        onError: failToast,
-      },
+    topUpMutation.mutate(
+      async () =>
+        handleElysia(
+          await core["creem-pay"].post({
+            product_id: productId,
+            payment_method: "creem",
+            ...(custom && amount ? { amount } : {}),
+          }),
+        ).checkout_url,
     );
   }
 
   function payNowPayments(amount: number) {
-    nowPaymentsTopUpMutation.mutate(
-      { body: { amount, payment_method: "nowpayments" } },
-      {
-        onSuccess: (data) => openPayLink(data?.pay_link),
-        onError: failToast,
-      },
+    topUpMutation.mutate(
+      async () =>
+        handleElysia(
+          await core["nowpayments-pay"].post({
+            amount,
+            payment_method: "nowpayments",
+          }),
+        ).pay_link,
     );
   }
 
   function payDeloPay(amount: number) {
-    deloPayTopUpMutation.mutate(
-      { body: { amount, payment_method: "delopay" } },
-      {
-        onSuccess: (data) => openPayLink(data?.pay_link),
-        onError: failToast,
-      },
+    topUpMutation.mutate(
+      async () =>
+        handleElysia(
+          await core["delopay-pay"].post({ amount, payment_method: "delopay" }),
+        ).pay_link,
     );
   }
 
@@ -263,8 +203,8 @@ export function useBillingActions() {
     availableMethods,
     paymentMethod,
     setPaymentMethod,
-    isSubMutating,
-    isTopUpMutating,
+    isSubMutating: subMutation.isPending,
+    isTopUpMutating: topUpMutation.isPending,
     subscribe,
     payStripe,
     payCreem,

@@ -3824,9 +3824,6 @@
       "CUSTOM_AMOUNT": "自定义金额",
       "PAY": "支付"
     },
-    "ERROR": {
-      "PAYMENT_FAILED": "支付失败，请重试。"
-    },
     "PORTAL": {
       "MANAGE": "管理账单",
       "ERROR": "无法打开账单门户，请重试。"

@@ -3824,9 +3824,6 @@
       "CUSTOM_AMOUNT": "Eigener Betrag",
       "PAY": "Bezahlen"
     },
-    "ERROR": {
-      "PAYMENT_FAILED": "Zahlung fehlgeschlagen. Bitte versuchen Sie es erneut."
-    },
     "PORTAL": {
       "MANAGE": "Abrechnung verwalten",
       "ERROR": "Das Abrechnungsportal konnte nicht geöffnet werden. Bitte versuchen Sie es erneut."

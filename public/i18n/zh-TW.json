@@ -3824,9 +3824,6 @@
       "CUSTOM_AMOUNT": "自訂金額",
       "PAY": "支付"
     },
-    "ERROR": {
-      "PAYMENT_FAILED": "付款失敗，請重試。"
-    },
     "PORTAL": {
       "MANAGE": "管理帳務",
       "ERROR": "無法開啟帳務中心，請重試。"

@@ -3824,9 +3824,6 @@
       "CUSTOM_AMOUNT": "Valor personalizado",
       "PAY": "Pagar"
     },
-    "ERROR": {
-      "PAYMENT_FAILED": "Pagamento falhou. Tente novamente."
-    },
     "PORTAL": {
       "MANAGE": "Gerenciar faturamento",
       "ERROR": "Não foi possível abrir o portal de faturamento. Tente novamente."

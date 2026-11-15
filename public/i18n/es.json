@@ -3824,9 +3824,6 @@
       "CUSTOM_AMOUNT": "Importe personalizado",
       "PAY": "Pagar"
     },
-    "ERROR": {
-      "PAYMENT_FAILED": "Pago fallido. Inténtalo de nuevo."
-    },
     "PORTAL": {
       "MANAGE": "Gestionar facturación",
       "ERROR": "No se pudo abrir el portal de facturación. Inténtalo de nuevo."
