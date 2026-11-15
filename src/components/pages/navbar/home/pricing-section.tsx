@@ -2,7 +2,8 @@ import { GetStartedLink } from "@/components/elements/brand/get-started-link";
 import { Icon } from "@/components/ui/icon";
 import { Link } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
-import { getTranslations } from "next-intl/server";
+import { dayjs } from "@/lib/utils/format/date";
+import { getFormatter, getTranslations } from "next-intl/server";
 
 export async function PricingSection() {
   const t = await getTranslations();
@@ -137,10 +138,13 @@ async function SignupDemo() {
 
 async function TopUpDemo() {
   const t = await getTranslations();
+  const format = await getFormatter();
+  const day = (iso: string) =>
+    format.dateTime(dayjs(iso).toDate(), { month: "short", day: "2-digit" });
   const rows: { label: string; amount: string; widthPct: number }[] = [
-    { label: "May 02", amount: "$50", widthPct: 100 },
-    { label: "Apr 18", amount: "$20", widthPct: 50 },
-    { label: "Apr 04", amount: "$10", widthPct: 28 },
+    { label: day("2026-05-02"), amount: "$50", widthPct: 100 },
+    { label: day("2026-04-18"), amount: "$20", widthPct: 50 },
+    { label: day("2026-04-04"), amount: "$10", widthPct: 28 },
   ];
   return (
     <div className="space-y-2.5 font-mono text-[11px]">
