@@ -124,12 +124,11 @@ export const queryKeys = {
   rankings: (period?: string) => ["rankings", period] as const,
 
   modelTests: () => ["model-tests"] as const,
-  modelTest: (id: string) => ["model-tests", id] as const,
-  modelTestHistoryProviders: () => ["model-tests-providers"] as const,
+  modelTestHistoryProviders: () => ["model-tests", "providers"] as const,
   modelTestHistoryModels: (host: string) =>
-    ["model-tests-models", host] as const,
+    ["model-tests", "models", host] as const,
   modelTestHistoryModelTests: (host: string, model: string) =>
-    ["model-tests-model-tests", host, model] as const,
+    ["model-tests", "model-tests", host, model] as const,
   modelTesterRankings: (page: number, pageSize: number) =>
     ["model-tester-rankings", page, pageSize] as const,
   modelTesterStats: () => ["model-tester-stats"] as const,

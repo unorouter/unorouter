@@ -55,10 +55,7 @@ export function useDeleteTest() {
   const userId = useAuthUserId();
   return useApiMutation<void, string>({
     mutationFn: (testId) => deleteTest(userId, testId),
-    invalidates: [
-      queryKeys.modelTests(),
-      queryKeys.modelTestHistoryProviders(),
-    ],
+    invalidates: [queryKeys.modelTests()],
   });
 }
 
