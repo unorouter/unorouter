@@ -23,7 +23,7 @@ import {
   useConversationsQuery,
   useCreateChatGroupMutation,
   useDeleteConversationsMutation,
-  useToggleChatGroupFoldedMutation,
+  useUpdateChatGroupMutation,
 } from "@/hooks/ai/chat-hook";
 import { confirm } from "@/components/ui/confirm";
 import { useAui, useAuiState } from "@assistant-ui/react";
@@ -56,7 +56,7 @@ export function ConversationList() {
   const deleteMutation = useDeleteConversationsMutation();
   const groupsQuery = useChatGroupsQuery();
   const createGroup = useCreateChatGroupMutation();
-  const toggleFolded = useToggleChatGroupFoldedMutation();
+  const updateGroup = useUpdateChatGroupMutation();
 
   const conversations = conversationsQuery.data ?? [];
   const empty = conversations.length === 0;
@@ -182,7 +182,10 @@ export function ConversationList() {
         depth={depth}
         count={subtreeCount(node)}
         onToggle={() =>
-          toggleFolded.mutate({ id: node.group.id, folded: !node.group.folded })
+          updateGroup.mutate({
+            id: node.group.id,
+            patch: { folded: !node.group.folded },
+          })
         }
       >
         {node.children.map((child) => renderGroup(child, depth + 1))}

@@ -26,12 +26,9 @@ import {
   messageStore,
   setLocalActiveBranch,
   spliceDeleteLocalMessage,
-  renameLocalChatGroup,
   replaceLocalConversationBindings,
   replaceLocalMessageItems,
-  setChatGroupFolded,
   setChatGroupParent,
-  setConversationGroup,
   updateLocalConversationSettings,
   chatGroupStore,
   updateLocalMessage,
@@ -86,10 +83,13 @@ export function useCreateChatGroupMutation() {
   });
 }
 
-export function useRenameChatGroupMutation() {
+export function useUpdateChatGroupMutation() {
   return useApiMutation({
-    mutationFn: async (args: { id: string; name: string }) => {
-      await renameLocalChatGroup(args.id, args.name.trim());
+    mutationFn: async (args: {
+      id: string;
+      patch: { name?: string; folded?: boolean };
+    }) => {
+      await chatGroupStore.update(args.id, args.patch);
       return { id: args.id };
     },
     invalidates: () => [queryKeys.chatGroups()],
@@ -116,20 +116,10 @@ export function useMoveChatGroupMutation() {
   });
 }
 
-export function useToggleChatGroupFoldedMutation() {
-  return useApiMutation({
-    mutationFn: async (args: { id: string; folded: boolean }) => {
-      await setChatGroupFolded(args.id, args.folded);
-      return { id: args.id };
-    },
-    invalidates: () => [queryKeys.chatGroups()],
-  });
-}
-
 export function useMoveConversationToGroupMutation() {
   return useApiMutation({
     mutationFn: async (args: { convId: string; groupId: string | null }) => {
-      await setConversationGroup(args.convId, args.groupId);
+      await conversationStore.update(args.convId, { groupId: args.groupId });
       return { id: args.convId };
     },
     invalidates: () => [queryKeys.conversations()],

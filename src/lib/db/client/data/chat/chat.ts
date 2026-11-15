@@ -118,15 +118,6 @@ export const setChatGroupParent = async (
   await chatGroupStore.update(groupId, { parentId });
 };
 
-export const renameLocalChatGroup = (groupId: string, name: string) =>
-  chatGroupStore.update(groupId, { name });
-
-export const setChatGroupFolded = (groupId: string, folded: boolean) =>
-  chatGroupStore.update(groupId, { folded });
-
-export const setConversationGroup = (convId: string, groupId: string | null) =>
-  conversationStore.update(convId, { groupId });
-
 export const readLocalConversationSettings = async (convId: string) => {
   const conv = await conversationStore.get(convId);
   return conv ? projectConversationSettings(conv) : null;

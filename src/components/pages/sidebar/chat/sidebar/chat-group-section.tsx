@@ -17,7 +17,7 @@ import {
   useCreateChatGroupMutation,
   useDeleteChatGroupMutation,
   useMoveChatGroupMutation,
-  useRenameChatGroupMutation,
+  useUpdateChatGroupMutation,
 } from "@/hooks/ai/chat-hook";
 import {
   buildGroupTree,
@@ -40,7 +40,7 @@ type Props = {
 
 export function ChatGroupSection(props: Props) {
   const t = useTranslations();
-  const renameGroup = useRenameChatGroupMutation();
+  const updateGroup = useUpdateChatGroupMutation();
   const deleteGroup = useDeleteChatGroupMutation();
   const createGroup = useCreateChatGroupMutation();
   const moveGroup = useMoveChatGroupMutation();
@@ -55,7 +55,7 @@ export function ChatGroupSection(props: Props) {
     setRenaming(false);
     const next = name.trim();
     if (next && next !== props.group.name) {
-      renameGroup.mutate({ id: props.group.id, name: next });
+      updateGroup.mutate({ id: props.group.id, patch: { name: next } });
     } else {
       setName(props.group.name);
     }
