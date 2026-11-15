@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/refs */
 "use client";
 
 import { sleep } from "@/lib/utils/base";
@@ -21,15 +20,13 @@ export function ChatMockAnimated(props: { data: MockData }) {
   const [cursorShown, setCursorShown] = useState(false);
 
   const visibleRef = useRef(true);
-  const dataRef = useRef(props.data);
-  dataRef.current = props.data;
 
   useEffect(() => {
     if (reduced) return;
-    const root = scope.current as HTMLElement | null;
+    const root: HTMLElement | null = scope.current;
     if (!root) return;
 
-    const data = dataRef.current;
+    const data = props.data;
     const menuLen = data.menu.length;
     let alive = true;
 
@@ -148,31 +145,30 @@ export function ChatMockAnimated(props: { data: MockData }) {
         );
         if (!alive) break;
 
-        const picked = 0;
         await beat(
-          { ...BASE, modelOpen: true, modelPicked: picked },
+          { ...BASE, modelOpen: true, modelPicked: 0 },
           "modelPill",
           1600,
         );
         if (!alive) break;
 
         await beat(
-          { ...BASE, modelPicked: picked, rpOpen: true, rpActive: 0 },
+          { ...BASE, modelPicked: 0, rpOpen: true, rpActive: 0 },
           "rpToggle",
           800,
         );
         for (let i = 0; i <= menuLen && alive; i++) {
           await beat(
-            { ...BASE, modelPicked: picked, rpOpen: true, rpActive: i },
+            { ...BASE, modelPicked: 0, rpOpen: true, rpActive: i },
             `rp${i}`,
             350,
           );
-          setState({ ...BASE, modelPicked: picked, rpDialog: i });
+          setState({ ...BASE, modelPicked: 0, rpDialog: i });
           await sleep(1500);
           if (!alive) break;
           setState({
             ...BASE,
-            modelPicked: picked,
+            modelPicked: 0,
             rpOpen: true,
             rpActive: Math.min(i + 1, menuLen),
           });
@@ -197,7 +193,7 @@ export function ChatMockAnimated(props: { data: MockData }) {
       alive = false;
       io.disconnect();
     };
-  }, [reduced, scope, animate]);
+  }, [reduced, scope, animate, props.data]);
 
   if (reduced) {
     return <ChatMockView data={props.data} state={DEFAULT_MOCK_STATE} />;
