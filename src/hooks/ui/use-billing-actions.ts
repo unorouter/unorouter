@@ -9,10 +9,7 @@ import { paymentMethodAtom, type PaymentMethod } from "@/store/client-store";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 
-type SubscribeOptions = {
-  onUnauthorized?: () => void;
-  isLoggedIn?: boolean;
-};
+type SubscribeOptions = { onUnauthorized?: () => void };
 
 const core = rpc.api.billing.core;
 
@@ -112,7 +109,6 @@ export function useBillingActions() {
   }
 
   function subscribe(plan: SubscriptionPlanDTO, opts?: SubscribeOptions) {
-    if (opts?.isLoggedIn === false) return opts.onUnauthorized?.();
     const body = { plan_id: plan.plan.id };
     const sub = core.subscription;
     const crypto =

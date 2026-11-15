@@ -318,9 +318,7 @@ export function SubscriptionSection() {
                     <Button
                       variant={i === 0 ? "default" : "outline"}
                       className="w-full"
-                      onClick={() =>
-                        billing.subscribe(plan, { isLoggedIn: true })
-                      }
+                      onClick={() => billing.subscribe(plan)}
                       disabled={
                         isMutating ||
                         (!billing.enableStripe &&

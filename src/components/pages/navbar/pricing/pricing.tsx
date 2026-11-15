@@ -62,8 +62,6 @@ export function Pricing() {
   const paypalSelected =
     billing.paymentMethod === "paypal" && billing.enableDeloPay;
   const showCustomField = !!customTopUpProductId || cryptoCustomEnabled;
-  const customMax = CUSTOM_MAX;
-  const customMin = CUSTOM_MIN;
   const paypalFee = billing.deloPayChargedAmount(1) - 1;
   const paypalFeeNotice =
     paypalFee > 0
@@ -87,18 +85,15 @@ export function Pricing() {
     customAmount.trim() !== "" &&
     Number.isFinite(parsedCustom) &&
     (!cryptoCustomEnabled || Number.isInteger(parsedCustom)) &&
-    parsedCustom >= customMin &&
-    parsedCustom <= customMax;
+    parsedCustom >= CUSTOM_MIN &&
+    parsedCustom <= CUSTOM_MAX;
 
   function handleSubscribe(plan: SubscriptionPlanDTO) {
     if (!isLoggedIn) {
       redirectToLogin();
       return;
     }
-    billing.subscribe(plan, {
-      isLoggedIn,
-      onUnauthorized: () => router.push("/billing"),
-    });
+    billing.subscribe(plan, { onUnauthorized: () => router.push("/billing") });
   }
 
   function buildTopUpOptions(): TopUpOption[] {
@@ -236,15 +231,15 @@ export function Pricing() {
                   <input
                     type="number"
                     inputMode="decimal"
-                    min={customMin}
-                    max={customMax}
+                    min={CUSTOM_MIN}
+                    max={CUSTOM_MAX}
                     step={cryptoCustomEnabled ? "1" : "0.01"}
                     value={customAmount}
                     onChange={(e) => setCustomAmount(e.target.value)}
                     placeholder={
-                      Number.isInteger(customMin)
-                        ? String(customMin)
-                        : customMin.toFixed(2)
+                      Number.isInteger(CUSTOM_MIN)
+                        ? String(CUSTOM_MIN)
+                        : CUSTOM_MIN.toFixed(2)
                     }
                     className="text-foreground w-24 bg-transparent pl-1 font-mono text-sm font-bold tabular-nums outline-none"
                   />
