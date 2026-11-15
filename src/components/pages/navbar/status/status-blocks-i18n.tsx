@@ -15,6 +15,20 @@ export function StatusBlocksI18n(props: { children: React.ReactNode }) {
   const t = useTranslations();
   const locale = useLocale();
 
+  const rangeParts = (from: Date, to: Date) => {
+    if (isSameDay(from, to))
+      return { from: formatDateTime(from, locale), to: formatTime(to, locale) };
+    if (isStartOfDay(from) && isEndOfDay(to))
+      return {
+        from: formatDate(from, undefined, locale),
+        to: formatDate(to, undefined, locale),
+      };
+    return {
+      from: formatDateTime(from, locale),
+      to: formatDateTime(to, locale),
+    };
+  };
+
   const value: StatusBlocksLabels = {
     systemStatus: {
       success: {
@@ -99,16 +113,11 @@ export function StatusBlocksI18n(props: { children: React.ReactNode }) {
     formatDateShort: (d) => formatDateShort(d, locale),
     formatDateTime: (d) => formatDateTime(d, locale),
     formatDateRange: (from, to) => {
-      if (from && to && isSameDay(from, to)) {
+      if (from && to) {
         if (from.getTime() === to.getTime())
           return formatDateTime(from, locale);
-        return `${formatDateTime(from, locale)} - ${formatTime(to, locale)}`;
-      }
-      if (from && to) {
-        if (isStartOfDay(from) && isEndOfDay(to)) {
-          return `${formatDate(from, undefined, locale)} - ${formatDate(to, undefined, locale)}`;
-        }
-        return `${formatDateTime(from, locale)} - ${formatDateTime(to, locale)}`;
+        const parts = rangeParts(from, to);
+        return `${parts.from} - ${parts.to}`;
       }
       if (to)
         return t("STATUS.BLOCKS.DATE_UNTIL", {
@@ -120,24 +129,7 @@ export function StatusBlocksI18n(props: { children: React.ReactNode }) {
         });
       return t("STATUS.BLOCKS.DATE_ALL_TIME");
     },
-    formatDateRangeParts: (from, to) => {
-      if (isSameDay(from, to)) {
-        return {
-          from: formatDateTime(from, locale),
-          to: formatTime(to, locale),
-        };
-      }
-      if (isStartOfDay(from) && isEndOfDay(to)) {
-        return {
-          from: formatDate(from, undefined, locale),
-          to: formatDate(to, undefined, locale),
-        };
-      }
-      return {
-        from: formatDateTime(from, locale),
-        to: formatDateTime(to, locale),
-      };
-    },
+    formatDateRangeParts: rangeParts,
   };
 
   return (
