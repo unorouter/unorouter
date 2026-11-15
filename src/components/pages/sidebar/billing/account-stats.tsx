@@ -46,10 +46,7 @@ export function AccountStats() {
     },
     {
       label: t("BILLING.REQUESTS"),
-      value:
-        user?.request_count !== undefined
-          ? user.request_count.toLocaleString()
-          : "0",
+      value: (user?.request_count ?? 0).toLocaleString(),
       icon: <Icon name="send" className="h-4 w-4" />,
       color: "var(--chart-1)",
     },
@@ -71,7 +68,7 @@ export function AccountStats() {
               {renderQuota(user?.quota)}
             </span>
           )}
-          {!isLoading && isCritical && (
+          {isCritical && (
             <span className="text-destructive mt-2 block font-mono text-xs">
               {t("BILLING.BALANCE.LOW")}
             </span>
