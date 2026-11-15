@@ -46,13 +46,6 @@ export function UserDropdown(props: UserDropdownProps) {
 
   if (!userDisplay.user) return null;
 
-  async function handleLogout() {
-    try {
-      await logoutMutation.mutateAsync();
-      window.location.reload();
-    } catch {}
-  }
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
@@ -133,7 +126,7 @@ export function UserDropdown(props: UserDropdownProps) {
         <DropdownMenuSeparator />
         <DataSubmenu />
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleLogout}>
+        <DropdownMenuItem onClick={() => logoutMutation.mutate()}>
           <Icon name="log-out" />
           {t("AUTH.LOG_OUT")}
         </DropdownMenuItem>

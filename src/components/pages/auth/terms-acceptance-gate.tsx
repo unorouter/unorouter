@@ -50,13 +50,6 @@ export function TermsAcceptanceGate() {
     acceptMutation.mutate({ body: { version: TERMS_VERSION, locale, text } });
   }
 
-  async function logout() {
-    try {
-      await logoutMutation.mutateAsync();
-      window.location.reload();
-    } catch {}
-  }
-
   return (
     <AlertDialog open onOpenChange={() => {}}>
       <AlertDialogContent className="sm:max-w-lg">
@@ -91,7 +84,11 @@ export function TermsAcceptanceGate() {
           </p>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <Button variant="outline" onClick={logout} disabled={busy}>
+          <Button
+            variant="outline"
+            onClick={() => logoutMutation.mutate()}
+            disabled={busy}
+          >
             {t("AUTH.TERMS_UPDATE.LOG_OUT")}
           </Button>
           <Button onClick={accept} disabled={busy}>
