@@ -11,15 +11,6 @@ const CLIENT_STRIPPED_NAMESPACES = [
   "WELL_KNOWN",
 ] as const;
 
-const CLIENT_STRIPPED_SUBTREES = ["BLOG.POSTS"] as const;
-
-// WEBMCP_TOOLS resolves these in a client effect, so stripping all of
-// WELL_KNOWN (4096 bytes) threw MISSING_MESSAGE; keeping the two leaves costs 1114.
-const CLIENT_KEPT_SUBTREES = [
-  "WELL_KNOWN.MCP.TOOLS",
-  "WELL_KNOWN.MCP.RESULTS",
-] as const;
-
 const CLIENT_DOCS_KEPT = [
   "SETUP",
   "SETUP_GUIDE",
@@ -83,40 +74,18 @@ export function pruneClientMessages(messages: Messages): Messages {
     DOCS_CHAT: prunedDocsChat,
     DOCS_PLATFORM: prunedDocsPlatform,
   };
-  for (const subtree of CLIENT_STRIPPED_SUBTREES) {
-    const segments = subtree.split(".");
-    const leaf = segments.pop()!;
-    let parent: Messages = pruned;
-    let resolvable = true;
-    for (const segment of segments) {
-      const next = parent[segment];
-      if (typeof next !== "object" || next === null) {
-        resolvable = false;
-        break;
-      }
-      const clone: Messages = { ...next };
-      parent[segment] = clone;
-      parent = clone;
-    }
-    if (resolvable) delete parent[leaf];
-  }
   for (const ns of CLIENT_STRIPPED_NAMESPACES) {
     delete pruned[ns];
   }
-  for (const subtree of CLIENT_KEPT_SUBTREES) {
-    const segments = subtree.split(".");
-    const leaf = segments.pop()!;
-    let source: unknown = messages;
-    let target: Messages = pruned;
-    for (const segment of segments) {
-      source = rec(source)?.[segment];
-      const existing = rec(target[segment]);
-      const clone: Messages = { ...existing };
-      target[segment] = clone;
-      target = clone;
-    }
-    const value = rec(source)?.[leaf];
-    if (value !== undefined) target[leaf] = value;
-  }
+  const blog = rec(messages.BLOG);
+  if (blog)
+    pruned.BLOG = Object.fromEntries(
+      Object.entries(blog).filter((entry) => entry[0] !== "POSTS"),
+    );
+  // WEBMCP_TOOLS resolves these in a client effect, so stripping all of
+  // WELL_KNOWN (4096 bytes) threw MISSING_MESSAGE; keeping the two leaves costs 1114.
+  const mcp = rec(rec(messages.WELL_KNOWN)?.MCP);
+  if (mcp)
+    pruned.WELL_KNOWN = { MCP: { TOOLS: mcp.TOOLS, RESULTS: mcp.RESULTS } };
   return pruned;
 }
