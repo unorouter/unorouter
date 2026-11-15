@@ -10,8 +10,10 @@ import { vendorSlug } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
 import { VendorModelCard } from "./vendor-model-card";
 import { APP_VALUES } from "@/lib/config/constants";
-import { COMPARE_PAIRS } from "@/components/pages/navbar/models/compare/compare-pairs";
-import { modelSlug } from "@/lib/utils/base";
+import {
+  COMPARE_PAIRS,
+  compareHref,
+} from "@/components/pages/navbar/models/compare/compare-pairs";
 
 export function VendorModelsPage(props: { vendor: string }) {
   const t = useTranslations();
@@ -106,10 +108,7 @@ export function VendorModelsPage(props: { vendor: string }) {
                 {pairs.map((pair) => (
                   <Link
                     key={pair.join("|")}
-                    href={{
-                      pathname: "/compare/[...slugs]",
-                      params: { slugs: pair.map((n) => modelSlug(n)).sort() },
-                    }}
+                    href={compareHref(pair)}
                     prefetch={false}
                     className="hover:bg-muted/50 rounded-md border px-3 py-1.5 font-mono text-xs transition-colors"
                   >

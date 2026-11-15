@@ -1,4 +1,7 @@
-import { COMPARE_PAIRS } from "@/components/pages/navbar/models/compare/compare-pairs";
+import {
+  COMPARE_PAIRS,
+  compareHref,
+} from "@/components/pages/navbar/models/compare/compare-pairs";
 import { MODEL_PAGE_LOCALES } from "@/lib/seo/metadata";
 import { getPathname } from "@/i18n/navigation";
 import {
@@ -178,25 +181,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...COMPARE_PAIRS.filter(([a, b]) =>
       [a, b].every((name) => nameSet.has(name)),
     ).flatMap(([a, b]) =>
-      localizedEntries(
-        {
-          pathname: "/compare/[...slugs]",
-          // The compare page's canonical sorts the slugs; listing the other order
-          // here made Search Console report every pair as an alternate page.
-          params: { slugs: [modelSlug(a), modelSlug(b)].sort() },
-        },
-        {
-          priority: 0.5,
-          changeFrequency: "weekly",
-          locales: MODEL_PAGE_LOCALES,
-          lastModified: [a, b]
-            .map((name) => nameToReleaseDate.get(name))
-            .reduce<Date | undefined>(
-              (acc, d) => (d && (!acc || d > acc) ? d : acc),
-              undefined,
-            ),
-        },
-      ),
+      localizedEntries(compareHref([a, b]), {
+        priority: 0.5,
+        changeFrequency: "weekly",
+        locales: MODEL_PAGE_LOCALES,
+        lastModified: [a, b]
+          .map((name) => nameToReleaseDate.get(name))
+          .reduce<Date | undefined>(
+            (acc, d) => (d && (!acc || d > acc) ? d : acc),
+            undefined,
+          ),
+      }),
     ),
   ];
 }

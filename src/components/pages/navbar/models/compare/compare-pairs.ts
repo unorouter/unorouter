@@ -1,3 +1,5 @@
+import { modelSlug } from "@/lib/utils/base";
+
 // Curated pairs: the only compare pages that are indexed and sitemapped. A pair
 // whose model left the catalog drops out on its own, so refresh this list when
 // the top of /rankings moves.
@@ -45,3 +47,10 @@ export const COMPARE_PAIRS: readonly (readonly [string, string])[] = [
   ["grok-4.7", "grok-4.6"],
   ["mistral-large-4", "deepseek-v4-pro"],
 ] as const;
+
+// Canonical order: the compare page's canonical sorts the slugs, so every link
+// to a pair sorts them too.
+export const compareHref = (names: readonly string[]) => ({
+  pathname: "/compare/[...slugs]" as const,
+  params: { slugs: names.map((n) => modelSlug(n)).sort() },
+});

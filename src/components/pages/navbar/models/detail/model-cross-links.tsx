@@ -1,10 +1,12 @@
 import { SETUP_GUIDES } from "@/components/pages/docs/setup-guides";
-import { COMPARE_PAIRS } from "@/components/pages/navbar/models/compare/compare-pairs";
+import {
+  COMPARE_PAIRS,
+  compareHref,
+} from "@/components/pages/navbar/models/compare/compare-pairs";
 import { Link } from "@/i18n/navigation";
 import type { getVendorTheme } from "@/lib/config/vendor-registry";
 import { APP_VALUES } from "@/lib/config/constants";
 import { cn } from "@/lib/utils";
-import { modelSlug } from "@/lib/utils/base";
 import { getTranslations } from "next-intl/server";
 import { SectionHeading } from "./shared/section-heading";
 
@@ -52,10 +54,7 @@ export async function ModelCrossLinks(props: {
               return (
                 <Link
                   key={other}
-                  href={{
-                    pathname: "/compare/[...slugs]",
-                    params: { slugs: pair.map((n) => modelSlug(n)).sort() },
-                  }}
+                  href={compareHref(pair)}
                   prefetch={false}
                   className={CHIP}
                 >

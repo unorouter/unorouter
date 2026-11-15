@@ -3,9 +3,8 @@
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Link } from "@/i18n/navigation";
 import type { PricingCatalogModel } from "@/openapi";
-import { modelSlug } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
-import { COMPARE_PAIRS } from "./compare-pairs";
+import { COMPARE_PAIRS, compareHref } from "./compare-pairs";
 
 export function PopularPairs(props: { models: PricingCatalogModel[] }) {
   const t = useTranslations();
@@ -30,15 +29,7 @@ export function PopularPairs(props: { models: PricingCatalogModel[] }) {
         {pairs.map((pair) => (
           <Link
             key={`${pair.a.model_name}-${pair.b.model_name}`}
-            href={{
-              pathname: "/compare/[...slugs]",
-              params: {
-                slugs: [
-                  modelSlug(pair.a.model_name),
-                  modelSlug(pair.b.model_name),
-                ].sort(),
-              },
-            }}
+            href={compareHref([pair.a.model_name, pair.b.model_name])}
             className="border-border hover:border-primary/50 flex items-center gap-2 rounded-lg border px-3 py-2 text-sm transition-colors"
           >
             <span className="bg-muted flex h-6 w-6 shrink-0 items-center justify-center rounded-full">

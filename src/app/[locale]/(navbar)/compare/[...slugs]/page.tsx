@@ -7,7 +7,10 @@ import { localeUrl } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
 import { emptyPageData, getComparePageData } from "@/lib/api/page-data";
 import { JsonLd } from "@/lib/seo/json-ld";
-import { COMPARE_PAIRS } from "@/components/pages/navbar/models/compare/compare-pairs";
+import {
+  COMPARE_PAIRS,
+  compareHref,
+} from "@/components/pages/navbar/models/compare/compare-pairs";
 import {
   getPageMetadata,
   MODEL_PAGE_LOCALES,
@@ -101,10 +104,7 @@ export default async function Page(props: {
   if (models.length > 0) {
     crumbs.push({
       name: comboTitle(models),
-      url: localeUrl(locale, {
-        pathname: "/compare/[...slugs]",
-        params: { slugs: models.map((m) => modelSlug(m.model_name)).sort() },
-      }),
+      url: localeUrl(locale, compareHref(models.map((m) => m.model_name))),
     });
   }
 
