@@ -1,7 +1,6 @@
 "use client";
 
 import type { PricingCatalogDetail } from "@/openapi";
-import type { ReactNode } from "react";
 import { TranslationKey } from "@/lib/config/constants";
 import { getVendorTheme } from "@/lib/config/vendor-registry";
 import { cn } from "@/lib/utils";
@@ -12,7 +11,6 @@ import { FixedPriceUnit } from "../shared/fixed-price-unit";
 type Row = {
   labelKey: TranslationKey;
   price: number;
-  unit: ReactNode;
   pct: number;
 };
 
@@ -22,7 +20,6 @@ function buildRows(model: PricingCatalogDetail): Row[] {
       {
         labelKey: "MODELS.DETAIL.PRICING",
         price: model.fixed_price,
-        unit: <FixedPriceUnit model={model} />,
         pct: discountPercent(
           model.fixed_price,
           model.original_fixed_price ?? null,
@@ -39,13 +36,11 @@ function buildRows(model: PricingCatalogDetail): Row[] {
     {
       labelKey: "MODELS.PRICE.INPUT",
       price: model.input_price,
-      unit: null,
       pct: inputPct,
     },
     {
       labelKey: "MODELS.PRICE.OUTPUT",
       price: model.output_price,
-      unit: null,
       pct: discountPercent(
         model.output_price,
         model.original_output_price ?? null,
@@ -56,14 +51,12 @@ function buildRows(model: PricingCatalogDetail): Row[] {
     rows.push({
       labelKey: "MODELS.PRICE.CACHE_WRITE",
       price: model.input_price * model.create_cache_ratio,
-      unit: null,
       pct: inputPct,
     });
   if (model.cache_ratio != null && model.cache_ratio > 0)
     rows.push({
       labelKey: "MODELS.PRICE.CACHE_READ",
       price: model.input_price * model.cache_ratio,
-      unit: null,
       pct: inputPct,
     });
   return rows;
@@ -75,7 +68,6 @@ export function PriceRows(props: {
 }) {
   const t = useTranslations();
   const rows = buildRows(props.model);
-  const perMillion = !props.model.is_fixed_price;
 
   return (
     <div
@@ -95,7 +87,11 @@ export function PriceRows(props: {
           >
             {formatPrice(row.price)}
             <span className="text-muted-foreground ml-0.5 text-[10px]">
-              {perMillion ? t("MODELS.PRICE.PER_MILLION") : row.unit}
+              {props.model.is_fixed_price ? (
+                <FixedPriceUnit model={props.model} />
+              ) : (
+                t("MODELS.PRICE.PER_MILLION")
+              )}
             </span>
           </span>
           {row.pct > 0 && (
