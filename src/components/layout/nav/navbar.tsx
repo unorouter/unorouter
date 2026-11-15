@@ -63,7 +63,7 @@ export function Navbar(props: { authSlot?: React.ReactNode }) {
         ref={navRowRef}
         className="mx-auto flex h-14 max-w-360 items-center justify-between px-3 font-mono sm:px-6"
       >
-        <div className="flex items-center gap-2 lg:hidden">
+        <div className="flex items-center gap-2">
           <MobileNav />
           <Link
             href="/"
@@ -74,15 +74,6 @@ export function Navbar(props: { authSlot?: React.ReactNode }) {
             <CompanyName className="text-foreground group-hover:text-muted-foreground text-lg transition-colors" />
           </Link>
         </div>
-
-        <Link
-          href="/"
-          prefetch={false}
-          className="group hidden items-center gap-2 lg:flex"
-        >
-          <LogoImage alt="" />
-          <CompanyName className="text-foreground group-hover:text-muted-foreground text-lg transition-colors" />
-        </Link>
 
         <div className="hidden items-center gap-8 lg:flex">
           {topLevelItems.map((link) => (
