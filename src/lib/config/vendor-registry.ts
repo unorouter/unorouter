@@ -4,7 +4,15 @@
 // server/ops/badge/lib/vendor-svgs.ts so they never enter client chunks.
 import type { ComponentType } from "react";
 
+import {
+  makeImgIcon,
+  type ImgIconMode,
+} from "@/components/elements/brand/vendor-img-icon";
 import { Vendor } from "@/lib/types/enums";
+
+// Image-only vendor icons need no module of their own to lazy load.
+const img = (src: string, alt: string, mode?: ImgIconMode) => () =>
+  Promise.resolve({ default: makeImgIcon(src, alt, mode) });
 
 export type VendorTheme = {
   bg: string;
@@ -196,61 +204,103 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.FLUX]: () => import("@lobehub/icons/es/Flux"),
   [Vendor.GOOGLE]: () => import("@lobehub/icons/es/Google"),
   [Vendor.AMAZON]: () => import("@lobehub/icons/es/Aws"),
-  [Vendor.MOONDREAM]: () =>
-    import("@/components/elements/brand/moondream-icon"),
-  [Vendor.SLAI]: () => import("@/components/elements/brand/slai-icon"),
+  [Vendor.MOONDREAM]: img(
+    "/images/icons/vendors/moondream.webp",
+    "Moondream",
+    "invertDark",
+  ),
+  [Vendor.SLAI]: img("/images/icons/vendors/slai.webp", "SL-AI"),
   [Vendor.GROQ]: () => import("@lobehub/icons/es/Groq"),
-  [Vendor.SDAIA]: () => import("@/components/elements/brand/sdaia-icon"),
+  [Vendor.SDAIA]: img("/images/icons/vendors/sdaia.svg", "SDAIA"),
   [Vendor.BAAI]: () => import("@lobehub/icons/es/BAAI"),
   [Vendor.IBM]: () => import("@lobehub/icons/es/IBM"),
   [Vendor.JETBRAINS]: () =>
     import("@/components/elements/brand/jetbrains-icon"),
   [Vendor.INCEPTION]: () => import("@lobehub/icons/es/Inception"),
   [Vendor.KINFRA]: () => import("@lobehub/icons/es/Tencent"),
-  [Vendor.SPEAKLEASH]: () =>
-    import("@/components/elements/brand/speakleash-icon"),
-  [Vendor.PLLUM]: () => import("@/components/elements/brand/pllum-icon"),
-  [Vendor.VILLANOVA]: () =>
-    import("@/components/elements/brand/villanova-icon"),
-  [Vendor.DEEPREINFORCE]: () =>
-    import("@/components/elements/brand/deepreinforce-icon"),
+  [Vendor.SPEAKLEASH]: img(
+    "/images/icons/vendors/speakleash.webp",
+    "SpeakLeash",
+  ),
+  [Vendor.PLLUM]: img("/images/icons/vendors/pllum.webp", "PLLuM"),
+  [Vendor.VILLANOVA]: img(
+    "/images/icons/vendors/villanova.webp",
+    "Villanova AI",
+    "invertDark",
+  ),
+  [Vendor.DEEPREINFORCE]: img(
+    "/images/icons/vendors/deepreinforce.webp",
+    "DeepReinforce",
+  ),
   [Vendor.MICROSOFT]: () => import("@lobehub/icons/es/Microsoft"),
   [Vendor.MYSHELL]: () => import("@lobehub/icons/es/MyShell"),
   [Vendor.DEEPGRAM]: () => import("@/components/elements/brand/deepgram-icon"),
-  [Vendor.LEONARDO]: () => import("@/components/elements/brand/leonardo-icon"),
-  [Vendor.LYKON]: () => import("@/components/elements/brand/lykon-icon"),
-  [Vendor.THEDRUMMER]: () =>
-    import("@/components/elements/brand/thedrummer-icon"),
-  [Vendor.FALLENMERICK]: () =>
-    import("@/components/elements/brand/fallenmerick-icon"),
-  [Vendor.PFNET]: () => import("@/components/elements/brand/pfnet-icon"),
-  [Vendor.NEXAGI]: () => import("@/components/elements/brand/nexagi-icon"),
-  [Vendor.POOLSIDE]: () => import("@/components/elements/brand/poolside-icon"),
-  [Vendor.DOTSSTUDIO]: () =>
-    import("@/components/elements/brand/dotsstudio-icon"),
-  [Vendor.AISINGAPORE]: () =>
-    import("@/components/elements/brand/aisingapore-icon"),
+  [Vendor.LEONARDO]: img("/images/icons/vendors/leonardo.webp", "Leonardo AI"),
+  [Vendor.LYKON]: img("/images/icons/vendors/lykon.webp", "Lykon"),
+  [Vendor.THEDRUMMER]: img(
+    "/images/icons/vendors/thedrummer.webp",
+    "TheDrummer",
+  ),
+  [Vendor.FALLENMERICK]: img(
+    "/images/icons/vendors/fallenmerick.webp",
+    "FallenMerick",
+  ),
+  [Vendor.PFNET]: img(
+    "/images/icons/vendors/pfnet.webp",
+    "Preferred Networks",
+    "invertDark",
+  ),
+  [Vendor.NEXAGI]: img("/images/icons/vendors/nexagi.webp", "Nex AGI"),
+  [Vendor.POOLSIDE]: img(
+    "/images/icons/vendors/poolside.svg",
+    "Poolside",
+    "invertDark",
+  ),
+  [Vendor.DOTSSTUDIO]: img(
+    "/images/icons/vendors/dotsstudio.webp",
+    "Dots Studio",
+    "invertDark",
+  ),
+  [Vendor.AISINGAPORE]: img(
+    "/images/icons/vendors/aisingapore.webp",
+    "AI Singapore",
+  ),
   [Vendor.POLLINATIONS]: () => import("@lobehub/icons/es/Pollinations"),
-  [Vendor.NAVYAI]: () => import("@/components/elements/brand/navyai-icon"),
+  [Vendor.NAVYAI]: img("/images/icons/vendors/navyai.webp", "NavyAI"),
   [Vendor.ABLITERATION]: () =>
     import("@/components/elements/brand/abliteration-icon"),
-  [Vendor.ORCAROUTER]: () =>
-    import("@/components/elements/brand/orcarouter-icon"),
+  [Vendor.ORCAROUTER]: img(
+    "/images/icons/vendors/orcarouter.webp",
+    "OrcaRouter",
+    "invertDark",
+  ),
   [Vendor.REGOLO]: () => import("@/components/elements/brand/regolo-icon"),
   [Vendor.SARVAM]: () => import("@/components/elements/brand/sarvam-icon"),
   [Vendor.TYPHOON]: () => import("@/components/elements/brand/typhoon-icon"),
   [Vendor.OPENBMB]: () => import("@/components/elements/brand/openbmb-icon"),
-  [Vendor.AIHORDE]: () => import("@/components/elements/brand/aihorde-icon"),
-  [Vendor.STEALTH]: () => import("@/components/elements/brand/stealth-icon"),
-  [Vendor.RUNWARE]: () => import("@/components/elements/brand/runware-icon"),
-  [Vendor.TYPESAFE]: () => import("@/components/elements/brand/typesafe-icon"),
-  [Vendor.HCOMPANY]: () => import("@/components/elements/brand/hcompany-icon"),
+  [Vendor.AIHORDE]: img("/images/icons/vendors/aihorde.png", "AI Horde"),
+  [Vendor.STEALTH]: img(
+    "/images/icons/vendors/stealth.svg",
+    "Stealth",
+    "invertDark",
+  ),
+  [Vendor.RUNWARE]: img(
+    "/images/icons/vendors/runware.svg",
+    "Runware",
+    "invertDark",
+  ),
+  [Vendor.TYPESAFE]: img("/images/icons/vendors/typesafe.webp", "TypeSafe"),
+  [Vendor.HCOMPANY]: img("/images/icons/vendors/hcompany.webp", "H Company"),
   [Vendor.AIONLABS]: () => import("@lobehub/icons/es/AionLabs"),
-  [Vendor.SAO10K]: () => import("@/components/elements/brand/sao10k-icon"),
-  [Vendor.STEELSKULL]: () =>
-    import("@/components/elements/brand/steelskull-icon"),
-  [Vendor.BRUHZWATER]: () =>
-    import("@/components/elements/brand/bruhzwater-icon"),
+  [Vendor.SAO10K]: img("/images/icons/vendors/sao10k.webp", "Sao10K"),
+  [Vendor.STEELSKULL]: img(
+    "/images/icons/vendors/steelskull.webp",
+    "SteelSkull",
+  ),
+  [Vendor.BRUHZWATER]: img(
+    "/images/icons/vendors/bruhzwater.webp",
+    "BruhzWater",
+  ),
   [Vendor.THINKINGMACHINES]: () =>
     import("@/components/elements/brand/thinkingmachines-icon"),
   [Vendor.IFM]: () => import("@/components/elements/brand/ifm-icon"),
@@ -264,17 +314,33 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.VOLTROPY]: () => import("@/components/elements/brand/voltropy-icon"),
   [Vendor.AXON]: () => import("@/components/elements/brand/axon-icon"),
   [Vendor.APODEX]: () => import("@/components/elements/brand/apodex-icon"),
-  [Vendor.MEGANOVA]: () => import("@/components/elements/brand/meganova-icon"),
-  [Vendor.AGNES]: () => import("@/components/elements/brand/agnes-icon"),
-  [Vendor.REQUESTY]: () => import("@/components/elements/brand/requesty-icon"),
-  [Vendor.ELECTRONHUB]: () =>
-    import("@/components/elements/brand/electronhub-icon"),
+  [Vendor.MEGANOVA]: img(
+    "/images/icons/vendors/meganova.webp",
+    "MegaNova",
+    "invertDark",
+  ),
+  [Vendor.AGNES]: img("/images/icons/vendors/agnes.webp", "Agnes AI"),
+  [Vendor.REQUESTY]: img(
+    "/images/icons/vendors/requesty.webp",
+    "Requesty",
+    "invertDark",
+  ),
+  [Vendor.ELECTRONHUB]: img(
+    "/images/icons/vendors/electronhub.webp",
+    "ElectronHub",
+  ),
   [Vendor.AI21]: () => import("@lobehub/icons/es/Ai21"),
   [Vendor.ALLENAI]: () => import("@lobehub/icons/es/Ai2"),
   [Vendor.NOUS]: () => import("@lobehub/icons/es/NousResearch"),
-  [Vendor.GRYPHE]: () => import("@/components/elements/brand/gryphe-icon"),
-  [Vendor.ANTHRACITE]: () =>
-    import("@/components/elements/brand/anthracite-icon"),
+  [Vendor.GRYPHE]: img(
+    "/images/icons/vendors/gryphe.webp",
+    "Gryphe",
+    "invertDark",
+  ),
+  [Vendor.ANTHRACITE]: img(
+    "/images/icons/vendors/anthracite.webp",
+    "Anthracite",
+  ),
   [Vendor.STEPFUN]: () => import("@lobehub/icons/es/Stepfun"),
   [Vendor.HUNYUAN]: () => import("@lobehub/icons/es/Hunyuan"),
   [Vendor.INCLUSIONAI]: () => import("@lobehub/icons/es/AntGroup"),
@@ -302,19 +368,33 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.ZHIPU]: () => import("@lobehub/icons/es/Zhipu"),
   [Vendor.DEEPL]: () => import("@lobehub/icons/es/DeepL"),
   [Vendor.ELEVENLABS]: () => import("@lobehub/icons/es/ElevenLabs"),
-  [Vendor.VOIDAI]: () => import("@/components/elements/brand/voidai-icon"),
+  [Vendor.VOIDAI]: img(
+    "/images/icons/vendors/voidai.webp",
+    "VoidAI",
+    "invertDark",
+  ),
   [Vendor.VENICE]: () => import("@lobehub/icons/es/Venice"),
-  [Vendor.ZANITY]: () => import("@/components/elements/brand/zanity-icon"),
-  [Vendor.SPEECHIFY]: () =>
-    import("@/components/elements/brand/speechify-icon"),
+  [Vendor.ZANITY]: img(
+    "/images/icons/vendors/zanity.webp",
+    "Zanity AI",
+    "invertDark",
+  ),
+  [Vendor.SPEECHIFY]: img("/images/icons/vendors/speechify.webp", "Speechify"),
   [Vendor.ESSENTIALAI]: () => import("@lobehub/icons/es/EssentialAI"),
   [Vendor.KUAISHOU]: () => import("@lobehub/icons/es/Kwaipilot"),
   [Vendor.INTERNLM]: () => import("@lobehub/icons/es/InternLM"),
   [Vendor.SENSENOVA]: () => import("@lobehub/icons/es/SenseNova"),
   [Vendor.MEITUAN]: () => import("@lobehub/icons/es/LongCat"),
-  [Vendor.SWISSAI]: () => import("@/components/elements/brand/swissai-icon"),
-  [Vendor.EUROLLM]: () => import("@/components/elements/brand/eurollm-icon"),
-  [Vendor.DICTA]: () => import("@/components/elements/brand/dicta-icon"),
+  [Vendor.SWISSAI]: img(
+    "/images/icons/vendors/swissai.webp",
+    "Swiss AI Initiative",
+  ),
+  [Vendor.EUROLLM]: img(
+    "/images/icons/vendors/eurollm.webp",
+    "EuroLLM",
+    "invertDark",
+  ),
+  [Vendor.DICTA]: img("/images/icons/vendors/dicta.webp", "Dicta"),
   [Vendor.VOYAGE]: () => import("@lobehub/icons/es/Voyage"),
   [Vendor.OPENCODE]: () => import("@lobehub/icons/es/OpenCode"),
 };
@@ -325,7 +405,7 @@ export const ALIAS_LOADERS: Record<string, IconLoader> = {
   doubao: () => import("@lobehub/icons/es/Doubao"),
   gemini: () => import("@lobehub/icons/es/Gemini"),
   nemotron: () => import("@lobehub/icons/es/Nvidia"),
-  horde: () => import("@/components/elements/brand/aihorde-icon"),
+  horde: img("/images/icons/vendors/aihorde.png", "AI Horde"),
   openrouter: () => import("@lobehub/icons/es/OpenRouter"),
   ollama: () => import("@lobehub/icons/es/Ollama"),
   "lm studio": () => import("@lobehub/icons/es/LmStudio"),
