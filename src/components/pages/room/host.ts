@@ -283,10 +283,6 @@ export function broadcastDelta(id: string, text: string) {
   broadcast({ type: "stream-delta", id, text }, { msgId: id });
 }
 
-export function broadcastStreamEnd(id: string) {
-  broadcast({ type: "stream-end", id });
-}
-
 export function isHosting() {
   return socket !== null;
 }

@@ -107,8 +107,6 @@ export async function joinRoom(roomId: string, rawName: string): Promise<void> {
             ];
           });
           break;
-        case "stream-end":
-          break;
         case "participants":
           roomStore.set(guestParticipantsAtom, msg.participants);
           break;

@@ -42,7 +42,6 @@ export type HostToGuest =
   | { type: "rejected"; reason: "declined" | "version" | "full" }
   | { type: "message-appended"; message: RoomMessage }
   | { type: "stream-delta"; id: string; text: string }
-  | { type: "stream-end"; id: string }
   | { type: "participants"; participants: RoomParticipant[] }
   | { type: "turn-state"; turn: TurnState }
   | { type: "turn-failed"; reason: "busy" | "timeout" | "error" }
@@ -152,10 +151,6 @@ export function parseHostMessage(raw: unknown): HostToGuest | null {
       return id !== null && text !== null
         ? { type: "stream-delta", id, text }
         : null;
-    }
-    case "stream-end": {
-      const id = str(msg.id);
-      return id !== null ? { type: "stream-end", id } : null;
     }
     case "participants": {
       const participants = mapAll(msg.participants, participant);

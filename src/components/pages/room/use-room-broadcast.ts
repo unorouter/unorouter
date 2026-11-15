@@ -6,7 +6,6 @@ import { useEffect, useRef } from "react";
 import {
   broadcastDelta,
   broadcastMessage,
-  broadcastStreamEnd,
   isHosting,
   onRunStateChange,
   roomText,
@@ -71,7 +70,6 @@ export function useRoomBroadcast(
           deltas: deltaCount.current.get(last.id) ?? 0,
         });
         deltaCount.current.delete(last.id);
-        broadcastStreamEnd(last.id);
       }
     }
     wasRunning.current = isRunning;
