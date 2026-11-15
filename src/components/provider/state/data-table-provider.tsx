@@ -6,9 +6,7 @@ import {
   tablesHydratedAtom,
 } from "@/store/data-table-store";
 import { useStore } from "jotai";
-import { type ReactNode, useEffect, useSyncExternalStore } from "react";
-
-const EMPTY_STORES: Partial<DataTableStores> = {};
+import { type ReactNode, useEffect } from "react";
 
 export function DataTableProvider(props: {
   children: ReactNode;
@@ -16,28 +14,12 @@ export function DataTableProvider(props: {
 }) {
   const store = useStore();
 
-  const dataToHydrate = props.data ?? EMPTY_STORES;
-
   useEffect(() => {
-    try {
-      const existing = store.get(dataTableStorageAtom);
-      if (
-        props.data &&
-        JSON.stringify(existing) !== JSON.stringify(props.data)
-      ) {
-        store.set(dataTableStorageAtom, dataToHydrate);
-      }
-    } catch {
-      store.set(dataTableStorageAtom, dataToHydrate);
-    }
+    const existing = store.get(dataTableStorageAtom);
+    if (props.data && JSON.stringify(existing) !== JSON.stringify(props.data))
+      store.set(dataTableStorageAtom, props.data);
     store.set(tablesHydratedAtom, true);
-  }, [store, props.data, dataToHydrate]);
-
-  useSyncExternalStore(
-    (callback) => store.sub(dataTableStorageAtom, callback),
-    () => store.get(dataTableStorageAtom) ?? dataToHydrate,
-    () => dataToHydrate,
-  );
+  }, [store, props.data]);
 
   return <>{props.children}</>;
 }

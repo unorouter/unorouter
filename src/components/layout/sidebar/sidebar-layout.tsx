@@ -41,20 +41,13 @@ export function SidebarLayout(props: SidebarLayoutProps) {
   return (
     <SidebarProvider
       open={open}
-      onOpenChange={(next) => {
-        setOpen(next);
-      }}
+      onOpenChange={setOpen}
       data-theme-scope={
         props.navConfig === "chat"
           ? "chat"
           : props.navConfig === "generate"
             ? "image"
             : undefined
-      }
-      style={
-        {
-          "--sidebar-width": "16rem",
-        } as React.CSSProperties
       }
     >
       {props.before}
