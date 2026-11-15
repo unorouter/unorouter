@@ -11,27 +11,15 @@ import {
   modelPriceColumns,
   outputPriceUnit,
 } from "@/lib/api/model-modality";
-import type { PricingCatalogModel } from "@/openapi";
-import type { RankedModel } from "@/openapi";
-import type { IconName } from "@/lib/config/icon-map";
+import type { ModelSummary, PricingCatalogModel, RankedModel } from "@/openapi";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { modelHref } from "@/lib/utils/base";
 import { formatMsDate } from "@/lib/utils/format/date";
 import { formatTokenCount, formatTokens } from "@/lib/utils/format/number";
-import type { ModelSummary } from "@/openapi";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
-
-const MODALITY_ICON: Record<string, IconName> = {
-  text: "type",
-  image: "image",
-  audio: "mic",
-  video: "video",
-  file: "file",
-  pdf: "file",
-  decisions: "git-branch",
-};
+import { MODALITY } from "../detail/header/model-modality-chip";
 
 function ModalityIcons(props: { modalities: string[] }) {
   if (props.modalities.length === 0)
@@ -39,7 +27,7 @@ function ModalityIcons(props: { modalities: string[] }) {
   return (
     <div className="flex items-center gap-1.5">
       {props.modalities.map((mod) => {
-        const icon = MODALITY_ICON[mod.toLowerCase()];
+        const icon = MODALITY[mod.toLowerCase()]?.icon;
         return icon ? (
           <Icon key={mod} name={icon} className="h-4 w-4" aria-label={mod} />
         ) : (
@@ -178,22 +166,19 @@ export function ComparisonTable(props: {
           render: (m) => formatTokenCount(m.metadata?.maxOutputTokens, locale),
           best: (m) => m.metadata?.maxOutputTokens ?? null,
         },
-        {
-          label: t("MODELS.CAPABILITY.REASONING"),
-          render: (m) => <Bool on={Boolean(m.metadata?.isReasoning)} />,
-        },
-        {
-          label: t("MODELS.CAPABILITY.TOOLS"),
-          render: (m) => <Bool on={Boolean(m.metadata?.supportsTools)} />,
-        },
-        {
-          label: t("MODELS.CAPABILITY.VISION"),
-          render: (m) => <Bool on={Boolean(m.metadata?.supportsVision)} />,
-        },
-        {
-          label: t("MODELS.CAPABILITY.CACHE"),
-          render: (m) => <Bool on={Boolean(m.metadata?.supportsCache)} />,
-        },
+        ...(
+          [
+            ["MODELS.CAPABILITY.REASONING", "isReasoning"],
+            ["MODELS.CAPABILITY.TOOLS", "supportsTools"],
+            ["MODELS.CAPABILITY.VISION", "supportsVision"],
+            ["MODELS.CAPABILITY.CACHE", "supportsCache"],
+          ] as const
+        ).map((cap) => ({
+          label: t(cap[0]),
+          render: (m: PricingCatalogModel) => (
+            <Bool on={m.metadata?.[cap[1]] === true} />
+          ),
+        })),
         {
           label: t("MODELS.DETAIL.QUANTIZATION"),
           render: (m) => m.metadata?.quantization ?? "-",

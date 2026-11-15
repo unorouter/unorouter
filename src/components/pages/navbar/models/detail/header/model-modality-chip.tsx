@@ -11,7 +11,10 @@ import type { TranslationKey } from "@/lib/types";
 import type { ModelMetadata } from "@/openapi";
 import { useTranslations } from "next-intl";
 
-const MODALITY: Record<string, { icon: IconName; label: TranslationKey }> = {
+export const MODALITY: Record<
+  string,
+  { icon: IconName; label: TranslationKey }
+> = {
   text: { icon: "type", label: "MODELS.MODALITY.TEXT" },
   image: { icon: "image", label: "MODELS.MODALITY.IMAGE" },
   audio: { icon: "mic", label: "MODELS.MODALITY.AUDIO" },
