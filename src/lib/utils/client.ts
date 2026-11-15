@@ -8,7 +8,7 @@ import { setCookie } from "cookies-next/client";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import type { Extracted } from "@/lib/types";
-import { asParams } from "@/lib/utils/base";
+import { asParams, safeJsonParse } from "@/lib/utils/base";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { isIOS } from "@/lib/notify/push";
 import {
@@ -87,13 +87,8 @@ export function extractErrorDetail(e: unknown): ErrorDetail {
   let parsed: unknown = body;
   if (typeof body === "string") {
     const s = body.trim();
-    if (s.startsWith("{") || s.startsWith("[")) {
-      try {
-        parsed = JSON.parse(s);
-      } catch {
-        parsed = body;
-      }
-    }
+    if (s.startsWith("{") || s.startsWith("["))
+      parsed = safeJsonParse<unknown>(s, body);
   }
 
   const errObj =
@@ -125,10 +120,8 @@ export function extractErrorDetail(e: unknown): ErrorDetail {
         ? meta.provider_name
         : "";
     const raw = "raw" in meta && typeof meta.raw === "string" ? meta.raw : "";
-    let rawMessage = raw;
-    try {
-      rawMessage = pickMessage(JSON.parse(raw))?.message || raw;
-    } catch {}
+    const rawMessage =
+      pickMessage(safeJsonParse<unknown>(raw, null))?.message || raw;
     const extra = [provider, rawMessage.trim().slice(0, 300)]
       .filter(Boolean)
       .join(": ");
@@ -162,11 +155,11 @@ export function translateFormError(
 function pickMessage(v: unknown): Extracted | null {
   if (typeof v === "string") {
     const s = v.trim();
-    if (s.startsWith("{") || s.startsWith("[")) {
-      try {
-        return pickMessage(JSON.parse(s));
-      } catch {}
-    }
+    const parsed =
+      s.startsWith("{") || s.startsWith("[")
+        ? safeJsonParse<unknown>(s, undefined)
+        : undefined;
+    if (parsed !== undefined) return pickMessage(parsed);
     return { message: v };
   }
   if (Array.isArray(v)) {
@@ -243,8 +236,7 @@ function redirectToLoginPreservingLocation() {
   if (typeof window === "undefined") return;
   if (!getQueryClient().getQueryData(queryKeys.auth())) return;
   if (/\/(login|register)(\/|$)/.test(window.location.pathname)) return;
-  const path = window.location.pathname + window.location.search;
-  setCookie(AUTH_REDIRECT_COOKIE, stripLocale(path), { maxAge: 600 });
+  setCookie(AUTH_REDIRECT_COOKIE, currentPathForRedirect(), { maxAge: 600 });
   window.location.assign(loginHref());
 }
 
