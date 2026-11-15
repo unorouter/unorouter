@@ -5,11 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import type { ThemeEditor } from "@/hooks/ui/use-theme-editor-hook";
 import { TOKEN_BY_ID, tokensIn, type TokenDef } from "@/lib/theme/tokens";
-import {
-  fileToScaledDataUrl,
-  scaleDataUrl,
-  wallpaperMaxDim,
-} from "@/lib/utils/client";
+import { fileToScaledDataUrl, wallpaperMaxDim } from "@/lib/utils/client";
 import { useTranslations } from "next-intl";
 import { useRef, type ReactNode } from "react";
 import { toast } from "sonner";
@@ -39,10 +35,9 @@ export function BackgroundImageSection(props: {
 
   const upload = async (file: File) => {
     try {
-      const scaled = await fileToScaledDataUrl(file);
       editor.setImage(
         editor.scope,
-        await scaleDataUrl(scaled, wallpaperMaxDim(), file.type),
+        await fileToScaledDataUrl(file, wallpaperMaxDim()),
       );
     } catch {
       toast.error(t("THEME.IMPORT_FAILED"), { position: "top-center" });

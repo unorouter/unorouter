@@ -361,15 +361,9 @@ export async function streamFileToDisk(
   return "blob";
 }
 
-export function downloadJson(
-  obj: unknown,
-  filename: string,
-  opts?: { pretty?: boolean },
-) {
-  const pretty = opts?.pretty ?? true;
-  const json = pretty ? JSON.stringify(obj, null, 2) : JSON.stringify(obj);
-  const blob = new Blob([json], { type: "application/json" });
-  downloadBlob(blob, filename);
+export function downloadJson(obj: unknown, filename: string) {
+  const json = JSON.stringify(obj, null, 2);
+  downloadBlob(new Blob([json], { type: "application/json" }), filename);
 }
 
 // A phone composites the wallpaper at 3x behind every frosted panel; 2048px
@@ -381,7 +375,7 @@ export function wallpaperMaxDim(): number {
     : IMAGE_MAX_DIM;
 }
 
-export async function scaleDataUrl(
+async function scaleDataUrl(
   dataUrl: string,
   maxDim: number,
   mime: string,
@@ -404,14 +398,17 @@ export async function scaleDataUrl(
   return canvas.toDataURL(mime === "image/png" ? mime : "image/jpeg", 0.9);
 }
 
-export async function fileToScaledDataUrl(file: File): Promise<string> {
+export async function fileToScaledDataUrl(
+  file: File,
+  maxDim = IMAGE_MAX_DIM,
+): Promise<string> {
   const dataUrl = await new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(String(reader.result));
     reader.onerror = () => reject(new Error("read failed"));
     reader.readAsDataURL(file);
   });
-  return scaleDataUrl(dataUrl, IMAGE_MAX_DIM, file.type, file.size);
+  return scaleDataUrl(dataUrl, maxDim, file.type, file.size);
 }
 
 export function splitDataUrl(dataUrl: string): {
