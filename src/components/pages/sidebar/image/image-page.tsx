@@ -9,7 +9,7 @@ import {
 import { RecentStrip } from "@/components/pages/sidebar/image/history/recent-strip";
 import { useSessionQuery } from "@/hooks/ai/image-hook";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { useEffect, useEffectEvent } from "react";
 import { useImageNav } from "./image-nav";
 

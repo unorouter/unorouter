@@ -21,7 +21,7 @@ import {
 } from "@/lib/validation/image";
 import { safeParse } from "@/lib/validation/helpers";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -56,7 +56,10 @@ export function SnapshotImportDialog(props: Props) {
       {
         onSuccess: (result) => {
           props.onOpenChange(false);
-          router.push(`/image/${result.sessionId}`);
+          router.push({
+            pathname: "/image/[id]",
+            params: { id: result.sessionId },
+          });
         },
       },
     );

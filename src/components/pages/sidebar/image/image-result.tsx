@@ -17,7 +17,7 @@ import { useTranslations } from "next-intl";
 import { snapshotModelLabel } from "./image-constants";
 import { useImageModelsQuery } from "@/hooks/models/pricing-hook";
 import { useImageNav } from "./image-nav";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { useEffect, useRef, useState } from "react";
 import { BatchGrid, ImageLightbox } from "./history/image-gallery";
 import { ParamsBadge, RetentionBadge } from "./result/params-badge";
@@ -207,7 +207,12 @@ export function ImageResult(props: Props) {
         <Button
           variant="default"
           size="sm"
-          onClick={() => router.push(`/image?remix=${props.snapshotId}`)}
+          onClick={() =>
+            router.push({
+              pathname: "/image",
+              query: { remix: props.snapshotId },
+            })
+          }
         >
           <Icon name="sparkles" className="mr-2" />
           {t("IMAGE.REMIX")}
@@ -219,7 +224,10 @@ export function ImageResult(props: Props) {
             variant="outline"
             size="sm"
             onClick={() =>
-              router.push(`/image?remix=${props.snapshotId}&inpaint=1`)
+              router.push({
+                pathname: "/image",
+                query: { remix: props.snapshotId, inpaint: "1" },
+              })
             }
           >
             <Icon name="paintbrush" className="mr-2" />
