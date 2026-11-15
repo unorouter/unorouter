@@ -337,6 +337,7 @@ async function runEffects(
       case "v2BreakLoop": {
         for (i = i + 1; i < eff.length; i++) {
           if (eff[i]?.type === "v2EndIndent" && eff[i].endOfLoop === true) {
+            delete loopCounts[i];
             break;
           }
         }
@@ -358,6 +359,8 @@ async function runEffects(
                 loopCounts[endIdx] = (loopCounts[endIdx] ?? 0) + 1;
                 if (loopCounts[endIdx] < n) {
                   i = j; // re-run body (for-loop i++ lands on j + 1)
+                } else {
+                  delete loopCounts[endIdx];
                 }
               } else {
                 i = j;
