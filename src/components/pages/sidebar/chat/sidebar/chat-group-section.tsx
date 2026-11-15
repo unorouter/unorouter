@@ -72,19 +72,22 @@ export function ChatGroupSection(props: Props) {
     if (ok) deleteGroup.mutate({ id: props.group.id });
   };
 
+  const chevron = (
+    <Icon
+      name={props.group.folded ? "chevron-right" : "chevron-down"}
+      className="size-3.5 shrink-0"
+    />
+  );
+  const count = (
+    <span className="text-muted-foreground/60 shrink-0">{props.count}</span>
+  );
+
   return (
     <div className="flex flex-col gap-0.5">
       <div className="text-muted-foreground hover:bg-accent/50 group flex h-7 items-center gap-1 rounded-md px-1 text-xs font-medium">
-        <button
-          type="button"
-          onClick={props.onToggle}
-          className="flex min-w-0 flex-1 items-center gap-1"
-        >
-          <Icon
-            name={props.group.folded ? "chevron-right" : "chevron-down"}
-            className="size-3.5 shrink-0"
-          />
-          {renaming ? (
+        {renaming ? (
+          <div className="flex min-w-0 flex-1 items-center gap-1">
+            {chevron}
             <input
               autoFocus
               value={name}
@@ -97,16 +100,21 @@ export function ChatGroupSection(props: Props) {
                   setRenaming(false);
                 }
               }}
-              onClick={(e) => e.stopPropagation()}
               className="bg-background min-w-0 flex-1 rounded px-1 text-xs outline-none"
             />
-          ) : (
+            {count}
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={props.onToggle}
+            className="flex min-w-0 flex-1 items-center gap-1"
+          >
+            {chevron}
             <span className="truncate">{props.group.name}</span>
-          )}
-          <span className="text-muted-foreground/60 shrink-0">
-            {props.count}
-          </span>
-        </button>
+            {count}
+          </button>
+        )}
         <DropdownMenu>
           <DropdownMenuTrigger
             className="opacity-100 sm:opacity-0 sm:group-hover:opacity-100"
