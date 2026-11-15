@@ -420,14 +420,9 @@ export function runDataOpcode(
     }
     case "v2Calculate": {
       try {
-        const expr = rv(e, ctx, vr, "expression").replace(
-          /\$([a-zA-Z0-9_]+)/g,
-          (_, name: string) => {
-            const v = parseFloat(vr.get(name));
-            return Number.isNaN(v) ? "0" : v.toString();
-          },
-        );
-        const result = calcString(expr, { chatVar: (n) => vr.get(n) });
+        const result = calcString(rv(e, ctx, vr, "expression"), {
+          chatVar: (n) => vr.get(n),
+        });
         setOut(Number.isNaN(result) ? "0" : String(result));
       } catch {
         setOut("0");
