@@ -1,3 +1,4 @@
+import { msg } from "@/lib/config/constants";
 import { uid } from "@/lib/utils/base";
 import {
   initMirror,
@@ -91,7 +92,7 @@ function append(id: string, entry: Entry, chunk: Uint8Array) {
 }
 
 const TOO_LONG_FRAME = new TextEncoder().encode(
-  `\n\ndata: ${JSON.stringify({ error: { message: "The reply grew past the server's stream buffer and was stopped." } })}\n\ndata: [DONE]\n\n`,
+  `\n\ndata: ${JSON.stringify({ error: { message: msg("ERRORS.STREAM_TOO_LONG") } })}\n\ndata: [DONE]\n\n`,
 );
 
 // Reads the source to the end whether or not anyone is listening; `abort`

@@ -4935,6 +4935,8 @@
     "TRANSFER_EXPIRED": "此次传输已过期或已被接收。请重新发送数据库。",
     "AUDIO_GENERATION_FAILED": "音频生成失败",
     "NO_AUDIO_PROMPT": "未提供用于语音生成的文本",
+    "STREAM_TOO_LONG": "回复超出了服务器的流缓冲区，已被停止。",
+    "STT_MODEL_IN_CHAT": "这是一个语音转文字模型。请发送音频文件进行转录（聊天中的音频附件即将推出）。目前请通过 /v1/audio/transcriptions 的 API 使用。",
     "EMBEDDING_FAILED": "向量生成失败",
     "NO_EMBEDDING_INPUT": "未提供需要向量化的文本",
     "CARD_IMPORT_TOO_MANY": "你已有正在进行的导入。请等待完成后再试。",

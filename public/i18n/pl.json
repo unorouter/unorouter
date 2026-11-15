@@ -4935,6 +4935,8 @@
     "TRANSFER_EXPIRED": "Ten transfer wygasł albo został już odebrany. Wyślij bazę danych ponownie.",
     "AUDIO_GENERATION_FAILED": "Generowanie dźwięku nie powiodło się",
     "NO_AUDIO_PROMPT": "Nie podano tekstu do generowania mowy",
+    "STREAM_TOO_LONG": "Odpowiedź przekroczyła bufor strumienia serwera i została zatrzymana.",
+    "STT_MODEL_IN_CHAT": "To model zamiany mowy na tekst. Wyślij mu plik audio do transkrypcji (załączniki audio w czacie pojawią się wkrótce). Na razie korzystaj z niego przez API pod adresem /v1/audio/transcriptions.",
     "EMBEDDING_FAILED": "Generowanie osadzenia nie powiodło się",
     "NO_EMBEDDING_INPUT": "Nie podano tekstu do osadzenia",
     "CARD_IMPORT_TOO_MANY": "Masz już trwające importy. Poczekaj, aż się zakończą, i spróbuj ponownie.",

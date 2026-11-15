@@ -4935,6 +4935,8 @@
     "TRANSFER_EXPIRED": "この転送は期限切れか、すでに受信済みです。データベースをもう一度送ってください。",
     "AUDIO_GENERATION_FAILED": "音声の生成に失敗しました",
     "NO_AUDIO_PROMPT": "音声生成用のテキストが指定されていません",
+    "STREAM_TOO_LONG": "応答がサーバーのストリームバッファを超えたため、停止しました。",
+    "STT_MODEL_IN_CHAT": "これは音声認識モデルです。文字起こしする音声ファイルを送信してください（チャットでの音声添付は近日対応予定です）。現在は /v1/audio/transcriptions のAPI経由でご利用ください。",
     "EMBEDDING_FAILED": "埋め込みの生成に失敗しました",
     "NO_EMBEDDING_INPUT": "埋め込むテキストが指定されていません",
     "CARD_IMPORT_TOO_MANY": "すでにインポートが実行中です。完了するまで待ってからもう一度お試しください。",

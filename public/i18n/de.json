@@ -4935,6 +4935,8 @@
     "TRANSFER_EXPIRED": "Diese Übertragung ist abgelaufen oder wurde bereits empfangen. Sende die Datenbank erneut.",
     "AUDIO_GENERATION_FAILED": "Audioerzeugung fehlgeschlagen",
     "NO_AUDIO_PROMPT": "Kein Text für die Spracherzeugung angegeben",
+    "STREAM_TOO_LONG": "Die Antwort wurde größer als der Stream-Puffer des Servers und wurde abgebrochen.",
+    "STT_MODEL_IN_CHAT": "Das ist ein Speech-to-Text-Modell. Schick ihm eine Audiodatei zum Transkribieren (Audioanhänge im Chat kommen bald). Bis dahin nutzt du es über die API unter /v1/audio/transcriptions.",
     "EMBEDDING_FAILED": "Embedding-Erzeugung fehlgeschlagen",
     "NO_EMBEDDING_INPUT": "Kein Text zum Einbetten angegeben",
     "CARD_IMPORT_TOO_MANY": "Es laufen bereits Importe. Warte, bis sie fertig sind, und versuche es erneut.",

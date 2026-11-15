@@ -418,11 +418,8 @@ export async function handleAudioStream(
   model: PricingCatalogDetail | undefined,
 ) {
   if (isSttModel(body.model)) {
-    return streamResponse(async (writer) => {
-      writeBufferedMessage(
-        writer,
-        "This is a speech-to-text model. Send it an audio file to transcribe (audio attachments in chat are coming soon). For now, use it via the API at `/v1/audio/transcriptions`.",
-      );
+    return streamResponse(async () => {
+      throw new Error(msg("ERRORS.STT_MODEL_IN_CHAT"));
     }, body.model);
   }
 

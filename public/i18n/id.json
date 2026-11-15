@@ -4935,6 +4935,8 @@
     "TRANSFER_EXPIRED": "Transfer ini sudah kedaluwarsa atau sudah diterima. Kirim ulang basis data.",
     "AUDIO_GENERATION_FAILED": "Pembuatan audio gagal",
     "NO_AUDIO_PROMPT": "Tidak ada teks untuk pembuatan suara",
+    "STREAM_TOO_LONG": "Balasan melebihi buffer stream server dan dihentikan.",
+    "STT_MODEL_IN_CHAT": "Ini adalah model ucapan ke teks. Kirimkan file audio untuk ditranskripsi (lampiran audio di chat akan segera hadir). Untuk saat ini, gunakan melalui API di /v1/audio/transcriptions.",
     "EMBEDDING_FAILED": "Pembuatan embedding gagal",
     "NO_EMBEDDING_INPUT": "Tidak ada teks untuk disematkan",
     "CARD_IMPORT_TOO_MANY": "Kamu sudah punya impor yang berjalan. Tunggu sampai selesai, lalu coba lagi.",

@@ -4935,6 +4935,8 @@
     "TRANSFER_EXPIRED": "Bu aktarımın süresi doldu ya da zaten alındı. Veritabanını yeniden gönder.",
     "AUDIO_GENERATION_FAILED": "Ses oluşturma başarısız oldu",
     "NO_AUDIO_PROMPT": "Konuşma oluşturma için metin verilmedi",
+    "STREAM_TOO_LONG": "Yanıt, sunucunun akış arabelleğini aştı ve durduruldu.",
+    "STT_MODEL_IN_CHAT": "Bu bir konuşmadan metne modelidir. Yazıya dökmesi için ona bir ses dosyası gönderin (sohbette ses ekleri yakında geliyor). Şimdilik /v1/audio/transcriptions adresindeki API üzerinden kullanın.",
     "EMBEDDING_FAILED": "Gömme oluşturma başarısız oldu",
     "NO_EMBEDDING_INPUT": "Gömülecek metin verilmedi",
     "CARD_IMPORT_TOO_MANY": "Zaten devam eden içe aktarmalarınız var. Bitmelerini bekleyip tekrar deneyin.",

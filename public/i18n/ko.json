@@ -4935,6 +4935,8 @@
     "TRANSFER_EXPIRED": "이 전송은 만료되었거나 이미 수신되었습니다. 데이터베이스를 다시 보내세요.",
     "AUDIO_GENERATION_FAILED": "오디오 생성에 실패했습니다",
     "NO_AUDIO_PROMPT": "음성 생성을 위한 텍스트가 없습니다",
+    "STREAM_TOO_LONG": "응답이 서버의 스트림 버퍼를 초과하여 중지되었습니다.",
+    "STT_MODEL_IN_CHAT": "이 모델은 음성 인식 모델입니다. 텍스트로 변환할 오디오 파일을 보내세요(채팅의 오디오 첨부는 곧 지원됩니다). 지금은 /v1/audio/transcriptions의 API를 통해 사용하세요.",
     "EMBEDDING_FAILED": "임베딩 생성에 실패했습니다",
     "NO_EMBEDDING_INPUT": "임베딩할 텍스트가 없습니다",
     "CARD_IMPORT_TOO_MANY": "이미 진행 중인 가져오기가 있습니다. 완료된 뒤 다시 시도하세요.",

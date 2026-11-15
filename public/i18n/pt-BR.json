@@ -4935,6 +4935,8 @@
     "TRANSFER_EXPIRED": "Esta transferência expirou ou já foi recebida. Envie o banco de dados de novo.",
     "AUDIO_GENERATION_FAILED": "Falha na geração de áudio",
     "NO_AUDIO_PROMPT": "Nenhum texto fornecido para geração de voz",
+    "STREAM_TOO_LONG": "A resposta ultrapassou o buffer de streaming do servidor e foi interrompida.",
+    "STT_MODEL_IN_CHAT": "Este é um modelo de voz para texto. Envie a ele um arquivo de áudio para transcrever (anexos de áudio no chat chegam em breve). Por enquanto, use-o pela API em /v1/audio/transcriptions.",
     "EMBEDDING_FAILED": "Falha na geração do embedding",
     "NO_EMBEDDING_INPUT": "Nenhum texto fornecido para incorporar",
     "CARD_IMPORT_TOO_MANY": "Você já tem importações em andamento. Aguarde a conclusão e tente novamente.",

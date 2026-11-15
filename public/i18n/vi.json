@@ -4935,6 +4935,8 @@
     "TRANSFER_EXPIRED": "Lần chuyển này đã hết hạn hoặc đã được nhận. Gửi lại cơ sở dữ liệu.",
     "AUDIO_GENERATION_FAILED": "Tạo âm thanh thất bại",
     "NO_AUDIO_PROMPT": "Không có văn bản để tạo giọng nói",
+    "STREAM_TOO_LONG": "Câu trả lời đã vượt quá bộ đệm luồng của máy chủ và bị dừng lại.",
+    "STT_MODEL_IN_CHAT": "Đây là mô hình chuyển giọng nói thành văn bản. Hãy gửi cho nó một tệp âm thanh để chép lời (tệp đính kèm âm thanh trong chat sắp ra mắt). Hiện tại, hãy dùng nó qua API tại /v1/audio/transcriptions.",
     "EMBEDDING_FAILED": "Tạo embedding thất bại",
     "NO_EMBEDDING_INPUT": "Không có văn bản để nhúng",
     "CARD_IMPORT_TOO_MANY": "Bạn đang có các lượt nhập đang chạy. Hãy đợi chúng hoàn tất rồi thử lại.",
