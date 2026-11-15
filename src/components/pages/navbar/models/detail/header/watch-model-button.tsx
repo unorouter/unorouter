@@ -5,10 +5,7 @@ import { useModelWatch } from "@/hooks/models/notify-hook";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
-export function WatchModelButton(props: {
-  modelName: string;
-  className?: string;
-}) {
+export function WatchModelButton(props: { modelName: string }) {
   const t = useTranslations();
   const watch = useModelWatch(props.modelName);
 
@@ -21,7 +18,6 @@ export function WatchModelButton(props: {
         watch.watched
           ? "border-primary/40 bg-primary/10 text-primary hover:bg-primary/20"
           : "bg-muted/40 hover:bg-muted",
-        props.className,
       )}
     >
       <Icon name="bell" className="size-3" />

@@ -39,7 +39,6 @@ import {
 type Props = {
   modelName: string;
   hours?: number;
-  className?: string;
 };
 
 // Group names are `{provider}-{sanitized-model}`; strip the trailing model slug
@@ -77,7 +76,7 @@ export function PerformanceSection(props: Props) {
     }));
 
   return (
-    <div className={cn("flex flex-col gap-4", props.className)}>
+    <div className="flex flex-col gap-4">
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
         <StatCard
           label={t("MODELS.DETAIL.STAT_TPS")}

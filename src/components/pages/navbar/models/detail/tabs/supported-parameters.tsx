@@ -10,12 +10,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import type { ModelMetadata } from "@/openapi";
-import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
 type Props = {
   metadata: ModelMetadata;
-  className?: string;
 };
 
 export function SupportedParameters(props: Props) {
@@ -33,7 +31,7 @@ export function SupportedParameters(props: Props) {
   if (names.length === 0) return null;
 
   return (
-    <div className={cn("overflow-x-auto", props.className)}>
+    <div className="overflow-x-auto">
       <p className="text-muted-foreground mb-2 text-xs">
         {t("MODELS.DETAIL.PARAMS_HINT")}
       </p>

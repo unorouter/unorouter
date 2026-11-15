@@ -8,7 +8,6 @@ import { StatusBlocksI18n } from "@/components/pages/navbar/status/status-blocks
 import type { StatusBarData } from "@/components/ui/status/status.types";
 import { useModelStatusBucketsQuery } from "@/hooks/models/model-status-hook";
 import type { StatusBucket } from "@/lib/types";
-import { cn } from "@/lib/utils";
 import { StatCard } from "./stat-card";
 import { formatPct } from "@/lib/utils/format/number";
 import { successIntent } from "@/lib/utils/format/math";
@@ -19,7 +18,6 @@ type Props = {
   model: string;
   bucket?: StatusBucket;
   hours?: number;
-  className?: string;
 };
 
 // A bucket dominated by "success" counts as up; "degraded" as half-up; "error"
@@ -60,7 +58,7 @@ export function UptimeSection(props: Props) {
   const intent = uptime === null ? "default" : successIntent(uptime);
 
   return (
-    <div className={cn("flex flex-col gap-4", props.className)}>
+    <div className="flex flex-col gap-4">
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
         <StatCard
           label={t("MODELS.DETAIL.STAT_UPTIME")}
