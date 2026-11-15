@@ -2,6 +2,13 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+/* Vendor theme classes, built from parts in lib/config/vendor-registry.ts. */
+@source inline("{bg,border}-{amber,blue,cyan,emerald,fuchsia,green,indigo,lime,orange,pink,purple,red,rose,sky,slate,stone,teal,violet,yellow,zinc}-500/{5,10,20}");
+@source inline("{bg,border}-{blue,cyan,violet}-600/{5,10,20}");
+@source inline("{bg,border}-green-700/{5,10,20}");
+@source inline("text-{amber,blue,cyan,emerald,fuchsia,green,indigo,lime,orange,pink,purple,red,rose,sky,slate,stone,teal,violet,yellow,zinc}-700");
+@source inline("dark:text-{amber,blue,cyan,emerald,fuchsia,green,indigo,lime,orange,pink,purple,red,rose,sky,slate,stone,teal,violet,yellow,zinc}-300");
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
