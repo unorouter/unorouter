@@ -82,7 +82,21 @@ export async function GroupPinningContent() {
       </DocSection>
       <DocSection id="fallback-order" title={k("H_ORDER")}>
         <p>{k("P_ORDER_1")}</p>
+        <DocImage
+          src="/images/docs/pinning-order-price.webp"
+          alt={k("ALT_ORDER_PRICE")}
+          width={561}
+          height={219}
+          natural
+        />
         <p>{k("P_ORDER_2")}</p>
+        <DocImage
+          src="/images/docs/pinning-order-custom.webp"
+          alt={k("ALT_ORDER_CUSTOM")}
+          width={561}
+          height={700}
+          natural
+        />
         <p>{k("P_ORDER_3")}</p>
       </DocSection>
       <DocSection id="routing" title={k("H_ROUTING")}>
