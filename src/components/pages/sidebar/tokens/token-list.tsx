@@ -11,7 +11,7 @@ import { msg } from "@/lib/config/constants";
 import { DataTableId } from "@/lib/types/enums";
 import { createTableAtoms } from "@/store/data-table-store";
 import type { ColumnDef } from "@tanstack/react-table";
-import type { TableFeats } from "@/lib/config/table-features";
+import { type TableFeats, titledColumn } from "@/lib/config/table-features";
 import { atom, useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -45,66 +45,42 @@ export function TokenList() {
   const tokensQuery = useTokensQuery({ p, keyword });
 
   const columns: ColumnDef<TableFeats, TokenRow>[] = [
-    {
+    titledColumn(t, "TOKEN.TABLE.NAME", {
       accessorKey: "name",
-      meta: { title: msg("TOKEN.TABLE.NAME") },
-      header: t("TOKEN.TABLE.NAME"),
       enableHiding: false,
-      enableSorting: false,
       cell: ({ row }) => (
         <span className="text-foreground font-medium">{row.original.name}</span>
       ),
-    },
-    {
+    }),
+    titledColumn(t, "TOKEN.TABLE.STATUS", {
       accessorKey: "status",
-      meta: { title: msg("TOKEN.TABLE.STATUS") },
-      header: t("TOKEN.TABLE.STATUS"),
-      enableSorting: false,
       cell: TokenStatusCell,
-    },
-    {
+    }),
+    titledColumn(t, "TOKEN.TABLE.QUOTA", {
       id: "quota",
-      meta: { title: msg("TOKEN.TABLE.QUOTA") },
-      header: t("TOKEN.TABLE.QUOTA"),
-      enableSorting: false,
       cell: TokenQuotaCell,
-    },
-    {
+    }),
+    titledColumn(t, "TOKEN.TABLE.GROUP", {
       accessorKey: "group",
-      meta: { title: msg("TOKEN.TABLE.GROUP") },
-      header: t("TOKEN.TABLE.GROUP"),
-      enableSorting: false,
       cell: TokenGroupCell,
-    },
-    {
+    }),
+    titledColumn(t, "TOKEN.TABLE.KEY", {
       accessorKey: "key",
-      meta: { title: msg("TOKEN.TABLE.KEY") },
-      header: t("TOKEN.TABLE.KEY"),
       enableHiding: false,
-      enableSorting: false,
       cell: TokenKeyCell,
-    },
-    {
+    }),
+    titledColumn(t, "TOKEN.TABLE.MODELS", {
       id: "models",
-      meta: { title: msg("TOKEN.TABLE.MODELS") },
-      header: t("TOKEN.TABLE.MODELS"),
-      enableSorting: false,
       cell: TokenModelsCell,
-    },
-    {
+    }),
+    titledColumn(t, "TOKEN.TABLE.CREATED", {
       accessorKey: "created_time",
-      meta: { title: msg("TOKEN.TABLE.CREATED") },
-      header: t("TOKEN.TABLE.CREATED"),
-      enableSorting: false,
       cell: TokenDateCell,
-    },
-    {
+    }),
+    titledColumn(t, "TOKEN.TABLE.EXPIRES", {
       accessorKey: "expired_time",
-      meta: { title: msg("TOKEN.TABLE.EXPIRES") },
-      header: t("TOKEN.TABLE.EXPIRES"),
-      enableSorting: false,
       cell: TokenDateCell,
-    },
+    }),
     {
       id: "actions",
       meta: {

@@ -1,4 +1,7 @@
+import type { TranslationKey } from "@/lib/config/constants";
 import {
+  type ColumnDef,
+  type RowData,
   columnFilteringFeature,
   columnSizingFeature,
   columnVisibilityFeature,
@@ -35,3 +38,16 @@ export type TableFeats = typeof tableFeatures & {
   paginatedRowModel?: ReturnType<typeof createPaginatedRowModel>;
   sortedRowModel?: ReturnType<typeof createSortedRowModel>;
 };
+
+export function titledColumn<T extends RowData>(
+  t: (key: TranslationKey) => string,
+  title: TranslationKey,
+  def: ColumnDef<TableFeats, T>,
+): ColumnDef<TableFeats, T> {
+  return {
+    ...def,
+    header: t(title),
+    enableSorting: false,
+    meta: { ...def.meta, title },
+  };
+}

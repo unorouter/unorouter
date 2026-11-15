@@ -6,11 +6,11 @@ import {
   useUsageLogsQuery,
   useUsageLogsStatQuery,
 } from "@/hooks/ops/logs-hook";
-import { renderQuota, type TranslationKey } from "@/lib/config/constants";
+import { renderQuota } from "@/lib/config/constants";
 import { DataTableId } from "@/lib/types/enums";
 import { useLogFilters } from "./use-log-filters";
 import type { ColumnDef } from "@tanstack/react-table";
-import type { TableFeats } from "@/lib/config/table-features";
+import { type TableFeats, titledColumn } from "@/lib/config/table-features";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import {
@@ -71,15 +71,6 @@ export function UsageLogs() {
   const statQuery = useUsageLogsStatQuery(statFilters);
   const stat = statQuery.data;
 
-  const col = (
-    title: TranslationKey,
-    def: ColumnDef<TableFeats, LogRow>,
-  ): ColumnDef<TableFeats, LogRow> => ({
-    ...def,
-    header: t(title),
-    enableSorting: false,
-    meta: { ...def.meta, title },
-  });
   const columns: ColumnDef<TableFeats, LogRow>[] = [
     {
       id: "expand",
@@ -89,46 +80,54 @@ export function UsageLogs() {
       meta: { cellClassName: "w-8 px-1" },
       cell: LogExpandToggleCell,
     },
-    col("LOGS.TABLE.TIME", {
+    titledColumn(t, "LOGS.TABLE.TIME", {
       accessorKey: "created_at",
       enableHiding: false,
       cell: LogTimeCell,
       size: 180,
     }),
-    col("LOGS.TABLE.USER", {
+    titledColumn(t, "LOGS.TABLE.USER", {
       accessorKey: "username",
       cell: LogUserCell,
       size: 120,
     }),
-    col("LOGS.TABLE.TOKEN", {
+    titledColumn(t, "LOGS.TABLE.TOKEN", {
       accessorKey: "token_name",
       cell: LogTokenNameCell,
       size: 140,
     }),
-    col("LOGS.TABLE.MODEL", {
+    titledColumn(t, "LOGS.TABLE.MODEL", {
       accessorKey: "model_name",
       cell: LogModelCell,
       size: 260,
     }),
-    col("LOGS.TABLE.CLIENT", { id: "client", cell: LogClientCell, size: 150 }),
-    col("LOGS.TABLE.STREAM", { id: "stream", cell: LogStreamCell, size: 100 }),
-    col("LOGS.TABLE.TOKENS", {
+    titledColumn(t, "LOGS.TABLE.CLIENT", {
+      id: "client",
+      cell: LogClientCell,
+      size: 150,
+    }),
+    titledColumn(t, "LOGS.TABLE.STREAM", {
+      id: "stream",
+      cell: LogStreamCell,
+      size: 100,
+    }),
+    titledColumn(t, "LOGS.TABLE.TOKENS", {
       id: "tokens",
       meta: { headerClassName: "text-right", cellClassName: "text-right" },
       cell: LogTokensCell,
       size: 110,
     }),
-    col("LOGS.TABLE.SPEND", {
+    titledColumn(t, "LOGS.TABLE.SPEND", {
       accessorKey: "quota",
       cell: LogSpendCell,
       size: 130,
     }),
-    col("LOGS.TABLE.TIME_FIRST", {
+    titledColumn(t, "LOGS.TABLE.TIME_FIRST", {
       id: "timing",
       cell: LogTimingCell,
       size: 130,
     }),
-    col("LOGS.TABLE.DETAILS", {
+    titledColumn(t, "LOGS.TABLE.DETAILS", {
       accessorKey: "content",
       cell: LogPricingDetailsCell,
       size: 180,
