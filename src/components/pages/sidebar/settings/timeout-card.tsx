@@ -69,7 +69,6 @@ export function TimeoutCard() {
       },
       {
         onSuccess: () => toast.success(t("SETTINGS.TIMEOUT.SETTINGS_SAVED")),
-        onError: (error) => toast.error(error.message),
       },
     );
   }

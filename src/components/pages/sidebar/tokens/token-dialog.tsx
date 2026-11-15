@@ -171,7 +171,6 @@ export function TokenDialog(props: TokenDialogProps) {
         onSuccess: (data) => {
           setRevealedKey(data.key);
         },
-        onError: () => toast.error(t("TOKEN.ERROR.FETCH_KEY")),
       },
     );
   }
@@ -203,7 +202,6 @@ export function TokenDialog(props: TokenDialogProps) {
           toast.success(t("TOKEN.SUCCESS.STATUS_CHANGED"));
           props.onOpenChange(false);
         },
-        onError: () => toast.error(t("TOKEN.ERROR.STATUS_UPDATE")),
       },
     );
   }
@@ -217,7 +215,6 @@ export function TokenDialog(props: TokenDialogProps) {
           toast.success(t("TOKEN.SUCCESS.DELETED"));
           props.onOpenChange(false);
         },
-        onError: () => toast.error(t("TOKEN.ERROR.DELETE")),
       },
     );
   }
@@ -275,12 +272,6 @@ export function TokenDialog(props: TokenDialogProps) {
             toast.success(t("TOKEN.SUCCESS.UPDATED"));
             props.onOpenChange(false);
           },
-          onError: (err) =>
-            toast.error(
-              err instanceof Error && err.message
-                ? err.message
-                : t("TOKEN.ERROR.UPDATE"),
-            ),
         },
       );
     } else {
@@ -291,12 +282,6 @@ export function TokenDialog(props: TokenDialogProps) {
             toast.success(t("TOKEN.SUCCESS.CREATED"));
             props.onOpenChange(false);
           },
-          onError: (err) =>
-            toast.error(
-              err instanceof Error && err.message
-                ? err.message
-                : t("TOKEN.ERROR.CREATE"),
-            ),
         },
       );
     }

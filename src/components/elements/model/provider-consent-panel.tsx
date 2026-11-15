@@ -183,7 +183,6 @@ export function ProviderConsentPanel(props: {
           props.onGranted?.();
           props.onDone?.();
         },
-        onError: (error) => toast.error(error.message),
       },
     );
   }

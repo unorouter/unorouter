@@ -35,7 +35,6 @@ export function CustomerTypeCard() {
           setDraft(undefined);
           toast.success(t("SETTINGS.CUSTOMER_TYPE.SAVED"));
         },
-        onError: (error) => toast.error(error.message),
       },
     );
   }

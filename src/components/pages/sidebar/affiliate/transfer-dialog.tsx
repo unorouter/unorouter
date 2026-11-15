@@ -61,12 +61,6 @@ export function TransferDialog(props: TransferDialogProps) {
           form.reset();
           router.refresh();
         },
-        onError: (err) =>
-          toast.error(
-            err instanceof Error && err.message
-              ? err.message
-              : t("AFFILIATE.ERROR.TRANSFER"),
-          ),
       },
     );
   }

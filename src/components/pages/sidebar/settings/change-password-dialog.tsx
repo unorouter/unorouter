@@ -67,9 +67,6 @@ export function ChangePasswordDialog(props: {
           toast.success(t("SETTINGS.SECURITY.PASSWORD_CHANGED"));
           props.onOpenChange(false);
         },
-        onError: (error) => {
-          toast.error(error.message);
-        },
       },
     );
   }

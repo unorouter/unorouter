@@ -90,8 +90,7 @@ export function AccountCard() {
           toast.success(t("SETTINGS.ACCOUNT.CODE_SENT", { seconds: 60 }));
           setCountdown(60);
         },
-        onError: (error) => {
-          toast.error(error.message);
+        onError: () => {
           turnstileRef.current?.reset();
           setTurnstileToken(undefined);
         },
@@ -111,9 +110,6 @@ export function AccountCard() {
           form.reset(formDefaults(emailBindSchema));
           turnstileRef.current?.reset();
           setTurnstileToken(undefined);
-        },
-        onError: (error) => {
-          toast.error(error.message);
         },
       },
     );

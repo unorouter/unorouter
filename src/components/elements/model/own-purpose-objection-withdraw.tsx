@@ -56,7 +56,6 @@ export function OwnPurposeObjectionWithdrawButton(props: {
           { body: { objection: false } },
           {
             onSuccess: () => toast.success(t("OWN_PURPOSE.WITHDRAWN")),
-            onError: (error) => toast.error(error.message),
           },
         )
       }

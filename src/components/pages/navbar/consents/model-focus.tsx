@@ -42,7 +42,6 @@ export function ModelFocus(props: {
         { body: { alias } },
         {
           onSuccess: () => toast.success(t("CONSENT.REVOKED")),
-          onError: (error) => toast.error(error.message),
         },
       ),
     revoking: revokeMutation.isPending,

@@ -98,7 +98,6 @@ export function TokenKeyCell(props: CellContext<TableFeats, TokenRow>) {
       { id: token.id },
       {
         onSuccess: (data) => setRevealedKey(data.key),
-        onError: () => toast.error(t("TOKEN.ERROR.FETCH_KEY")),
       },
     );
   }
@@ -333,7 +332,6 @@ export function TokenActionCell(props: CellContext<TableFeats, TokenRow>) {
           { body: { ...token, status: isEnabled ? 2 : 1 } },
           {
             onSuccess: () => toast.success(t("TOKEN.SUCCESS.STATUS_CHANGED")),
-            onError: () => toast.error(t("TOKEN.ERROR.STATUS_UPDATE")),
           },
         ),
     },
@@ -349,7 +347,6 @@ export function TokenActionCell(props: CellContext<TableFeats, TokenRow>) {
           { id: token.id },
           {
             onSuccess: () => toast.success(t("TOKEN.SUCCESS.DELETED")),
-            onError: () => toast.error(t("TOKEN.ERROR.DELETE")),
           },
         ),
     },

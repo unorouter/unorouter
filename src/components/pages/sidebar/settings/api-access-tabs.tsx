@@ -46,7 +46,6 @@ export function ApiAccessTabs() {
         setAccessToken(data);
         toast.success(t("SETTINGS.SECURITY.TOKEN_GENERATED"));
       },
-      onError: (error) => toast.error(error.message),
     });
   }
 

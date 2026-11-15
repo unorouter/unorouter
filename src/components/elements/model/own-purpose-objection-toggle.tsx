@@ -23,7 +23,6 @@ export function OwnPurposeObjectionToggle() {
           toast.success(
             t(objection ? "OWN_PURPOSE.SAVED" : "OWN_PURPOSE.WITHDRAWN"),
           ),
-        onError: (error) => toast.error(error.message),
       },
     );
   }

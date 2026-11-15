@@ -64,7 +64,6 @@ function useTransactionColumns(): ColumnDef<TableFeats, TransactionRow>[] {
           if (url) window.location.assign(url);
           else toast.error(t("BILLING.PORTAL.ERROR"));
         },
-        onError: () => toast.error(t("BILLING.PORTAL.ERROR")),
       },
     );
   }

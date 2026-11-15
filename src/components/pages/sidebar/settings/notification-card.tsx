@@ -114,9 +114,6 @@ export function NotificationCard() {
         onSuccess: () => {
           toast.success(t("SETTINGS.NOTIFICATIONS.SETTINGS_SAVED"));
         },
-        onError: (error) => {
-          toast.error(error.message);
-        },
       },
     );
   }
