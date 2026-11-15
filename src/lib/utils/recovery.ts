@@ -1,5 +1,5 @@
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
-import { isRecord } from "@/lib/utils/base";
+import { isRecord, webStorage } from "@/lib/utils/base";
 
 export async function clearServiceWorkerCaches() {
   logChatDebug("recovery.clear_sw_caches");
@@ -89,6 +89,51 @@ export function isChunkLoadError(error: unknown): boolean {
       message,
     )
   );
+}
+
+const CHUNK_RELOAD_KEY = "chunk-reload-once";
+
+// The chunk URL is in the message, and the failing entry is usually in the
+// BROWSER cache: a rollout 404 was once served with a one-year max-age, and no
+// edge purge reaches that. cache: "reload" refetches past the HTTP cache and
+// replaces the entry. During a rollout the chunk request can also land on a pod
+// of the other build and 404, so it retries a few times before giving up.
+export async function repairChunks(error: unknown): Promise<void> {
+  const message = error instanceof Error ? error.message : String(error);
+  const urls = message.match(/\/_next\/static\/[^\s"')]+/g) ?? [];
+  for (let attempt = 0; attempt < 4; attempt++) {
+    const ok = await Promise.all(
+      urls.map((u) =>
+        fetch(u, { cache: "reload" }).then(
+          (r) => r.ok,
+          () => false,
+        ),
+      ),
+    );
+    if (ok.every(Boolean)) break;
+    await new Promise((r) => setTimeout(r, 3000));
+  }
+  await clearServiceWorkerCaches().catch(() => {});
+}
+
+// Both error boundaries (route and global) reload once on a chunk error; the
+// session flag stops a loop when the chunk is truly gone, and without session
+// storage there is no auto reload at all. Caches AND the worker go before the
+// reload: deleting caches alone left a wedged worker serving it the same way.
+export function recoverChunkError(error: unknown): void {
+  if (!isChunkLoadError(error)) return;
+  const session = webStorage("sessionStorage");
+  const willReload = !!session && !session.getItem(CHUNK_RELOAD_KEY);
+  logChatDebug("chunk.load_error", {
+    message: String(error instanceof Error ? error.message : error).slice(
+      0,
+      200,
+    ),
+    willReload,
+  });
+  if (!session || !willReload) return;
+  session.setItem(CHUNK_RELOAD_KEY, "1");
+  void repairChunks(error).then(() => window.location.reload());
 }
 
 export function formatError(error: Error & { digest?: string }) {

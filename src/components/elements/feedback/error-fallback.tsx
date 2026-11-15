@@ -1,18 +1,18 @@
 "use client";
 
-import { captureCaughtError, logChatDebug } from "@/lib/utils/chat-debug-log";
+import { captureCaughtError } from "@/lib/utils/chat-debug-log";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { env } from "@/lib/config/env";
-import { webStorage } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import {
   clearAllClientStorage,
-  clearServiceWorkerCaches,
   formatError,
   isChunkLoadError,
+  recoverChunkError,
+  repairChunks,
 } from "@/lib/utils/recovery";
 import { useEffect, useState } from "react";
 
@@ -31,19 +31,6 @@ type ErrorFallbackProps = {
   className?: string;
 };
 
-// The chunk URL is in the message, and the failing entry is usually in the
-// BROWSER cache: a rollout 404 was once served with a one-year max-age, and no
-// edge purge reaches that. cache: "reload" refetches past the HTTP cache and
-// replaces the entry, so the reload after it can import the chunk again.
-async function repairChunks(error: unknown): Promise<void> {
-  const message = error instanceof Error ? error.message : String(error);
-  const urls = message.match(/\/_next\/static\/[^\s"')]+/g) ?? [];
-  await Promise.all(
-    urls.map((u) => fetch(u, { cache: "reload" }).catch(() => undefined)),
-  );
-  await clearServiceWorkerCaches().catch(() => {});
-}
-
 export function ErrorFallback(props: ErrorFallbackProps) {
   const t = useTranslations();
   const [clearing, setClearing] = useState(false);
@@ -53,25 +40,7 @@ export function ErrorFallback(props: ErrorFallbackProps) {
   useEffect(() => {
     console.error(props.error);
     captureCaughtError({ source: "route.error", error: props.error });
-    // The sessionStorage guard stops an infinite reload loop when the chunk is truly gone.
-    if (isChunkLoadError(props.error)) {
-      const KEY = "chunk-reload-once";
-      const session = webStorage("sessionStorage");
-      // Without session storage the once-guard cannot hold, so no auto reload.
-      const willReload = !!session && !session.getItem(KEY);
-      logChatDebug("chunk.load_error", {
-        message: String(props.error?.message ?? "").slice(0, 200),
-        willReload,
-      });
-      if (session && willReload) {
-        session.setItem(KEY, "1");
-        // Caches AND the worker must go before the reload. Deleting caches
-        // alone left a wedged worker serving the reload the same way, and the
-        // once-guard then landed the user here with a destructive reset as
-        // the most visible button.
-        void repairChunks(props.error).then(() => window.location.reload());
-      }
-    }
+    recoverChunkError(props.error);
   }, [props.error]);
 
   const details = formatError(props.error);
