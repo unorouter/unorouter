@@ -14,7 +14,6 @@ import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { dayjs } from "@/lib/utils/format/date";
 import {
   bumpLocalSessionCounts,
-  readLocalImageBytes,
   readLocalSessionBundle,
   sessionStore,
   upsertLocalSnapshot,
@@ -30,16 +29,14 @@ export async function exportLocalSession(
   const snapshots: ImageSnapshotExport[] = [];
   for (const snap of bundle.snapshots) {
     const imgs = bundle.media.filter((m) => m.imageSnapshotId === snap.id);
-    const images = await Promise.all(
-      imgs.map(async (img) => ({
-        sequenceIndex: img.sequenceIndex ?? 0,
-        base64: (await readLocalImageBytes(img.id)) ?? "",
-        mimeType: img.mimeType,
-        width: img.width,
-        height: img.height,
-        seed: img.seed,
-      })),
-    );
+    const images = imgs.map((img) => ({
+      sequenceIndex: img.sequenceIndex ?? 0,
+      base64: img.dataBase64 ?? "",
+      mimeType: img.mimeType,
+      width: img.width,
+      height: img.height,
+      seed: img.seed,
+    }));
     snapshots.push({
       version: IMAGE_GENERATION_FORMAT,
       model: snap.model,

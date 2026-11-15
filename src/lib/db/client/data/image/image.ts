@@ -78,7 +78,6 @@ export const sessionStore = makeTableStore(imageSessions, imageSessions.id, {
   defaultOrderBy: desc(imageSessions.updatedAt),
 });
 const snapshotStore = makeTableStore(imageSnapshots, imageSnapshots.id);
-const mediaStore = makeTableStore(media, media.id);
 
 const readLocalImageSessions = () => sessionStore.list();
 
@@ -188,13 +187,6 @@ export async function upsertLocalSnapshotImages(
     images,
     (row) => row,
   );
-}
-
-export async function readLocalImageBytes(
-  mediaId: string,
-): Promise<string | null> {
-  const row = await mediaStore.get(mediaId);
-  return row?.dataBase64 ?? null;
 }
 
 export async function readLocalSessionBundle(sessionId: string) {
