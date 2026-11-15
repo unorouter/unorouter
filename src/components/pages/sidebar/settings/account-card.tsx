@@ -30,7 +30,7 @@ import {
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { useTranslations } from "next-intl";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useQueryState } from "nuqs";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -44,9 +44,7 @@ export function AccountCard() {
   const bindEmailMutation = useBindEmailMutation();
   const sendVerificationMutation = useSendSettingsVerificationMutation();
   const unbindOAuthMutation = useUnbindOAuthMutation();
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const [bindError, setBindError] = useQueryState("bind_error");
   const [bindLoading, setBindLoading] = useState<string | null>(null);
 
   const [countdown, setCountdown] = useState(0);
@@ -69,11 +67,10 @@ export function AccountCard() {
   }, [countdown]);
 
   useEffect(() => {
-    const bindError = searchParams.get("bind_error");
     if (!bindError) return;
     toast.error(bindError);
-    router.replace(pathname);
-  }, [searchParams, router, pathname]);
+    void setBindError(null);
+  }, [bindError, setBindError]);
 
   if (!user) return null;
 
