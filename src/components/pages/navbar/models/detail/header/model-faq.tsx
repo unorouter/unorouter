@@ -1,24 +1,14 @@
 "use client";
 
-import { findContextTag, modelDisplayName } from "@/lib/api/pricing";
-import { EMPTY_METADATA } from "@/lib/api/model-modality";
-import type { ModelMetadata, PricingCatalogDetail } from "@/openapi";
+import type { PricingCatalogDetail } from "@/openapi";
 
 import { Icon } from "@/components/ui/icon";
-import { APP_VALUES } from "@/lib/config/constants";
 import { getVendorTheme } from "@/lib/config/vendor-registry";
 import { SectionHeading } from "../shared/section-heading";
 import { cn } from "@/lib/utils";
-import {
-  formatPrice,
-  formatPriceCompact,
-  formatTokenCount,
-} from "@/lib/utils/format/number";
-import { formatYearMonth } from "@/lib/utils/format/date";
 import { useLocale, useTranslations } from "next-intl";
+import { modelFaqItems } from "./model-faq-items";
 import { useState } from "react";
-
-type FaqItem = { q: string; a: string };
 
 export function ModelFaq(props: {
   model: PricingCatalogDetail;
@@ -27,116 +17,13 @@ export function ModelFaq(props: {
   const t = useTranslations();
   const locale = useLocale();
   const m = props.model;
-  // The detail record always carries metadata; the list shape does not, so the
-  // default keeps this readable instead of chaining every access.
-  const meta: ModelMetadata = m.metadata ?? EMPTY_METADATA;
-  const name = m.model_name;
-  // Questions use the name people search; answers keep the exact id to paste.
-  const displayName = modelDisplayName(m);
   const theme = getVendorTheme(m.vendor);
-  const items: FaqItem[] = [];
   const [open, setOpen] = useState<number[]>([]);
   const toggle = (i: number) =>
     setOpen((cur) =>
       cur.includes(i) ? cur.filter((x) => x !== i) : [...cur, i],
     );
-
-  if (m.is_fixed_price) {
-    items.push({
-      q: t("MODEL_PAGE.FAQ_COST_FIXED_Q", { name: displayName }),
-      a: t("MODEL_PAGE.FAQ_COST_FIXED_A", {
-        name,
-        price: formatPrice(m.fixed_price),
-      }),
-    });
-  } else if (m.is_tiered) {
-    items.push({
-      q: t("MODEL_PAGE.FAQ_COST_TIERED_Q", { name: displayName }),
-      a: t("MODEL_PAGE.FAQ_COST_TIERED_A", { name }),
-    });
-  } else if (m.grid_pricing) {
-    items.push({
-      q: t("MODEL_PAGE.FAQ_COST_GRID_Q", { name: displayName }),
-      a: t("MODEL_PAGE.FAQ_COST_GRID_A", { name }),
-    });
-  } else {
-    items.push({
-      q: t("MODEL_PAGE.FAQ_COST_Q", { name: displayName }),
-      a: t("MODEL_PAGE.FAQ_COST_A", {
-        name,
-        input: formatPriceCompact(m.input_price),
-        output: formatPriceCompact(m.output_price),
-      }),
-    });
-  }
-
-  const contextTag = findContextTag(m);
-  if (contextTag) {
-    items.push({
-      q: t("MODEL_PAGE.FAQ_CONTEXT_Q", { name: displayName }),
-      a: t("MODEL_PAGE.FAQ_CONTEXT_A", { name, context: contextTag }),
-    });
-  }
-
-  if (meta.maxOutputTokens) {
-    items.push({
-      q: t("MODEL_PAGE.FAQ_OUTPUT_Q", { name: displayName }),
-      a: t("MODEL_PAGE.FAQ_OUTPUT_A", {
-        name,
-        value: formatTokenCount(meta.maxOutputTokens, locale),
-      }),
-    });
-  }
-
-  if (meta.supportsTools) {
-    items.push({
-      q: t("MODEL_PAGE.FAQ_TOOLS_Q", { name: displayName }),
-      a: t("MODEL_PAGE.FAQ_TOOLS_A", { name }),
-    });
-  }
-
-  if (meta.isReasoning || (meta.reasoningEfforts?.length ?? 0) > 0) {
-    items.push({
-      q: t("MODEL_PAGE.FAQ_REASONING_Q", { name: displayName }),
-      a: t("MODEL_PAGE.FAQ_REASONING_A", { name }),
-    });
-  }
-
-  if (meta.supportsVision) {
-    items.push({
-      q: t("MODEL_PAGE.FAQ_VISION_Q", { name: displayName }),
-      a: t("MODEL_PAGE.FAQ_VISION_A", { name }),
-    });
-  }
-
-  const cutoff = formatYearMonth(meta.knowledgeCutoff);
-  if (cutoff) {
-    items.push({
-      q: t("MODEL_PAGE.FAQ_CUTOFF_Q", { name: displayName }),
-      a: t("MODEL_PAGE.FAQ_CUTOFF_A", { name, value: cutoff }),
-    });
-  }
-
-  if (meta.isModerated === true) {
-    items.push({
-      q: t("MODEL_PAGE.FAQ_MODERATED_Q", { name: displayName }),
-      a: t("MODEL_PAGE.FAQ_MODERATED_A", { name }),
-    });
-  }
-
-  if (props.hasFreeTwin) {
-    items.push({
-      q: t("MODEL_PAGE.FAQ_FREE_Q", { name: displayName }),
-      a: t("MODEL_PAGE.FAQ_FREE_A", { ...APP_VALUES, name }),
-    });
-  }
-
-  items.push({
-    q: t("MODEL_PAGE.FAQ_API_Q", { name: displayName }),
-    a: t("MODEL_PAGE.FAQ_API_A", { ...APP_VALUES, name }),
-  });
-
-  if (items.length === 0) return null;
+  const items = modelFaqItems(t, m, props.hasFreeTwin, locale);
 
   return (
     <div>
