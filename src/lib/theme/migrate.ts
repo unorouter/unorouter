@@ -1,4 +1,5 @@
 import { joinAlpha, normHex } from "@/lib/theme/palette";
+import { finiteNumber, isRecord, nonEmptyString } from "@/lib/utils/base";
 import { CUSTOM, DEFAULT } from "@/lib/theme/presets";
 import {
   INITIAL_USER_THEME,
@@ -7,18 +8,6 @@ import {
   type TokenValues,
   type UserTheme,
 } from "@/lib/theme/theme-types";
-
-function isRecord(v: unknown): v is Record<string, unknown> {
-  return typeof v === "object" && v !== null && !Array.isArray(v);
-}
-
-function str(v: unknown): string | undefined {
-  return typeof v === "string" && v ? v : undefined;
-}
-
-function num(v: unknown): number | undefined {
-  return typeof v === "number" && Number.isFinite(v) ? v : undefined;
-}
 
 function tokenValues(v: unknown): TokenValues | undefined {
   if (!isRecord(v)) return undefined;
@@ -41,7 +30,7 @@ function modeValues(v: unknown): ModeValues {
   if (isRecord(v.presets)) {
     const presets: ThemePresets = {};
     for (const k of ["palette", "accent", "chart", "style"] as const) {
-      const id = str(v.presets[k]);
+      const id = nonEmptyString(v.presets[k]);
       if (id && id !== DEFAULT) presets[k] = id;
     }
     if (Object.keys(presets).length) out.presets = presets;
@@ -75,7 +64,7 @@ function v1Surface(v: unknown): ModeValues {
     if (!isRecord(colors)) return undefined;
     const out: TokenValues = {};
     for (const [k, val] of Object.entries(colors)) {
-      const hex = normHex(str(val));
+      const hex = normHex(nonEmptyString(val));
       if (!hex) continue;
       for (const id of V1_SURFACE_ALIASES[k] ?? [k]) out[id] = hex;
     }
@@ -90,10 +79,10 @@ function v1Surface(v: unknown): ModeValues {
 }
 
 function v1Font(id: unknown, custom: unknown): string | undefined {
-  const s = str(id);
+  const s = nonEmptyString(id);
   if (!s || s === "inherit") return undefined;
   if (s === CUSTOM) {
-    const name = str(custom);
+    const name = nonEmptyString(custom);
     return name ? `${CUSTOM}:${name}` : undefined;
   }
   return s;
@@ -121,18 +110,18 @@ function fromV1(raw: Record<string, unknown>): UserTheme {
   const all: TokenValues = {};
   const presets = { ...INITIAL_USER_THEME.presets };
 
-  const base = str(raw.baseColor);
+  const base = nonEmptyString(raw.baseColor);
   if (base === CUSTOM) {
-    const hex = normHex(str(raw.baseColorCustom));
+    const hex = normHex(nonEmptyString(raw.baseColorCustom));
     if (hex) {
       presets.palette = CUSTOM;
       bothModes(global, "palette-base", hex);
     }
   } else if (base && base !== DEFAULT) presets.palette = base;
 
-  const accent = str(raw.theme);
+  const accent = nonEmptyString(raw.theme);
   if (accent === CUSTOM) {
-    const hex = normHex(str(raw.themeCustom));
+    const hex = normHex(nonEmptyString(raw.themeCustom));
     if (hex) {
       presets.accent = CUSTOM;
       bothModes(global, "accent-base", hex);
@@ -140,9 +129,9 @@ function fromV1(raw: Record<string, unknown>): UserTheme {
   } else if (accent === "sakura") presets.palette = "sakura";
   else if (accent && accent !== DEFAULT) presets.accent = accent;
 
-  const chart = str(raw.chartColor);
+  const chart = nonEmptyString(raw.chartColor);
   if (chart === CUSTOM) {
-    const hex = normHex(str(raw.chartColorCustom));
+    const hex = normHex(nonEmptyString(raw.chartColorCustom));
     if (hex) {
       presets.chart = CUSTOM;
       bothModes(global, "chart-base", hex);
@@ -151,10 +140,10 @@ function fromV1(raw: Record<string, unknown>): UserTheme {
   else if (chart && chart !== DEFAULT) presets.chart = chart;
 
   // Nova was the inert default: it multiplied a radius of zero.
-  const style = str(raw.style);
+  const style = nonEmptyString(raw.style);
   if (style && style !== "nova") presets.style = style;
 
-  const radius = V1_RADIUS[str(raw.radius) ?? ""];
+  const radius = V1_RADIUS[nonEmptyString(raw.radius) ?? ""];
   if (radius !== undefined) all.radius = radius;
 
   const sans = v1Font(raw.fontBody, raw.fontBodyCustom);
@@ -164,7 +153,7 @@ function fromV1(raw: Record<string, unknown>): UserTheme {
   const mono = v1Font(raw.fontMono, undefined);
   if (mono) all["font-mono"] = mono;
 
-  const icons = str(raw.iconLibrary);
+  const icons = nonEmptyString(raw.iconLibrary);
   if (icons && icons !== "lucide") all["icon-library"] = icons;
 
   if (isRecord(raw.markdown)) {
@@ -177,30 +166,30 @@ function fromV1(raw: Record<string, unknown>): UserTheme {
       doubleQuote: "md-double-quote",
     };
     for (const [k, id] of Object.entries(ids)) {
-      const hex = normHex(str(raw.markdown[k]));
+      const hex = normHex(nonEmptyString(raw.markdown[k]));
       if (hex) bothModes(global, id, hex);
     }
   }
 
-  const scale = num(raw.chatFontScale);
+  const scale = finiteNumber(raw.chatFontScale);
   if (scale && scale !== 1) all["prose-scale"] = scale;
-  const weight = num(raw.chatFontWeight);
+  const weight = finiteNumber(raw.chatFontWeight);
   if (weight && weight !== 400) all["font-weight"] = weight;
-  const avatar = num(raw.chatAvatarScale);
+  const avatar = finiteNumber(raw.chatAvatarScale);
   if (avatar && avatar !== 1) all["chat-avatar"] = String(avatar);
-  const assetWidth = num(raw.assetImageMaxWidth);
+  const assetWidth = finiteNumber(raw.assetImageMaxWidth);
   if (assetWidth) all["asset-img-max-width"] = assetWidth;
 
   if (isRecord(raw.background)) {
     const bg = raw.background;
-    const fit = str(bg.fit);
+    const fit = nonEmptyString(bg.fit);
     if (fit && fit !== "cover") all["wallpaper-fit"] = fit;
-    const opacity = num(bg.opacity);
+    const opacity = finiteNumber(bg.opacity);
     if (opacity !== undefined && opacity !== 1)
       all["wallpaper-opacity"] = opacity;
-    const blur = num(bg.blur);
+    const blur = finiteNumber(bg.blur);
     if (blur) all["wallpaper-blur"] = blur;
-    const panelOpacity = num(bg.panelOpacity);
+    const panelOpacity = finiteNumber(bg.panelOpacity);
     if (panelOpacity !== undefined) all["panel-opacity"] = panelOpacity;
     // v1 sliders tinted surfaces the user had coloured; a colour now carries
     // its own alpha, so each slider is baked into the colours it governed.
@@ -218,15 +207,15 @@ function fromV1(raw: Record<string, unknown>): UserTheme {
     };
     // Bubbles and the type area first: their fallbacks are surfaces the
     // panel bake would otherwise have already given an alpha.
-    const bubbleOpacity = num(bg.bubbleOpacity);
+    const bubbleOpacity = finiteNumber(bg.bubbleOpacity);
     if (bubbleOpacity !== undefined && bubbleOpacity < 1)
       bake(["bubble-user", "bubble-assistant"], bubbleOpacity, "muted");
-    const composerOpacity = num(bg.composerOpacity);
+    const composerOpacity = finiteNumber(bg.composerOpacity);
     if (composerOpacity !== undefined && composerOpacity < 1)
       bake(["composer"], composerOpacity, "background");
     if (panelOpacity !== undefined && panelOpacity < 1)
       bake(TINTED_V1, panelOpacity);
-    const panelBlur = num(bg.panelBlur);
+    const panelBlur = finiteNumber(bg.panelBlur);
     if (panelBlur !== undefined) all["panel-blur"] = panelBlur;
   }
 
@@ -247,10 +236,10 @@ export function migrateTheme(raw: unknown): UserTheme {
   return {
     v: 2,
     presets: {
-      palette: str(presets.palette) ?? DEFAULT,
-      accent: str(presets.accent) ?? DEFAULT,
-      chart: str(presets.chart) ?? DEFAULT,
-      style: str(presets.style) ?? DEFAULT,
+      palette: nonEmptyString(presets.palette) ?? DEFAULT,
+      accent: nonEmptyString(presets.accent) ?? DEFAULT,
+      chart: nonEmptyString(presets.chart) ?? DEFAULT,
+      style: nonEmptyString(presets.style) ?? DEFAULT,
     },
     global: modeValues(raw.global),
     scopes,
