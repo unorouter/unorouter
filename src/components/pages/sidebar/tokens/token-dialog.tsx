@@ -38,22 +38,16 @@ import {
 import {
   useCreateTokenMutation,
   useDeleteTokenMutation,
-  useFetchTokenKeyMutation,
   useToggleTokenStatusMutation,
   useUpdateTokenMutation,
   useUserGroupsQuery,
 } from "@/hooks/billing/token-hook";
 import { dollarsToQuota, quotaToDollars } from "@/lib/config/constants";
-import {
-  copyToClipboard,
-  copyToClipboardAsync,
-  safeJsonParse,
-  isOneOf,
-} from "@/lib/utils/base";
+import { safeJsonParse, isOneOf } from "@/lib/utils/base";
 import { tokenFormSchema, type TokenFormSchema } from "@/lib/validation/token";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import type { TokenRow } from "./token-columns";
@@ -63,6 +57,7 @@ import {
 } from "./token-group-mapping";
 import { TokenKeyDisplay } from "./token-key-display";
 import { TokenModelSelect } from "./token-model-select";
+import { useTokenKey } from "./use-token-key";
 import { formDefaults } from "@/lib/validation/helpers";
 import type { TranslationKey } from "@/lib/types";
 
@@ -103,7 +98,6 @@ export function TokenDialog(props: TokenDialogProps) {
   const updateMutation = useUpdateTokenMutation();
   const toggleMutation = useToggleTokenStatusMutation();
   const deleteMutation = useDeleteTokenMutation();
-  const fetchKeyMutation = useFetchTokenKeyMutation();
   const isEdit = !!props.token;
   const pricingQuery = usePricingVendorsQuery();
   const catalogQuery = usePricingCatalogQuery();
@@ -113,18 +107,7 @@ export function TokenDialog(props: TokenDialogProps) {
     defaultValues: formDefaults(tokenFormSchema),
   });
 
-  const sessionKey = props.open ? `${props.token?.id ?? "new"}` : "";
-  const [revealSession, setRevealSession] = useState<{
-    key: string;
-    value: string | null;
-  }>({ key: sessionKey, value: null });
-  if (revealSession.key !== sessionKey) {
-    setRevealSession({ key: sessionKey, value: null });
-  }
-  const revealedKey = revealSession.value;
-  const setRevealedKey = (value: string | null) => {
-    setRevealSession({ key: sessionKey, value });
-  };
+  const tokenKey = useTokenKey(props.token, String(props.open));
 
   useEffect(() => {
     if (!props.open) return;
@@ -155,39 +138,6 @@ export function TokenDialog(props: TokenDialogProps) {
       form.reset(formDefaults(tokenFormSchema));
     }
   }, [props.open, props.token, form]);
-
-  function handleToggleReveal() {
-    if (!props.token) return;
-    if (revealedKey) {
-      setRevealedKey(null);
-      return;
-    }
-    fetchKeyMutation.mutate(
-      { id: props.token.id },
-      {
-        onSuccess: (data) => {
-          setRevealedKey(data.key);
-        },
-      },
-    );
-  }
-
-  function handleCopyKey() {
-    if (!props.token) return;
-    if (revealedKey) {
-      copyToClipboard(`sk-${revealedKey}`);
-      toast.success(t("TOKEN.SUCCESS.KEY_COPIED"));
-      return;
-    }
-    const tokenId = props.token.id;
-    copyToClipboardAsync(() =>
-      fetchKeyMutation
-        .mutateAsync({ id: tokenId })
-        .then((data) => `sk-${data.key}`),
-    )
-      .then(() => toast.success(t("TOKEN.SUCCESS.KEY_COPIED")))
-      .catch(() => toast.error(t("TOKEN.ERROR.FETCH_KEY")));
-  }
 
   function handleToggleStatus() {
     if (!props.token) return;
@@ -317,11 +267,6 @@ export function TokenDialog(props: TokenDialogProps) {
 
   const isPending = createMutation.isPending || updateMutation.isPending;
   const isEnabled = props.token?.status === 1;
-  const displayKey = props.token
-    ? revealedKey
-      ? `sk-${revealedKey}`
-      : `sk-${props.token.key}`
-    : null;
 
   const unlimitedQuota = useWatch({
     control: form.control,
@@ -360,13 +305,13 @@ export function TokenDialog(props: TokenDialogProps) {
             className="flex min-h-0 flex-1 flex-col"
           >
             <div className="-mx-6 flex flex-1 flex-col gap-6 overflow-y-auto px-6">
-              {isEdit && displayKey && (
+              {isEdit && tokenKey.displayKey && (
                 <TokenKeyDisplay
-                  displayKey={displayKey}
-                  revealedKey={revealedKey}
+                  displayKey={tokenKey.displayKey}
+                  revealedKey={tokenKey.revealedKey}
                   isEnabled={isEnabled}
-                  onToggleReveal={handleToggleReveal}
-                  onCopyKey={handleCopyKey}
+                  onToggleReveal={tokenKey.toggleReveal}
+                  onCopyKey={tokenKey.copy}
                 />
               )}
 

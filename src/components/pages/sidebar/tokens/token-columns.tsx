@@ -15,26 +15,21 @@ import {
 } from "@/components/ui/tooltip";
 import {
   useDeleteTokenMutation,
-  useFetchTokenKeyMutation,
   useToggleTokenStatusMutation,
 } from "@/hooks/billing/token-hook";
 import { usePricingVendorsQuery } from "@/hooks/models/pricing-hook";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { renderQuota } from "@/lib/config/constants";
-import {
-  copyToClipboard,
-  copyToClipboardAsync,
-  safeJsonParse,
-} from "@/lib/utils/base";
+import { safeJsonParse } from "@/lib/utils/base";
 import type { TokenResponse } from "@/openapi";
 import type { CellContext } from "@tanstack/react-table";
 import type { TableFeats } from "@/lib/config/table-features";
 import { formatLongDate } from "@/lib/utils/format/date";
 import { useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
 import { toast } from "sonner";
 import { editingTokenAtom } from "./token-list";
+import { useTokenKey } from "./use-token-key";
 
 export type TokenRow = NonNullable<TokenResponse>;
 
@@ -69,43 +64,13 @@ export function TokenQuotaCell(props: CellContext<TableFeats, TokenRow>) {
 
 export function TokenKeyCell(props: CellContext<TableFeats, TokenRow>) {
   const t = useTranslations();
-  const fetchKeyMutation = useFetchTokenKeyMutation();
-  const [revealedKey, setRevealedKey] = useState<string | null>(null);
-  const token = props.row.original;
-  const displayKey = revealedKey ? `sk-${revealedKey}` : `sk-${token.key}`;
-
-  function handleCopy() {
-    if (revealedKey) {
-      copyToClipboard(`sk-${revealedKey}`);
-      toast.success(t("TOKEN.SUCCESS.KEY_COPIED"));
-      return;
-    }
-    copyToClipboardAsync(() =>
-      fetchKeyMutation
-        .mutateAsync({ id: token.id })
-        .then((data) => `sk-${data.key}`),
-    )
-      .then(() => toast.success(t("TOKEN.SUCCESS.KEY_COPIED")))
-      .catch(() => toast.error(t("TOKEN.ERROR.FETCH_KEY")));
-  }
-
-  function handleToggleReveal() {
-    if (revealedKey) {
-      setRevealedKey(null);
-      return;
-    }
-    fetchKeyMutation.mutate(
-      { id: token.id },
-      {
-        onSuccess: (data) => setRevealedKey(data.key),
-      },
-    );
-  }
+  const tokenKey = useTokenKey(props.row.original);
+  const revealedKey = tokenKey.revealedKey;
 
   return (
     <div className="flex items-center gap-1">
       <code className="bg-muted text-foreground rounded px-1.5 py-0.5 font-mono text-xs">
-        {displayKey}
+        {tokenKey.displayKey}
       </code>
       <TooltipProvider>
         <Tooltip>
@@ -114,7 +79,7 @@ export function TokenKeyCell(props: CellContext<TableFeats, TokenRow>) {
               <Button
                 variant="ghost"
                 size="icon-xs"
-                onClick={handleToggleReveal}
+                onClick={tokenKey.toggleReveal}
                 aria-label={
                   revealedKey
                     ? t("TOKEN.KEY_DISPLAY.HIDE")
@@ -143,7 +108,7 @@ export function TokenKeyCell(props: CellContext<TableFeats, TokenRow>) {
               <Button
                 variant="ghost"
                 size="icon-xs"
-                onClick={handleCopy}
+                onClick={tokenKey.copy}
                 aria-label={t("TOKEN.COPY_KEY")}
               />
             }
