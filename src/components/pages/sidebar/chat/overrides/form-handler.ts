@@ -34,6 +34,11 @@ export const REASONING_EFFORT_KEY: Record<
   max: msg("CHAT.OVERRIDES.EFFORT_MAX"),
 };
 
+export const REASONING_LEADING_OPTIONS = [
+  { value: NONE_VALUE, labelKey: msg("CHAT.OVERRIDES.MODEL_DEFAULT") },
+  { value: "none", labelKey: msg("CHAT.OVERRIDES.OFF") },
+];
+
 export const WEB_SEARCH_ENGINE_KEY: Record<WebSearchEngine, TranslationKey> = {
   auto: msg("CHAT.OVERRIDES.ENGINE_AUTO"),
   native: msg("CHAT.OVERRIDES.ENGINE_NATIVE"),

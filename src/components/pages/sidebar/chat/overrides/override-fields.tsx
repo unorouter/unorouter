@@ -33,7 +33,6 @@ import { IMAGE_STYLE_TEMPLATES } from "@/lib/ai/chat/image-style-templates";
 import {
   DEFAULT_CHAT_MEMORY,
   MAX_CHAT_MEMORY,
-  msg,
   NONE_VALUE,
   type TranslationKey,
 } from "@/lib/config/constants";
@@ -49,6 +48,7 @@ import { useTranslations } from "next-intl";
 import { useFormContext, type Control } from "react-hook-form";
 import {
   REASONING_EFFORT_KEY,
+  REASONING_LEADING_OPTIONS,
   WEB_SEARCH_CONTEXT_KEY,
   WEB_SEARCH_ENGINE_KEY,
 } from "./form-handler";
@@ -123,13 +123,7 @@ export function OverridesGenerationFields(props: {
           label={t("CHAT.OVERRIDES.REASONING_EFFORT")}
           fallback={NONE_VALUE}
           optionKeys={REASONING_EFFORT_KEY}
-          leadingOptions={[
-            {
-              value: NONE_VALUE,
-              labelKey: msg("CHAT.OVERRIDES.MODEL_DEFAULT"),
-            },
-            { value: "none", labelKey: msg("CHAT.OVERRIDES.OFF") },
-          ]}
+          leadingOptions={REASONING_LEADING_OPTIONS}
         />
         <FormField
           control={props.control}

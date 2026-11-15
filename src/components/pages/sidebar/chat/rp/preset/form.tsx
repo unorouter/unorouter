@@ -3,7 +3,10 @@
 import { rec, safeJsonParse } from "@/lib/utils/base";
 import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { MyFormKeyedSelect } from "@/components/elements/form/my-form-keyed-select";
-import { REASONING_EFFORT_KEY } from "../../overrides/form-handler";
+import {
+  REASONING_EFFORT_KEY,
+  REASONING_LEADING_OPTIONS,
+} from "../../overrides/form-handler";
 import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
 import { MyFormTextarea } from "@/components/elements/form/my-form-textarea";
 import { TokenEstimate } from "@/components/elements/form/token-estimate";
@@ -20,7 +23,7 @@ import {
 } from "@/components/ui/select";
 import { ModelField } from "@/components/pages/sidebar/chat/overrides/model-fields";
 import { ImageStyleTemplatePicker } from "@/components/pages/sidebar/chat/overrides/override-fields";
-import { AUTO_GROUP, msg, NONE_VALUE } from "@/lib/config/constants";
+import { AUTO_GROUP, NONE_VALUE } from "@/lib/config/constants";
 import { STARTER_PRESETS } from "@/lib/ai/rp/starter-presets";
 import {
   useCreatePresetMutation,
@@ -242,13 +245,7 @@ export function PresetForm(props: Props) {
                   label={t("CHAT.OVERRIDES.REASONING_EFFORT")}
                   fallback={NONE_VALUE}
                   optionKeys={REASONING_EFFORT_KEY}
-                  leadingOptions={[
-                    {
-                      value: NONE_VALUE,
-                      labelKey: msg("CHAT.OVERRIDES.MODEL_DEFAULT"),
-                    },
-                    { value: "none", labelKey: msg("CHAT.OVERRIDES.OFF") },
-                  ]}
+                  leadingOptions={REASONING_LEADING_OPTIONS}
                 />
                 <p className="text-muted-foreground text-xs">
                   {t("RP.PRESET_REASONING_EFFORT_HINT")}
