@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { useHydrated } from "@/hooks/ui/use-hydrated";
 import type { DateRange } from "react-day-picker";
 
 type DateTimeRange = {
@@ -28,6 +29,7 @@ type DateTimeRangePickerProps = {
 
 export function DateTimeRangePicker(props: DateTimeRangePickerProps) {
   const t = useTranslations();
+  const hydrated = useHydrated();
   const [open, setOpen] = useState(false);
   const [range, setRange] = useState<DateRange | undefined>({
     from: props.value.from,
@@ -74,12 +76,16 @@ export function DateTimeRangePicker(props: DateTimeRangePickerProps) {
   }
 
   const hasRange = props.value.from && props.value.to;
-  const fromLabel = hasRange
-    ? dayjs(props.value.from).format("MMM D, YYYY HH:mm")
-    : "";
-  const toLabel = hasRange
-    ? dayjs(props.value.to).format("MMM D, YYYY HH:mm")
-    : "";
+  // Local time differs between the server (UTC) and the browser, so the labels
+  // wait for hydration instead of mismatching it.
+  const fromLabel =
+    hasRange && hydrated
+      ? dayjs(props.value.from).format("MMM D, YYYY HH:mm")
+      : "";
+  const toLabel =
+    hasRange && hydrated
+      ? dayjs(props.value.to).format("MMM D, YYYY HH:mm")
+      : "";
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
