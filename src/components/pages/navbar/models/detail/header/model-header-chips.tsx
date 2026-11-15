@@ -2,18 +2,18 @@
 
 import { Icon } from "@/components/ui/icon";
 import type { ModelMetadata } from "@/openapi";
+import type { IconName } from "@/lib/config/icon-map";
+import type { TranslationKey } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { formatTokenCount } from "@/lib/utils/format/number";
 import { formatYearMonth } from "@/lib/utils/format/date";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { deriveCapabilityChips } from "./capability-helpers";
 import { ModelModalityChip } from "./model-modality-chip";
 
-export function ModelHeaderChips(props: {
-  metadata: ModelMetadata;
-  locale: string;
-}) {
+export function ModelHeaderChips(props: { metadata: ModelMetadata }) {
   const t = useTranslations();
+  const locale = useLocale();
   const meta = props.metadata;
   const ctx = meta.contextWindow ?? meta.maxInputTokens;
   const out = meta.maxOutputTokens;
@@ -32,7 +32,7 @@ export function ModelHeaderChips(props: {
       {ctx ? (
         <span className={chip}>
           <Icon name="clock" className="h-3 w-3 opacity-70" />
-          {formatTokenCount(ctx, props.locale)}{" "}
+          {formatTokenCount(ctx, locale)}{" "}
           <span className="text-muted-foreground">
             {t("MODEL_PAGE.CHIP_CONTEXT")}
           </span>
@@ -41,14 +41,14 @@ export function ModelHeaderChips(props: {
       {out ? (
         <span className={chip}>
           <Icon name="zap" className="h-3 w-3 opacity-70" />
-          {formatTokenCount(out, props.locale)}{" "}
+          {formatTokenCount(out, locale)}{" "}
           <span className="text-muted-foreground">
             {t("MODEL_PAGE.CHIP_OUT")}
           </span>
         </span>
       ) : null}
       {caps.map((cap) => (
-        <span key={cap.labelKey} className={cn(chip)}>
+        <span key={cap.labelKey} className={chip}>
           <Icon name={cap.icon} className="h-3 w-3 opacity-70" />
           {cap.count != null
             ? t(cap.labelKey, { count: cap.count })
@@ -71,69 +71,35 @@ export function ModelMetaStats(props: { metadata: ModelMetadata }) {
       ? meta.quantization
       : null;
   const metaItem = "inline-flex items-center gap-1.5";
-  const metaValue = "text-foreground/80";
-
-  const hasStats =
-    !!meta.mode ||
-    !!meta.tokenizer ||
-    meta.isModerated === true ||
-    reasoningLevels.length > 0 ||
-    !!deprecationDate ||
-    !!expirationDate ||
-    !!quantization ||
-    !!meta.huggingFaceId;
-  if (!hasStats) return null;
+  const items: [IconName, TranslationKey, string | null][] = [
+    ["message-square", "MODELS.DETAIL.MODE", meta.mode || null],
+    ["file-text", "MODELS.DETAIL.TOKENIZER", meta.tokenizer || null],
+    [
+      "brain",
+      "MODELS.DETAIL.REASONING_LEVELS",
+      reasoningLevels.join(", ") || null,
+    ],
+    [
+      "shield-check",
+      "MODELS.DETAIL.MODERATED",
+      meta.isModerated === true ? "" : null,
+    ],
+    ["file-text", "MODELS.DETAIL.QUANTIZATION", quantization],
+    ["triangle-alert", "MODELS.DETAIL.DEPRECATION", deprecationDate],
+    ["clock", "MODELS.DETAIL.EXPIRATION", expirationDate],
+  ];
+  const shown = items.filter((item) => item[2] !== null);
+  if (shown.length === 0 && !meta.huggingFaceId) return null;
 
   return (
     <div className="text-muted-foreground flex flex-wrap items-center gap-x-4 gap-y-1.5 font-mono text-[11px]">
-      {meta.mode ? (
-        <span className={metaItem}>
-          <Icon name="message-square" className="h-3 w-3" />
-          {t("MODELS.DETAIL.MODE")}{" "}
-          <span className={metaValue}>{meta.mode}</span>
+      {shown.map((item) => (
+        <span key={item[1]} className={metaItem}>
+          <Icon name={item[0]} className="h-3 w-3" />
+          {t(item[1])}{" "}
+          {item[2] && <span className="text-foreground/80">{item[2]}</span>}
         </span>
-      ) : null}
-      {meta.tokenizer ? (
-        <span className={metaItem}>
-          <Icon name="file-text" className="h-3 w-3" />
-          {t("MODELS.DETAIL.TOKENIZER")}{" "}
-          <span className={metaValue}>{meta.tokenizer}</span>
-        </span>
-      ) : null}
-      {reasoningLevels.length > 0 ? (
-        <span className={metaItem}>
-          <Icon name="brain" className="h-3 w-3" />
-          {t("MODELS.DETAIL.REASONING_LEVELS")}{" "}
-          <span className={metaValue}>{reasoningLevels.join(", ")}</span>
-        </span>
-      ) : null}
-      {meta.isModerated === true ? (
-        <span className={metaItem}>
-          <Icon name="shield-check" className="h-3 w-3" />
-          {t("MODELS.DETAIL.MODERATED")}
-        </span>
-      ) : null}
-      {quantization ? (
-        <span className={metaItem}>
-          <Icon name="file-text" className="h-3 w-3" />
-          {t("MODELS.DETAIL.QUANTIZATION")}{" "}
-          <span className={metaValue}>{quantization}</span>
-        </span>
-      ) : null}
-      {deprecationDate ? (
-        <span className={metaItem}>
-          <Icon name="triangle-alert" className="h-3 w-3" />
-          {t("MODELS.DETAIL.DEPRECATION")}{" "}
-          <span className={metaValue}>{deprecationDate}</span>
-        </span>
-      ) : null}
-      {expirationDate ? (
-        <span className={metaItem}>
-          <Icon name="clock" className="h-3 w-3" />
-          {t("MODELS.DETAIL.EXPIRATION")}{" "}
-          <span className={metaValue}>{expirationDate}</span>
-        </span>
-      ) : null}
+      ))}
       {meta.huggingFaceId ? (
         <a
           href={`https://huggingface.co/${meta.huggingFaceId}`}
@@ -145,7 +111,7 @@ export function ModelMetaStats(props: { metadata: ModelMetadata }) {
           )}
         >
           <Icon name="external-link" className="h-3 w-3" />
-          <span className={metaValue}>{meta.huggingFaceId}</span>
+          <span className="text-foreground/80">{meta.huggingFaceId}</span>
         </a>
       ) : null}
     </div>

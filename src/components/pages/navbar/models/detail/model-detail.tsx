@@ -22,7 +22,7 @@ import { formatMsDate, formatYearMonth } from "@/lib/utils/format/date";
 import { cn } from "@/lib/utils";
 import { getDocsApiKey } from "@/lib/api/page-data";
 import { usesInputsForOwnPurposes } from "@/lib/api/own-purpose";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { AtCapacityBanner } from "./header/at-capacity-banner";
 import { OwnPurposeNotice } from "./header/own-purpose-notice";
 import { ModelDescription } from "./header/model-description";
@@ -56,7 +56,6 @@ interface ModelDetailProps {
 export async function ModelDetail(props: ModelDetailProps) {
   const m = props.model;
   const t = await getTranslations();
-  const locale = await getLocale();
   const docs = await getDocsApiKey();
   const contextTag = findContextTag(m);
   const similar = findSimilarModels(props.models, {
@@ -244,10 +243,7 @@ print(res.choices[0].message.content)`;
         </div>
 
         <div className="mt-4">
-          <ModelHeaderChips
-            metadata={m.metadata ?? EMPTY_METADATA}
-            locale={locale}
-          />
+          <ModelHeaderChips metadata={m.metadata ?? EMPTY_METADATA} />
         </div>
 
         {releaseRow.length > 0 && (

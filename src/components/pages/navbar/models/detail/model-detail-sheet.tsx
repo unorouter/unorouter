@@ -32,7 +32,7 @@ import { env } from "@/lib/config/env";
 import { getVendorTheme } from "@/lib/config/vendor-registry";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils/format/number";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { MINI_TABLE, MINI_TABLE_BODY_ROW } from "./shared/mini-table";
 import { PriceRows } from "./pricing/price-rows";
 import { GroupPricingSection } from "./pricing/group-pricing-section";
@@ -72,7 +72,6 @@ function WatchButton(props: { modelName: string }) {
 
 export function ModelDetailSheet(props: ModelDetailSheetProps) {
   const t = useTranslations();
-  const locale = useLocale();
   const setChatModel = useSetAtom(chooseChatModelAtom);
   const detailQuery = useModelDetailQuery(props.model?.model_name ?? null);
   const detail = detailQuery.data;
@@ -161,7 +160,7 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
             </section>
           )}
 
-          <ModelHeaderChips metadata={model.metadata} locale={locale} />
+          <ModelHeaderChips metadata={model.metadata} />
 
           <ModelMetaStats metadata={model.metadata} />
 
