@@ -14,6 +14,7 @@ import {
   deriveOutputModality,
   inputPriceUnit,
   isFlatVariant,
+  modelPriceColumns,
   outputPriceUnit,
   fmtUnit,
   type PriceUnit,
@@ -32,31 +33,11 @@ import type { ColumnDef } from "@tanstack/react-table";
 import type { TableFeats } from "@/lib/config/table-features";
 import { ModelPageLink } from "./model-page-link";
 
-function fixedPriceSide(m: PricingCatalogModel): "input" | "output" {
-  const modality = deriveOutputModality(m);
-  return modality === "image" || modality === "video" ? "output" : "input";
-}
-function priceValue(m: PricingCatalogModel, side: "input" | "output"): number {
-  if (m.is_fixed_price) return side === fixedPriceSide(m) ? m.fixed_price : 0;
-  return side === "input" ? m.input_price : m.output_price;
-}
-function originalPriceValue(
-  m: PricingCatalogModel,
-  side: "input" | "output",
-): number | null {
-  if (m.is_fixed_price)
-    return side === fixedPriceSide(m) ? (m.original_fixed_price ?? null) : null;
-  return (
-    (side === "input" ? m.original_input_price : m.original_output_price) ??
-    null
-  );
-}
-
 function PriceCell(props: {
   value: number;
   original: number | null;
   unit: PriceUnit;
-  offLabel: string;
+  offLabel: (pct: number) => string;
   perCall?: boolean;
 }) {
   if (props.unit === "dash" || props.value <= 0) {
@@ -74,7 +55,7 @@ function PriceCell(props: {
             </span>
           )}
           <span className="rounded bg-green-500/15 px-1 text-green-600 dark:text-green-400">
-            {props.offLabel}
+            {props.offLabel(pct)}
           </span>
         </span>
       )}
@@ -188,7 +169,7 @@ export function buildModelColumns(opts: {
     },
     {
       id: "input",
-      accessorFn: (m) => priceValue(m, "input"),
+      accessorFn: (m) => modelPriceColumns(m).input,
       enableSorting: true,
       header: ({ column }) => (
         <DataTableColumnHeader
@@ -200,25 +181,21 @@ export function buildModelColumns(opts: {
       meta: { headerClassName: "text-right", cellClassName: "text-right" },
       cell: ({ row }) => {
         const m = row.original;
+        const price = modelPriceColumns(m);
         return (
           <PriceCell
-            value={priceValue(m, "input")}
-            original={originalPriceValue(m, "input")}
+            value={price.input}
+            original={price.originalInput}
             unit={inputPriceUnit(deriveOutputModality(m), m.is_fixed_price)}
             perCall={m.is_fixed_price}
-            offLabel={opts.offLabel(
-              discountPercent(
-                priceValue(m, "input"),
-                originalPriceValue(m, "input"),
-              ),
-            )}
+            offLabel={opts.offLabel}
           />
         );
       },
     },
     {
       id: "output",
-      accessorFn: (m) => priceValue(m, "output"),
+      accessorFn: (m) => modelPriceColumns(m).output,
       enableSorting: true,
       header: ({ column }) => (
         <DataTableColumnHeader
@@ -230,18 +207,14 @@ export function buildModelColumns(opts: {
       meta: { headerClassName: "text-right", cellClassName: "text-right" },
       cell: ({ row }) => {
         const m = row.original;
+        const price = modelPriceColumns(m);
         return (
           <PriceCell
-            value={priceValue(m, "output")}
-            original={originalPriceValue(m, "output")}
+            value={price.output}
+            original={price.originalOutput}
             unit={outputPriceUnit(deriveOutputModality(m), m.is_fixed_price)}
             perCall={m.is_fixed_price}
-            offLabel={opts.offLabel(
-              discountPercent(
-                priceValue(m, "output"),
-                originalPriceValue(m, "output"),
-              ),
-            )}
+            offLabel={opts.offLabel}
           />
         );
       },
