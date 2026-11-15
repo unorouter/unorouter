@@ -8,7 +8,7 @@ import { setCookie } from "cookies-next/client";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import type { Extracted } from "@/lib/types";
-import { asParams, safeJsonParse } from "@/lib/utils/base";
+import { asParams, isRecord, safeJsonParse } from "@/lib/utils/base";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { isIOS } from "@/lib/notify/push";
 import {
@@ -67,8 +67,8 @@ export function extractErrorDetail(e: unknown): ErrorDetail {
   let status: number | undefined;
   let body: unknown = e;
 
-  if (e && typeof e === "object") {
-    const obj = e as Record<string, unknown>;
+  if (isRecord(e)) {
+    const obj = e;
     if (typeof obj.statusCode === "number") status = obj.statusCode;
     else if (typeof obj.status === "number") status = obj.status;
     if (typeof obj.responseBody === "string" && obj.responseBody.trim())
@@ -169,8 +169,8 @@ function pickMessage(v: unknown): Extracted | null {
     }
     return null;
   }
-  if (v && typeof v === "object") {
-    const obj = v as Record<string, unknown>;
+  if (isRecord(v)) {
+    const obj = v;
     for (const key of ["message", "detail", "error_description"]) {
       if (typeof obj[key] === "string" && obj[key].trim()) {
         const text = obj[key];
