@@ -1003,9 +1003,14 @@ function expandBlocks(text: string, scope: MacroScope, depth: number): string {
 export function expandMacros(text: string, scope: MacroScope): string {
   if (!text || !text.includes("{{")) return text;
   const out = expandBlocks(text, scope, 0);
+  // RisuAI: {{return::x}} makes the whole expansion x, not the text before it.
+  const returned =
+    scope.vars["__force_return__"] === "1"
+      ? (scope.vars["__return__"] ?? "null")
+      : out;
   // scope.vars is the conversation's live var map and becomes varsWriteback, so
   // a leftover flag would truncate every later expansion and then persist.
   delete scope.vars["__force_return__"];
   delete scope.vars["__return__"];
-  return out;
+  return returned;
 }
