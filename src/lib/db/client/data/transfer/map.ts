@@ -210,19 +210,15 @@ export function mapNativeImport(native: NativeImport): MappedImport {
     lorebooks,
     bundle: {
       conversation: { id: convId, title: native.conversation?.title ?? null },
+      // Media and sidebar groups are not part of the export, so their ids reset.
       settings: {
+        ...s,
         convId,
         defaultModel: str(s?.defaultModel) ?? "",
         personaId: persona ? persona.id : null,
         presetId: preset ? preset.id : null,
-        systemPromptOverride: str(s?.systemPromptOverride),
-        authorNote: str(s?.authorNote),
-        authorNoteDepth: num(s?.authorNoteDepth) ?? 4,
-        chatMemory: num(s?.chatMemory) ?? 8,
-        reasoningEffort: str(s?.reasoningEffort),
-        webSearchEnabled: bool(s?.webSearchEnabled) ?? false,
-        webSearchEngine: str(s?.webSearchEngine) ?? "auto",
-        webSearchContextSize: str(s?.webSearchContextSize) ?? "medium",
+        imageRefIds: null,
+        groupId: null,
       },
       conversationCharacters,
       conversationLorebooks,
@@ -304,7 +300,8 @@ export function mapOrpgImport(data: OrpgImport): MappedImport {
     lorebookId: lbId,
   }));
 
-  const messages = Object.values(orpgMessages).map((m) => {
+  const orpgBase = new Date();
+  const messages = Object.values(orpgMessages).map((m, i) => {
     const oldParent = str(m.parentMessageId);
     const oldChar = str(m.characterId);
     const newChar =
@@ -322,6 +319,7 @@ export function mapOrpgImport(data: OrpgImport): MappedImport {
       durationMs: num(meta?.duration),
       tokensPerSecond: num(meta?.tokensPerSecond),
       isEdited: bool(m.isEdited) ?? false,
+      createdAt: date(m.createdAt) ?? dayjs(orpgBase).add(i, "ms").toDate(),
     };
   });
 
