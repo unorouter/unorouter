@@ -94,7 +94,7 @@ export function LogUserCell(props: CellContext<TableFeats, LogRow>) {
   if (!log.username) {
     return LOG_EMPTY;
   }
-  const initial = log.username.trim().charAt(0).toUpperCase() || "?";
+  const initial = log.username.trim().charAt(0).toUpperCase();
   return (
     <div className="flex items-center gap-2">
       <Avatar size="sm" style={modelColorStyle(log.username)}>
@@ -397,14 +397,17 @@ export function LogSpendCell(props: CellContext<TableFeats, LogRow>) {
   const planId = other?.subscription_plan_id;
   const subId = other?.subscription_id;
   const planLabel = planTitle || (planId ? `#${planId}` : "");
+  const amount = (
+    <span className="border-border/80 bg-muted/60 inline-flex h-6 w-fit items-center gap-1 rounded-md border px-2 font-mono text-xs leading-none font-semibold tabular-nums">
+      <span className="text-muted-foreground">{"$"}</span>
+      {formatLogSpend(log.quota)}
+    </span>
+  );
 
   if (!isSubscription) {
     return (
       <span className="flex items-center gap-1">
-        <span className="border-border/80 bg-muted/60 inline-flex h-6 w-fit items-center gap-1 rounded-md border px-2 font-mono text-xs leading-none font-semibold tabular-nums">
-          <span className="text-muted-foreground">{"$"}</span>
-          {formatLogSpend(log.quota)}
-        </span>
+        {amount}
         {isFreeRow(log) && (
           <span className="rounded bg-emerald-500/15 px-1.5 py-0.5 font-mono text-[10px] text-emerald-700 dark:text-emerald-400">
             {t("MODELS.TABLE.FREE")}
@@ -416,10 +419,7 @@ export function LogSpendCell(props: CellContext<TableFeats, LogRow>) {
 
   const stack = (
     <div className="flex flex-col items-start gap-0.5">
-      <span className="border-border/80 bg-muted/60 inline-flex h-6 w-fit items-center gap-1 rounded-md border px-2 font-mono text-xs leading-none font-semibold tabular-nums">
-        <span className="text-muted-foreground">{"$"}</span>
-        {formatLogSpend(log.quota)}
-      </span>
+      {amount}
       <Badge
         variant="secondary"
         className="bg-emerald-500/10 px-1.5 py-0 font-mono text-[10px] text-emerald-700 dark:text-emerald-400"
