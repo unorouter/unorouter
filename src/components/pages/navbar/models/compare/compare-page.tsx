@@ -20,7 +20,7 @@ export function ComparePage() {
   const t = useTranslations();
   const router = useRouter();
   const params = useParams();
-  const { data } = usePricingBrowseQuery();
+  const data = usePricingBrowseQuery().data;
   const rankings = useRankingsQuery("week");
   const perfQuery = usePerfMetricsSummaryQuery(24);
 

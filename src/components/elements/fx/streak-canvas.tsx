@@ -27,7 +27,7 @@ type Line = {
 
 export function StreakCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const { resolvedTheme } = useTheme();
+  const resolvedTheme = useTheme().resolvedTheme;
   const themeRef = useRef(resolvedTheme);
 
   useEffect(() => {

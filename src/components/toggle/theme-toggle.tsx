@@ -20,7 +20,7 @@ import { Icon } from "@/components/ui/icon";
 
 export function ThemeToggle() {
   const t = useTranslations();
-  const { setTheme } = useTheme();
+  const setTheme = useTheme().setTheme;
   const [sheetOpen, setSheetOpen] = useState(false);
   const styleId = "theme-transition-styles";
 

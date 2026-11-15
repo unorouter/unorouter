@@ -131,7 +131,6 @@ function Section(props: {
 export function ThemeCustomizerBody() {
   const t = useTranslations();
   const editor = useThemeEditor();
-  const { scope, mode } = editor;
   const saved = useSavedThemesQuery();
   const saveTheme = useSaveThemeMutation();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -147,7 +146,7 @@ export function ThemeCustomizerBody() {
     });
 
   const fields = (group: TokenGroup) =>
-    tokensIn(group, scope).map((def) => (
+    tokensIn(group, editor.scope).map((def) => (
       <TokenField key={def.id} def={def} editor={editor} />
     ));
 
@@ -261,7 +260,7 @@ export function ThemeCustomizerBody() {
 
   const colorTabs = (
     <Tabs
-      value={mode}
+      value={editor.mode}
       onValueChange={(v) => setMode(v === "light" ? "light" : "dark")}
     >
       <TabsList className="h-7">
@@ -289,10 +288,14 @@ export function ThemeCustomizerBody() {
             onClick={editor.copyModeToOther}
           >
             <Icon name="copy" className="mr-1 size-3.5" />
-            {t(mode === "light" ? "THEME.COPY_TO_DARK" : "THEME.COPY_TO_LIGHT")}
+            {t(
+              editor.mode === "light"
+                ? "THEME.COPY_TO_DARK"
+                : "THEME.COPY_TO_LIGHT",
+            )}
           </Button>
         </div>
-        {COLOR_GROUPS.filter((g) => tokensIn(g.group, scope).length).map(
+        {COLOR_GROUPS.filter((g) => tokensIn(g.group, editor.scope).length).map(
           (g) => (
             <div key={g.group} className="flex flex-col gap-2.5">
               <div className="px-1 pt-2">
@@ -380,7 +383,7 @@ export function ThemeCustomizerBody() {
             <SavedThemesSection editor={editor} />
           </Section>
           <Tabs
-            value={scope}
+            value={editor.scope}
             onValueChange={(v) =>
               setScope(THEME_SCOPES.find((s) => s === v) ?? "app")
             }
@@ -394,19 +397,25 @@ export function ThemeCustomizerBody() {
             </TabsList>
           </Tabs>
           <p className="text-muted-foreground px-1 text-[11px]">
-            {t(scope === "app" ? "THEME.SCOPE_HINT_APP" : "THEME.SCOPE_HINT")}
+            {t(
+              editor.scope === "app"
+                ? "THEME.SCOPE_HINT_APP"
+                : "THEME.SCOPE_HINT",
+            )}
           </p>
-          {SECTIONS.filter((s) => !s.appOnly || scope === "app").map((s) => (
-            <Section
-              key={s.id}
-              id={s.id}
-              label={t(s.labelKey)}
-              open={editor.editor.section === s.id}
-              onToggle={() => toggleSection(s.id)}
-            >
-              {content[s.id]}
-            </Section>
-          ))}
+          {SECTIONS.filter((s) => !s.appOnly || editor.scope === "app").map(
+            (s) => (
+              <Section
+                key={s.id}
+                id={s.id}
+                label={t(s.labelKey)}
+                open={editor.editor.section === s.id}
+                onToggle={() => toggleSection(s.id)}
+              >
+                {content[s.id]}
+              </Section>
+            ),
+          )}
         </FieldGroup>
       </CardContent>
     </Card>

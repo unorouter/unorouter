@@ -139,7 +139,8 @@ function FontField(props: {
 
 export function TokenField(props: { def: TokenDef; editor: ThemeEditor }) {
   const t = useTranslations();
-  const { def, editor } = props;
+  const def = props.def;
+  const editor = props.editor;
   const value = editor.read(def);
   const inherited = editor.inherited(def);
 

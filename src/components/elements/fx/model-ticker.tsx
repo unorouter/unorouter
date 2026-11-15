@@ -14,8 +14,8 @@ type Props = {
 
 export function ModelTicker(props: Props) {
   const t = useTranslations();
-  const { data } = usePricingVendorsQuery();
-  const { tps } = useLiveStats();
+  const data = usePricingVendorsQuery().data;
+  const tps = useLiveStats().tps;
   const models = (data?.model_vendors ?? []).filter((m) => m.chat);
 
   const tripled = [...models, ...models, ...models];

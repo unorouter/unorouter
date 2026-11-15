@@ -36,7 +36,7 @@ export function Dashboard(props: DashboardProps) {
     setDashboardStore(props.serverTimestamps);
   }
   const t = useTranslations();
-  const { displayName } = useUserDisplay();
+  const displayName = useUserDisplay().displayName;
   const [activeSection, setActiveSection] = useQueryState(
     "section",
     parseAsStringLiteral(SECTION_VALUES).withDefault("analytics"),

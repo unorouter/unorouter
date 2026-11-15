@@ -6,7 +6,7 @@ import { Icon } from "@/components/ui/icon";
 
 export function StatsPanel() {
   const t = useTranslations();
-  const { tokens, requests, tpm } = useLiveStats();
+  const liveStats = useLiveStats();
 
   return (
     <div className="bg-border border-border mx-auto flex w-full max-w-lg flex-col gap-px overflow-hidden rounded-lg border backdrop-blur-md lg:mx-0">
@@ -19,7 +19,7 @@ export function StatsPanel() {
           <Icon name="activity" className="text-muted-foreground h-3.5 w-3.5" />
         </div>
         <div className="text-foreground text-2xl font-bold tracking-tight tabular-nums sm:text-4xl md:text-5xl">
-          {tokens.toLocaleString()}
+          {liveStats.tokens.toLocaleString()}
         </div>
       </div>
 
@@ -29,7 +29,7 @@ export function StatsPanel() {
             {t("HOME.STATS.PANEL.REQUESTS")}
           </span>
           <div className="text-foreground text-xl font-bold tabular-nums sm:text-2xl">
-            {requests.toLocaleString()}
+            {liveStats.requests.toLocaleString()}
           </div>
         </div>
         <div className="bg-card/80 flex h-full flex-col justify-between p-6">
@@ -42,7 +42,7 @@ export function StatsPanel() {
             </span>
           </div>
           <div className="text-foreground text-xl font-bold tabular-nums sm:text-2xl">
-            {tpm.toLocaleString()}
+            {liveStats.tpm.toLocaleString()}
           </div>
         </div>
       </div>

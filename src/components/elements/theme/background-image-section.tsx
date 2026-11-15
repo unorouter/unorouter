@@ -25,7 +25,7 @@ export function BackgroundImageSection(props: {
   modeTabs: ReactNode;
 }) {
   const t = useTranslations();
-  const { editor } = props;
+  const editor = props.editor;
   const fileRef = useRef<HTMLInputElement | null>(null);
   const image = editor.images[editor.scope];
   // A scope with no image of its own paints the app one; its sliders still

@@ -26,7 +26,7 @@ import { toast } from "sonner";
 
 export function SavedThemesSection(props: { editor: ThemeEditor }) {
   const t = useTranslations();
-  const { editor } = props;
+  const editor = props.editor;
   const list = useSavedThemesQuery();
   const save = useSaveThemeMutation();
   const rename = useRenameSavedThemeMutation();
