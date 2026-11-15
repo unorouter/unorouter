@@ -76,7 +76,6 @@ export async function DocIndexTemplate(props: {
           badge={t(docKey(props.namespace, "COMMON.BADGE"), APP_VALUES)}
           title={t(docKey(props.namespace, "INDEX.TITLE"), APP_VALUES)}
           subtitle={t(docKey(props.namespace, "INDEX.SUBTITLE"), APP_VALUES)}
-          centered
         />
         {props.sections.map((section) => {
           if (section.docs.length === 0) return null;
@@ -149,7 +148,6 @@ export async function DocTemplate(props: {
           badge={t(docKey(props.namespace, "COMMON.BADGE"), APP_VALUES)}
           title={t(docKey(doc.i18nPrefix, "TITLE"), APP_VALUES)}
           subtitle={t(docKey(doc.i18nPrefix, "SUBTITLE"), APP_VALUES)}
-          centered
         />
 
         {props.children}

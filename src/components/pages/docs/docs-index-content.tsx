@@ -88,7 +88,6 @@ export async function DocsIndexContent() {
             ...APP_VALUES,
             count: SETUP_GUIDES.length,
           })}
-          centered
           className="mb-12"
         />
 

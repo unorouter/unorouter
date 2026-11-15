@@ -179,7 +179,6 @@ export function Pricing() {
           badgeIcon="zap"
           title={t("PRICING.TITLE")}
           subtitle={t("PRICING.SUBTITLE")}
-          centered
           className="mb-16"
         />
 

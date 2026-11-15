@@ -197,7 +197,6 @@ ${t("DOCS.SETUP_GUIDE.API_KEY_LABEL")}: ${docs.placeholder}`;
               ? undefined
               : guide.color.accent
           }
-          centered
         />
 
         {/* Overview (only when the guide defines a description) */}

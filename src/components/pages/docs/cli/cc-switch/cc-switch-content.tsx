@@ -61,7 +61,6 @@ export async function CCSwitchContent() {
           badgeIcon="arrow-left-right"
           title={t("DOCS.CC_SWITCH.TITLE")}
           subtitle={t("DOCS.CC_SWITCH.SUBTITLE")}
-          centered
         />
 
         <Callout type="info" title={t("DOCS.CC_SWITCH.INTRO_TITLE")}>

@@ -12,7 +12,6 @@ interface PageHeaderProps {
   }>;
   title: string;
   subtitle: string;
-  centered?: boolean;
   color?: string;
   className?: string;
 }
@@ -22,7 +21,7 @@ export function PageHeader(props: PageHeaderProps) {
   const color = props.color ?? "currentColor";
 
   return (
-    <div className={cn(props.centered && "text-center", props.className)}>
+    <div className={cn("text-center", props.className)}>
       <div
         className="mb-6 inline-flex items-center gap-2 rounded-sm border px-3 py-1.5"
         style={{

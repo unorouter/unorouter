@@ -270,7 +270,6 @@ npm install -g @anthropic-ai/claude-code`}
           badgeIconComponent={Claude}
           title={t("DOCS.CLAUDE_CODE.TITLE")}
           subtitle={t("DOCS.CLAUDE_CODE.SUBTITLE", APP_VALUES)}
-          centered
         />
 
         <Callout type="info" title={t("DOCS.CLAUDE_CODE.ABOUT_TITLE")}>

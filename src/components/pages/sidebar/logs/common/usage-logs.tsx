@@ -219,7 +219,6 @@ export function UsageLogs() {
             filters={filterValues}
             onFilterChange={filters.handleFilterChange}
             onReset={filters.handleReset}
-            onRefresh={() => logsQuery.refetch()}
           />
         )}
         emptyState={<LogsEmptyState />}

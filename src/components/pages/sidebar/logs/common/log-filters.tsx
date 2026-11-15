@@ -54,7 +54,6 @@ export function LogFilters(props: {
   filters: LogFilterValues;
   onFilterChange: (id: string, value: unknown) => void;
   onReset: () => void;
-  onRefresh: () => void;
 }) {
   const t = useTranslations();
   const [filtersExpanded, setFiltersExpanded] = useState(false);
