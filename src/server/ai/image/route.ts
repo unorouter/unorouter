@@ -65,14 +65,6 @@ export const imageRoute = new Elysia({ prefix: "/image" })
     { query: catalogSearchQuery, beforeHandle: catalogLimit },
   )
   .get(
-    "/catalog/embeddings",
-    async ({ query }) => ({
-      success: true,
-      data: await searchModelCatalog("embeddings", query),
-    }),
-    { query: catalogSearchQuery, beforeHandle: catalogLimit },
-  )
-  .get(
     "/checkpoints",
     async ({ query }) => ({
       success: true,
