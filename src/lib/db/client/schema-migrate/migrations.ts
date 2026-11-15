@@ -264,23 +264,23 @@ async function reconcileSchema(
       .map(colName)
       .filter((c) => actual.some((r) => r.name === c));
 
+    const before = await countRows(sql, table);
     if (shared.length > 0) {
       const colList = shared.map((c) => `\`${c}\``).join(", ");
-      const before = await countRows(sql, table);
       await sql.sql(
         `INSERT OR IGNORE INTO \`${tmp}\` (${colList}) SELECT ${colList} FROM \`${table}\``,
       );
-      const dropped = before - (await countRows(sql, tmp));
-      if (dropped > 0) {
-        await sql.sql(`DROP TABLE IF EXISTS \`${tmp}\``);
-        logChatDebug("reconcile.row_loss_abort", { table, dropped });
-        logger.error("reconcileSchema skipped rebuild: would drop rows", {
-          context: "local-db.migrations.reconcile",
-          table,
-          dropped,
-        });
-        continue;
-      }
+    }
+    const dropped = before - (await countRows(sql, tmp));
+    if (dropped > 0) {
+      await sql.sql(`DROP TABLE IF EXISTS \`${tmp}\``);
+      logChatDebug("reconcile.row_loss_abort", { table, dropped });
+      logger.error("reconcileSchema skipped rebuild: would drop rows", {
+        context: "local-db.migrations.reconcile",
+        table,
+        dropped,
+      });
+      continue;
     }
     logChatDebug("reconcile.rebuild", { table });
     await sql.sql(`DROP TABLE \`${table}\``);
