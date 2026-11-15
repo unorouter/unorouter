@@ -1,5 +1,6 @@
 "use client";
 
+import { SidebarPageHeader } from "@/components/elements/content/sidebar-page-header";
 import { PageContent } from "@/components/layout/sidebar/sidebar-layout";
 import { useTranslations } from "next-intl";
 import { AccountCard } from "./account-card";
@@ -18,17 +19,11 @@ export function SettingsPage() {
 
   return (
     <PageContent>
-      <div className="mb-6">
-        <div className="flex items-center gap-2">
-          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500" />
-          <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-            {t("SIDEBAR.SETTINGS")}
-          </span>
-        </div>
-        <h1 className="text-foreground mt-1 text-xl font-bold tracking-tight md:text-2xl">
-          {t("SETTINGS.TITLE")}
-        </h1>
-      </div>
+      <SidebarPageHeader
+        className="mb-6"
+        eyebrow={t("SIDEBAR.SETTINGS")}
+        title={t("SETTINGS.TITLE")}
+      />
 
       <div className="mb-6">
         <div className="mb-3 flex items-center gap-2">

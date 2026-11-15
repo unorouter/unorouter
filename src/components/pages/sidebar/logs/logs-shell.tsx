@@ -1,5 +1,6 @@
 "use client";
 
+import { SidebarPageHeader } from "@/components/elements/content/sidebar-page-header";
 import { PageContent } from "@/components/layout/sidebar/sidebar-layout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTranslations } from "next-intl";
@@ -27,20 +28,12 @@ export function LogsShell() {
 
   return (
     <PageContent>
-      <div className="mb-6">
-        <div className="flex items-center gap-2">
-          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500" />
-          <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-            {t("LOGS.TITLE")}
-          </span>
-        </div>
-        <h1 className="text-foreground mt-1 text-xl font-bold tracking-tight md:text-2xl">
-          {t("LOGS.TITLE")}
-        </h1>
-        <p className="text-muted-foreground mt-1 text-sm">
-          {t("LOGS.DESCRIPTION")}
-        </p>
-      </div>
+      <SidebarPageHeader
+        className="mb-6"
+        eyebrow={t("LOGS.TITLE")}
+        title={t("LOGS.TITLE")}
+        description={t("LOGS.DESCRIPTION")}
+      />
 
       <Tabs value={activeTab} onValueChange={setTab} className="gap-4">
         <TabsList variant="line">

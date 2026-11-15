@@ -1,5 +1,6 @@
 "use client";
 
+import { SidebarPageHeader } from "@/components/elements/content/sidebar-page-header";
 import { PaymentMethodToggle } from "@/components/elements/billing/payment-method-toggle";
 import { SectionBoundary } from "@/components/elements/feedback/section-boundary";
 import { PageContent } from "@/components/layout/sidebar/sidebar-layout";
@@ -18,17 +19,11 @@ export function Billing() {
 
   return (
     <PageContent>
-      <div className="mb-6">
-        <div className="flex items-center gap-2">
-          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500" />
-          <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-            {t("SIDEBAR.BILLING")}
-          </span>
-        </div>
-        <h1 className="text-foreground mt-1 text-xl font-bold tracking-tight md:text-2xl">
-          {t("BILLING.TITLE")}
-        </h1>
-      </div>
+      <SidebarPageHeader
+        className="mb-6"
+        eyebrow={t("SIDEBAR.BILLING")}
+        title={t("BILLING.TITLE")}
+      />
 
       <div className="mb-6">
         <SectionBoundary>

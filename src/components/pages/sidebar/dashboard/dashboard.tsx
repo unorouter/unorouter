@@ -1,5 +1,6 @@
 "use client";
 
+import { SidebarPageHeader } from "@/components/elements/content/sidebar-page-header";
 import { PageContent } from "@/components/layout/sidebar/sidebar-layout";
 import { Icon } from "@/components/ui/icon";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -59,17 +60,10 @@ export function Dashboard(props: DashboardProps) {
   return (
     <PageContent>
       <div className="mb-6 flex items-center justify-between">
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500" />
-            <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-              {t("SIDEBAR.DASHBOARD")}
-            </span>
-          </div>
-          <h1 className="text-foreground mt-1 text-xl font-bold tracking-tight md:text-2xl">
-            {greeting}, {displayName}
-          </h1>
-        </div>
+        <SidebarPageHeader
+          eyebrow={t("SIDEBAR.DASHBOARD")}
+          title={`${greeting}, ${displayName}`}
+        />
         <div className="text-muted-foreground hidden items-center gap-1.5 md:flex">
           <Icon name="activity" className="h-3 w-3" />
           <span
