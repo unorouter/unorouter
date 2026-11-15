@@ -1,5 +1,6 @@
 "use client";
 
+import { SectionTitle } from "@/components/elements/content/sidebar-page-header";
 import { MyFormError } from "@/components/elements/form/my-form-error";
 import { Icon } from "@/components/ui/icon";
 import { MyFormInput } from "@/components/elements/form/my-form-input";
@@ -64,7 +65,6 @@ import { TokenKeyDisplay } from "./token-key-display";
 import { TokenModelSelect } from "./token-model-select";
 import { formDefaults } from "@/lib/validation/helpers";
 import type { TranslationKey } from "@/lib/types";
-import type { IconName } from "@/lib/config/icon-map";
 
 type TokenDialogProps = {
   open: boolean;
@@ -96,19 +96,6 @@ const QUOTA_PRESETS = [1, 10, 50, 100, 500, 1000].map((dollars) => ({
   label: "$" + dollars,
   value: dollarsToQuota(dollars),
 }));
-
-function SectionTitle(props: { icon?: IconName; label: string }) {
-  return (
-    <div className="mb-3 flex items-center gap-2">
-      {props.icon && (
-        <Icon name={props.icon} className="text-muted-foreground h-4 w-4" />
-      )}
-      <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-        {props.label}
-      </span>
-    </div>
-  );
-}
 
 export function TokenDialog(props: TokenDialogProps) {
   const t = useTranslations();

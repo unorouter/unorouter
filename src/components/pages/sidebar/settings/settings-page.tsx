@@ -1,6 +1,9 @@
 "use client";
 
-import { SidebarPageHeader } from "@/components/elements/content/sidebar-page-header";
+import {
+  SectionTitle,
+  SidebarPageHeader,
+} from "@/components/elements/content/sidebar-page-header";
 import { PageContent } from "@/components/layout/sidebar/sidebar-layout";
 import { useTranslations } from "next-intl";
 import { AccountCard } from "./account-card";
@@ -12,7 +15,6 @@ import { NotificationCard } from "./notification-card";
 import { OwnPurposeObjectionCard } from "./own-purpose-objection-card";
 import { SecurityCard } from "./security-card";
 import { TimeoutCard } from "./timeout-card";
-import { Icon } from "@/components/ui/icon";
 
 export function SettingsPage() {
   const t = useTranslations();
@@ -26,12 +28,7 @@ export function SettingsPage() {
       />
 
       <div className="mb-6">
-        <div className="mb-3 flex items-center gap-2">
-          <Icon name="settings" className="text-muted-foreground h-4 w-4" />
-          <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-            {t("SETTINGS.ACCOUNT_INFO")}
-          </span>
-        </div>
+        <SectionTitle icon="settings" label={t("SETTINGS.ACCOUNT_INFO")} />
         <AccountHeader />
       </div>
 

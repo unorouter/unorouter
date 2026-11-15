@@ -1,3 +1,6 @@
+import { Icon } from "@/components/ui/icon";
+import type { IconName } from "@/lib/config/icon-map";
+
 export function SidebarPageHeader(props: {
   eyebrow: string;
   title: string;
@@ -20,6 +23,19 @@ export function SidebarPageHeader(props: {
           {props.description}
         </p>
       )}
+    </div>
+  );
+}
+
+export function SectionTitle(props: { icon?: IconName; label: string }) {
+  return (
+    <div className="mb-3 flex items-center gap-2">
+      {props.icon && (
+        <Icon name={props.icon} className="text-muted-foreground h-4 w-4" />
+      )}
+      <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+        {props.label}
+      </span>
     </div>
   );
 }

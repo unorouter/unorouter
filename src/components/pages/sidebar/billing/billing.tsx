@@ -1,10 +1,12 @@
 "use client";
 
-import { SidebarPageHeader } from "@/components/elements/content/sidebar-page-header";
+import {
+  SectionTitle,
+  SidebarPageHeader,
+} from "@/components/elements/content/sidebar-page-header";
 import { PaymentMethodToggle } from "@/components/elements/billing/payment-method-toggle";
 import { SectionBoundary } from "@/components/elements/feedback/section-boundary";
 import { PageContent } from "@/components/layout/sidebar/sidebar-layout";
-import { Icon } from "@/components/ui/icon";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { env } from "@/lib/config/env";
 import { useTranslations } from "next-intl";
@@ -113,12 +115,7 @@ export function Billing() {
       </Tabs>
 
       <div className="mb-6">
-        <div className="mb-3 flex items-center gap-2">
-          <Icon name="mail" className="text-muted-foreground h-4 w-4" />
-          <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-            {t("BILLING.SUPPORT_TITLE")}
-          </span>
-        </div>
+        <SectionTitle icon="mail" label={t("BILLING.SUPPORT_TITLE")} />
         <p className="text-muted-foreground text-sm">
           {t("BILLING.SUPPORT_TEXT", { supportEmail: env.supportEmail })}
         </p>
