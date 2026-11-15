@@ -113,11 +113,10 @@ function MoverRow(props: { row: RankingMover; intent: "up" | "down" }) {
             : "text-rose-600 dark:text-rose-400",
         )}
       >
-        {props.intent === "up" ? (
-          <Icon name="arrow-up-right" className="size-3" />
-        ) : (
-          <Icon name="arrow-down-right" className="size-3" />
-        )}
+        <Icon
+          name={props.intent === "up" ? "arrow-up-right" : "arrow-down-right"}
+          className="size-3"
+        />
         {Math.abs(props.row.rank_delta)}
       </span>
     </li>

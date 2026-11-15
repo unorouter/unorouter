@@ -73,11 +73,10 @@ export function AdetailerSection(props: Props) {
         className="flex w-full items-center justify-between px-3 py-2 text-sm font-medium"
       >
         <span className="flex items-center gap-2">
-          {expanded ? (
-            <Icon name="chevron-down" className="h-4 w-4" />
-          ) : (
-            <Icon name="chevron-right" className="h-4 w-4" />
-          )}
+          <Icon
+            name={expanded ? "chevron-down" : "chevron-right"}
+            className="h-4 w-4"
+          />
           {t("IMAGE.ADETAILER")}
         </span>
         <Switch

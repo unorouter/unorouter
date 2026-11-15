@@ -88,11 +88,7 @@ export function TokenKeyCell(props: CellContext<TableFeats, TokenRow>) {
               />
             }
           >
-            {revealedKey ? (
-              <Icon name="eye-off" className="h-3 w-3" />
-            ) : (
-              <Icon name="eye" className="h-3 w-3" />
-            )}
+            <Icon name={revealedKey ? "eye-off" : "eye"} className="h-3 w-3" />
           </TooltipTrigger>
           <TooltipContent>
             {revealedKey

@@ -33,11 +33,7 @@ export function ApiKeyActions(props: {
               />
             }
           >
-            {revealed ? (
-              <Icon name="eye-off" className="size-3.5" />
-            ) : (
-              <Icon name="eye" className="size-3.5" />
-            )}
+            <Icon name={revealed ? "eye-off" : "eye"} className="size-3.5" />
           </TooltipTrigger>
           <TooltipContent>
             {revealed

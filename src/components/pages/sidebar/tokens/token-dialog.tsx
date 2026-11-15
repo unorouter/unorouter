@@ -569,11 +569,10 @@ export function TokenDialog(props: TokenDialogProps) {
                           />
                         }
                       >
-                        {isEnabled ? (
-                          <Icon name="power-off" className="h-4 w-4" />
-                        ) : (
-                          <Icon name="power" className="h-4 w-4" />
-                        )}
+                        <Icon
+                          name={isEnabled ? "power-off" : "power"}
+                          className="h-4 w-4"
+                        />
                       </TooltipTrigger>
                       <TooltipContent>
                         {isEnabled ? t("TOKEN.DISABLE") : t("TOKEN.ENABLE")}
@@ -615,19 +614,11 @@ export function TokenDialog(props: TokenDialogProps) {
                   {t("COMMON.CANCEL")}
                 </Button>
                 <Button type="submit" disabled={isPending}>
-                  {isEdit ? (
-                    <Icon
-                      name="check"
-                      data-icon="inline-start"
-                      className="h-4 w-4"
-                    />
-                  ) : (
-                    <Icon
-                      name="plus"
-                      data-icon="inline-start"
-                      className="h-4 w-4"
-                    />
-                  )}
+                  <Icon
+                    name={isEdit ? "check" : "plus"}
+                    data-icon="inline-start"
+                    className="h-4 w-4"
+                  />
                   {isEdit ? t("TOKEN.FORM.SAVE") : t("TOKEN.FORM.SUBMIT")}
                 </Button>
               </div>

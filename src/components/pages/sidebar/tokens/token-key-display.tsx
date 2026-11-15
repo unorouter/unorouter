@@ -49,11 +49,10 @@ export function TokenKeyDisplay(props: TokenKeyDisplayProps) {
                 />
               }
             >
-              {props.revealedKey ? (
-                <Icon name="eye-off" className="h-3.5 w-3.5" />
-              ) : (
-                <Icon name="eye" className="h-3.5 w-3.5" />
-              )}
+              <Icon
+                name={props.revealedKey ? "eye-off" : "eye"}
+                className="h-3.5 w-3.5"
+              />
             </TooltipTrigger>
             <TooltipContent>
               {props.revealedKey

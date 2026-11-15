@@ -65,11 +65,10 @@ function PostLink(props: {
           props.direction === "next" && "sm:flex-row-reverse",
         )}
       >
-        {props.direction === "prev" ? (
-          <Icon name="arrow-left" className="h-3 w-3" />
-        ) : (
-          <Icon name="arrow-right" className="h-3 w-3" />
-        )}
+        <Icon
+          name={props.direction === "prev" ? "arrow-left" : "arrow-right"}
+          className="h-3 w-3"
+        />
         {props.label}
       </div>
       <div
