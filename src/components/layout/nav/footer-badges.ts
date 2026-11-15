@@ -438,7 +438,7 @@ export const FOOTER_BADGES: {
     width: 62,
   },
   {
-    href: "https://aitoolslist.tools",
+    href: "https://aitoolslist.tools/tool/unorouter/",
     src: "https://aitoolslist.tools/badges/aitoolslist-listed-light.svg",
     name: "AI Tools Directory, SaaS Products & Productivity Apps",
     width: 91,
@@ -1912,7 +1912,7 @@ export const FOOTER_BADGES: {
     width: 83,
   },
   {
-    href: "https://www.aitrove.ai",
+    href: "https://www.aitrove.ai/tools/unorouter",
     src: "https://www.aitrove.ai/images/aitrove-badge.svg",
     name: "Best AI Tools 2026",
     alt: "Featured on AITrove",
@@ -1933,7 +1933,7 @@ export const FOOTER_BADGES: {
     width: 89,
   },
   {
-    href: "https://hx-std.com/badge?r=unorouter.com",
+    href: "https://hx-std.com/F/18",
     src: "https://hx-std.com/badge.svg?r=unorouter.com",
     name: "Product Tower",
     alt: "Listed on Product Tower",
