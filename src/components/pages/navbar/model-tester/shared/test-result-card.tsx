@@ -7,7 +7,12 @@ import { Icon } from "@/components/ui/icon";
 import { highlightSpans } from "ai-model-verifier/highlight";
 import type { HighlightKind } from "ai-model-verifier/highlight";
 import { vendorForRow } from "ai-model-verifier/models";
-import { RULE_FOR_SIGNAL, type VerdictRuleId } from "ai-model-verifier/rules";
+import {
+  DETECTION_RULES,
+  RULE_FOR_SIGNAL,
+  type VerdictRuleId,
+} from "ai-model-verifier/rules";
+import { ruleKey } from "./rule-keys";
 import type { SurveyOutcome, VendorId } from "ai-model-verifier";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
@@ -115,24 +120,6 @@ export const CONN_KEY: Record<string, TranslationKey> = {
   "no-format": "MODEL_TESTER.CONNECTIVITY.NO_FORMAT",
 };
 
-const RULE_TITLE_KEY: Record<string, TranslationKey> = {
-  "thinking-floor": "MODEL_TESTER.RULES.THINKING-FLOOR.TITLE",
-  "tokenizer-fingerprint": "MODEL_TESTER.RULES.TOKENIZER-FINGERPRINT.TITLE",
-  "masked-identity": "MODEL_TESTER.RULES.MASKED-IDENTITY.TITLE",
-  "fake-200": "MODEL_TESTER.RULES.FAKE-200.TITLE",
-  "censored-history": "MODEL_TESTER.RULES.CENSORED-HISTORY.TITLE",
-  signature: "MODEL_TESTER.RULES.SIGNATURE.TITLE",
-  "foreign-answers": "MODEL_TESTER.RULES.FOREIGN-ANSWERS.TITLE",
-  "coding-tool": "MODEL_TESTER.RULES.CODING-TOOL.TITLE",
-  scam: "MODEL_TESTER.RULES.SCAM.TITLE",
-  "cjk-leak": "MODEL_TESTER.RULES.CJK-LEAK.TITLE",
-  mux: "MODEL_TESTER.RULES.MUX.TITLE",
-  foreign: "MODEL_TESTER.RULES.FOREIGN.TITLE",
-  "served-model-mismatch": "MODEL_TESTER.RULES.SERVED-MODEL-MISMATCH.TITLE",
-  substituted: "MODEL_TESTER.RULES.SUBSTITUTED.TITLE",
-  quorum: "MODEL_TESTER.RULES.QUORUM.TITLE",
-};
-
 const SEVERITY_KEY: Record<string, TranslationKey> = {
   fail: "MODEL_TESTER.RESULT.SEVERITY.FAIL",
   suspect: "MODEL_TESTER.RESULT.SEVERITY.SUSPECT",
@@ -153,12 +140,6 @@ const SURVEY_KEY: Record<string, TranslationKey> = {
   json: "MODEL_TESTER.SURVEY.JSON",
   self: "MODEL_TESTER.SURVEY.SELF",
   sensitive: "MODEL_TESTER.SURVEY.SENSITIVE",
-};
-const RULE_WHY_KEY: Record<string, TranslationKey> = {
-  "coding-tool": "MODEL_TESTER.RULES.CODING-TOOL.WHY",
-  scam: "MODEL_TESTER.RULES.SCAM.WHY",
-  "cjk-leak": "MODEL_TESTER.RULES.CJK-LEAK.WHY",
-  foreign: "MODEL_TESTER.RULES.FOREIGN.WHY",
 };
 
 const HIGHLIGHT_CLASS: Record<NonNullable<HighlightKind>, string> = {
@@ -240,8 +221,8 @@ function ProbeRow(props: { probe: TestResultProbe; provider: VendorId }) {
   const probe = props.probe;
   const labelKey = PROBE_KEY[probe.label];
   const ruleId = probe.signal ? RULE_BY_SIGNAL.get(probe.signal) : undefined;
-  const ruleTitleKey = ruleId ? RULE_TITLE_KEY[ruleId] : undefined;
-  const ruleWhyKey = ruleId ? RULE_WHY_KEY[ruleId] : undefined;
+  const ruleTitleKey = ruleId ? ruleKey(ruleId, "TITLE") : undefined;
+  const ruleWhyKey = ruleId ? ruleKey(ruleId, "WHY") : undefined;
   const intentChecksKey = PROBE_INTENT_CHECKS[probe.label];
   const intentWhyKey = PROBE_INTENT_WHY[probe.label];
 
@@ -375,7 +356,8 @@ function FindingsList(props: { findings: StoredFinding[] }) {
         {t("MODEL_TESTER.RESULT.FINDINGS")}
       </span>
       {props.findings.map((f, i) => {
-        const titleKey = RULE_TITLE_KEY[f.rule];
+        const rule = DETECTION_RULES.find((r) => r === f.rule);
+        const titleKey = rule ? ruleKey(rule, "TITLE") : undefined;
         const severityKey = SEVERITY_KEY[f.severity];
         return (
           <div

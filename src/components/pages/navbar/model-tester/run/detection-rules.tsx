@@ -2,107 +2,11 @@
 
 import { Icon } from "@/components/ui/icon";
 import { DETECTION_EXCEPTIONS, DETECTION_RULES } from "ai-model-verifier/rules";
-import type {
-  DetectionExceptionId,
-  VerdictRuleId,
-} from "ai-model-verifier/rules";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { CommunityLinks } from "./community-links";
 import { TESTER_LINKS } from "../shared/links";
-import type { TranslationKey } from "@/lib/types";
-
-const RULE_TITLE: Record<VerdictRuleId, TranslationKey> = {
-  "thinking-floor": "MODEL_TESTER.RULES.THINKING-FLOOR.TITLE",
-  "thinking-honored": "MODEL_TESTER.RULES.THINKING-HONORED.TITLE",
-  "tokenizer-fingerprint": "MODEL_TESTER.RULES.TOKENIZER-FINGERPRINT.TITLE",
-  "tokenizer-family": "MODEL_TESTER.RULES.TOKENIZER-FAMILY.TITLE",
-  "masked-identity": "MODEL_TESTER.RULES.MASKED-IDENTITY.TITLE",
-  "fake-200": "MODEL_TESTER.RULES.FAKE-200.TITLE",
-  "censored-history": "MODEL_TESTER.RULES.CENSORED-HISTORY.TITLE",
-  signature: "MODEL_TESTER.RULES.SIGNATURE.TITLE",
-  "foreign-answers": "MODEL_TESTER.RULES.FOREIGN-ANSWERS.TITLE",
-  "coding-tool": "MODEL_TESTER.RULES.CODING-TOOL.TITLE",
-  scam: "MODEL_TESTER.RULES.SCAM.TITLE",
-  "cjk-leak": "MODEL_TESTER.RULES.CJK-LEAK.TITLE",
-  mux: "MODEL_TESTER.RULES.MUX.TITLE",
-  foreign: "MODEL_TESTER.RULES.FOREIGN.TITLE",
-  "served-model-mismatch": "MODEL_TESTER.RULES.SERVED-MODEL-MISMATCH.TITLE",
-  substituted: "MODEL_TESTER.RULES.SUBSTITUTED.TITLE",
-  quorum: "MODEL_TESTER.RULES.QUORUM.TITLE",
-};
-const RULE_MEANS: Record<VerdictRuleId, TranslationKey> = {
-  "thinking-floor": "MODEL_TESTER.RULES.THINKING-FLOOR.MEANS",
-  "thinking-honored": "MODEL_TESTER.RULES.THINKING-HONORED.MEANS",
-  "tokenizer-fingerprint": "MODEL_TESTER.RULES.TOKENIZER-FINGERPRINT.MEANS",
-  "tokenizer-family": "MODEL_TESTER.RULES.TOKENIZER-FAMILY.MEANS",
-  "masked-identity": "MODEL_TESTER.RULES.MASKED-IDENTITY.MEANS",
-  "fake-200": "MODEL_TESTER.RULES.FAKE-200.MEANS",
-  "censored-history": "MODEL_TESTER.RULES.CENSORED-HISTORY.MEANS",
-  signature: "MODEL_TESTER.RULES.SIGNATURE.MEANS",
-  "foreign-answers": "MODEL_TESTER.RULES.FOREIGN-ANSWERS.MEANS",
-  "coding-tool": "MODEL_TESTER.RULES.CODING-TOOL.MEANS",
-  scam: "MODEL_TESTER.RULES.SCAM.MEANS",
-  "cjk-leak": "MODEL_TESTER.RULES.CJK-LEAK.MEANS",
-  mux: "MODEL_TESTER.RULES.MUX.MEANS",
-  foreign: "MODEL_TESTER.RULES.FOREIGN.MEANS",
-  "served-model-mismatch": "MODEL_TESTER.RULES.SERVED-MODEL-MISMATCH.MEANS",
-  substituted: "MODEL_TESTER.RULES.SUBSTITUTED.MEANS",
-  quorum: "MODEL_TESTER.RULES.QUORUM.MEANS",
-};
-const RULE_WHY: Record<VerdictRuleId, TranslationKey> = {
-  "thinking-floor": "MODEL_TESTER.RULES.THINKING-FLOOR.WHY",
-  "thinking-honored": "MODEL_TESTER.RULES.THINKING-HONORED.WHY",
-  "tokenizer-fingerprint": "MODEL_TESTER.RULES.TOKENIZER-FINGERPRINT.WHY",
-  "tokenizer-family": "MODEL_TESTER.RULES.TOKENIZER-FAMILY.WHY",
-  "masked-identity": "MODEL_TESTER.RULES.MASKED-IDENTITY.WHY",
-  "fake-200": "MODEL_TESTER.RULES.FAKE-200.WHY",
-  "censored-history": "MODEL_TESTER.RULES.CENSORED-HISTORY.WHY",
-  signature: "MODEL_TESTER.RULES.SIGNATURE.WHY",
-  "foreign-answers": "MODEL_TESTER.RULES.FOREIGN-ANSWERS.WHY",
-  "coding-tool": "MODEL_TESTER.RULES.CODING-TOOL.WHY",
-  scam: "MODEL_TESTER.RULES.SCAM.WHY",
-  "cjk-leak": "MODEL_TESTER.RULES.CJK-LEAK.WHY",
-  mux: "MODEL_TESTER.RULES.MUX.WHY",
-  foreign: "MODEL_TESTER.RULES.FOREIGN.WHY",
-  "served-model-mismatch": "MODEL_TESTER.RULES.SERVED-MODEL-MISMATCH.WHY",
-  substituted: "MODEL_TESTER.RULES.SUBSTITUTED.WHY",
-  quorum: "MODEL_TESTER.RULES.QUORUM.WHY",
-};
-const RULE_EXCEPTION: Record<VerdictRuleId, TranslationKey> = {
-  "thinking-floor": "MODEL_TESTER.RULES.THINKING-FLOOR.EXCEPTION",
-  "thinking-honored": "MODEL_TESTER.RULES.THINKING-HONORED.EXCEPTION",
-  "tokenizer-fingerprint": "MODEL_TESTER.RULES.TOKENIZER-FINGERPRINT.EXCEPTION",
-  "tokenizer-family": "MODEL_TESTER.RULES.TOKENIZER-FAMILY.EXCEPTION",
-  "masked-identity": "MODEL_TESTER.RULES.MASKED-IDENTITY.EXCEPTION",
-  "fake-200": "MODEL_TESTER.RULES.FAKE-200.EXCEPTION",
-  "censored-history": "MODEL_TESTER.RULES.CENSORED-HISTORY.EXCEPTION",
-  signature: "MODEL_TESTER.RULES.SIGNATURE.EXCEPTION",
-  "foreign-answers": "MODEL_TESTER.RULES.FOREIGN-ANSWERS.EXCEPTION",
-  "coding-tool": "MODEL_TESTER.RULES.CODING-TOOL.EXCEPTION",
-  scam: "MODEL_TESTER.RULES.SCAM.EXCEPTION",
-  "cjk-leak": "MODEL_TESTER.RULES.CJK-LEAK.EXCEPTION",
-  mux: "MODEL_TESTER.RULES.MUX.EXCEPTION",
-  foreign: "MODEL_TESTER.RULES.FOREIGN.EXCEPTION",
-  "served-model-mismatch": "MODEL_TESTER.RULES.SERVED-MODEL-MISMATCH.EXCEPTION",
-  substituted: "MODEL_TESTER.RULES.SUBSTITUTED.EXCEPTION",
-  quorum: "MODEL_TESTER.RULES.QUORUM.EXCEPTION",
-};
-
-const EXCEPTION_TITLE: Record<DetectionExceptionId, TranslationKey> = {
-  version: "MODEL_TESTER.RULES.EXCEPTION.VERSION.TITLE",
-  transient: "MODEL_TESTER.RULES.EXCEPTION.TRANSIENT.TITLE",
-  "cloud-host": "MODEL_TESTER.RULES.EXCEPTION.CLOUD-HOST.TITLE",
-  reshaping: "MODEL_TESTER.RULES.EXCEPTION.RESHAPING.TITLE",
-  threshold: "MODEL_TESTER.RULES.EXCEPTION.THRESHOLD.TITLE",
-};
-const EXCEPTION_BODY: Record<DetectionExceptionId, TranslationKey> = {
-  version: "MODEL_TESTER.RULES.EXCEPTION.VERSION.BODY",
-  transient: "MODEL_TESTER.RULES.EXCEPTION.TRANSIENT.BODY",
-  "cloud-host": "MODEL_TESTER.RULES.EXCEPTION.CLOUD-HOST.BODY",
-  reshaping: "MODEL_TESTER.RULES.EXCEPTION.RESHAPING.BODY",
-  threshold: "MODEL_TESTER.RULES.EXCEPTION.THRESHOLD.BODY",
-};
+import { exceptionKey, ruleKey } from "../shared/rule-keys";
 
 export function DetectionRules() {
   const t = useTranslations();
@@ -132,7 +36,7 @@ export function DetectionRules() {
                 className="hover:bg-muted/40 flex w-full items-center gap-2 px-5 py-4 text-left transition-colors"
               >
                 <span className="text-foreground flex-1 text-sm font-medium">
-                  {t(RULE_TITLE[ruleId])}
+                  {t(ruleKey(ruleId, "TITLE"))}
                 </span>
                 <Icon
                   name="chevron-down"
@@ -144,18 +48,18 @@ export function DetectionRules() {
               </button>
               {isOpen ? (
                 <div className="text-muted-foreground flex flex-col gap-2 px-5 pt-0 pb-4 text-sm">
-                  <p>{t(RULE_MEANS[ruleId])}</p>
+                  <p>{t(ruleKey(ruleId, "MEANS"))}</p>
                   <p>
                     <span className="text-foreground/80 font-medium">
                       {t("MODEL_TESTER.RULES.WHY_LABEL")}{" "}
                     </span>
-                    {t(RULE_WHY[ruleId])}
+                    {t(ruleKey(ruleId, "WHY"))}
                   </p>
                   <p className="text-emerald-700 dark:text-emerald-400">
                     <span className="font-medium">
                       {t("MODEL_TESTER.RULES.NOT_FLAGGED_LABEL")}{" "}
                     </span>
-                    {t(RULE_EXCEPTION[ruleId])}
+                    {t(ruleKey(ruleId, "EXCEPTION"))}
                   </p>
                 </div>
               ) : null}
@@ -177,10 +81,10 @@ export function DetectionRules() {
               />
               <span>
                 <span className="text-foreground font-medium">
-                  {t(EXCEPTION_TITLE[id])}
+                  {t(exceptionKey(id, "TITLE"))}
                 </span>{" "}
                 <span className="text-muted-foreground">
-                  {t(EXCEPTION_BODY[id])}
+                  {t(exceptionKey(id, "BODY"))}
                 </span>
               </span>
             </li>
