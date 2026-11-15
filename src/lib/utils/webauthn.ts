@@ -1,5 +1,10 @@
 import { msg } from "@/lib/config/constants";
-import { arrayBufferToBase64, base64ToUint8, isRecord } from "@/lib/utils/base";
+import {
+  arrayBufferToBase64,
+  base64ToUint8,
+  isRecord,
+  isOneOf,
+} from "@/lib/utils/base";
 
 // go-webauthn reads and writes binary fields as unpadded base64url.
 function fromBase64Url(value: string): Uint8Array<ArrayBuffer> {
@@ -31,13 +36,19 @@ function toRequestOptions(
   };
 }
 
-function toRequirement(value: unknown) {
-  return value === "required" ||
-    value === "preferred" ||
-    value === "discouraged"
-    ? value
-    : undefined;
-}
+const isRequirement = isOneOf([
+  "required",
+  "preferred",
+  "discouraged",
+] as const);
+const isAttestation = isOneOf([
+  "none",
+  "indirect",
+  "direct",
+  "enterprise",
+] as const);
+const toRequirement = (value: unknown) =>
+  isRequirement(value) ? value : undefined;
 
 function toCredentialDescriptors(
   value: unknown,
@@ -105,13 +116,7 @@ function toCreationOptions(
       residentKey: toRequirement(selection.residentKey),
       userVerification: toRequirement(selection.userVerification) ?? "required",
     },
-    attestation:
-      attestation === "none" ||
-      attestation === "indirect" ||
-      attestation === "direct" ||
-      attestation === "enterprise"
-        ? attestation
-        : undefined,
+    attestation: isAttestation(attestation) ? attestation : undefined,
   };
 }
 

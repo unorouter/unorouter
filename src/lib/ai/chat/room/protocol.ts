@@ -1,4 +1,7 @@
-import { rec } from "@/lib/utils/base";
+import { rec, isOneOf } from "@/lib/utils/base";
+
+const isRejectReason = isOneOf(["declined", "version", "full"] as const);
+const isTurnFailReason = isOneOf(["busy", "timeout", "error"] as const);
 
 // Wire format for peer-to-peer RP rooms. Deltas only: a guest never receives
 // the character definition, the preset, or anything else that would leave the
@@ -136,9 +139,7 @@ export function parseHostMessage(raw: unknown): HostToGuest | null {
       };
     }
     case "rejected":
-      return msg.reason === "declined" ||
-        msg.reason === "version" ||
-        msg.reason === "full"
+      return isRejectReason(msg.reason)
         ? { type: "rejected", reason: msg.reason }
         : null;
     case "message-appended": {
@@ -165,9 +166,7 @@ export function parseHostMessage(raw: unknown): HostToGuest | null {
       return turn ? { type: "turn-state", turn } : null;
     }
     case "turn-failed":
-      return msg.reason === "busy" ||
-        msg.reason === "timeout" ||
-        msg.reason === "error"
+      return isTurnFailReason(msg.reason)
         ? { type: "turn-failed", reason: msg.reason }
         : null;
     case "closed":

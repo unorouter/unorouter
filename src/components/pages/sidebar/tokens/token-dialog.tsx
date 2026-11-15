@@ -47,6 +47,7 @@ import {
   copyToClipboard,
   copyToClipboardAsync,
   safeJsonParse,
+  isOneOf,
 } from "@/lib/utils/base";
 import { tokenFormSchema, type TokenFormSchema } from "@/lib/validation/token";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
@@ -87,16 +88,8 @@ const PROMPT_CACHE_OPTION_KEYS = {
   off: "TOKEN.FORM.PROMPT_CACHE_OFF",
 } as const satisfies Record<TokenFormSchema["prompt_cache"], TranslationKey>;
 
-function reasoningFormValue(
-  value: string | undefined,
-): TokenFormSchema["default_reasoning_effort"] {
-  return value === "low" ||
-    value === "medium" ||
-    value === "high" ||
-    value === "max"
-    ? value
-    : "off";
-}
+const isReasoningEffort = isOneOf(["low", "medium", "high", "max"] as const);
+const isPromptCache = isOneOf(["on", "off"] as const);
 
 const QUOTA_PRESETS = [
   { label: "$1", value: dollarsToQuota(1) },
@@ -152,14 +145,14 @@ export function TokenDialog(props: TokenDialogProps) {
           : [],
         allow_ips: props.token.allow_ips ?? "",
         group_mapping: tokenMapping,
-        default_reasoning_effort: reasoningFormValue(
+        default_reasoning_effort: isReasoningEffort(
           props.token.default_reasoning_effort,
-        ),
-        prompt_cache:
-          props.token.prompt_cache === "on" ||
-          props.token.prompt_cache === "off"
-            ? props.token.prompt_cache
-            : "auto",
+        )
+          ? props.token.default_reasoning_effort
+          : "off",
+        prompt_cache: isPromptCache(props.token.prompt_cache)
+          ? props.token.prompt_cache
+          : "auto",
       });
     } else {
       form.reset(formDefaults(tokenFormSchema));
