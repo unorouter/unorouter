@@ -21,7 +21,7 @@ import { downloadBlob } from "@/lib/utils/client";
 import { cn } from "@/lib/utils";
 import type { QuickTarget } from "../result/use-snapshot-restore-actions";
 import { useTranslations } from "next-intl";
-import { usePathname } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useState } from "react";
 
 type QuickHandler = (src: string, target: QuickTarget) => void;
@@ -58,9 +58,13 @@ function imageExt(mimeType: string | null | undefined): string {
 }
 
 async function downloadGenerationImage(src: string, filename: string) {
-  const res = await fetch(src, { cache: "no-cache" });
-  if (!res.ok) throw new Error(`fetch ${res.status}`);
-  downloadBlob(await res.blob(), filename);
+  try {
+    const res = await fetch(src, { cache: "no-cache" });
+    if (!res.ok) throw new Error(`fetch ${res.status}`);
+    downloadBlob(await res.blob(), filename);
+  } catch {
+    window.open(src, "_blank", "noopener");
+  }
 }
 
 function ImageTile(props: {
@@ -76,23 +80,16 @@ function ImageTile(props: {
   onReuseSeed?: (seed: number) => void;
 }) {
   const t = useTranslations();
-  const onDownload = async () => {
-    try {
-      await downloadGenerationImage(props.src, props.filename);
-    } catch {
-      window.open(props.src, "_blank", "noopener");
-    }
-  };
   const quick = (target: QuickTarget) => {
     props.onQuickAction?.(props.src, target);
   };
   const seed = props.seed;
   return (
     <div
-      className={
-        "bg-muted group/img relative overflow-hidden rounded-lg " +
-        (props.className ?? "")
-      }
+      className={cn(
+        "bg-muted group/img relative overflow-hidden rounded-lg",
+        props.className,
+      )}
       style={props.aspectRatio ? { aspectRatio: props.aspectRatio } : undefined}
     >
       <button
@@ -111,7 +108,7 @@ function ImageTile(props: {
       </button>
       <button
         type="button"
-        onClick={onDownload}
+        onClick={() => downloadGenerationImage(props.src, props.filename)}
         title={t("IMAGE.DOWNLOAD_IMAGE")}
         className="bg-background/80 text-foreground absolute top-2 right-2 cursor-pointer rounded-md p-1.5 opacity-0 backdrop-blur-sm transition-opacity group-hover/img:opacity-100 max-md:opacity-100"
       >
@@ -237,19 +234,12 @@ export function ImageLightbox(props: {
   const onPrev = () => setIndex((i) => (i - 1 + total) % total);
   const onNext = () => setIndex((i) => (i + 1) % total);
 
-  const onDownload = async () => {
-    if (!current) return;
-    try {
-      await downloadGenerationImage(
-        current.src,
-        `${props.snapshotId}-${current.sequenceIndex}.png`,
-      );
-    } catch {
-      window.open(current.src, "_blank", "noopener");
-    }
-  };
-
   if (!current) return null;
+  const onDownload = () =>
+    downloadGenerationImage(
+      current.src,
+      `${props.snapshotId}-${current.sequenceIndex}.${imageExt(current.mimeType)}`,
+    );
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
       <DialogContent
@@ -314,17 +304,11 @@ export function ImageLightbox(props: {
 export function ImageSessionList() {
   const t = useTranslations();
   const sidebar = useSidebar();
-  const pathname = usePathname();
+  const activeSessionId = useParams<{ id?: string }>().id;
   const query = useSessionHistoryQuery();
   const deleteSession = useDeleteImageSessionMutation();
 
   const items = query.data?.items ?? [];
-  const segments = pathname.split("/").filter(Boolean);
-  const imageIdx = segments.findIndex((s) => s === "image");
-  const activeSessionId =
-    imageIdx >= 0 && segments[imageIdx + 1]
-      ? segments[imageIdx + 1]
-      : undefined;
 
   if (sidebar.state === "collapsed") return null;
 
