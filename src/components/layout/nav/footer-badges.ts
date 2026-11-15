@@ -287,7 +287,7 @@ export const FOOTER_BADGES: {
     width: 96,
   },
   {
-    href: "https://aiagentslisting.com/unorouter?utm_source=aiagentslisting&utm_medium=badge",
+    href: "https://aiagentslisting.com/agent/unorouter",
     src: "https://aiagentslisting.com/unorouter/badge.svg?theme=light",
     name: "Discover the Best AI Agents, MCP Servers & Agent Skills",
     width: 96,
@@ -456,7 +456,7 @@ export const FOOTER_BADGES: {
     width: 84,
   },
   {
-    href: "https://aitrovex.com",
+    href: "https://aitrovex.com/tool/unorouter",
     src: "https://aitrovex.com/badge-listed-light.svg",
     name: "Find the right AI tool, faster",
     width: 120,
@@ -997,7 +997,7 @@ export const FOOTER_BADGES: {
     width: 82,
   },
   {
-    href: "https://microsaasdirectory.com",
+    href: "https://microsaasdirectory.com/tool/unorouter",
     src: "https://microsaasdirectory.com/badge-dark.svg",
     name: "MicroSaaS Directory",
     width: 120,
@@ -1349,12 +1349,6 @@ export const FOOTER_BADGES: {
     width: 120,
   },
   {
-    href: "https://super-launch.app",
-    src: "https://super-launch.app/badge/badge_light.svg",
-    name: "Super Launch",
-    width: 89,
-  },
-  {
     href: "https://superlaunchai.com/",
     src: "https://superlaunchai.com/badge.svg",
     name: "SuperLaunch AI",
@@ -1421,7 +1415,7 @@ export const FOOTER_BADGES: {
     width: 89,
   },
   {
-    href: "https://www.toollisted.com?utm_source=website&utm_medium=badge&utm_campaign=free_submission",
+    href: "https://www.toollisted.com/item/unorouter",
     src: "https://www.toollisted.com/badges/toollisted-badge-light.png",
     name: "Best AI Tools Directory to Discover Tools",
     width: 76,
@@ -1567,7 +1561,7 @@ export const FOOTER_BADGES: {
     width: 98,
   },
   {
-    href: "https://newname.ai/badge?ref=unorouter",
+    href: "https://newname.ai/products/unorouter",
     src: "https://newname.ai/badge/listed.svg",
     name: "Startup List of New AI Companies",
     alt: "Listed on NewName.ai",
@@ -1609,7 +1603,7 @@ export const FOOTER_BADGES: {
     width: 110,
   },
   {
-    href: "https://startupskyline.com/",
+    href: "https://startupskyline.com/startup/unorouter",
     src: "https://startupskyline.com/sky-badge/01M76W9V1CN45Q9KCQMAM87KTR.svg",
     name: "StartupSkyline",
     alt: "Listed on StartupSkyline",
@@ -1693,7 +1687,7 @@ export const FOOTER_BADGES: {
     width: 111,
   },
   {
-    href: "https://www.nexusai-tech.com/?utm_source=nexusai_badge&utm_medium=referral&utm_campaign=verified_listing&utm_content=rmclpyyb2y9227l0q4q1qy39",
+    href: "https://www.nexusai-tech.com/ai-apps/unorouter-unified-openai-compatible-model-router-and-proxy",
     src: "https://www.nexusai-tech.com/nexusai-verification-badge-dark.png",
     name: "NexusAi",
     alt: "Verified on NexusAi",
@@ -1889,7 +1883,7 @@ export const FOOTER_BADGES: {
     width: 120,
   },
   {
-    href: "https://thelaunchfeed.com/launch/unorouter.com",
+    href: "https://thelaunchfeed.com/product/unorouter",
     src: "https://thelaunchfeed.com/api/badge/featured?theme=light&site=unorouter.com",
     name: "The Launch Feed: Launch Your Product Free, Every Day",
     alt: "Featured on The Launch Feed",
@@ -2454,7 +2448,7 @@ export const FOOTER_TEXT_LINKS = [
   { href: "https://aitoolbus.com", label: "AI Tools Bus" },
   { href: "https://www.thebigdirectory.co.uk/", label: "The Big Directory UK" },
   { href: "https://agentgo.net", label: "AI Tools Directory" },
-  { href: "https://antdirectory.com/", label: "Ant Directory" },
+  { href: "https://antdirectory.com/item/unorouter", label: "Ant Directory" },
   { href: "https://toolsaiapp.com/", label: "Featured on ToolsAIApp" },
   { href: "https://aamax.co", label: "AAMAX" },
 ] as const;
