@@ -24,22 +24,6 @@ type CompactBucket = [
 
 type IncidentDTO = Omit<EventDTO, "type"> & { type: StatusEventType };
 
-const STATUS_EVENT_TYPES: StatusEventType[] = [
-  "incident",
-  "report",
-  "maintenance",
-];
-
-// Upstream types EventDTO.type as a plain string, so narrow it here rather than
-// asserting the whole payload at the route.
-function toIncident(e: EventDTO): IncidentDTO {
-  const type = STATUS_EVENT_TYPES.find((t) => t === e.type) ?? "incident";
-  return { ...e, type };
-}
-
-// the refinement this module exists to decode.
-export type CompactPagePayload = CompactPageDTO;
-
 // Upstream types a bucket as unknown[]; it is a fixed 7-number tuple.
 function toBucket(v: unknown): CompactBucket | null {
   if (!Array.isArray(v) || v.length < 7) return null;
@@ -53,34 +37,17 @@ type DecodedStatusPage = {
   bars: Record<string, StatusBarData[]>;
 };
 
-const STATUS_SUCCESS: StatusType = "success";
-const STATUS_DEGRADED: StatusType = "degraded";
-const STATUS_ERROR: StatusType = "error";
-const STATUS_EMPTY: StatusType = "empty";
+const BAR_STATUSES = ["success", "degraded", "error", "empty"] as const;
 
 function buildBar(b: CompactBucket): StatusBarData["bar"] {
-  const ok = b[0];
-  const deg = b[1];
-  const err = b[2];
-  const empty = b[3];
-  const count = ok + deg + err + empty;
-  if (count === 0) return [{ status: STATUS_EMPTY, height: 100 }];
-  const pct = (n: number) => Math.floor((n * 100) / count);
-  const segs: StatusBarData["bar"] = [];
-  const h1 = pct(ok);
-  if (h1 > 0) segs.push({ status: STATUS_SUCCESS, height: h1 });
-  const h2 = pct(deg);
-  if (h2 > 0) segs.push({ status: STATUS_DEGRADED, height: h2 });
-  const h3 = pct(err);
-  if (h3 > 0) segs.push({ status: STATUS_ERROR, height: h3 });
-  const h4 = pct(empty);
-  if (h4 > 0) segs.push({ status: STATUS_EMPTY, height: h4 });
-  if (segs.length > 0) {
-    let sum = 0;
-    for (const s of segs) sum += s.height;
-    const diff = 100 - sum;
-    if (diff !== 0) segs[segs.length - 1].height += diff;
-  }
+  const count = b[0] + b[1] + b[2] + b[3];
+  if (count === 0) return [{ status: "empty", height: 100 }];
+  const segs = BAR_STATUSES.map((status, i) => ({
+    status,
+    height: Math.floor((b[i] * 100) / count),
+  })).filter((seg) => seg.height > 0);
+  const sum = segs.reduce((acc, seg) => acc + seg.height, 0);
+  if (segs.length > 0) segs[segs.length - 1].height += 100 - sum;
   return segs;
 }
 
@@ -92,25 +59,28 @@ function buildCard(b: CompactBucket): StatusBarData["card"] {
   const errSum = b[5];
   const p95 = b[6];
   const items: StatusBarData["card"] = [];
-  if (ok > 0) items.push({ status: STATUS_SUCCESS, value: `${ok} min` });
-  if (deg > 0) items.push({ status: STATUS_DEGRADED, value: `${deg} min` });
-  if (err > 0) items.push({ status: STATUS_ERROR, value: `${err} min` });
+  if (ok > 0) items.push({ status: "success", value: `${ok} min` });
+  if (deg > 0) items.push({ status: "degraded", value: `${deg} min` });
+  if (err > 0) items.push({ status: "error", value: `${err} min` });
   if (reqSum > 0 || errSum > 0) {
     const latency = p95 > 0 ? ` / p95 ${formatLatency(p95, 1)}` : "";
     items.push({
-      status: STATUS_SUCCESS,
+      status: "success",
       value: `${reqSum} req / ${errSum} err${latency}`,
     });
   }
   return items;
 }
 
-export function decodeCompactPage(p: CompactPagePayload): DecodedStatusPage {
+export function decodeCompactPage(p: CompactPageDTO): DecodedStatusPage {
   const bars: Record<string, StatusBarData[]> = {};
   const incidentById = new Map<number, IncidentDTO>();
   // Upstream deploy skew can serve a payload without these fields; a bare
   // `for...of undefined` took the whole status page SSR down in every locale.
-  const incidents = (p.incidents ?? []).map(toIncident);
+  const incidents = (p.incidents ?? []).map((e): IncidentDTO => ({
+    ...e,
+    type: toEventType(e.type),
+  }));
   for (const inc of incidents) incidentById.set(inc.id, inc);
 
   const rawBars = p.bars ?? {};
@@ -155,11 +125,11 @@ export function decodeCompactPage(p: CompactPagePayload): DecodedStatusPage {
 }
 
 const STATUS_TYPES: readonly StatusType[] = [
-  STATUS_SUCCESS,
-  STATUS_DEGRADED,
-  STATUS_ERROR,
+  "success",
+  "degraded",
+  "error",
   "info",
-  STATUS_EMPTY,
+  "empty",
 ];
 const EVENT_TYPES: readonly StatusEventType[] = [
   "incident",
@@ -170,7 +140,7 @@ const EVENT_TYPES: readonly StatusEventType[] = [
 // The DTO types these as bare strings; unknown values must not reach a
 // component that switches on them.
 function toStatus(s: string): StatusType {
-  return STATUS_TYPES.find((v) => v === s) ?? STATUS_EMPTY;
+  return STATUS_TYPES.find((v) => v === s) ?? "empty";
 }
 
 function toEventType(s: string): StatusEventType {
