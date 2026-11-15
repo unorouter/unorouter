@@ -146,7 +146,7 @@ export const FOOTER_BADGES: {
     width: 89,
   },
   {
-    href: "https://dododirectory.com",
+    href: "https://dododirectory.com/item/unorouter",
     src: "/images/badges/dododirectory.png",
     name: "DodoDirectory",
     width: 103,
@@ -164,12 +164,6 @@ export const FOOTER_BADGES: {
     name: "FridayHunt",
     width: 103,
     lightBg: true,
-  },
-  {
-    href: "https://sharefast.co/?ref=4cxuvlcalisrnt6j",
-    src: "https://sharefast.co/sharefast-featured-badge.svg",
-    name: "Share Fast",
-    width: 110,
   },
   {
     href: "https://huzzler.so/products/colhB77fuA/unorouter?utm_source=huzzler_product_website&utm_medium=badge&utm_campaign=badge",
@@ -275,7 +269,7 @@ export const FOOTER_BADGES: {
     width: 89,
   },
   {
-    href: "https://ai-webcatalog.space/r/afcfb0db69a3f87dce2ff41f7e065860",
+    href: "https://ai-webcatalog.space/ru/tool/unorouter-com",
     src: "https://ai-webcatalog.space/badges/badge-dark.svg",
     name: "Каталог нейросетей и ИИ-инструментов",
     width: 107,
@@ -672,7 +666,7 @@ export const FOOTER_BADGES: {
     width: 120,
   },
   {
-    href: "https://findyouragent.ai",
+    href: "https://findyouragent.ai/agent/unorouter",
     src: "https://findyouragent.ai/embed-badge-gradient.svg",
     name: "Find Your Agent",
     alt: "FindYourAgent Logo",
@@ -733,7 +727,7 @@ export const FOOTER_BADGES: {
     width: 120,
   },
   {
-    href: "https://hypestar.org/?utm_source=supporter_badge&utm_medium=referral&utm_campaign=hype_star_badge",
+    href: "https://hypestar.org/project/unorouter",
     src: "https://hypestar.org/badges/support-hype-star-auto-v2.svg",
     name: "Hype Star",
     width: 140,
@@ -805,7 +799,7 @@ export const FOOTER_BADGES: {
     width: 120,
   },
   {
-    href: "https://launchaf.com/",
+    href: "https://launchaf.com/products/product-755",
     src: "https://launchaf.com/api/badge/light?v=launchaf-blue-2026-2",
     name: "LaunchAF",
     width: 86,
@@ -1171,7 +1165,7 @@ export const FOOTER_BADGES: {
     width: 120,
   },
   {
-    href: "https://sellwithboost.com",
+    href: "https://sellwithboost.com/startups/unorouter",
     src: "https://sellwithboost.com/badge/listing.svg",
     name: "Discover Startups",
     width: 96,
@@ -1349,7 +1343,7 @@ export const FOOTER_BADGES: {
     width: 120,
   },
   {
-    href: "https://superlaunchai.com/",
+    href: "https://superlaunchai.com/product/unorouter",
     src: "https://superlaunchai.com/badge.svg",
     name: "SuperLaunch AI",
     width: 120,
@@ -1451,7 +1445,7 @@ export const FOOTER_BADGES: {
     width: 92,
   },
   {
-    href: "https://www.topaitools4u.site",
+    href: "https://www.topaitools4u.site/tools/unorouter",
     src: "https://www.topaitools4u.site/logo.svg",
     name: "TopAITools4U",
     alt: "TopAITools4U",
@@ -1501,7 +1495,7 @@ export const FOOTER_BADGES: {
     width: 89,
   },
   {
-    href: "https://youraihunt.com",
+    href: "https://youraihunt.com/ai-tools/unorouter",
     src: "https://media.youraihunt.com/badge.png",
     name: "Your AI Hunt",
     width: 90,
@@ -1596,7 +1590,7 @@ export const FOOTER_BADGES: {
     width: 120,
   },
   {
-    href: "https://submitby.ai/projects/27bf1c01-471c-4078-b672-a340f43be57f",
+    href: "https://submitby.ai/projects/unorouter-27bf1c01",
     src: "https://submitby.ai/badges/chip-light.svg",
     name: "submitby.ai",
     alt: "Listed on submitby.ai",
@@ -1715,7 +1709,7 @@ export const FOOTER_BADGES: {
     width: 81,
   },
   {
-    href: "https://megalaun.ch/",
+    href: "https://megalaun.ch/product/unorouter-f7d62a6b",
     src: "https://megalaun.ch/badges/featured/asset",
     name: "MegaLaunch",
     alt: "Featured on MegaLaunch",
@@ -1736,7 +1730,7 @@ export const FOOTER_BADGES: {
     width: 110,
   },
   {
-    href: "https://boosted.jawuil.dev",
+    href: "https://boosted.jawuil.dev/tool/unorouter/",
     src: "https://boosted.jawuil.dev/badges/badge0-light.svg",
     name: "Boosted",
     alt: "Listed on Boosted",
@@ -1911,7 +1905,7 @@ export const FOOTER_BADGES: {
     width: 111,
   },
   {
-    href: "https://www.findindieapps.com",
+    href: "https://www.findindieapps.com/item/unorouter",
     src: "https://www.findindieapps.com/api/badge/unorouter?theme=dark",
     name: "Find Indie Apps",
     alt: "Listed on Find Indie Apps",
@@ -2267,7 +2261,7 @@ export const FOOTER_BADGES: {
     width: 109,
   },
   {
-    href: "https://www.les-ia.fr",
+    href: "https://www.les-ia.fr/outil/unorouter",
     src: "https://www.les-ia.fr/brand-kit/les-ia-discover-fr-dark.svg",
     name: "Les IA",
     alt: "Découvrez Les IA",
@@ -2280,17 +2274,10 @@ export const FOOTER_BADGES: {
     alt: "Featured on FindAIForMe",
     width: 95,
   },
-  {
-    href: "https://tools.cafe",
-    src: "https://tools.cafe/b/light.svg",
-    name: "tools.cafe",
-    width: 77,
-    alt: "Featured on tools.cafe",
-  },
 ] as const;
 
 export const FOOTER_TEXT_LINKS = [
-  { href: "https://www.seewhatnewai.com", label: "SeeWhatNewAI" },
+  { href: "https://www.seewhatnewai.com/unorouter", label: "SeeWhatNewAI" },
   {
     href: "https://www.toolpilot.ai/products/unorouter",
     label: "Toolpilot.ai",
@@ -2379,7 +2366,7 @@ export const FOOTER_TEXT_LINKS = [
     href: "https://www.listyourproject.com/doncryptus/unorouter/",
     label: "ListYourProject",
   },
-  { href: "https://mydirs.com", label: "Mydirs" },
+  { href: "https://mydirs.com/item/unorouter", label: "Mydirs" },
   { href: "https://okeiai.com/", label: "Okei AI Tools" },
   {
     href: "https://right-ai.com/",
@@ -2434,7 +2421,7 @@ export const FOOTER_TEXT_LINKS = [
   { href: "https://needaiforthis.com", label: "Need AI For This" },
   { href: "https://in-sla.org/", label: "In-SLA Directory" },
   { href: "https://toolsbox.me", label: "AI Tools Box" },
-  { href: "https://345tool.com", label: "345tool.com" },
+  { href: "https://345tool.com/ai/tool/unorouter.com", label: "345tool.com" },
   { href: "https://www.lddir.com", label: "LinkDirs" },
   {
     href: "https://earlylaunch.co/startup/unorouter/",
@@ -2449,6 +2436,6 @@ export const FOOTER_TEXT_LINKS = [
   { href: "https://www.thebigdirectory.co.uk/", label: "The Big Directory UK" },
   { href: "https://agentgo.net", label: "AI Tools Directory" },
   { href: "https://antdirectory.com/item/unorouter", label: "Ant Directory" },
-  { href: "https://toolsaiapp.com/", label: "Featured on ToolsAIApp" },
+  { href: "https://toolsaiapp.com/tool/unorouter-free-ai-api-key-for-every-major-model/", label: "Featured on ToolsAIApp" },
   { href: "https://aamax.co", label: "AAMAX" },
 ] as const;
