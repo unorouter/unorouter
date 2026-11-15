@@ -1,15 +1,13 @@
 "use client";
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
-import type { PricingCatalogModel } from "@/openapi";
-import type { RankedModel } from "@/openapi";
+import type { PricingCatalogModel, RankedModel } from "@/openapi";
 import { useTranslations } from "next-intl";
 
 function topByRank(
   models: PricingCatalogModel[],
   rankMap: Map<string, RankedModel>,
   predicate: (m: PricingCatalogModel) => boolean,
-  count: number,
 ): string[] {
   return models
     .filter(predicate)
@@ -18,19 +16,18 @@ function topByRank(
       const rb = rankMap.get(b.model_name)?.rank ?? Number.POSITIVE_INFINITY;
       return ra - rb;
     })
-    .slice(0, count)
+    .slice(0, 3)
     .map((m) => m.model_name);
 }
 
 function cheapest(
   models: PricingCatalogModel[],
   predicate: (m: PricingCatalogModel) => boolean,
-  count: number,
 ): string[] {
   return models
     .filter((m) => predicate(m) && !m.is_free && m.input_price > 0)
     .sort((a, b) => a.input_price - b.input_price)
-    .slice(0, count)
+    .slice(0, 3)
     .map((m) => m.model_name);
 }
 
@@ -48,34 +45,32 @@ export function PresetCards(props: {
     (m.tags.some((tag) => /code|coder|coding/i.test(tag)) ||
       /cod(e|er|estral)|deepseek|qwen|glm|kimi/i.test(m.model_name));
 
-  const codeNames = topByRank(models, props.rankMap, isCode, 3);
+  const codeNames = topByRank(models, props.rankMap, isCode);
+  const flagship = topByRank(models, props.rankMap, isText);
   const presets = [
     {
       key: "flagship",
       title: t("MODELS.COMPARE.PRESET_FLAGSHIP"),
       desc: t("MODELS.COMPARE.PRESET_FLAGSHIP_DESC"),
-      names: topByRank(models, props.rankMap, isText, 3),
+      names: flagship,
     },
     {
       key: "affordable",
       title: t("MODELS.COMPARE.PRESET_AFFORDABLE"),
       desc: t("MODELS.COMPARE.PRESET_AFFORDABLE_DESC"),
-      names: cheapest(models, isText, 3),
+      names: cheapest(models, isText),
     },
     {
       key: "code",
       title: t("MODELS.COMPARE.PRESET_CODE"),
       desc: t("MODELS.COMPARE.PRESET_CODE_DESC"),
-      names:
-        codeNames.length > 0
-          ? codeNames
-          : topByRank(models, props.rankMap, isText, 3),
+      names: codeNames.length > 0 ? codeNames : flagship,
     },
     {
       key: "image",
       title: t("MODELS.COMPARE.PRESET_IMAGE"),
       desc: t("MODELS.COMPARE.PRESET_IMAGE_DESC"),
-      names: topByRank(models, props.rankMap, (m) => m.type === "image", 3),
+      names: topByRank(models, props.rankMap, (m) => m.type === "image"),
     },
   ].filter((p) => p.names.length > 0);
 
