@@ -15,7 +15,7 @@ import {
 } from "@/lib/validation/rp-forms";
 import type { CharacterRow } from "@/lib/db/schema/rows";
 import { countTokens } from "@/lib/ai/chat/tokenizer";
-import { keyHits, selectLorebookEntries } from "./lorebook";
+import { applyInject, keyHits, selectLorebookEntries } from "./lorebook";
 import { parseExampleMessages } from "./example-messages";
 import {
   expandMacros,
@@ -306,6 +306,15 @@ export async function assembleForStream(
 
   const joinNonEmpty = (parts: string[]) =>
     parts.filter(Boolean).join("\n\n").trim();
+  // @@inject_at lore, keyed by RisuAI's prompt card names.
+  const injections = selected.flatMap((e) =>
+    e.injectAt ? [{ at: e.injectAt, text: expand(e.content) }] : [],
+  );
+  const injectInto = (location: string, text: string) =>
+    injections
+      .filter((i) => i.at.location === location)
+      .reduce((acc, i) => applyInject(acc, i.at, i.text), text)
+      .trim();
 
   const mainSlot = joinNonEmpty([
     expand(preset?.mainPrompt),
@@ -313,6 +322,7 @@ export async function assembleForStream(
   ]);
 
   const lorebookBlocks = selected
+    .filter((e) => !e.injectAt)
     .map((e) => ({
       text: expand(e.content),
       role: e.injectionRole ?? "system",
@@ -369,22 +379,25 @@ export async function assembleForStream(
     settings.systemPromptOverride ?? primary?.systemPrompt ?? null;
   const systemPromptSlot = sysOverride ? expand(sysOverride) : "";
 
-  const postHistorySlot = joinNonEmpty([
-    expand(primary?.postHistoryInstructions),
-    expand(preset?.postHistory),
-    // Last instruction before generation, where it holds best.
-    isGroupTurn ? `[Write the next reply only as ${charName}]` : "",
-  ]);
+  const postHistorySlot = injectInto(
+    "jailbreak",
+    joinNonEmpty([
+      expand(primary?.postHistoryInstructions),
+      expand(preset?.postHistory),
+      // Last instruction before generation, where it holds best.
+      isGroupTurn ? `[Write the next reply only as ${charName}]` : "",
+    ]),
+  );
 
   const sys = (text: string): SlotBlock | null =>
     text ? { text, role: "system" } : null;
   const prefillText = preset?.prefill ? expand(preset.prefill) : "";
   const slots: TemplateSlots = {
-    main: sys(mainSlot),
+    main: sys(injectInto("main", mainSlot)),
     lorebook: lorebookBlocks,
-    description: sys(descriptionSlot),
-    persona: sys(personaSlot),
-    systemPrompt: sys(systemPromptSlot),
+    description: sys(injectInto("description", descriptionSlot)),
+    persona: sys(injectInto("persona", personaSlot)),
+    systemPrompt: sys(injectInto("globalNote", systemPromptSlot)),
     prefill: prefillText ? { text: prefillText, role: "assistant" } : null,
     reasoningPrefill: null,
     postHistory: postHistorySlot

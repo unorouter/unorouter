@@ -74,7 +74,21 @@ type EntryDecorators = {
   recursive?: boolean;
   noRecursiveSearch?: boolean;
   ignoreOnMaxContext?: boolean;
-  inject?: { operation: "append" | "prepend" | "replace"; location: string };
+  inject?: LoreInject;
+};
+
+// RisuAI semantics: @@inject_lore targets another active entry by its comment,
+// @@inject_at a prompt section, and @@inject_replace / @@inject_prepend set the
+// operation plus the text the replace looks for, keeping the target.
+type LoreInject = {
+  operation: "append" | "prepend" | "replace";
+  location: string;
+  param: string;
+  lore: boolean;
+};
+
+export type SelectedLoreEntry = LbEntry & {
+  injectAt?: Omit<LoreInject, "lore">;
 };
 
 const DECORATOR_LINE = /^@@(\w+)[ \t]*(.*)$/;
@@ -163,13 +177,20 @@ function parseDecorators(content: string): EntryDecorators {
         break;
       case "inject_lore":
       case "inject_at":
-        out.inject = { operation: "append", location: arg };
+        out.inject = {
+          operation: out.inject?.operation ?? "append",
+          param: out.inject?.param ?? "",
+          location: arg,
+          lore: name === "inject_lore",
+        };
         break;
       case "inject_replace":
       case "inject_prepend":
         out.inject = {
+          location: out.inject?.location ?? "",
+          lore: out.inject?.lore ?? false,
           operation: name === "inject_replace" ? "replace" : "prepend",
-          location: out.inject?.location ?? arg,
+          param: arg,
         };
         break;
       default:
@@ -250,7 +271,7 @@ export function selectLorebookEntries(
   entries: LbEntry[],
   books: Map<string, LbRow>,
   opts: SelectOpts = {},
-): LbEntry[] {
+): SelectedLoreEntry[] {
   if (entries.length === 0) return [];
   const chatLength = opts.chatLength ?? recentUserTexts.length;
   const greetingIndex = opts.greetingIndex ?? -1;
@@ -368,17 +389,15 @@ export function selectLorebookEntries(
     dropped: dropped.slice(0, 20),
   });
 
-  const injectors = survived.filter((p) => p.dec.inject);
   const placed = survived.filter((p) => !p.dec.inject);
-  for (const inj of injectors) {
+  const loreName = (p: Prepared) =>
+    p.entry.comment || `lorebook ${entries.indexOf(p.entry)}`;
+  for (const inj of survived) {
     const at = inj.dec.inject;
-    const target = at && placed.find((p) => p.entry.id === at.location);
-    if (!target) continue;
-    if (at.operation === "append")
-      target.dec.body = `${target.dec.body} ${inj.dec.body}`;
-    else if (at.operation === "prepend")
-      target.dec.body = `${inj.dec.body} ${target.dec.body}`;
-    else target.dec.body = target.dec.body.replace(at.location, inj.dec.body);
+    if (!at?.lore) continue;
+    const target = placed.find((p) => loreName(p) === at.location);
+    if (target)
+      target.dec.body = applyInject(target.dec.body, at, inj.dec.body);
   }
 
   const order = (p: Prepared) => p.dec.order ?? p.entry.orderIndex ?? 0;
@@ -388,9 +407,27 @@ export function selectLorebookEntries(
       b.effectivePriority - a.effectivePriority ||
       (a.entry.id < b.entry.id ? -1 : 1),
   );
-  return placed.map((p) => ({
-    ...p.entry,
-    content: p.dec.body,
-    ...(p.dec.role ? { injectionRole: p.dec.role } : {}),
-  }));
+  const injectAt = survived.flatMap((p) =>
+    p.dec.inject && !p.dec.inject.lore
+      ? [{ ...p.entry, content: p.dec.body, injectAt: p.dec.inject }]
+      : [],
+  );
+  return [
+    ...placed.map((p) => ({
+      ...p.entry,
+      content: p.dec.body,
+      ...(p.dec.role ? { injectionRole: p.dec.role } : {}),
+    })),
+    ...injectAt,
+  ];
+}
+
+export function applyInject(
+  text: string,
+  at: Omit<LoreInject, "lore">,
+  body: string,
+): string {
+  if (at.operation === "append") return `${text} ${body}`;
+  if (at.operation === "prepend") return `${body} ${text}`;
+  return text.replace(at.param, body);
 }
