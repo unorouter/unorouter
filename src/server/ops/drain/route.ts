@@ -11,6 +11,12 @@ export const drainRoute = new Elysia({ prefix: "/drain" }).get(
   "/",
   async ({ request, status }) => {
     if (request.headers.has("cf-connecting-ip")) return status(404);
+    // The compiled server's SIGTERM handler runs Bun's graceful stop: it closes
+    // idle keep-alive connections at once, so the tunnel reconnects to pods of
+    // the new build instead of fetching new chunks from this one (404) for the
+    // whole drain, while open replies and this request still finish.
+    if (process.env.NODE_ENV === "production")
+      process.kill(process.pid, "SIGTERM");
     return { success: true, data: { cut: await drainStreams(DRAIN_MAX_MS) } };
   },
 );
