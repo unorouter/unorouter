@@ -10,7 +10,7 @@ import { env } from "@/lib/config/env";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
-import { extractErrorDetail } from "@/lib/utils/client";
+import { extractErrorDetail, handleError } from "@/lib/utils/client";
 import type { CustomerType } from "@/lib/validation/auth";
 import type { StatusData } from "@/openapi";
 import { getCookie } from "cookies-next/client";
@@ -164,7 +164,7 @@ export function OAuthButtons(props: OAuthButtonsProps) {
         error: extractErrorDetail(e),
       });
       props.onTurnstileSpent?.();
-      throw e;
+      handleError(e, t);
     } finally {
       setLoading(null);
     }
