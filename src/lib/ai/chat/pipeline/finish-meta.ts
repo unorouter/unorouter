@@ -92,7 +92,6 @@ export function buildFinishMeta(args: {
     meta.globalVars = prepared.globalVarsWriteback;
   if (prepared.memory.summaryWriteback)
     meta.summary = prepared.memory.summaryWriteback;
-  if (prepared.inlayMedia.length > 0) meta.inlayMedia = prepared.inlayMedia;
   if (args.speakingCharacterId)
     meta.speakingCharacterId = args.speakingCharacterId;
   const u = args.buildUsage(

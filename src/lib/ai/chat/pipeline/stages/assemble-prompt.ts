@@ -16,7 +16,7 @@ import type { PricingCatalogDetail } from "@/openapi";
 import type { LoadedConvContext } from "@/lib/types";
 import type { CharacterRow } from "@/lib/db/schema/rows";
 import { runStartTriggers } from "../../triggers/run-triggers";
-import type { AssemblerDeps, InlayImage } from "../deps";
+import type { AssemblerDeps } from "../deps";
 import { rollSummary } from "@/lib/ai/chat/prompt/rolling-summary";
 import {
   assembleForStream,
@@ -47,11 +47,9 @@ type MemoryContext = {
 type AssembledPrompt = {
   assembled: AssembledSystem;
   memory: MemoryContext;
-  inlayMedia: InlayImage[];
   startAlerts: { kind: string; text: string }[];
   stopRequested: boolean;
   globalVarsIn: string | null;
-  triggerVars: Record<string, string>;
   historyMessages: StreamMessages;
   effectiveMaxOutputTokens: number;
   historyStats: Record<string, unknown>;
@@ -85,14 +83,13 @@ export async function assemblePrompt(
   const triggerVars: Record<string, string> = convCtx
     ? parseStringMap(convCtx.settings.vars)
     : {};
-  const inlayMedia: InlayImage[] = [];
   const startTrig = convCtx
     ? await runStartTriggers(
         convCtx,
         triggerVars,
         parseStringMap(globalVarsIn),
         history,
-        deps.triggerOps(apiKey, body.model, inlayMedia),
+        deps.triggerOps(),
       )
     : { extraSystemPrompt: "", stopSending: false, alerts: [] };
 
@@ -216,11 +213,9 @@ export async function assemblePrompt(
   return {
     assembled,
     memory,
-    inlayMedia,
     startAlerts: startTrig.alerts,
     stopRequested: startTrig.stopSending,
     globalVarsIn,
-    triggerVars,
     historyMessages,
     effectiveMaxOutputTokens,
     historyStats,

@@ -127,10 +127,8 @@ export async function prepareChatRequest(
   );
 
   return {
-    modelInfo,
     estimateCost: (inputTokens: number, outputTokens: number) =>
       modelCost(modelInfo, inputTokens, outputTokens),
-    effectiveWebSearch,
     effectiveSystem,
     messagesForUpstream,
     modelParams: wireModelParams,
@@ -160,6 +158,5 @@ export async function prepareChatRequest(
     ),
     startAlerts: prompt.startAlerts,
     stopRequested: prompt.stopRequested,
-    inlayMedia: prompt.inlayMedia,
   };
 }

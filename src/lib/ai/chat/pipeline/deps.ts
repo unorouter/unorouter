@@ -38,9 +38,5 @@ export type AssemblerDeps = {
     opts: { topK: number },
   ) => Promise<SemanticHit[]>;
 
-  triggerOps: (
-    apiKey: string,
-    model: string,
-    inlayMedia: InlayImage[],
-  ) => TriggerOps;
+  triggerOps: () => TriggerOps;
 };
