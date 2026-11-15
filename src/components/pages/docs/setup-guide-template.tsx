@@ -28,7 +28,7 @@ import {
   translated,
 } from "@/components/pages/blog/posts";
 import { docKey } from "./doc-template";
-import type { SetupCompatibility, SetupGuide, SetupStep } from "./setup-guides";
+import type { SetupCompatibility, SetupGuide } from "./setup-guides";
 
 type CompatRow = { key: keyof SetupCompatibility; labelKey: TranslationKey };
 
@@ -124,46 +124,36 @@ ${t("DOCS.SETUP_GUIDE.API_KEY_LABEL")}: ${docs.placeholder}`;
       return `        "${id}": { "limit": { "context": ${limit.context}, "output": ${output} } }`;
     })
     .join(",\n");
-  const stepCode = (step: SetupStep) =>
-    step.code
-      ? step.code.value.replace("__FREE_MODEL_KEYS__", freeModelKeys)
-      : null;
+  const fillCode = (value: string) =>
+    value.replace("__FREE_MODEL_KEYS__", freeModelKeys);
 
   const stepCodeHtml = await Promise.all(
-    guide.steps.map((step) => {
-      const value = stepCode(step);
-      return value !== null && step.code
-        ? highlightCode(value, step.code.lang)
-        : Promise.resolve(null);
-    }),
+    guide.steps.map((step) =>
+      step.code
+        ? highlightCode(fillCode(step.code.value), step.code.lang)
+        : null,
+    ),
   );
 
   const installCodeHtml = await Promise.all(
     (guide.install?.steps ?? []).map((step) =>
-      step.code
-        ? highlightCode(step.code.value, step.code.lang)
-        : Promise.resolve(null),
+      step.code ? highlightCode(step.code.value, step.code.lang) : null,
     ),
   );
 
+  const osInput = (c: { lang: string; value: string }) => ({
+    code: c.value,
+    language: c.lang,
+  });
   const stepOsVariants = await Promise.all(
     guide.steps.map((step) =>
       step.osCode
         ? buildOSVariants({
-            windows: {
-              code: step.osCode[OS.WINDOWS].value,
-              language: step.osCode[OS.WINDOWS].lang,
-            },
-            macos: {
-              code: step.osCode[OS.MACOS].value,
-              language: step.osCode[OS.MACOS].lang,
-            },
-            linux: {
-              code: step.osCode[OS.LINUX].value,
-              language: step.osCode[OS.LINUX].lang,
-            },
+            windows: osInput(step.osCode[OS.WINDOWS]),
+            macos: osInput(step.osCode[OS.MACOS]),
+            linux: osInput(step.osCode[OS.LINUX]),
           })
-        : Promise.resolve(null),
+        : null,
     ),
   );
 
@@ -278,7 +268,7 @@ ${t("DOCS.SETUP_GUIDE.API_KEY_LABEL")}: ${docs.placeholder}`;
                       <div className="mt-3">
                         <ApiKeyCodeBlock
                           html={stepCodeHtml[idx]}
-                          code={stepCode(step)!}
+                          code={fillCode(step.code.value)}
                           language={step.code.lang}
                           placeholder={docs.placeholder}
                         />
