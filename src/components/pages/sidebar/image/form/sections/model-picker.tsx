@@ -72,6 +72,7 @@ export function ModelPicker(props: Props) {
 
   const renderItem = (m: ImageModelDescriptor) => {
     const disabled = !isLoggedIn && !m.is_free;
+    const fixedPrice = m.is_fixed_price ? m.fixed_price : 0;
     return (
       <CommandItem
         key={m.model_name}
@@ -87,11 +88,8 @@ export function ModelPicker(props: Props) {
           </span>
         ) : (
           <span className="text-muted-foreground shrink-0 text-xs">
-            {(m.is_fixed_price ? m.fixed_price : 0) > 0
-              ? renderQuota(
-                  dollarsToQuota(m.is_fixed_price ? m.fixed_price : 0),
-                  2,
-                )
+            {fixedPrice > 0
+              ? renderQuota(dollarsToQuota(fixedPrice), 2)
               : t("IMAGE.PRICING_RATIO_BASED")}
           </span>
         )}
@@ -137,20 +135,12 @@ export function ModelPicker(props: Props) {
   // Saved models already have their own group, so a search hit that is already saved would
   // otherwise appear twice.
   const foundCheckpoints = found.filter((c) => !savedAirs.has(c.air));
-  const savedCheckpoints = search.trim()
-    ? saved.filter((c) =>
-        `${c.name} ${c.air}`
-          .toLowerCase()
-          .includes(search.trim().toLowerCase()),
-      )
-    : saved;
-
   const needle = search.trim().toLowerCase();
+  const savedCheckpoints = saved.filter((c) =>
+    `${c.name} ${c.air}`.toLowerCase().includes(needle),
+  );
   const matchesSearch = (m: ImageModelDescriptor) =>
-    !needle ||
-    `${m.model_name} ${m.vendor ?? ""} ${m.model_name}`
-      .toLowerCase()
-      .includes(needle);
+    `${m.model_name} ${m.vendor ?? ""}`.toLowerCase().includes(needle);
 
   // Hosted catalog models are text2img-only.
   const hostedModels =
