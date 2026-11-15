@@ -364,11 +364,6 @@ npm install -g @anthropic-ai/claude-code`}
             windowsContent={windowsInstall}
             macosContent={macosInstall}
             linuxContent={linuxInstall}
-            labels={{
-              windows: t("DOCS.OS.WINDOWS"),
-              macos: t("DOCS.OS.MACOS"),
-              linux: t("DOCS.OS.LINUX"),
-            }}
           />
         </section>
 

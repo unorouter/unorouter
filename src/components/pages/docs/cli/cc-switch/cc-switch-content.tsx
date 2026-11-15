@@ -163,11 +163,6 @@ brew install --cask cc-switch`}
                 />
               </div>
             }
-            labels={{
-              windows: t("DOCS.OS.WINDOWS"),
-              macos: t("DOCS.OS.MACOS"),
-              linux: t("DOCS.OS.LINUX"),
-            }}
           />
 
           <h3 className="mt-6 mb-3 text-lg font-medium">

@@ -3,21 +3,16 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useApiKey } from "@/hooks/ui/use-api-key";
 import { isOS, OS } from "@/lib/types/enums";
+import { Icon } from "@/components/ui/icon";
+import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 
-import { Icon } from "@/components/ui/icon";
-interface OSTabsProps {
+export function OSTabs(props: {
   windowsContent: ReactNode;
   macosContent: ReactNode;
   linuxContent: ReactNode;
-  labels: {
-    windows: string;
-    macos: string;
-    linux: string;
-  };
-}
-
-export function OSTabs(props: OSTabsProps) {
+}) {
+  const t = useTranslations();
   const docs = useApiKey();
 
   return (
@@ -31,15 +26,15 @@ export function OSTabs(props: OSTabsProps) {
       <TabsList variant="line">
         <TabsTrigger value={OS.WINDOWS}>
           <Icon name="brand-windows" className="size-3.5" />
-          {props.labels.windows}
+          {t("DOCS.OS.WINDOWS")}
         </TabsTrigger>
         <TabsTrigger value={OS.MACOS}>
           <Icon name="brand-apple" className="size-3.5" />
-          {props.labels.macos}
+          {t("DOCS.OS.MACOS")}
         </TabsTrigger>
         <TabsTrigger value={OS.LINUX}>
           <Icon name="brand-linux" className="size-3.5" />
-          {props.labels.linux}
+          {t("DOCS.OS.LINUX")}
         </TabsTrigger>
       </TabsList>
 

@@ -303,7 +303,6 @@ ${t("DOCS.SETUP_GUIDE.API_KEY_LABEL")}: ${docs.placeholder}`;
               {t("DOCS.SETUP_GUIDE.STEPS")}
             </h2>
             <OSTabs
-              labels={{ windows: "Windows", macos: "macOS", linux: "Linux" }}
               windowsContent={
                 <ApiKeyCodeBlock
                   html={osVariants[OS.WINDOWS].html}
