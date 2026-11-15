@@ -1,65 +1,48 @@
 "use client";
 
-import { defaultParams } from "@/lib/ai/image/models";
-import type { ImageModelDescriptor } from "@/lib/ai/image/models";
-import type { ImageFormValues, ImageModelId } from "@/lib/validation/image";
 import { useSnapshotQuery } from "@/hooks/ai/image-hook";
-import { useRouter, useSearchParams } from "next/navigation";
+import { restoreSnapshotIntoFormAtom } from "@/store/image-store";
+import { useSetAtom } from "jotai";
+import { parseAsString, useQueryStates } from "nuqs";
 import { useEffect, useRef } from "react";
-import type { UseFormReturn } from "react-hook-form";
-import { defaultsFor } from "../logic/persistence";
+import { IMAGE_URL_PARSERS } from "../../image-nav";
 
-type Args = {
-  form: UseFormReturn<ImageFormValues>;
-  findDescriptor: (id: ImageModelId) => ImageModelDescriptor;
+const REMIX_PARSERS = {
+  tab: IMAGE_URL_PARSERS.tab,
+  mode: IMAGE_URL_PARSERS.mode,
+  remix: parseAsString,
+  inpaint: parseAsString,
 };
 
-export function useRemixSeed(args: Args): { remixId: string | null } {
-  const form = args.form;
-  const findDescriptor = args.findDescriptor;
-  const searchParams = useSearchParams();
-  const router = useRouter();
-
-  const remixId = searchParams.get("remix");
-  const inpaintShortcut = searchParams.get("inpaint") === "1";
-  const seedQuery = useSnapshotQuery(remixId);
+export function useRemixSeed(): { remixId: string | null } {
+  const [url, setUrl] = useQueryStates(REMIX_PARSERS);
+  const data = useSnapshotQuery(url.remix).data;
+  const setRestore = useSetAtom(restoreSnapshotIntoFormAtom);
 
   const seededIdRef = useRef<string | null>(null);
   useEffect(() => {
-    const data = seedQuery.data;
     if (!data || seededIdRef.current === data.id) return;
     seededIdRef.current = data.id;
-    const desc = findDescriptor(data.model);
-    const seedSource = data.images?.[0]?.src;
-    const inpaintParams =
-      inpaintShortcut && seedSource
-        ? { initImageUrl: seedSource, strength: 0.85 }
-        : {};
-    form.reset({
-      ...defaultsFor(desc),
+    const inpaintSource =
+      url.inpaint === "1" ? data.images?.[0]?.src : undefined;
+    setRestore({
+      model: data.model,
       prompt: data.prompt,
-      negativePrompt: data.negativePrompt ?? "",
-      params: {
-        ...defaultParams(desc),
-        ...(data.params ?? {}),
-        ...inpaintParams,
-      },
-      loras: data.loras ?? undefined,
-      references: data.references ?? undefined,
-      visibility: "private",
-      ui: { variants: 1 },
+      negativePrompt: data.negativePrompt,
+      params: data.params,
+      loras: data.loras,
+      references: data.references,
+      extraParams: null,
+      initImageUrl: inpaintSource,
+      paramOverrides: inpaintSource ? { strength: 0.85 } : undefined,
     });
-    const url = new URL(window.location.href);
-    for (const key of ["remix", "inpaint"]) {
-      url.searchParams.delete(key);
-    }
-    if (Object.keys(inpaintParams).length > 0) {
-      url.searchParams.set("tab", "img2img");
-      url.searchParams.set("mode", "inpaint");
-    }
-    router.replace(url.pathname + url.search, { scroll: false });
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- seededIdRef makes this idempotent; only new snapshot data may re-run it
-  }, [seedQuery.data, form]);
+    void setUrl(
+      inpaintSource
+        ? { remix: null, inpaint: null, tab: "img2img", mode: "inpaint" }
+        : { remix: null, inpaint: null },
+      { history: "replace" },
+    );
+  }, [data, url.inpaint, setRestore, setUrl]);
 
-  return { remixId };
+  return { remixId: url.remix };
 }

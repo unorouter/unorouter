@@ -31,7 +31,6 @@ export function DataTableGlobalFilter<TData extends RowData>(
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- sync local state from table filter
     setValue(globalFilter);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- extracted from complex expression
   }, [globalFilter]);
 
   return (

@@ -82,7 +82,7 @@ export function useImageForm() {
       form.setValue("loras", undefined);
   };
 
-  const remix = useRemixSeed({ form, findDescriptor });
+  const remix = useRemixSeed();
   const drafts = useDraftPersistence({
     form,
     tab: nav.tab,

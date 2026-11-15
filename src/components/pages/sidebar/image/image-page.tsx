@@ -10,7 +10,7 @@ import { RecentStrip } from "@/components/pages/sidebar/image/history/recent-str
 import { useSessionQuery } from "@/hooks/ai/image-hook";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useEffectEvent } from "react";
 import { useImageNav } from "./image-nav";
 
 export function ImagePage() {
@@ -21,13 +21,15 @@ export function ImagePage() {
   const sessionQuery = useSessionQuery(nav.sessionId);
 
   // A session route with no snapshot in the URL shows its newest one.
-  useEffect(() => {
+  const showNewest = useEffectEvent(() => {
     if (!nav.sessionId || nav.snapshotId) return;
-    const snaps = sessionQuery.data?.snapshots ?? [];
-    if (snaps.length === 0) return;
-    nav.replaceSnapshot(snaps[0].id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- nav methods are stable per render; re-run on data/route changes only
-  }, [nav.sessionId, nav.snapshotId, sessionQuery.data]);
+    const newest = sessionQuery.data?.snapshots[0];
+    if (newest) nav.replaceSnapshot(newest.id);
+  });
+  useEffect(
+    () => showNewest(),
+    [nav.sessionId, nav.snapshotId, sessionQuery.data],
+  );
 
   useEffect(() => {
     if (!nav.sessionId) return;

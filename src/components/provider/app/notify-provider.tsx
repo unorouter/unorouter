@@ -21,7 +21,7 @@ import {
 } from "@/store/notify-store";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useLocale, useTranslations } from "next-intl";
-import { useEffect } from "react";
+import { useEffect, useEffectEvent } from "react";
 import { toast } from "sonner";
 
 export function NotifyProvider() {
@@ -74,15 +74,14 @@ export function NotifyProvider() {
     }
   }, [topics, pushEnabled, locale]);
 
-  useEffect(() => {
+  const revalidate = useEffectEvent(() => {
     if (!pushEnabled) return;
     revalidatePush(topics, locale).then((ok) => {
       if (ok) refreshNotifyPresence();
       else setPushEnabled(false);
     });
-    // On-mount concern only.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pushEnabled]);
+  });
+  useEffect(() => revalidate(), [pushEnabled]);
 
   return null;
 }

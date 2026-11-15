@@ -5,7 +5,7 @@ import type { ImageModelDescriptor } from "@/lib/ai/image/models";
 import type { ImageFormValues, ImageModelId } from "@/lib/validation/image";
 import { restoreSnapshotIntoFormAtom } from "@/store/image-store";
 import { useAtom } from "jotai";
-import { useEffect } from "react";
+import { useEffect, useEffectEvent } from "react";
 import type { UseFormReturn } from "react-hook-form";
 import { defaultsFor } from "../logic/persistence";
 
@@ -21,7 +21,7 @@ export function useSnapshotRestore(args: Args) {
     restoreSnapshotIntoFormAtom,
   );
 
-  useEffect(() => {
+  const apply = useEffectEvent(() => {
     if (!restorePayload) return;
     const desc = args.findDescriptor(restorePayload.model);
     const mergedParams: Record<string, unknown> = {
@@ -51,6 +51,6 @@ export function useSnapshotRestore(args: Args) {
       ui: restorePayload.extraParams ?? { variants: 1 },
     });
     setRestorePayload(null);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- one-shot mailbox: cleared above, so only a new payload re-runs it
-  }, [restorePayload]);
+  });
+  useEffect(() => apply(), [restorePayload]);
 }
