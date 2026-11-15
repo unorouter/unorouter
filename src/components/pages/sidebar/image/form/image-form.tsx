@@ -32,6 +32,7 @@ import { PngImport } from "./sections/png-import";
 import { PresetBar } from "./sections/preset-bar";
 import { SubmitBar } from "./sections/submit-bar";
 import { useCheckpoint } from "./hooks/use-checkpoint";
+import { draftFromForm } from "./logic/persistence";
 import { useImageForm } from "./hooks/use-image-form";
 import { useSubmitGeneration } from "./hooks/use-submit-generation";
 import { VendorParamsFields } from "./sections/vendor-params-fields";
@@ -51,16 +52,7 @@ export function ImageForm() {
     activeCheckpoint,
     setSamplerMemory: (params, model) =>
       gen.setSamplerMemory({ ...gen.samplerMemory, [model]: params ?? {} }),
-    setDraft: (values) =>
-      gen.setDraft({
-        model: values.model,
-        prompt: values.prompt ?? "",
-        negativePrompt: values.negativePrompt ?? "",
-        params: values.params ?? {},
-        loras: values.loras,
-        references: values.references,
-        extraParams: values.ui ?? { variants: 1 },
-      }),
+    setDraft: (values) => gen.setDraft(draftFromForm(values)),
   });
 
   return (
