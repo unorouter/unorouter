@@ -2,7 +2,6 @@
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRankingsQuery } from "@/hooks/models/rankings-hook";
-import type { RankingPeriod } from "@/lib/api/typebox/rankings";
 import { useTranslations } from "next-intl";
 import dynamic from "next/dynamic";
 import { parseAsStringLiteral, useQueryState } from "nuqs";
@@ -20,10 +19,6 @@ const MarketShareSection = dynamic(
   { ssr: false, loading: () => <Skeleton className="h-150 w-full" /> },
 );
 
-type RankingsProps = {
-  initialPeriod: RankingPeriod;
-};
-
 const PERIOD_IDS = RANKING_PERIODS.map((p) => p.id);
 const TIER_IDS = ["all", "free", "paid"] as const;
 export type RankingTier = (typeof TIER_IDS)[number];
@@ -31,12 +26,10 @@ export type RankingTier = (typeof TIER_IDS)[number];
 const inTier = (name: string, tier: RankingTier) =>
   tier === "all" || (tier === "free") === name.endsWith(":free");
 
-export function Rankings(props: RankingsProps) {
+export function Rankings() {
   const [period, handlePeriodChange] = useQueryState(
     "period",
-    parseAsStringLiteral(PERIOD_IDS).withDefault(
-      props.initialPeriod as (typeof PERIOD_IDS)[number],
-    ),
+    parseAsStringLiteral(PERIOD_IDS).withDefault("week"),
   );
   const [tier, setTier] = useQueryState(
     "tier",
@@ -79,12 +72,7 @@ export function Rankings(props: RankingsProps) {
         }}
       />
       <div className="relative mx-auto w-full max-w-7xl space-y-8 px-3 pt-16 pb-10 sm:px-6 sm:pt-20 sm:pb-12 xl:px-8">
-        <RankingsHero
-          period={period}
-          onPeriodChange={(p) =>
-            handlePeriodChange(PERIOD_IDS.find((id) => id === p) ?? "week")
-          }
-        />
+        <RankingsHero period={period} onPeriodChange={handlePeriodChange} />
 
         {rankingsQuery.isLoading ? (
           <RankingsLoading />

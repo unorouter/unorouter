@@ -9,7 +9,7 @@ import { RANKING_PERIODS } from "./rankings-helpers";
 
 type RankingsHeroProps = {
   period: RankingPeriod;
-  onPeriodChange: (period: RankingPeriod) => void;
+  onPeriodChange: (period: (typeof RANKING_PERIODS)[number]["id"]) => void;
 };
 
 export function RankingsHero(props: RankingsHeroProps) {

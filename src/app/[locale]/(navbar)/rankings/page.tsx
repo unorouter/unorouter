@@ -24,15 +24,12 @@ export function generateMetadata(props: {
   });
 }
 
-// The period query param is resolved client-side after hydration; the server
-// always renders the default week ranking.
 export default async function RankingsPage(props: {
   params: Promise<{ locale: string }>;
 }) {
   const locale = await serverLocale(props);
-  const period = "week" as const;
   const t = await getTranslations({ locale });
-  const data = await getRankingsPageData(period);
+  const data = await getRankingsPageData("week");
   const topModels = data.topModels;
 
   return (
@@ -59,7 +56,7 @@ export default async function RankingsPage(props: {
         })}
       />
       <HydrationBoundary state={data.dehydrated}>
-        <Rankings initialPeriod={period} />
+        <Rankings />
       </HydrationBoundary>
     </>
   );
