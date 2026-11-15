@@ -136,16 +136,12 @@ function ChartToolbar(props: {
         {props.toolbar}
         <DateTimeRangePicker
           value={dashboard.dateRange}
-          onChange={(range) => {
-            dashboard.setDateRange(range);
-          }}
+          onChange={dashboard.setDateRange}
         />
         <Button
           variant="ghost"
           size="icon-sm"
-          onClick={() => {
-            dashboard.refetchAll();
-          }}
+          onClick={dashboard.refetchAll}
           disabled={dashboard.isFetching}
         >
           <Icon
@@ -157,9 +153,7 @@ function ChartToolbar(props: {
           <Button
             variant="ghost"
             size="icon-sm"
-            onClick={() => {
-              dashboard.resetDateRange();
-            }}
+            onClick={dashboard.resetDateRange}
             title={t("DASHBOARD.CHART.RESET_DATE_RANGE")}
           >
             <Icon name="rotate-ccw" className="h-4 w-4" />
@@ -280,30 +274,22 @@ export function ConsumptionChart() {
         <Tabs defaultValue="distribution" className="flex-1">
           <div className="border-border no-scrollbar overflow-x-auto border-b px-5 pt-2">
             <TabsList variant="line" className="h-8 w-max min-w-full">
-              <TabsTrigger
-                value="distribution"
-                className="font-mono text-xs whitespace-nowrap"
-              >
-                {t("DASHBOARD.CHART.CONSUMPTION_DISTRIBUTION")}
-              </TabsTrigger>
-              <TabsTrigger
-                value="trend"
-                className="font-mono text-xs whitespace-nowrap"
-              >
-                {t("DASHBOARD.CHART.CONSUMPTION_TREND")}
-              </TabsTrigger>
-              <TabsTrigger
-                value="pie"
-                className="font-mono text-xs whitespace-nowrap"
-              >
-                {t("DASHBOARD.CHART.CALLS_DISTRIBUTION")}
-              </TabsTrigger>
-              <TabsTrigger
-                value="ranking"
-                className="font-mono text-xs whitespace-nowrap"
-              >
-                {t("DASHBOARD.CHART.CALLS_RANKING")}
-              </TabsTrigger>
+              {(
+                [
+                  ["distribution", "DASHBOARD.CHART.CONSUMPTION_DISTRIBUTION"],
+                  ["trend", "DASHBOARD.CHART.CONSUMPTION_TREND"],
+                  ["pie", "DASHBOARD.CHART.CALLS_DISTRIBUTION"],
+                  ["ranking", "DASHBOARD.CHART.CALLS_RANKING"],
+                ] as const
+              ).map(([value, label]) => (
+                <TabsTrigger
+                  key={value}
+                  value={value}
+                  className="font-mono text-xs whitespace-nowrap"
+                >
+                  {t(label)}
+                </TabsTrigger>
+              ))}
             </TabsList>
           </div>
 
