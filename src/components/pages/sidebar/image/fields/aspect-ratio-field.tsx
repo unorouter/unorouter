@@ -14,21 +14,6 @@ import { useState } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import { patchParams } from "../form/logic/form-helpers";
 
-export function AspectRatioSection() {
-  const form = useFormContext<ImageFormValues>();
-  const width =
-    useWatch({ control: form.control, name: "params.width" }) ?? 1024;
-  const height =
-    useWatch({ control: form.control, name: "params.height" }) ?? 1024;
-  return (
-    <AspectRatioField
-      width={width}
-      height={height}
-      onChange={(next) => patchParams(form, next)}
-    />
-  );
-}
-
 type Preset = {
   id: "portrait" | "landscape" | "square" | "custom";
   width: number;
@@ -59,7 +44,6 @@ function DimensionInput(props: {
   value: number;
   min: number;
   max: number;
-  disabled?: boolean;
   onCommit: (next: number) => void;
 }) {
   const [draft, setDraft] = useState<string | null>(null);
@@ -88,45 +72,28 @@ function DimensionInput(props: {
         }
         if (e.key === "Escape") setDraft(null);
       }}
-      disabled={props.disabled}
       className="w-20 shrink-0 text-center"
     />
   );
 }
 
-export function AspectRatioField(props: {
-  width: number;
-  height: number;
-  onChange: (next: { width: number; height: number }) => void;
-  min?: number;
-  max?: number;
-  disabled?: boolean;
-}) {
+const MIN = 128;
+const MAX = 5060;
+
+export function AspectRatioSection() {
   const t = useTranslations();
-  const min = props.min ?? 128;
-  const max = props.max ?? 5060;
+  const form = useFormContext<ImageFormValues>();
+  const size = {
+    width: useWatch({ control: form.control, name: "params.width" }) ?? 1024,
+    height: useWatch({ control: form.control, name: "params.height" }) ?? 1024,
+  };
   const matched = PRESETS.find(
     (p) =>
-      p.id !== "custom" && p.width === props.width && p.height === props.height,
+      p.id !== "custom" && p.width === size.width && p.height === size.height,
   );
   const activeId = matched ? matched.id : "custom";
-
-  const onPickPreset = (preset: Preset) => {
-    if (props.disabled) return;
-    if (preset.id === "custom") return;
-    props.onChange({ width: preset.width, height: preset.height });
-  };
-
-  const onWidth = (w: number) => {
-    if (props.disabled) return;
-    const clamped = clamp(Math.round(w), min, max);
-    props.onChange({ width: clamped, height: props.height });
-  };
-  const onHeight = (h: number) => {
-    if (props.disabled) return;
-    const clamped = clamp(Math.round(h), min, max);
-    props.onChange({ width: props.width, height: clamped });
-  };
+  const setSide = (side: "width" | "height", v: number) =>
+    patchParams(form, { ...size, [side]: clamp(Math.round(v), MIN, MAX) });
 
   return (
     <div className="flex flex-col gap-3">
@@ -136,9 +103,11 @@ export function AspectRatioField(props: {
           <button
             key={p.id}
             type="button"
-            disabled={props.disabled}
             aria-pressed={activeId === p.id}
-            onClick={() => onPickPreset(p)}
+            onClick={() =>
+              p.id !== "custom" &&
+              patchParams(form, { width: p.width, height: p.height })
+            }
             className={cn(
               "flex flex-col items-center gap-1 rounded-md border p-3 text-xs transition-colors",
               activeId === p.id
@@ -147,7 +116,6 @@ export function AspectRatioField(props: {
               p.id === "custom"
                 ? "pointer-events-none"
                 : "hover:bg-accent hover:text-accent-foreground",
-              props.disabled && "cursor-not-allowed opacity-50",
             )}
           >
             <span className="font-medium">{t(p.i18nKey)}</span>
@@ -161,58 +129,39 @@ export function AspectRatioField(props: {
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div>
-          <div className="text-muted-foreground mb-1 flex items-center justify-between text-xs">
-            <span>{t("IMAGE.WIDTH")}</span>
-            <span className="tabular-nums">{props.width}</span>
+        {(
+          [
+            ["width", "IMAGE.WIDTH"],
+            ["height", "IMAGE.HEIGHT"],
+          ] as const
+        ).map((dim) => (
+          <div key={dim[0]}>
+            <div className="text-muted-foreground mb-1 flex items-center justify-between text-xs">
+              <span>{t(dim[1])}</span>
+              <span className="tabular-nums">{size[dim[0]]}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Slider
+                aria-label={t(dim[1])}
+                min={MIN}
+                max={MAX}
+                step={64}
+                value={[size[dim[0]]]}
+                onValueChange={(v) =>
+                  setSide(dim[0], Array.isArray(v) ? v[0] : v)
+                }
+                className="flex-1"
+              />
+              <DimensionInput
+                label={t(dim[1])}
+                value={size[dim[0]]}
+                min={MIN}
+                max={MAX}
+                onCommit={(v) => setSide(dim[0], v)}
+              />
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <Slider
-              aria-label={t("IMAGE.WIDTH")}
-              min={min}
-              max={max}
-              step={64}
-              value={[props.width]}
-              onValueChange={(v) => onWidth(Array.isArray(v) ? v[0] : v)}
-              disabled={props.disabled}
-              className="flex-1"
-            />
-            <DimensionInput
-              label={t("IMAGE.WIDTH")}
-              value={props.width}
-              min={min}
-              max={max}
-              disabled={props.disabled}
-              onCommit={onWidth}
-            />
-          </div>
-        </div>
-        <div>
-          <div className="text-muted-foreground mb-1 flex items-center justify-between text-xs">
-            <span>{t("IMAGE.HEIGHT")}</span>
-            <span className="tabular-nums">{props.height}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Slider
-              aria-label={t("IMAGE.HEIGHT")}
-              min={min}
-              max={max}
-              step={64}
-              value={[props.height]}
-              onValueChange={(v) => onHeight(Array.isArray(v) ? v[0] : v)}
-              disabled={props.disabled}
-              className="flex-1"
-            />
-            <DimensionInput
-              label={t("IMAGE.HEIGHT")}
-              value={props.height}
-              min={min}
-              max={max}
-              disabled={props.disabled}
-              onCommit={onHeight}
-            />
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );
