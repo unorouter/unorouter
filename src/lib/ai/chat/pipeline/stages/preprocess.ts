@@ -59,9 +59,6 @@ async function applyEditInput(
 
   const editCtx = makeTriggerContext({
     mode: "input",
-    vars: {},
-    globalVars: {},
-    chat: [],
   });
   const parts = await Promise.all(
     m.parts.map(async (p) =>

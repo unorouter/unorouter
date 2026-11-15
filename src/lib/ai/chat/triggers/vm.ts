@@ -380,10 +380,12 @@ async function runEffects(
 }
 
 export function makeTriggerContext(
-  overrides: Partial<TriggerContext> &
-    Pick<TriggerContext, "mode" | "vars" | "globalVars" | "chat">,
+  overrides: Partial<TriggerContext> & Pick<TriggerContext, "mode">,
 ): TriggerContext {
   return {
+    vars: {},
+    globalVars: {},
+    chat: [],
     charDesc: "",
     personaDesc: "",
     authorNote: "",

@@ -245,9 +245,6 @@ async function applyRequestEdit(
   const before = formated.map((f) => f.content);
   const editCtx = makeTriggerContext({
     mode: "request",
-    vars: {},
-    globalVars: {},
-    chat: [],
   });
   const edited = await run(editCtx, formated);
   if (!Array.isArray(edited) || edited.length !== formated.length)

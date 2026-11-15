@@ -240,9 +240,6 @@ async function applyAssistantOutputTransforms(
   }
   const editCtx = makeTriggerContext({
     mode: "output",
-    vars: {},
-    globalVars: {},
-    chat: [],
   });
   const triggers = await readConvTriggers(convId);
   if (triggers.length > 0) {

@@ -247,9 +247,6 @@ export function transformDisplayJsSync(text: string): string {
     displayPending.add(key);
     const ctx = makeTriggerContext({
       mode: "display",
-      vars: {},
-      globalVars: {},
-      chat: [],
       charName: "",
       userName: "",
     });
