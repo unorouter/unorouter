@@ -71,7 +71,7 @@ spec:
           # pinned by the unorouter repo's GHCR workflow (deploy job); ArgoCD rolls it out.
           # NEVER set this back to :latest -- a floating tag never changes the manifest, so
           # ArgoCD sees no diff and the deploy silently does not happen.
-          image: ghcr.io/unorouter/unorouter:7c603510cd39ea3a28028c86347466ff622979ce@sha256:c52e36c755e1ae27106eb67be64009165b00f8b3c024d53e46f27f748984dfc8
+          image: ghcr.io/unorouter/unorouter:7d71730db7cc7a0aef684910d1e8a00d14a18b44@sha256:dac7cf15bf9ca81e0d128127726f09ac7ffe2abbef099649f91a63625379caa9
           securityContext:
             allowPrivilegeEscalation: false
             capabilities: { drop: [ALL] }
