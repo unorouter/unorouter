@@ -96,12 +96,6 @@ export function InputModalitiesGroup(props: {
   onChange: (next: string[]) => void;
 }) {
   const t = useTranslations();
-  const toggle = (mod: string) =>
-    props.onChange(
-      props.value.includes(mod)
-        ? props.value.filter((m) => m !== mod)
-        : [...props.value, mod],
-    );
   return (
     <GroupShell label={t("MODELS.FILTER.INPUT_MODALITIES")}>
       {INPUT_MODALITIES.map((mod) => (
@@ -109,7 +103,7 @@ export function InputModalitiesGroup(props: {
           key={mod}
           label={t(MODALITY_LABEL[mod])}
           checked={props.value.includes(mod)}
-          onToggle={() => toggle(mod)}
+          onToggle={() => props.onChange(toggled(props.value, mod))}
         />
       ))}
     </GroupShell>
@@ -170,7 +164,7 @@ export function ContextGroup(props: {
           min={0}
           max={CONTEXT_STEPS.length - 1}
           step={1}
-          value={idx === -1 ? 0 : idx}
+          value={idx}
           onValueChange={(v) =>
             props.onChange(CONTEXT_STEPS[Array.isArray(v) ? v[0] : v] ?? 0)
           }
@@ -194,7 +188,6 @@ export function PriceGroup(props: {
   onChange: (next: number) => void;
 }) {
   const t = useTranslations();
-  const max = props.value;
   const commitMax = (raw: string) => {
     if (raw.trim() === "") {
       props.onChange(PRICE_MAX);
@@ -212,7 +205,7 @@ export function PriceGroup(props: {
           min={0}
           max={PRICE_MAX}
           step={0.5}
-          value={max}
+          value={props.value}
           onValueChange={(v) => props.onChange(Array.isArray(v) ? v[0] : v)}
         />
         <div className="text-muted-foreground mt-2 flex items-center justify-between font-mono text-[10px]">
@@ -225,7 +218,7 @@ export function PriceGroup(props: {
               max={PRICE_MAX}
               step={0.5}
               aria-label={props.label}
-              value={max >= PRICE_MAX ? "" : max}
+              value={props.value >= PRICE_MAX ? "" : props.value}
               placeholder={t("MODELS.FILTER.ANY")}
               onChange={(e) => commitMax(e.target.value)}
               className="border-input focus-visible:ring-ring/50 w-16 [appearance:textfield] rounded-md border bg-transparent px-1.5 py-0.5 text-right font-mono text-[10px] tabular-nums outline-none focus-visible:ring-2 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
@@ -285,12 +278,6 @@ export function MultiSelectGroup(props: {
   onChange: (next: string[]) => void;
   optionLabel?: (option: string) => string;
 }) {
-  const toggle = (opt: string) =>
-    props.onChange(
-      props.value.includes(opt)
-        ? props.value.filter((o) => o !== opt)
-        : [...props.value, opt],
-    );
   if (props.options.length === 0) return null;
   return (
     <GroupShell label={props.label} defaultOpen={false}>
@@ -300,7 +287,7 @@ export function MultiSelectGroup(props: {
             key={opt}
             label={props.optionLabel ? props.optionLabel(opt) : opt}
             checked={props.value.includes(opt)}
-            onToggle={() => toggle(opt)}
+            onToggle={() => props.onChange(toggled(props.value, opt))}
           />
         ))}
       </div>
