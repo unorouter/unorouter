@@ -14,6 +14,7 @@ import { asc, desc, eq } from "drizzle-orm";
 import { getLocalDb } from "@/lib/db/client/client";
 import {
   makeTableStore,
+  requireLocalDb,
   replaceChildRows,
 } from "@/lib/db/client/data/table-store";
 import type { LocalAnyRow as AnyRow, LocalRowInput } from "@/lib/types";
@@ -159,8 +160,7 @@ export async function upsertLocalLorebookBundle(bundle: {
   lorebook: AnyRow;
   entries: AnyRow[];
 }) {
-  const local = await getLocalDb();
-  if (!local) return;
+  const local = await requireLocalDb();
   await lorebookStore.upsert(bundle.lorebook);
   await replaceChildRows(
     local.db,
@@ -228,8 +228,7 @@ export async function upsertLocalCardBundle(bundle: {
     orderIndex?: number;
   }>;
 }) {
-  const local = await getLocalDb();
-  if (!local) return;
+  const local = await requireLocalDb();
   await cardStore.upsert(bundle.card);
   await replaceChildRows(
     local.db,

@@ -1,5 +1,6 @@
 "use client";
 
+import { requireLocalDb } from "@/lib/db/client/data/table-store";
 import { env } from "@/lib/config/env";
 import { API_ENDPOINTS } from "@/lib/ai/endpoints";
 import { conversations, requestLogs } from "@/lib/db/schema/shared";
@@ -120,8 +121,7 @@ export async function patchLocalRequestLogUpstream(
     channelName?: string | null;
   },
 ): Promise<void> {
-  const local = await getLocalDb();
-  if (!local) return;
+  const local = await requireLocalDb();
   await local.db
     .update(requestLogs)
     .set(patch)

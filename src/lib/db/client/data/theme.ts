@@ -1,5 +1,6 @@
 "use client";
 
+import { requireLocalDb } from "@/lib/db/client/data/table-store";
 import { savedThemes, type SavedTheme } from "@/lib/db/schema/client";
 import { userThemes } from "@/lib/db/schema/shared";
 import { migrateTheme } from "@/lib/theme/migrate";
@@ -74,8 +75,7 @@ export async function readPreviousTheme(): Promise<{
 }
 
 export async function dropThemeEntry(id: number) {
-  const local = await getLocalDb();
-  if (!local) return;
+  const local = await requireLocalDb();
   await local.db.delete(userThemes).where(eq(userThemes.id, id));
 }
 
@@ -131,8 +131,7 @@ export async function saveTheme(input: SavedThemeInput): Promise<SavedTheme> {
 }
 
 export async function renameSavedTheme(id: string, name: string) {
-  const local = await getLocalDb();
-  if (!local) return;
+  const local = await requireLocalDb();
   await local.db
     .update(savedThemes)
     .set({ name: name.trim(), updatedAt: dayjs().toDate() })
@@ -140,7 +139,6 @@ export async function renameSavedTheme(id: string, name: string) {
 }
 
 export async function deleteSavedTheme(id: string) {
-  const local = await getLocalDb();
-  if (!local) return;
+  const local = await requireLocalDb();
   await local.db.delete(savedThemes).where(eq(savedThemes.id, id));
 }

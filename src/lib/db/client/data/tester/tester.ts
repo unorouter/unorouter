@@ -1,5 +1,6 @@
 "use client";
 
+import { requireLocalDb } from "@/lib/db/client/data/table-store";
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import {
   testerModels,
@@ -320,8 +321,7 @@ export async function deleteTest(
   testId: string,
 ): Promise<void> {
   const uid = userId ?? GUEST_USER_ID;
-  const local = await getLocalDb();
-  if (!local) return;
+  const local = await requireLocalDb();
   await local.db
     .delete(testerTests)
     .where(and(eq(testerTests.id, testId), eq(testerTests.userId, uid)));

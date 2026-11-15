@@ -19,6 +19,7 @@ import { asc, desc, eq, inArray, sql } from "drizzle-orm";
 import { getLocalDb } from "@/lib/db/client/client";
 import {
   makeTableStore,
+  requireLocalDb,
   replaceChildRows,
 } from "@/lib/db/client/data/table-store";
 
@@ -136,8 +137,7 @@ async function revokeMediaUrlsForSnapshots(
 // `media.playground_id` has no FK, so delete the images BEFORE the cascade
 // takes away the snapshot ids that identify them, else they orphan.
 export async function deleteLocalImageSessionDeep(sessionId: string) {
-  const local = await getLocalDb();
-  if (!local) return;
+  const local = await requireLocalDb();
   const snapshots = await local.db
     .select({ id: imageSnapshots.id })
     .from(imageSnapshots)
@@ -164,8 +164,7 @@ export async function bumpLocalSessionCounts(
   sessionId: string,
   delta: { snapshots?: number; images?: number },
 ) {
-  const local = await getLocalDb();
-  if (!local) return;
+  const local = await requireLocalDb();
   await local.db
     .update(imageSessions)
     .set({
@@ -180,8 +179,7 @@ export async function upsertLocalSnapshotImages(
   snapshotId: string,
   images: MediaInput[],
 ) {
-  const local = await getLocalDb();
-  if (!local) return;
+  const local = await requireLocalDb();
   await replaceChildRows(
     local.db,
     media,
@@ -289,8 +287,7 @@ export async function patchLocalSnapshotCost(
   snapshotId: string,
   costQuota: number,
 ) {
-  const local = await getLocalDb();
-  if (!local) return;
+  const local = await requireLocalDb();
   await local.db
     .update(imageSnapshots)
     .set({ costQuota, updatedAt: dayjs().toDate() })
