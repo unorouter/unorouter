@@ -93,7 +93,7 @@ export async function forwardChatCompletions(args: {
     if (ping) clearInterval(ping);
     ping = null;
   };
-  const writeError = (
+  const fail = (
     controller: ReadableStreamDefaultController<Uint8Array>,
     message: string,
   ) => {
@@ -102,6 +102,7 @@ export async function forwardChatCompletions(args: {
         enc.encode(`data: ${JSON.stringify({ error: { message } })}\n\n`),
       );
       controller.enqueue(enc.encode("data: [DONE]\n\n"));
+      controller.close();
     } catch {}
   };
   const stream = new ReadableStream<Uint8Array>({
@@ -119,17 +120,13 @@ export async function forwardChatCompletions(args: {
         stopPing();
         if (!upstream.ok || !upstream.body) {
           const text = await upstream.text().catch(() => "");
-          writeError(controller, compactErrorText(text, upstream.status));
-          controller.close();
+          fail(controller, compactErrorText(text, upstream.status));
         } else {
           reader = upstream.body.getReader();
         }
       } catch (e) {
         stopPing();
-        writeError(controller, String(e).slice(0, 300));
-        try {
-          controller.close();
-        } catch {}
+        fail(controller, String(e).slice(0, 300));
       }
     },
     async pull(controller) {
@@ -144,10 +141,7 @@ export async function forwardChatCompletions(args: {
         }
       } catch (e) {
         reader = null;
-        writeError(controller, String(e).slice(0, 300));
-        try {
-          controller.close();
-        } catch {}
+        fail(controller, String(e).slice(0, 300));
       }
     },
     cancel() {
