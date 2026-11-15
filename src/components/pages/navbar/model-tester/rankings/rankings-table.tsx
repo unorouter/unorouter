@@ -1,6 +1,5 @@
 "use client";
 
-import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import {
@@ -10,10 +9,10 @@ import {
 import { Link } from "@/i18n/navigation";
 import { vendorForRow } from "ai-model-verifier/models";
 import { APP_VALUES } from "@/lib/config/constants";
-import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { RankBar } from "../shared/rank-bar";
+import { CommunityLinks } from "../run/community-links";
+import { ProviderRowBody } from "../shared/provider-row";
 import { TESTER_LINKS } from "../shared/links";
 
 const PAGE_SIZE = 20;
@@ -93,24 +92,7 @@ export function RankingsTable() {
 
       <p className="text-muted-foreground flex flex-wrap items-center gap-x-4 gap-y-1 text-xs leading-relaxed">
         <span>{t("MODEL_TESTER.RANKINGS.DISCLAIMER")}</span>
-        <a
-          href={TESTER_LINKS.discord}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-foreground inline-flex items-center gap-1 font-medium underline-offset-4 hover:underline"
-        >
-          <Icon name="brand-discord" className="size-3.5" />
-          {t("MODEL_TESTER.RANKINGS.REPORT_DISCORD")}
-        </a>
-        <a
-          href={TESTER_LINKS.issuesNew}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-foreground inline-flex items-center gap-1 font-medium underline-offset-4 hover:underline"
-        >
-          <Icon name="brand-github" className="size-3.5" />
-          {t("MODEL_TESTER.RANKINGS.REPORT_GITHUB")}
-        </a>
+        <CommunityLinks />
       </p>
 
       {rows.length === 0 ? (
@@ -121,7 +103,6 @@ export function RankingsTable() {
         <>
           <div className="bg-card flex flex-col divide-y overflow-hidden rounded-lg border">
             {rows.map((row) => {
-              const passPct = Math.round(row.avgPassRate * 100);
               const lowN = row.sampleCount < 5;
               return (
                 <Link
@@ -132,42 +113,29 @@ export function RankingsTable() {
                   }}
                   className="hover:bg-muted/30 flex items-center gap-3 px-4 py-3 transition-colors sm:gap-4 sm:px-5"
                 >
-                  <VendorIcon
+                  <ProviderRowBody
                     vendor={vendorForRow(row.provider)}
-                    size={22}
-                    className="shrink-0"
-                  />
-                  <div className="flex min-w-0 flex-1 flex-col gap-1.5">
-                    <div className="flex items-baseline justify-between gap-3">
-                      <span className="truncate text-sm font-medium">
-                        {row.baseUrlHost}
-                      </span>
-                      <span className="text-foreground/70 shrink-0 text-xs">
-                        {t("MODEL_TESTER.RANKINGS.LAST_TESTED", {
-                          when: dayjs(row.lastTestedAt).fromNow(),
-                        })}
-                      </span>
-                    </div>
-                    <RankBar pct={passPct} lowN={lowN} />
-                    <span className="text-muted-foreground truncate text-xs">
-                      <span className="font-mono tabular-nums">
-                        {Math.round(row.avgLatencyMs)}ms
-                      </span>
-                      {" · "}
-                      {t("MODEL_TESTER.RANKINGS.MODELS_TRACKED", {
+                    name={row.baseUrlHost}
+                    lastTestedAt={row.lastTestedAt}
+                    passRate={row.avgPassRate}
+                    lowN={lowN}
+                    latencyMs={row.avgLatencyMs}
+                    meta={[
+                      t("MODEL_TESTER.RANKINGS.MODELS_TRACKED", {
                         count: row.modelCount,
-                      })}{" "}
-                      ·{" "}
-                      {t("MODEL_TESTER.RANKINGS.SAMPLES", {
+                      }),
+                      t("MODEL_TESTER.RANKINGS.SAMPLES", {
                         count: row.sampleCount,
-                      })}
-                      {lowN
-                        ? ` · ${t("MODEL_TESTER.RANKINGS.LOW_CONFIDENCE", {
-                            count: row.sampleCount,
-                          })}`
-                        : ""}
-                    </span>
-                  </div>
+                      }),
+                      ...(lowN
+                        ? [
+                            t("MODEL_TESTER.RANKINGS.LOW_CONFIDENCE", {
+                              count: row.sampleCount,
+                            }),
+                          ]
+                        : []),
+                    ].join(" · ")}
+                  />
                 </Link>
               );
             })}
