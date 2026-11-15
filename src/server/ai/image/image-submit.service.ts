@@ -195,6 +195,7 @@ async function refineWithAdetailer(
     adetailer,
     checkpoint: adetailerCheckpoint(body),
     prompt: body.prompt,
+    negativePrompt: body.negativePrompt,
     loras: adetailer.loras?.length ? adetailer.loras : loras,
     scheduler: params.scheduler,
     cfg: params.cfg,

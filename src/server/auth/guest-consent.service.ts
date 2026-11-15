@@ -10,7 +10,7 @@ import { getGuestOwnPurposeObjection, getStatus } from "@/openapi";
 import { fetchGuestProviderConsents } from "@/server/auth/provider-consent/provider-consent.service";
 import { bffServiceHeader, cookieString } from "@/server/constants";
 import { getModelByName } from "@/server/models/pricing/pricing.service";
-import type { Cookie } from "elysia";
+import { status as httpStatus, type Cookie } from "elysia";
 
 const GUEST_ID_PATTERN = /^[A-Za-z0-9-]{16,64}$/;
 const GUEST_CONSENT_TTL_MS = 30_000;
@@ -157,9 +157,9 @@ export async function assertGuestOwnPurposeAccess(
     guestId &&
     (await guestObjects(guestId))
   )
-    throw new Error(msg("OWN_PURPOSE.OBJECTED_ERROR"));
+    throw httpStatus(403, msg("OWN_PURPOSE.OBJECTED_ERROR"));
   if (!info.own_purpose?.consent_required) return;
   if (!(await consentEnforced())) return;
   if (!guestId || !(await guestProviderCovered(guestId, model)))
-    throw new Error(msg("CONSENT.DECLINED"));
+    throw httpStatus(403, msg("CONSENT.DECLINED"));
 }

@@ -58,11 +58,10 @@ function sweep(pool: StreamPool) {
       drop(id);
   }
   const inPool = [...entries].filter(([, e]) => e.pool === pool);
-  for (const [id, entry] of inPool) {
-    if (inPool.length - 1 < POOLS[pool].maxEntries) break;
+  const excess = inPool.length - POOLS[pool].maxEntries;
+  for (const [id, entry] of inPool.slice(0, Math.max(0, excess))) {
     entry.abort();
     drop(id);
-    inPool.shift();
   }
 }
 
