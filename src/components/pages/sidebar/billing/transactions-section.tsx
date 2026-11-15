@@ -18,7 +18,6 @@ import type { ColumnDef } from "@tanstack/react-table";
 import type { TableFeats } from "@/lib/config/table-features";
 import { useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
-import { toast } from "sonner";
 
 const PORTAL_PROVIDERS = ["stripe", "creem"];
 
@@ -56,16 +55,9 @@ function useTransactionColumns(): ColumnDef<TableFeats, TransactionRow>[] {
   const copy = useCopyToClipboard();
 
   function handleGetInvoice(row: TransactionRow) {
-    portalMutation.mutate(
-      { provider: row.payment_method as "stripe" | "creem" },
-      {
-        onSuccess: (data) => {
-          const url = data?.portal_url;
-          if (url) window.location.assign(url);
-          else toast.error(t("BILLING.PORTAL.ERROR"));
-        },
-      },
-    );
+    portalMutation.mutate({
+      provider: row.payment_method as "stripe" | "creem",
+    });
   }
 
   return [

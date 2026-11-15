@@ -27,7 +27,6 @@ import {
 import { quotaToDollars } from "@/lib/config/constants";
 import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
-import { toast } from "sonner";
 
 const EXPIRED_RETENTION_DAYS = 30;
 
@@ -69,16 +68,6 @@ export function SubscriptionSection() {
     return (
       plan?.plan.title ?? t("BILLING.SUBSCRIPTION.PLAN_FALLBACK", { planId })
     );
-  }
-
-  function handleManageBilling() {
-    portalMutation.mutate(undefined, {
-      onSuccess: (data) => {
-        const url = data?.portal_url;
-        if (url) window.location.assign(url);
-        else toast.error(t("BILLING.PORTAL.ERROR"));
-      },
-    });
   }
 
   return (
@@ -135,7 +124,7 @@ export function SubscriptionSection() {
           <Button
             variant="outline"
             size="sm"
-            onClick={handleManageBilling}
+            onClick={() => portalMutation.mutate(undefined)}
             disabled={portalMutation.isPending}
           >
             <Icon name="external-link" className="h-4 w-4" />

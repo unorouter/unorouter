@@ -8,6 +8,8 @@ import { rpc } from "@/lib/rpc";
 import type { EdenArgs, EdenQuery } from "@/lib/types/eden";
 import { handleElysia, safeJsonParse } from "@/lib/utils/base";
 import type { SubscriptionSelfData } from "@/openapi";
+import { useTranslations } from "next-intl";
+import { toast } from "sonner";
 
 type Billing = typeof rpc.api.billing.core;
 
@@ -68,9 +70,14 @@ export function useUpdateBillingPreferenceMutation() {
 }
 
 export function useBillingPortalMutation() {
+  const t = useTranslations();
   return useApiMutation({
     mutationFn: async (query?: EdenQuery<typeof rpc.api.billing.core.portal>) =>
       handleElysia(await rpc.api.billing.core.portal.get({ query })),
+    onSuccess: (data) => {
+      if (data?.portal_url) window.location.assign(data.portal_url);
+      else toast.error(t("BILLING.PORTAL.ERROR"));
+    },
   });
 }
 
