@@ -49,9 +49,7 @@ function readInterval(): number {
 }
 
 export function setReminderInterval(days: number): void {
-  try {
-    localStorage.setItem(INTERVAL_KEY, String(days));
-  } catch {}
+  write(INTERVAL_KEY, days);
 }
 
 export function snoozeBackupReminder(): void {

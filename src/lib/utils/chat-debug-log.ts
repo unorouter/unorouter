@@ -55,21 +55,25 @@ function makeLog<T extends { tab?: string; ts: number }>(
     return items;
   };
 
+  const write = (): void => {
+    try {
+      get();
+      localStorage.setItem(key, JSON.stringify(persisted()));
+    } catch {
+      // Over quota or blocked: latch off, a sync write per second cannot land.
+      disabled = true;
+      try {
+        localStorage.removeItem(key);
+      } catch {}
+    }
+  };
+
   const save = (): void => {
     if (timer !== null || disabled || typeof localStorage === "undefined")
       return;
     timer = setTimeout(() => {
       timer = null;
-      try {
-        get();
-        localStorage.setItem(key, JSON.stringify(persisted()));
-      } catch {
-        // Over quota or blocked: latch off, a sync write per second cannot land.
-        disabled = true;
-        try {
-          localStorage.removeItem(key);
-        } catch {}
-      }
+      write();
     }, SAVE_DEBOUNCE_MS);
   };
 
@@ -83,10 +87,7 @@ function makeLog<T extends { tab?: string; ts: number }>(
       if (timer !== null) clearTimeout(timer);
       timer = null;
       if (disabled || typeof localStorage === "undefined") return;
-      try {
-        get();
-        localStorage.setItem(key, JSON.stringify(persisted()));
-      } catch {}
+      write();
     },
     push(entry: T): void {
       const all = get();
@@ -246,13 +247,9 @@ export function fingerprintText(text: string): TextFingerprint {
     }
     if (c > maxCodePoint) maxCodePoint = c;
   }
-  let bytes = text.length;
-  try {
-    bytes = new TextEncoder().encode(text).length;
-  } catch {}
   return {
     chars: text.length,
-    bytes,
+    bytes: new TextEncoder().encode(text).length,
     nonAscii,
     controlChars,
     loneSurrogates,
