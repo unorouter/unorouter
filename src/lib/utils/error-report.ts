@@ -3,13 +3,39 @@ import { env } from "@/lib/config/env";
 import type { BrowserClient, ErrorEvent } from "@sentry/browser";
 
 // First party (the tunnel route), no cookies, no identifier: the report is the
-// error, the path and the build, inside the strictly necessary exemption of
-// TDDDG 25(2) with no consent needed.
+// error, the path, the browser family and the build, inside the strictly
+// necessary exemption of TDDDG 25(2) with no consent needed.
 const MAX_PER_PAGE = 30;
 // Network drops, aborted navigations and cross-origin script errors carry no
 // stack of ours and are the bulk of every frontend error feed.
 const NOISE =
   /^Script error\.?$|ResizeObserver loop|aborted|Failed to fetch|Load failed|NetworkError when attempting to fetch/i;
+
+const BROWSERS: [string, RegExp][] = [
+  ["Edge", /Edg\/(\d+)/],
+  ["Opera", /OPR\/(\d+)/],
+  ["Samsung", /SamsungBrowser\/(\d+)/],
+  ["Firefox", /(?:Firefox|FxiOS)\/(\d+)/],
+  ["Chrome", /(?:Chrome|CriOS)\/(\d+)/],
+  ["Safari", /Version\/(\d+).*Safari/],
+];
+const SYSTEMS: [string, RegExp][] = [
+  ["iOS", /iPhone|iPad|iPod/],
+  ["Android", /Android/],
+  ["Windows", /Windows/],
+  ["macOS", /Mac OS X/],
+  ["Linux", /Linux|CrOS/],
+];
+
+// Family and major version only: enough to tell an old Safari from a bug.
+function browserTags(ua: string): Record<string, string> {
+  const browser = BROWSERS.find((b) => b[1].test(ua));
+  const os = SYSTEMS.find((o) => o[1].test(ua));
+  return {
+    browser: browser ? `${browser[0]} ${ua.match(browser[1])?.[1]}` : "other",
+    os: os ? os[0] : "other",
+  };
+}
 
 let sent = 0;
 let client: Promise<BrowserClient | null> | undefined;
@@ -43,6 +69,8 @@ async function createClient(): Promise<BrowserClient | null> {
     beforeSend: (event) => {
       if (sent >= MAX_PER_PAGE || !fromOurBundles(event)) return null;
       sent++;
+      event.request = { url: location.origin + location.pathname };
+      event.tags = { ...event.tags, ...browserTags(navigator.userAgent) };
       return stripEvent(event);
     },
   });
