@@ -27,13 +27,10 @@ import {
   getGuideRelatedPosts,
   translated,
 } from "@/components/pages/blog/posts";
+import { docKey } from "./doc-template";
 import type { SetupCompatibility, SetupGuide, SetupStep } from "./setup-guides";
 
 type CompatRow = { key: keyof SetupCompatibility; labelKey: TranslationKey };
-
-function prefixKey(prefix: string, leaf: string): TranslationKey {
-  return `${prefix}.${leaf}` as TranslationKey;
-}
 
 const COMPAT_ROWS: CompatRow[] = [
   {
@@ -68,7 +65,7 @@ export async function SetupGuideTemplate(props: { guide: SetupGuide }) {
   const quickConfigCode = `${t("DOCS.SETUP_GUIDE.BASE_URL_LABEL")}: ${fullUrl}
 ${t("DOCS.SETUP_GUIDE.API_KEY_LABEL")}: ${docs.placeholder}`;
 
-  const hasOverview = t.has(prefixKey(guide.i18nPrefix, "OVERVIEW_DESC"));
+  const hasOverview = t.has(docKey(guide.i18nPrefix, "OVERVIEW_DESC"));
 
   const tocItems: TOCItemType[] = [];
   if (hasOverview)
@@ -245,7 +242,7 @@ ${t("DOCS.SETUP_GUIDE.API_KEY_LABEL")}: ${docs.placeholder}`;
               {t("DOCS.SETUP_GUIDE.OVERVIEW")}
             </h2>
             <p className="text-muted-foreground text-sm">
-              {t(prefixKey(guide.i18nPrefix, "OVERVIEW_DESC"), APP_VALUES)}
+              {t(docKey(guide.i18nPrefix, "OVERVIEW_DESC"), APP_VALUES)}
             </p>
           </section>
         )}
