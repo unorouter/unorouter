@@ -42,7 +42,7 @@ import {
   type ThemeScope,
   type TokenDef,
 } from "@/lib/theme/tokens";
-import { pick } from "@/lib/utils/base";
+import { isRecord, pick } from "@/lib/utils/base";
 import { useAtom } from "jotai";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
@@ -51,10 +51,6 @@ export type ThemeBundle = {
   theme: UserTheme;
   backgroundImages: ThemeImages;
 };
-
-function isRecord(v: unknown): v is Record<string, unknown> {
-  return typeof v === "object" && v !== null && !Array.isArray(v);
-}
 
 function imagesOf(v: unknown): ThemeImages {
   const out: ThemeImages = {};
