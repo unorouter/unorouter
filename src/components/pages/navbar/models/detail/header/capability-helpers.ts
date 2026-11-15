@@ -1,116 +1,33 @@
 import type { ModelMetadata } from "@/openapi";
-import { TranslationKey } from "@/lib/config/constants";
+import type { TranslationKey } from "@/lib/config/constants";
+import type { IconName } from "@/lib/config/icon-map";
 
-const CAPABILITY_ORDER: {
-  field: keyof ModelMetadata;
-  labelKey: TranslationKey;
-  icon: string;
-}[] = [
-  {
-    field: "isReasoning",
-    labelKey: "MODELS.CAPABILITY.REASONING",
-    icon: "brain",
-  },
-  {
-    field: "supportsTools",
-    labelKey: "MODELS.CAPABILITY.TOOLS",
-    icon: "wrench",
-  },
-  {
-    field: "supportsParallelTools",
-    labelKey: "MODELS.CAPABILITY.PARALLEL_TOOLS",
-    icon: "wrench",
-  },
-  {
-    field: "supportsVision",
-    labelKey: "MODELS.CAPABILITY.VISION",
-    icon: "eye",
-  },
-  {
-    field: "supportsAudio",
-    labelKey: "MODELS.CAPABILITY.AUDIO_IN",
-    icon: "mic",
-  },
-  {
-    field: "supportsAudioOutput",
-    labelKey: "MODELS.CAPABILITY.AUDIO_OUT",
-    icon: "music",
-  },
-  {
-    field: "supportsVideo",
-    labelKey: "MODELS.CAPABILITY.VIDEO",
-    icon: "video",
-  },
-  {
-    field: "supportsPdf",
-    labelKey: "MODELS.CAPABILITY.FILES",
-    icon: "file-text",
-  },
-  {
-    field: "supportsCache",
-    labelKey: "MODELS.CAPABILITY.CACHE",
-    icon: "database",
-  },
-  {
-    field: "supportsResponseFormat",
-    labelKey: "MODELS.CAPABILITY.STRUCTURED",
-    icon: "code",
-  },
-  {
-    field: "supportsWebSearch",
-    labelKey: "MODELS.CAPABILITY.WEB_SEARCH",
-    icon: "globe",
-  },
-  {
-    field: "supportsComputerUse",
-    labelKey: "MODELS.CAPABILITY.COMPUTER_USE",
-    icon: "monitor",
-  },
-  {
-    field: "supportsAssistantPrefill",
-    labelKey: "MODELS.CAPABILITY.PREFILL",
-    icon: "pencil",
-  },
-  {
-    field: "supportsCodeExecution",
-    labelKey: "MODELS.CAPABILITY.CODE_EXEC",
-    icon: "terminal",
-  },
-  {
-    field: "supportsFileSearch",
-    labelKey: "MODELS.CAPABILITY.FILE_SEARCH",
-    icon: "search",
-  },
-  {
-    field: "supportsServiceTier",
-    labelKey: "MODELS.CAPABILITY.SERVICE_TIER",
-    icon: "layers",
-  },
-  {
-    field: "supportsUrlContext",
-    labelKey: "MODELS.CAPABILITY.URL_CONTEXT",
-    icon: "link",
-  },
-  {
-    field: "supportsNativeStreaming",
-    labelKey: "MODELS.CAPABILITY.STREAMING",
-    icon: "activity",
-  },
-  {
-    field: "supportsNativeStructuredOutput",
-    labelKey: "MODELS.CAPABILITY.NATIVE_JSON",
-    icon: "code",
-  },
-  {
-    field: "supportsSystemMessages",
-    labelKey: "MODELS.CAPABILITY.SYSTEM_MSG",
-    icon: "message-square",
-  },
+const CAPABILITY_ORDER: [keyof ModelMetadata, TranslationKey, IconName][] = [
+  ["isReasoning", "MODELS.CAPABILITY.REASONING", "brain"],
+  ["supportsTools", "MODELS.CAPABILITY.TOOLS", "wrench"],
+  ["supportsParallelTools", "MODELS.CAPABILITY.PARALLEL_TOOLS", "wrench"],
+  ["supportsVision", "MODELS.CAPABILITY.VISION", "eye"],
+  ["supportsAudio", "MODELS.CAPABILITY.AUDIO_IN", "mic"],
+  ["supportsAudioOutput", "MODELS.CAPABILITY.AUDIO_OUT", "music"],
+  ["supportsVideo", "MODELS.CAPABILITY.VIDEO", "video"],
+  ["supportsPdf", "MODELS.CAPABILITY.FILES", "file-text"],
+  ["supportsCache", "MODELS.CAPABILITY.CACHE", "database"],
+  ["supportsResponseFormat", "MODELS.CAPABILITY.STRUCTURED", "code"],
+  ["supportsWebSearch", "MODELS.CAPABILITY.WEB_SEARCH", "globe"],
+  ["supportsComputerUse", "MODELS.CAPABILITY.COMPUTER_USE", "monitor"],
+  ["supportsAssistantPrefill", "MODELS.CAPABILITY.PREFILL", "pencil"],
+  ["supportsCodeExecution", "MODELS.CAPABILITY.CODE_EXEC", "terminal"],
+  ["supportsFileSearch", "MODELS.CAPABILITY.FILE_SEARCH", "search"],
+  ["supportsServiceTier", "MODELS.CAPABILITY.SERVICE_TIER", "layers"],
+  ["supportsUrlContext", "MODELS.CAPABILITY.URL_CONTEXT", "link"],
+  ["supportsNativeStreaming", "MODELS.CAPABILITY.STREAMING", "activity"],
+  ["supportsNativeStructuredOutput", "MODELS.CAPABILITY.NATIVE_JSON", "code"],
+  ["supportsSystemMessages", "MODELS.CAPABILITY.SYSTEM_MSG", "message-square"],
 ];
 
 export type CapabilityChip = {
   labelKey: TranslationKey;
-  icon: string;
+  icon: IconName;
   count?: number;
 };
 
@@ -118,8 +35,8 @@ export function deriveCapabilityChips(
   metadata: ModelMetadata,
 ): CapabilityChip[] {
   const boolChips: CapabilityChip[] = CAPABILITY_ORDER.filter(
-    (c) => metadata[c.field] === true,
-  ).map((c) => ({ labelKey: c.labelKey, icon: c.icon }));
+    (c) => metadata[c[0]] === true,
+  ).map((c) => ({ labelKey: c[1], icon: c[2] }));
   // The provider's published limit, not a configured guess.
   const refs = metadata.imageParams?.maxReferenceImages ?? 0;
   if (refs > 1) {
