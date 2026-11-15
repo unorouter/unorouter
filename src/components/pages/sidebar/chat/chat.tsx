@@ -1,5 +1,6 @@
 "use client";
 
+import { useQueryState } from "nuqs";
 import { SectionBoundary } from "@/components/elements/feedback/section-boundary";
 import { ProviderConsentPanel } from "@/components/elements/model/provider-consent-panel";
 import { Thread } from "@/components/ui/assistant-ui/thread";
@@ -27,16 +28,13 @@ type ChatProps = {
 function useModelFromUrl() {
   const setChatModel = useSetAtom(chooseChatModelAtom);
   const catalog = usePricingCatalogQuery().data?.models;
+  const [requested, setRequested] = useQueryState("model");
   useEffect(() => {
-    if (!catalog) return;
-    const url = new URL(window.location.href);
-    const requested = url.searchParams.get("model");
-    if (!requested) return;
+    if (!catalog || !requested) return;
     if (catalog.some((m) => m.model_name === requested))
       setChatModel(requested);
-    url.searchParams.delete("model");
-    window.history.replaceState(null, "", url.pathname + url.search);
-  }, [catalog, setChatModel]);
+    void setRequested(null);
+  }, [catalog, requested, setChatModel, setRequested]);
 }
 
 export function Chat(props: ChatProps) {
