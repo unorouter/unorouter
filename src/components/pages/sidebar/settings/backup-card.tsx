@@ -23,7 +23,7 @@ import {
   setReminderInterval,
 } from "@/lib/utils/backup-reminder";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useSearchParams } from "next/navigation";
+import { useQueryState } from "nuqs";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -36,7 +36,7 @@ export function BackupCard() {
   const qc = useQueryClient();
   const [busy, setBusy] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
-  const focused = useSearchParams().get("section") === "backup";
+  const focused = useQueryState("section")[0] === "backup";
   // Opened from the backup reminder: the card sits at the bottom of the page.
   useEffect(() => {
     if (focused) cardRef.current?.scrollIntoView({ block: "center" });
