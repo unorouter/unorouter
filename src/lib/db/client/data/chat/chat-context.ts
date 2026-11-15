@@ -35,12 +35,8 @@ export async function buildChatContextFromLocalDb(
       })),
     ),
     Promise.all(lorebookIds.map((id) => readLocalLorebookBundle(id))),
-    settings.personaId
-      ? personaStore.get(settings.personaId)
-      : Promise.resolve(null),
-    settings.presetId
-      ? presetStore.get(settings.presetId)
-      : Promise.resolve(null),
+    settings.personaId ? personaStore.get(settings.personaId) : null,
+    settings.presetId ? presetStore.get(settings.presetId) : null,
   ]);
   const boundCharacters = characterRows.flatMap((c, i) =>
     c.character && c.binding.isActive !== false

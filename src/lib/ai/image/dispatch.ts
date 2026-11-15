@@ -48,9 +48,7 @@ function dataUriToRefBytes(dataUri: string): RefBytes {
 export async function loadRefs(urls: string[]): Promise<RefBytes[]> {
   return Promise.all(
     urls.map((url) =>
-      url.startsWith("data:")
-        ? Promise.resolve(dataUriToRefBytes(url))
-        : fetchRefBytes(url),
+      url.startsWith("data:") ? dataUriToRefBytes(url) : fetchRefBytes(url),
     ),
   );
 }

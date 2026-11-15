@@ -344,7 +344,7 @@ export async function getPostStats(
               eq(blogPostReactions.userId, viewer.id),
             ),
           )
-      : Promise.resolve([]),
+      : [],
   ]);
   const counts: Record<ReactionKind, number> = {
     like: 0,
