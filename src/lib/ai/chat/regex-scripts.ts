@@ -14,10 +14,7 @@ export type RegexScript = {
   ableFlag?: boolean;
 };
 
-type RunRegexOpts = {
-  expand?: (s: string) => string;
-  prevSameRole?: string;
-};
+type RunRegexOpts = { prevSameRole?: string };
 
 type ParsedScript = {
   script: RegexScript;
@@ -76,20 +73,14 @@ function expandRefs(
   });
 }
 
-function plainReplace(
-  data: string,
-  reg: RegExp,
-  outScript: string,
-  expand?: (s: string) => string,
-): string {
-  const replaced = data.replace(reg, (...args) => {
+function plainReplace(data: string, reg: RegExp, outScript: string): string {
+  return data.replace(reg, (...args) => {
     const offsetIdx = args.findIndex((a) => typeof a === "number");
     const groups: (string | undefined)[] = args
       .slice(0, offsetIdx === -1 ? args.length : offsetIdx)
       .map((a) => (typeof a === "string" ? a : undefined));
     return expandRefs(outScript, groups);
   });
-  return expand ? expand(replaced) : replaced;
 }
 
 const PARSED_CACHE = new WeakMap<
@@ -160,17 +151,13 @@ function executeScript(
   }
   const flag = normalizeFlag(p, outScript);
 
-  let input = script.in;
-  if (p.actions.includes("cbs") && opts.expand) {
-    input = opts.expand(input);
-  }
-  if (isReDoSProne(input)) {
+  if (isReDoSProne(script.in)) {
     throw new Error("regex-redos-skip");
   }
-  const reg = new RegExp(input, flag);
+  const reg = new RegExp(script.in, flag);
 
   const isAction = outScript.startsWith("@@") || p.actions.length > 0;
-  if (!isAction) return plainReplace(data, reg, outScript, opts.expand);
+  if (!isAction) return plainReplace(data, reg, outScript);
 
   if (reg.test(data)) {
     if (outScript.startsWith("@@emo ")) {
@@ -202,7 +189,7 @@ function executeScript(
       }
       return stripped;
     }
-    return plainReplace(data, reg, outScript, opts.expand);
+    return plainReplace(data, reg, outScript);
   }
 
   if (
