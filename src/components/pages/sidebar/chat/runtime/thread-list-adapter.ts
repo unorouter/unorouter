@@ -12,7 +12,6 @@ import { handleElysia } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import { presetStore } from "@/lib/db/client/data/rp/rp";
 import {
-  chatLoadoutAtom,
   chatModelAtom,
   chatStore,
   freshConvId,
@@ -32,8 +31,7 @@ async function readTitleOverrides(convId: string): Promise<{
 }> {
   try {
     const conv = await conversationStore.get(convId);
-    const presetId = chatStore.get(chatLoadoutAtom).presetId;
-    const preset = presetId ? await presetStore.get(presetId) : null;
+    const preset = conv?.presetId ? await presetStore.get(conv.presetId) : null;
     const titleModel = conv?.titleModel || preset?.titleModel || "";
     const titlePrompt = conv?.titlePrompt || preset?.titlePrompt || "";
     const titleGroup = conv?.titleModel ? "" : preset?.titleGroup || "";

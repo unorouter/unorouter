@@ -161,9 +161,14 @@ function ReceiveBody(props: {
       return;
     }
     props.onBusy(true);
+    let current: TransferStage | null = null;
     try {
       let mode: ImportMode = "replace";
-      const result = await receiveDatabase(parsed, setStage, async () => {
+      const onStage = (next: TransferStage | null) => {
+        current = next;
+        setStage(next);
+      };
+      const result = await receiveDatabase(parsed, onStage, async () => {
         const choice = await askImportMode(t);
         if (choice) mode = choice;
         return choice;
@@ -171,7 +176,7 @@ function ReceiveBody(props: {
       if (!result) return;
       toastImportResult(t, mode, result);
     } catch (err) {
-      fail(err, stage ?? "receive");
+      fail(err, current ?? "receive");
     } finally {
       setStage(null);
       props.onBusy(false);

@@ -22,7 +22,6 @@ import { usePresetsQuery } from "@/hooks/ai/rp/presets";
 import { useModelDetailQuery } from "@/hooks/models/pricing-hook";
 import { useIsMobile } from "@/hooks/ui/use-mobile";
 import { NONE_VALUE } from "@/lib/config/constants";
-import { handleError } from "@/lib/utils/client";
 import {
   conversationOverridesFormSchema,
   type ConversationOverridesForm,
@@ -142,8 +141,8 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
         lorebookIds: data.lorebookIds,
       });
       toast.success(t("COMMON.SAVED"));
-    } catch (e) {
-      handleError(e, t);
+    } catch {
+      // useApiMutation already reported it; the catch stops the form rethrowing.
     }
   };
 
