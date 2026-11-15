@@ -22,7 +22,7 @@ interface Dims extends BadgeDimsBase {
   showCta: boolean;
 }
 
-const DIMS: Partial<Record<BadgeSize, Dims>> = {
+const DIMS: Record<BadgeSize, Dims> = {
   xs: {
     W: 300,
     H: 80,
@@ -129,7 +129,7 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
 
 export async function generateReferral(ctx: BadgeCtx): Promise<string> {
   const c = THEME_COLORS[ctx.theme];
-  const d = DIMS[ctx.size]!;
+  const d = DIMS[ctx.size];
   const ref = ctx.ref ?? "YOUR_CODE";
   const domain = new URL(env.appUrl).host;
   const url = `${domain}/?aff=${ref}`;

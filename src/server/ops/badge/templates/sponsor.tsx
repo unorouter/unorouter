@@ -28,7 +28,7 @@ interface Dims extends BadgeDimsBase {
   modelCountFont: number;
 }
 
-const DIMS: Partial<Record<BadgeSize, Dims>> = {
+const DIMS: Record<BadgeSize, Dims> = {
   xs: {
     W: 480,
     H: 90,
@@ -129,7 +129,7 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
 
 export async function generateSponsor(ctx: BadgeCtx): Promise<string> {
   const c = THEME_COLORS[ctx.theme];
-  const d = DIMS[ctx.size]!;
+  const d = DIMS[ctx.size];
   const tokenCount = ctx.stats.token_used.toLocaleString("en-US");
   const requestCount = ctx.stats.count.toLocaleString("en-US");
   const tpmCount = ctx.stats.avg_tpm.toLocaleString("en-US");

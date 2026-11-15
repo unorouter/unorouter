@@ -38,7 +38,7 @@ export interface Dims extends BadgeDimsBase {
   noteFont: number;
 }
 
-const DIMS: Partial<Record<BadgeSize, Dims>> = {
+const DIMS: Record<BadgeSize, Dims> = {
   xs: {
     W: 0,
     H: 0,
@@ -292,7 +292,7 @@ function PriceRow(props: {
 
 export async function generatePricing(ctx: BadgeCtx): Promise<string> {
   const c = THEME_COLORS[ctx.theme];
-  const d = DIMS[ctx.size]!;
+  const d = DIMS[ctx.size];
   const displayRows = ctx.pricing.rows.slice(0, d.maxRows);
   const size =
     d.W > 0 && d.H > 0

@@ -17,7 +17,7 @@ interface Dims extends BadgeDimsBase {
   dotSize: number;
 }
 
-const DIMS: Partial<Record<BadgeSize, Dims>> = {
+const DIMS: Record<BadgeSize, Dims> = {
   xs: {
     W: 300,
     H: 65,
@@ -94,7 +94,7 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
 
 export async function generateTokensBanner(ctx: BadgeCtx): Promise<string> {
   const c = THEME_COLORS[ctx.theme];
-  const d = DIMS[ctx.size]!;
+  const d = DIMS[ctx.size];
   const tokenCount = ctx.stats.token_used.toLocaleString("en-US");
   const cip = makeCipher();
   const m1 = cip.mark(tokenCount, d.statSize, c.text, true);

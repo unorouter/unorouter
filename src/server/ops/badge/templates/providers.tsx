@@ -22,7 +22,7 @@ interface Dims extends BadgeDimsBase {
   countBadgeHeight: number;
 }
 
-const DIMS: Partial<Record<BadgeSize, Dims>> = {
+const DIMS: Record<BadgeSize, Dims> = {
   xs: {
     W: 220,
     H: 116,
@@ -193,7 +193,7 @@ function ProviderIcon(props: {
 
 export async function generateProviders(ctx: BadgeCtx): Promise<string> {
   const c = THEME_COLORS[ctx.theme];
-  const d = DIMS[ctx.size]!;
+  const d = DIMS[ctx.size];
   const providerCount = `${ctx.pricing.vendorCount}+`;
   const modelCountValue = `${ctx.pricing.modelCount}+`;
 

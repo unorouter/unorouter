@@ -21,7 +21,7 @@ interface Dims extends BadgeDimsBase {
   showMetrics: boolean;
 }
 
-const DIMS: Partial<Record<BadgeSize, Dims>> = {
+const DIMS: Record<BadgeSize, Dims> = {
   xs: {
     W: 280,
     H: 120,
@@ -122,7 +122,7 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
 
 export async function generateHero(ctx: BadgeCtx): Promise<string> {
   const c = THEME_COLORS[ctx.theme];
-  const d = DIMS[ctx.size]!;
+  const d = DIMS[ctx.size];
   const tokenCount = ctx.stats.token_used.toLocaleString("en-US");
   const modelCount = `${ctx.pricing.modelCount}+`;
   const freeCount = ctx.pricing.freeCount.toLocaleString("en-US");

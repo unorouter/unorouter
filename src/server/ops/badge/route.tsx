@@ -1,14 +1,14 @@
 /** @jsxImportSource @kitajs/html */
 /* eslint-disable @next/next/no-head-element, @next/next/no-img-element, jsx-a11y/alt-text */
 
-import { APP_VALUES } from "@/lib/config/constants";
+import { APP_VALUES, LOCALES } from "@/lib/config/constants";
 import {
   BADGE_SIZES,
   BADGE_TYPES,
   SOCIAL_SIZES,
+  THEMES,
   badgeQuery,
   type BadgeType,
-  type SocialSize,
 } from "@/lib/validation/badge";
 import { Elysia } from "elysia";
 import { getTranslations } from "next-intl/server";
@@ -146,9 +146,10 @@ const BADGES: Record<BadgeType, (ctx: BadgeCtx) => Promise<string>> = {
 
 export const badgeRoute = new Elysia({ prefix: "/badge" })
   .resolve({ as: "local" }, ({ query }) => ({
-    locale: query.locale as BadgeCtx["locale"],
-    theme: query.theme as BadgeCtx["theme"],
-    size: query.size as BadgeCtx["size"],
+    locale: LOCALES.find((l) => l === query.locale) ?? LOCALES[0],
+    theme: THEMES.find((x) => x === query.theme) ?? THEMES[0],
+    size: BADGE_SIZES.find((x) => x === query.size) ?? "md",
+    socialSize: SOCIAL_SIZES.find((x) => x === query.size) ?? SOCIAL_SIZES[0],
   }))
   .onBeforeHandle(({ set, path }) => {
     if (!path.endsWith("/all")) {
@@ -227,14 +228,14 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
   )
   .get(
     "/:name",
-    async ({ params, query, locale, theme, size, set }) => {
+    async ({ params, query, locale, theme, size, socialSize, set }) => {
       const isPng = query.format === "png";
 
       if (params.name === "social") {
         const pricing = await getPricingData();
         const socialSvg = await generateSocial({
           theme,
-          size: size as SocialSize,
+          size: socialSize,
           staticMode: isPng,
           modelCount: pricing.modelCount,
         });
@@ -282,7 +283,8 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
         return svg;
       }
 
-      const gen = BADGES[params.name as BadgeType];
+      const type = BADGE_TYPES.find((n) => n === params.name);
+      const gen = type ? BADGES[type] : undefined;
       if (!gen) {
         set.status = 404;
         return "Unknown badge";
