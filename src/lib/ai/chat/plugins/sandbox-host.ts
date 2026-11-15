@@ -190,14 +190,8 @@ export class SandboxHost {
     return wrapper;
   }
 
-  run(container: HTMLElement | HTMLIFrameElement, userCode: string) {
-    if (container instanceof HTMLIFrameElement) {
-      this.iframe = container;
-    } else {
-      this.iframe = document.createElement("iframe");
-      container.appendChild(this.iframe);
-    }
-    const frame = this.iframe;
+  run(frame: HTMLIFrameElement, userCode: string) {
+    this.iframe = frame;
 
     frame.style.width = "100%";
     frame.style.height = "100%";
