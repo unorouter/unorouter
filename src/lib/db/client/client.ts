@@ -768,7 +768,6 @@ async function openClient(): Promise<LocalClient> {
     getDatabaseInfo: () => gated((s) => s.getDatabaseInfo()),
     overwriteDatabaseFile: (file) =>
       gated((s) => s.overwriteDatabaseFile(file)),
-    reactiveQuery: (query) => sql.reactiveQuery(query),
   };
 
   if (typeof window !== "undefined") {

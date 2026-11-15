@@ -168,12 +168,6 @@ export type LocalClient = {
     persisted?: boolean;
   }>;
   overwriteDatabaseFile: (file: File | Blob | ArrayBuffer) => Promise<void>;
-  reactiveQuery: (query: unknown) => {
-    subscribe: (
-      onData: (data: unknown) => void,
-      onError?: (err: unknown) => void,
-    ) => { unsubscribe: () => void };
-  };
 };
 
 export type ScopedTable = SQLiteTable;

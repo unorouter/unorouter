@@ -4,7 +4,6 @@ import type { LocalClient, LocalRawExec } from "@/lib/types";
 declare module "sqlocal/drizzle" {
   interface SQLocalDrizzle {
     exec: LocalRawExec;
-    reactiveQuery: LocalClient["reactiveQuery"];
   }
 }
 
