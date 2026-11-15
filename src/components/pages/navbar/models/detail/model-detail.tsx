@@ -22,6 +22,7 @@ import { formatMsDate, formatYearMonth } from "@/lib/utils/format/date";
 import { cn } from "@/lib/utils";
 import { getDocsApiKey } from "@/lib/api/page-data";
 import { usesInputsForOwnPurposes } from "@/lib/api/own-purpose";
+import { useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { AtCapacityBanner } from "./header/at-capacity-banner";
 import { OwnPurposeNotice } from "./header/own-purpose-notice";
@@ -184,8 +185,6 @@ print(res.choices[0].message.content)`;
 
   return (
     <div className="relative mx-auto max-w-5xl px-6 pt-20 pb-16">
-      {/* Full-bleed vendor-tinted glow at the top, matching the rankings/tester
-          pages. Escapes the max-w container via w-screen + centered translate. */}
       <div
         aria-hidden
         className="pointer-events-none absolute top-0 left-1/2 -z-10 h-150 w-screen -translate-x-1/2 opacity-25 dark:opacity-[0.12]"
@@ -284,14 +283,7 @@ print(res.choices[0].message.content)`;
                     label={t("MODEL_PAGE.FIXED_PRICE")}
                     value={m.fixed_price}
                     original={m.original_fixed_price ?? null}
-                    unit={
-                      fixedPriceUnitLabel(m) === "second"
-                        ? t("MODEL_PAGE.PER_SECOND_UNIT")
-                        : fixedPriceUnitLabel(m) === "image"
-                          ? t("MODEL_PAGE.PER_IMAGE_UNIT")
-                          : t("MODEL_PAGE.PER_REQUEST_UNIT")
-                    }
-                    offLabel={(pct) => t("MODELS.TABLE.OFF", { pct })}
+                    unit={t(FIXED_UNIT[fixedPriceUnitLabel(m)])}
                     theme={theme}
                   />
                 ) : (
@@ -301,7 +293,6 @@ print(res.choices[0].message.content)`;
                       value={m.input_price}
                       original={m.original_input_price ?? null}
                       unit={t("MODEL_PAGE.PER_MILLION_UNIT")}
-                      offLabel={(pct) => t("MODELS.TABLE.OFF", { pct })}
                       theme={theme}
                     />
                     <PriceCell
@@ -309,7 +300,6 @@ print(res.choices[0].message.content)`;
                       value={m.output_price}
                       original={m.original_output_price ?? null}
                       unit={t("MODEL_PAGE.PER_MILLION_UNIT")}
-                      offLabel={(pct) => t("MODELS.TABLE.OFF", { pct })}
                       theme={theme}
                     />
                   </>
@@ -556,16 +546,20 @@ print(res.choices[0].message.content)`;
   );
 }
 
-type Theme = ReturnType<typeof getVendorTheme>;
+const FIXED_UNIT = {
+  second: "MODEL_PAGE.PER_SECOND_UNIT",
+  image: "MODEL_PAGE.PER_IMAGE_UNIT",
+  request: "MODEL_PAGE.PER_REQUEST_UNIT",
+} as const;
 
 function PriceCell(props: {
   label: string;
   value: number;
   original: number | null;
   unit: string;
-  offLabel: (pct: number) => string;
-  theme: Theme;
+  theme: ReturnType<typeof getVendorTheme>;
 }) {
+  const t = useTranslations();
   const pct = discountPercent(props.value, props.original);
   return (
     <div className="border-border bg-muted/20 min-w-36 flex-1 rounded-md border px-3 py-2.5">
@@ -583,7 +577,7 @@ function PriceCell(props: {
         </span>
         {pct > 0 && props.original !== null && (
           <span className="rounded bg-green-500/15 px-1 font-mono text-[10px] text-green-600 dark:text-green-400">
-            {props.offLabel(pct)}
+            {t("MODELS.TABLE.OFF", { pct })}
           </span>
         )}
       </div>
