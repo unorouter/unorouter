@@ -6,7 +6,7 @@ import {
   useUsageLogsQuery,
   useUsageLogsStatQuery,
 } from "@/hooks/ops/logs-hook";
-import { msg, renderQuota } from "@/lib/config/constants";
+import { renderQuota, type TranslationKey } from "@/lib/config/constants";
 import { DataTableId } from "@/lib/types/enums";
 import { useLogFilters } from "./use-log-filters";
 import type { ColumnDef } from "@tanstack/react-table";
@@ -71,6 +71,15 @@ export function UsageLogs() {
   const statQuery = useUsageLogsStatQuery(statFilters);
   const stat = statQuery.data;
 
+  const col = (
+    title: TranslationKey,
+    def: ColumnDef<TableFeats, LogRow>,
+  ): ColumnDef<TableFeats, LogRow> => ({
+    ...def,
+    header: t(title),
+    enableSorting: false,
+    meta: { ...def.meta, title },
+  });
   const columns: ColumnDef<TableFeats, LogRow>[] = [
     {
       id: "expand",
@@ -80,92 +89,51 @@ export function UsageLogs() {
       meta: { cellClassName: "w-8 px-1" },
       cell: LogExpandToggleCell,
     },
-    {
+    col("LOGS.TABLE.TIME", {
       accessorKey: "created_at",
-      meta: { title: msg("LOGS.TABLE.TIME") },
-      header: t("LOGS.TABLE.TIME"),
       enableHiding: false,
-      enableSorting: false,
       cell: LogTimeCell,
       size: 180,
-    },
-    {
+    }),
+    col("LOGS.TABLE.USER", {
       accessorKey: "username",
-      meta: { title: msg("LOGS.TABLE.USER") },
-      header: t("LOGS.TABLE.USER"),
-      enableSorting: false,
       cell: LogUserCell,
       size: 120,
-    },
-    {
+    }),
+    col("LOGS.TABLE.TOKEN", {
       accessorKey: "token_name",
-      meta: { title: msg("LOGS.TABLE.TOKEN") },
-      header: t("LOGS.TABLE.TOKEN"),
-      enableSorting: false,
       cell: LogTokenNameCell,
       size: 140,
-    },
-    {
+    }),
+    col("LOGS.TABLE.MODEL", {
       accessorKey: "model_name",
-      meta: { title: msg("LOGS.TABLE.MODEL") },
-      header: t("LOGS.TABLE.MODEL"),
-      enableSorting: false,
       cell: LogModelCell,
       size: 260,
-    },
-    {
-      id: "client",
-      meta: { title: msg("LOGS.TABLE.CLIENT") },
-      header: t("LOGS.TABLE.CLIENT"),
-      enableSorting: false,
-      cell: LogClientCell,
-      size: 150,
-    },
-    {
-      id: "stream",
-      meta: { title: msg("LOGS.TABLE.STREAM") },
-      header: t("LOGS.TABLE.STREAM"),
-      enableSorting: false,
-      cell: LogStreamCell,
-      size: 100,
-    },
-    {
+    }),
+    col("LOGS.TABLE.CLIENT", { id: "client", cell: LogClientCell, size: 150 }),
+    col("LOGS.TABLE.STREAM", { id: "stream", cell: LogStreamCell, size: 100 }),
+    col("LOGS.TABLE.TOKENS", {
       id: "tokens",
-      meta: {
-        title: msg("LOGS.TABLE.TOKENS"),
-        headerClassName: "text-right",
-        cellClassName: "text-right",
-      },
-      header: t("LOGS.TABLE.TOKENS"),
-      enableSorting: false,
+      meta: { headerClassName: "text-right", cellClassName: "text-right" },
       cell: LogTokensCell,
       size: 110,
-    },
-    {
+    }),
+    col("LOGS.TABLE.SPEND", {
       accessorKey: "quota",
-      meta: { title: msg("LOGS.TABLE.SPEND") },
-      header: t("LOGS.TABLE.SPEND"),
-      enableSorting: false,
       cell: LogSpendCell,
       size: 130,
-    },
-    {
+    }),
+    col("LOGS.TABLE.TIME_FIRST", {
       id: "timing",
-      meta: { title: msg("LOGS.TABLE.TIME_FIRST") },
-      header: t("LOGS.TABLE.TIME_FIRST"),
-      enableSorting: false,
       cell: LogTimingCell,
       size: 130,
-    },
-    {
+    }),
+    col("LOGS.TABLE.DETAILS", {
       accessorKey: "content",
-      meta: { title: msg("LOGS.TABLE.DETAILS") },
-      header: t("LOGS.TABLE.DETAILS"),
-      enableSorting: false,
       cell: LogPricingDetailsCell,
       size: 180,
       maxSize: 200,
-    },
+    }),
   ];
 
   return (
