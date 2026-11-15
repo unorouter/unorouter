@@ -28,6 +28,7 @@ const CLIENT_DOCS_KEPT = [
   "GENERATE_API_KEY_DESC",
   "COPY_LINK",
   "LINK_COPIED",
+  "OS",
 ] as const;
 
 const CLIENT_DOCS_GUIDE_LEAVES = [
