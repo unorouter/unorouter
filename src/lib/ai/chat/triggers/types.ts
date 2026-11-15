@@ -143,8 +143,3 @@ export type TriggerOps = {
     options?: string[],
   ) => Promise<string>;
 };
-
-export type TriggerRunResult = {
-  context: TriggerContext;
-  stopped: boolean;
-};

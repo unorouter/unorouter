@@ -6,7 +6,6 @@ import type {
   TriggerContext,
   TriggerEffect,
   TriggerEventMode,
-  TriggerRunResult,
   TriggerScript,
 } from "./types";
 
@@ -402,7 +401,7 @@ export async function runTriggers(
   scripts: TriggerScript[],
   mode: TriggerEventMode,
   ctx: TriggerContext,
-): Promise<TriggerRunResult> {
+): Promise<void> {
   ctx.mode = mode;
   for (const script of scripts) {
     if (script.type !== mode) continue;
@@ -415,7 +414,6 @@ export async function runTriggers(
     await runEffects(script, ctx);
     if (ctx.stopSending) break;
   }
-  return { context: ctx, stopped: !!ctx.stopSending };
 }
 
 export function parseTriggerScripts(raw: unknown): TriggerScript[] {

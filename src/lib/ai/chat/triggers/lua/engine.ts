@@ -235,17 +235,9 @@ type RunScriptedArgs = {
   meta?: object;
 };
 
-type RunScriptedResult = {
-  res: unknown;
-  stopSending: boolean;
-};
-
-export async function runScripted(
-  args: RunScriptedArgs,
-): Promise<RunScriptedResult> {
+export async function runScripted(args: RunScriptedArgs): Promise<unknown> {
   const state = getState(args.mode);
-  const run = state.queue.then(async (): Promise<RunScriptedResult> => {
-    const flags = { stopSending: false };
+  const run = state.queue.then(async (): Promise<unknown> => {
     const isNew = args.code !== state.code;
     if (isNew) {
       closeEngine(state);
@@ -253,8 +245,8 @@ export async function runScripted(
       state.engine = await factory.createEngine({ injectObjects: true });
     }
     const engine = state.engine;
-    if (!engine) return { res: undefined, stopSending: false };
-    for (const [name, fn] of Object.entries(buildLuaApi(args.ctx, flags))) {
+    if (!engine) return undefined;
+    for (const [name, fn] of Object.entries(buildLuaApi(args.ctx))) {
       engine.global.set(name, fn);
     }
     if (isNew) {
@@ -303,7 +295,7 @@ export async function runScripted(
           res = safeJsonParse<unknown>(raw, undefined);
         }
       }
-      return { res, stopSending: flags.stopSending };
+      return res;
     } finally {
       luaSafeIds.delete(accessKey);
       luaLowLevelIds.delete(accessKey);
@@ -350,7 +342,7 @@ export async function runLuaEditTrigger<T>(
         data,
       });
       // Adopted only when the runtime kind matches: a script returning a table for a string breaks T silently.
-      const next = result.res ?? data;
+      const next = result ?? data;
       if (
         Array.isArray(next) === Array.isArray(data) &&
         typeof next === typeof data

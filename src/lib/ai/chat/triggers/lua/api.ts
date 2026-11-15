@@ -18,10 +18,7 @@ function promptToChatML(prompt: { role: string; content: string }[]): string {
     .join("\n");
 }
 
-export function buildLuaApi(
-  ctx: TriggerContext,
-  flags: { stopSending: boolean },
-): Record<string, LuaFn> {
+export function buildLuaApi(ctx: TriggerContext): Record<string, LuaFn> {
   const safe = (id: string) => luaSafeIds.has(id);
   const low = (id: string) => luaLowLevelIds.has(id);
 
@@ -67,7 +64,6 @@ export function buildLuaApi(
 
     stopChat: (id: string) => {
       if (!safe(id)) return;
-      flags.stopSending = true;
       ctx.stopSending = true;
     },
 

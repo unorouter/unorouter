@@ -78,7 +78,7 @@ export async function runStartTriggers(
     ops: wrappedOps,
   });
 
-  const result = await runTriggers(scripts, "start", ctx);
+  await runTriggers(scripts, "start", ctx);
   const sys = [
     ctx.additionalSysPrompt.start,
     ctx.additionalSysPrompt.historyend,
@@ -89,7 +89,7 @@ export async function runStartTriggers(
 
   return {
     extraSystemPrompt: sys,
-    stopSending: result.stopped || !!ctx.stopSending,
+    stopSending: !!ctx.stopSending,
     alerts: serverAlerts,
   };
 }
