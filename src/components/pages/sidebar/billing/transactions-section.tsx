@@ -13,13 +13,15 @@ import {
 import { useCopyToClipboard } from "@/hooks/ui/use-copy-to-clipboard";
 import { DataTableId } from "@/lib/types/enums";
 import { formatTimestamp } from "@/lib/utils/format/date";
+import { isOneOf } from "@/lib/utils/base";
+import type { TranslationKey } from "@/lib/config/constants";
 import { createTableAtoms } from "@/store/data-table-store";
 import type { ColumnDef } from "@tanstack/react-table";
 import type { TableFeats } from "@/lib/config/table-features";
 import { useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
 
-const PORTAL_PROVIDERS = ["stripe", "creem"];
+const isPortalProvider = isOneOf(["stripe", "creem"] as const);
 
 const PAID_STATUSES = ["success", "paid"];
 
@@ -41,24 +43,18 @@ function statusVariant(status: string) {
   return "destructive";
 }
 
-const STATUS_KEYS = {
+const STATUS_KEYS: Partial<Record<string, TranslationKey>> = {
   pending: "BILLING.TRANSACTIONS.STATUS_PENDING",
   success: "BILLING.TRANSACTIONS.STATUS_SUCCESS",
   paid: "BILLING.TRANSACTIONS.STATUS_PAID",
   failed: "BILLING.TRANSACTIONS.STATUS_FAILED",
   expired: "BILLING.TRANSACTIONS.STATUS_EXPIRED",
-} as const;
+};
 
 function useTransactionColumns(): ColumnDef<TableFeats, TransactionRow>[] {
   const t = useTranslations();
   const portalMutation = useBillingPortalMutation();
   const copy = useCopyToClipboard();
-
-  function handleGetInvoice(row: TransactionRow) {
-    portalMutation.mutate({
-      provider: row.payment_method as "stripe" | "creem",
-    });
-  }
 
   return [
     {
@@ -106,13 +102,14 @@ function useTransactionColumns(): ColumnDef<TableFeats, TransactionRow>[] {
     {
       accessorKey: "status",
       header: t("BILLING.TRANSACTIONS.STATUS"),
-      cell: ({ row }) => (
-        <Badge variant={statusVariant(row.original.status)}>
-          {row.original.status in STATUS_KEYS
-            ? t(STATUS_KEYS[row.original.status as keyof typeof STATUS_KEYS])
-            : row.original.status}
-        </Badge>
-      ),
+      cell: ({ row }) => {
+        const key = STATUS_KEYS[row.original.status];
+        return (
+          <Badge variant={statusVariant(row.original.status)}>
+            {key ? t(key) : row.original.status}
+          </Badge>
+        );
+      },
     },
     {
       id: "actions",
@@ -136,12 +133,13 @@ function useTransactionColumns(): ColumnDef<TableFeats, TransactionRow>[] {
           );
         }
 
-        if (isPaid && PORTAL_PROVIDERS.includes(item.payment_method)) {
+        const provider = item.payment_method;
+        if (isPaid && isPortalProvider(provider)) {
           return (
             <Button
               variant="ghost"
               size="sm"
-              onClick={() => handleGetInvoice(item)}
+              onClick={() => portalMutation.mutate({ provider })}
               disabled={portalMutation.isPending}
             >
               {t("BILLING.TRANSACTIONS.GET_INVOICE")}
@@ -197,14 +195,7 @@ function TopUpTransactions() {
 
   const rows: TransactionRow[] = (topUpsQuery.data?.items ?? []).map(
     (item) => ({
-      id: item.id,
-      money: item.money,
-      status: item.status,
-      trade_no: item.trade_no,
-      payment_method: item.payment_method,
-      create_time: item.create_time,
-      complete_time: item.complete_time,
-      invoice_url: item.invoice_url,
+      ...item,
       // Deliberately not item.amount: providers disagree on its unit. Creem
       // stores quota units (2500000 for $5) while NowPayments, Stripe and
       // DeloPay store dollars (5), so rendering it showed the same $5 payment
@@ -242,14 +233,7 @@ function SubscriptionTransactions() {
 
   const rows: TransactionRow[] = (ordersQuery.data?.items ?? []).map(
     (item) => ({
-      id: item.id,
-      money: item.money,
-      status: item.status,
-      trade_no: item.trade_no,
-      payment_method: item.payment_method,
-      create_time: item.create_time,
-      complete_time: item.complete_time,
-      invoice_url: item.invoice_url,
+      ...item,
       description:
         plans.find((plan) => plan.plan.id === item.plan_id)?.plan.title ??
         t("BILLING.SUBSCRIPTION.PLAN_FALLBACK", { planId: item.plan_id }),
