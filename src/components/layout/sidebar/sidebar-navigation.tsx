@@ -28,7 +28,6 @@ import { APP_VALUES } from "@/lib/config/constants";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { usePathname } from "@/i18n/navigation";
 import { PrefetchLink } from "@/components/layout/nav/prefetch-link";
-import { useParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useAui } from "@assistant-ui/react";
 import { useTranslations } from "next-intl";
@@ -37,7 +36,6 @@ import type { SidebarNavConfig } from "./app-sidebar";
 function NavGroup(props: { label: string; items: NavigationItem[] }) {
   const t = useTranslations();
   const pathname = usePathname();
-  const params = useParams<{ slug?: string }>();
 
   return (
     <SidebarGroup>
@@ -45,12 +43,7 @@ function NavGroup(props: { label: string; items: NavigationItem[] }) {
       <SidebarGroupContent>
         <SidebarMenu>
           {props.items.map((item) => {
-            const isActive = isActiveLink(
-              pathname,
-              item.href,
-              item.exact,
-              params,
-            );
+            const isActive = isActiveLink(pathname, item.href, item.exact);
             return (
               <SidebarMenuItem key={item.name}>
                 <SidebarMenuButton
@@ -77,10 +70,6 @@ function NavGroup(props: { label: string; items: NavigationItem[] }) {
                   ) : item.iconName ? (
                     <Icon
                       name={item.iconName}
-                      className={cn("size-4", isActive && "text-primary")}
-                    />
-                  ) : item.iconComponent ? (
-                    <item.iconComponent
                       className={cn("size-4", isActive && "text-primary")}
                     />
                   ) : null}

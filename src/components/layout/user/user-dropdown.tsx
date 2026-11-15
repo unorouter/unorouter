@@ -117,7 +117,6 @@ export function UserDropdown(props: UserDropdownProps) {
             <Link key={String(item.href)} href={item.href}>
               <DropdownMenuItem>
                 {item.iconName && <Icon name={item.iconName} />}
-                {item.iconComponent && <item.iconComponent />}
                 {t(item.name)}
               </DropdownMenuItem>
             </Link>

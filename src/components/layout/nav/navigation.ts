@@ -11,7 +11,6 @@ import {
 import type { LinkHref } from "@/i18n/routing";
 import { TranslationKey } from "@/lib/config/constants";
 import type { IconName } from "@/lib/config/icon-map";
-import type { ComponentType } from "react";
 
 const docsSubmenu = (): NavigationItem[] => {
   const byCategory = setupGuidesByCategory();
@@ -71,7 +70,6 @@ export type NavigationItem = {
   subtitle?: TranslationKey;
   href: LinkHref;
   iconName?: IconName;
-  iconComponent?: ComponentType<{ className?: string }>;
   guideIcon?: {
     iconKey: IntegrationIconKey;
     logoSrc?: string;
@@ -104,10 +102,8 @@ export const isActiveLink = (
   pathname: string,
   href: LinkHref,
   exact?: boolean,
-  routeParams?: Record<string, unknown>,
 ) => {
-  const cleanPathname =
-    fillParams(pathname, routeParams).replace(/\/$/, "") || "/";
+  const cleanPathname = pathname.replace(/\/$/, "") || "/";
   const cleanHref = resolveHref(href).replace(/\/$/, "") || "/";
 
   if (exact || cleanHref === "/") {

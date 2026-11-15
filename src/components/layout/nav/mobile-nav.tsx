@@ -89,9 +89,6 @@ export function MobileNav() {
                   {item.iconName && (
                     <Icon name={item.iconName} className="h-4 w-4" />
                   )}
-                  {item.iconComponent && (
-                    <item.iconComponent className="h-4 w-4" />
-                  )}
                   {t(item.name)}
                 </PrefetchLink>
               );
@@ -149,9 +146,6 @@ function CollapsibleNavItem(props: {
           {props.item.iconName && (
             <Icon name={props.item.iconName} className="h-4 w-4" />
           )}
-          {props.item.iconComponent && (
-            <props.item.iconComponent className="h-4 w-4" />
-          )}
           {t(props.item.name)}
         </PrefetchLink>
         <button
@@ -205,9 +199,6 @@ function CollapsibleNavItem(props: {
                   >
                     {subItem.iconName && (
                       <Icon name={subItem.iconName} className="h-3 w-3" />
-                    )}
-                    {subItem.iconComponent && (
-                      <subItem.iconComponent className="h-3 w-3" />
                     )}
                     {t(subItem.name)}
                   </PrefetchLink>

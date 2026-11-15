@@ -14,7 +14,6 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { GuideIcon } from "@/components/pages/docs/guide-icon";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { useHydrated } from "@/hooks/ui/use-hydrated";
 import { Link, usePathname } from "@/i18n/navigation";
@@ -176,22 +175,12 @@ export function Navbar(props: { authSlot?: React.ReactNode }) {
                                   className="border-border/60 bg-card/40 hover:border-primary/40 hover:bg-muted/50 grid grid-cols-[auto_1fr] items-center gap-x-2.5 gap-y-0.5 rounded-md border px-3 py-2 transition-colors"
                                 >
                                   <span className="row-span-2 flex size-5 shrink-0 items-center justify-center self-center">
-                                    {link.guideIcon ? (
-                                      <GuideIcon
-                                        iconKey={link.guideIcon.iconKey}
-                                        logoSrc={link.guideIcon.logoSrc}
-                                        logoBg={link.guideIcon.logoBg}
-                                        logoMono={link.guideIcon.logoMono}
-                                        size={18}
-                                      />
-                                    ) : link.iconName ? (
+                                    {link.iconName && (
                                       <Icon
                                         name={link.iconName}
                                         className="size-4"
                                       />
-                                    ) : link.iconComponent ? (
-                                      <link.iconComponent className="size-4" />
-                                    ) : null}
+                                    )}
                                   </span>
                                   <span className="text-foreground truncate text-[13px] font-semibold">
                                     {t(link.name, APP_VALUES)}
