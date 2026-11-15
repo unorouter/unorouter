@@ -7,7 +7,11 @@ import {
 } from "@/lib/config/constants";
 import { verifyUserId } from "@/lib/utils/session-cookie";
 import { addToken, getTokenKey, searchTokens } from "@/openapi";
-import { bffServiceHeader, cookieString, getApiKey } from "@/server/constants";
+import {
+  bffServiceHeader,
+  cookieString,
+  clientStoreApiKey,
+} from "@/server/constants";
 import { serverEnv } from "@/server/env";
 import { getModelByName } from "@/server/models/pricing/pricing.service";
 import { status, type Cookie } from "elysia";
@@ -112,9 +116,8 @@ async function authedUpstreamHeaders(
 export async function resolveChatApiKey(
   cookie: Record<string, Cookie<unknown>>,
 ): Promise<string> {
-  try {
-    return getApiKey(cookie);
-  } catch {}
+  const ownKey = clientStoreApiKey(cookie);
+  if (ownKey) return ownKey;
 
   const headers = await authedUpstreamHeaders(cookie);
   if (headers) {

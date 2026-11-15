@@ -69,15 +69,11 @@ function parseClientStore(raw: unknown): unknown {
   return typeof raw === "string" ? safeJsonParse<unknown>(raw, undefined) : raw;
 }
 
-export function getApiKey(cookie: Record<string, Cookie<unknown>>): string {
-  const raw = cookie[CLIENT_STORE_KEY]?.value;
-  if (!raw) throw status(401, msg("ERRORS.UNAUTHORIZED"));
-  const parsed = parseClientStore(raw);
-  if (!isRecord(parsed)) throw status(401, msg("ERRORS.UNAUTHORIZED"));
-  const apiKey = parsed.apiKey;
-  if (typeof apiKey !== "string" || !apiKey)
-    throw status(401, msg("ERRORS.NO_API_KEY"));
-  return apiKey;
+export function clientStoreApiKey(
+  cookie: Record<string, Cookie<unknown>>,
+): string | undefined {
+  const parsed = parseClientStore(cookie[CLIENT_STORE_KEY]?.value);
+  return isRecord(parsed) ? cookieString(parsed.apiKey) : undefined;
 }
 
 export function getProvider(
