@@ -12,12 +12,6 @@ export const setLocalMediaDimensions = (
   height: number,
 ) => mediaStore.update(id, { width, height });
 
-export const setLocalMediaFocal = (
-  id: string,
-  focalX: number | null,
-  focalY: number | null,
-) => mediaStore.update(id, { focalX, focalY });
-
 export async function upsertLocalMedia(row: {
   id: string;
   convId?: string | null;

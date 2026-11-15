@@ -9,10 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Icon } from "@/components/ui/icon";
 import type { TranslationKey } from "@/lib/config/constants";
-import {
-  setLocalMediaFocal,
-  upsertLocalMedia,
-} from "@/lib/db/client/data/media/media";
+import { mediaStore, upsertLocalMedia } from "@/lib/db/client/data/media/media";
 import { uid } from "@/lib/utils/base";
 import { fileToScaledDataUrl, splitDataUrl } from "@/lib/utils/client";
 import { useTranslations } from "next-intl";
@@ -41,7 +38,10 @@ export async function resolveMediaId(
   if (draft.kind === "remove") return null;
   if (draft.kind === "keep") {
     if (draft.focal && existingId) {
-      await setLocalMediaFocal(existingId, draft.focal.x, draft.focal.y);
+      await mediaStore.update(existingId, {
+        focalX: draft.focal.x,
+        focalY: draft.focal.y,
+      });
     }
     return existingId ?? null;
   }
