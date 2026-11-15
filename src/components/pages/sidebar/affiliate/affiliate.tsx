@@ -60,42 +60,42 @@ export function Affiliate() {
       />
 
       <div className="bg-border mb-6 grid grid-cols-2 gap-px md:grid-cols-5">
-        <div className="border-border bg-background flex flex-col p-5">
-          <StatItem
-            label={t("AFFILIATE.COMMISSION_RATE")}
-            value={`${commissionRate}%`}
-            icon={<Icon name="percent" className="h-4 w-4" />}
-            isLoading={isLoading}
-            accentColor="var(--chart-4)"
-          />
-        </div>
-        <div className="border-border bg-background flex flex-col p-5">
-          <StatItem
-            label={t("AFFILIATE.MAX_RECHARGES")}
-            value={maxRecharges === 0 ? t("AFFILIATE.UNLIMITED") : maxRecharges}
-            icon={<Icon name="repeat" className="h-4 w-4" />}
-            isLoading={isLoading}
-            accentColor="var(--chart-5)"
-          />
-        </div>
-        <div className="border-border bg-background flex flex-col p-5">
-          <StatItem
-            label={t("AFFILIATE.PENDING_EARNINGS")}
-            value={renderQuota(pendingQuota)}
-            icon={<Icon name="wallet" className="h-4 w-4" />}
-            isLoading={isLoading}
-            accentColor="var(--chart-2)"
-          />
-        </div>
-        <div className="border-border bg-background flex flex-col p-5">
-          <StatItem
-            label={t("AFFILIATE.TOTAL_EARNED")}
-            value={renderQuota(totalEarned)}
-            icon={<Icon name="dollar-sign" className="h-4 w-4" />}
-            isLoading={isLoading}
-            accentColor="var(--chart-3)"
-          />
-        </div>
+        {(
+          [
+            ["AFFILIATE.COMMISSION_RATE", `${commissionRate}%`, "percent", 4],
+            [
+              "AFFILIATE.MAX_RECHARGES",
+              maxRecharges === 0 ? t("AFFILIATE.UNLIMITED") : maxRecharges,
+              "repeat",
+              5,
+            ],
+            [
+              "AFFILIATE.PENDING_EARNINGS",
+              renderQuota(pendingQuota),
+              "wallet",
+              2,
+            ],
+            [
+              "AFFILIATE.TOTAL_EARNED",
+              renderQuota(totalEarned),
+              "dollar-sign",
+              3,
+            ],
+          ] as const
+        ).map((stat) => (
+          <div
+            key={stat[0]}
+            className="border-border bg-background flex flex-col p-5"
+          >
+            <StatItem
+              label={t(stat[0])}
+              value={stat[1]}
+              icon={<Icon name={stat[2]} className="h-4 w-4" />}
+              isLoading={isLoading}
+              accentColor={`var(--chart-${stat[3]})`}
+            />
+          </div>
+        ))}
         <div className="border-border bg-background col-span-2 flex flex-col p-5 md:col-span-1">
           <StatItem
             label={t("AFFILIATE.INVITE_COUNT")}
@@ -120,54 +120,24 @@ export function Affiliate() {
               {t("AFFILIATE.HOW_IT_WORKS")}
             </span>
             <div className="flex flex-col gap-3">
-              <div className="flex gap-3">
-                <div
-                  className="flex h-6 w-6 shrink-0 items-center justify-center font-mono text-xs font-bold"
-                  style={{ color: "var(--chart-1)" }}
-                >
-                  01
+              {([1, 2, 3] as const).map((n) => (
+                <div key={n} className="flex gap-3">
+                  <div
+                    className="flex h-6 w-6 shrink-0 items-center justify-center font-mono text-xs font-bold"
+                    style={{ color: `var(--chart-${n})` }}
+                  >
+                    0{n}
+                  </div>
+                  <div>
+                    <span className="text-foreground block text-sm font-medium">
+                      {t(`AFFILIATE.STEPS.${n}.TITLE`)}
+                    </span>
+                    <span className="text-muted-foreground block text-xs">
+                      {t(`AFFILIATE.STEPS.${n}.DESC`)}
+                    </span>
+                  </div>
                 </div>
-                <div>
-                  <span className="text-foreground block text-sm font-medium">
-                    {t("AFFILIATE.STEPS.1.TITLE")}
-                  </span>
-                  <span className="text-muted-foreground block text-xs">
-                    {t("AFFILIATE.STEPS.1.DESC")}
-                  </span>
-                </div>
-              </div>
-              <div className="flex gap-3">
-                <div
-                  className="flex h-6 w-6 shrink-0 items-center justify-center font-mono text-xs font-bold"
-                  style={{ color: "var(--chart-2)" }}
-                >
-                  02
-                </div>
-                <div>
-                  <span className="text-foreground block text-sm font-medium">
-                    {t("AFFILIATE.STEPS.2.TITLE")}
-                  </span>
-                  <span className="text-muted-foreground block text-xs">
-                    {t("AFFILIATE.STEPS.2.DESC")}
-                  </span>
-                </div>
-              </div>
-              <div className="flex gap-3">
-                <div
-                  className="flex h-6 w-6 shrink-0 items-center justify-center font-mono text-xs font-bold"
-                  style={{ color: "var(--chart-3)" }}
-                >
-                  03
-                </div>
-                <div>
-                  <span className="text-foreground block text-sm font-medium">
-                    {t("AFFILIATE.STEPS.3.TITLE")}
-                  </span>
-                  <span className="text-muted-foreground block text-xs">
-                    {t("AFFILIATE.STEPS.3.DESC")}
-                  </span>
-                </div>
-              </div>
+              ))}
             </div>
             <div className="border-border text-muted-foreground mt-4 flex gap-2 border-t pt-3 text-xs">
               <Icon
@@ -239,9 +209,7 @@ export function Affiliate() {
               <Button
                 size="sm"
                 className="mt-3"
-                onClick={() => {
-                  setTransferOpen(true);
-                }}
+                onClick={() => setTransferOpen(true)}
                 disabled={pendingQuota <= 0}
               >
                 <Icon
