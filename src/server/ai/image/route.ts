@@ -1,11 +1,13 @@
-import { getModelByName } from "@/server/models/pricing/pricing.service";
-import { GUEST_USER_ID, msg } from "@/lib/config/constants";
+import { GUEST_USER_ID } from "@/lib/config/constants";
 import { catalogSearchQuery, imageSubmitBody } from "@/lib/validation/image";
 import { assertGuestOwnPurposeAccess } from "@/server/auth/guest-consent.service";
-import { getUserId } from "@/server/constants";
 import { rateLimit } from "@/server/rate-limit";
-import { resolveChatApiKey } from "@/server/billing/token/best-key.service";
-import { Elysia, t, status } from "elysia";
+import {
+  assertGuestFreeModel,
+  resolveChatApiKey,
+} from "@/server/billing/token/best-key.service";
+import { serverEnv } from "@/server/env";
+import { Elysia, t } from "elysia";
 import { submitGeneration } from "./image-submit.service";
 import { UpstreamImageError } from "./upstream";
 import {
@@ -13,12 +15,6 @@ import {
   listCheckpointVersions,
   searchModelCatalog,
 } from "./model-search.service";
-
-async function assertGuestAllowedModel(model: string): Promise<void> {
-  if (!(await getModelByName(model))?.is_free) {
-    throw status(401, msg("ERRORS.UNAUTHORIZED"));
-  }
-}
 
 // Each lookup below is a Runware call with our key and needs no login.
 const catalogLimit = rateLimit("image-catalog", 60);
@@ -46,12 +42,12 @@ export const imageRoute = new Elysia({ prefix: "/image" })
   .post(
     "/submit",
     async ({ body, cookie }) => {
-      const userId = (await getUserId(cookie, true)) ?? GUEST_USER_ID;
-      if (userId === GUEST_USER_ID) {
-        await assertGuestAllowedModel(body.model);
-        await assertGuestOwnPurposeAccess(cookie, userId, body.model);
-      }
+      // The guest key decides it, not the cookie: user-id outlives an expired session.
       const apiKey = await resolveChatApiKey(cookie);
+      if (apiKey === serverEnv.guestApiKey) {
+        await assertGuestFreeModel(GUEST_USER_ID, body.model);
+        await assertGuestOwnPurposeAccess(cookie, GUEST_USER_ID, body.model);
+      }
       return { success: true, data: await submitGeneration(apiKey, body) };
     },
     { body: imageSubmitBody },
