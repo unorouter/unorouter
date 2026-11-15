@@ -64,6 +64,7 @@ import { TokenKeyDisplay } from "./token-key-display";
 import { TokenModelSelect } from "./token-model-select";
 import { formDefaults } from "@/lib/validation/helpers";
 import type { TranslationKey } from "@/lib/types";
+import type { IconName } from "@/lib/config/icon-map";
 
 type TokenDialogProps = {
   open: boolean;
@@ -91,14 +92,23 @@ const PROMPT_CACHE_OPTION_KEYS = {
 const isReasoningEffort = isOneOf(["low", "medium", "high", "max"] as const);
 const isPromptCache = isOneOf(["on", "off"] as const);
 
-const QUOTA_PRESETS = [
-  { label: "$1", value: dollarsToQuota(1) },
-  { label: "$10", value: dollarsToQuota(10) },
-  { label: "$50", value: dollarsToQuota(50) },
-  { label: "$100", value: dollarsToQuota(100) },
-  { label: "$500", value: dollarsToQuota(500) },
-  { label: "$1000", value: dollarsToQuota(1000) },
-];
+const QUOTA_PRESETS = [1, 10, 50, 100, 500, 1000].map((dollars) => ({
+  label: "$" + dollars,
+  value: dollarsToQuota(dollars),
+}));
+
+function SectionTitle(props: { icon?: IconName; label: string }) {
+  return (
+    <div className="mb-3 flex items-center gap-2">
+      {props.icon && (
+        <Icon name={props.icon} className="text-muted-foreground h-4 w-4" />
+      )}
+      <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+        {props.label}
+      </span>
+    </div>
+  );
+}
 
 export function TokenDialog(props: TokenDialogProps) {
   const t = useTranslations();
@@ -376,11 +386,7 @@ export function TokenDialog(props: TokenDialogProps) {
               {isEdit && <Separator />}
 
               <div>
-                <div className="mb-3 flex items-center gap-2">
-                  <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-                    {t("TOKEN.FORM.NAME")}
-                  </span>
-                </div>
+                <SectionTitle label={t("TOKEN.FORM.NAME")} />
 
                 <MyFormInput
                   control={form.control}
@@ -394,15 +400,7 @@ export function TokenDialog(props: TokenDialogProps) {
               <Separator />
 
               <div>
-                <div className="mb-3 flex items-center gap-2">
-                  <Icon
-                    name="wallet"
-                    className="text-muted-foreground h-4 w-4"
-                  />
-                  <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-                    {t("TOKEN.FORM.QUOTA")}
-                  </span>
-                </div>
+                <SectionTitle icon="wallet" label={t("TOKEN.FORM.QUOTA")} />
 
                 <div className="flex flex-col gap-4">
                   <MyFormSwitch
@@ -504,15 +502,7 @@ export function TokenDialog(props: TokenDialogProps) {
               <Separator />
 
               <div>
-                <div className="mb-3 flex items-center gap-2">
-                  <Icon
-                    name="layers"
-                    className="text-muted-foreground h-4 w-4"
-                  />
-                  <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-                    {t("TOKEN.FORM.GROUP")}
-                  </span>
-                </div>
+                <SectionTitle icon="layers" label={t("TOKEN.FORM.GROUP")} />
 
                 <div className="flex flex-col gap-2">
                   <TokenGroupMapping
@@ -531,15 +521,7 @@ export function TokenDialog(props: TokenDialogProps) {
               <Separator />
 
               <div>
-                <div className="mb-3 flex items-center gap-2">
-                  <Icon
-                    name="brain"
-                    className="text-muted-foreground h-4 w-4"
-                  />
-                  <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-                    {t("TOKEN.FORM.REASONING")}
-                  </span>
-                </div>
+                <SectionTitle icon="brain" label={t("TOKEN.FORM.REASONING")} />
 
                 <div className="flex flex-col gap-2">
                   <MyFormKeyedSelect
@@ -559,15 +541,10 @@ export function TokenDialog(props: TokenDialogProps) {
               <Separator />
 
               <div>
-                <div className="mb-3 flex items-center gap-2">
-                  <Icon
-                    name="database"
-                    className="text-muted-foreground h-4 w-4"
-                  />
-                  <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-                    {t("TOKEN.FORM.PROMPT_CACHE")}
-                  </span>
-                </div>
+                <SectionTitle
+                  icon="database"
+                  label={t("TOKEN.FORM.PROMPT_CACHE")}
+                />
 
                 <div className="flex flex-col gap-2">
                   <MyFormKeyedSelect
@@ -587,15 +564,10 @@ export function TokenDialog(props: TokenDialogProps) {
               <Separator />
 
               <div>
-                <div className="mb-3 flex items-center gap-2">
-                  <Icon
-                    name="shield"
-                    className="text-muted-foreground h-4 w-4"
-                  />
-                  <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-                    {t("TOKEN.FORM.MODEL_LIMITS")}
-                  </span>
-                </div>
+                <SectionTitle
+                  icon="shield"
+                  label={t("TOKEN.FORM.MODEL_LIMITS")}
+                />
 
                 <div className="flex flex-col gap-4">
                   <MyFormSwitch
@@ -619,15 +591,10 @@ export function TokenDialog(props: TokenDialogProps) {
               <Separator />
 
               <div>
-                <div className="mb-3 flex items-center gap-2">
-                  <Icon
-                    name="globe"
-                    className="text-muted-foreground h-4 w-4"
-                  />
-                  <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-                    {t("TOKEN.FORM.IP_WHITELIST")}
-                  </span>
-                </div>
+                <SectionTitle
+                  icon="globe"
+                  label={t("TOKEN.FORM.IP_WHITELIST")}
+                />
 
                 <FormField
                   control={form.control}
