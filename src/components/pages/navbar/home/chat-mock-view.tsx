@@ -68,6 +68,10 @@ export function ChatMockView(props: { data: MockData; state: MockState }) {
   const state = props.state;
   const activeModel = data.models[state.modelPicked] ?? data.models[0];
   const activeConvData = data.convs[state.activeConv] ?? data.convs[0];
+  const dialog =
+    state.rpDialog === null ? undefined : data.dialogs[state.rpDialog];
+  const dialogIcon =
+    (state.rpDialog !== null && data.menu[state.rpDialog]?.icon) || "database";
 
   return (
     <div className="bg-card border-border flex h-104 w-full overflow-hidden rounded-xl border font-sans shadow-2xl">
@@ -171,51 +175,24 @@ export function ChatMockView(props: { data: MockData; state: MockState }) {
         </div>
 
         <div className="flex-1 space-y-2 overflow-hidden px-4 py-3">
-          {state.isNewChat ? (
-            state.userMsg ? (
-              <div className="space-y-3">
-                <div className="flex justify-end">
-                  <span className="bg-primary/15 text-foreground/90 max-w-[80%] rounded-lg px-3 py-1.5 text-[12px] leading-relaxed">
-                    {state.userMsg}
-                  </span>
-                </div>
-                {state.aiTyping ? (
-                  <div className="flex items-center gap-1 px-1">
-                    <span className="bg-muted-foreground/50 size-1.5 animate-bounce rounded-full [animation-delay:-0.2s]" />
-                    <span className="bg-muted-foreground/50 size-1.5 animate-bounce rounded-full [animation-delay:-0.1s]" />
-                    <span className="bg-muted-foreground/50 size-1.5 animate-bounce rounded-full" />
-                  </div>
-                ) : state.aiMsg ? (
-                  <>
-                    <p className="text-foreground/90 text-[13px] leading-relaxed">
-                      {state.aiMsg}
-                    </p>
-                    <div className="text-muted-foreground/60 flex items-center gap-2 pt-1 font-mono text-[9px]">
-                      <Icon name="copy" className="h-3 w-3" />
-                      <Icon name="refresh-cw" className="h-3 w-3" />
-                      <Icon name="pencil" className="h-3 w-3" />
-                      <span className="ml-auto tabular-nums">
-                        {data.strings.tokens}
-                      </span>
-                    </div>
-                  </>
-                ) : null}
-              </div>
-            ) : (
-              <div className="flex h-full items-center justify-center">
-                <span className="text-muted-foreground font-mono text-[11px]">
-                  {data.strings.newChatEmpty}
-                </span>
-              </div>
-            )
+          {state.isNewChat && !state.userMsg ? (
+            <div className="flex h-full items-center justify-center">
+              <span className="text-muted-foreground font-mono text-[11px]">
+                {data.strings.newChatEmpty}
+              </span>
+            </div>
           ) : (
             <>
-              <div className="text-muted-foreground font-mono text-[9px] tracking-wider uppercase">
-                {activeConvData?.label}
-              </div>
-              <p className="text-foreground/90 line-clamp-3 text-[13px] leading-relaxed">
-                {activeConvData?.message}
-              </p>
+              {!state.isNewChat && (
+                <>
+                  <div className="text-muted-foreground font-mono text-[9px] tracking-wider uppercase">
+                    {activeConvData?.label}
+                  </div>
+                  <p className="text-foreground/90 line-clamp-3 text-[13px] leading-relaxed">
+                    {activeConvData?.message}
+                  </p>
+                </>
+              )}
               {state.userMsg ? (
                 <div className="space-y-3 pt-1">
                   <div className="flex justify-end">
@@ -230,20 +207,28 @@ export function ChatMockView(props: { data: MockData; state: MockState }) {
                       <span className="bg-muted-foreground/50 size-1.5 animate-bounce rounded-full" />
                     </div>
                   ) : state.aiMsg ? (
-                    <p className="text-foreground/90 line-clamp-3 text-[13px] leading-relaxed">
+                    <p
+                      className={`text-foreground/90 text-[13px] leading-relaxed ${
+                        state.isNewChat ? "" : "line-clamp-3"
+                      }`}
+                    >
                       {state.aiMsg}
                     </p>
                   ) : null}
                 </div>
               ) : null}
-              <div className="text-muted-foreground/60 flex items-center gap-2 pt-1 font-mono text-[9px]">
-                <Icon name="copy" className="h-3 w-3" />
-                <Icon name="refresh-cw" className="h-3 w-3" />
-                <Icon name="pencil" className="h-3 w-3" />
-                <span className="ml-auto tabular-nums">
-                  {activeConvData?.tokens}
-                </span>
-              </div>
+              {(!state.isNewChat || state.aiMsg) && (
+                <div className="text-muted-foreground/60 flex items-center gap-2 pt-1 font-mono text-[9px]">
+                  <Icon name="copy" className="h-3 w-3" />
+                  <Icon name="refresh-cw" className="h-3 w-3" />
+                  <Icon name="pencil" className="h-3 w-3" />
+                  <span className="ml-auto tabular-nums">
+                    {state.isNewChat
+                      ? data.strings.tokens
+                      : activeConvData?.tokens}
+                  </span>
+                </div>
+              )}
             </>
           )}
         </div>
@@ -291,17 +276,17 @@ export function ChatMockView(props: { data: MockData; state: MockState }) {
           </div>
         ) : null}
 
-        {state.rpDialog !== null && data.dialogs[state.rpDialog] ? (
+        {dialog ? (
           <div className="bg-background/70 absolute inset-0 z-30 flex items-center justify-center p-4 backdrop-blur-sm">
             <div className="border-border bg-card animate-in fade-in zoom-in-95 flex max-h-full w-full max-w-72 flex-col overflow-hidden rounded-lg border shadow-2xl duration-150">
               <div className="border-border/60 flex items-center justify-between border-b px-3 py-2">
                 <div className="flex items-center gap-2">
                   <Icon
-                    name={rpIcon(data, state.rpDialog)}
+                    name={dialogIcon}
                     className="text-muted-foreground h-3 w-3"
                   />
                   <span className="text-foreground text-[11px] font-medium">
-                    {data.dialogs[state.rpDialog].title}
+                    {dialog.title}
                   </span>
                 </div>
                 <Icon
@@ -310,14 +295,14 @@ export function ChatMockView(props: { data: MockData; state: MockState }) {
                 />
               </div>
               <div className="divide-border/40 min-h-0 flex-1 divide-y overflow-hidden">
-                {data.dialogs[state.rpDialog].rows.map((row) => (
+                {dialog.rows.map((row) => (
                   <div
                     key={row.name}
                     className="flex items-center gap-2.5 px-3 py-2"
                   >
                     <span className="bg-accent flex size-6 shrink-0 items-center justify-center rounded">
                       <Icon
-                        name={rpIcon(data, state.rpDialog!)}
+                        name={dialogIcon}
                         className="text-muted-foreground h-3 w-3"
                       />
                     </span>
@@ -338,8 +323,4 @@ export function ChatMockView(props: { data: MockData; state: MockState }) {
       </div>
     </div>
   );
-}
-
-function rpIcon(data: MockData, index: number): string {
-  return data.menu[index]?.icon ?? "database";
 }
