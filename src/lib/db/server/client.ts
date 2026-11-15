@@ -2,14 +2,13 @@ import { errMessage } from "@/lib/utils/base";
 import { ParamError } from "@/lib/config/constants";
 import { serverEnv } from "@/server/env";
 import { logger } from "@/lib/utils/logger";
-import { createClient, type Client } from "@libsql/client";
+import { createClient } from "@libsql/client";
 import { drizzle, type LibSQLDatabase } from "drizzle-orm/libsql";
 import { migrate } from "drizzle-orm/libsql/migrator";
 import { resolve } from "path";
 import * as schema from "../schema";
 
 let _db: LibSQLDatabase<typeof schema> | null = null;
-let _client: Client | null = null;
 
 export function getDb(): LibSQLDatabase<typeof schema> {
   if (_db) return _db;
@@ -17,12 +16,12 @@ export function getDb(): LibSQLDatabase<typeof schema> {
   if (!serverEnv.tursoUrl)
     throw new ParamError("ERRORS.MISSING_ENV", { var: "TURSO_DATABASE_URL" });
 
-  _client = createClient({
+  const client = createClient({
     url: serverEnv.tursoUrl,
     authToken: serverEnv.tursoToken,
   });
 
-  _db = drizzle(_client, { schema });
+  _db = drizzle(client, { schema });
 
   if (!serverEnv.standalone) {
     migrate(_db, { migrationsFolder: resolve("drizzle/server") })
