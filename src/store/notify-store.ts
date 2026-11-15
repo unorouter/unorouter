@@ -58,5 +58,3 @@ export const notificationsAtom = atom<SessionNotification[]>([]);
 export const notifyUnreadCountAtom = atom((get) =>
   get(notificationsAtom).reduce((acc, n) => acc + (n.read ? 0 : 1), 0),
 );
-
-export const notifyConnectedAtom = atom(false);

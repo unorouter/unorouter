@@ -9,8 +9,6 @@ import {
   type NotifyEvent,
 } from "@/lib/validation/notify";
 import { Value } from "@sinclair/typebox/value";
-import { chatStore } from "@/store/chat-store";
-import { notifyConnectedAtom } from "@/store/notify-store";
 import { getNotifyEvents } from "@/openapi";
 import { WebSocket as ReconnectingWebSocket } from "partysocket";
 
@@ -109,7 +107,6 @@ function connect() {
   ws = socket;
 
   socket.addEventListener("open", () => {
-    chatStore.set(notifyConnectedAtom, true);
     void sendSubscribe();
     if (everOpened) void catchUp();
     everOpened = true;
@@ -129,7 +126,6 @@ function connect() {
   });
 
   socket.addEventListener("close", () => {
-    chatStore.set(notifyConnectedAtom, false);
     stopPing();
   });
 }
@@ -139,7 +135,6 @@ function disconnect() {
   const socket = ws;
   ws = null;
   socket?.close();
-  chatStore.set(notifyConnectedAtom, false);
 }
 
 function requestLeadership() {

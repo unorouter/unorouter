@@ -1,4 +1,3 @@
-import { clamp } from "../base";
 export const QUOTA_PER_DOLLAR = 500000;
 
 /** Dollars per million tokens at ratio 1x: a model ratio is quota per token. */
@@ -32,13 +31,6 @@ export function discountPercent(
 ): number {
   if (original === null || original <= 0 || current >= original) return 0;
   return Math.round(((original - current) / original) * 100);
-}
-
-export function parsePercent(progress: string | undefined | null): number {
-  if (!progress) return 0;
-  const m = progress.match(/(\d+)%/);
-  if (!m) return 0;
-  return clamp(parseInt(m[1], 10), 0, 100);
 }
 
 export function formatPriceCompact(price: number): string {
