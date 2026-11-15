@@ -1716,7 +1716,6 @@
       "API_KEY_LABEL": "API Key",
       "STEPS": "Step-by-step setup",
       "COMPATIBILITY": "Compatibility",
-      "RECOMMENDED_MODELS": "Recommended models",
       "RECOMMENDED_MODELS_DESC": "Free models that work here. Paste any model id into the client.",
       "GOTCHAS": "Gotchas",
       "TOC_OVERVIEW": "Overview",
@@ -3437,35 +3436,12 @@
     "SUBSCRIPTION": "Subscription",
     "TABS": {
       "COMMON": "Common Logs",
-      "DRAWING": "Drawing Logs",
       "TASK": "Task Logs"
     },
     "DRAWING": {
-      "SUBMIT_TIME": "Submit Time",
-      "ACTION": "Action",
-      "TASK_ID": "Task ID",
-      "DURATION": "Duration",
-      "PROGRESS": "Progress",
-      "IMAGE": "Image",
-      "PROMPT": "Prompt",
-      "PROMPT_SOURCE": "Source Prompt",
-      "PROMPT_EN": "English Prompt",
       "FAIL_REASON": "Fail Reason",
       "ERROR_DETAILS": "Error Details",
-      "VIEW": "View",
-      "COPY": "Copy",
-      "COPY_URL": "Copy URL",
-      "OPEN": "Open",
-      "IMAGE_PREVIEW": "Image Preview",
-      "FILTER_MJ_ID": "MJ Task ID...",
-      "STATUS": {
-        "NOT_START": "Not Started",
-        "SUBMITTED": "Submitted",
-        "IN_PROGRESS": "In Progress",
-        "SUCCESS": "Success",
-        "FAILURE": "Failure",
-        "MODAL": "Modal"
-      }
+      "COPY": "Copy"
     },
     "TASK": {
       "SUBMIT_TIME": "Submit Time",

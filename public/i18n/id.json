@@ -1716,7 +1716,6 @@
       "API_KEY_LABEL": "Kunci API",
       "STEPS": "Penyiapan langkah demi langkah",
       "COMPATIBILITY": "Kompatibilitas",
-      "RECOMMENDED_MODELS": "Model yang direkomendasikan",
       "RECOMMENDED_MODELS_DESC": "Model gratis yang berfungsi di sini. Tempel id model apa pun ke klien.",
       "GOTCHAS": "Hal yang perlu diperhatikan",
       "TOC_OVERVIEW": "Ikhtisar",
@@ -3437,35 +3436,12 @@
     "SUBSCRIPTION": "Langganan",
     "TABS": {
       "COMMON": "Log Umum",
-      "DRAWING": "Log Gambar",
       "TASK": "Log Tugas"
     },
     "DRAWING": {
-      "SUBMIT_TIME": "Waktu Kirim",
-      "ACTION": "Tindakan",
-      "TASK_ID": "ID Tugas",
-      "DURATION": "Durasi",
-      "PROGRESS": "Progres",
-      "IMAGE": "Gambar",
-      "PROMPT": "Prompt",
-      "PROMPT_SOURCE": "Prompt Sumber",
-      "PROMPT_EN": "Prompt Inggris",
       "FAIL_REASON": "Alasan Gagal",
       "ERROR_DETAILS": "Detail Error",
-      "VIEW": "Lihat",
-      "COPY": "Salin",
-      "COPY_URL": "Salin URL",
-      "OPEN": "Buka",
-      "IMAGE_PREVIEW": "Pratinjau Gambar",
-      "FILTER_MJ_ID": "ID Tugas MJ...",
-      "STATUS": {
-        "NOT_START": "Belum Dimulai",
-        "SUBMITTED": "Dikirim",
-        "IN_PROGRESS": "Sedang Berjalan",
-        "SUCCESS": "Berhasil",
-        "FAILURE": "Gagal",
-        "MODAL": "Modal"
-      }
+      "COPY": "Salin"
     },
     "TASK": {
       "SUBMIT_TIME": "Waktu Kirim",

@@ -1716,7 +1716,6 @@
       "API_KEY_LABEL": "APIキー",
       "STEPS": "ステップごとの設定",
       "COMPATIBILITY": "互換性",
-      "RECOMMENDED_MODELS": "推奨モデル",
       "RECOMMENDED_MODELS_DESC": "ここで動作する無料モデルです。任意のモデルIDをクライアントに貼り付けてください。",
       "GOTCHAS": "注意点",
       "TOC_OVERVIEW": "概要",
@@ -3437,35 +3436,12 @@
     "SUBSCRIPTION": "サブスクリプション",
     "TABS": {
       "COMMON": "通常ログ",
-      "DRAWING": "画像ログ",
       "TASK": "タスクログ"
     },
     "DRAWING": {
-      "SUBMIT_TIME": "送信時刻",
-      "ACTION": "アクション",
-      "TASK_ID": "タスクID",
-      "DURATION": "所要時間",
-      "PROGRESS": "進捗",
-      "IMAGE": "画像",
-      "PROMPT": "プロンプト",
-      "PROMPT_SOURCE": "元のプロンプト",
-      "PROMPT_EN": "英語プロンプト",
       "FAIL_REASON": "失敗理由",
       "ERROR_DETAILS": "エラー詳細",
-      "VIEW": "表示",
-      "COPY": "コピー",
-      "COPY_URL": "URLをコピー",
-      "OPEN": "開く",
-      "IMAGE_PREVIEW": "画像プレビュー",
-      "FILTER_MJ_ID": "MJ タスクID...",
-      "STATUS": {
-        "NOT_START": "未開始",
-        "SUBMITTED": "送信済み",
-        "IN_PROGRESS": "進行中",
-        "SUCCESS": "成功",
-        "FAILURE": "失敗",
-        "MODAL": "モーダル"
-      }
+      "COPY": "コピー"
     },
     "TASK": {
       "SUBMIT_TIME": "送信時刻",

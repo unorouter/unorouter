@@ -5,13 +5,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTranslations } from "next-intl";
 import { parseAsStringLiteral, useQueryState } from "nuqs";
 import { UsageLogs } from "./common/usage-logs";
-import { DrawingLogs } from "./drawing/drawing-logs";
 import { TaskLogs } from "./task/task-logs";
 import { upper } from "@/lib/utils/base";
 
 const TABS = [
   { value: "common", Component: UsageLogs },
-  { value: "drawing", Component: DrawingLogs },
   { value: "task", Component: TaskLogs },
 ] as const;
 const TAB_VALUES = TABS.map((tab) => tab.value);

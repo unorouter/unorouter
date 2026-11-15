@@ -1716,7 +1716,6 @@
       "API_KEY_LABEL": "API-ключ",
       "STEPS": "Пошаговая настройка",
       "COMPATIBILITY": "Совместимость",
-      "RECOMMENDED_MODELS": "Рекомендуемые модели",
       "RECOMMENDED_MODELS_DESC": "Бесплатные модели, которые здесь работают. Вставьте id любой модели в клиент.",
       "GOTCHAS": "Нюансы",
       "TOC_OVERVIEW": "Обзор",
@@ -3437,35 +3436,12 @@
     "SUBSCRIPTION": "Подписка",
     "TABS": {
       "COMMON": "Общие логи",
-      "DRAWING": "Логи рисования",
       "TASK": "Логи задач"
     },
     "DRAWING": {
-      "SUBMIT_TIME": "Время отправки",
-      "ACTION": "Действие",
-      "TASK_ID": "ID задачи",
-      "DURATION": "Длительность",
-      "PROGRESS": "Прогресс",
-      "IMAGE": "Изображение",
-      "PROMPT": "Промпт",
-      "PROMPT_SOURCE": "Исходный промпт",
-      "PROMPT_EN": "Английский промпт",
       "FAIL_REASON": "Причина сбоя",
       "ERROR_DETAILS": "Подробности ошибки",
-      "VIEW": "Просмотр",
-      "COPY": "Копировать",
-      "COPY_URL": "Копировать URL",
-      "OPEN": "Открыть",
-      "IMAGE_PREVIEW": "Предпросмотр изображения",
-      "FILTER_MJ_ID": "ID задачи MJ...",
-      "STATUS": {
-        "NOT_START": "Не запущено",
-        "SUBMITTED": "Отправлено",
-        "IN_PROGRESS": "В процессе",
-        "SUCCESS": "Успех",
-        "FAILURE": "Сбой",
-        "MODAL": "Модальное"
-      }
+      "COPY": "Копировать"
     },
     "TASK": {
       "SUBMIT_TIME": "Время отправки",

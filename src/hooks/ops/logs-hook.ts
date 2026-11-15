@@ -42,16 +42,6 @@ export function useUsageLogsPerfQuery(hours: number) {
   );
 }
 
-export function useMidjourneyLogsQuery(
-  query?: EdenQuery<typeof rpc.api.ops.logs.midjourney>,
-) {
-  return useElysiaQuery(
-    queryKeys.midjourneyLogs(query),
-    () => rpc.api.ops.logs.midjourney.get({ query }),
-    useFreshOnNav(),
-  );
-}
-
 export function useTaskLogsQuery(
   query?: EdenQuery<typeof rpc.api.ops.logs.task>,
 ) {

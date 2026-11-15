@@ -18,7 +18,6 @@ export const NEW_API_OPERATIONS = new Set([
   "GET /api/log/self/perf",
   "GET /api/log/self/stat",
   "GET /api/log/stat",
-  "GET /api/mj/self",
   "GET /api/model_status/buckets",
   "GET /api/model_status/components",
   "GET /api/model_status/page_compact",

@@ -1716,7 +1716,6 @@
       "API_KEY_LABEL": "API Anahtarı",
       "STEPS": "Adım adım kurulum",
       "COMPATIBILITY": "Uyumluluk",
-      "RECOMMENDED_MODELS": "Önerilen modeller",
       "RECOMMENDED_MODELS_DESC": "Burada çalışan ücretsiz modeller. Herhangi bir model id''sini istemciye yapıştırın.",
       "GOTCHAS": "Dikkat edilecekler",
       "TOC_OVERVIEW": "Genel bakış",
@@ -3437,35 +3436,12 @@
     "SUBSCRIPTION": "Abonelik",
     "TABS": {
       "COMMON": "Genel Loglar",
-      "DRAWING": "Çizim Logları",
       "TASK": "Görev Logları"
     },
     "DRAWING": {
-      "SUBMIT_TIME": "Gönderim Zamanı",
-      "ACTION": "Eylem",
-      "TASK_ID": "Görev ID",
-      "DURATION": "Süre",
-      "PROGRESS": "İlerleme",
-      "IMAGE": "Görsel",
-      "PROMPT": "İstem",
-      "PROMPT_SOURCE": "Kaynak İstem",
-      "PROMPT_EN": "İngilizce İstem",
       "FAIL_REASON": "Başarısızlık Nedeni",
       "ERROR_DETAILS": "Hata Detayları",
-      "VIEW": "Görüntüle",
-      "COPY": "Kopyala",
-      "COPY_URL": "URL Kopyala",
-      "OPEN": "Aç",
-      "IMAGE_PREVIEW": "Görsel Önizleme",
-      "FILTER_MJ_ID": "MJ Görev ID...",
-      "STATUS": {
-        "NOT_START": "Başlamadı",
-        "SUBMITTED": "Gönderildi",
-        "IN_PROGRESS": "Devam Ediyor",
-        "SUCCESS": "Başarılı",
-        "FAILURE": "Başarısız",
-        "MODAL": "Modal"
-      }
+      "COPY": "Kopyala"
     },
     "TASK": {
       "SUBMIT_TIME": "Gönderim Zamanı",

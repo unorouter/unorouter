@@ -1716,7 +1716,6 @@
       "API_KEY_LABEL": "Klucz API",
       "STEPS": "Konfiguracja krok po kroku",
       "COMPATIBILITY": "Zgodność",
-      "RECOMMENDED_MODELS": "Polecane modele",
       "RECOMMENDED_MODELS_DESC": "Darmowe modele, które tu działają. Wklej dowolny identyfikator modelu do klienta.",
       "GOTCHAS": "Na co uważać",
       "TOC_OVERVIEW": "Przegląd",
@@ -3437,35 +3436,12 @@
     "SUBSCRIPTION": "Subskrypcja",
     "TABS": {
       "COMMON": "Logi ogólne",
-      "DRAWING": "Logi rysowania",
       "TASK": "Logi zadań"
     },
     "DRAWING": {
-      "SUBMIT_TIME": "Czas wysłania",
-      "ACTION": "Akcja",
-      "TASK_ID": "ID zadania",
-      "DURATION": "Czas trwania",
-      "PROGRESS": "Postęp",
-      "IMAGE": "Obraz",
-      "PROMPT": "Prompt",
-      "PROMPT_SOURCE": "Prompt źródłowy",
-      "PROMPT_EN": "Prompt angielski",
       "FAIL_REASON": "Powód niepowodzenia",
       "ERROR_DETAILS": "Szczegóły błędu",
-      "VIEW": "Zobacz",
-      "COPY": "Kopiuj",
-      "COPY_URL": "Kopiuj URL",
-      "OPEN": "Otwórz",
-      "IMAGE_PREVIEW": "Podgląd obrazu",
-      "FILTER_MJ_ID": "ID zadania MJ...",
-      "STATUS": {
-        "NOT_START": "Nie rozpoczęto",
-        "SUBMITTED": "Wysłane",
-        "IN_PROGRESS": "W trakcie",
-        "SUCCESS": "Sukces",
-        "FAILURE": "Niepowodzenie",
-        "MODAL": "Modalne"
-      }
+      "COPY": "Kopiuj"
     },
     "TASK": {
       "SUBMIT_TIME": "Czas wysłania",

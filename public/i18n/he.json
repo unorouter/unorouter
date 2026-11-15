@@ -1716,7 +1716,6 @@
       "API_KEY_LABEL": "מפתח API",
       "STEPS": "הגדרה שלב אחר שלב",
       "COMPATIBILITY": "תאימות",
-      "RECOMMENDED_MODELS": "מודלים מומלצים",
       "RECOMMENDED_MODELS_DESC": "מודלים חינמיים שעובדים כאן. הדביקו כל מזהה מודל בלקוח.",
       "GOTCHAS": "נקודות לתשומת לב",
       "TOC_OVERVIEW": "סקירה כללית",
@@ -3437,35 +3436,12 @@
     "SUBSCRIPTION": "מנוי",
     "TABS": {
       "COMMON": "יומנים נפוצים",
-      "DRAWING": "יומני ציור",
       "TASK": "יומני משימות"
     },
     "DRAWING": {
-      "SUBMIT_TIME": "זמן שליחה",
-      "ACTION": "פעולה",
-      "TASK_ID": "מזהה משימה",
-      "DURATION": "משך",
-      "PROGRESS": "התקדמות",
-      "IMAGE": "תמונה",
-      "PROMPT": "הנחיה",
-      "PROMPT_SOURCE": "הנחיית מקור",
-      "PROMPT_EN": "הנחיה באנגלית",
       "FAIL_REASON": "סיבת כשל",
       "ERROR_DETAILS": "פרטי שגיאה",
-      "VIEW": "צפייה",
-      "COPY": "העתק",
-      "COPY_URL": "העתק URL",
-      "OPEN": "פתח",
-      "IMAGE_PREVIEW": "תצוגה מקדימה של תמונה",
-      "FILTER_MJ_ID": "מזהה משימת MJ...",
-      "STATUS": {
-        "NOT_START": "לא התחיל",
-        "SUBMITTED": "נשלח",
-        "IN_PROGRESS": "בתהליך",
-        "SUCCESS": "הצלחה",
-        "FAILURE": "כשל",
-        "MODAL": "מודלי"
-      }
+      "COPY": "העתק"
     },
     "TASK": {
       "SUBMIT_TIME": "זמן שליחה",

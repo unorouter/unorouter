@@ -1716,7 +1716,6 @@
       "API_KEY_LABEL": "Clé API",
       "STEPS": "Configuration étape par étape",
       "COMPATIBILITY": "Compatibilité",
-      "RECOMMENDED_MODELS": "Modèles recommandés",
       "RECOMMENDED_MODELS_DESC": "Modèles gratuits compatibles ici. Collez n'importe quel id de modèle dans le client.",
       "GOTCHAS": "Points de vigilance",
       "TOC_OVERVIEW": "Aperçu",
@@ -3437,35 +3436,12 @@
     "SUBSCRIPTION": "Abonnement",
     "TABS": {
       "COMMON": "Logs courants",
-      "DRAWING": "Logs de dessin",
       "TASK": "Logs de tâches"
     },
     "DRAWING": {
-      "SUBMIT_TIME": "Heure de soumission",
-      "ACTION": "Action",
-      "TASK_ID": "ID de tâche",
-      "DURATION": "Durée",
-      "PROGRESS": "Progression",
-      "IMAGE": "Image",
-      "PROMPT": "Prompt",
-      "PROMPT_SOURCE": "Prompt source",
-      "PROMPT_EN": "Prompt anglais",
       "FAIL_REASON": "Motif d'échec",
       "ERROR_DETAILS": "Détails de l'erreur",
-      "VIEW": "Voir",
-      "COPY": "Copier",
-      "COPY_URL": "Copier l'URL",
-      "OPEN": "Ouvrir",
-      "IMAGE_PREVIEW": "Aperçu d'image",
-      "FILTER_MJ_ID": "ID de tâche MJ...",
-      "STATUS": {
-        "NOT_START": "Non démarré",
-        "SUBMITTED": "Soumis",
-        "IN_PROGRESS": "En cours",
-        "SUCCESS": "Réussi",
-        "FAILURE": "Échec",
-        "MODAL": "Modal"
-      }
+      "COPY": "Copier"
     },
     "TASK": {
       "SUBMIT_TIME": "Heure de soumission",

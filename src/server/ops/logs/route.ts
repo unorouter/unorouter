@@ -5,7 +5,6 @@ import {
   logsStatQuery,
   logsPerfQuery,
 } from "@/lib/api/typebox/logs";
-import { midjourneyLogsQuery } from "@/lib/api/typebox/midjourney";
 import { taskLogsQuery } from "@/lib/api/typebox/task";
 import { unwrap } from "@/lib/utils/base";
 import {
@@ -13,7 +12,6 @@ import {
   getLogsSelfStat,
   getSelfPerfMetrics,
   getUserLogs,
-  getUserMidjourney,
   getUserTask,
 } from "@/openapi";
 import { deriveUpstream } from "@/server/constants";
@@ -69,17 +67,6 @@ export const logsRoute = new Elysia({ prefix: "/logs" })
         }),
       ),
     { query: logsPerfQuery },
-  )
-
-  .get(
-    "/midjourney",
-    async ({ query, upstream }) =>
-      unwrap(
-        await getUserMidjourney(query, {
-          headers: upstream.headers,
-        }),
-      ),
-    { query: midjourneyLogsQuery },
   )
 
   .get(

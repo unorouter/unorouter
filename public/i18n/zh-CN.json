@@ -1716,7 +1716,6 @@
       "API_KEY_LABEL": "API 密钥",
       "STEPS": "逐步设置",
       "COMPATIBILITY": "兼容性",
-      "RECOMMENDED_MODELS": "推荐模型",
       "RECOMMENDED_MODELS_DESC": "在这里可用的免费模型。把任意模型 id 粘贴到客户端即可。",
       "GOTCHAS": "注意事项",
       "TOC_OVERVIEW": "概览",
@@ -3437,35 +3436,12 @@
     "SUBSCRIPTION": "订阅",
     "TABS": {
       "COMMON": "通用日志",
-      "DRAWING": "绘画日志",
       "TASK": "任务日志"
     },
     "DRAWING": {
-      "SUBMIT_TIME": "提交时间",
-      "ACTION": "操作",
-      "TASK_ID": "任务 ID",
-      "DURATION": "用时",
-      "PROGRESS": "进度",
-      "IMAGE": "图片",
-      "PROMPT": "提示词",
-      "PROMPT_SOURCE": "原始提示词",
-      "PROMPT_EN": "英文提示词",
       "FAIL_REASON": "失败原因",
       "ERROR_DETAILS": "错误详情",
-      "VIEW": "查看",
-      "COPY": "复制",
-      "COPY_URL": "复制链接",
-      "OPEN": "打开",
-      "IMAGE_PREVIEW": "图片预览",
-      "FILTER_MJ_ID": "MJ 任务 ID...",
-      "STATUS": {
-        "NOT_START": "未开始",
-        "SUBMITTED": "已提交",
-        "IN_PROGRESS": "进行中",
-        "SUCCESS": "成功",
-        "FAILURE": "失败",
-        "MODAL": "弹窗"
-      }
+      "COPY": "复制"
     },
     "TASK": {
       "SUBMIT_TIME": "提交时间",

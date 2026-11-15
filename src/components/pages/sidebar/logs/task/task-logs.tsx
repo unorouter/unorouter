@@ -8,7 +8,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import type { TableFeats } from "@/lib/config/table-features";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { FailReasonDialog } from "../drawing/drawing-dialogs";
+import { FailReasonDialog } from "../common/fail-reason-dialog";
 import {
   TaskAudioPreviewDialog,
   TaskChannelCell,

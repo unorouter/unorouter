@@ -1716,7 +1716,6 @@
       "API_KEY_LABEL": "API 키",
       "STEPS": "단계별 설정",
       "COMPATIBILITY": "호환성",
-      "RECOMMENDED_MODELS": "추천 모델",
       "RECOMMENDED_MODELS_DESC": "여기서 동작하는 무료 모델입니다. 아무 모델 id나 클라이언트에 붙여 넣으세요.",
       "GOTCHAS": "주의사항",
       "TOC_OVERVIEW": "개요",
@@ -3437,35 +3436,12 @@
     "SUBSCRIPTION": "구독",
     "TABS": {
       "COMMON": "일반 로그",
-      "DRAWING": "그리기 로그",
       "TASK": "작업 로그"
     },
     "DRAWING": {
-      "SUBMIT_TIME": "제출 시간",
-      "ACTION": "작업",
-      "TASK_ID": "작업 ID",
-      "DURATION": "기간",
-      "PROGRESS": "진행",
-      "IMAGE": "이미지",
-      "PROMPT": "프롬프트",
-      "PROMPT_SOURCE": "원본 프롬프트",
-      "PROMPT_EN": "영어 프롬프트",
       "FAIL_REASON": "실패 이유",
       "ERROR_DETAILS": "오류 상세",
-      "VIEW": "보기",
-      "COPY": "복사",
-      "COPY_URL": "URL 복사",
-      "OPEN": "열기",
-      "IMAGE_PREVIEW": "이미지 미리보기",
-      "FILTER_MJ_ID": "MJ 작업 ID...",
-      "STATUS": {
-        "NOT_START": "시작 안 됨",
-        "SUBMITTED": "제출됨",
-        "IN_PROGRESS": "진행 중",
-        "SUCCESS": "성공",
-        "FAILURE": "실패",
-        "MODAL": "모달"
-      }
+      "COPY": "복사"
     },
     "TASK": {
       "SUBMIT_TIME": "제출 시간",

@@ -1716,7 +1716,6 @@
       "API_KEY_LABEL": "API कुंजी",
       "STEPS": "चरण-दर-चरण सेटअप",
       "COMPATIBILITY": "संगतता",
-      "RECOMMENDED_MODELS": "अनुशंसित मॉडल",
       "RECOMMENDED_MODELS_DESC": "यहाँ काम करने वाले मुफ़्त मॉडल। कोई भी मॉडल id क्लाइंट में पेस्ट करें।",
       "GOTCHAS": "ध्यान देने योग्य बातें",
       "TOC_OVERVIEW": "अवलोकन",
@@ -3437,35 +3436,12 @@
     "SUBSCRIPTION": "Subscription",
     "TABS": {
       "COMMON": "सामान्य Logs",
-      "DRAWING": "Drawing Logs",
       "TASK": "Task Logs"
     },
     "DRAWING": {
-      "SUBMIT_TIME": "Submit Time",
-      "ACTION": "क्रिया",
-      "TASK_ID": "Task ID",
-      "DURATION": "अवधि",
-      "PROGRESS": "प्रगति",
-      "IMAGE": "Image",
-      "PROMPT": "Prompt",
-      "PROMPT_SOURCE": "Source Prompt",
-      "PROMPT_EN": "English Prompt",
       "FAIL_REASON": "विफलता का कारण",
       "ERROR_DETAILS": "Error विवरण",
-      "VIEW": "देखें",
-      "COPY": "Copy",
-      "COPY_URL": "URL copy करें",
-      "OPEN": "खोलें",
-      "IMAGE_PREVIEW": "Image Preview",
-      "FILTER_MJ_ID": "MJ Task ID...",
-      "STATUS": {
-        "NOT_START": "शुरू नहीं हुआ",
-        "SUBMITTED": "Submitted",
-        "IN_PROGRESS": "प्रगति में",
-        "SUCCESS": "सफलता",
-        "FAILURE": "विफलता",
-        "MODAL": "Modal"
-      }
+      "COPY": "Copy"
     },
     "TASK": {
       "SUBMIT_TIME": "Submit Time",

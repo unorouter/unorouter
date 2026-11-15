@@ -1716,7 +1716,6 @@
       "API_KEY_LABEL": "Khoá API",
       "STEPS": "Thiết lập từng bước",
       "COMPATIBILITY": "Tương thích",
-      "RECOMMENDED_MODELS": "Mô hình đề xuất",
       "RECOMMENDED_MODELS_DESC": "Các mô hình miễn phí hoạt động ở đây. Dán bất kỳ model id nào vào ứng dụng khách.",
       "GOTCHAS": "Lưu ý",
       "TOC_OVERVIEW": "Tổng quan",
@@ -3437,35 +3436,12 @@
     "SUBSCRIPTION": "Đăng ký",
     "TABS": {
       "COMMON": "Nhật ký chung",
-      "DRAWING": "Nhật ký vẽ",
       "TASK": "Nhật ký tác vụ"
     },
     "DRAWING": {
-      "SUBMIT_TIME": "Thời gian gửi",
-      "ACTION": "Thao tác",
-      "TASK_ID": "ID tác vụ",
-      "DURATION": "Thời lượng",
-      "PROGRESS": "Tiến độ",
-      "IMAGE": "Ảnh",
-      "PROMPT": "Prompt",
-      "PROMPT_SOURCE": "Prompt gốc",
-      "PROMPT_EN": "Prompt tiếng Anh",
       "FAIL_REASON": "Lý do thất bại",
       "ERROR_DETAILS": "Chi tiết lỗi",
-      "VIEW": "Xem",
-      "COPY": "Sao chép",
-      "COPY_URL": "Sao chép URL",
-      "OPEN": "Mở",
-      "IMAGE_PREVIEW": "Xem trước ảnh",
-      "FILTER_MJ_ID": "ID tác vụ MJ...",
-      "STATUS": {
-        "NOT_START": "Chưa bắt đầu",
-        "SUBMITTED": "Đã gửi",
-        "IN_PROGRESS": "Đang xử lý",
-        "SUCCESS": "Thành công",
-        "FAILURE": "Thất bại",
-        "MODAL": "Modal"
-      }
+      "COPY": "Sao chép"
     },
     "TASK": {
       "SUBMIT_TIME": "Thời gian gửi",

@@ -1716,7 +1716,6 @@
       "API_KEY_LABEL": "مفتاح API",
       "STEPS": "الإعداد خطوة بخطوة",
       "COMPATIBILITY": "التوافق",
-      "RECOMMENDED_MODELS": "النماذج الموصى بها",
       "RECOMMENDED_MODELS_DESC": "نماذج مجانية تعمل هنا. الصق أي معرّف نموذج في العميل.",
       "GOTCHAS": "ملاحظات مهمة",
       "TOC_OVERVIEW": "نظرة عامة",
@@ -3437,35 +3436,12 @@
     "SUBSCRIPTION": "اشتراك",
     "TABS": {
       "COMMON": "السجلّات العامّة",
-      "DRAWING": "سجلّات الرسم",
       "TASK": "سجلّات المهام"
     },
     "DRAWING": {
-      "SUBMIT_TIME": "وقت الإرسال",
-      "ACTION": "الإجراء",
-      "TASK_ID": "معرّف المهمّة",
-      "DURATION": "المدّة",
-      "PROGRESS": "التقدّم",
-      "IMAGE": "الصورة",
-      "PROMPT": "المطالبة",
-      "PROMPT_SOURCE": "المطالبة المصدر",
-      "PROMPT_EN": "المطالبة الإنجليزية",
       "FAIL_REASON": "سبب الفشل",
       "ERROR_DETAILS": "تفاصيل الخطأ",
-      "VIEW": "عرض",
-      "COPY": "نسخ",
-      "COPY_URL": "نسخ الرابط",
-      "OPEN": "فتح",
-      "IMAGE_PREVIEW": "معاينة الصورة",
-      "FILTER_MJ_ID": "معرّف مهمّة MJ...",
-      "STATUS": {
-        "NOT_START": "لم يبدأ",
-        "SUBMITTED": "أُرسل",
-        "IN_PROGRESS": "قيد التنفيذ",
-        "SUCCESS": "نجح",
-        "FAILURE": "فشل",
-        "MODAL": "نافذة"
-      }
+      "COPY": "نسخ"
     },
     "TASK": {
       "SUBMIT_TIME": "وقت الإرسال",

@@ -396,31 +396,6 @@ export interface MessageResponse {
   success: boolean;
 }
 
-export interface Midjourney {
-  action: string;
-  buttons: string;
-  channel_id: number;
-  code: number;
-  description: string;
-  fail_reason: string;
-  finish_time: number;
-  id: number;
-  image_url: string;
-  mj_id: string;
-  progress: string;
-  prompt: string;
-  prompt_en: string;
-  properties: string;
-  quota: number;
-  start_time: number;
-  state: string;
-  status: string;
-  submit_time: number;
-  user_id: number;
-  video_url: string;
-  video_urls: string;
-}
-
 export interface ModelHistoryModel {
   name: string;
   total: number;
@@ -1640,23 +1615,6 @@ export interface ResponseDtoPageDataModelLog {
   success: boolean;
 }
 
-export type ResponseDtoPageDataModelMidjourneyData = {
-  /** @nullable */
-  items: Midjourney[] | null;
-  page: number;
-  page_size: number;
-  total: number;
-};
-
-/**
- * Response_dto.PageData-model.Midjourney schema
- */
-export interface ResponseDtoPageDataModelMidjourney {
-  data: ResponseDtoPageDataModelMidjourneyData;
-  message: string;
-  success: boolean;
-}
-
 export type ResponseDtoPageDataModelRedemptionData = {
   /** @nullable */
   items: Redemption[] | null;
@@ -2518,19 +2476,6 @@ export type GetLogsStatParams = {
   group?: string;
 };
 
-export type GetUserMidjourneyParams = {
-  /** Page number (1-based) */
-  p?: number;
-  /** Items per page */
-  page_size?: number;
-  /** Midjourney task ID */
-  mj_id?: string;
-  /** Start timestamp */
-  start_timestamp?: string;
-  /** End timestamp */
-  end_timestamp?: string;
-};
-
 export type GetModelStatusBucketsParams = {
   /** Model name (required) */
   model?: string;
@@ -3144,56 +3089,6 @@ export const getLogsStat = async (
     ...options,
     method: "GET",
   });
-};
-
-export type getUserMidjourneyResponse200ApplicationJson = {
-  data: ResponseDtoPageDataModelMidjourney;
-  status: 200;
-};
-
-export type getUserMidjourneyResponse200ApplicationXml = {
-  data: ResponseDtoPageDataModelMidjourney;
-  status: 200;
-};
-
-export type getUserMidjourneyResponseSuccess = (
-  | getUserMidjourneyResponse200ApplicationJson
-  | getUserMidjourneyResponse200ApplicationXml
-) & {
-  headers: Headers;
-};
-export type getUserMidjourneyResponse = getUserMidjourneyResponseSuccess;
-
-export const getGetUserMidjourneyUrl = (params?: GetUserMidjourneyParams) => {
-  const normalizedParams = new URLSearchParams();
-
-  Object.entries(params || {}).forEach(([key, value]) => {
-    if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : String(value));
-    }
-  });
-
-  const stringifiedParams = normalizedParams.toString();
-
-  return stringifiedParams.length > 0
-    ? `/api/mj/self?${stringifiedParams}`
-    : `/api/mj/self`;
-};
-
-/**
- * @summary Get User Midjourney
- */
-export const getUserMidjourney = async (
-  params?: GetUserMidjourneyParams,
-  options?: Parameters<typeof customFetch>[1],
-): Promise<getUserMidjourneyResponse> => {
-  return customFetch<getUserMidjourneyResponse>(
-    getGetUserMidjourneyUrl(params),
-    {
-      ...options,
-      method: "GET",
-    },
-  );
 };
 
 export type getModelStatusBucketsResponse200ApplicationJson = {
