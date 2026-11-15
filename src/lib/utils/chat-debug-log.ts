@@ -1,3 +1,4 @@
+import { webStorage } from "@/lib/utils/base";
 import { reportError } from "@/lib/utils/error-report";
 
 export type ChatDebugEntry = {
@@ -29,7 +30,9 @@ function makeLog<T extends { tab?: string; ts: number }>(
   let items: T[] | null = null;
   const stored = (): T[] => {
     try {
-      const parsed: unknown = JSON.parse(localStorage.getItem(key) ?? "[]");
+      const parsed: unknown = JSON.parse(
+        webStorage("localStorage")?.getItem(key) ?? "[]",
+      );
       return Array.isArray(parsed) ? parsed : [];
     } catch {
       return [];
@@ -50,7 +53,7 @@ function makeLog<T extends { tab?: string; ts: number }>(
   const get = (): T[] => {
     if (items !== null) return items;
     items = [];
-    if (typeof localStorage === "undefined") return items;
+    if (!webStorage("localStorage")) return items;
     items = shared ? stored().filter((e) => e.tab === TAB_ID) : stored();
     return items;
   };
@@ -58,18 +61,18 @@ function makeLog<T extends { tab?: string; ts: number }>(
   const write = (): void => {
     try {
       get();
-      localStorage.setItem(key, JSON.stringify(persisted()));
+      webStorage("localStorage")?.setItem(key, JSON.stringify(persisted()));
     } catch {
       // Over quota or blocked: latch off, a sync write per second cannot land.
       disabled = true;
       try {
-        localStorage.removeItem(key);
+        webStorage("localStorage")?.removeItem(key);
       } catch {}
     }
   };
 
   const save = (): void => {
-    if (timer !== null || disabled || typeof localStorage === "undefined")
+    if (timer !== null || disabled || !webStorage("localStorage"))
       return;
     timer = setTimeout(() => {
       timer = null;
@@ -86,7 +89,7 @@ function makeLog<T extends { tab?: string; ts: number }>(
     flush(): void {
       if (timer !== null) clearTimeout(timer);
       timer = null;
-      if (disabled || typeof localStorage === "undefined") return;
+      if (disabled || !webStorage("localStorage")) return;
       write();
     },
     push(entry: T): void {
@@ -98,9 +101,8 @@ function makeLog<T extends { tab?: string; ts: number }>(
     clear(): void {
       items = [];
       disabled = false;
-      if (typeof localStorage === "undefined") return;
       try {
-        localStorage.removeItem(key);
+        webStorage("localStorage")?.removeItem(key);
       } catch {}
     },
   };
@@ -166,7 +168,9 @@ export function flushChatDebugLog(): void {
 function readShared(log: typeof dbLog, key: string): ChatDebugEntry[] {
   log.flush();
   try {
-    const parsed: unknown = JSON.parse(localStorage.getItem(key) ?? "[]");
+    const parsed: unknown = JSON.parse(
+      webStorage("localStorage")?.getItem(key) ?? "[]",
+    );
     return Array.isArray(parsed) ? parsed : log.get().slice();
   } catch {
     return log.get().slice();

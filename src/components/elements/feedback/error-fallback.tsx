@@ -5,6 +5,7 @@ import { captureCaughtError, logChatDebug } from "@/lib/utils/chat-debug-log";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { env } from "@/lib/config/env";
+import { webStorage } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import {
@@ -55,12 +56,15 @@ export function ErrorFallback(props: ErrorFallbackProps) {
     // The sessionStorage guard stops an infinite reload loop when the chunk is truly gone.
     if (isChunkLoadError(props.error)) {
       const KEY = "chunk-reload-once";
+      const session = webStorage("sessionStorage");
+      // Without session storage the once-guard cannot hold, so no auto reload.
+      const willReload = !!session && !session.getItem(KEY);
       logChatDebug("chunk.load_error", {
         message: String(props.error?.message ?? "").slice(0, 200),
-        willReload: !sessionStorage.getItem(KEY),
+        willReload,
       });
-      if (!sessionStorage.getItem(KEY)) {
-        sessionStorage.setItem(KEY, "1");
+      if (session && willReload) {
+        session.setItem(KEY, "1");
         // Caches AND the worker must go before the reload. Deleting caches
         // alone left a wedged worker serving the reload the same way, and the
         // once-guard then landed the user here with a destructive reset as

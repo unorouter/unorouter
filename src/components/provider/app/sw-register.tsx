@@ -1,6 +1,7 @@
 "use client";
 
 import { releaseLocalDbForReload } from "@/lib/db/client/client";
+import { webStorage } from "@/lib/utils/base";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { logger } from "@/lib/utils/logger";
 import { chatRunningAtom, chatStore, dirtyFormsAtom } from "@/store/chat-store";
@@ -15,8 +16,9 @@ export function SwRegister() {
 
   useEffect(() => {
     // Mounting proves this build's chunks loaded, so release error-fallback's one-shot guard.
-    sessionStorage.removeItem("chunk-reload-once");
-    sessionStorage.removeItem("sw-reload-pending");
+    const session = webStorage("sessionStorage");
+    session?.removeItem("chunk-reload-once");
+    session?.removeItem("sw-reload-pending");
 
     if (process.env.NODE_ENV !== "production") return;
     if (!("serviceWorker" in navigator)) return;

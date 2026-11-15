@@ -5,6 +5,18 @@ import type {
   UnwrapApiResponse,
 } from "../types/eden";
 
+// Reading window.localStorage itself throws SecurityError when the browser
+// blocks site storage, so even a typeof check needs a try.
+export function webStorage(
+  kind: "localStorage" | "sessionStorage",
+): Storage | null {
+  try {
+    return typeof window === "undefined" ? null : window[kind];
+  } catch {
+    return null;
+  }
+}
+
 export function isRecord(v: unknown): v is Record<string, unknown> {
   return !!v && typeof v === "object" && !Array.isArray(v);
 }
