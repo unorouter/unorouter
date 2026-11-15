@@ -24,7 +24,10 @@ import { useEffect } from "react";
 
 // Single owner of chatModelAtom. Gated on hydration: writing before it clobbers the
 // cookie-backed pick during the null hydration window.
-export function useResolvedChatModel(remoteId: string | null | undefined) {
+export function useResolvedChatModel(
+  remoteId: string | null | undefined,
+  isMain: boolean,
+) {
   const hydrated = useHydrated();
   const setChatModel = useSetAtom(chatModelAtom);
   const queryClient = useQueryClient();
@@ -44,7 +47,7 @@ export function useResolvedChatModel(remoteId: string | null | undefined) {
     : null;
 
   useEffect(() => {
-    if (!hydrated) return;
+    if (!hydrated || !isMain) return;
     const current = chatStore.get(chatModelAtom);
 
     if (remoteId && serverModel) {
@@ -64,6 +67,7 @@ export function useResolvedChatModel(remoteId: string | null | undefined) {
     setChatModel(firstFreeModel);
   }, [
     hydrated,
+    isMain,
     remoteId,
     serverModel,
     pricingReady,
@@ -74,14 +78,15 @@ export function useResolvedChatModel(remoteId: string | null | undefined) {
   ]);
 
   useEffect(() => {
+    if (!isMain) return;
     return chatStore.sub(chatModelAtom, () => {
       const id = chatStore.get(convIdAtom);
       const newModel = chatStore.get(chatModelAtom);
       if (!id || !newModel) return;
-      const cached = queryClient.getQueryData<{ model?: string }>(
+      const cached = queryClient.getQueryData<{ defaultModel?: string | null }>(
         queryKeys.chatMeta(id),
       );
-      if (cached?.model === newModel) return;
+      if (cached?.defaultModel === newModel) return;
       void (async () => {
         const conv = await conversationStore.get(id);
         if (!conv) return;
@@ -93,5 +98,5 @@ export function useResolvedChatModel(remoteId: string | null | undefined) {
         invalidateAndBroadcast(queryClient, [queryKeys.chatMeta(id)]);
       })();
     });
-  }, [queryClient]);
+  }, [queryClient, isMain]);
 }

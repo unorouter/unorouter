@@ -98,8 +98,8 @@ function ChatRuntimeHook() {
   const queryClient = useQueryClient();
 
   useConvIdSync(remoteId, isMain);
-  useResolvedChatModel(remoteId);
-  useSettingsSync(remoteId);
+  useResolvedChatModel(remoteId, isMain);
+  useSettingsSync(remoteId, isMain);
   const remoteIdRef = useRef<string | null>(remoteId ?? null);
   remoteIdRef.current = remoteId ?? null;
   const getConvId = () => remoteIdRef.current ?? chatStore.get(convIdAtom);

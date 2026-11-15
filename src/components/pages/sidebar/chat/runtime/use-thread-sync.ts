@@ -53,7 +53,10 @@ const OVERRIDE_KEYS: readonly (keyof StreamOverrides)[] = [
   "showReasoning",
 ] as const;
 
-export function useSettingsSync(remoteId: string | null | undefined) {
+export function useSettingsSync(
+  remoteId: string | null | undefined,
+  isMain: boolean,
+) {
   const setActiveOverrides = useSetAtom(activeConvOverridesAtom);
   const setWebSearch = useSetAtom(chatWebSearchAtom);
   const settingsQuery = useChatSettingsQuery(remoteId ?? undefined);
@@ -61,13 +64,13 @@ export function useSettingsSync(remoteId: string | null | undefined) {
 
   const settings = settingsQuery.data;
   useEffect(() => {
+    if (!isMain) return;
     if (!remoteId) {
       lastSyncedIdRef.current = undefined;
       setActiveOverrides(null);
       return;
     }
-    if (!settings || remoteId === lastSyncedIdRef.current) return;
-    lastSyncedIdRef.current = remoteId;
+    if (!settings) return;
     const overrides: StreamOverrides = {};
     const row = rec(settings) ?? {};
     for (const k of OVERRIDE_KEYS) {
@@ -76,7 +79,11 @@ export function useSettingsSync(remoteId: string | null | undefined) {
         Object.assign(overrides, { [k]: v });
       }
     }
+    // Overrides follow every save; web search only seeds once, since the composer
+    // toggle lives in the atom alone and a refetch would undo it.
     setActiveOverrides(overrides);
+    if (remoteId === lastSyncedIdRef.current) return;
+    lastSyncedIdRef.current = remoteId;
     setWebSearch(Boolean(row.webSearchEnabled));
-  }, [remoteId, settings, setActiveOverrides, setWebSearch]);
+  }, [isMain, remoteId, settings, setActiveOverrides, setWebSearch]);
 }
