@@ -1,10 +1,12 @@
 "use client";
 
 import { logger } from "@/lib/utils/logger";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
 
 export function useCopyToClipboard() {
+  const t = useTranslations();
   const [text, setText] = useState<string | null>(null);
 
   const copy = async (
@@ -17,7 +19,8 @@ export function useCopyToClipboard() {
   ) => {
     const timeout = options.timeout ?? 3000;
     const withToast = options.withToast ?? false;
-    const successMessage = options.successMessage ?? "Copied to clipboard";
+    const successMessage =
+      options.successMessage ?? t("COMMON.COPIED_CLIPBOARD");
 
     if (!navigator?.clipboard) {
       logger.warn("Clipboard not supported", { context: "ui.copy-clipboard" });
