@@ -7,11 +7,9 @@ import {
   saveTheme,
   type SavedThemeInput,
 } from "@/lib/db/client/data/theme";
-import { invalidateAndBroadcast } from "@/lib/react-query/cross-tab-invalidate";
+import { useApiMutation } from "@/lib/react-query/hooks";
 import { queryKeys } from "@/lib/react-query/keys";
-import { handleError } from "@/lib/utils/client";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useTranslations } from "next-intl";
+import { useQuery } from "@tanstack/react-query";
 
 export function useSavedThemesQuery() {
   return useQuery({
@@ -20,33 +18,26 @@ export function useSavedThemesQuery() {
   });
 }
 
+const invalidates = [queryKeys.savedThemes()];
+
 export function useSaveThemeMutation() {
-  const t = useTranslations();
-  const qc = useQueryClient();
-  return useMutation({
+  return useApiMutation({
     mutationFn: (input: SavedThemeInput) => saveTheme(input),
-    onError: (e) => handleError(e, t),
-    onSuccess: () => invalidateAndBroadcast(qc, [queryKeys.savedThemes()]),
+    invalidates,
   });
 }
 
 export function useRenameSavedThemeMutation() {
-  const t = useTranslations();
-  const qc = useQueryClient();
-  return useMutation({
+  return useApiMutation({
     mutationFn: (input: { id: string; name: string }) =>
       renameSavedTheme(input.id, input.name),
-    onError: (e) => handleError(e, t),
-    onSuccess: () => invalidateAndBroadcast(qc, [queryKeys.savedThemes()]),
+    invalidates,
   });
 }
 
 export function useDeleteSavedThemeMutation() {
-  const t = useTranslations();
-  const qc = useQueryClient();
-  return useMutation({
+  return useApiMutation({
     mutationFn: (id: string) => deleteSavedTheme(id),
-    onError: (e) => handleError(e, t),
-    onSuccess: () => invalidateAndBroadcast(qc, [queryKeys.savedThemes()]),
+    invalidates,
   });
 }
