@@ -27,40 +27,18 @@ export function SettingsPage() {
         title={t("SETTINGS.TITLE")}
       />
 
-      <div className="mb-6">
-        <SectionTitle icon="settings" label={t("SETTINGS.ACCOUNT_INFO")} />
-        <AccountHeader />
-      </div>
-
-      <div className="mb-6">
+      <div className="mb-6 space-y-6">
+        <div>
+          <SectionTitle icon="settings" label={t("SETTINGS.ACCOUNT_INFO")} />
+          <AccountHeader />
+        </div>
         <CustomerTypeCard />
-      </div>
-
-      <div className="mb-6">
         <AccountCard />
-      </div>
-
-      <div className="mb-6">
         <SecurityCard />
-      </div>
-
-      <div className="mb-6">
         <NotificationCard />
-      </div>
-
-      <div className="mb-6">
         <TimeoutCard />
-      </div>
-
-      <div className="mb-6">
         <ConsentsCard />
-      </div>
-
-      <div className="mb-6">
         <OwnPurposeObjectionCard />
-      </div>
-
-      <div className="mb-6">
         <BackupCard />
       </div>
     </PageContent>
