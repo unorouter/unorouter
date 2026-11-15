@@ -60,15 +60,7 @@ export function useProviderFilters(providers: ProviderConsentItem[]) {
     (params.pactive ? 1 : 0) +
     (needle.length > 0 ? 1 : 0);
 
-  function reset() {
-    void setParams({
-      pq: null,
-      pactive: null,
-      pcountry: null,
-      pstatus: null,
-      porder: null,
-    });
-  }
+  const reset = () => void setParams(null);
 
   return { params, setParams, filtered, activeFilterCount, activeSort, reset };
 }

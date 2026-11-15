@@ -84,17 +84,7 @@ export function useConsentFilters(rows: ConsentRow[]) {
     (params.modality !== "all" ? 1 : 0) +
     (needle.length > 0 ? 1 : 0);
 
-  function reset() {
-    void setParams({
-      q: null,
-      modality: null,
-      status: null,
-      kind: null,
-      country: null,
-      price: null,
-      order: null,
-    });
-  }
+  const reset = () => void setParams(null);
 
   return {
     params,
