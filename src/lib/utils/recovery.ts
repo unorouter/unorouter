@@ -1,82 +1,56 @@
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { isRecord, webStorage } from "@/lib/utils/base";
 
-async function clearServiceWorkerCaches() {
-  logChatDebug("recovery.clear_sw_caches");
+async function step(event: string, run: () => unknown): Promise<void> {
   try {
+    await run();
+  } catch (err) {
+    logChatDebug(event, { error: String(err).slice(0, 200) });
+  }
+}
+
+const deleteCaches = () =>
+  step("recovery.caches_failed", async () => {
     const keys = await caches?.keys?.();
     if (keys) await Promise.all(keys.map((k) => caches.delete(k)));
-  } catch (err) {
-    logChatDebug("recovery.caches_failed", {
-      error: String(err).slice(0, 200),
-    });
-  }
-  try {
+  });
+
+async function clearServiceWorkerCaches() {
+  logChatDebug("recovery.clear_sw_caches");
+  await deleteCaches();
+  await step("recovery.sw_unregister_failed", async () => {
     const regs = await navigator.serviceWorker?.getRegistrations?.();
     await Promise.all((regs ?? []).map((r) => r.unregister()));
-  } catch (err) {
-    logChatDebug("recovery.sw_unregister_failed", {
-      error: String(err).slice(0, 200),
-    });
-  }
+  });
 }
 
 // Wipes OPFS, DESTROYING the local chat DB, which is the user's only copy. For a
 // caching problem use clearServiceWorkerCaches instead.
 export async function clearAllClientStorage() {
   logChatDebug("recovery.clear_storage");
-  try {
+  await step("recovery.cookies_failed", () => {
     for (const cookie of document.cookie.split(";")) {
       const name = cookie.split("=")[0]?.trim();
       if (!name) continue;
       document.cookie = `${name}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
       document.cookie = `${name}=; path=/; domain=${location.hostname}; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
     }
-  } catch (err) {
-    logChatDebug("recovery.cookies_failed", {
-      error: String(err).slice(0, 200),
-    });
-  }
-  try {
-    localStorage.clear();
-  } catch (err) {
-    logChatDebug("recovery.localstorage_failed", {
-      error: String(err).slice(0, 200),
-    });
-  }
-  try {
-    sessionStorage.clear();
-  } catch (err) {
-    logChatDebug("recovery.sessionstorage_failed", {
-      error: String(err).slice(0, 200),
-    });
-  }
+  });
+  await step("recovery.localstorage_failed", () => localStorage.clear());
+  await step("recovery.sessionstorage_failed", () => sessionStorage.clear());
   // OPFS refuses removeEntry while the sqlocal worker holds a sync access
   // handle, so deleting the files is not enough: the worker has to go first.
-  try {
+  await step("recovery.opfs_failed", async () => {
     const { wipeLocalDb } = await import("@/lib/db/client/client");
     await wipeLocalDb();
-  } catch (err) {
-    logChatDebug("recovery.opfs_failed", { error: String(err).slice(0, 200) });
-  }
-  try {
-    if (window.indexedDB?.databases) {
-      const dbs = await window.indexedDB.databases();
-      for (const db of dbs) {
-        if (db.name) window.indexedDB.deleteDatabase(db.name);
-      }
+  });
+  await step("recovery.idb_failed", async () => {
+    if (!window.indexedDB?.databases) return;
+    for (const db of await window.indexedDB.databases()) {
+      if (db.name) window.indexedDB.deleteDatabase(db.name);
     }
-  } catch (err) {
-    logChatDebug("recovery.idb_failed", { error: String(err).slice(0, 200) });
-  }
-  try {
-    const keys = await caches?.keys?.();
-    if (keys) await Promise.all(keys.map((k) => caches.delete(k)));
-  } catch (err) {
-    logChatDebug("recovery.caches_failed", {
-      error: String(err).slice(0, 200),
-    });
-  }
+  });
+  await deleteCaches();
 }
 
 export function isChunkLoadError(error: unknown): boolean {
