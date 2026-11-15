@@ -39,7 +39,8 @@
       "CTA_PRIMARY": "Loslegen",
       "CTA_SECONDARY": "Modelle ansehen",
       "TITLE_ROTATE": "API,CHAT,CHARAKTERE,ERZÄHLUNGEN,CODE,INTELLIGENZ",
-      "SEO_HEADING": "Ein API-Schlüssel für jedes KI-Modell, kostenlose Modelle inklusive"
+      "SEO_HEADING": "Ein API-Schlüssel für jedes KI-Modell, kostenlose Modelle inklusive",
+      "TITLE_END": "."
     },
     "STATS": {
       "MODELS": "Modelle",
@@ -198,7 +199,8 @@
       "PRIMARY": "Jetzt starten",
       "SECONDARY": "Integrationen",
       "CHAT": "Chat öffnen",
-      "DISCORD": "Discord"
+      "DISCORD": "Discord",
+      "TITLE_END": "?"
     },
     "META": {
       "TITLE": "{appName}: Gratis Janitor AI Proxy, ein Schlüssel für jedes KI-Modell",

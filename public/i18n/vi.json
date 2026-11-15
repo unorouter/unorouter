@@ -39,7 +39,8 @@
       "CTA_PRIMARY": "Bắt đầu",
       "CTA_SECONDARY": "Xem mô hình",
       "TITLE_ROTATE": "API,TRÒ CHUYỆN,NHÂN VẬT,KỂ CHUYỆN,MÃ,TRÍ TUỆ",
-      "SEO_HEADING": "Một khóa API cho mọi mô hình AI, có sẵn mô hình miễn phí"
+      "SEO_HEADING": "Một khóa API cho mọi mô hình AI, có sẵn mô hình miễn phí",
+      "TITLE_END": "."
     },
     "STATS": {
       "MODELS": "Mô hình",
@@ -198,7 +199,8 @@
       "PRIMARY": "Bắt đầu",
       "SECONDARY": "Tích hợp",
       "CHAT": "Mở trò chuyện",
-      "DISCORD": "Discord"
+      "DISCORD": "Discord",
+      "TITLE_END": "?"
     },
     "META": {
       "TITLE": "{appName}: Proxy Janitor AI miễn phí, một khóa cho mọi mô hình AI",

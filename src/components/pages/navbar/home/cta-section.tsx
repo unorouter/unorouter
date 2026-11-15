@@ -17,7 +17,7 @@ export async function CtaSection() {
             <span className="text-purple-600 dark:text-purple-400">
               {t("HOME.CTA.TITLE_2")}
             </span>
-            ?
+            {t("HOME.CTA.TITLE_END")}
           </h2>
           <p className="text-muted-foreground mx-auto max-w-xl font-mono text-sm">
             {t("HOME.CTA.SUBTITLE")}

@@ -39,7 +39,8 @@
       "CTA_PRIMARY": "Commencer",
       "CTA_SECONDARY": "Voir les modèles",
       "TITLE_ROTATE": "API,CHAT,PERSONNAGES,RÉCITS,CODE,INTELLIGENCE",
-      "SEO_HEADING": "Une clé API pour tous les modèles d'IA, modèles gratuits inclus"
+      "SEO_HEADING": "Une clé API pour tous les modèles d'IA, modèles gratuits inclus",
+      "TITLE_END": "."
     },
     "STATS": {
       "MODELS": "Modèles",
@@ -198,7 +199,8 @@
       "PRIMARY": "Commencer",
       "SECONDARY": "Intégrations",
       "CHAT": "Ouvrir le chat",
-      "DISCORD": "Discord"
+      "DISCORD": "Discord",
+      "TITLE_END": " ?"
     },
     "META": {
       "TITLE": "{appName} : proxy Janitor AI gratuit, une clé pour tous les modèles d'IA",

@@ -39,7 +39,8 @@
       "CTA_PRIMARY": "はじめる",
       "CTA_SECONDARY": "モデルを見る",
       "TITLE_ROTATE": "API,チャット,キャラクター,ストーリー,コード,知能",
-      "SEO_HEADING": "すべてのAIモデルに使える1つのAPIキー、無料モデル付き"
+      "SEO_HEADING": "すべてのAIモデルに使える1つのAPIキー、無料モデル付き",
+      "TITLE_END": "。"
     },
     "STATS": {
       "MODELS": "モデル",
@@ -198,7 +199,8 @@
       "PRIMARY": "はじめる",
       "SECONDARY": "連携を見る",
       "CHAT": "チャットを開く",
-      "DISCORD": "Discord"
+      "DISCORD": "Discord",
+      "TITLE_END": "！"
     },
     "META": {
       "TITLE": "{appName}：無料のJanitor AIプロキシ、すべてのAIモデルに使える1つのキー",

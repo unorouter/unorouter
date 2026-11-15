@@ -39,7 +39,8 @@
       "SUBTITLE": "{appName} connects you to {modelCount}+ AI models through one key. Build apps and run agents with it, or skip the setup and chat with characters right here on the site. Same key, same speed, same price.",
       "CTA_PRIMARY": "Get Started",
       "CTA_SECONDARY": "View Models",
-      "SEO_HEADING": "One API key for every AI model, free models included"
+      "SEO_HEADING": "One API key for every AI model, free models included",
+      "TITLE_END": "."
     },
     "STATS": {
       "MODELS": "Models",
@@ -220,7 +221,8 @@
       "PRIMARY": "Get Started",
       "SECONDARY": "Browse Integrations",
       "CHAT": "Open Chat",
-      "DISCORD": "Discord"
+      "DISCORD": "Discord",
+      "TITLE_END": "?"
     },
     "META": {
       "TITLE": "{appName}: Free Janitor AI Proxy, One Key for Every AI Model",

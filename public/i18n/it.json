@@ -39,7 +39,8 @@
       "SUBTITLE": "{appName} ti collega a oltre {modelCount} modelli IA tramite una sola chiave. Costruisci app e fai girare agenti, oppure salta la configurazione e chatta con i personaggi proprio qui sul sito. Stessa chiave, stessa velocità, stesso prezzo.",
       "CTA_PRIMARY": "Inizia",
       "CTA_SECONDARY": "Vedi modelli",
-      "SEO_HEADING": "Una chiave API per ogni modello di IA, modelli gratuiti inclusi"
+      "SEO_HEADING": "Una chiave API per ogni modello di IA, modelli gratuiti inclusi",
+      "TITLE_END": "."
     },
     "STATS": {
       "MODELS": "Modelli",
@@ -220,7 +221,8 @@
       "PRIMARY": "Inizia",
       "SECONDARY": "Sfoglia integrazioni",
       "CHAT": "Apri la chat",
-      "DISCORD": "Discord"
+      "DISCORD": "Discord",
+      "TITLE_END": "?"
     },
     "META": {
       "TITLE": "{appName}: proxy Janitor AI gratuito, una chiave per ogni modello di IA",

@@ -39,7 +39,8 @@
       "CTA_PRIMARY": "立即开始",
       "CTA_SECONDARY": "查看模型",
       "TITLE_ROTATE": "API,聊天,角色,故事,代码,智能",
-      "SEO_HEADING": "一个 API 密钥用遍所有 AI 模型，含免费模型"
+      "SEO_HEADING": "一个 API 密钥用遍所有 AI 模型，含免费模型",
+      "TITLE_END": "。"
     },
     "STATS": {
       "MODELS": "模型",
@@ -198,7 +199,8 @@
       "PRIMARY": "开始使用",
       "SECONDARY": "查看集成",
       "CHAT": "打开聊天",
-      "DISCORD": "Discord"
+      "DISCORD": "Discord",
+      "TITLE_END": "？"
     },
     "META": {
       "TITLE": "{appName}：免费 Janitor AI 代理，一个密钥用遍所有 AI 模型",

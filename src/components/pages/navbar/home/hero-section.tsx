@@ -47,7 +47,7 @@ export async function HeroSection() {
                 className="font-mono tracking-wider"
               />
             </span>
-            .
+            {t("HOME.HERO.TITLE_END")}
           </p>
 
           <HeroSubtitle />

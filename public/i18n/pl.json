@@ -39,7 +39,8 @@
       "SUBTITLE": "{appName} łączy Cię z ponad {modelCount} modelami AI za pomocą jednego klucza. Twórz aplikacje i uruchamiaj agentów albo pomiń konfigurację i rozmawiaj z postaciami tutaj, na stronie. Ten sam klucz, ta sama szybkość, ta sama cena.",
       "CTA_PRIMARY": "Rozpocznij",
       "CTA_SECONDARY": "Zobacz modele",
-      "SEO_HEADING": "Jeden klucz API do każdego modelu AI, darmowe modele w zestawie"
+      "SEO_HEADING": "Jeden klucz API do każdego modelu AI, darmowe modele w zestawie",
+      "TITLE_END": "."
     },
     "STATS": {
       "MODELS": "Modele",
@@ -220,7 +221,8 @@
       "PRIMARY": "Rozpocznij",
       "SECONDARY": "Przeglądaj integracje",
       "CHAT": "Otwórz czat",
-      "DISCORD": "Discord"
+      "DISCORD": "Discord",
+      "TITLE_END": "?"
     },
     "META": {
       "TITLE": "{appName}: Darmowe proxy do Janitor AI, jeden klucz do każdego modelu AI",
