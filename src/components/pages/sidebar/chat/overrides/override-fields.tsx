@@ -367,6 +367,32 @@ function SwitchField(props: {
   );
 }
 
+export function ImageStyleTemplatePicker(props: {
+  onPick: (instruction: string) => void;
+}) {
+  const t = useTranslations();
+  return (
+    <Select
+      value=""
+      onValueChange={(id) => {
+        const tpl = IMAGE_STYLE_TEMPLATES.find((x) => x.id === id);
+        if (tpl) props.onPick(tpl.instruction);
+      }}
+    >
+      <SelectTrigger size="sm" className="h-7 w-36 text-xs">
+        <SelectValue placeholder={t("CHAT.OVERRIDES.IMAGE_STYLE_TEMPLATE")} />
+      </SelectTrigger>
+      <SelectContent>
+        {IMAGE_STYLE_TEMPLATES.map((tpl) => (
+          <SelectItem key={tpl.id} value={tpl.id}>
+            {t(tpl.labelKey)}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+}
+
 function ImagePromptInstructionField(props: {
   control: Control<ConversationOverridesForm>;
 }) {
@@ -382,29 +408,13 @@ function ImagePromptInstructionField(props: {
             <FormLabel className="text-muted-foreground text-xs">
               {t("CHAT.OVERRIDES.IMAGE_PROMPT_INSTRUCTION")}
             </FormLabel>
-            <Select
-              value=""
-              onValueChange={(id) => {
-                const tpl = IMAGE_STYLE_TEMPLATES.find((x) => x.id === id);
-                if (!tpl) return;
-                form.setValue("promptInstruction", tpl.instruction, {
+            <ImageStyleTemplatePicker
+              onPick={(instruction) =>
+                form.setValue("promptInstruction", instruction, {
                   shouldDirty: true,
-                });
-              }}
-            >
-              <SelectTrigger size="sm" className="h-7 w-36 text-xs">
-                <SelectValue
-                  placeholder={t("CHAT.OVERRIDES.IMAGE_STYLE_TEMPLATE")}
-                />
-              </SelectTrigger>
-              <SelectContent>
-                {IMAGE_STYLE_TEMPLATES.map((tpl) => (
-                  <SelectItem key={tpl.id} value={tpl.id}>
-                    {t(tpl.labelKey)}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+                })
+              }
+            />
           </div>
           <FormControl>
             <Textarea

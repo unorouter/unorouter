@@ -19,7 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ModelField } from "@/components/pages/sidebar/chat/overrides/model-fields";
-import { IMAGE_STYLE_TEMPLATES } from "@/lib/ai/chat/image-style-templates";
+import { ImageStyleTemplatePicker } from "@/components/pages/sidebar/chat/overrides/override-fields";
 import { AUTO_GROUP, msg, NONE_VALUE } from "@/lib/config/constants";
 import { STARTER_PRESETS } from "@/lib/ai/rp/starter-presets";
 import {
@@ -308,31 +308,13 @@ export function PresetForm(props: Props) {
                     <label className="text-sm font-medium">
                       {t("RP.PRESET_IMAGE_PROMPT_INSTRUCTION")}
                     </label>
-                    <Select
-                      value=""
-                      onValueChange={(id) => {
-                        const tpl = IMAGE_STYLE_TEMPLATES.find(
-                          (x) => x.id === id,
-                        );
-                        if (!tpl) return;
-                        form.setValue("promptInstruction", tpl.instruction, {
+                    <ImageStyleTemplatePicker
+                      onPick={(instruction) =>
+                        form.setValue("promptInstruction", instruction, {
                           shouldDirty: true,
-                        });
-                      }}
-                    >
-                      <SelectTrigger size="sm" className="h-7 w-36 text-xs">
-                        <SelectValue
-                          placeholder={t("CHAT.OVERRIDES.IMAGE_STYLE_TEMPLATE")}
-                        />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {IMAGE_STYLE_TEMPLATES.map((tpl) => (
-                          <SelectItem key={tpl.id} value={tpl.id}>
-                            {t(tpl.labelKey)}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                        })
+                      }
+                    />
                   </div>
                   <MyFormTextarea
                     control={form.control}
