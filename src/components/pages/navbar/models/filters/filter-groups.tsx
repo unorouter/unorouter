@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Slider } from "@/components/ui/slider";
 import { AGE_STEPS_DAYS } from "@/lib/api/model-modality";
-import { msg } from "@/lib/config/constants";
+import { msg, type TranslationKey } from "@/lib/config/constants";
 import { cn } from "@/lib/utils";
 import { formatTokenCount } from "@/lib/utils/format/number";
 import { PRICE_MAX } from "@/store/models-store";
@@ -237,12 +237,12 @@ export function PriceGroup(props: {
   );
 }
 
-const AGE_LABEL_KEY = {
+const AGE_LABEL_KEY: Partial<Record<number, TranslationKey>> = {
   7: msg("MODELS.FILTER.AGE_7D"),
   30: msg("MODELS.FILTER.AGE_30D"),
   90: msg("MODELS.FILTER.AGE_90D"),
   365: msg("MODELS.FILTER.AGE_1Y"),
-} as const;
+};
 
 export function ModelAgeGroup(props: {
   value: number;
@@ -251,10 +251,11 @@ export function ModelAgeGroup(props: {
   const t = useTranslations();
   const steps: readonly number[] = AGE_STEPS_DAYS;
   const idx = Math.max(0, steps.indexOf(props.value));
-  const ageLabel = (days: number) =>
-    days === 0
-      ? t("MODELS.FILTER.ANY")
-      : t(AGE_LABEL_KEY[days as keyof typeof AGE_LABEL_KEY]);
+  // A hand-edited URL can carry any number; only the listed steps have labels.
+  const ageLabel = (days: number) => {
+    const key = AGE_LABEL_KEY[days];
+    return key ? t(key) : t("MODELS.FILTER.ANY");
+  };
   return (
     <GroupShell label={t("MODELS.FILTER.MODEL_AGE")}>
       <div className="px-1.5 pt-2">

@@ -32,8 +32,6 @@ const inTier = (name: string, tier: RankingTier) =>
   tier === "all" || (tier === "free") === name.endsWith(":free");
 
 export function Rankings(props: RankingsProps) {
-  const t = useTranslations();
-
   const [period, handlePeriodChange] = useQueryState(
     "period",
     parseAsStringLiteral(PERIOD_IDS).withDefault(
@@ -91,13 +89,7 @@ export function Rankings(props: RankingsProps) {
         {rankingsQuery.isLoading ? (
           <RankingsLoading />
         ) : !snapshot ? (
-          <RankingsError
-            message={
-              rankingsQuery.error instanceof Error
-                ? rankingsQuery.error.message
-                : t("RANKINGS.ERROR.GENERIC")
-            }
-          />
+          <RankingsError />
         ) : (
           <>
             <ModelsSection
@@ -139,7 +131,7 @@ function RankingsLoading() {
   );
 }
 
-function RankingsError(props: { message: string }) {
+function RankingsError() {
   const t = useTranslations();
   return (
     <div className="bg-card rounded-xl border border-dashed px-6 py-12 text-center">
@@ -147,7 +139,7 @@ function RankingsError(props: { message: string }) {
         {t("RANKINGS.ERROR.TITLE")}
       </h2>
       <p className="text-muted-foreground mx-auto mt-2 max-w-md text-sm">
-        {props.message}
+        {t("RANKINGS.ERROR.GENERIC")}
       </p>
     </div>
   );

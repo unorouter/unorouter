@@ -83,13 +83,13 @@ export async function CodeSection() {
             code={`curl -X POST ${env.apiUrl}/v1/chat/completions \\
   -H "Content-Type: application/json" \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
-  -d {
+  -d '{
     "model": "${docs.anthropicModel}",
     "messages": [
       {"role": "user", "content": "Hello!"}
     ],
     "stream": true
-  }`}
+  }'`}
           />
         </div>
       </div>
