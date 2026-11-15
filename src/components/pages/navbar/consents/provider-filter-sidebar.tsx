@@ -6,8 +6,8 @@ import {
   GroupShell,
   MultiSelectGroup,
   FilterSidebarShell,
-  toggled,
 } from "@/components/pages/navbar/models/filters/filter-groups";
+import { toggled } from "@/lib/utils/base";
 import { msg } from "@/lib/config/constants";
 import type { ProviderConsentItem } from "@/openapi";
 import { useLocale, useTranslations } from "next-intl";

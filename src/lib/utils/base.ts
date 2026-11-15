@@ -330,3 +330,9 @@ export const asParams = (
   v && typeof v === "object"
     ? (v as Record<string, string | number>)
     : undefined;
+
+export function toggled<T>(values: readonly T[], value: T): T[] {
+  return values.includes(value)
+    ? values.filter((v) => v !== value)
+    : [...values, value];
+}

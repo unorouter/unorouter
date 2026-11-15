@@ -18,6 +18,7 @@ import { Slider } from "@/components/ui/slider";
 import { AGE_STEPS_DAYS } from "@/lib/api/model-modality";
 import { msg, type TranslationKey } from "@/lib/config/constants";
 import { cn } from "@/lib/utils";
+import { toggled } from "@/lib/utils/base";
 import { formatTokenCount } from "@/lib/utils/format/number";
 import { PRICE_MAX } from "@/store/models-store";
 import { useLocale, useTranslations } from "next-intl";
@@ -293,12 +294,6 @@ export function MultiSelectGroup(props: {
       </div>
     </GroupShell>
   );
-}
-
-export function toggled<T>(values: readonly T[], value: T): T[] {
-  return values.includes(value)
-    ? values.filter((v) => v !== value)
-    : [...values, value];
 }
 
 export function FilterSidebarShell(props: {
