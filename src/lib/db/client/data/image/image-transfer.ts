@@ -16,7 +16,7 @@ import {
   bumpLocalSessionCounts,
   readLocalImageBytes,
   readLocalSessionBundle,
-  upsertLocalImageSession,
+  sessionStore,
   upsertLocalSnapshot,
   upsertLocalSnapshotImages,
 } from "@/lib/db/client/data/image/image";
@@ -126,7 +126,7 @@ export async function importLocalSession(
     : payload.prompt.slice(0, IMAGE_SESSION_TITLE_MAX).trim() || null;
   const firstModel = isSession ? payload.session.firstModel : payload.model;
 
-  await upsertLocalImageSession({
+  await sessionStore.upsert({
     id: sessionId,
     title,
     firstModel,

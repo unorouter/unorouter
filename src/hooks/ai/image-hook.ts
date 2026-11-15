@@ -4,17 +4,15 @@ import { IMAGE_SESSION_TITLE_MAX } from "@/lib/ai/image/constants";
 import { RETENTION_MS } from "@/lib/config/constants";
 import {
   bumpLocalSessionCounts,
-  deleteLocalImageSession,
+  sessionStore,
   deleteLocalImageSessionDeep,
   deleteLocalSnapshot,
-  readLocalImageSession,
   readLocalSessionBundle,
   readLocalSessionPreviews,
   readLocalSnapshotBySubmittedKey,
   patchLocalSnapshotCost,
   readLocalSnapshotView,
   toSnapshotView,
-  upsertLocalImageSession,
   upsertLocalSnapshot,
   upsertLocalSnapshotImages,
 } from "@/lib/db/client/data/image/image";
@@ -180,7 +178,7 @@ async function runSubmit(
 
   const existingSessionId = body.sessionId ?? "";
   const existingSession = existingSessionId
-    ? await readLocalImageSession(existingSessionId)
+    ? await sessionStore.get(existingSessionId)
     : null;
   const sessionOrder = existingSession?.snapshotCount ?? 0;
 
@@ -189,7 +187,7 @@ async function runSubmit(
 
   const sessionId = existingSessionId || uid();
   if (!existingSession) {
-    await upsertLocalImageSession({
+    await sessionStore.upsert({
       id: sessionId,
       title: body.prompt.slice(0, IMAGE_SESSION_TITLE_MAX).trim() || null,
       firstModel: body.model,
@@ -265,7 +263,7 @@ export function useDeleteSnapshotMutation() {
       const remaining = await readLocalSessionBundle(sessionId);
       const sessionDeleted = (remaining?.snapshots.length ?? 0) === 0;
       if (sessionDeleted) {
-        await deleteLocalImageSession(sessionId);
+        await sessionStore.drop(sessionId);
       } else {
         await bumpLocalSessionCounts(sessionId, {
           snapshots: -1,

@@ -19,10 +19,7 @@ import {
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import type { InlayImage } from "@/lib/ai/chat/pipeline/deps";
-import {
-  readLocalMedia,
-  upsertLocalMedia,
-} from "@/lib/db/client/data/media/media";
+import { mediaStore, upsertLocalMedia } from "@/lib/db/client/data/media/media";
 import {
   readLocalConversationSettings,
   readLocalItemsForMessage,
@@ -30,8 +27,8 @@ import {
   replaceLocalMessageItems,
 } from "@/lib/db/client/data/chat/chat";
 import { invalidateInlay } from "@/lib/db/client/data/media/inlay-render";
-import { readLocalCustomProvider } from "@/lib/db/client/data/rp/custom-providers";
-import { readLocalPreset } from "@/lib/db/client/data/rp/rp";
+import { customProviderStore } from "@/lib/db/client/data/rp/custom-providers";
+import { presetStore } from "@/lib/db/client/data/rp/rp";
 import { DEFAULT_IMAGE_INSTRUCTION } from "@/lib/ai/chat/image-style-templates";
 import { resolveModelTarget } from "@/components/pages/sidebar/chat/runtime/transport/resolve-model-target";
 
@@ -51,7 +48,7 @@ export async function resolveIllustratorSettings(
 ): Promise<IllustratorConvSettings | null> {
   const s = await readLocalConversationSettings(convId);
   if (!s) return null;
-  const preset = s.presetId ? await readLocalPreset(s.presetId) : null;
+  const preset = s.presetId ? await presetStore.get(s.presetId) : null;
   let refMediaIds = jsonArray(s.imageRefIds).filter(
     (x) => typeof x === "string",
   );
@@ -139,7 +136,7 @@ export async function requestImggen(
   if (opts.imageModel && isCustomModelId(opts.imageModel)) {
     const parsed = parseCustomModelId(opts.imageModel);
     if (!parsed) throw new Error("invalid custom model id");
-    const provider = await readLocalCustomProvider(parsed.providerId);
+    const provider = await customProviderStore.get(parsed.providerId);
     if (!provider) throw new Error("custom provider not found");
     const { generateCustomProviderImage } =
       await import("@/components/pages/sidebar/chat/illustrator/custom-image-gen");
@@ -170,7 +167,7 @@ export async function requestImggen(
 export async function resolveRefUrls(mediaIds: string[]): Promise<string[]> {
   const urls: string[] = [];
   for (const id of mediaIds.slice(0, 6)) {
-    const row = await readLocalMedia(id);
+    const row = await mediaStore.get(id);
     if (!row) continue;
     const url = row.dataBase64
       ? base64ToDataUri(row.dataBase64, row.mimeType)

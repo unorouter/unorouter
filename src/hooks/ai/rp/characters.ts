@@ -1,16 +1,13 @@
 "use client";
 
 import { upsertLocalMedia } from "@/lib/db/client/data/media/media";
-import { upsertLocalJsPlugin } from "@/lib/db/client/data/rp/js-plugins";
+import { jsPluginStore } from "@/lib/db/client/data/rp/js-plugins";
 import {
-  deleteLocalCharacter,
+  characterStore,
   findLocalLorebookCopy,
   insertLorebook,
-  readLocalCharacter,
-  readLocalCharacters,
   upsertLocalCardBundle,
   updateLocalCharacter,
-  upsertLocalCharacter,
 } from "@/lib/db/client/data/rp/rp";
 import { queryKeys } from "@/lib/react-query/keys";
 import { base64ToUint8, rec, uid, uint8ToBase64 } from "@/lib/utils/base";
@@ -32,10 +29,10 @@ const characters = makeRpEntity<
 >({
   listKey: queryKeys.characters,
   itemKey: queryKeys.character,
-  readList: readLocalCharacters,
-  readItem: readLocalCharacter,
-  upsertLocal: upsertLocalCharacter,
-  deleteLocal: deleteLocalCharacter,
+  readList: characterStore.list,
+  readItem: characterStore.get,
+  upsertLocal: characterStore.upsert,
+  deleteLocal: characterStore.drop,
 });
 
 export const useCharactersQuery = characters.useList;
@@ -86,7 +83,7 @@ async function persistCharacterSetupFromFile(
     assets.push({ name: asset.name, mediaId });
   }
 
-  await upsertLocalCharacter({
+  await characterStore.upsert({
     id: characterId,
     name: card.name,
     avatarMediaId,
@@ -325,7 +322,7 @@ async function persistImportedCard(result: ImportedResult) {
     });
   }
   for (const plugin of ("plugins" in result && result.plugins) || []) {
-    await upsertLocalJsPlugin({
+    await jsPluginStore.upsert({
       id: uid(),
       name: plugin.name,
       script: plugin.script,

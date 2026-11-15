@@ -2,15 +2,12 @@
 
 import {
   readConvHistoryForSend,
-  readLocalConversation,
+  conversationStore,
   readLocalConversationBindings,
   readLocalConversationSettings,
   readPrimaryCharacter,
 } from "@/lib/db/client/data/chat/chat";
-import {
-  readLocalCharacter,
-  readLocalPersona,
-} from "@/lib/db/client/data/rp/rp";
+import { characterStore, personaStore } from "@/lib/db/client/data/rp/rp";
 import { uid } from "@/lib/utils/base";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { chatStore, convIdAtom, getThreadRuntime } from "@/store/chat-store";
@@ -106,7 +103,7 @@ async function snapshot(): Promise<{
 }> {
   if (!convId) return { title: "", characterName: null, messages: [] };
   const [conv, history] = await Promise.all([
-    readLocalConversation(convId),
+    conversationStore.get(convId),
     readConvHistoryForSend(convId),
   ]);
   const messages = history.branch.map((m) => {
@@ -132,7 +129,7 @@ async function hostPersonaName(): Promise<string> {
   const settings = await readLocalConversationSettings(convId);
   const personaId = settings?.personaId;
   if (!personaId) return "User";
-  const persona = await readLocalPersona(personaId);
+  const persona = await personaStore.get(personaId);
   return persona?.name || "User";
 }
 
@@ -258,7 +255,7 @@ async function loadSpeakerNames() {
   if (!convId) return;
   const bindings = await readLocalConversationBindings(convId);
   for (const bound of bindings?.conversationCharacters ?? []) {
-    const row = await readLocalCharacter(bound.characterId);
+    const row = await characterStore.get(bound.characterId);
     if (row?.name) groupNames.set(bound.characterId, row.name);
   }
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { mediaBlobUrl } from "@/lib/db/client/data/media/blob-url";
-import { readLocalMedia } from "@/lib/db/client/data/media/media";
+import { mediaStore } from "@/lib/db/client/data/media/media";
 import { queryKeys } from "@/lib/react-query/keys";
 import { useQuery } from "@tanstack/react-query";
 
@@ -11,7 +11,7 @@ function useMediaQuery(mediaId: string | null | undefined) {
     enabled: !!mediaId,
     queryFn: async () => {
       if (!mediaId) return null;
-      const row = await readLocalMedia(mediaId);
+      const row = await mediaStore.get(mediaId);
       if (!row?.dataBase64) return null;
       // A blob URL keeps megabytes of base64 out of the query cache. Never
       // revoked: one id renders in several places at once.

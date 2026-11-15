@@ -12,12 +12,11 @@ import { invalidateInlay } from "@/lib/db/client/data/media/inlay-render";
 import {
   readConvRegexScripts,
   readConvTriggers,
-  readLocalConversation,
+  conversationStore,
   readLocalConversationSettings,
   readLocalMessages,
   bumpLocalConversationTotals,
   updateLocalConversationSettings,
-  upsertLocalConversation,
   updateLocalMessage,
   upsertLocalMessage,
   upsertLocalMessageItem,
@@ -724,9 +723,9 @@ export function createChatHistoryAdapter(
           createdAt: existingRow?.createdAt ?? now,
           updatedAt: now,
         };
-        const existingConv = await readLocalConversation(id);
+        const existingConv = await conversationStore.get(id);
         if (!existingConv) {
-          await upsertLocalConversation({
+          await conversationStore.upsert({
             id,
             title: null,
             totalInputTokens: 0,

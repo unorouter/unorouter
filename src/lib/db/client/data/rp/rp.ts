@@ -22,38 +22,32 @@ import { LOREBOOK_INJECTION_ROLES } from "@/lib/validation/rp";
 
 const isInjectionRole = isOneOf(LOREBOOK_INJECTION_ROLES);
 
-const characterStore = makeTableStore(characters, characters.id, {
+export const characterStore = makeTableStore(characters, characters.id, {
   defaultOrderBy: [desc(characters.isFavorite), desc(characters.updatedAt)],
 });
-const personaStore = makeTableStore(personas, personas.id, {
+export const personaStore = makeTableStore(personas, personas.id, {
   defaultOrderBy: [desc(personas.isFavorite), desc(personas.updatedAt)],
 });
-const lorebookStore = makeTableStore(lorebooks, lorebooks.id, {
+export const lorebookStore = makeTableStore(lorebooks, lorebooks.id, {
   defaultOrderBy: [desc(lorebooks.isFavorite), desc(lorebooks.updatedAt)],
 });
-const presetStore = makeTableStore(samplingPresets, samplingPresets.id, {
+export const presetStore = makeTableStore(samplingPresets, samplingPresets.id, {
   defaultOrderBy: [
     desc(samplingPresets.isFavorite),
     desc(samplingPresets.updatedAt),
   ],
 });
-const cardStore = makeTableStore(cards, cards.id, {
+export const cardStore = makeTableStore(cards, cards.id, {
   defaultOrderBy: [desc(cards.isFavorite), desc(cards.updatedAt)],
 });
 
-const lorebookEntryStore = makeTableStore(lorebookEntries, lorebookEntries.id, {
-  defaultOrderBy: asc(lorebookEntries.orderIndex),
-});
-export const readLocalCharacters = () => characterStore.list();
-export const readLocalCharacter = (id: string) => characterStore.get(id);
-
-export const readLocalPersonas = () => personaStore.list();
-export const readLocalPersona = (id: string) => personaStore.get(id);
-
-export const readLocalLorebooks = () => lorebookStore.list();
-
-export const readLocalPresets = () => presetStore.list();
-export const readLocalPreset = (id: string) => presetStore.get(id);
+export const lorebookEntryStore = makeTableStore(
+  lorebookEntries,
+  lorebookEntries.id,
+  {
+    defaultOrderBy: asc(lorebookEntries.orderIndex),
+  },
+);
 
 export async function readLocalCards() {
   const local = await getLocalDb();
@@ -110,7 +104,7 @@ export async function findLocalLorebookCopy(
   entries: { keys?: string[] | null; content: string }[],
 ): Promise<string | null> {
   const want = entries.map(entryKey).sort().join("\n");
-  for (const book of (await readLocalLorebooks()) ?? []) {
+  for (const book of (await lorebookStore.list()) ?? []) {
     if (book.name !== name) continue;
     const existing = await readLocalLorebook(book.id);
     if (existing?.entries.map(entryKey).sort().join("\n") === want)
@@ -137,27 +131,10 @@ export async function readLocalCard(id: string) {
   if (!rows[0]) return null;
   return { ...rows[0], cardCharacters: chars, cardLorebooks: lbs };
 }
-export const upsertLocalCharacter = (row: LocalRowInput & { id: string }) =>
-  characterStore.upsert(row);
 export const updateLocalCharacter = (
   id: string,
   patch: Partial<typeof characters.$inferInsert>,
 ) => characterStore.update(id, patch);
-export const deleteLocalCharacter = (id: string) => characterStore.drop(id);
-
-export const upsertLocalPersona = (row: LocalRowInput & { id: string }) =>
-  personaStore.upsert(row);
-export const deleteLocalPersona = (id: string) => personaStore.drop(id);
-
-export const upsertLocalLorebook = (row: LocalRowInput & { id: string }) =>
-  lorebookStore.upsert(row);
-export const deleteLocalLorebook = (id: string) => lorebookStore.drop(id);
-
-export const upsertLocalPreset = (row: LocalRowInput & { id: string }) =>
-  presetStore.upsert(row);
-export const deleteLocalPreset = (id: string) => presetStore.drop(id);
-
-export const deleteLocalCard = (id: string) => cardStore.drop(id);
 
 const favoriteStores = {
   character: characterStore,
@@ -178,8 +155,6 @@ export const setLocalFavorite = (
 export const upsertLocalLorebookEntry = (
   row: LocalRowInput & { id: string; lorebookId: string },
 ) => lorebookEntryStore.upsert(row);
-export const deleteLocalLorebookEntry = (entryId: string) =>
-  lorebookEntryStore.drop(entryId);
 export async function upsertLocalLorebookBundle(bundle: {
   lorebook: AnyRow;
   entries: AnyRow[];

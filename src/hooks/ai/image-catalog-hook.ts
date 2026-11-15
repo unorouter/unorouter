@@ -6,7 +6,7 @@ import { rpc } from "@/lib/rpc";
 import type { CatalogSearchQuery } from "@/lib/validation/image";
 import { handleElysia } from "@/lib/utils/base";
 import {
-  readLocalImageModels,
+  imageModelStore,
   rememberLocalImageModel,
 } from "@/lib/db/client/data/image/image";
 import {
@@ -56,7 +56,7 @@ export function useCheckpointSearchQuery(q: string) {
 export function useSavedImageModelsQuery() {
   return useQuery({
     queryKey: queryKeys.savedImageModels(),
-    queryFn: () => readLocalImageModels(),
+    queryFn: () => imageModelStore.list(),
   });
 }
 

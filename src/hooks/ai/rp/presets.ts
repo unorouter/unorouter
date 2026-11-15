@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  deleteLocalPreset,
-  readLocalPreset,
-  readLocalPresets,
-  upsertLocalPreset,
-} from "@/lib/db/client/data/rp/rp";
+import { presetStore } from "@/lib/db/client/data/rp/rp";
 import { msg } from "@/lib/config/constants";
 import { queryKeys } from "@/lib/react-query/keys";
 import { useApiMutation } from "@/lib/react-query/hooks";
@@ -21,10 +16,10 @@ const presets = makeRpEntity<
 >({
   listKey: queryKeys.presets,
   itemKey: queryKeys.preset,
-  readList: readLocalPresets,
-  readItem: readLocalPreset,
-  upsertLocal: upsertLocalPreset,
-  deleteLocal: deleteLocalPreset,
+  readList: presetStore.list,
+  readItem: presetStore.get,
+  upsertLocal: presetStore.upsert,
+  deleteLocal: presetStore.drop,
 });
 
 export const usePresetsQuery = presets.useList;
@@ -49,7 +44,7 @@ export function useImportPresetMutation() {
       ).parsePresetJson(raw, fallbackName || "Imported preset");
       if (!parsed) throw new Error(msg("ERRORS.PRESET_UNRECOGNIZED"));
       const now = dayjs().toDate();
-      await upsertLocalPreset({
+      await presetStore.upsert({
         ...parsed,
         id: uid(),
         createdAt: now,

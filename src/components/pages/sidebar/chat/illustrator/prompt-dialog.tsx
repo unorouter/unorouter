@@ -10,10 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  readLocalMedia,
-  upsertLocalMedia,
-} from "@/lib/db/client/data/media/media";
+import { mediaStore, upsertLocalMedia } from "@/lib/db/client/data/media/media";
 import { invalidateInlay } from "@/lib/db/client/data/media/inlay-render";
 import { handleError } from "@/lib/utils/client";
 import { chatStore } from "@/store/chat-store";
@@ -52,7 +49,7 @@ function ImagePromptEditor(props: { request: ImagePromptRequest }) {
   useEffect(() => {
     if (request.mode !== "media") return;
     let cancelled = false;
-    void readLocalMedia(request.mediaId).then((row) => {
+    void mediaStore.get(request.mediaId).then((row) => {
       if (cancelled) return;
       setPrompt(row?.promptText ?? "");
       setConvId(row?.convId ?? null);

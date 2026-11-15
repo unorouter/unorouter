@@ -3,7 +3,7 @@
 import { chatStore } from "@/store/chat-store";
 import { atom, type PrimitiveAtom } from "jotai";
 import {
-  readLocalMedia,
+  mediaStore,
   setLocalMediaDimensions,
 } from "@/lib/db/client/data/media/media";
 import {
@@ -86,7 +86,8 @@ export function tokenMarkdown(
 function requestInlay(id: string): void {
   if (cache.has(id) || pending.has(id)) return;
   pending.add(id);
-  void readLocalMedia(id)
+  void mediaStore
+    .get(id)
     .then(async (row) => {
       const src =
         (row?.dataBase64

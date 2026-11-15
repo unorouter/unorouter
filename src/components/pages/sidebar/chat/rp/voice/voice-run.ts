@@ -1,10 +1,10 @@
 "use client";
 
 import {
-  readLocalConversation,
-  readLocalMessage,
+  conversationStore,
+  messageStore,
 } from "@/lib/db/client/data/chat/chat";
-import { readLocalCharacter } from "@/lib/db/client/data/rp/rp";
+import { characterStore } from "@/lib/db/client/data/rp/rp";
 import { readLocalVoiceSettings } from "@/lib/db/client/data/voice";
 import { speak } from "@/components/pages/sidebar/chat/rp/voice/speak";
 
@@ -18,8 +18,8 @@ export async function speakMessage(
   const settings = await readLocalVoiceSettings();
   if (!settings?.apiKey) return;
   const charId =
-    characterId ?? (await readLocalMessage(messageId))?.characterId ?? null;
-  const character = charId ? await readLocalCharacter(charId) : null;
+    characterId ?? (await messageStore.get(messageId))?.characterId ?? null;
+  const character = charId ? await characterStore.get(charId) : null;
   await speak(messageId, settings, text, character?.voiceId ?? null);
 }
 
@@ -31,6 +31,6 @@ export async function autoplayReply(
 ): Promise<void> {
   const settings = await readLocalVoiceSettings();
   if (!settings?.autoplay || !settings.apiKey) return;
-  if ((await readLocalConversation(convId))?.voiceEnabled === false) return;
+  if ((await conversationStore.get(convId))?.voiceEnabled === false) return;
   await speakMessage(messageId, text, characterId);
 }

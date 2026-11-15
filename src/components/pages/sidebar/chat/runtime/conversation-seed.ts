@@ -3,15 +3,15 @@
 import {
   replaceLocalConversationBindings,
   updateLocalConversationSettings,
-  upsertLocalConversation,
+  conversationStore,
   upsertLocalMessage,
   upsertLocalMessageItem,
 } from "@/lib/db/client/data/chat/chat";
 import {
-  readLocalCharacter,
+  characterStore,
   readLocalLorebook,
-  readLocalPersona,
-  readLocalPreset,
+  personaStore,
+  presetStore,
 } from "@/lib/db/client/data/rp/rp";
 import { resolveGreetingSource } from "@/lib/ai/chat/greeting-source";
 import { expandMacros } from "@/lib/ai/chat/macros";
@@ -92,11 +92,11 @@ async function seed(args: SeedArgs): Promise<void> {
   const seedField = <K extends keyof typeof defaults>(key: K) =>
     hasPreset ? null : (defaults[key] ?? null);
   const boundPreset = loadout.presetId
-    ? await readLocalPreset(loadout.presetId)
+    ? await presetStore.get(loadout.presetId)
     : null;
   const seedMaxTokens =
     boundPreset?.maxTokens != null ? null : (defaults.maxTokens ?? null);
-  await upsertLocalConversation({
+  await conversationStore.upsert({
     id,
     title: null,
     totalInputTokens: 0,
@@ -172,10 +172,10 @@ async function seed(args: SeedArgs): Promise<void> {
   }
 
   const character = loadout.characterIds[0]
-    ? await readLocalCharacter(loadout.characterIds[0])
+    ? await characterStore.get(loadout.characterIds[0])
     : null;
   const persona = loadout.personaId
-    ? await readLocalPersona(loadout.personaId)
+    ? await personaStore.get(loadout.personaId)
     : null;
   const greetingBooks: LorebookRow[] = [];
   if (!character?.firstMessage) {

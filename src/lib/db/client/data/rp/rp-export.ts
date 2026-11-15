@@ -16,13 +16,13 @@ import {
 import { Value } from "@sinclair/typebox/value";
 import {
   readLocalCard,
-  readLocalCharacter,
+  characterStore,
   readLocalLorebook,
-  readLocalPersona,
-  readLocalPreset,
+  personaStore,
+  presetStore,
 } from "@/lib/db/client/data/rp/rp";
-import { readLocalJsPlugin } from "@/lib/db/client/data/rp/js-plugins";
-import { readLocalMedia } from "@/lib/db/client/data/media/media";
+import { jsPluginStore } from "@/lib/db/client/data/rp/js-plugins";
+import { mediaStore } from "@/lib/db/client/data/media/media";
 
 type LocalExportResult = {
   blob: Blob;
@@ -33,7 +33,7 @@ async function loadAvatar(
   avatarMediaId: string | null,
 ): Promise<{ data: Uint8Array; mime: string } | null> {
   if (!avatarMediaId) return null;
-  const row = await readLocalMedia(avatarMediaId);
+  const row = await mediaStore.get(avatarMediaId);
   if (!row) return null;
   if (row.dataBase64) {
     return { data: base64ToUint8(row.dataBase64), mime: row.mimeType };
@@ -95,7 +95,7 @@ export async function exportLocalCharacter(
   id: string,
   format: CharacterExportFormat,
 ): Promise<LocalExportResult> {
-  const row = await readLocalCharacter(id);
+  const row = await characterStore.get(id);
   if (!row) throw new Error("Character not found");
 
   const slug = exportSlug(row.name, "character");
@@ -142,7 +142,7 @@ export async function exportLocalLorebook(
 export async function exportLocalPreset(
   id: string,
 ): Promise<LocalExportResult> {
-  const row = await readLocalPreset(id);
+  const row = await presetStore.get(id);
   if (!row) throw new Error("Preset not found");
   const portable = Value.Clean(samplingPresetBody, structuredClone(row));
   const slug = exportSlug(row.name, "preset");
@@ -155,7 +155,7 @@ export async function exportLocalPreset(
 export async function exportLocalPersona(
   id: string,
 ): Promise<LocalExportResult> {
-  const row = await readLocalPersona(id);
+  const row = await personaStore.get(id);
   if (!row) throw new Error("Persona not found");
   const portable = {
     name: row.name,
@@ -173,7 +173,7 @@ export async function exportLocalPersona(
 export async function exportLocalPlugin(
   id: string,
 ): Promise<LocalExportResult> {
-  const row = await readLocalJsPlugin(id);
+  const row = await jsPluginStore.get(id);
   if (!row) throw new Error("Plugin not found");
   return {
     blob: new Blob([row.script], { type: "text/javascript" }),

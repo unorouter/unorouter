@@ -35,10 +35,10 @@ import type { InferInsertModel } from "drizzle-orm";
 import { getLocalDb } from "@/lib/db/client/client";
 import { readLocalRequestLogsForConv } from "@/lib/db/client/data/chat/request-log";
 import {
-  readLocalCharacter,
+  characterStore,
   readLocalLorebookBundle,
-  readLocalPersona,
-  readLocalPreset,
+  personaStore,
+  presetStore,
 } from "@/lib/db/client/data/rp/rp";
 import {
   makeTableStore,
@@ -53,9 +53,11 @@ import type {
   LocalRowInput,
 } from "@/lib/types";
 
-const conversationStore = makeTableStore(conversations, conversations.id);
-const messageStore = makeTableStore(messages, messages.id);
-export const readLocalMessage = (id: string) => messageStore.get(id);
+export const conversationStore = makeTableStore(
+  conversations,
+  conversations.id,
+);
+export const messageStore = makeTableStore(messages, messages.id);
 const messageItemStore = makeTableStore(messageItems, messageItems.id);
 
 export const readLocalConversations = async () => {
@@ -77,7 +79,7 @@ export const readLocalConversations = async () => {
     .orderBy(desc(conversations.updatedAt));
 };
 
-const chatGroupStore = makeTableStore(chatGroups, chatGroups.id);
+export const chatGroupStore = makeTableStore(chatGroups, chatGroups.id);
 
 export const readLocalChatGroups = async () => {
   const local = await getLocalDb();
@@ -87,9 +89,6 @@ export const readLocalChatGroups = async () => {
     .from(chatGroups)
     .orderBy(asc(chatGroups.orderIndex), asc(chatGroups.createdAt));
 };
-
-export const upsertLocalChatGroup = (row: LocalRowInput & { id: string }) =>
-  chatGroupStore.upsert(row);
 
 // Chats and subgroups move up one level, so deleting a top-level group
 // ungroups them.
@@ -127,8 +126,6 @@ export const setChatGroupFolded = (groupId: string, folded: boolean) =>
 
 export const setConversationGroup = (convId: string, groupId: string | null) =>
   conversationStore.update(convId, { groupId });
-
-export const readLocalConversation = (id: string) => conversationStore.get(id);
 
 export const readLocalConversationSettings = async (convId: string) => {
   const conv = await conversationStore.get(convId);
@@ -302,7 +299,7 @@ async function readLocalConversationMedia(convId: string) {
 }
 
 export async function readLocalConversationBundle(convId: string) {
-  const conv = await readLocalConversation(convId);
+  const conv = await conversationStore.get(convId);
   if (!conv) return null;
   const settings = projectConversationSettings(conv);
   const [bindings, msgs, items, mediaRows, reqLogRows] = await Promise.all([
@@ -320,10 +317,10 @@ export async function readLocalConversationBundle(convId: string) {
     (b) => b.lorebookId,
   );
   const [characterRows, lorebookRows, persona, preset] = await Promise.all([
-    Promise.all(characterIds.map((id) => readLocalCharacter(id))),
+    Promise.all(characterIds.map((id) => characterStore.get(id))),
     Promise.all(lorebookIds.map((id) => readLocalLorebookBundle(id))),
-    settings.personaId ? readLocalPersona(settings.personaId) : null,
-    settings.presetId ? readLocalPreset(settings.presetId) : null,
+    settings.personaId ? personaStore.get(settings.personaId) : null,
+    settings.presetId ? presetStore.get(settings.presetId) : null,
   ]);
   const characters = characterRows.filter((c) => c != null);
   const lorebooks = lorebookRows.filter((l) => l != null);
@@ -343,12 +340,6 @@ export async function readLocalConversationBundle(convId: string) {
     presets: preset ? [preset] : [],
   };
 }
-
-export const upsertLocalConversation = (row: LocalRowInput & { id: string }) =>
-  conversationStore.upsert(row);
-
-export const deleteLocalConversation = (id: string) =>
-  conversationStore.drop(id);
 
 export async function bumpLocalConversationTotals(
   convId: string,

@@ -6,9 +6,9 @@ import {
   readPrimaryCharacter,
 } from "@/lib/db/client/data/chat/chat";
 import {
-  readLocalCharacter,
-  readLocalPersona,
-  readLocalPreset,
+  characterStore,
+  personaStore,
+  presetStore,
 } from "@/lib/db/client/data/rp/rp";
 import { NONE_VALUE } from "@/lib/config/constants";
 import { textOf } from "@/lib/ai/chat/pipeline/transforms";
@@ -57,7 +57,7 @@ function clean(raw: string, user: string, char: string): string {
 
 async function firstLoadoutCharacter(ids: string[]) {
   for (const id of ids) {
-    const row = await readLocalCharacter(id);
+    const row = await characterStore.get(id);
     if (row) return row;
   }
   return null;
@@ -73,7 +73,7 @@ export async function runImpersonate(
     id && id !== NONE_VALUE ? id : null;
 
   const personaId = bound(settings?.personaId) ?? bound(loadout.personaId);
-  const persona = personaId ? await readLocalPersona(personaId) : null;
+  const persona = personaId ? await personaStore.get(personaId) : null;
   const character = convId
     ? await readPrimaryCharacter(convId)
     : await firstLoadoutCharacter(loadout.characterIds);
@@ -81,7 +81,7 @@ export async function runImpersonate(
   const charName = character?.name || "the character";
 
   const presetId = bound(settings?.presetId) ?? bound(loadout.presetId);
-  const preset = presetId ? await readLocalPreset(presetId) : null;
+  const preset = presetId ? await presetStore.get(presetId) : null;
   const custom = preset?.impersonatePrompt?.trim();
   const direction = draft.trim();
   const base = [custom || IMPERSONATE_PROMPT, direction && DIRECTION_LINE]

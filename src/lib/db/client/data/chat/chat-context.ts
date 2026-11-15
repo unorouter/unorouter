@@ -6,10 +6,10 @@ import {
   readLocalConversationSettings,
 } from "@/lib/db/client/data/chat/chat";
 import {
-  readLocalCharacter,
+  characterStore,
   readLocalLorebookBundle,
-  readLocalPersona,
-  readLocalPreset,
+  personaStore,
+  presetStore,
 } from "@/lib/db/client/data/rp/rp";
 
 export async function buildChatContextFromLocalDb(
@@ -31,15 +31,15 @@ export async function buildChatContextFromLocalDb(
     Promise.all(
       charBindings.map(async (b) => ({
         binding: b,
-        character: await readLocalCharacter(b.characterId),
+        character: await characterStore.get(b.characterId),
       })),
     ),
     Promise.all(lorebookIds.map((id) => readLocalLorebookBundle(id))),
     settings.personaId
-      ? readLocalPersona(settings.personaId)
+      ? personaStore.get(settings.personaId)
       : Promise.resolve(null),
     settings.presetId
-      ? readLocalPreset(settings.presetId)
+      ? presetStore.get(settings.presetId)
       : Promise.resolve(null),
   ]);
   const boundCharacters = characterRows.flatMap((c, i) =>

@@ -1,7 +1,7 @@
 "use client";
 
 import { ADETAILER_DEFAULTS } from "../fields/adetailer-section";
-import { readLocalMedia } from "@/lib/db/client/data/media/media";
+import { mediaStore } from "@/lib/db/client/data/media/media";
 import type { SnapshotView } from "@/lib/types";
 import { restoreSnapshotIntoFormAtom } from "@/store/image-store";
 import { useSetAtom } from "jotai";
@@ -25,7 +25,7 @@ export function useSnapshotRestoreActions(data: SnapshotView | undefined) {
   const durableInitUrl = async (src: string): Promise<string | undefined> => {
     const image = data?.images.find((i) => i.src === src);
     if (!image) return src;
-    const row = await readLocalMedia(image.id);
+    const row = await mediaStore.get(image.id);
     if (!row?.dataBase64) return src;
     return `data:${row.mimeType};base64,${row.dataBase64}`;
   };

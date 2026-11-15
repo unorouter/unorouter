@@ -6,7 +6,7 @@ import {
   readLocalConversationSettings,
   readLocalMessages,
 } from "@/lib/db/client/data/chat/chat";
-import { readLocalCharacter } from "@/lib/db/client/data/rp/rp";
+import { characterStore } from "@/lib/db/client/data/rp/rp";
 import { rec, recArr } from "@/lib/utils/base";
 
 function sendArgText(arg: unknown): string {
@@ -35,7 +35,7 @@ export async function computeSpeakingOrder(
 
   const members = await Promise.all(
     active.map(async (b) => {
-      const ch = await readLocalCharacter(b.characterId);
+      const ch = await characterStore.get(b.characterId);
       return {
         id: b.characterId,
         name: ch?.name ?? "",

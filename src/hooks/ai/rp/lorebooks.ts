@@ -3,17 +3,15 @@
 import { useApiMutation } from "@/lib/react-query/hooks";
 
 import { msg } from "@/lib/config/constants";
-import { upsertLocalJsPlugin } from "@/lib/db/client/data/rp/js-plugins";
+import { jsPluginStore } from "@/lib/db/client/data/rp/js-plugins";
 import {
-  deleteLocalLorebook,
-  deleteLocalLorebookEntry,
+  lorebookStore,
+  lorebookEntryStore,
   insertLorebook,
   readLocalLorebook,
-  readLocalLorebooks,
-  upsertLocalLorebook,
   upsertLocalLorebookBundle,
   upsertLocalLorebookEntry,
-  upsertLocalPreset,
+  presetStore,
 } from "@/lib/db/client/data/rp/rp";
 import type { LorebookRow } from "@/lib/db/schema/rows";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -35,10 +33,10 @@ const lorebooks = makeRpEntity<
 >({
   listKey: queryKeys.lorebooks,
   itemKey: queryKeys.lorebook,
-  readList: readLocalLorebooks,
+  readList: lorebookStore.list,
   readItem: readLocalLorebook,
-  upsertLocal: upsertLocalLorebook,
-  deleteLocal: deleteLocalLorebook,
+  upsertLocal: lorebookStore.upsert,
+  deleteLocal: lorebookStore.drop,
   cloneEntity: async (detail, newId, copyName) => {
     const now = dayjs().toDate();
     const { entries, ...book } = detail;
@@ -77,7 +75,7 @@ export function useUpdateLorebookMutation() {
       const now = dayjs().toDate();
       const { entries: _entries, ...existingRow } = existing;
       const updated = { ...existingRow, ...args.body, updatedAt: now };
-      await upsertLocalLorebook(updated);
+      await lorebookStore.upsert(updated);
       return updated;
     },
     invalidates: (args) => [queryKeys.lorebooks(), queryKeys.lorebook(args.id)],
@@ -189,7 +187,7 @@ export function useReorderLorebookEntriesMutation(lorebookId: string) {
 export function useDeleteLorebookEntryMutation(lorebookId: string) {
   return useApiMutation({
     mutationFn: async (entryId: string) => {
-      await deleteLocalLorebookEntry(entryId);
+      await lorebookEntryStore.drop(entryId);
       return { id: entryId };
     },
     invalidates: [queryKeys.lorebook(lorebookId)],
@@ -208,7 +206,7 @@ export function useImportLorebookFromUrlMutation() {
         )[0];
         if (plugin) {
           const now = dayjs().toDate();
-          await upsertLocalJsPlugin({
+          await jsPluginStore.upsert({
             id: uid(),
             name: plugin.name,
             script: plugin.script,
@@ -227,7 +225,7 @@ export function useImportLorebookFromUrlMutation() {
         )[0];
         if (preset) {
           const now = dayjs().toDate();
-          await upsertLocalPreset({
+          await presetStore.upsert({
             id: uid(),
             name: preset.name,
             promptTemplate: preset.promptTemplate,

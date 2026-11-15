@@ -4,11 +4,7 @@ import { media } from "@/lib/db/schema/shared";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { makeTableStore } from "@/lib/db/client/data/table-store";
 
-const mediaStore = makeTableStore(media, media.id);
-
-export const readLocalMedia = (id: string) => mediaStore.get(id);
-
-export const deleteLocalMedia = (id: string) => mediaStore.drop(id);
+export const mediaStore = makeTableStore(media, media.id);
 
 export const setLocalMediaDimensions = (
   id: string,

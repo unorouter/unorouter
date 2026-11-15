@@ -14,10 +14,10 @@ import {
   upsertLocalConversationBundle,
 } from "@/lib/db/client/data/chat/chat";
 import {
-  upsertLocalCharacter,
+  characterStore,
   upsertLocalLorebookBundle,
-  upsertLocalPersona,
-  upsertLocalPreset,
+  personaStore,
+  presetStore,
 } from "@/lib/db/client/data/rp/rp";
 import { type MappedImport } from "./map";
 
@@ -156,10 +156,10 @@ export function toOrpg(native: NativeExport) {
 export async function persistMappedImport(
   mapped: MappedImport,
 ): Promise<{ id: string }> {
-  if (mapped.persona) await upsertLocalPersona(mapped.persona);
-  if (mapped.preset) await upsertLocalPreset(mapped.preset);
+  if (mapped.persona) await personaStore.upsert(mapped.persona);
+  if (mapped.preset) await presetStore.upsert(mapped.preset);
   for (const c of mapped.characters) {
-    await upsertLocalCharacter(c);
+    await characterStore.upsert(c);
   }
   for (const lb of mapped.lorebooks) {
     await upsertLocalLorebookBundle(lb);

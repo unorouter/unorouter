@@ -1,7 +1,7 @@
 "use client";
 
-import { readLocalJsPlugins } from "@/lib/db/client/data/rp/js-plugins";
-import { readLocalPreset } from "@/lib/db/client/data/rp/rp";
+import { jsPluginStore } from "@/lib/db/client/data/rp/js-plugins";
+import { presetStore } from "@/lib/db/client/data/rp/rp";
 import type { CrashLoadout } from "@/lib/utils/chat-debug-log";
 import {
   chatLoadoutAtom,
@@ -29,8 +29,8 @@ export async function collectCrashLoadout(): Promise<CrashLoadout> {
   let presetName: string | null = null;
   let plugins: CrashLoadout["plugins"] = [];
   try {
-    if (presetId) presetName = (await readLocalPreset(presetId))?.name ?? null;
-    plugins = ((await readLocalJsPlugins()) ?? []).map((p) => ({
+    if (presetId) presetName = (await presetStore.get(presetId))?.name ?? null;
+    plugins = ((await jsPluginStore.list()) ?? []).map((p) => ({
       name: p.name,
       kind: p.kind,
       enabled: p.enabled,

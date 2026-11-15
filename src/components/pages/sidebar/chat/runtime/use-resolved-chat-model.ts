@@ -5,7 +5,7 @@ import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { usePricingCatalogQuery } from "@/hooks/models/pricing-hook";
 import { useHydrated } from "@/hooks/ui/use-hydrated";
 import {
-  readLocalConversation,
+  conversationStore,
   updateLocalConversationSettings,
 } from "@/lib/db/client/data/chat/chat";
 import { invalidateAndBroadcast } from "@/lib/react-query/cross-tab-invalidate";
@@ -83,7 +83,7 @@ export function useResolvedChatModel(remoteId: string | null | undefined) {
       );
       if (cached?.model === newModel) return;
       void (async () => {
-        const conv = await readLocalConversation(id);
+        const conv = await conversationStore.get(id);
         if (!conv) return;
         await updateLocalConversationSettings({
           convId: id,

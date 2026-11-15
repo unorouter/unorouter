@@ -9,7 +9,7 @@ import { messageItems as messageItemsTable } from "@/lib/db/schema/shared";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { upsertLocalConversationBundle } from "@/lib/db/client/data/chat/chat";
 import {
-  upsertLocalCharacter,
+  characterStore,
   upsertLocalLorebookBundle,
 } from "@/lib/db/client/data/rp/rp";
 import { upsertLocalMedia } from "@/lib/db/client/data/media/media";
@@ -374,7 +374,7 @@ async function writeCharacter(character: JaiCharacter): Promise<string | null> {
     });
   }
 
-  await upsertLocalCharacter({
+  await characterStore.upsert({
     id: characterId,
     name,
     avatarMediaId,

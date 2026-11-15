@@ -1,14 +1,14 @@
 "use client";
 
 import { readLocalConversationBindings } from "@/lib/db/client/data/chat/chat";
-import { readLocalMedia } from "@/lib/db/client/data/media/media";
+import { mediaStore } from "@/lib/db/client/data/media/media";
 import {
   makeBump,
   measuredDims,
   tokenMarkdown,
 } from "@/lib/db/client/data/media/inlay-render";
 import { mediaBlobUrl } from "@/lib/db/client/data/media/blob-url";
-import { readLocalCharacter } from "@/lib/db/client/data/rp/rp";
+import { characterStore } from "@/lib/db/client/data/rp/rp";
 import { chatStore, convIdAtom } from "@/store/chat-store";
 import { atom } from "jotai";
 
@@ -36,7 +36,7 @@ async function resolveName(convId: string, nameLower: string): Promise<void> {
   const charIds = (bindings?.conversationCharacters ?? []).map(
     (c) => c.characterId,
   );
-  const chars = await Promise.all(charIds.map((id) => readLocalCharacter(id)));
+  const chars = await Promise.all(charIds.map((id) => characterStore.get(id)));
   let mediaId: string | undefined;
   for (const char of chars) {
     const hit = (char?.assets ?? []).find(
@@ -51,7 +51,7 @@ async function resolveName(convId: string, nameLower: string): Promise<void> {
     cache.set(key(convId, nameLower), { src: "", width: null, height: null });
     return;
   }
-  const row = await readLocalMedia(mediaId);
+  const row = await mediaStore.get(mediaId);
   const k = key(convId, nameLower);
   const src = row?.dataBase64
     ? mediaBlobUrl(k, row.dataBase64, row.mimeType)

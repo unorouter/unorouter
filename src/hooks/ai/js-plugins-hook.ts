@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  deleteLocalJsPlugin,
-  readLocalJsPlugin,
-  readLocalJsPlugins,
-  upsertLocalJsPlugin,
-} from "@/lib/db/client/data/rp/js-plugins";
+import { jsPluginStore } from "@/lib/db/client/data/rp/js-plugins";
 import { insertLorebook } from "@/lib/db/client/data/rp/rp";
 import { detectPluginKind } from "@/lib/ai/chat/plugins/engine";
 import { msg } from "@/lib/config/constants";
@@ -25,10 +20,10 @@ const jsPlugins = makeRpEntity<
 >({
   listKey: queryKeys.jsPlugins,
   itemKey: queryKeys.jsPlugin,
-  readList: readLocalJsPlugins,
-  readItem: readLocalJsPlugin,
-  upsertLocal: upsertLocalJsPlugin,
-  deleteLocal: deleteLocalJsPlugin,
+  readList: jsPluginStore.list,
+  readItem: jsPluginStore.get,
+  upsertLocal: jsPluginStore.upsert,
+  deleteLocal: jsPluginStore.drop,
 });
 
 export const useJsPluginsQuery = jsPlugins.useList;
@@ -49,7 +44,7 @@ export function useImportJsPluginFromUrlMutation() {
           "plugin" in r ? [r.plugin] : [],
         )[0];
         if (plugin) {
-          await upsertLocalJsPlugin({
+          await jsPluginStore.upsert({
             id: uid(),
             name: plugin.name,
             script: plugin.script,

@@ -10,7 +10,7 @@ import {
   readLocalRequestLogsForConv,
 } from "@/lib/db/client/data/chat/request-log";
 import { activeTokenizerState } from "@/lib/ai/chat/tokenizer";
-import { readLocalJsPlugins } from "@/lib/db/client/data/rp/js-plugins";
+import { jsPluginStore } from "@/lib/db/client/data/rp/js-plugins";
 import {
   getCaughtErrors,
   getChatDebugLog,
@@ -22,7 +22,7 @@ import {
 import { chatStore, convIdAtom, historyLoadedAtom } from "@/store/chat-store";
 import { dayjs } from "@/lib/utils/format/date";
 import { RELEASE } from "@/lib/utils/client-runtime-guards";
-import { readLocalPresets } from "@/lib/db/client/data/rp/rp";
+import { presetStore } from "@/lib/db/client/data/rp/rp";
 
 type TableStorageStat = {
   table: string;
@@ -275,7 +275,7 @@ async function buildDiagnosticsHead() {
 
   let presets: unknown[] = [];
   try {
-    presets = ((await readLocalPresets()) ?? []).map((p) => ({
+    presets = ((await presetStore.list()) ?? []).map((p) => ({
       id: p.id,
       name: p.name,
       chatMemory: p.chatMemory,
@@ -405,7 +405,7 @@ const PLUGIN_HOOKS = [
 
 async function describeJsPlugins() {
   try {
-    const rows = (await readLocalJsPlugins()) ?? [];
+    const rows = (await jsPluginStore.list()) ?? [];
     return rows.map((p) => ({
       id: p.id,
       name: p.name,

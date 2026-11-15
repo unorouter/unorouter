@@ -7,7 +7,7 @@ import {
 } from "@/lib/ai/chat/custom-provider-id";
 import type { TokenizerRef } from "@/lib/ai/chat/tokenizer";
 import type { AssemblerDeps } from "@/lib/ai/chat/pipeline/deps";
-import { readLocalCustomProvider } from "@/lib/db/client/data/rp/custom-providers";
+import { customProviderStore } from "@/lib/db/client/data/rp/custom-providers";
 import { buildClientDeps } from "@/components/pages/sidebar/chat/runtime/transport/client-deps";
 import { buildDefaultClientDeps } from "@/components/pages/sidebar/chat/runtime/transport/default-deps";
 
@@ -30,7 +30,7 @@ export async function resolveModelTarget(
   if (isCustomModelId(modelId)) {
     const parsed = parseCustomModelId(modelId);
     if (!parsed) throw new Error("invalid custom model id");
-    const provider = await readLocalCustomProvider(parsed.providerId);
+    const provider = await customProviderStore.get(parsed.providerId);
     if (!provider) throw new Error("custom provider not found");
     const modelRow = provider.models.find((m) => m.key === parsed.modelKey);
     const target = normalizeBaseUrl(provider.baseUrl);

@@ -5,12 +5,7 @@ import {
   normalizeBaseUrl,
 } from "@/lib/ai/chat/custom-provider-id";
 import { useQuery } from "@tanstack/react-query";
-import {
-  deleteLocalCustomProvider,
-  readLocalCustomProvider,
-  readLocalCustomProviders,
-  upsertLocalCustomProvider,
-} from "@/lib/db/client/data/rp/custom-providers";
+import { customProviderStore } from "@/lib/db/client/data/rp/custom-providers";
 import { queryKeys } from "@/lib/react-query/keys";
 import { makeRpEntity } from "./rp/factory";
 import type { CustomProviderRow } from "@/lib/db/schema/rows";
@@ -23,10 +18,10 @@ const customProviders = makeRpEntity<
 >({
   listKey: queryKeys.customProviders,
   itemKey: queryKeys.customProvider,
-  readList: readLocalCustomProviders,
-  readItem: readLocalCustomProvider,
-  upsertLocal: upsertLocalCustomProvider,
-  deleteLocal: deleteLocalCustomProvider,
+  readList: customProviderStore.list,
+  readItem: customProviderStore.get,
+  upsertLocal: customProviderStore.upsert,
+  deleteLocal: customProviderStore.drop,
 });
 
 export const useCustomProvidersQuery = customProviders.useList;

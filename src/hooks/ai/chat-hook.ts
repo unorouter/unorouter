@@ -17,14 +17,13 @@ import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import type { PersistMessageItem } from "@/lib/validation/chat";
 import {
   deleteLocalChatGroup,
-  deleteLocalConversation,
+  conversationStore,
   bumpLocalConvUpdatedAt,
   deleteLocalMessagesForConv,
   readLocalChatGroups,
-  readLocalConversation,
   readLocalConversationBundle,
   readLocalConversations,
-  readLocalMessage,
+  messageStore,
   setLocalActiveBranch,
   spliceDeleteLocalMessage,
   renameLocalChatGroup,
@@ -34,8 +33,7 @@ import {
   setChatGroupParent,
   setConversationGroup,
   updateLocalConversationSettings,
-  upsertLocalChatGroup,
-  upsertLocalConversation,
+  chatGroupStore,
   updateLocalMessage,
   upsertLocalMessage,
   upsertLocalMessageItem,
@@ -77,7 +75,7 @@ export function useCreateChatGroupMutation() {
   return useApiMutation({
     mutationFn: async (args: { name: string; parentId?: string }) => {
       const id = uid();
-      await upsertLocalChatGroup({
+      await chatGroupStore.upsert({
         id,
         name: args.name.trim() || "New group",
         parentId: args.parentId ?? null,
@@ -143,7 +141,7 @@ export function useConversationQuery(id?: string) {
     queryKey: queryKeys.chatMeta(id!),
     queryFn: async () => {
       if (id) {
-        const local = await readLocalConversation(id);
+        const local = await conversationStore.get(id);
         if (local) return local;
       }
       throw new Error("chat-not-found");
@@ -203,7 +201,7 @@ function dropConversationCaches(qc: QueryClient, ids: readonly string[]) {
 export function useDeleteConversationsMutation() {
   return useApiMutation({
     mutationFn: async (args: { ids: readonly string[] }) => {
-      for (const id of args.ids) await deleteLocalConversation(id);
+      for (const id of args.ids) await conversationStore.drop(id);
       return { ids: args.ids };
     },
     invalidates: () => [queryKeys.conversations()],
@@ -264,7 +262,7 @@ export function useEditMessageMutation() {
       msgId: string;
       body: EditMessageBody;
     }) => {
-      const existing = await readLocalMessage(args.msgId);
+      const existing = await messageStore.get(args.msgId);
       logChatDebug("message.edit", {
         convId: args.convId,
         msgId: args.msgId,
@@ -318,7 +316,7 @@ export function useDuplicateConversationMutation() {
         createdAt: now,
         updatedAt: now,
       };
-      await upsertLocalConversation(newConv);
+      await conversationStore.upsert(newConv);
       await replaceLocalConversationBindings(newId, {
         conversationCharacters: bundle.conversationCharacters.map((c) => ({
           characterId: c.characterId,
@@ -363,7 +361,7 @@ export function useSetActiveBranchMutation() {
       // assistant-ui mints its own ids for optimistic and streaming messages.
       // Those are not rows, so persisting one silently loses the swipe; wait
       // for the real row to exist rather than writing a no-op.
-      if (!(await readLocalMessage(args.msgId))) return { id: args.msgId };
+      if (!(await messageStore.get(args.msgId))) return { id: args.msgId };
       await setLocalActiveBranch(args.convId, args.msgId);
       return { id: args.msgId };
     },

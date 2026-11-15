@@ -8,12 +8,12 @@ import {
   updateLocalConversationSettings,
 } from "@/lib/db/client/data/chat/chat";
 import {
-  deleteLocalCard,
+  cardStore,
   readLocalCard,
   readLocalCards,
-  readLocalCharacters,
-  readLocalLorebooks,
-  readLocalPersonas,
+  characterStore,
+  lorebookStore,
+  personaStore,
   upsertLocalCardBundle,
 } from "@/lib/db/client/data/rp/rp";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -121,7 +121,7 @@ export function useUpdateCardMutation() {
 export function useDeleteCardMutation() {
   return useApiMutation({
     mutationFn: async (id: string) => {
-      await deleteLocalCard(id);
+      await cardStore.drop(id);
       return { id };
     },
     invalidates: [queryKeys.cards()],
@@ -206,9 +206,9 @@ export function useImportCardFromFileMutation() {
       const wantLorebooks = stringItems(parsed.lorebookIds);
 
       const [characters, lorebooks, personas] = await Promise.all([
-        readLocalCharacters(),
-        readLocalLorebooks(),
-        readLocalPersonas(),
+        characterStore.list(),
+        lorebookStore.list(),
+        personaStore.list(),
       ]);
       const has = (list: { id: string }[] | null, id: string) =>
         (list ?? []).some((x) => x.id === id);

@@ -1,7 +1,4 @@
-import {
-  deleteLocalMedia,
-  upsertLocalMedia,
-} from "@/lib/db/client/data/media/media";
+import { mediaStore, upsertLocalMedia } from "@/lib/db/client/data/media/media";
 import { base64ToDataUri, fileToBase64, uid } from "@/lib/utils/base";
 import { ensureConvId } from "@/store/chat-store";
 import type { AttachmentAdapter } from "@assistant-ui/react";
@@ -100,7 +97,7 @@ export function createLocalAttachmentAdapter(): AttachmentAdapter {
     },
 
     async remove(attachment) {
-      await deleteLocalMedia(attachment.id);
+      await mediaStore.drop(attachment.id);
     },
   };
 }

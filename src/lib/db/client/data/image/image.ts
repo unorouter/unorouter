@@ -22,8 +22,6 @@ import {
   replaceChildRows,
 } from "@/lib/db/client/data/table-store";
 
-import type { LocalAnyRow as AnyRow } from "@/lib/types";
-
 type SnapshotInput = Record<string, unknown> & {
   id: string;
   sessionId: string;
@@ -75,20 +73,13 @@ export function toSnapshotView(
   };
 }
 
-const sessionStore = makeTableStore(imageSessions, imageSessions.id, {
+export const sessionStore = makeTableStore(imageSessions, imageSessions.id, {
   defaultOrderBy: desc(imageSessions.updatedAt),
 });
 const snapshotStore = makeTableStore(imageSnapshots, imageSnapshots.id);
 const mediaStore = makeTableStore(media, media.id);
 
 const readLocalImageSessions = () => sessionStore.list();
-
-export const readLocalImageSession = (id: string) => sessionStore.get(id);
-
-export const upsertLocalImageSession = (row: AnyRow) =>
-  sessionStore.upsert(row);
-
-export const deleteLocalImageSession = (id: string) => sessionStore.drop(id);
 
 // Params carry the img2img source and inpaint mask as base64 data URIs up to
 // 8MB each, so kept verbatim every edit stores its INPUT forever on top of the
@@ -211,7 +202,7 @@ export async function readLocalImageBytes(
 export async function readLocalSessionBundle(sessionId: string) {
   const local = await getLocalDb();
   if (!local) return null;
-  const session = await readLocalImageSession(sessionId);
+  const session = await sessionStore.get(sessionId);
   if (!session) return null;
   const snapshots = await local.db
     .select()
@@ -306,9 +297,7 @@ export async function patchLocalSnapshotCost(
     .where(eq(imageSnapshots.id, snapshotId));
 }
 
-const imageModelStore = makeTableStore(imageModels, imageModels.air);
-
-export const readLocalImageModels = () => imageModelStore.list();
+export const imageModelStore = makeTableStore(imageModels, imageModels.air);
 
 export async function rememberLocalImageModel(model: {
   air: string;

@@ -1,6 +1,5 @@
 import {
-  deleteLocalConversation,
-  readLocalConversation,
+  conversationStore,
   readLocalConversations,
   updateLocalConversationSettings,
 } from "@/lib/db/client/data/chat/chat";
@@ -11,7 +10,7 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
-import { readLocalPreset } from "@/lib/db/client/data/rp/rp";
+import { presetStore } from "@/lib/db/client/data/rp/rp";
 import {
   chatLoadoutAtom,
   chatModelAtom,
@@ -32,9 +31,9 @@ async function readTitleOverrides(convId: string): Promise<{
   titlePrompt?: string;
 }> {
   try {
-    const conv = await readLocalConversation(convId);
+    const conv = await conversationStore.get(convId);
     const presetId = chatStore.get(chatLoadoutAtom).presetId;
-    const preset = presetId ? await readLocalPreset(presetId) : null;
+    const preset = presetId ? await presetStore.get(presetId) : null;
     const titleModel = conv?.titleModel || preset?.titleModel || "";
     const titlePrompt = conv?.titlePrompt || preset?.titlePrompt || "";
     const titleGroup = conv?.titleModel ? "" : preset?.titleGroup || "";
@@ -94,12 +93,12 @@ export function createThreadListAdapter(
     async unarchive(_id) {},
 
     async delete(id) {
-      await deleteLocalConversation(id);
+      await conversationStore.drop(id);
       invalidateAndBroadcast(queryClient, [queryKeys.conversations()]);
     },
 
     async fetch(id) {
-      const local = await readLocalConversation(id);
+      const local = await conversationStore.get(id);
       if (local) {
         return {
           remoteId: local.id,

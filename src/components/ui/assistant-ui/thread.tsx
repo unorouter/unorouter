@@ -78,7 +78,7 @@ import {
   reloadLiveThreadFromDb,
   replaceMessageParts,
 } from "@/store/chat-store";
-import { readLocalPreset } from "@/lib/db/client/data/rp/rp";
+import { presetStore } from "@/lib/db/client/data/rp/rp";
 import { acceptEmptiedLocalDb, retryLocalDbOpen } from "@/lib/db/client/client";
 import { useMessageError } from "@assistant-ui/core/react";
 import {
@@ -653,7 +653,8 @@ const ComposerContinueButton: FC = () => {
       onClick={async () => {
         const presetId = chatStore.get(chatLoadoutAtom).presetId;
         const custom = presetId
-          ? await readLocalPreset(presetId)
+          ? await presetStore
+              .get(presetId)
               .then((p) => p?.continuePrompt?.trim())
               .catch(() => null)
           : null;

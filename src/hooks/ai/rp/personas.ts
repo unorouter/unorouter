@@ -2,12 +2,7 @@
 
 import { useApiMutation } from "@/lib/react-query/hooks";
 import { parsePersonaJson } from "@/lib/ai/rp/persona-import";
-import {
-  deleteLocalPersona,
-  readLocalPersona,
-  readLocalPersonas,
-  upsertLocalPersona,
-} from "@/lib/db/client/data/rp/rp";
+import { personaStore } from "@/lib/db/client/data/rp/rp";
 import type { PersonaRow } from "@/lib/db/schema/rows";
 import { queryKeys } from "@/lib/react-query/keys";
 import { uid } from "@/lib/utils/base";
@@ -22,10 +17,10 @@ const personas = makeRpEntity<
 >({
   listKey: queryKeys.personas,
   itemKey: queryKeys.persona,
-  readList: readLocalPersonas,
-  readItem: readLocalPersona,
-  upsertLocal: upsertLocalPersona,
-  deleteLocal: deleteLocalPersona,
+  readList: personaStore.list,
+  readItem: personaStore.get,
+  upsertLocal: personaStore.upsert,
+  deleteLocal: personaStore.drop,
 });
 
 export const usePersonasQuery = personas.useList;
@@ -55,7 +50,7 @@ export function useImportPersonaMutation() {
         updatedAt: now,
       }));
       for (const row of rows) {
-        await upsertLocalPersona(row);
+        await personaStore.upsert(row);
       }
       return rows;
     },
