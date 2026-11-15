@@ -79,8 +79,7 @@ function ruleChecks(result: VerifyResult | null): number {
 }
 
 function gaugeArcs(result: VerifyResult | null, running: boolean): GaugeArc[] {
-  if (running || !result) return ["pending", "pending", "pending", "pending"];
-  if (result.probes.length === 0)
+  if (running || !result || result.probes.length === 0)
     return ["pending", "pending", "pending", "pending"];
   const probes: GaugeArc[] = result.probes.map((p) =>
     p.pass ? "pass" : "fail",
