@@ -221,13 +221,13 @@ export function buildDebugSnapshot(
   body: StreamBody,
   effectiveSystem: string | undefined,
   messagesForUpstream: StreamMessages,
-  target?: { endpoint: string; url: string },
-  assembled?: AssembledSystem,
-  autoFlags?: ModelRoleFlags,
-  modelInfo?: PricingCatalogDetail,
-  historyStats?: Record<string, unknown>,
-  tokenizer?: { source: string; exact: boolean },
-  wire?: {
+  target: { endpoint: string; url: string } | undefined,
+  assembled: AssembledSystem,
+  autoFlags: ModelRoleFlags | undefined,
+  modelInfo: PricingCatalogDetail | undefined,
+  historyStats: Record<string, unknown> | undefined,
+  tokenizer: { source: string; exact: boolean } | undefined,
+  wire: {
     modelParams: Record<string, unknown>;
     providerOptions: Record<string, unknown>;
   },
@@ -241,32 +241,30 @@ export function buildDebugSnapshot(
   return {
     // After the supported-parameter strip; `settings.sampling` below is what
     // the user configured.
-    sent: wire
-      ? {
-          modelParams: wire.modelParams,
-          providerOptions: wire.providerOptions[CHAT_PROVIDER_NAME] ?? {},
-        }
-      : null,
+    sent: {
+      modelParams: wire.modelParams,
+      providerOptions: wire.providerOptions[CHAT_PROVIDER_NAME] ?? {},
+    },
     settings: {
-      sampling: assembled?.sampling,
-      flags: assembled?.flags,
+      sampling: assembled.sampling,
+      flags: assembled.flags,
       autoFlags,
-      reasoningEffort: assembled?.reasoningEffort ?? null,
-      chatMemory: assembled?.chatMemory ?? null,
-      contextTokens: assembled?.contextTokens ?? null,
-      streamingEnabled: assembled?.streamingEnabled ?? null,
-      maxOutputTokens: assembled?.sampling.maxTokens ?? null,
-      authorNote: assembled?.authorNote
+      reasoningEffort: assembled.reasoningEffort ?? null,
+      chatMemory: assembled.chatMemory ?? null,
+      contextTokens: assembled.contextTokens ?? null,
+      streamingEnabled: assembled.streamingEnabled ?? null,
+      maxOutputTokens: assembled.sampling.maxTokens ?? null,
+      authorNote: assembled.authorNote
         ? { depth: assembled.authorNote.depth, role: assembled.authorNote.role }
         : null,
-      prefill: assembled?.prefill ?? null,
-      extraBody: assembled?.extraBody ?? null,
-      providerRouting: assembled?.providerRouting ?? null,
+      prefill: assembled.prefill ?? null,
+      extraBody: assembled.extraBody ?? null,
+      providerRouting: assembled.providerRouting ?? null,
       tokenizer: tokenizer?.source ?? null,
       // false = tokenizer load failed, counts are ~4 chars/token.
       tokenizerExact: tokenizer?.exact ?? null,
-      promptTokens: assembled?.promptTokens ?? null,
-      promptPartKinds: assembled?.promptParts.map((p) => p.kind) ?? null,
+      promptTokens: assembled.promptTokens ?? null,
+      promptPartKinds: assembled.promptParts.map((p) => p.kind),
       preset: preset
         ? {
             name: preset.name ?? null,
