@@ -170,14 +170,13 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
         getTranslations({ locale }),
       ]);
 
-      const sizes = BADGE_SIZES;
       const filteredTypes = query.type
         ? BADGE_TYPES.filter((n) => n === query.type)
         : BADGE_TYPES;
       const allBadges: PreviewGroup[] = await Promise.all(
         filteredTypes.map(async (name) => {
           const badges = await Promise.all(
-            sizes.map(async (s) => {
+            BADGE_SIZES.map(async (s) => {
               const ctx: BadgeCtx = {
                 locale,
                 theme,
