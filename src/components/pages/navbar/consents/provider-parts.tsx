@@ -19,7 +19,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { msg } from "@/lib/config/constants";
+import { msg, type TranslationKey } from "@/lib/config/constants";
 import { cn } from "@/lib/utils";
 import { formatLongDate } from "@/lib/utils/format/date";
 import { useLocale, useTranslations } from "next-intl";
@@ -29,18 +29,10 @@ import {
   type ProviderRow,
 } from "./provider-rows";
 
-const REASON_LABEL = {
-  safe_country: msg("PROVIDER_CONSENT.REASON.SAFE_COUNTRY"),
-  no_own_purpose: msg("PROVIDER_CONSENT.REASON.NO_OWN_PURPOSE"),
-} as const;
-
-function isReason(reason: string): reason is keyof typeof REASON_LABEL {
-  return Object.hasOwn(REASON_LABEL, reason);
-}
-
-function reasonLabel(reason: string) {
-  return isReason(reason) ? REASON_LABEL[reason] : msg("CONSENT.NOT_NEEDED");
-}
+const REASON_LABEL: Partial<Record<string, TranslationKey>> = {
+  safe_country: "PROVIDER_CONSENT.REASON.SAFE_COUNTRY",
+  no_own_purpose: "PROVIDER_CONSENT.REASON.NO_OWN_PURPOSE",
+};
 
 export type ProviderHandlers = {
   open: (alias: string) => void;
@@ -273,7 +265,7 @@ export function ProviderStatusBadge(props: { provider: ProviderRow }) {
           {t("CONSENT.NOT_NEEDED")}
         </Badge>
         <span className="text-muted-foreground text-[10px]">
-          {t(reasonLabel(p.reason))}
+          {t(REASON_LABEL[p.reason] ?? "CONSENT.NOT_NEEDED")}
         </span>
       </span>
     );
