@@ -9,9 +9,3 @@ export function deriveMode(
   if (tab === "edit") return "edit";
   return subPill;
 }
-
-// Hosted catalog models are text2img-only; nothing upstream scopes a model to
-// the img2img or edit tab.
-export function isModelInTab(tab: GenerateTab): boolean {
-  return tab === "text2img";
-}

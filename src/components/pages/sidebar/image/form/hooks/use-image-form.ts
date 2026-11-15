@@ -21,7 +21,6 @@ import { useAtom } from "jotai";
 import { useForm } from "react-hook-form";
 import { useImageNav } from "../../image-nav";
 import { INITIAL_MODEL } from "../../image-constants";
-import { isModelInTab } from "../logic/mode";
 import { defaultsFor } from "../logic/persistence";
 import { useDraftPersistence } from "./use-draft-persistence";
 import { useModelTabFit } from "./use-model-tab-fit";
@@ -90,24 +89,14 @@ export function useImageForm() {
     remixId: remix.remixId,
     effectiveModels,
   });
-  useModelTabFit({
-    form,
-    tab: nav.tab,
-    effectiveModels,
-    changeModel,
-    isLoggedIn,
-    remixId: remix.remixId,
-    draftRestoredTab: drafts.draftRestoredTab,
-  });
+  useModelTabFit({ form, effectiveModels, changeModel, isLoggedIn });
   useSnapshotRestore({ form, findDescriptor });
 
-  // The TAB follows the model here; the fit hook resolves the other direction and would
-  // swap a preset's model out.
   const adoptModelTab = (modelId: string) => {
     if (!effectiveModels.some((m) => m.model_name === modelId)) return;
-    if (isModelInTab(nav.tab)) return;
+    if (nav.tab === "text2img") return;
     nav.setTab("text2img");
-    drafts.setDraftRestoredTab("text2img");
+    drafts.restoredTab.current = "text2img";
   };
 
   return {

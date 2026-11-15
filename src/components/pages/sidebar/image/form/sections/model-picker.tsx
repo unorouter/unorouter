@@ -20,7 +20,6 @@ import { useLoginRedirect } from "@/hooks/auth/use-login-redirect";
 import type { ImageModelDescriptor } from "@/lib/ai/image/models";
 import { dollarsToQuota, renderQuota } from "@/lib/config/constants";
 import type { GenerateTab } from "../../image-nav";
-import { isModelInTab } from "../logic/mode";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -153,9 +152,9 @@ export function ModelPicker(props: Props) {
       .toLowerCase()
       .includes(needle);
 
-  const hostedModels = isModelInTab(props.activeTab)
-    ? props.models.filter(matchesSearch)
-    : [];
+  // Hosted catalog models are text2img-only.
+  const hostedModels =
+    props.activeTab === "text2img" ? props.models.filter(matchesSearch) : [];
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
