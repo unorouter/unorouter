@@ -442,11 +442,17 @@ async function runClientStream(args: {
   // AI_NoOutputGeneratedError as an unhandled rejection (vercel/ai#6879).
   return createUIMessageStream({
     onError: failStream,
-    execute: ({ writer }) => {
+    execute: async ({ writer }) => {
       for (const a of prepared.startAlerts) {
         writer.write({ type: "data-alert", data: a, transient: true });
       }
-      writer.merge(uiStream);
+      if (prepared.streamingEnabled) return writer.merge(uiStream);
+      // Streaming off: the request still streams (and resumes), the reply shows once complete.
+      const reader = uiStream.getReader();
+      const chunks: Parameters<typeof writer.write>[0][] = [];
+      for (let r = await reader.read(); !r.done; r = await reader.read())
+        chunks.push(r.value);
+      for (const chunk of chunks) writer.write(chunk);
     },
   });
 }
