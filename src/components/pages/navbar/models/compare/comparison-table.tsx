@@ -6,9 +6,10 @@ import { Icon } from "@/components/ui/icon";
 import { Switch } from "@/components/ui/switch";
 import {
   deriveOutputModality,
+  fmtUnit,
   inputPriceUnit,
+  modelPriceColumns,
   outputPriceUnit,
-  type PriceUnit,
 } from "@/lib/api/model-modality";
 import type { PricingCatalogModel } from "@/openapi";
 import type { RankedModel } from "@/openapi";
@@ -17,11 +18,7 @@ import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { modelHref } from "@/lib/utils/base";
 import { formatMsDate } from "@/lib/utils/format/date";
-import {
-  formatPrice,
-  formatTokenCount,
-  formatTokens,
-} from "@/lib/utils/format/number";
+import { formatTokenCount, formatTokens } from "@/lib/utils/format/number";
 import type { ModelSummary } from "@/openapi";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
@@ -55,13 +52,6 @@ function ModalityIcons(props: { modalities: string[] }) {
   );
 }
 
-function priceCell(value: number, unit: PriceUnit): string {
-  if (unit === "dash" || value <= 0) return "-";
-  if (unit === "perImage") return `${formatPrice(value)}/img`;
-  if (unit === "perSecond") return `${formatPrice(value)}/s`;
-  return formatPrice(value);
-}
-
 function Bool(props: { on: boolean }) {
   return props.on ? (
     <Icon name="circle-check" className="h-4 w-4 text-emerald-500" />
@@ -90,10 +80,9 @@ export function ComparisonTable(props: {
   const [highlight, setHighlight] = useState(false);
   const models = props.models;
 
-  const inPrice = (m: PricingCatalogModel) =>
-    m.is_fixed_price ? m.fixed_price : m.input_price;
-  const outPrice = (m: PricingCatalogModel) =>
-    m.is_fixed_price ? m.fixed_price : m.output_price;
+  // Per-call prices are not comparable with per-token ones, so they never win "best".
+  const tokenPrice = (m: PricingCatalogModel, side: "input" | "output") =>
+    m.is_fixed_price ? null : modelPriceColumns(m)[side] || null;
   const ctxOf = (m: PricingCatalogModel) =>
     m.metadata?.contextWindow ?? m.metadata?.maxInputTokens ?? 0;
   const perf = (m: PricingCatalogModel) => props.perfMap.get(m.model_name);
@@ -138,21 +127,23 @@ export function ComparisonTable(props: {
         {
           label: t("MODELS.TABLE.INPUT"),
           render: (m) =>
-            priceCell(
-              inPrice(m),
+            fmtUnit(
+              modelPriceColumns(m).input,
               inputPriceUnit(deriveOutputModality(m), m.is_fixed_price),
+              m.is_fixed_price,
             ),
-          best: (m) => inPrice(m) || null,
+          best: (m) => tokenPrice(m, "input"),
           lowerBetter: true,
         },
         {
           label: t("MODELS.TABLE.OUTPUT"),
           render: (m) =>
-            priceCell(
-              outPrice(m),
+            fmtUnit(
+              modelPriceColumns(m).output,
               outputPriceUnit(deriveOutputModality(m), m.is_fixed_price),
+              m.is_fixed_price,
             ),
-          best: (m) => outPrice(m) || null,
+          best: (m) => tokenPrice(m, "output"),
           lowerBetter: true,
         },
       ],
