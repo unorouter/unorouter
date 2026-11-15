@@ -182,7 +182,7 @@ function EmptyState() {
   );
 }
 
-function TopUpTransactions() {
+export function TopUpTransactions() {
   const t = useTranslations();
   const tableAtoms = createTableAtoms(DataTableId.BILLING_TOPUP_HISTORY);
   const store = useAtomValue(tableAtoms.baseAtom);
@@ -217,7 +217,7 @@ function TopUpTransactions() {
   );
 }
 
-function SubscriptionTransactions() {
+export function SubscriptionTransactions() {
   const t = useTranslations();
   const tableAtoms = createTableAtoms(DataTableId.BILLING_SUBSCRIPTION_HISTORY);
   const store = useAtomValue(tableAtoms.baseAtom);
@@ -250,9 +250,4 @@ function SubscriptionTransactions() {
       emptyState={<EmptyState />}
     />
   );
-}
-
-export function TransactionsSection(props: { kind: "topups" | "orders" }) {
-  if (props.kind === "topups") return <TopUpTransactions />;
-  return <SubscriptionTransactions />;
 }
