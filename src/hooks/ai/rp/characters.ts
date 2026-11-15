@@ -39,6 +39,28 @@ export const useUpdateCharacterMutation = characters.useUpdate;
 export const useDeleteCharacterMutation = characters.useDelete;
 export const useDuplicateCharacterMutation = characters.useDuplicate;
 
+async function saveMedia(
+  mimeType: string,
+  dataBase64: string,
+  sizeBytes = base64ToUint8(dataBase64).byteLength,
+): Promise<string> {
+  const id = uid();
+  await upsertLocalMedia({ id, convId: null, mimeType, sizeBytes, dataBase64 });
+  return id;
+}
+
+// An identical lorebook already saved is linked instead of copied again.
+async function reuseOrInsertLorebook(
+  book: Parameters<typeof insertLorebook>[0] & {
+    entries: Parameters<typeof findLocalLorebookCopy>[1];
+  },
+) {
+  const copy = await findLocalLorebookCopy(book.name, book.entries);
+  return copy
+    ? { id: copy, reused: true }
+    : { id: await insertLorebook(book), reused: false };
+}
+
 async function persistCharacterSetupFromFile(
   file: File,
   lorebookIds: string[] = [],
@@ -55,28 +77,22 @@ async function persistCharacterSetupFromFile(
   const tavernHelper = !!(ext?.tavern_helper || ext?.TavernHelper_scripts);
   const risuTriggers = rec(ext?.risuai)?.triggerscript;
 
-  let avatarMediaId: string | null = null;
-  if (imageBytes && imageMime) {
-    avatarMediaId = uid();
-    await upsertLocalMedia({
-      id: avatarMediaId,
-      convId: null,
-      mimeType: imageMime,
-      sizeBytes: imageBytes.byteLength,
-      dataBase64: uint8ToBase64(imageBytes),
-    });
-  }
+  const avatarMediaId =
+    imageBytes && imageMime
+      ? await saveMedia(
+          imageMime,
+          uint8ToBase64(imageBytes),
+          imageBytes.byteLength,
+        )
+      : null;
 
   const assets: { name: string; mediaId: string }[] = [];
   for (const asset of namedAssets) {
-    const mediaId = uid();
-    await upsertLocalMedia({
-      id: mediaId,
-      convId: null,
-      mimeType: asset.mime,
-      sizeBytes: asset.bytes.byteLength,
-      dataBase64: uint8ToBase64(asset.bytes),
-    });
+    const mediaId = await saveMedia(
+      asset.mime,
+      uint8ToBase64(asset.bytes),
+      asset.bytes.byteLength,
+    );
     assets.push({ name: asset.name, mediaId });
   }
 
@@ -111,15 +127,10 @@ async function persistCharacterSetupFromFile(
       const parsed = await import("@/lib/ai/rp/lorebook-import").then((m) =>
         m.parseLorebookJson(characterBook, `${card.name} lorebook`),
       );
-      const copy =
-        parsed && parsed.entries.length > 0
-          ? await findLocalLorebookCopy(parsed.name, parsed.entries)
-          : null;
-      if (copy) {
-        lorebookId = copy;
-        reusedLorebooks++;
-      } else if (parsed && parsed.entries.length > 0) {
-        lorebookId = await insertLorebook(parsed);
+      if (parsed && parsed.entries.length > 0) {
+        const book = await reuseOrInsertLorebook(parsed);
+        lorebookId = book.id;
+        if (book.reused) reusedLorebooks++;
       }
     }
   } catch {
@@ -152,24 +163,30 @@ const IMPORT_INVALIDATES = [
   queryKeys.cards(),
 ];
 
+function importToasts(
+  t: ReturnType<typeof useTranslations<never>>,
+  res: { tavernHelper: boolean; reusedLorebooks: number },
+) {
+  if (res.tavernHelper) {
+    toast.warning(t("RP.CHARACTERS_IMPORT_TAVERN_HELPER"), {
+      duration: 15_000,
+    });
+  }
+  if (res.reusedLorebooks > 0) {
+    toast.info(
+      t("RP.CHARACTERS_IMPORT_LOREBOOK_REUSED", {
+        count: res.reusedLorebooks,
+      }),
+    );
+  }
+}
+
 export function useImportCharacterCardMutation() {
   const t = useTranslations();
   return useApiMutation({
     mutationFn: (file: File) => persistCharacterSetupFromFile(file),
     invalidates: IMPORT_INVALIDATES,
-    onSuccess: (res) => {
-      if (res.tavernHelper) {
-        toast.warning(t("RP.CHARACTERS_IMPORT_TAVERN_HELPER"), {
-          duration: 15_000,
-        });
-      }
-      if (res.reusedLorebooks > 0)
-        toast.info(
-          t("RP.CHARACTERS_IMPORT_LOREBOOK_REUSED", {
-            count: res.reusedLorebooks,
-          }),
-        );
-    },
+    onSuccess: (res) => importToasts(t, res),
   });
 }
 
@@ -187,18 +204,7 @@ export function useImportCharacterFromUrlMutation() {
           { duration: 15_000 },
         );
       }
-      if (res.reusedLorebooks > 0) {
-        toast.info(
-          t("RP.CHARACTERS_IMPORT_LOREBOOK_REUSED", {
-            count: res.reusedLorebooks,
-          }),
-        );
-      }
-      if (res.tavernHelper) {
-        toast.warning(t("RP.CHARACTERS_IMPORT_TAVERN_HELPER"), {
-          duration: 15_000,
-        });
-      }
+      importToasts(t, res);
       if (res.privateScripts.length > 0) {
         toast.warning(
           `${t("ERRORS.CARD_IMPORT_SCRIPTS_PRIVATE")}: ${res.privateScripts.join(", ")}`,
@@ -271,13 +277,9 @@ async function persistImportedCard(result: ImportedResult) {
   let reusedLorebooks = 0;
   for (const book of result.lorebooks ?? []) {
     if (book.entries.length === 0) continue;
-    const copy = await findLocalLorebookCopy(book.name, book.entries);
-    if (copy) {
-      lorebookIds.push(copy);
-      reusedLorebooks++;
-      continue;
-    }
-    lorebookIds.push(await insertLorebook(book));
+    const saved = await reuseOrInsertLorebook(book);
+    lorebookIds.push(saved.id);
+    if (saved.reused) reusedLorebooks++;
   }
 
   const json = JSON.stringify(result.card);
@@ -286,27 +288,14 @@ async function persistImportedCard(result: ImportedResult) {
 
   const patch: Partial<CharacterRow> = {};
   if (result.avatar) {
-    const mediaId = uid();
-    await upsertLocalMedia({
-      id: mediaId,
-      convId: null,
-      mimeType: result.avatar.mimeType,
-      sizeBytes: base64ToUint8(result.avatar.base64).byteLength,
-      dataBase64: result.avatar.base64,
-    });
-    patch.avatarMediaId = mediaId;
+    patch.avatarMediaId = await saveMedia(
+      result.avatar.mimeType,
+      result.avatar.base64,
+    );
   }
   const assets: { name: string; mediaId: string }[] = [];
   for (const asset of rich?.assets ?? []) {
-    const mediaId = uid();
-    const bytes = base64ToUint8(asset.base64);
-    await upsertLocalMedia({
-      id: mediaId,
-      convId: null,
-      mimeType: asset.mimeType,
-      sizeBytes: bytes.byteLength,
-      dataBase64: asset.base64,
-    });
+    const mediaId = await saveMedia(asset.mimeType, asset.base64);
     assets.push({ name: asset.name, mediaId });
   }
   if (assets.length > 0) patch.assets = assets;
