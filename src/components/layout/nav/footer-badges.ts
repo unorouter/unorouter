@@ -305,6 +305,13 @@ export const FOOTER_BADGES: {
     width: 36,
   },
   {
+    href: "https://aidirhub.com/item/unorouter?utm_source=badge&utm_medium=referral&utm_campaign=listed-on-badge",
+    src: "/images/badges/aidirhub.svg",
+    name: "AIDirHub",
+    width: 94,
+    alt: "Listed on AIDirHub",
+  },
+  {
     href: "https://aicavo.com/tools/unorouter",
     src: "https://aicavo.com/api/widgets/embed-image/v1/find-us.svg?slug=unorouter&theme=light",
     name: "AICavo",
