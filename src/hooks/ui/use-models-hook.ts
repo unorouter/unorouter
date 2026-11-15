@@ -64,7 +64,7 @@ function matchesFreeKeyword(query: string): boolean {
 }
 
 export function useModelsFilter() {
-  const { data } = usePricingBrowseQuery();
+  const data = usePricingBrowseQuery().data;
   const rankings = useRankingsQuery("week");
 
   const [search, setSearch] = useAtom(searchAtom);
