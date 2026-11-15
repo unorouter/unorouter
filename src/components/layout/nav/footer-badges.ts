@@ -305,12 +305,6 @@ export const FOOTER_BADGES: {
     width: 36,
   },
   {
-    href: "https://aiboom.tools",
-    src: "https://aiboom.tools/badge/badge_light.svg",
-    name: "AIBoom.Tools",
-    width: 93,
-  },
-  {
     href: "https://aicavo.com/tools/unorouter",
     src: "https://aicavo.com/api/widgets/embed-image/v1/find-us.svg?slug=unorouter&theme=light",
     name: "AICavo",
