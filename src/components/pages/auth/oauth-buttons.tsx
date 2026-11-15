@@ -5,7 +5,8 @@ import {
   type TermsNoticeVariant,
 } from "@/components/pages/auth/terms-notice";
 import { Icon } from "@/components/ui/icon";
-import { AFF_CODE_KEY } from "@/lib/config/constants";
+import { AFF_CODE_KEY, type TranslationKey } from "@/lib/config/constants";
+import type { IconName } from "@/lib/config/icon-map";
 import { env } from "@/lib/config/env";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
@@ -31,11 +32,20 @@ type OAuthButtonsProps = {
   termsVariant: TermsNoticeVariant;
 };
 
-type OAuthProvider = {
-  key: string;
-  label: string;
-  icon: React.ReactNode;
-};
+type OAuthProvider = { key: string; label: string; icon: IconName };
+
+const BUILTIN_PROVIDERS = [
+  ["github", "github_oauth", "AUTH.OAUTH.GITHUB", "brand-github"],
+  ["discord", "discord_oauth", "AUTH.OAUTH.DISCORD", "brand-discord"],
+  ["google", "google_oauth", "AUTH.OAUTH.GOOGLE", "brand-google"],
+  ["oidc", "oidc_enabled", "AUTH.OAUTH.OIDC", "log-in"],
+  ["linuxdo", "linuxdo_oauth", "AUTH.OAUTH.LINUXDO", "log-in"],
+] as const satisfies readonly [
+  string,
+  keyof StatusData,
+  TranslationKey,
+  IconName,
+][];
 
 // redirect_uri must stay the BARE ${server}/oauth/<provider>: new-api's SPA owns
 // that route, and pointing it at the /api Go handler breaks the round-trip.
@@ -78,51 +88,18 @@ export function OAuthButtons(props: OAuthButtonsProps) {
   const [loading, setLoading] = useState<string | null>(null);
   const termsShown = useTermsShown(props.termsVariant);
 
-  const providers: OAuthProvider[] = [];
-
-  if (props.status.github_oauth) {
-    providers.push({
-      key: "github",
-      label: t("AUTH.OAUTH.GITHUB"),
-      icon: <Icon name="brand-github" className="h-4 w-4" />,
-    });
-  }
-  if (props.status.discord_oauth) {
-    providers.push({
-      key: "discord",
-      label: t("AUTH.OAUTH.DISCORD"),
-      icon: <Icon name="brand-discord" className="h-4 w-4" />,
-    });
-  }
-  if (props.status.google_oauth) {
-    providers.push({
-      key: "google",
-      label: t("AUTH.OAUTH.GOOGLE"),
-      icon: <Icon name="brand-google" className="h-4 w-4" />,
-    });
-  }
-  if (props.status.oidc_enabled) {
-    providers.push({
-      key: "oidc",
-      label: t("AUTH.OAUTH.OIDC"),
-      icon: <Icon name="log-in" className="h-4 w-4" />,
-    });
-  }
-  if (props.status.linuxdo_oauth) {
-    providers.push({
-      key: "linuxdo",
-      label: t("AUTH.OAUTH.LINUXDO"),
-      icon: <Icon name="log-in" className="h-4 w-4" />,
-    });
-  }
-
-  for (const custom of props.status.custom_oauth_providers ?? []) {
-    providers.push({
+  const providers: OAuthProvider[] = [
+    ...BUILTIN_PROVIDERS.filter((p) => props.status[p[1]]).map((p) => ({
+      key: p[0],
+      label: t(p[2]),
+      icon: p[3],
+    })),
+    ...(props.status.custom_oauth_providers ?? []).map((custom) => ({
       key: custom.slug,
       label: custom.name,
-      icon: <Icon name="log-in" className="h-4 w-4" />,
-    });
-  }
+      icon: "log-in" as const,
+    })),
+  ];
 
   if (providers.length === 0) return null;
 
@@ -194,7 +171,7 @@ export function OAuthButtons(props: OAuthButtonsProps) {
               <span className="text-muted-foreground text-xs">...</span>
             ) : (
               <>
-                {provider.icon}
+                <Icon name={provider.icon} className="h-4 w-4" />
                 {provider.label}
               </>
             )}
