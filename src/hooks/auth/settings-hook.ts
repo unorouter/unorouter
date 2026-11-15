@@ -135,10 +135,10 @@ export function useUpdateSettingMutation() {
 export function useSendSettingsVerificationMutation() {
   return useApiMutation({
     mutationFn: async (
-      args: EdenArgs<typeof rpc.api.auth.settings.verification, "get">,
+      args: EdenArgs<typeof rpc.api.auth.account.verification, "get">,
     ) =>
       handleElysia(
-        await rpc.api.auth.settings.verification.get({ query: args.query }),
+        await rpc.api.auth.account.verification.get({ query: args.query }),
       ),
   });
 }

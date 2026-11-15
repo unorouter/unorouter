@@ -1,5 +1,5 @@
 import { setSessionCookies } from "@/lib/api/auth";
-import { twoFAEnableBody, verificationQuery } from "@/lib/api/typebox/common";
+import { twoFAEnableBody } from "@/lib/api/typebox/common";
 import {
   emailBindQuery,
   passkeyRegisterFinishBody,
@@ -29,7 +29,6 @@ import {
   passkeyStatus,
   passkeyVerifyBegin,
   passkeyVerifyFinish,
-  sendEmailVerification,
   setup2FA,
   universalVerify,
   updateSelf,
@@ -92,13 +91,6 @@ export const settingsRoute = new Elysia({ prefix: "/settings" })
     async ({ body, upstream }) =>
       unwrap(await updateTimeoutPreference(body, upstream)),
     { body: updateTimeoutBody },
-  )
-
-  .get(
-    "/verification",
-    async ({ query, upstream }) =>
-      unwrap(await sendEmailVerification(query, upstream)),
-    { query: verificationQuery },
   )
 
   // POST, not GET: the code only proves control of the NEW address, so a link
