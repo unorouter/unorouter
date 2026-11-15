@@ -1,9 +1,9 @@
 import { CCSwitchContent } from "@/components/pages/docs/cli/cc-switch/cc-switch-content";
 import { ClaudeCodeContent } from "@/components/pages/docs/cli/claude-code/claude-code-content";
+import { docKey } from "@/components/pages/docs/doc-template";
 import { SetupGuideTemplate } from "@/components/pages/docs/setup-guide-template";
 import { getSetupGuide } from "@/components/pages/docs/setup-guides";
 import { APP_VALUES } from "@/lib/config/constants";
-import type { TranslationKey } from "@/lib/config/constants";
 import { DocPageSchema, JsonLd } from "@/lib/seo/json-ld";
 import {
   buildFAQPageSchema,
@@ -19,9 +19,6 @@ interface PageProps {
   params: Promise<{ locale: string; slug: string }>;
 }
 
-const prefixKey = (prefix: string, leaf: string) =>
-  `${prefix}.${leaf}` as TranslationKey;
-
 export async function generateMetadata(props: PageProps) {
   const params = await props.params;
   const guide = getSetupGuide(params.slug);
@@ -31,9 +28,9 @@ export async function generateMetadata(props: PageProps) {
   return getPageMetadata({
     locale,
     href: guide.href,
-    title: t(prefixKey(guide.i18nPrefix, "META.TITLE"), APP_VALUES),
-    description: t(prefixKey(guide.i18nPrefix, "META.DESCRIPTION"), APP_VALUES),
-    keywords: t(prefixKey(guide.i18nPrefix, "META.KEYWORDS"), APP_VALUES),
+    title: t(docKey(guide.i18nPrefix, "META.TITLE"), APP_VALUES),
+    description: t(docKey(guide.i18nPrefix, "META.DESCRIPTION"), APP_VALUES),
+    keywords: t(docKey(guide.i18nPrefix, "META.KEYWORDS"), APP_VALUES),
     ogImage: ogBadge("banner", locale),
   });
 }
@@ -47,9 +44,9 @@ export default async function SetupGuidePage(props: PageProps) {
     <>
       <DocPageSchema
         slug={`docs/integrations/${guide.slug}` as DocSlug}
-        title={t(prefixKey(guide.i18nPrefix, "META.TITLE"), APP_VALUES)}
+        title={t(docKey(guide.i18nPrefix, "META.TITLE"), APP_VALUES)}
         description={t(
-          prefixKey(guide.i18nPrefix, "META.DESCRIPTION"),
+          docKey(guide.i18nPrefix, "META.DESCRIPTION"),
           APP_VALUES,
         )}
       />
@@ -57,8 +54,8 @@ export default async function SetupGuidePage(props: PageProps) {
         <JsonLd
           id={`${guide.slug}-howto`}
           data={buildHowToSchema(
-            t(prefixKey(guide.i18nPrefix, "TITLE"), APP_VALUES),
-            t(prefixKey(guide.i18nPrefix, "META.DESCRIPTION"), APP_VALUES),
+            t(docKey(guide.i18nPrefix, "TITLE"), APP_VALUES),
+            t(docKey(guide.i18nPrefix, "META.DESCRIPTION"), APP_VALUES),
             `/${params.locale}/docs/integrations/${guide.slug}`,
             guide.steps.map((step) => ({
               name: t(step.titleKey, APP_VALUES),

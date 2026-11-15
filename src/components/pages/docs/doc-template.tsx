@@ -8,7 +8,9 @@ import { APP_VALUES } from "@/lib/config/constants";
 import type { TranslationKey } from "@/lib/config/constants";
 import type { LinkHref, Pathname } from "@/i18n/routing";
 import type { IconName } from "@/lib/config/icon-map";
-import { JsonLd } from "@/lib/seo/json-ld";
+import { DocPageSchema, JsonLd } from "@/lib/seo/json-ld";
+import { getPageMetadata, notFoundMetadata } from "@/lib/seo/metadata";
+import type { DocSlug } from "@/lib/types";
 import {
   buildBreadcrumbListSchema,
   buildCollectionPageSchema,
@@ -16,6 +18,7 @@ import {
 import { serverLocale } from "@/lib/utils/server";
 import type { TOCItemType } from "fumadocs-core/toc";
 import { getTranslations } from "next-intl/server";
+import { notFound } from "next/navigation";
 
 export function docKey(prefix: string, leaf: string): TranslationKey {
   return `${prefix}.${leaf}` as TranslationKey;
@@ -185,4 +188,62 @@ export async function DocTemplate(props: {
       </div>
     </TOCLayout>
   );
+}
+
+type DocSlugProps = { params: Promise<{ locale: string; slug: string }> };
+
+// The metadata and page of a /docs/<section>/[slug] route.
+export function docSlugRoute(opts: {
+  docs: readonly DocEntry[];
+  content: Record<string, React.ComponentType>;
+  namespace: string;
+  indexHref: "/docs/chat" | "/docs/platform";
+  ogImage?: (locale: string) => string;
+}) {
+  const find = async (props: DocSlugProps) => {
+    const slug = (await props.params).slug;
+    return opts.docs.find((d) => d.slug === slug);
+  };
+  return {
+    generateMetadata: async (props: DocSlugProps) => {
+      const doc = await find(props);
+      if (!doc) return notFoundMetadata();
+      const locale = await serverLocale(props);
+      const t = await getTranslations({ locale });
+      return getPageMetadata({
+        locale,
+        href: doc.href,
+        title: t(docKey(doc.i18nPrefix, "META.TITLE"), APP_VALUES),
+        description: t(docKey(doc.i18nPrefix, "META.DESCRIPTION"), APP_VALUES),
+        keywords: t(docKey(doc.i18nPrefix, "META.KEYWORDS"), APP_VALUES),
+        ogImage: opts.ogImage?.(locale),
+      });
+    },
+    Page: async (props: DocSlugProps) => {
+      const doc = await find(props);
+      const Content = doc ? opts.content[doc.slug] : undefined;
+      if (!doc || !Content) notFound();
+      const t = await getTranslations();
+      return (
+        <>
+          <DocPageSchema
+            slug={`${opts.indexHref.slice(1)}/${doc.slug}` as DocSlug}
+            title={t(docKey(doc.i18nPrefix, "META.TITLE"), APP_VALUES)}
+            description={t(
+              docKey(doc.i18nPrefix, "META.DESCRIPTION"),
+              APP_VALUES,
+            )}
+          />
+          <DocTemplate
+            doc={doc}
+            docs={opts.docs}
+            namespace={opts.namespace}
+            indexHref={opts.indexHref}
+          >
+            <Content />
+          </DocTemplate>
+        </>
+      );
+    },
+  };
 }

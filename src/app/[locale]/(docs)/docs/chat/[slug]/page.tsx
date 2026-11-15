@@ -1,5 +1,4 @@
 import { CHAT_DOCS } from "@/components/pages/docs/chat/chat-docs";
-import { DocTemplate, docKey } from "@/components/pages/docs/doc-template";
 import { CardsContent } from "@/components/pages/docs/chat/content/cards-content";
 import { CharactersContent } from "@/components/pages/docs/chat/content/characters-content";
 import { CustomProvidersContent } from "@/components/pages/docs/chat/content/custom-providers-content";
@@ -20,78 +19,37 @@ import { PresetsContent } from "@/components/pages/docs/chat/content/presets-con
 import { PromptTemplateContent } from "@/components/pages/docs/chat/content/prompt-template-content";
 import { RegexScriptsContent } from "@/components/pages/docs/chat/content/regex-scripts-content";
 import { TriggersAndLuaContent } from "@/components/pages/docs/chat/content/triggers-and-lua-content";
-import { APP_VALUES } from "@/lib/config/constants";
-import { DocPageSchema } from "@/lib/seo/json-ld";
-import { getPageMetadata, notFoundMetadata, ogBadge } from "@/lib/seo/metadata";
-import type { DocSlug } from "@/lib/types";
-import { serverLocale } from "@/lib/utils/server";
-import { getTranslations } from "next-intl/server";
-import { notFound } from "next/navigation";
+import { docSlugRoute } from "@/components/pages/docs/doc-template";
+import { ogBadge } from "@/lib/seo/metadata";
 
-interface PageProps {
-  params: Promise<{ locale: string; slug: string }>;
-}
+const route = docSlugRoute({
+  docs: CHAT_DOCS,
+  namespace: "DOCS_CHAT",
+  indexHref: "/docs/chat",
+  ogImage: (locale) => ogBadge("chat", locale),
+  content: {
+    "getting-started": GettingStartedContent,
+    characters: CharactersContent,
+    personas: PersonasContent,
+    lorebooks: LorebooksContent,
+    cards: CardsContent,
+    presets: PresetsContent,
+    "prompt-template": PromptTemplateContent,
+    "group-chats": GroupChatsContent,
+    multiplayer: MultiplayerContent,
+    macros: MacrosContent,
+    "regex-scripts": RegexScriptsContent,
+    "triggers-and-lua": TriggersAndLuaContent,
+    "memory-and-context": MemoryAndContextContent,
+    images: ImagesContent,
+    "custom-providers": CustomProvidersContent,
+    plugins: PluginsContent,
+    data: DataContent,
+    "janitorai-import": JanitoraiImportContent,
+    backups: BackupsContent,
+    theme: ThemeContent,
+  },
+});
 
-export async function generateMetadata(props: PageProps) {
-  const params = await props.params;
-  const doc = CHAT_DOCS.find((d) => d.slug === params.slug);
-  if (!doc) return notFoundMetadata();
-  const locale = await serverLocale(props);
-  const t = await getTranslations({ locale });
-  return getPageMetadata({
-    locale,
-    href: doc.href,
-    title: t(docKey(doc.i18nPrefix, "META.TITLE"), APP_VALUES),
-    description: t(docKey(doc.i18nPrefix, "META.DESCRIPTION"), APP_VALUES),
-    keywords: t(docKey(doc.i18nPrefix, "META.KEYWORDS"), APP_VALUES),
-    ogImage: ogBadge("chat", locale),
-  });
-}
-
-const CONTENT: Record<string, React.ComponentType> = {
-  "getting-started": GettingStartedContent,
-  characters: CharactersContent,
-  personas: PersonasContent,
-  lorebooks: LorebooksContent,
-  cards: CardsContent,
-  presets: PresetsContent,
-  "prompt-template": PromptTemplateContent,
-  "group-chats": GroupChatsContent,
-  multiplayer: MultiplayerContent,
-  macros: MacrosContent,
-  "regex-scripts": RegexScriptsContent,
-  "triggers-and-lua": TriggersAndLuaContent,
-  "memory-and-context": MemoryAndContextContent,
-  images: ImagesContent,
-  "custom-providers": CustomProvidersContent,
-  plugins: PluginsContent,
-  data: DataContent,
-  "janitorai-import": JanitoraiImportContent,
-  backups: BackupsContent,
-  theme: ThemeContent,
-};
-
-export default async function ChatDocPage(props: PageProps) {
-  const params = await props.params;
-  const doc = CHAT_DOCS.find((d) => d.slug === params.slug);
-  const Content = doc ? CONTENT[doc.slug] : undefined;
-  if (!doc || !Content) notFound();
-  const t = await getTranslations();
-  return (
-    <>
-      <DocPageSchema
-        slug={`docs/chat/${doc.slug}` as DocSlug}
-        title={t(docKey(doc.i18nPrefix, "META.TITLE"), APP_VALUES)}
-        description={t(docKey(doc.i18nPrefix, "META.DESCRIPTION"), APP_VALUES)}
-      />
-      <DocTemplate
-        doc={doc}
-        docs={CHAT_DOCS}
-        namespace="DOCS_CHAT"
-        indexHref="/docs/chat"
-      >
-        <Content />
-      </DocTemplate>
-    </>
-  );
-}
+export const generateMetadata = route.generateMetadata;
+export default route.Page;
