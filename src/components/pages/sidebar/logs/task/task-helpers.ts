@@ -1,53 +1,39 @@
 import { isOneOf } from "@/lib/utils/base";
-import { msg, type TranslationKey } from "@/lib/config/constants";
+import type { TranslationKey } from "@/lib/config/constants";
 import { dayjs } from "@/lib/utils/format/date";
 import type { TaskDto } from "@/openapi";
 
 export type TaskRow = NonNullable<TaskDto>;
 
-const TASK_STATUS = {
-  NOT_START: "NOT_START",
-  SUBMITTED: "SUBMITTED",
-  IN_PROGRESS: "IN_PROGRESS",
-  SUCCESS: "SUCCESS",
-  FAILURE: "FAILURE",
-  QUEUED: "QUEUED",
-  UNKNOWN: "UNKNOWN",
-} as const;
+const isTaskStatus = isOneOf([
+  "NOT_START",
+  "SUBMITTED",
+  "IN_PROGRESS",
+  "SUCCESS",
+  "FAILURE",
+  "QUEUED",
+  "UNKNOWN",
+] as const);
+
+const STATUS_COLOR: Partial<Record<string, string>> = {
+  SUCCESS: "bg-green-500/10 text-green-700 dark:text-green-400",
+  FAILURE: "bg-red-500/10 text-red-700 dark:text-red-400",
+  IN_PROGRESS: "bg-blue-500/10 text-blue-700 dark:text-blue-400",
+  QUEUED: "bg-amber-500/10 text-amber-700 dark:text-amber-400",
+  SUBMITTED: "bg-orange-500/10 text-orange-700 dark:text-orange-400",
+};
 
 export function getTaskStatusColor(status: string): string {
-  const normalized = status?.toUpperCase();
-  switch (normalized) {
-    case TASK_STATUS.SUCCESS:
-      return "bg-green-500/10 text-green-700 dark:text-green-400";
-    case TASK_STATUS.FAILURE:
-      return "bg-red-500/10 text-red-700 dark:text-red-400";
-    case TASK_STATUS.IN_PROGRESS:
-      return "bg-blue-500/10 text-blue-700 dark:text-blue-400";
-    case TASK_STATUS.QUEUED:
-      return "bg-amber-500/10 text-amber-700 dark:text-amber-400";
-    case TASK_STATUS.SUBMITTED:
-      return "bg-orange-500/10 text-orange-700 dark:text-orange-400";
-    default:
-      return "bg-muted text-muted-foreground";
-  }
+  return (
+    STATUS_COLOR[status?.toUpperCase()] ?? "bg-muted text-muted-foreground"
+  );
 }
-
-const TASK_STATUS_KEYS: Record<string, TranslationKey> = {
-  NOT_START: msg("LOGS.TASK.STATUS_VALUES.NOT_START"),
-  SUBMITTED: msg("LOGS.TASK.STATUS_VALUES.SUBMITTED"),
-  IN_PROGRESS: msg("LOGS.TASK.STATUS_VALUES.IN_PROGRESS"),
-  SUCCESS: msg("LOGS.TASK.STATUS_VALUES.SUCCESS"),
-  FAILURE: msg("LOGS.TASK.STATUS_VALUES.FAILURE"),
-  QUEUED: msg("LOGS.TASK.STATUS_VALUES.QUEUED"),
-  UNKNOWN: msg("LOGS.TASK.STATUS_VALUES.UNKNOWN"),
-};
 
 export function getTaskStatusKey(
   status: string | undefined,
 ): TranslationKey | null {
-  if (!status) return null;
-  return TASK_STATUS_KEYS[status.toUpperCase()] ?? null;
+  const s = status?.toUpperCase();
+  return isTaskStatus(s) ? `LOGS.TASK.STATUS_VALUES.${s}` : null;
 }
 
 export function formatTaskDuration(
@@ -67,15 +53,16 @@ export function isUrlLike(value: string | undefined): boolean {
   return /^https?:\/\//i.test(value.trim());
 }
 
+const VIDEO_ACTIONS = new Set([
+  "GENERATE",
+  "TEXT_GENERATE",
+  "IMAGE_GENERATE",
+  "TEXT2VIDEO",
+  "IMAGE2VIDEO",
+]);
+
 export function isVideoTaskAction(action: string): boolean {
-  const normalized = action?.toUpperCase();
-  return (
-    normalized === "GENERATE" ||
-    normalized === "TEXT_GENERATE" ||
-    normalized === "IMAGE_GENERATE" ||
-    normalized === "TEXT2VIDEO" ||
-    normalized === "IMAGE2VIDEO"
-  );
+  return VIDEO_ACTIONS.has(action?.toUpperCase());
 }
 
 export function isAudioTask(platform: string): boolean {
@@ -116,12 +103,14 @@ export function buildTaskFilters(
     }
   }
 
-  const startSec = filterValues.start_date
-    ? Math.floor(dayjs(filterValues.start_date).valueOf() / 1000)
-    : Math.floor(dayjs().startOf("day").valueOf() / 1000);
-  const endSec = filterValues.end_date
-    ? Math.floor(dayjs(filterValues.end_date).valueOf() / 1000)
-    : Math.floor(dayjs().endOf("day").valueOf() / 1000);
+  const startSec = (
+    filterValues.start_date
+      ? dayjs(filterValues.start_date)
+      : dayjs().startOf("day")
+  ).unix();
+  const endSec = (
+    filterValues.end_date ? dayjs(filterValues.end_date) : dayjs().endOf("day")
+  ).unix();
 
   return {
     filterValues,
