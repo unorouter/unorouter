@@ -6,11 +6,6 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { EdenArgs } from "@/lib/types/eden";
 import { handleElysia } from "@/lib/utils/base";
-import type {
-  PasskeyStatusData,
-  TwoFAStatusData,
-  UserSelfData,
-} from "@/openapi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { msg, SECURITY_PROOF_HEADER } from "@/lib/config/constants";
 import type { SecurityScope } from "@/lib/api/typebox/settings";
@@ -18,7 +13,6 @@ import {
   createPasskeyCredential,
   getPasskeyAssertion,
 } from "@/lib/utils/webauthn";
-import { dayjs } from "@/lib/utils/format/date";
 
 type TwoFA = (typeof rpc.api.auth.settings)["2fa"];
 
@@ -46,21 +40,9 @@ export function useBindEmailMutation() {
     mutationFn: async (
       args: EdenArgs<typeof rpc.api.auth.settings.email.bind, "post">,
     ) => handleElysia(await rpc.api.auth.settings.email.bind.post(args.body)),
-    onSuccess: (_, args, qc) => {
-      qc.setQueryData<UserSelfData>(queryKeys.auth(), (old) =>
-        old ? { ...old, email: args.body.email } : old,
-      );
-    },
+    invalidates: [queryKeys.auth()],
   });
 }
-
-type OAuthBindingField = "github_id" | "discord_id" | "google_id";
-
-const oauthBindingFieldMap: Record<string, OAuthBindingField> = {
-  github: "github_id",
-  discord: "discord_id",
-  google: "google_id",
-};
 
 export function useUnbindOAuthMutation() {
   return useApiMutation({
@@ -72,12 +54,7 @@ export function useUnbindOAuthMutation() {
           .bindings({ binding_type: args.bindingType })
           .delete(),
       ),
-    onSuccess: (_, args, qc) => {
-      const field = oauthBindingFieldMap[args.bindingType];
-      qc.setQueryData<UserSelfData>(queryKeys.auth(), (old) =>
-        old ? { ...old, [field]: "" } : old,
-      );
-    },
+    invalidates: [queryKeys.auth()],
   });
 }
 
@@ -86,23 +63,7 @@ export function useUpdateSelfMutation() {
     mutationFn: async (
       args: EdenArgs<typeof rpc.api.auth.settings.self, "put">,
     ) => handleElysia(await rpc.api.auth.settings.self.put(args.body)),
-    onSuccess: (_, args, qc) => {
-      qc.setQueryData<UserSelfData>(queryKeys.auth(), (old) =>
-        old
-          ? {
-              ...old,
-              ...(args.body.display_name && {
-                display_name: args.body.display_name,
-              }),
-              ...(args.body.email && { email: args.body.email }),
-              ...(args.body.customer_type && {
-                customer_type: args.body.customer_type,
-                customer_type_at: dayjs().unix(),
-              }),
-            }
-          : old,
-      );
-    },
+    invalidates: [queryKeys.auth()],
   });
 }
 
@@ -210,11 +171,8 @@ export function useEnable2FAMutation() {
   return useMutation({
     mutationFn: async (args: EdenArgs<TwoFA["enable"], "post">) =>
       handleElysia(await rpc.api.auth.settings["2fa"].enable.post(args.body)),
-    onSuccess: () => {
-      qc.setQueryData<TwoFAStatusData>(queryKeys.twoFAStatus(), (old) =>
-        old ? { ...old, enabled: true } : old,
-      );
-    },
+    onSuccess: () =>
+      qc.invalidateQueries({ queryKey: queryKeys.twoFAStatus() }),
   });
 }
 
@@ -227,11 +185,8 @@ export function useDisable2FAMutation() {
           headers: { [SECURITY_PROOF_HEADER]: args.proof },
         }),
       ),
-    onSuccess: () => {
-      qc.setQueryData<TwoFAStatusData>(queryKeys.twoFAStatus(), (old) =>
-        old ? { ...old, enabled: false } : old,
-      );
-    },
+    onSuccess: () =>
+      qc.invalidateQueries({ queryKey: queryKeys.twoFAStatus() }),
   });
 }
 
@@ -256,11 +211,8 @@ export function usePasskeyRegisterMutation() {
         }),
       );
     },
-    onSuccess: () => {
-      qc.setQueryData<PasskeyStatusData>(queryKeys.passkeyStatus(), (old) =>
-        old ? { ...old, enabled: true } : old,
-      );
-    },
+    onSuccess: () =>
+      qc.invalidateQueries({ queryKey: queryKeys.passkeyStatus() }),
   });
 }
 
@@ -273,11 +225,8 @@ export function usePasskeyDeleteMutation() {
           headers: { [SECURITY_PROOF_HEADER]: args.proof },
         }),
       ),
-    onSuccess: () => {
-      qc.setQueryData<PasskeyStatusData>(queryKeys.passkeyStatus(), (old) =>
-        old ? { ...old, enabled: false } : old,
-      );
-    },
+    onSuccess: () =>
+      qc.invalidateQueries({ queryKey: queryKeys.passkeyStatus() }),
   });
 }
 
