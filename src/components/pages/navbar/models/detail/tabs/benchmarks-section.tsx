@@ -19,6 +19,7 @@ import type {
 } from "@/lib/api/typebox/benchmarks";
 import { getVendorTheme } from "@/lib/config/vendor-registry";
 import { cn } from "@/lib/utils";
+import type { TranslationKey } from "@/lib/types";
 import { SectionHeading } from "../shared/section-heading";
 import { StatusBox } from "../shared/status-box";
 import { useLocale, useTranslations } from "next-intl";
@@ -28,29 +29,16 @@ type Props = {
   vendorName: string;
 };
 
-function useCategoryLabel(key: string): string {
-  const t = useTranslations();
-  switch (key) {
-    case "coding":
-      return t("MODEL_PAGE.BENCH_CAT_CODING");
-    case "reasoning":
-      return t("MODEL_PAGE.BENCH_CAT_REASONING");
-    case "math":
-      return t("MODEL_PAGE.BENCH_CAT_MATH");
-    case "knowledge":
-      return t("MODEL_PAGE.BENCH_CAT_KNOWLEDGE");
-    case "agentic":
-      return t("MODEL_PAGE.BENCH_CAT_AGENTIC");
-    case "multilingual":
-      return t("MODEL_PAGE.BENCH_CAT_MULTILINGUAL");
-    case "instructionFollowing":
-      return t("MODEL_PAGE.BENCH_CAT_INSTRUCTION");
-    case "multimodalGrounded":
-      return t("MODEL_PAGE.BENCH_CAT_MULTIMODAL");
-    default:
-      return key;
-  }
-}
+const CATEGORY_LABEL: Partial<Record<string, TranslationKey>> = {
+  coding: "MODEL_PAGE.BENCH_CAT_CODING",
+  reasoning: "MODEL_PAGE.BENCH_CAT_REASONING",
+  math: "MODEL_PAGE.BENCH_CAT_MATH",
+  knowledge: "MODEL_PAGE.BENCH_CAT_KNOWLEDGE",
+  agentic: "MODEL_PAGE.BENCH_CAT_AGENTIC",
+  multilingual: "MODEL_PAGE.BENCH_CAT_MULTILINGUAL",
+  instructionFollowing: "MODEL_PAGE.BENCH_CAT_INSTRUCTION",
+  multimodalGrounded: "MODEL_PAGE.BENCH_CAT_MULTIMODAL",
+};
 
 type Theme = ReturnType<typeof getVendorTheme>;
 
@@ -102,39 +90,26 @@ function BenchLmBlock(props: { result: BenchLmResult; theme: Theme }) {
           <ScoreBar
             label={t("MODEL_PAGE.BENCH_OVERALL")}
             score={props.result.overall}
-            theme={props.theme}
             accent
           />
         )}
-        {props.result.categories.map((cat) => (
-          <CategoryScoreBar
-            key={cat.key}
-            categoryKey={cat.key}
-            score={cat.score}
-            theme={props.theme}
-          />
-        ))}
+        {props.result.categories.map((cat) => {
+          const key = CATEGORY_LABEL[cat.key];
+          return (
+            <ScoreBar
+              key={cat.key}
+              label={key ? t(key) : cat.key}
+              score={cat.score}
+            />
+          );
+        })}
       </div>
       <SourceFooter>{t("MODEL_PAGE.BENCH_SOURCE_BENCHLM")}</SourceFooter>
     </section>
   );
 }
 
-function CategoryScoreBar(props: {
-  categoryKey: string;
-  score: number;
-  theme: Theme;
-}) {
-  const label = useCategoryLabel(props.categoryKey);
-  return <ScoreBar label={label} score={props.score} theme={props.theme} />;
-}
-
-function ScoreBar(props: {
-  label: string;
-  score: number;
-  theme: Theme;
-  accent?: boolean;
-}) {
+function ScoreBar(props: { label: string; score: number; accent?: boolean }) {
   const pct = clamp(props.score, 0, 100);
   return (
     <div className="flex items-center gap-3">
@@ -178,24 +153,14 @@ function LmArenaBlock(props: {
         <Table className="text-sm">
           <TableHeader>
             <TableRow className="hover:bg-transparent">
-              {(
-                [
+              <BenchHeads
+                keys={[
                   "MODEL_PAGE.BENCH_BOARD",
                   "MODEL_PAGE.BENCH_RANK",
                   "MODEL_PAGE.BENCH_SCORE",
                   "MODEL_PAGE.BENCH_VOTES",
-                ] as const
-              ).map((key, i) => (
-                <TableHead
-                  key={key}
-                  className={cn(
-                    "text-muted-foreground h-9 text-[10px] tracking-wider uppercase",
-                    i > 0 && "text-right",
-                  )}
-                >
-                  {t(key)}
-                </TableHead>
-              ))}
+                ]}
+              />
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -247,24 +212,14 @@ function DesignArenaBlock(props: { rows: DesignArenaRow[]; theme: Theme }) {
         <Table className="text-sm">
           <TableHeader>
             <TableRow className="hover:bg-transparent">
-              {(
-                [
+              <BenchHeads
+                keys={[
                   "MODEL_PAGE.BENCH_BOARD",
                   "MODEL_PAGE.BENCH_ELO",
                   "MODEL_PAGE.BENCH_WIN_RATE",
                   "MODEL_PAGE.BENCH_PERCENTILE",
-                ] as const
-              ).map((key, i) => (
-                <TableHead
-                  key={key}
-                  className={cn(
-                    "text-muted-foreground h-9 text-[10px] tracking-wider uppercase",
-                    i > 0 && "text-right",
-                  )}
-                >
-                  {t(key)}
-                </TableHead>
-              ))}
+                ]}
+              />
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -295,6 +250,21 @@ function DesignArenaBlock(props: { rows: DesignArenaRow[]; theme: Theme }) {
       <SourceFooter>{t("MODEL_PAGE.BENCH_SOURCE_DESIGN")}</SourceFooter>
     </section>
   );
+}
+
+function BenchHeads(props: { keys: TranslationKey[] }) {
+  const t = useTranslations();
+  return props.keys.map((key, i) => (
+    <TableHead
+      key={key}
+      className={cn(
+        "text-muted-foreground h-9 text-[10px] tracking-wider uppercase",
+        i > 0 && "text-right",
+      )}
+    >
+      {t(key)}
+    </TableHead>
+  ));
 }
 
 function SourceFooter(props: { children: React.ReactNode }) {

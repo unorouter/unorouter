@@ -7,41 +7,25 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import type { IconName } from "@/lib/config/icon-map";
+import type { TranslationKey } from "@/lib/types";
 import type { ModelMetadata } from "@/openapi";
 import { useTranslations } from "next-intl";
 
-const ICON_MAP: Record<string, IconName> = {
-  text: "type",
-  image: "image",
-  audio: "mic",
-  video: "video",
-  file: "file",
-  pdf: "file",
-  embeddings: "brain",
-  decisions: "git-branch",
+const MODALITY: Record<string, { icon: IconName; label: TranslationKey }> = {
+  text: { icon: "type", label: "MODELS.MODALITY.TEXT" },
+  image: { icon: "image", label: "MODELS.MODALITY.IMAGE" },
+  audio: { icon: "mic", label: "MODELS.MODALITY.AUDIO" },
+  video: { icon: "video", label: "MODELS.MODALITY.VIDEO" },
+  file: { icon: "file", label: "MODELS.MODALITY.FILE" },
+  pdf: { icon: "file", label: "MODELS.MODALITY.FILE" },
+  embeddings: { icon: "brain", label: "MODELS.MODALITY.EMBEDDINGS" },
+  decisions: { icon: "git-branch", label: "MODELS.MODALITY.DECISIONS" },
 };
 
 function ModalityIcon(props: { modality: string; sideLabel: string }) {
   const t = useTranslations();
-  const key = props.modality.toLowerCase();
-  const iconName = ICON_MAP[key];
-  const name =
-    key === "text"
-      ? t("MODELS.MODALITY.TEXT")
-      : key === "image"
-        ? t("MODELS.MODALITY.IMAGE")
-        : key === "audio"
-          ? t("MODELS.MODALITY.AUDIO")
-          : key === "video"
-            ? t("MODELS.MODALITY.VIDEO")
-            : key === "file" || key === "pdf"
-              ? t("MODELS.MODALITY.FILE")
-              : key === "embeddings"
-                ? t("MODELS.MODALITY.EMBEDDINGS")
-                : key === "decisions"
-                  ? t("MODELS.MODALITY.DECISIONS")
-                  : props.modality;
-  if (!iconName) {
+  const entry = MODALITY[props.modality.toLowerCase()];
+  if (!entry) {
     return (
       <span className="font-mono text-[10px] uppercase">{props.modality}</span>
     );
@@ -50,12 +34,12 @@ function ModalityIcon(props: { modality: string; sideLabel: string }) {
     <Tooltip>
       <TooltipTrigger
         render={<span className="inline-flex items-center" />}
-        aria-label={`${props.sideLabel}: ${name}`}
+        aria-label={`${props.sideLabel}: ${t(entry.label)}`}
       >
-        <Icon name={iconName} className="h-3 w-3" />
+        <Icon name={entry.icon} className="h-3 w-3" />
       </TooltipTrigger>
       <TooltipContent>
-        {props.sideLabel}: {name}
+        {props.sideLabel}: {t(entry.label)}
       </TooltipContent>
     </Tooltip>
   );
