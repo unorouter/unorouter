@@ -6,13 +6,18 @@ import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { logger } from "@/lib/utils/logger";
 import { chatRunningAtom, chatStore, dirtyFormsAtom } from "@/store/chat-store";
 import { useTranslations } from "next-intl";
-import { useEffect } from "react";
+import { useEffect, useEffectEvent } from "react";
 import { toast } from "sonner";
 
 export function SwRegister() {
   const t = useTranslations();
-  const updateText = t("COMMON.UPDATE_AVAILABLE");
-  const reloadText = t("COMMON.UPDATE_RELOAD");
+  const offer = useEffectEvent((apply: () => void) =>
+    toast(t("COMMON.UPDATE_AVAILABLE"), {
+      id: "sw-update",
+      duration: Infinity,
+      action: { label: t("COMMON.UPDATE_RELOAD"), onClick: apply },
+    }),
+  );
 
   useEffect(() => {
     // Mounting proves this build's chunks loaded, so release error-fallback's one-shot guard.
@@ -84,12 +89,6 @@ export function SwRegister() {
     let stale = false;
     const busy = () =>
       chatStore.get(chatRunningAtom) || chatStore.get(dirtyFormsAtom) > 0;
-    const offer = (apply: () => void) =>
-      toast(updateText, {
-        id: "sw-update",
-        duration: Infinity,
-        action: { label: reloadText, onClick: apply },
-      });
     const reload = (reason: string) => {
       logChatDebug("sw.reload", { reason });
       releaseLocalDbForReload().finally(() => window.location.reload());
@@ -108,16 +107,15 @@ export function SwRegister() {
       });
       worker.postMessage({ type: "SKIP_WAITING" });
     };
-    const onUpdateReady = () => {
-      // Only an update: a first install has no controller and needs no reload.
+    // Only an update: a first install has no controller and needs no reload.
+    const markStale = (event: string) => {
       if (!navigator.serviceWorker.controller) return;
       stale = true;
-      logChatDebug("sw.update_ready", {
-        visible: document.visibilityState === "visible",
-      });
+      logChatDebug(event, { visible: document.visibilityState === "visible" });
       if (document.visibilityState === "visible")
         offer(() => applyWaiting("toast"));
     };
+    const onUpdateReady = () => markStale("sw.update_ready");
     const watchInstalling = (reg: ServiceWorkerRegistration) => {
       const worker = reg.installing;
       if (!worker) return;
@@ -127,15 +125,7 @@ export function SwRegister() {
     };
     // Fallback: a controller change without our SKIP_WAITING (another tab
     // applied it, or a first install claiming nothing) is treated the same.
-    const onControllerChange = () => {
-      if (!navigator.serviceWorker.controller) return;
-      stale = true;
-      logChatDebug("sw.controllerchange", {
-        visible: document.visibilityState === "visible",
-      });
-      if (document.visibilityState === "visible")
-        offer(() => applyWaiting("toast"));
-    };
+    const onControllerChange = () => markStale("sw.controllerchange");
     navigator.serviceWorker.addEventListener(
       "controllerchange",
       onControllerChange,
@@ -165,7 +155,6 @@ export function SwRegister() {
         onControllerChange,
       );
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- register once per mount; the toast strings are captured at registration and a locale change must not re-register the worker
   }, []);
 
   return null;
