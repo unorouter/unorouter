@@ -15,7 +15,6 @@ import {
 } from "@/hooks/auth/provider-consent-hook";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { toast } from "sonner";
 import type { ViewMode } from "@/components/pages/navbar/models/filters/view-mode-toggle";
 import { DataTableId } from "@/lib/types/enums";
 import { ProviderList } from "./provider-list";
@@ -37,13 +36,7 @@ export function ModelFocus(props: {
 
   const handlers: ProviderHandlers = {
     open: props.onOpenAlias,
-    revoke: (alias) =>
-      revokeMutation.mutate(
-        { body: { alias } },
-        {
-          onSuccess: () => toast.success(t("CONSENT.REVOKED")),
-        },
-      ),
+    revoke: (alias) => revokeMutation.mutate({ body: { alias } }),
     revoking: revokeMutation.isPending,
   };
 

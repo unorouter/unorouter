@@ -28,7 +28,6 @@ import { Icon } from "@/components/ui/icon";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { toast } from "sonner";
 import { ProviderList } from "./provider-list";
 import { ProviderFilterSidebar } from "./provider-filter-sidebar";
 import type { ProviderHandlers, ProviderSelection } from "./provider-parts";
@@ -92,13 +91,7 @@ export function ProviderView(props: {
 
   const handlers: ProviderHandlers = {
     open: props.onOpen,
-    revoke: (alias) =>
-      revokeMutation.mutate(
-        { body: { alias } },
-        {
-          onSuccess: () => toast.success(t("CONSENT.REVOKED")),
-        },
-      ),
+    revoke: (alias) => revokeMutation.mutate({ body: { alias } }),
     revoking: revokeMutation.isPending,
   };
 

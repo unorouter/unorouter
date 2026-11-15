@@ -42,5 +42,6 @@ export function useRevokeProviderConsentMutation() {
     mutationFn: async (args: EdenArgs<ProviderConsents, "delete">) =>
       handleElysia(await rpc.api.auth["provider-consents"].delete(args.body)),
     invalidates: [queryKeys.providerConsents()],
+    successKey: "CONSENT.REVOKED",
   });
 }
