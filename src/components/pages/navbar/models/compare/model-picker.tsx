@@ -42,7 +42,6 @@ export function ModelPicker(props: {
   selected: string[];
   onAdd: (name: string) => void;
   variant?: "button" | "slot";
-  label?: string;
 }) {
   const t = useTranslations();
   const [open, setOpen] = useState(false);
@@ -73,7 +72,7 @@ export function ModelPicker(props: {
               className="border-border text-muted-foreground hover:border-primary/50 hover:text-foreground flex w-full items-center justify-center gap-2 rounded-lg border border-dashed py-8 text-sm transition-colors"
             >
               <Icon name="plus-circle" className="h-5 w-5" />
-              {props.label ?? t("MODELS.COMPARE.SELECT_MODEL")}
+              {t("MODELS.COMPARE.SELECT_MODEL")}
             </button>
           ) : (
             <Button variant="outline" className="border-dashed">
