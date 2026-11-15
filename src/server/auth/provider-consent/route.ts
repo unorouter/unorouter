@@ -51,9 +51,7 @@ export const providerConsentRoute = new Elysia({
     "/",
     async ({ body, cookie, upstream }) => {
       if ((await getUserId(cookie, true)) !== null)
-        return unwrap(
-          await grantProviderConsents(body, { headers: upstream.headers }),
-        );
+        return unwrap(await grantProviderConsents(body, upstream));
       const guestId = ensureGuestId(cookie);
       forgetGuestConsents(guestId);
       return unwrap(
@@ -69,9 +67,7 @@ export const providerConsentRoute = new Elysia({
     "/",
     async ({ body, cookie, upstream }) => {
       if ((await getUserId(cookie, true)) !== null)
-        return unwrap(
-          await revokeProviderConsent(body, { headers: upstream.headers }),
-        );
+        return unwrap(await revokeProviderConsent(body, upstream));
       const guestId = readGuestId(cookie);
       if (!guestId) return { success: true, message: "ok" };
       forgetGuestConsents(guestId);

@@ -8,13 +8,10 @@ import { Elysia } from "elysia";
 export const termsAcceptanceRoute = new Elysia({ prefix: "/terms-acceptance" })
   .derive(deriveUpstream)
 
-  .get("/", async ({ upstream }) =>
-    unwrap(await getTermsAcceptance({ headers: upstream.headers })),
-  )
+  .get("/", async ({ upstream }) => unwrap(await getTermsAcceptance(upstream)))
 
   .post(
     "/",
-    async ({ body, upstream }) =>
-      unwrap(await acceptTerms(body, { headers: upstream.headers })),
+    async ({ body, upstream }) => unwrap(await acceptTerms(body, upstream)),
     { body: termsAcceptBody },
   );

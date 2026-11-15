@@ -72,42 +72,32 @@ export const settingsRoute = new Elysia({ prefix: "/settings" })
     { body: updateSelfBody },
   )
 
-  .delete("/self", async ({ upstream }) =>
-    unwrap(await deleteSelf({ headers: upstream.headers })),
-  )
+  .delete("/self", async ({ upstream }) => unwrap(await deleteSelf(upstream)))
 
   // POST, not GET: Lax cookies ride a cross-site link, so a GET here rotated the
   // victim's token from any page they clicked.
   .post("/token", async ({ upstream }) =>
-    unwrap(await generateAccessToken({ headers: upstream.headers })),
+    unwrap(await generateAccessToken(upstream)),
   )
 
   .post(
     "/setting",
     async ({ body, upstream }) =>
-      unwrap(
-        await updateUserSetting(body, {
-          headers: upstream.headers,
-        }),
-      ),
+      unwrap(await updateUserSetting(body, upstream)),
     { body: updateSettingBody },
   )
 
   .put(
     "/timeout",
     async ({ body, upstream }) =>
-      unwrap(
-        await updateTimeoutPreference(body, {
-          headers: upstream.headers,
-        }),
-      ),
+      unwrap(await updateTimeoutPreference(body, upstream)),
     { body: updateTimeoutBody },
   )
 
   .get(
     "/verification",
     async ({ query, upstream }) =>
-      unwrap(await sendEmailVerification(query, { headers: upstream.headers })),
+      unwrap(await sendEmailVerification(query, upstream)),
     { query: verificationQuery },
   )
 
@@ -115,32 +105,24 @@ export const settingsRoute = new Elysia({ prefix: "/settings" })
   // carrying the attacker's own address and code repointed the victim's reset email.
   .post(
     "/email/bind",
-    async ({ body, upstream }) =>
-      unwrap(await emailBind(body, { headers: upstream.headers })),
+    async ({ body, upstream }) => unwrap(await emailBind(body, upstream)),
     { body: emailBindQuery },
   )
 
   .get("/2fa/status", async ({ upstream }) =>
-    unwrap(await get2FAStatus({ headers: upstream.headers })),
+    unwrap(await get2FAStatus(upstream)),
   )
 
   .get(
     "/verify/methods",
     async ({ query, upstream }) =>
-      unwrap(
-        await getVerificationMethods(query, { headers: upstream.headers }),
-      ),
+      unwrap(await getVerificationMethods(query, upstream)),
     { query: verificationMethodsQuery },
   )
 
   .post(
     "/verify",
-    async ({ body, upstream }) =>
-      unwrap(
-        await universalVerify(body, {
-          headers: upstream.headers,
-        }),
-      ),
+    async ({ body, upstream }) => unwrap(await universalVerify(body, upstream)),
     { body: securityVerifyBody },
   )
 
@@ -155,7 +137,7 @@ export const settingsRoute = new Elysia({ prefix: "/settings" })
             scope: query.scope,
             redirect_uri: query.redirect,
           },
-          { headers: upstream.headers },
+          upstream,
         ),
       ),
     { query: oauthVerifyStateQuery },
@@ -164,33 +146,23 @@ export const settingsRoute = new Elysia({ prefix: "/settings" })
   .post(
     "/passkey/verify/begin",
     async ({ body, upstream }) =>
-      unwrap(
-        await passkeyVerifyBegin(body, {
-          headers: upstream.headers,
-        }),
-      ),
+      unwrap(await passkeyVerifyBegin(body, upstream)),
     { body: passkeyVerifyBeginBody },
   )
 
   .post(
     "/passkey/verify/finish",
     async ({ body, upstream }) =>
-      unwrap(
-        await passkeyVerifyFinish(body, {
-          headers: upstream.headers,
-        }),
-      ),
+      unwrap(await passkeyVerifyFinish(body, upstream)),
     { body: passkeyVerifyFinishBody },
   )
 
-  .post("/2fa/setup", async ({ upstream }) =>
-    unwrap(await setup2FA({ headers: upstream.headers })),
-  )
+  .post("/2fa/setup", async ({ upstream }) => unwrap(await setup2FA(upstream)))
 
   .post(
     "/2fa/enable",
     async ({ body, cookie, upstream }) => {
-      const res = await enable2FA(body, { headers: upstream.headers });
+      const res = await enable2FA(body, upstream);
       await keepRotatedSession(cookie, res.data.data);
       return unwrap(res);
     },
@@ -198,25 +170,23 @@ export const settingsRoute = new Elysia({ prefix: "/settings" })
   )
 
   .post("/2fa/disable", async ({ cookie, upstream }) => {
-    const res = await disable2FA({ headers: upstream.headers });
+    const res = await disable2FA(upstream);
     await keepRotatedSession(cookie, res.data.data);
     return unwrap(res);
   })
 
   .get("/passkey", async ({ upstream }) =>
-    unwrap(await passkeyStatus({ headers: upstream.headers })),
+    unwrap(await passkeyStatus(upstream)),
   )
 
   .post("/passkey/register/begin", async ({ upstream }) =>
-    unwrap(await passkeyRegisterBegin({ headers: upstream.headers })),
+    unwrap(await passkeyRegisterBegin(upstream)),
   )
 
   .post(
     "/passkey/register/finish",
     async ({ body, cookie, upstream }) => {
-      const res = await passkeyRegisterFinish(body, {
-        headers: upstream.headers,
-      });
+      const res = await passkeyRegisterFinish(body, upstream);
       await keepRotatedSession(cookie, res.data.data);
       return unwrap(res);
     },
@@ -224,7 +194,7 @@ export const settingsRoute = new Elysia({ prefix: "/settings" })
   )
 
   .delete("/passkey", async ({ cookie, upstream }) => {
-    const res = await passkeyDelete({ headers: upstream.headers });
+    const res = await passkeyDelete(upstream);
     await keepRotatedSession(cookie, res.data.data);
     return unwrap(res);
   });

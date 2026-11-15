@@ -23,9 +23,7 @@ export const ownPurposeObjectionRoute = new Elysia({
 
   .get("/", async ({ cookie, upstream }) => {
     if ((await getUserId(cookie, true)) !== null)
-      return unwrap(
-        await getOwnPurposeObjection({ headers: upstream.headers }),
-      );
+      return unwrap(await getOwnPurposeObjection(upstream));
     const guestId = readGuestId(cookie);
     if (!guestId)
       return { success: true, message: "", data: { objection: false } };
@@ -40,9 +38,7 @@ export const ownPurposeObjectionRoute = new Elysia({
     "/",
     async ({ body, cookie, upstream }) => {
       if ((await getUserId(cookie, true)) !== null)
-        return unwrap(
-          await setOwnPurposeObjection(body, { headers: upstream.headers }),
-        );
+        return unwrap(await setOwnPurposeObjection(body, upstream));
       const guestId = ensureGuestId(cookie);
       forgetGuestObjection(guestId);
       return unwrap(

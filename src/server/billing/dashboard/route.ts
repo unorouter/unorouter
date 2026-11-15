@@ -9,11 +9,7 @@ export const dashboardRoute = new Elysia({ prefix: "/dashboard" })
   .get(
     "/quota",
     async ({ query, upstream }) =>
-      unwrap(
-        await getUserQuotaDates(query, {
-          headers: upstream.headers,
-        }),
-      ),
+      unwrap(await getUserQuotaDates(query, upstream)),
     { query: quotaQuery },
   )
   .get(

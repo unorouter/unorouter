@@ -23,8 +23,7 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
 
   .get(
     "/search",
-    async ({ query, upstream }) =>
-      unwrap(await searchTokens(query, { headers: upstream.headers })),
+    async ({ query, upstream }) => unwrap(await searchTokens(query, upstream)),
     { query: tokenSearchQuery },
   )
 
@@ -41,9 +40,7 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
             default_reasoning_effort: body.default_reasoning_effort ?? null,
             prompt_cache: body.prompt_cache ?? null,
           },
-          {
-            headers: upstream.headers,
-          },
+          upstream,
         ),
       ),
     { body: createTokenBody },
@@ -63,9 +60,7 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
             prompt_cache: body.prompt_cache ?? null,
           },
           undefined,
-          {
-            headers: upstream.headers,
-          },
+          upstream,
         ),
       ),
     { body: updateTokenBody },
@@ -85,9 +80,7 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
             prompt_cache: body.prompt_cache ?? null,
           },
           { status_only: "true" },
-          {
-            headers: upstream.headers,
-          },
+          upstream,
         ),
       ),
     { body: updateTokenBody },
@@ -96,7 +89,7 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
   .post(
     "/:id/key",
     async ({ params, upstream }) =>
-      unwrap(await getTokenKey(params.id, { headers: upstream.headers })),
+      unwrap(await getTokenKey(params.id, upstream)),
     { params: tokenIdParams },
   )
 
@@ -106,7 +99,7 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
   })
 
   .get("/groups", async ({ upstream }): Promise<Record<string, UserGroup>> => {
-    const res = await getUserGroups({ headers: upstream.headers });
+    const res = await getUserGroups(upstream);
     const body = unwrap(res);
     return body.data ?? {};
   })
@@ -114,6 +107,6 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
   .delete(
     "/:id",
     async ({ params, upstream }) =>
-      unwrap(await deleteToken(params.id, { headers: upstream.headers })),
+      unwrap(await deleteToken(params.id, upstream)),
     { params: tokenIdParams },
   );

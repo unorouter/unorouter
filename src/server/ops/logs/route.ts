@@ -23,8 +23,7 @@ export const logsRoute = new Elysia({ prefix: "/logs" })
 
   .get(
     "/",
-    async ({ query, upstream }) =>
-      unwrap(await getUserLogs(query, { headers: upstream.headers })),
+    async ({ query, upstream }) => unwrap(await getUserLogs(query, upstream)),
     { query: logsQuery },
   )
 
@@ -32,7 +31,7 @@ export const logsRoute = new Elysia({ prefix: "/logs" })
     "/by-request",
     async ({ query, upstream }) => {
       // The gateway answers only the caller's own row, so the session must go along.
-      const res = await getLogByRequest(query, { headers: upstream.headers });
+      const res = await getLogByRequest(query, upstream);
       const row = unwrap(res)?.data;
       if (!row?.model_name) return Value.Create(byRequestResponse);
       return {
@@ -51,24 +50,19 @@ export const logsRoute = new Elysia({ prefix: "/logs" })
   .get(
     "/stat",
     async ({ query, upstream }) =>
-      unwrap(await getLogsSelfStat(query, { headers: upstream.headers })),
+      unwrap(await getLogsSelfStat(query, upstream)),
     { query: logsStatQuery },
   )
 
   .get(
     "/perf",
     async ({ query, upstream }) =>
-      unwrap(
-        await getSelfPerfMetrics(query, {
-          headers: upstream.headers,
-        }),
-      ),
+      unwrap(await getSelfPerfMetrics(query, upstream)),
     { query: logsPerfQuery },
   )
 
   .get(
     "/task",
-    async ({ query, upstream }) =>
-      unwrap(await getUserTask(query, { headers: upstream.headers })),
+    async ({ query, upstream }) => unwrap(await getUserTask(query, upstream)),
     { query: taskLogsQuery },
   );

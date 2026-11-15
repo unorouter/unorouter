@@ -23,43 +23,27 @@ export const partnerRoute = new Elysia({ prefix: "/partner" })
   .get(
     "/redemption",
     async ({ query, upstream }) =>
-      unwrap(
-        await partnerListRedemptions(query, {
-          headers: upstream.headers,
-        }),
-      ),
+      unwrap(await partnerListRedemptions(query, upstream)),
     { query: paginationQuery },
   )
 
   .post(
     "/redemption",
     async ({ body, upstream }) =>
-      unwrap(
-        await partnerCreateRedemption(body, {
-          headers: upstream.headers,
-        }),
-      ),
+      unwrap(await partnerCreateRedemption(body, upstream)),
     { body: partnerRedemptionBody },
   )
 
   .delete(
     "/redemption/:id",
     async ({ params, upstream }) =>
-      unwrap(
-        await partnerVoidRedemption(params.id, {
-          headers: upstream.headers,
-        }),
-      ),
+      unwrap(await partnerVoidRedemption(params.id, upstream)),
     { params: partnerVoidParams },
   )
 
   .post(
     "/grant",
     async ({ body, upstream }) =>
-      unwrap(
-        await partnerGrantQuota(body, {
-          headers: upstream.headers,
-        }),
-      ),
+      unwrap(await partnerGrantQuota(body, upstream)),
     { body: partnerGrantBody },
   );

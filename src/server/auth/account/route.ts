@@ -50,11 +50,7 @@ export const authRoute = new Elysia({ prefix: "/account" })
     "/login",
     async ({ body, cookie, upstream }) => {
       const { turnstile, ...loginRequest } = body;
-      const res = await login(
-        loginRequest,
-        { turnstile },
-        { headers: upstream.headers },
-      );
+      const res = await login(loginRequest, { turnstile }, upstream);
       return await handleAuthResponse(res, cookie);
     },
     { body: loginBody },
@@ -63,9 +59,7 @@ export const authRoute = new Elysia({ prefix: "/account" })
   .post(
     "/login/2fa",
     async ({ body, cookie, upstream }) => {
-      const res = await verify2FALogin(body, {
-        headers: upstream.headers,
-      });
+      const res = await verify2FALogin(body, upstream);
       return await handleAuthResponse(res, cookie);
     },
     { body: twoFALoginBody },
@@ -75,11 +69,7 @@ export const authRoute = new Elysia({ prefix: "/account" })
     "/register",
     async ({ body, cookie, upstream }) => {
       const { turnstile, ...registerRequest } = body;
-      const res = await register(
-        registerRequest,
-        { turnstile },
-        { headers: upstream.headers },
-      );
+      const res = await register(registerRequest, { turnstile }, upstream);
       return await handleAuthResponse(res, cookie);
     },
     { body: registerBody },
