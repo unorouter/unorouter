@@ -40,12 +40,13 @@ const metaKey = (id: string) => `${PREFIX}m:${id}`;
 
 // A failed or skipped write leaves a gap, so the reply stops being served from
 // the mirror: no meta (never started) or t=1 both answer 404 elsewhere.
-function cut(id: string) {
+export async function mirrorCut(id: string): Promise<void> {
   const m = mirrors.get(id);
   if (!m || m.cut) return;
   m.cut = true;
-  writer?.hset(metaKey(id), "t", "1").catch(() => {});
+  await writer?.hset(metaKey(id), "t", "1").catch(() => {});
 }
+const cut = (id: string) => void mirrorCut(id);
 
 type ExecResult = [Error | null, unknown][] | null;
 const failed = (r: ExecResult) => !r || r.some(([err]) => err);

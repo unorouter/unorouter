@@ -2,6 +2,7 @@ import { uid } from "@/lib/utils/base";
 import {
   initMirror,
   mirrorChunk,
+  mirrorCut,
   mirrorDrop,
   mirrorEnd,
   mirrorStart,
@@ -205,4 +206,17 @@ export function abortStream(id: string, userId: number): boolean {
 }
 
 // connected at start, so the first reply after a restart is already mirrored
+// preStop (ops/drain): the pod has left the Service, so only replies already in
+// flight remain. Whatever outlives the wait is marked cut, so a tab resuming on
+// another replica stops at once instead of idling a minute on a mirror with no end.
+export async function drainStreams(maxMs: number): Promise<number> {
+  const until = Date.now() + maxMs;
+  const running = () => [...entries].filter(([, e]) => !e.done);
+  while (running().length > 0 && Date.now() < until)
+    await new Promise((r) => setTimeout(r, 1000));
+  const left = running();
+  await Promise.all(left.map(([id]) => mirrorCut(id)));
+  return left.length;
+}
+
 if (!process.env.NEXT_PHASE) initMirror(abortStream);

@@ -58,10 +58,16 @@ spec:
           labelSelector:
             matchLabels: { app: unorouter }
       priorityClassName: serving
+      # preStop holds SIGTERM until chat replies in flight finish (up to 240 s,
+      # src/server/ops/drain); the default 30 s cut them on every rollout.
+      terminationGracePeriodSeconds: 270
       imagePullSecrets:
         - name: ghcr-pull
       containers:
         - name: unorouter
+          lifecycle:
+            preStop:
+              httpGet: { path: /api/ops/drain, port: 3000 }
           # pinned by the unorouter repo's GHCR workflow (deploy job); ArgoCD rolls it out.
           # NEVER set this back to :latest -- a floating tag never changes the manifest, so
           # ArgoCD sees no diff and the deploy silently does not happen.
