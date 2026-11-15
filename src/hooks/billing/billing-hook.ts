@@ -7,7 +7,6 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { EdenArgs, EdenQuery } from "@/lib/types/eden";
 import { handleElysia, safeJsonParse } from "@/lib/utils/base";
-import type { SubscriptionSelfData } from "@/openapi";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
@@ -57,15 +56,7 @@ export function useUpdateBillingPreferenceMutation() {
       handleElysia(
         await rpc.api.billing.core["subscription-preference"].put(args.body),
       ),
-    onSuccess: (_, args, qc) => {
-      qc.setQueryData<SubscriptionSelfData>(
-        queryKeys.subscriptionSelf(),
-        (old) =>
-          old
-            ? { ...old, billing_preference: args.body.billing_preference }
-            : old,
-      );
-    },
+    invalidates: [queryKeys.subscriptionSelf()],
   });
 }
 
