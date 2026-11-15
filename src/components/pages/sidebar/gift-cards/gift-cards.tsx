@@ -146,7 +146,7 @@ export function GiftCards() {
           label={t("GIFT_CARDS.BALANCE")}
           value={renderQuota(balance)}
           icon={<Icon name="wallet" className="h-4 w-4" />}
-          accentColor="text-emerald-500"
+          accentColor="var(--chart-2)"
           isLoading={authQuery.isLoading}
         />
         <div className="ml-auto flex gap-2">

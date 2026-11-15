@@ -42,7 +42,7 @@ export function VendorParamsFields(props: Props) {
 
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-      {imageParams(descriptor).qualityChoices?.length && (
+      {(imageParams(descriptor).qualityChoices?.length ?? 0) > 0 && (
         <SelectParamField
           name="params.quality"
           choices={imageParams(descriptor).qualityChoices ?? []}
@@ -51,7 +51,7 @@ export function VendorParamsFields(props: Props) {
         />
       )}
 
-      {imageParams(descriptor).outputFormatChoices?.length && (
+      {(imageParams(descriptor).outputFormatChoices?.length ?? 0) > 0 && (
         <SelectParamField
           name="params.outputFormat"
           choices={imageParams(descriptor).outputFormatChoices ?? []}
@@ -60,7 +60,7 @@ export function VendorParamsFields(props: Props) {
         />
       )}
 
-      {imageParams(descriptor).backgroundChoices?.length && (
+      {(imageParams(descriptor).backgroundChoices?.length ?? 0) > 0 && (
         <FormField
           control={form.control}
           name="params.background"

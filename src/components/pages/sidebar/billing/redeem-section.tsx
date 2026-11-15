@@ -5,7 +5,6 @@ import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import { useRedeemMutation } from "@/hooks/billing/billing-hook";
 import { renderQuota } from "@/lib/config/constants";
-import { handleError } from "@/lib/utils/client";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -27,7 +26,6 @@ export function RedeemSection() {
             t("BILLING.REDEEM.SUCCESS", { amount: renderQuota(quota) }),
           );
         },
-        onError: (error) => handleError(error, t),
       },
     );
   }
