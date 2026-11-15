@@ -12,6 +12,20 @@ type LuaFn = (...args: never[]) => unknown;
 
 const request = makeRequestLimiter();
 
+const LLM_UNSUPPORTED = JSON.stringify({
+  success: false,
+  result: "LLM unsupported",
+});
+
+const llmResult = (result: string) =>
+  JSON.stringify({ success: !result.startsWith("Error:"), result });
+
+const risuMessage = (m: TriggerContext["chat"][number]) => ({
+  role: toRisuRole(m.role),
+  data: m.data,
+  time: 0,
+});
+
 function promptToChatML(prompt: { role: string; content: string }[]): string {
   return prompt
     .map((p) => `<|im_start|>${p.role}\n${p.content}<|im_end|>`)
@@ -24,9 +38,7 @@ export function buildLuaApi(ctx: TriggerContext): Record<string, LuaFn> {
 
   const llm = async (id: string, promptStr: string): Promise<string> => {
     if (!low(id)) return JSON.stringify(null);
-    if (!ctx.ops?.runLLM) {
-      return JSON.stringify({ success: false, result: "LLM unsupported" });
-    }
+    if (!ctx.ops?.runLLM) return LLM_UNSUPPORTED;
     try {
       // promptStr comes from user-authored Lua across the wasm boundary, so
       // every entry is shaped here before it is interpolated into ChatML.
@@ -34,11 +46,7 @@ export function buildLuaApi(ctx: TriggerContext): Record<string, LuaFn> {
         role: typeof p.role === "string" ? p.role : "user",
         content: typeof p.content === "string" ? p.content : "",
       }));
-      const result = await ctx.ops.runLLM(promptToChatML(prompt));
-      return JSON.stringify({
-        success: !result.startsWith("Error:"),
-        result,
-      });
+      return llmResult(await ctx.ops.runLLM(promptToChatML(prompt)));
     } catch (err) {
       return JSON.stringify({ success: false, result: String(err) });
     }
@@ -75,21 +83,9 @@ export function buildLuaApi(ctx: TriggerContext): Record<string, LuaFn> {
 
     getChatMain: (_id: string, index: number) => {
       const m = ctx.chat.at(index);
-      if (!m) return JSON.stringify(null);
-      return JSON.stringify({
-        role: toRisuRole(m.role),
-        data: m.data,
-        time: 0,
-      });
+      return JSON.stringify(m ? risuMessage(m) : null);
     },
-    getFullChatMain: () =>
-      JSON.stringify(
-        ctx.chat.map((m) => ({
-          role: toRisuRole(m.role),
-          data: m.data,
-          time: 0,
-        })),
-      ),
+    getFullChatMain: () => JSON.stringify(ctx.chat.map(risuMessage)),
     setFullChatMain: (id: string, value: string) => {
       if (!safe(id)) return;
       const real = recArr(JSON.parse(value));
@@ -158,14 +154,8 @@ export function buildLuaApi(ctx: TriggerContext): Record<string, LuaFn> {
     axLLMMain: llm,
     simpleLLM: async (id: string, prompt: string) => {
       if (!low(id)) return;
-      if (!ctx.ops?.runLLM) {
-        return JSON.stringify({ success: false, result: "LLM unsupported" });
-      }
-      const result = await ctx.ops.runLLM(prompt);
-      return JSON.stringify({
-        success: !result.startsWith("Error:"),
-        result,
-      });
+      if (!ctx.ops?.runLLM) return LLM_UNSUPPORTED;
+      return llmResult(await ctx.ops.runLLM(prompt));
     },
   };
 }
