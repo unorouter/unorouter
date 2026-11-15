@@ -3,9 +3,9 @@
 import { LogoImage } from "@/components/elements/brand/brand";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { VendorFilter } from "@/components/pages/navbar/models/filters/vendor-filter";
+import { SearchInput } from "@/components/pages/navbar/models/browse/models-toolbar";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -101,18 +101,12 @@ export function StatusPage() {
           <SummaryCards />
 
           <div className="flex flex-wrap items-center gap-3">
-            <div className="relative w-full">
-              <Icon
-                name="search"
-                className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2"
-              />
-              <Input
-                placeholder={t("STATUS.FILTER.SEARCH_PLACEHOLDER")}
-                value={s.search}
-                onChange={(e) => s.setSearch(e.target.value)}
-                className="pl-10"
-              />
-            </div>
+            <SearchInput
+              className="relative w-full"
+              placeholder={t("STATUS.FILTER.SEARCH_PLACEHOLDER")}
+              value={s.search}
+              onChange={s.setSearch}
+            />
             <VendorFilter vendorCounts={vendorCounts} />
             <Select
               value={s.bucket}
@@ -153,12 +147,15 @@ export function StatusPage() {
                   { value: "error", label: t("STATUS.STATE.DOWN") },
                 ] as const
               ).map((p) => (
-                <FilterPill
+                <Button
                   key={p.value}
-                  active={s.statusFilter === p.value}
+                  variant={s.statusFilter === p.value ? "default" : "outline"}
+                  size="sm"
                   onClick={() => s.setStatusFilter(p.value)}
-                  label={p.label}
-                />
+                  className="font-mono text-xs"
+                >
+                  {p.label}
+                </Button>
               ))}
               {s.visibleVendors.length > 0 && (
                 <CollapseAllButton
@@ -281,23 +278,6 @@ export function StatusPage() {
         </div>
       </div>
     </StatusBlocksI18n>
-  );
-}
-
-function FilterPill(props: {
-  active: boolean;
-  onClick: () => void;
-  label: string;
-}) {
-  return (
-    <Button
-      variant={props.active ? "default" : "outline"}
-      size="sm"
-      onClick={props.onClick}
-      className="font-mono text-xs"
-    >
-      {props.label}
-    </Button>
   );
 }
 
