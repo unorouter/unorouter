@@ -31,7 +31,7 @@ import { extractErrorDetail, sameOriginPath } from "@/lib/utils/client";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { deleteCookie, getCookie } from "cookies-next/client";
-import { useSearchParams } from "next/navigation";
+import { useQueryState } from "nuqs";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
@@ -52,19 +52,14 @@ export function LoginForm() {
   const [challengeMethods, setChallengeMethods] = useState<
     VerificationMethod[] | undefined
   >();
-  const searchParams = useSearchParams();
-  const [formError, setFormError] = useState<string | undefined>(
-    () => searchParams.get(OAUTH_ERROR_QUERY) ?? undefined,
-  );
+  const [oauthError, setOauthError] = useQueryState(OAUTH_ERROR_QUERY);
+  const [formError, setFormError] = useState(oauthError ?? undefined);
   const [turnstileToken, setTurnstileToken] = useState<string | undefined>();
   const turnstileRef = useRef<TurnstileInstance>(null);
 
   useEffect(() => {
-    const url = new URL(window.location.href);
-    if (!url.searchParams.has(OAUTH_ERROR_QUERY)) return;
-    url.searchParams.delete(OAUTH_ERROR_QUERY);
-    window.history.replaceState(null, "", url);
-  }, []);
+    if (oauthError) void setOauthError(null);
+  }, [oauthError, setOauthError]);
 
   // An OAuth login whose account has 2FA lands here with the challenge it still owes.
   useEffect(() => {
