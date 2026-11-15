@@ -7,7 +7,7 @@ export const priceHistoryRoute = new Elysia({ prefix: "/price-history" })
   .get(
     "/",
     async ({ query }) => {
-      const res = await getModelPriceHistory({ model: query.model });
+      const res = await getModelPriceHistory(query);
       return unwrap(res).data;
     },
     { query: priceHistoryQuery },

@@ -107,12 +107,7 @@ export const settingsRoute = new Elysia({ prefix: "/settings" })
   .get(
     "/verification",
     async ({ query, upstream }) =>
-      unwrap(
-        await sendEmailVerification(
-          { email: query.email, turnstile: query.turnstile },
-          { headers: upstream.headers },
-        ),
-      ),
+      unwrap(await sendEmailVerification(query, { headers: upstream.headers })),
     { query: verificationQuery },
   )
 
@@ -121,12 +116,7 @@ export const settingsRoute = new Elysia({ prefix: "/settings" })
   .post(
     "/email/bind",
     async ({ body, upstream }) =>
-      unwrap(
-        await emailBind(
-          { email: body.email, code: body.code },
-          { headers: upstream.headers },
-        ),
-      ),
+      unwrap(await emailBind(body, { headers: upstream.headers })),
     { body: emailBindQuery },
   )
 
@@ -138,10 +128,7 @@ export const settingsRoute = new Elysia({ prefix: "/settings" })
     "/verify/methods",
     async ({ query, upstream }) =>
       unwrap(
-        await getVerificationMethods(
-          { scope: query.scope },
-          { headers: upstream.headers },
-        ),
+        await getVerificationMethods(query, { headers: upstream.headers }),
       ),
     { query: verificationMethodsQuery },
   )
