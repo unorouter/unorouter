@@ -82,11 +82,7 @@ export function VendorModelCard(props: { model: PricingCatalogModel }) {
         </p>
       )}
 
-      <CapabilityChips
-        metadata={model.metadata ?? EMPTY_METADATA}
-        variant="card"
-        limit={4}
-      />
+      <CapabilityChips metadata={model.metadata ?? EMPTY_METADATA} limit={4} />
 
       <div className="mt-auto flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs">
         {ctx ? (
