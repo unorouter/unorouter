@@ -4,7 +4,6 @@ import {
   BackgroundImageSection,
   surfaceFields,
 } from "@/components/elements/theme/background-image-section";
-import { FieldGroup } from "@/components/elements/theme/field";
 import {
   ChartPresetSection,
   PresetsSection,
@@ -373,7 +372,7 @@ export function ThemeCustomizerBody() {
         </div>
       </CardHeader>
       <CardContent className="min-h-0 flex-1 overflow-y-auto px-3 py-3">
-        <FieldGroup>
+        <div className="flex w-full flex-col gap-2.5">
           <Section
             id="saved"
             label={t("THEME.CATEGORY.SAVED")}
@@ -416,7 +415,7 @@ export function ThemeCustomizerBody() {
               </Section>
             ),
           )}
-        </FieldGroup>
+        </div>
       </CardContent>
     </Card>
   );

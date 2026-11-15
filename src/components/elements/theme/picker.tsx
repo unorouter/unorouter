@@ -26,18 +26,16 @@ type Props = {
   options: PickerOption[];
   onValueChange: (value: string) => void;
   rightAdornment?: React.ReactNode;
-  disabled?: boolean;
 };
 
 export function Picker(props: Props) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        disabled={props.disabled}
         className={cn(
           "ring-foreground/10 relative w-full shrink-0 touch-manipulation rounded-lg px-3 py-2 text-left ring-1 select-none",
           "hover:bg-muted focus-visible:ring-foreground/50 focus-visible:outline-none",
-          "data-[state=open]:bg-muted disabled:pointer-events-none disabled:opacity-50",
+          "data-[state=open]:bg-muted",
         )}
       >
         <div className="flex flex-col justify-start">
