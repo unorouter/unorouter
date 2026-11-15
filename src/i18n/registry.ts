@@ -97,7 +97,7 @@ const PLATFORM_DOC_DATES: Record<string, string> = {
 
 const PLATFORM_DOC_UPDATED: Record<string, string> = {
   "discord-rewards": "2026-07-30",
-  "group-pinning": "2026-09-04",
+  "group-pinning": "2026-11-15",
 };
 
 const PLATFORM_DOC_ENTRIES = PLATFORM_DOCS.map((doc): DocEntry => ({

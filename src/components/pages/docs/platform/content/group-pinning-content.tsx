@@ -80,6 +80,11 @@ export async function GroupPinningContent() {
           natural
         />
       </DocSection>
+      <DocSection id="fallback-order" title={k("H_ORDER")}>
+        <p>{k("P_ORDER_1")}</p>
+        <p>{k("P_ORDER_2")}</p>
+        <p>{k("P_ORDER_3")}</p>
+      </DocSection>
       <DocSection id="routing" title={k("H_ROUTING")}>
         <p>{k("P_ROUTING_1")}</p>
         <p>

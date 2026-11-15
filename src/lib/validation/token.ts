@@ -36,6 +36,7 @@ export const tokenFormSchema = t.Object({
       min: t.Optional(t.Number({ minimum: 0 })),
       max: t.Optional(t.Number({ minimum: 0 })),
       auto: t.Optional(t.Boolean()),
+      order: t.Optional(t.Literal("custom")),
     }),
     { default: {} },
   ),

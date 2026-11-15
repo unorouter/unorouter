@@ -23,11 +23,12 @@ import type { GroupDataPolicy, UserGroup } from "@/lib/validation/data-policy";
 import { GroupDataPolicyBadges } from "@/components/elements/model/group-data-policy";
 import { CheckIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import type { Control } from "react-hook-form";
 import type { TokenFormSchema, TokenPinEntry } from "@/lib/validation/token";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
+import { SortableList } from "@/components/elements/dnd/sortable-list";
 
 const GROUP_SEARCH_THRESHOLD = 8;
 const MODEL_ROW_PX = 33;
@@ -110,6 +111,7 @@ export function normalizeGroupMapping(raw: unknown): GroupMapping {
       min: typeof entry.min === "number" ? entry.min : undefined,
       max: typeof entry.max === "number" ? entry.max : undefined,
       auto: entry.auto === true ? true : undefined,
+      order: entry.order === "custom" ? "custom" : undefined,
     };
   }
   return out;
@@ -610,6 +612,168 @@ function ModelGroupPanel(props: {
           </CommandGroup>
         </CommandList>
       </Command>
+      {(selected.length > 0 || hasBand) && (
+        <FailoverOrder
+          model={props.model}
+          options={props.options}
+          entry={props.entry}
+          disabled={isAuto}
+          onChange={props.onChange}
+        />
+      )}
+    </div>
+  );
+}
+
+/**
+ * The second list: in what order the picked lanes are tried. "Cheapest first"
+ * shows the order routing will use, read-only; "My order" makes it draggable
+ * and is stored as order: "custom" with groups in that sequence.
+ */
+function FailoverOrder(props: {
+  model: string;
+  options: GroupOption[];
+  entry: TokenPinEntry;
+  disabled: boolean;
+  onChange: (entry: TokenPinEntry) => void;
+}) {
+  const t = useTranslations();
+  const custom = props.entry.order === "custom";
+  const byGroup = new Map(props.options.map((o) => [o.group, o]));
+  const ratioOf = (group: string) => byGroup.get(group)?.ratio ?? Infinity;
+  const byPrice = (groups: string[]) =>
+    [...groups].sort((a, b) => ratioOf(a) - ratioOf(b));
+  const ordered = custom ? props.entry.groups : byPrice(props.entry.groups);
+  const hasBand =
+    props.entry.min !== undefined || props.entry.max !== undefined;
+
+  function setCustom(next: boolean) {
+    props.onChange({
+      ...props.entry,
+      // Starting from the order the user already sees keeps the switch a no-op.
+      groups: next ? byPrice(props.entry.groups) : props.entry.groups,
+      order: next ? "custom" : undefined,
+      auto: undefined,
+    });
+  }
+
+  function remove(group: string) {
+    props.onChange({
+      ...props.entry,
+      groups: props.entry.groups.filter((g) => g !== group),
+    });
+  }
+
+  const row = (group: string, index: number, handle?: ReactNode) => {
+    const option = byGroup.get(group);
+    const offline = option && !option.online;
+    return (
+      <div
+        className={cn(
+          "bg-background flex items-center gap-1.5 rounded border px-1.5 py-1",
+          offline && "opacity-50",
+        )}
+      >
+        <span className="text-muted-foreground w-4 shrink-0 text-right font-mono text-[11px]">
+          {index + 1}
+        </span>
+        {handle}
+        <span
+          className={cn(
+            "h-2 w-2 shrink-0 rounded-full",
+            offline ? "bg-destructive" : "bg-success",
+          )}
+          title={offline ? t("TOKEN.FORM.ORDER_SKIPPED") : undefined}
+        />
+        <span className="min-w-0 flex-1 truncate font-mono text-xs">
+          {groupDisplayLabel(group, props.model.replace(/:/g, "-"))}
+        </span>
+        <span className="text-muted-foreground shrink-0 font-mono text-[11px]">
+          {option?.missing
+            ? t("TOKEN.FORM.GROUP_MISSING_SHORT")
+            : ratioLabel(option?.ratio ?? null)}
+        </span>
+        <button
+          type="button"
+          aria-label={t("TOKEN.FORM.ORDER_REMOVE")}
+          title={t("TOKEN.FORM.ORDER_REMOVE")}
+          className="text-muted-foreground hover:text-foreground flex size-5 shrink-0 items-center justify-center rounded"
+          onClick={() => remove(group)}
+        >
+          <Icon name="x" className="size-3" />
+        </button>
+      </div>
+    );
+  };
+
+  return (
+    <div className={cn("border-t px-3 py-2", props.disabled && "opacity-50")}>
+      <div className="mb-1.5 flex items-center justify-between gap-2">
+        <span className="text-xs font-medium">
+          {t("TOKEN.FORM.ORDER_LABEL")}
+        </span>
+        <div className="border-input flex rounded border p-0.5 text-[11px]">
+          {[false, true].map((value) => (
+            <button
+              key={String(value)}
+              type="button"
+              aria-pressed={custom === value}
+              onClick={() => setCustom(value)}
+              className={cn(
+                "rounded px-2 py-0.5",
+                custom === value
+                  ? "bg-accent text-foreground"
+                  : "text-muted-foreground hover:text-foreground",
+              )}
+            >
+              {t(value ? "TOKEN.FORM.ORDER_CUSTOM" : "TOKEN.FORM.ORDER_PRICE")}
+            </button>
+          ))}
+        </div>
+      </div>
+      <p className="text-muted-foreground mb-1.5 text-[10px]">
+        {t(
+          custom
+            ? "TOKEN.FORM.ORDER_CUSTOM_HINT"
+            : "TOKEN.FORM.ORDER_PRICE_HINT",
+        )}
+      </p>
+      {ordered.length > 0 &&
+        (custom ? (
+          <SortableList
+            items={ordered.map((group) => ({ id: group }))}
+            onReorder={(groups) =>
+              props.onChange({ ...props.entry, groups, auto: undefined })
+            }
+            renderItem={(item, handle) =>
+              row(item.id, ordered.indexOf(item.id), handle)
+            }
+          />
+        ) : (
+          <ul className="flex flex-col gap-1.5">
+            {ordered.map((group, index) => (
+              <li key={group} className="list-none">
+                {row(group, index)}
+              </li>
+            ))}
+          </ul>
+        ))}
+      <div className="mt-1.5 flex items-center justify-between gap-2">
+        <span className="text-muted-foreground text-[10px]">
+          {hasBand ? t("TOKEN.FORM.ORDER_BAND_TAIL") : ""}
+        </span>
+        {custom && ordered.length > 1 && (
+          <button
+            type="button"
+            className="text-muted-foreground hover:text-foreground shrink-0 text-[10px] underline"
+            onClick={() =>
+              props.onChange({ ...props.entry, groups: byPrice(ordered) })
+            }
+          >
+            {t("TOKEN.FORM.ORDER_SORT_PRICE")}
+          </button>
+        )}
+      </div>
     </div>
   );
 }
