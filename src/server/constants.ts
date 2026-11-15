@@ -23,7 +23,7 @@ export const upstreamApiUrl = serverEnv.internalApiUrl ?? env.apiUrl;
 
 // True when upstream calls leave through Cloudflare, which happens only in local
 // dev: the cluster sets INTERNAL_API_URL to the ClusterIP.
-export const upstreamIsProxied = upstreamApiUrl === env.apiUrl;
+const upstreamIsProxied = upstreamApiUrl === env.apiUrl;
 
 // Proves a gateway call came from this server, never the browser: the gateway then
 // skips the key-reveal audit and leaves generated image links unwrapped, since

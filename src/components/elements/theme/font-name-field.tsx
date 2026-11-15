@@ -33,7 +33,7 @@ function weightFromSpec(spec: string): number | undefined {
 // Accepts what a user actually has in hand: a family name, or the whole
 // fonts.googleapis.com embed copied off the Google Fonts page. Only the family
 // name is ever stored, so no user-supplied URL reaches the theme.
-export function parseFontInput(raw: string): PastedFont {
+function parseFontInput(raw: string): PastedFont {
   const text = raw.trim();
   if (!/fonts\.googleapis\.com/i.test(text)) return { family: text };
   const value = /[?&]family=([^&"'\s>]+)/i.exec(text)?.[1] ?? "";

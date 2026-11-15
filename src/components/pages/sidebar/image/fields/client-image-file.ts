@@ -3,10 +3,10 @@ import { base64ToDataUri, uint8ToBase64 } from "@/lib/utils/base";
 export const ACCEPTED_IMAGE_MIMES = ["image/png", "image/jpeg", "image/webp"];
 
 /** Providers reject oversized inline payloads, so every data URI gets capped here. */
-export const MAX_LONG_EDGE = 1024;
+const MAX_LONG_EDGE = 1024;
 
 /** Sniffs the container: file.type is attacker supplied and wrong on real uploads. */
-export function sniffImageMime(bytes: Uint8Array): string | null {
+function sniffImageMime(bytes: Uint8Array): string | null {
   if (
     bytes.length >= 8 &&
     bytes[0] === 0x89 &&

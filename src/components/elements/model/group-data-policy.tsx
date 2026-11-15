@@ -209,7 +209,7 @@ export function OwnPurposeBadge(props: {
   );
 }
 
-export function OwnPurposeHint(props: { label: string; className?: string }) {
+function OwnPurposeHint(props: { label: string; className?: string }) {
   return (
     <span className={cn("inline-flex shrink-0 items-center", props.className)}>
       <Hint label={props.label}>

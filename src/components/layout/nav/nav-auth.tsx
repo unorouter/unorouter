@@ -44,7 +44,7 @@ export async function NavAuth() {
   );
 }
 
-export function NavLoginLink(props: { label: string }) {
+function NavLoginLink(props: { label: string }) {
   return (
     <LoginLink
       aria-label={props.label}

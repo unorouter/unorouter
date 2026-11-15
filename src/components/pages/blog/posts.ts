@@ -39,7 +39,7 @@ const CUSTOM_COMPONENTS: Partial<Record<BlogSlug, ComponentType>> = {
   "qronos-joins-partners": QronosJoinsPartnersContent,
 };
 
-export const POSTS: BlogPost<BlogSlug>[] = BLOG_REGISTRY.map((entry) => ({
+const POSTS: BlogPost<BlogSlug>[] = BLOG_REGISTRY.map((entry) => ({
   slug: entry.slug,
   date: entry.date,
   tags: [...entry.tags],
@@ -59,7 +59,7 @@ export function getAllPostsSorted(): BlogPost<BlogSlug>[] {
     .sort((a, b) => b.date.localeCompare(a.date));
 }
 
-export const GEO_SLUGS = [
+const GEO_SLUGS = [
   "unorouter-vs-openrouter",
   "best-openrouter-alternatives-2026",
   "open-source-openrouter-alternative",
@@ -69,7 +69,7 @@ export const GEO_SLUGS = [
   "free-deepseek-api-key",
   "free-ai-api",
 ] as const;
-export const GEO_POSTS: ReadonlySet<string> = new Set(GEO_SLUGS);
+const GEO_POSTS: ReadonlySet<string> = new Set(GEO_SLUGS);
 
 export function faqI18nKey(post: BlogPost): FaqI18nKey | null {
   if (!GEO_POSTS.has(post.slug)) return null;
@@ -86,7 +86,7 @@ export function methodI18nKey(post: BlogPost): MethodI18nKey | null {
   return post.i18nKey as MethodI18nKey;
 }
 
-export const METHOD_POSTS = new Set<string>([
+const METHOD_POSTS = new Set<string>([
   "unorouter-vs-risuai",
   "unorouter-vs-sillytavern",
   "unorouter-vs-marinara",

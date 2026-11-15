@@ -28,17 +28,14 @@ import {
 } from "drizzle-orm/sqlite-core";
 import { timestamps } from "./shared";
 
-export const ENTITY_KINDS = [
-  "characters",
-  "personas",
-  "lorebooks",
-  "presets",
-  "cards",
-  "conversations",
-  "theme",
-] as const;
-
-export type EntityKindName = (typeof ENTITY_KINDS)[number];
+type EntityKindName =
+  | "characters"
+  | "personas"
+  | "lorebooks"
+  | "presets"
+  | "cards"
+  | "conversations"
+  | "theme";
 
 export type PendingSyncOp = "patch" | "delete";
 

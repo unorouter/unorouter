@@ -7,7 +7,7 @@ import {
   unsubscribeNotifyPush,
 } from "@/openapi";
 
-export function pushSupported(): boolean {
+function pushSupported(): boolean {
   return (
     typeof window !== "undefined" &&
     "serviceWorker" in navigator &&

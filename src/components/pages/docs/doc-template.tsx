@@ -115,7 +115,7 @@ export async function DocIndexTemplate(props: {
   );
 }
 
-export async function DocTemplate(props: {
+async function DocTemplate(props: {
   doc: DocEntry;
   docs: readonly DocEntry[];
   namespace: string;

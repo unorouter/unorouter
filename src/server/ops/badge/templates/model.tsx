@@ -17,19 +17,19 @@ const W = 1200;
 const H = 630;
 const PAD = 64;
 
-export function fmtPrice(p: number): string {
+function fmtPrice(p: number): string {
   if (p === 0) return "$0";
   if (p < 0.01) return `$${p.toFixed(4)}`;
   return `$${p.toFixed(2)}`;
 }
 
-export function fmtContext(tokens: number): string {
+function fmtContext(tokens: number): string {
   if (tokens >= 1_000_000) return `${Math.round(tokens / 1_000_000)}M`;
   if (tokens >= 1_000) return `${Math.round(tokens / 1_000)}K`;
   return String(tokens);
 }
 
-export function ModelStat(props: {
+function ModelStat(props: {
   value: string;
   label: string;
   valueColor?: string;

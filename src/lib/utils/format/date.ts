@@ -97,7 +97,7 @@ export function formatDateForInput(d: Dayjs): string {
   return d.format("YYYY-MM-DDTHH:mm");
 }
 
-export function formatMsTimestamp(ms: number | undefined): string {
+function formatMsTimestamp(ms: number | undefined): string {
   if (!ms) return "-";
   const d = new Date(ms);
   if (Number.isNaN(d.getTime())) return "-";

@@ -1,7 +1,7 @@
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { isRecord, webStorage } from "@/lib/utils/base";
 
-export async function clearServiceWorkerCaches() {
+async function clearServiceWorkerCaches() {
   logChatDebug("recovery.clear_sw_caches");
   try {
     const keys = await caches?.keys?.();

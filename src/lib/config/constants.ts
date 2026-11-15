@@ -26,7 +26,6 @@ export { ParamError } from "../types";
 export type { TranslationKey } from "../types";
 export {
   dollarsToQuota,
-  QUOTA_PER_DOLLAR,
   quotaToDollars,
   renderQuota,
 } from "../utils/format/number";

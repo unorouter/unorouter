@@ -156,7 +156,7 @@ export const AVATAR_OPTIONS = [
 // Regions beyond the main content, each with its own surface colour and
 // frost. Their variables fall back to the shadcn token they used to share, in
 // globals.css, so an untouched region looks exactly as before.
-export const REGIONS: readonly {
+const REGIONS: readonly {
   id: string;
   labelKey: MessageKey;
   blurKey: MessageKey;

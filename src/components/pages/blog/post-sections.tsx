@@ -7,7 +7,7 @@ import { Fragment, type ComponentType, type ReactNode } from "react";
 
 export type Chunks = Record<string, (chunks: ReactNode) => ReactNode>;
 
-export const PAGE_CHUNKS: Chunks = {
+const PAGE_CHUNKS: Chunks = {
   register: (chunks) => <Link href="/register">{chunks}</Link>,
   models: (chunks) => <Link href="/models">{chunks}</Link>,
   chat: (chunks) => <Link href="/chat">{chunks}</Link>,
@@ -36,7 +36,7 @@ export const PAGE_CHUNKS: Chunks = {
 };
 
 // One tag per post, <post_where_your_requests_go>, so posts can link each other.
-export const POST_CHUNKS: Chunks = Object.fromEntries(
+const POST_CHUNKS: Chunks = Object.fromEntries(
   BLOG_REGISTRY.map((entry) => [
     `post_${entry.slug.replaceAll("-", "_")}`,
     (chunks: ReactNode) => (

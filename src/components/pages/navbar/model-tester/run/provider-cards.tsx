@@ -2,10 +2,7 @@
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { cn } from "@/lib/utils";
-import {
-  VERIFY_PROVIDERS,
-  type VerifyProviderValue,
-} from "@/lib/validation/model-tester";
+import type { VerifyProviderValue } from "@/lib/validation/model-tester";
 import { useTranslations } from "next-intl";
 import type { TranslationKey } from "@/lib/types";
 
@@ -80,5 +77,3 @@ export function ProviderCards(props: {
     </div>
   );
 }
-
-export { VERIFY_PROVIDERS };

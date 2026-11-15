@@ -1,4 +1,4 @@
-export const QUOTA_PER_DOLLAR = 500000;
+const QUOTA_PER_DOLLAR = 500000;
 
 /** Dollars per million tokens at ratio 1x: a model ratio is quota per token. */
 export const QUOTA_TO_USD = 1_000_000 / QUOTA_PER_DOLLAR;

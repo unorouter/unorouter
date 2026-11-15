@@ -55,7 +55,7 @@ export const updateTimeoutBody = t.Object({
 });
 
 // Step-up scopes this site asks the gateway to verify (service/security_verification.go).
-export const securityScope = t.Union([
+const securityScope = t.Union([
   t.Literal("2fa.setup"),
   t.Literal("2fa.disable"),
   t.Literal("passkey.register"),

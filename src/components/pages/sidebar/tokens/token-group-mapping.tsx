@@ -47,14 +47,14 @@ const BAND_STEPS = 200;
 const BAND_KNEE_POS = 150;
 const BAND_MAX = 4;
 
-export function bandPosToRatio(pos: number): number {
+function bandPosToRatio(pos: number): number {
   if (pos <= BAND_KNEE_POS) return pos / BAND_KNEE_POS;
   return (
     1 + ((pos - BAND_KNEE_POS) / (BAND_STEPS - BAND_KNEE_POS)) * (BAND_MAX - 1)
   );
 }
 
-export function bandRatioToPos(ratio: number): number {
+function bandRatioToPos(ratio: number): number {
   if (ratio <= 1) return Math.round(ratio * BAND_KNEE_POS);
   return Math.round(
     BAND_KNEE_POS +
@@ -84,7 +84,7 @@ function groupsInBand(
   );
 }
 
-export const EMPTY_ENTRY: TokenPinEntry = { groups: [] };
+const EMPTY_ENTRY: TokenPinEntry = { groups: [] };
 
 /**
  * Parses stored group_mapping JSON into the entry shape. Unknown input is a

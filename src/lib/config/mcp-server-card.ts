@@ -9,7 +9,7 @@ type Translator = (
   values?: Record<string, string | number | Date>,
 ) => string;
 
-export function buildMcpServerCard(t: Translator) {
+function buildMcpServerCard(t: Translator) {
   const tools = WEBMCP_TOOLS.map((descriptor) => ({
     name: descriptor.name,
     description: t(descriptor.descriptionKey, APP_VALUES),

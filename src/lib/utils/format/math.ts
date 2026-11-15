@@ -1,8 +1,3 @@
-export function avg(values: number[]): number {
-  if (values.length === 0) return 0;
-  return values.reduce((s, v) => s + v, 0) / values.length;
-}
-
 export type StatIntent = "default" | "warning" | "success";
 
 export function successIntent(pct: number): StatIntent {
