@@ -16,10 +16,7 @@ const presets = makeRpEntity<
 >({
   listKey: queryKeys.presets,
   itemKey: queryKeys.preset,
-  readList: presetStore.list,
-  readItem: presetStore.get,
-  upsertLocal: presetStore.upsert,
-  deleteLocal: presetStore.drop,
+  store: presetStore,
 });
 
 export const usePresetsQuery = presets.useList;

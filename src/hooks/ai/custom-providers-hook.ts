@@ -18,10 +18,7 @@ const customProviders = makeRpEntity<
 >({
   listKey: queryKeys.customProviders,
   itemKey: queryKeys.customProvider,
-  readList: customProviderStore.list,
-  readItem: customProviderStore.get,
-  upsertLocal: customProviderStore.upsert,
-  deleteLocal: customProviderStore.drop,
+  store: customProviderStore,
 });
 
 export const useCustomProvidersQuery = customProviders.useList;

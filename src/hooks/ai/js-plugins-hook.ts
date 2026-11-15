@@ -20,10 +20,7 @@ const jsPlugins = makeRpEntity<
 >({
   listKey: queryKeys.jsPlugins,
   itemKey: queryKeys.jsPlugin,
-  readList: jsPluginStore.list,
-  readItem: jsPluginStore.get,
-  upsertLocal: jsPluginStore.upsert,
-  deleteLocal: jsPluginStore.drop,
+  store: jsPluginStore,
 });
 
 export const useJsPluginsQuery = jsPlugins.useList;

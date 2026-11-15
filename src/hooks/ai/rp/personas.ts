@@ -17,10 +17,7 @@ const personas = makeRpEntity<
 >({
   listKey: queryKeys.personas,
   itemKey: queryKeys.persona,
-  readList: personaStore.list,
-  readItem: personaStore.get,
-  upsertLocal: personaStore.upsert,
-  deleteLocal: personaStore.drop,
+  store: personaStore,
 });
 
 export const usePersonasQuery = personas.useList;

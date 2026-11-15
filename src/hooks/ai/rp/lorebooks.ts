@@ -33,10 +33,7 @@ const lorebooks = makeRpEntity<
 >({
   listKey: queryKeys.lorebooks,
   itemKey: queryKeys.lorebook,
-  readList: lorebookStore.list,
-  readItem: readLocalLorebook,
-  upsertLocal: lorebookStore.upsert,
-  deleteLocal: lorebookStore.drop,
+  store: { ...lorebookStore, get: readLocalLorebook },
   cloneEntity: async (detail, newId, copyName) => {
     const now = dayjs().toDate();
     const { entries, ...book } = detail;

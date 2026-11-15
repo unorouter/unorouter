@@ -29,10 +29,7 @@ const characters = makeRpEntity<
 >({
   listKey: queryKeys.characters,
   itemKey: queryKeys.character,
-  readList: characterStore.list,
-  readItem: characterStore.get,
-  upsertLocal: characterStore.upsert,
-  deleteLocal: characterStore.drop,
+  store: characterStore,
 });
 
 export const useCharactersQuery = characters.useList;

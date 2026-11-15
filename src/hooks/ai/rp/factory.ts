@@ -15,23 +15,24 @@ export function makeRpEntity<
 >(opts: {
   listKey: () => readonly unknown[];
   itemKey: (id: string) => readonly unknown[];
-  readList: () => Promise<TItem[] | null>;
-  readItem: (id: string) => Promise<TDetail | null>;
-  upsertLocal: (row: LocalAnyRow) => Promise<void>;
-  deleteLocal: (id: string) => Promise<void>;
-  nameField?: string;
+  store: {
+    list: () => Promise<TItem[] | null>;
+    get: (id: string) => Promise<TDetail | null>;
+    upsert: (row: LocalAnyRow) => Promise<void>;
+    drop: (id: string) => Promise<void>;
+  };
   cloneEntity?: (
     detail: TDetail,
     newId: string,
     copyName: string,
   ) => Promise<void>;
 }) {
-  const nameField = opts.nameField ?? "name";
+  const store = opts.store;
   return {
     useList: () => {
       return useQuery({
         queryKey: opts.listKey(),
-        queryFn: async () => (await opts.readList()) ?? [],
+        queryFn: async () => (await store.list()) ?? [],
       });
     },
 
@@ -40,7 +41,7 @@ export function makeRpEntity<
         queryKey: opts.itemKey(id ?? ""),
         queryFn: async () => {
           if (!id) throw new Error("not-found");
-          const item = await opts.readItem(id);
+          const item = await store.get(id);
           if (!item) throw new Error("not-found");
           return item;
         },
@@ -53,7 +54,7 @@ export function makeRpEntity<
         mutationFn: async (args: { body: TCreateBody }) => {
           const now = dayjs().toDate();
           const id = uid();
-          await opts.upsertLocal({
+          await store.upsert({
             ...args.body,
             id,
             createdAt: now,
@@ -68,9 +69,9 @@ export function makeRpEntity<
     useUpdate: () =>
       useApiMutation({
         mutationFn: async (args: { id: string; body: TUpdateBody }) => {
-          const existing = await opts.readItem(args.id);
+          const existing = await store.get(args.id);
           if (!existing) throw new Error("not-found");
-          await opts.upsertLocal({
+          await store.upsert({
             ...existing,
             ...args.body,
             updatedAt: dayjs().toDate(),
@@ -84,7 +85,7 @@ export function makeRpEntity<
     useDelete: () =>
       useApiMutation({
         mutationFn: async (id: string) => {
-          await opts.deleteLocal(id);
+          await store.drop(id);
           return { id };
         },
         invalidates: [opts.listKey()],
@@ -96,20 +97,20 @@ export function makeRpEntity<
       const t = useTranslations();
       return useApiMutation({
         mutationFn: async (id: string) => {
-          const detail = await opts.readItem(id);
+          const detail = await store.get(id);
           if (!detail) throw new Error("not-found");
           const newId = uid();
-          const srcName = detail[nameField];
+          const srcName = detail.name;
           const copyName =
             `${typeof srcName === "string" ? srcName : ""} ${t("RP.COPY_SUFFIX")}`.trim();
           if (opts.cloneEntity) {
             await opts.cloneEntity(detail, newId, copyName);
           } else {
             const now = dayjs().toDate();
-            await opts.upsertLocal({
+            await store.upsert({
               ...detail,
               id: newId,
-              [nameField]: copyName,
+              name: copyName,
               createdAt: now,
               updatedAt: now,
             });
