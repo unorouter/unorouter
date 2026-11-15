@@ -434,7 +434,6 @@ export async function importJanitorAiExport(
         convId: mapped.convId,
         lorebookId: id,
         orderIndex: n,
-        isActive: true,
       }));
       chats.push(mapped);
     });

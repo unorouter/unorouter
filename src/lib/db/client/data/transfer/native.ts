@@ -119,7 +119,7 @@ export function toOrpg(native: NativeExport) {
       items: (itemsByMsg.get(m.id) ?? []).map((it) => ({
         id: it.id,
         outputIndex: it.outputIndex ?? 0,
-        type: it.type === "tool_call" ? "tool_call" : it.type,
+        type: it.type,
         sequenceIndex: it.sequenceIndex,
       })),
     };
