@@ -21,9 +21,7 @@ import {
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { useCustomProvidersQuery } from "@/hooks/ai/custom-providers-hook";
 import { AUTO_GROUP } from "@/lib/config/constants";
-import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import {
-  buildGroupEntries,
   type GroupEntry,
   groupDisplayLabel,
   groupModelsByType,
@@ -33,7 +31,7 @@ import {
   parseCustomModelId,
 } from "@/lib/ai/chat/custom-provider-id";
 import {
-  useModelGroupsQuery,
+  useModelGroupPin,
   usePricingCatalogQuery,
 } from "@/hooks/models/pricing-hook";
 import {
@@ -51,7 +49,7 @@ import { useLoginRedirect } from "@/hooks/auth/use-login-redirect";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 type ModelSelectorProps = {
   value: string | null;
@@ -369,34 +367,11 @@ export function ModelSelector(props: ModelSelectorProps) {
   const selectedUnavailable =
     !!props.value && !selected && !selectedCustom && pricingQuery.isSuccess;
 
-  const modelGroupsQuery = useModelGroupsQuery(selected ? props.value : null);
-  const groupRatioMap = modelGroupsQuery.data?.group_ratio ?? {};
-  const enableGroups = modelGroupsQuery.data?.enable_groups ?? [];
-  const candidateGroups = enableGroups.length
-    ? enableGroups
-    : Object.keys(groupRatioMap);
-  const groupEntries = buildGroupEntries(candidateGroups, groupRatioMap);
-
-  // Reset only once SETTLED: the upstream list is a 5-minute cache, so a non-empty
-  // list is not proof it is complete and a partial one deletes the pin forever.
-  const candidateGroupsKey = candidateGroups.join("|");
-  const groupsSettled =
-    modelGroupsQuery.isSuccess && !modelGroupsQuery.isFetching;
-  useEffect(() => {
-    if (!props.group || props.group === AUTO_GROUP) return;
-    if (!groupsSettled) return;
-    if (candidateGroups.length > 0 && !candidateGroups.includes(props.group)) {
-      logChatDebug("group.pin_reset", {
-        model: props.value,
-        pin: props.group,
-        candidateGroups,
-        enableGroups,
-        ratioKeys: Object.keys(groupRatioMap),
-      });
-      props.onGroupChange(null);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- re-run on model or group-list change
-  }, [props.value, candidateGroupsKey, groupsSettled]);
+  const groups = useModelGroupPin(
+    selected ? props.value : null,
+    props.group === AUTO_GROUP ? null : props.group,
+    () => props.onGroupChange(null),
+  );
 
   function pickModel(id: string) {
     props.onChange(id);
@@ -518,14 +493,14 @@ export function ModelSelector(props: ModelSelectorProps) {
               </CommandGroup>
             ))}
           </CommandList>
-          {isLoggedIn && groupEntries.length > 0 && !selectedCustom && (
+          {isLoggedIn && groups.groupEntries.length > 0 && !selectedCustom && (
             <GroupSubmenu
               value={props.value}
               group={props.group}
               onGroupChange={props.onGroupChange}
-              groupEntries={groupEntries}
-              enableGroups={enableGroups}
-              groupProviders={modelGroupsQuery.data?.group_providers ?? {}}
+              groupEntries={groups.groupEntries}
+              enableGroups={groups.enableGroups}
+              groupProviders={groups.groupProviders}
             />
           )}
         </Command>

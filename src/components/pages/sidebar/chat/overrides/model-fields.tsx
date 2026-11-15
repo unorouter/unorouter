@@ -21,18 +21,14 @@ import { useCustomProvidersQuery } from "@/hooks/ai/custom-providers-hook";
 import {
   useImageModelsQuery,
   useTaskImageModelsQuery,
-  useModelGroupsQuery,
+  useModelGroupPin,
   usePricingCatalogQuery,
 } from "@/hooks/models/pricing-hook";
 import {
   isCustomModelId,
   makeCustomModelId,
 } from "@/lib/ai/chat/custom-provider-id";
-import {
-  buildGroupEntries,
-  type GroupEntry,
-  groupDisplayLabel,
-} from "@/lib/api/pricing";
+import { groupDisplayLabel } from "@/lib/api/pricing";
 import {
   AUTO_GROUP,
   NONE_VALUE,
@@ -42,9 +38,8 @@ import { CivitaiResolverField } from "@/components/pages/sidebar/image/fields/ci
 import { CUSTOM_CIVITAI_MODEL_ID, isValidAir } from "@/lib/ai/image/constants";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils/format/number";
-import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { Control, FieldPath, FieldValues } from "react-hook-form";
 
 type ModelOption = { id: string; name: string };
@@ -162,16 +157,10 @@ function GroupRow(props: {
   const [open, setOpen] = useState(false);
   const pinned = props.group === AUTO_GROUP ? null : props.group;
 
-  const groupsQuery = useModelGroupsQuery(props.model);
-  const groupRatioMap = groupsQuery.data?.group_ratio ?? {};
-  const enableGroups = groupsQuery.data?.enable_groups ?? [];
-  const candidateGroups = enableGroups.length
-    ? enableGroups
-    : Object.keys(groupRatioMap);
-  const groupEntries: GroupEntry[] = buildGroupEntries(
-    candidateGroups,
-    groupRatioMap,
+  const groups = useModelGroupPin(props.model, pinned, () =>
+    props.onGroupChange(AUTO_GROUP),
   );
+  const groupEntries = groups.groupEntries;
   // The raw group ratio is half of a product whose other half (the model base)
   // the user never sees, so 47x reads as a markup and is not one. The catalog's
   // headline price is the cheapest enabled group's, so every row is headline
@@ -191,23 +180,6 @@ function GroupRow(props: {
   const selectedEntry = pinned
     ? groupEntries.find((e) => e.group === pinned)
     : null;
-
-  // Reset ONLY once settled: resetting off a partial list deletes the pin permanently.
-  const candidateGroupsKey = candidateGroups.join("|");
-  const groupsSettled = groupsQuery.isSuccess && !groupsQuery.isFetching;
-  useEffect(() => {
-    if (!pinned || !groupsSettled) return;
-    if (candidateGroups.length > 0 && !candidateGroups.includes(pinned)) {
-      logChatDebug("group.pin_reset", {
-        model: props.model,
-        pin: pinned,
-        candidateGroups,
-        source: "preset",
-      });
-      props.onGroupChange(AUTO_GROUP);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- re-run on model or group-list change
-  }, [props.model, pinned, groupsSettled, candidateGroupsKey]);
 
   if (groupEntries.length === 0) return null;
 
@@ -268,7 +240,7 @@ function GroupRow(props: {
             </span>
             <span className="flex shrink-0 items-center gap-1.5">
               <GroupDataPolicyBadges
-                policy={groupsQuery.data?.group_providers?.[entry.group]}
+                policy={groups.groupProviders[entry.group]}
               />
               <span className="text-muted-foreground">
                 {rowPrice(entry.ratio) ?? `${entry.ratio}x`}

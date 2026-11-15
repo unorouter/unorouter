@@ -1,9 +1,11 @@
 "use client";
 
+import { buildGroupEntries } from "@/lib/api/pricing";
 import { useElysiaQuery } from "@/lib/react-query/hooks";
-
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
+import { logChatDebug } from "@/lib/utils/chat-debug-log";
+import { useEffect, useEffectEvent } from "react";
 
 export function usePricingBrowseQuery(enabled = true) {
   return useElysiaQuery(
@@ -78,6 +80,42 @@ export function useModelGroupsQuery(name: string | null) {
       rpc.api.models.pricing["model-groups"].get({ query: { model: name! } }),
     { staleTime: "static", enabled: !!name },
   );
+}
+
+// Resets the pin only once SETTLED: the upstream list is a 5-minute cache, so a
+// partial list would delete the pin for good.
+export function useModelGroupPin(
+  model: string | null,
+  pin: string | null | undefined,
+  onStale: () => void,
+) {
+  const query = useModelGroupsQuery(model);
+  const ratioMap = query.data?.group_ratio ?? {};
+  const enableGroups = query.data?.enable_groups ?? [];
+  const candidates = enableGroups.length ? enableGroups : Object.keys(ratioMap);
+  const stale =
+    !!pin &&
+    query.isSuccess &&
+    !query.isFetching &&
+    candidates.length > 0 &&
+    !candidates.includes(pin);
+  const reset = useEffectEvent(() => {
+    logChatDebug("group.pin_reset", {
+      model,
+      pin,
+      candidateGroups: candidates,
+      ratioKeys: Object.keys(ratioMap),
+    });
+    onStale();
+  });
+  useEffect(() => {
+    if (stale) reset();
+  }, [stale]);
+  return {
+    enableGroups,
+    groupEntries: buildGroupEntries(candidates, ratioMap),
+    groupProviders: query.data?.group_providers ?? {},
+  };
 }
 
 export function useConsentModelsQuery() {
