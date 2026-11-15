@@ -124,11 +124,8 @@ export function useUpdateSettingMutation() {
     mutationFn: async (
       args: EdenArgs<typeof rpc.api.auth.settings.setting, "post">,
     ) => handleElysia(await rpc.api.auth.settings.setting.post(args.body)),
-    onSuccess: (_, args, qc) => {
-      qc.setQueryData<UserSelfData>(queryKeys.auth(), (old) =>
-        old ? { ...old, ...args.body } : old,
-      );
-    },
+    successKey: "SETTINGS.NOTIFICATIONS.SETTINGS_SAVED",
+    invalidates: [queryKeys.auth()],
   });
 }
 

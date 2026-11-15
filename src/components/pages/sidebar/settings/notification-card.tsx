@@ -1,6 +1,7 @@
 "use client";
 
 import { MyFormInput } from "@/components/elements/form/my-form-input";
+import { MyFormKeyedSelect } from "@/components/elements/form/my-form-keyed-select";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -11,13 +12,6 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { useUpdateSettingMutation } from "@/hooks/auth/settings-hook";
@@ -46,7 +40,6 @@ import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { formDefaults } from "@/lib/validation/helpers";
 
 export function NotificationCard() {
@@ -84,38 +77,30 @@ export function NotificationCard() {
 
   function onSubmit(data: NotificationSettingSchema) {
     const parsed = safeJsonParse<Partial<ServerSetting>>(user?.setting, {});
-    updateSettingMutation.mutate(
-      {
-        body: {
-          quota_warning_enabled: data.quota_warning_enabled,
-          notify_type: data.notify_type,
-          quota_warning_threshold: dollarsToQuota(
-            data.quota_threshold_dollars || 1,
-          ),
-          accept_unset_model_ratio_model:
-            parsed.accept_unset_model_ratio_model ?? false,
-          record_ip_log: parsed.record_ip_log ?? false,
-          notification_email:
-            data.notify_type === "email" ? data.notification_email : undefined,
-          webhook_url:
-            data.notify_type === "webhook" ? data.webhook_url : undefined,
-          webhook_secret:
-            data.notify_type === "webhook" ? data.webhook_secret : undefined,
-          bark_url: data.notify_type === "bark" ? data.bark_url : undefined,
-          gotify_url:
-            data.notify_type === "gotify" ? data.gotify_url : undefined,
-          gotify_token:
-            data.notify_type === "gotify" ? data.gotify_token : undefined,
-          gotify_priority:
-            data.notify_type === "gotify" ? data.gotify_priority : undefined,
-        },
+    updateSettingMutation.mutate({
+      body: {
+        quota_warning_enabled: data.quota_warning_enabled,
+        notify_type: data.notify_type,
+        quota_warning_threshold: dollarsToQuota(
+          data.quota_threshold_dollars || 1,
+        ),
+        accept_unset_model_ratio_model:
+          parsed.accept_unset_model_ratio_model ?? false,
+        record_ip_log: parsed.record_ip_log ?? false,
+        notification_email:
+          data.notify_type === "email" ? data.notification_email : undefined,
+        webhook_url:
+          data.notify_type === "webhook" ? data.webhook_url : undefined,
+        webhook_secret:
+          data.notify_type === "webhook" ? data.webhook_secret : undefined,
+        bark_url: data.notify_type === "bark" ? data.bark_url : undefined,
+        gotify_url: data.notify_type === "gotify" ? data.gotify_url : undefined,
+        gotify_token:
+          data.notify_type === "gotify" ? data.gotify_token : undefined,
+        gotify_priority:
+          data.notify_type === "gotify" ? data.gotify_priority : undefined,
       },
-      {
-        onSuccess: () => {
-          toast.success(t("SETTINGS.NOTIFICATIONS.SETTINGS_SAVED"));
-        },
-      },
-    );
+    });
   }
 
   return (
@@ -151,54 +136,20 @@ export function NotificationCard() {
 
             {quotaWarningEnabled && (
               <>
-                <FormField
-                  control={form.control}
-                  name="notify_type"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>
-                        {t("SETTINGS.NOTIFICATIONS.METHOD")}
-                      </FormLabel>
-                      <FormControl>
-                        <Select
-                          value={field.value}
-                          onValueChange={(v) => {
-                            field.onChange(v);
-                          }}
-                        >
-                          <SelectTrigger className="w-full sm:w-64">
-                            <SelectValue>
-                              {{
-                                email: t("SETTINGS.NOTIFICATIONS.METHOD_EMAIL"),
-                                webhook: t(
-                                  "SETTINGS.NOTIFICATIONS.METHOD_WEBHOOK",
-                                ),
-                                bark: t("SETTINGS.NOTIFICATIONS.METHOD_BARK"),
-                                gotify: t(
-                                  "SETTINGS.NOTIFICATIONS.METHOD_GOTIFY",
-                                ),
-                              }[field.value] || field.value}
-                            </SelectValue>
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="email">
-                              {t("SETTINGS.NOTIFICATIONS.METHOD_EMAIL")}
-                            </SelectItem>
-                            <SelectItem value="webhook">
-                              {t("SETTINGS.NOTIFICATIONS.METHOD_WEBHOOK")}
-                            </SelectItem>
-                            <SelectItem value="bark">
-                              {t("SETTINGS.NOTIFICATIONS.METHOD_BARK")}
-                            </SelectItem>
-                            <SelectItem value="gotify">
-                              {t("SETTINGS.NOTIFICATIONS.METHOD_GOTIFY")}
-                            </SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
+                <div className="sm:w-64">
+                  <MyFormKeyedSelect
+                    control={form.control}
+                    name="notify_type"
+                    label={t("SETTINGS.NOTIFICATIONS.METHOD")}
+                    fallback="email"
+                    optionKeys={{
+                      email: "SETTINGS.NOTIFICATIONS.METHOD_EMAIL",
+                      webhook: "SETTINGS.NOTIFICATIONS.METHOD_WEBHOOK",
+                      bark: "SETTINGS.NOTIFICATIONS.METHOD_BARK",
+                      gotify: "SETTINGS.NOTIFICATIONS.METHOD_GOTIFY",
+                    }}
+                  />
+                </div>
 
                 <div className="space-y-1">
                   <MyFormInput
