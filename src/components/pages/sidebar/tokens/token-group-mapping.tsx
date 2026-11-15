@@ -177,7 +177,16 @@ function modelKey(model: string): string {
   return model.toLowerCase().replace(/\./g, "-");
 }
 
-export function buildModelGroupOptions(
+// Online first, then cheapest.
+function sortOptions(list: GroupOption[]) {
+  list.sort(
+    (a, b) =>
+      Number(b.online) - Number(a.online) ||
+      (a.ratio ?? Infinity) - (b.ratio ?? Infinity),
+  );
+}
+
+function buildModelGroupOptions(
   groups: Record<string, UserGroup>,
   mapping: GroupMapping = {},
 ): Map<string, GroupOption[]> {
@@ -203,8 +212,7 @@ export function buildModelGroupOptions(
   for (const [model, entry] of Object.entries(mapping)) {
     const list = byModel.get(modelKey(model));
     const known = new Set((list ?? []).map((o) => o.group));
-    const pinned = Array.isArray(entry) ? entry : (entry?.groups ?? []);
-    const ghosts = pinned
+    const ghosts = entry.groups
       .filter((group) => !known.has(group))
       .map((group) => ({
         group,
@@ -217,13 +225,7 @@ export function buildModelGroupOptions(
     if (list) list.push(...ghosts);
     else byModel.set(modelKey(model), ghosts);
   }
-  for (const list of byModel.values()) {
-    list.sort(
-      (a, b) =>
-        Number(b.online) - Number(a.online) ||
-        (a.ratio ?? Infinity) - (b.ratio ?? Infinity),
-    );
-  }
+  for (const list of byModel.values()) sortOptions(list);
   return byModel;
 }
 
@@ -249,11 +251,7 @@ function mergeHiddenPreviewLanes(
     );
     const known = new Set(list.map((o) => o.group));
     list.push(...options.filter((o) => !known.has(o.group)));
-    list.sort(
-      (a, b) =>
-        Number(b.online) - Number(a.online) ||
-        (a.ratio ?? Infinity) - (b.ratio ?? Infinity),
-    );
+    sortOptions(list);
     byModel.set(base, list);
   }
 }
@@ -547,69 +545,68 @@ function ModelGroupPanel(props: {
         <CommandList className={cn("max-h-60", isAuto && "opacity-50")}>
           <CommandEmpty>{t("TOKEN.FORM.GROUP_EMPTY")}</CommandEmpty>
           <CommandGroup>
-            {options.map((option) => (
-              <CommandItem
-                key={option.group}
-                value={option.group}
-                onSelect={() => toggleGroup(option.group)}
-                className={cn("[&>svg]:hidden", !option.online && "opacity-50")}
-              >
-                <CheckBox checked={selected.includes(option.group)} />
-                {/* Same taxonomy as the chat model drawer's UptimeDot:
-                      destructive = nothing behind it is serving right now. */}
-                <span
+            {options.map((option) => {
+              const offline = option.online
+                ? null
+                : t(
+                    option.missing
+                      ? "TOKEN.FORM.GROUP_MISSING"
+                      : "TOKEN.FORM.GROUP_OFFLINE",
+                  );
+              const price = priceLabel(
+                props.price,
+                option.ratio,
+                cheapestRatio,
+              );
+              return (
+                <CommandItem
+                  key={option.group}
+                  value={option.group}
+                  onSelect={() => toggleGroup(option.group)}
                   className={cn(
-                    "mr-1.5 h-2 w-2 shrink-0 rounded-full",
-                    option.online ? "bg-success" : "bg-destructive",
+                    "[&>svg]:hidden",
+                    !option.online && "opacity-50",
                   )}
-                  title={
-                    option.online
-                      ? undefined
-                      : t(
-                          option.missing
-                            ? "TOKEN.FORM.GROUP_MISSING"
-                            : "TOKEN.FORM.GROUP_OFFLINE",
-                        )
-                  }
-                />
-                {/* Badges sit under the name: beside it they ate the width
-                      on phones and cut every name to its first two letters. */}
-                <span className="flex min-w-0 flex-1 flex-col gap-0.5">
+                >
+                  <CheckBox checked={selected.includes(option.group)} />
+                  {/* Same taxonomy as the chat model drawer's UptimeDot:
+                      destructive = nothing behind it is serving right now. */}
                   <span
-                    className="font-mono text-xs break-all"
-                    title={
-                      option.online
-                        ? option.group
-                        : `${option.group} - ${t(
-                            option.missing
-                              ? "TOKEN.FORM.GROUP_MISSING"
-                              : "TOKEN.FORM.GROUP_OFFLINE",
-                          )}`
-                    }
-                  >
-                    {groupDisplayLabel(
-                      option.group,
-                      props.model.replace(/:/g, "-"),
+                    className={cn(
+                      "mr-1.5 h-2 w-2 shrink-0 rounded-full",
+                      option.online ? "bg-success" : "bg-destructive",
+                    )}
+                    title={offline ?? undefined}
+                  />
+                  {/* Badges sit under the name: beside it they ate the width
+                      on phones and cut every name to its first two letters. */}
+                  <span className="flex min-w-0 flex-1 flex-col gap-0.5">
+                    <span
+                      className="font-mono text-xs break-all"
+                      title={
+                        offline ? `${option.group} - ${offline}` : option.group
+                      }
+                    >
+                      {groupDisplayLabel(
+                        option.group,
+                        props.model.replace(/:/g, "-"),
+                      )}
+                    </span>
+                    {!option.missing && (
+                      <GroupDataPolicyBadges policy={option.policy} />
                     )}
                   </span>
-                  {!option.missing && (
-                    <GroupDataPolicyBadges policy={option.policy} />
-                  )}
-                </span>
-                <span className="text-muted-foreground ml-auto shrink-0 pl-2 text-right font-mono text-[11px] leading-tight">
-                  <span className="block">
-                    {option.missing
-                      ? t("TOKEN.FORM.GROUP_MISSING_SHORT")
-                      : ratioLabel(option.ratio)}
-                  </span>
-                  {priceLabel(props.price, option.ratio, cheapestRatio) && (
-                    <span className="block opacity-70">
-                      {priceLabel(props.price, option.ratio, cheapestRatio)}
+                  <span className="text-muted-foreground ml-auto shrink-0 pl-2 text-right font-mono text-[11px] leading-tight">
+                    <span className="block">
+                      {option.missing
+                        ? t("TOKEN.FORM.GROUP_MISSING_SHORT")
+                        : ratioLabel(option.ratio)}
                     </span>
-                  )}
-                </span>
-              </CommandItem>
-            ))}
+                    {price && <span className="block opacity-70">{price}</span>}
+                  </span>
+                </CommandItem>
+              );
+            })}
           </CommandGroup>
         </CommandList>
       </Command>
@@ -886,7 +883,7 @@ export function TokenGroupMapping(props: TokenGroupMappingProps) {
                               </span>
                               {model.is_free && (
                                 <span className="shrink-0 rounded bg-emerald-500/15 px-1 py-0.5 text-[10px] leading-none font-medium text-emerald-700 dark:text-emerald-300">
-                                  FREE
+                                  {t("CHAT.MODEL.FREE_BADGE")}
                                 </span>
                               )}
                               {overridden ? (
