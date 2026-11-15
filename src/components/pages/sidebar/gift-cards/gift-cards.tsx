@@ -22,8 +22,7 @@ import { useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
-import { CreateCardDialog } from "./create-card-dialog";
-import { GrantDialog } from "./grant-dialog";
+import { CreateCardDialog, GrantDialog } from "./gift-card-dialogs";
 
 // Upstream status codes: 1 enabled, 2 disabled (what a void sets), 3 used.
 const STATUS_ENABLED = 1;

@@ -21,6 +21,7 @@ export function useCreateGiftCardMutation() {
     mutationFn: async (
       args: EdenArgs<typeof rpc.api.billing.partner.redemption, "post">,
     ) => handleElysia(await rpc.api.billing.partner.redemption.post(args.body)),
+    successKey: "GIFT_CARDS.SUCCESS_CREATE",
     invalidates: [queryKeys.auth(), queryKeys.partnerGiftCards()],
   });
 }
@@ -42,6 +43,7 @@ export function useGrantQuotaMutation() {
     mutationFn: async (
       args: EdenArgs<typeof rpc.api.billing.partner.grant, "post">,
     ) => handleElysia(await rpc.api.billing.partner.grant.post(args.body)),
+    successKey: "GIFT_CARDS.SUCCESS_GRANT",
     invalidates: [queryKeys.auth()],
   });
 }
