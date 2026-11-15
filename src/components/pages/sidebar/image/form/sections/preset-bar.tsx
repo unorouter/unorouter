@@ -49,6 +49,16 @@ export function PresetBar(props: Props) {
   const presets = presetsQuery.data ?? [];
   const selectedPreset = presets.find((p) => p.id === selectedId) ?? null;
 
+  const presetBody = (presetName: string) => {
+    const current = props.getCurrent();
+    return {
+      ...current,
+      name: presetName,
+      model: current.model ?? "",
+      prompt: null,
+    };
+  };
+
   const onOverwrite = async () => {
     if (!selectedPreset) return;
     const ok = await confirm({
@@ -57,47 +67,25 @@ export function PresetBar(props: Props) {
       cancelLabel: t("COMMON.CANCEL"),
     });
     if (!ok) return;
-    const current = props.getCurrent();
-    savePreset.mutate(
-      {
-        name: selectedPreset.name,
-        model: current.model ?? "",
-        prompt: null,
-        negativePrompt: current.negativePrompt,
-        params: current.params,
-        loras: current.loras,
-        extraParams: current.extraParams,
-      },
-      { onSuccess: () => setNaming(false) },
-    );
+    savePreset.mutate(presetBody(selectedPreset.name), {
+      onSuccess: () => setNaming(false),
+    });
   };
 
   const onSave = () => {
     const trimmed = name.trim();
     if (!trimmed) return;
-    const current = props.getCurrent();
-    savePreset.mutate(
-      {
-        name: trimmed,
-        model: current.model ?? "",
-        prompt: null,
-        negativePrompt: current.negativePrompt,
-        params: current.params,
-        loras: current.loras,
-        extraParams: current.extraParams,
+    savePreset.mutate(presetBody(trimmed), {
+      onSuccess: (saved) => {
+        setSelectedId(saved.id);
+        setName("");
+        setNaming(false);
       },
-      {
-        onSuccess: (saved) => {
-          setSelectedId(saved.id);
-          setName("");
-          setNaming(false);
-        },
-      },
-    );
+    });
   };
 
   const onDelete = async () => {
-    const preset = presets.find((p) => p.id === selectedId);
+    const preset = selectedPreset;
     if (!preset) return;
     const ok = await confirm({
       title: t("IMAGE.PRESET_DELETE_CONFIRM", { name: preset.name }),
