@@ -8,8 +8,6 @@ import { Icon } from "@/components/ui/icon";
 import {
   buildGroupEntries,
   type GroupEntry,
-  gridPriceParts,
-  gridPricingColumns,
   type GridPricingRow,
 } from "@/lib/api/pricing";
 import { usePerfMetricsQuery } from "@/hooks/models/perf-metrics-hook";
@@ -28,9 +26,10 @@ import {
   MINI_TABLE_HEAD_ROW,
 } from "../shared/mini-table";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { FixedPriceUnit } from "../shared/fixed-price-unit";
 import { AutoGroupChain } from "./auto-group-chain";
+import { GridPricingTable } from "./grid-pricing-table";
 
 type Theme = ReturnType<typeof getVendorTheme>;
 
@@ -51,6 +50,8 @@ export function GroupPricingSection(props: {
   // flight for the performance panel, so this resolves from cache.
   const perfQuery = usePerfMetricsQuery(open ? model.model_name : null, 24);
   const health = buildHealthMap(perfQuery.data?.groups);
+  const fixedPrice = model.original_fixed_price ?? model.fixed_price;
+  const tokenPrice = model.model_ratio * QUOTA_TO_USD;
 
   if (entries.length === 0) return null;
 
@@ -93,23 +94,35 @@ export function GroupPricingSection(props: {
               providers={props.groupProviders}
               theme={props.theme}
             />
-          ) : model.is_fixed_price ? (
-            <GroupFixed
-              entries={entries}
-              fixedPrice={model.original_fixed_price ?? model.fixed_price}
-              model={model}
-              health={health}
-              providers={props.groupProviders}
-              theme={props.theme}
-            />
           ) : (
-            <GroupTokens
+            <GroupTable
               entries={entries}
-              modelRatio={model.model_ratio}
-              completionRatio={model.completion_ratio}
               health={health}
               providers={props.groupProviders}
               theme={props.theme}
+              heads={
+                model.is_fixed_price
+                  ? [t("MODELS.DETAIL.PRICING")]
+                  : [
+                      t("MODELS.DETAIL.GROUP_HEADER_INPUT"),
+                      t("MODELS.DETAIL.GROUP_HEADER_OUTPUT"),
+                    ]
+              }
+              prices={(ratio) =>
+                model.is_fixed_price
+                  ? [
+                      <>
+                        {formatPrice(fixedPrice * ratio)}
+                        <span className="text-muted-foreground ml-1 text-[10px] font-normal">
+                          <FixedPriceUnit model={model} />
+                        </span>
+                      </>,
+                    ]
+                  : [
+                      formatPrice(tokenPrice * ratio),
+                      formatPrice(tokenPrice * ratio * model.completion_ratio),
+                    ]
+              }
             />
           )}
         </div>
@@ -214,13 +227,13 @@ function GroupNameCell(props: { group: string; providers: GroupProviders }) {
   );
 }
 
-function GroupTokens(props: {
+function GroupTable(props: {
   entries: GroupEntry[];
-  modelRatio: number;
-  completionRatio: number;
   health: Map<string, GroupHealth>;
   providers: GroupProviders;
   theme: Theme;
+  heads: string[];
+  prices: (ratio: number) => ReactNode[];
 }) {
   const t = useTranslations();
   return (
@@ -231,60 +244,11 @@ function GroupTokens(props: {
             <th className="w-full py-1.5 text-left font-normal">
               {t("MODELS.DETAIL.GROUP_HEADER_GROUP")}
             </th>
-            <th className="py-1.5 pl-4 text-right font-normal">
-              {t("MODELS.DETAIL.GROUP_HEADER_INPUT")}
-            </th>
-            <th className="py-1.5 pl-4 text-right font-normal">
-              {t("MODELS.DETAIL.GROUP_HEADER_OUTPUT")}
-            </th>
-            <HealthHeaders />
-          </tr>
-        </thead>
-        <tbody>
-          {props.entries.map((ge) => {
-            const inputPrice = props.modelRatio * QUOTA_TO_USD * ge.ratio;
-            const outputPrice = inputPrice * props.completionRatio;
-            return (
-              <tr key={ge.group} className={MINI_TABLE_BODY_ROW}>
-                <td className="text-muted-foreground py-1.5">
-                  <GroupNameCell group={ge.group} providers={props.providers} />
-                </td>
-                <td className={cn("py-1.5 pl-4 text-right", props.theme.text)}>
-                  {formatPrice(inputPrice)}
-                </td>
-                <td className={cn("py-1.5 pl-4 text-right", props.theme.text)}>
-                  {formatPrice(outputPrice)}
-                </td>
-                <HealthCells health={props.health.get(ge.group)} />
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
-  );
-}
-
-function GroupFixed(props: {
-  entries: GroupEntry[];
-  fixedPrice: number;
-  model: PricingCatalogDetail;
-  health: Map<string, GroupHealth>;
-  providers: GroupProviders;
-  theme: Theme;
-}) {
-  const t = useTranslations();
-  return (
-    <div className="overflow-x-auto">
-      <table className={MINI_TABLE}>
-        <thead>
-          <tr className={MINI_TABLE_HEAD_ROW}>
-            <th className="w-full py-1.5 text-left font-normal">
-              {t("MODELS.DETAIL.GROUP_HEADER_GROUP")}
-            </th>
-            <th className="py-1.5 pl-4 text-right font-normal">
-              {t("MODELS.DETAIL.PRICING")}
-            </th>
+            {props.heads.map((head) => (
+              <th key={head} className="py-1.5 pl-4 text-right font-normal">
+                {head}
+              </th>
+            ))}
             <HealthHeaders />
           </tr>
         </thead>
@@ -294,12 +258,14 @@ function GroupFixed(props: {
               <td className="text-muted-foreground py-1.5">
                 <GroupNameCell group={ge.group} providers={props.providers} />
               </td>
-              <td className={cn("py-1.5 pl-4 text-right", props.theme.text)}>
-                {formatPrice(props.fixedPrice * ge.ratio)}
-                <span className="text-muted-foreground ml-1 text-[10px] font-normal">
-                  <FixedPriceUnit model={props.model} />
-                </span>
-              </td>
+              {props.prices(ge.ratio).map((price, i) => (
+                <td
+                  key={i}
+                  className={cn("py-1.5 pl-4 text-right", props.theme.text)}
+                >
+                  {price}
+                </td>
+              ))}
               <HealthCells health={props.health.get(ge.group)} />
             </tr>
           ))}
@@ -317,7 +283,6 @@ function GroupGrid(props: {
   theme: Theme;
 }) {
   const t = useTranslations();
-  const columns = gridPricingColumns(props.gridPricing);
   return (
     <>
       {props.entries.map((ge) => (
@@ -333,52 +298,11 @@ function GroupGrid(props: {
             </span>
             <GroupHealthInline health={props.health.get(ge.group)} />
           </div>
-          <div className="overflow-x-auto">
-            <table className={MINI_TABLE}>
-              <thead>
-                <tr className={MINI_TABLE_HEAD_ROW}>
-                  {columns.map((col) => (
-                    <th key={col} className="py-1.5 text-left font-normal">
-                      {col}
-                    </th>
-                  ))}
-                  <th className="py-1.5 pl-4 text-right font-normal">
-                    {t("MODELS.DETAIL.PRICING")}
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {props.gridPricing.map((row, i) => {
-                  const parts = gridPriceParts(row, ge.ratio);
-                  return (
-                    <tr key={i} className={MINI_TABLE_BODY_ROW}>
-                      {columns.map((col) => (
-                        <td
-                          key={col}
-                          className="text-muted-foreground py-1.5 text-[11px]"
-                        >
-                          {String(row[col] ?? "")}
-                        </td>
-                      ))}
-                      <td
-                        className={cn(
-                          "py-1.5 text-right text-[11px]",
-                          props.theme.text,
-                        )}
-                      >
-                        {formatPrice(parts.price)}
-                        {parts.suffix && (
-                          <span className="text-muted-foreground ml-0.5 text-[10px]">
-                            {parts.suffix}
-                          </span>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+          <GridPricingTable
+            rows={props.gridPricing}
+            multiplier={ge.ratio}
+            priceLabel={t("MODELS.DETAIL.PRICING")}
+          />
         </div>
       ))}
     </>
