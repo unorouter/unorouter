@@ -163,12 +163,16 @@ export function useSnapshotQuery(id: string | null) {
   });
 }
 
+// An import replays a session, where identical snapshots are intended, so it skips the dedupe.
 async function runSubmit(
   body: SubmitArgs,
   qc: ReturnType<typeof useQueryClient>,
+  dedupe = true,
 ): Promise<{ sessionId: string; snapshotId: string }> {
   const submittedKey = submittedKeyFor(body);
-  const existing = await readLocalSnapshotBySubmittedKey(submittedKey);
+  const existing = dedupe
+    ? await readLocalSnapshotBySubmittedKey(submittedKey)
+    : null;
   if (existing) {
     return { sessionId: existing.sessionId, snapshotId: existing.id };
   }
@@ -340,7 +344,7 @@ export function useImportGenerationMutation() {
           visibility: "private",
           sessionId: sessionId || undefined,
         };
-        const result = await runSubmit(body, qc);
+        const result = await runSubmit(body, qc, false);
         sessionId = result.sessionId;
       }
       return { sessionId };
