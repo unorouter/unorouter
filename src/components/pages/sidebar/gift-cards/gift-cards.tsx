@@ -119,7 +119,7 @@ export function GiftCards() {
             disabled={voidMutation.isPending}
             onClick={() =>
               voidMutation.mutate(
-                { id: row.original.id, quota: row.original.quota },
+                { id: row.original.id },
                 {
                   onSuccess: () => toast.success(t("GIFT_CARDS.SUCCESS_VOID")),
                 },

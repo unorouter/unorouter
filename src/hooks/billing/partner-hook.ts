@@ -5,7 +5,6 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { EdenArgs, EdenQuery } from "@/lib/types/eden";
 import { handleElysia } from "@/lib/utils/base";
-import type { UserSelfData } from "@/openapi";
 
 export function usePartnerGiftCardsQuery(
   query?: EdenQuery<typeof rpc.api.billing.partner.redemption>,
@@ -22,31 +21,19 @@ export function useCreateGiftCardMutation() {
     mutationFn: async (
       args: EdenArgs<typeof rpc.api.billing.partner.redemption, "post">,
     ) => handleElysia(await rpc.api.billing.partner.redemption.post(args.body)),
-    onSuccess: (_, args, qc) => {
-      qc.setQueryData<UserSelfData>(queryKeys.auth(), (old) =>
-        old ? { ...old, quota: (old.quota ?? 0) - args.body.quota } : old,
-      );
-    },
-    invalidates: [queryKeys.partnerGiftCards()],
+    invalidates: [queryKeys.auth(), queryKeys.partnerGiftCards()],
   });
 }
 
-// Voiding returns the card's full face value, so the cached balance goes back up
-// by exactly what minting took out.
 export function useVoidGiftCardMutation() {
   return useApiMutation({
-    mutationFn: async (args: { id: number; quota: number }) =>
+    mutationFn: async (args: { id: number }) =>
       handleElysia(
         await rpc.api.billing.partner
           .redemption({ id: String(args.id) })
           .delete(),
       ),
-    onSuccess: (_, args, qc) => {
-      qc.setQueryData<UserSelfData>(queryKeys.auth(), (old) =>
-        old ? { ...old, quota: (old.quota ?? 0) + args.quota } : old,
-      );
-    },
-    invalidates: [queryKeys.partnerGiftCards()],
+    invalidates: [queryKeys.auth(), queryKeys.partnerGiftCards()],
   });
 }
 
@@ -55,10 +42,6 @@ export function useGrantQuotaMutation() {
     mutationFn: async (
       args: EdenArgs<typeof rpc.api.billing.partner.grant, "post">,
     ) => handleElysia(await rpc.api.billing.partner.grant.post(args.body)),
-    onSuccess: (_, args, qc) => {
-      qc.setQueryData<UserSelfData>(queryKeys.auth(), (old) =>
-        old ? { ...old, quota: (old.quota ?? 0) - args.body.quota } : old,
-      );
-    },
+    invalidates: [queryKeys.auth()],
   });
 }

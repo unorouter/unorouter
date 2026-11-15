@@ -14,7 +14,6 @@ import { Form } from "@/components/ui/form";
 import { Icon } from "@/components/ui/icon";
 import { Label } from "@/components/ui/label";
 import { useTransferAffQuotaMutation } from "@/hooks/billing/affiliate-hook";
-import { useRouter } from "@/i18n/navigation";
 import {
   dollarsToQuota,
   quotaToDollars,
@@ -38,7 +37,6 @@ type TransferDialogProps = {
 
 export function TransferDialog(props: TransferDialogProps) {
   const t = useTranslations();
-  const router = useRouter();
   const transferMutation = useTransferAffQuotaMutation();
 
   const form = useForm({
@@ -59,7 +57,6 @@ export function TransferDialog(props: TransferDialogProps) {
           toast.success(t("AFFILIATE.SUCCESS.TRANSFER"));
           props.onOpenChange(false);
           form.reset();
-          router.refresh();
         },
       },
     );
