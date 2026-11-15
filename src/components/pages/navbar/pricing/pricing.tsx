@@ -29,6 +29,11 @@ type TopUpOption = {
 // Must match the rate-limit discount the subscription writes, or the card promises a speed
 // the gateway does not give.
 const FREE_RATE_LIMIT_PCT_BY_TIER = [50, 75, 100];
+const TIER_KEYS = [
+  "PRICING.TIER.1",
+  "PRICING.TIER.2",
+  "PRICING.TIER.3",
+] as const satisfies TranslationKey[];
 
 const CUSTOM_MIN = 1;
 const CUSTOM_MAX = 100000;
@@ -48,6 +53,7 @@ export function Pricing() {
   const isLoggedIn = hydrated && !!authQuery.data;
   const topUpInfo = billing.topUpInfo;
   const [customAmount, setCustomAmount] = useState("");
+  const authed = (pay: () => void) => (isLoggedIn ? pay : redirectToLogin);
 
   // Creem still requires a product_id even for a custom amount.
   const customTopUpProductId =
@@ -68,17 +74,11 @@ export function Pricing() {
       ? t("PRICING.TOPUP.PAYPAL_FEE", { fee: `$${paypalFee.toFixed(2)}` })
       : "";
 
-  function payCustom() {
-    if (!isLoggedIn) {
-      redirectToLogin();
-      return;
-    }
-    if (cryptoCustomEnabled) {
-      billing.payNowPayments(Number(customAmount));
-      return;
-    }
-    billing.payCreem(customTopUpProductId, Number(customAmount), true);
-  }
+  const payCustom = authed(() =>
+    cryptoCustomEnabled
+      ? billing.payNowPayments(Number(customAmount))
+      : billing.payCreem(customTopUpProductId, Number(customAmount), true),
+  );
 
   const parsedCustom = Number(customAmount);
   const customValid =
@@ -88,13 +88,12 @@ export function Pricing() {
     parsedCustom >= CUSTOM_MIN &&
     parsedCustom <= CUSTOM_MAX;
 
-  function handleSubscribe(plan: SubscriptionPlanDTO) {
-    if (!isLoggedIn) {
-      redirectToLogin();
-      return;
-    }
-    billing.subscribe(plan, { onUnauthorized: () => router.push("/billing") });
-  }
+  const handleSubscribe = (plan: SubscriptionPlanDTO) =>
+    authed(() =>
+      billing.subscribe(plan, {
+        onUnauthorized: () => router.push("/billing"),
+      }),
+    );
 
   function buildTopUpOptions(): TopUpOption[] {
     if (!topUpInfo) return [];
@@ -103,9 +102,7 @@ export function Pricing() {
       return (topUpInfo.amount_options ?? []).map((amount) => ({
         key: `nowpayments-${amount}`,
         amount,
-        handler: isLoggedIn
-          ? () => billing.payNowPayments(amount)
-          : redirectToLogin,
+        handler: authed(() => billing.payNowPayments(amount)),
       }));
     }
 
@@ -118,9 +115,7 @@ export function Pricing() {
         .map((amount) => ({
           key: `delopay-${amount}`,
           amount,
-          handler: isLoggedIn
-            ? () => billing.payDeloPay(amount)
-            : redirectToLogin,
+          handler: authed(() => billing.payDeloPay(amount)),
         }));
     }
 
@@ -128,9 +123,9 @@ export function Pricing() {
       return topUpInfo.creemProducts.map((product) => ({
         key: product.productId,
         amount: product.price,
-        handler: isLoggedIn
-          ? () => billing.payCreem(product.productId, product.price)
-          : redirectToLogin,
+        handler: authed(() =>
+          billing.payCreem(product.productId, product.price),
+        ),
       }));
     }
 
@@ -138,7 +133,7 @@ export function Pricing() {
       return (topUpInfo.amount_options ?? []).map((amount) => ({
         key: `stripe-${amount}`,
         amount,
-        handler: isLoggedIn ? () => billing.payStripe(amount) : redirectToLogin,
+        handler: authed(() => billing.payStripe(amount)),
       }));
     }
 
@@ -236,11 +231,7 @@ export function Pricing() {
                     step={cryptoCustomEnabled ? "1" : "0.01"}
                     value={customAmount}
                     onChange={(e) => setCustomAmount(e.target.value)}
-                    placeholder={
-                      Number.isInteger(CUSTOM_MIN)
-                        ? String(CUSTOM_MIN)
-                        : CUSTOM_MIN.toFixed(2)
-                    }
+                    placeholder={String(CUSTOM_MIN)}
                     className="text-foreground w-24 bg-transparent pl-1 font-mono text-sm font-bold tabular-nums outline-none"
                   />
                 </div>
@@ -294,8 +285,8 @@ export function Pricing() {
 
         <div className="grid gap-6 md:grid-cols-3">
           {plans.map((plan, i) => {
-            const tierKey = `PRICING.TIER.${i + 1}` as TranslationKey;
-            const name = t.has(tierKey) ? t(tierKey) : plan.plan.title;
+            const tierKey = TIER_KEYS[i];
+            const name = tierKey ? t(tierKey) : plan.plan.title;
 
             return (
               <PricingCard
@@ -308,7 +299,7 @@ export function Pricing() {
                 popular={i === 1}
                 features={buildFeatures(i)}
                 cta={t("PRICING.CTA")}
-                onSubscribe={() => handleSubscribe(plan)}
+                onSubscribe={handleSubscribe(plan)}
                 disabled={billing.isSubMutating}
               />
             );
