@@ -1,11 +1,12 @@
 "use client";
 
+import { useDebouncedValue } from "@/hooks/ui/use-debounced-value";
 import {
   useCivitaiLoraVersionsQuery,
   useLoraCatalogQuery,
 } from "@/hooks/ai/image-catalog-hook";
 import type { CatalogItem, LoraEntry } from "@/lib/validation/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { CatalogChainPicker } from "./catalog-chain-picker";
 
 export type { LoraEntry };
@@ -30,15 +31,10 @@ function isCivitaiReference(input: string): boolean {
 
 export function LoraPicker(props: Props) {
   const [search, setSearch] = useState("");
-  const [debounced, setDebounced] = useState("");
   // DEBOUNCED, not live: a half-typed url is briefly a bare id, flip-flopping the
   // panel between catalog and resolver per keystroke.
+  const debounced = useDebouncedValue(search.trim(), 400);
   const isReference = isCivitaiReference(debounced);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setDebounced(search.trim()), 400);
-    return () => clearTimeout(timer);
-  }, [search]);
 
   const versions = useCivitaiLoraVersionsQuery(
     isReference ? debounced : undefined,
