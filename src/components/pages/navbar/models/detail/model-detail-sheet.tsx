@@ -16,12 +16,7 @@ import { Link } from "@/i18n/navigation";
 import { modelHref } from "@/lib/utils/base";
 import { chooseChatModelAtom } from "@/store/chat-store";
 import { useSetAtom } from "jotai";
-import {
-  gridPriceParts,
-  gridPricingColumns,
-  type EndpointInfo,
-  GridPricingRow,
-} from "@/lib/api/pricing";
+import type { EndpointInfo } from "@/lib/api/pricing";
 import { useModelWatch } from "@/hooks/models/notify-hook";
 import {
   useModelDetailQuery,
@@ -31,9 +26,8 @@ import { SectionHeading } from "./shared/section-heading";
 import { env } from "@/lib/config/env";
 import { getVendorTheme } from "@/lib/config/vendor-registry";
 import { cn } from "@/lib/utils";
-import { formatPrice } from "@/lib/utils/format/number";
 import { useTranslations } from "next-intl";
-import { MINI_TABLE, MINI_TABLE_BODY_ROW } from "./shared/mini-table";
+import { GridPricingTable } from "./pricing/grid-pricing-table";
 import { PriceRows } from "./pricing/price-rows";
 import { GroupPricingSection } from "./pricing/group-pricing-section";
 import { ModelDescription } from "./header/model-description";
@@ -172,11 +166,16 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
           </section>
 
           {model.grid_pricing && (
-            <GridPricingSection
-              gridPricing={model.grid_pricing}
-              priceMultiplier={model.grid_min_ratio}
-              theme={theme}
-            />
+            <section>
+              <SectionHeading theme={theme}>
+                {t("MODELS.DETAIL.GRID_PRICING")}
+              </SectionHeading>
+              <GridPricingTable
+                rows={model.grid_pricing}
+                multiplier={model.grid_min_ratio}
+                priceLabel={t("MODELS.DETAIL.PRICING")}
+              />
+            </section>
           )}
 
           {model.enable_groups.length > 0 && !model.is_tiered && (
@@ -206,13 +205,11 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
               <div className="space-y-2">
                 {model.supported_endpoint_types.map((endpoint) => {
                   const info = props.endpointMap[endpoint];
-                  let path = info?.path ?? "";
-                  if (path.includes("{model}")) {
-                    path = path.replaceAll("{model}", model.model_name);
-                  }
-                  const method = info?.method ?? "POST";
-                  const apiBase = env.apiUrl ?? "";
-                  const fullUrl = path ? `${apiBase}${path}` : "";
+                  const path = (info?.path ?? "").replaceAll(
+                    "{model}",
+                    model.model_name,
+                  );
+                  const fullUrl = path ? `${env.apiUrl ?? ""}${path}` : "";
 
                   return (
                     <div
@@ -226,7 +223,7 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
                         </div>
                         {path && (
                           <span className="text-muted-foreground font-mono text-[10px] uppercase">
-                            {method}
+                            {info?.method ?? "POST"}
                           </span>
                         )}
                       </div>
@@ -251,99 +248,5 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
         </div>
       </SheetContent>
     </Sheet>
-  );
-}
-
-function GridPricingTable(props: {
-  rows: GridPricingRow[];
-  priceMultiplier?: number;
-  theme: ReturnType<typeof getVendorTheme>;
-  pricingLabel: string;
-}) {
-  const columns = gridPricingColumns(props.rows);
-
-  return (
-    <div className="overflow-x-auto">
-      <table className={MINI_TABLE}>
-        <thead>
-          <tr className="border-border/40 border-b">
-            {columns.map((col) => (
-              <th
-                key={col}
-                className="text-foreground px-2 py-1.5 text-left text-[10px] font-normal uppercase"
-              >
-                {col}
-              </th>
-            ))}
-            <th className="text-foreground px-2 py-1.5 text-right text-[10px] font-normal uppercase">
-              {props.pricingLabel}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {props.rows.map((row, i) => {
-            const { price, suffix } = gridPriceParts(
-              row,
-              props.priceMultiplier,
-            );
-            return (
-              <tr key={i} className={MINI_TABLE_BODY_ROW}>
-                {columns.map((col) => (
-                  <td
-                    key={col}
-                    className="text-muted-foreground px-2 py-1.5 text-[11px]"
-                  >
-                    {String(row[col] ?? "")}
-                  </td>
-                ))}
-                <td
-                  className={cn(
-                    "px-2 py-1.5 text-right text-[11px] font-medium",
-                    props.theme.text,
-                  )}
-                >
-                  {formatPrice(price)}
-                  {suffix && (
-                    <span className="text-muted-foreground ml-0.5 text-[10px]">
-                      {suffix}
-                    </span>
-                  )}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
-  );
-}
-
-function GridPricingSection(props: {
-  gridPricing: GridPricingRow[];
-  priceMultiplier?: number;
-  theme: ReturnType<typeof getVendorTheme>;
-}) {
-  const t = useTranslations();
-
-  return (
-    <section>
-      <SectionHeading theme={props.theme}>
-        {t("MODELS.DETAIL.GRID_PRICING")}
-      </SectionHeading>
-      <div
-        className={cn(
-          "rounded-lg border p-3",
-          props.theme.bg,
-          props.theme.border,
-        )}
-      >
-        <GridPricingTable
-          rows={props.gridPricing}
-          priceMultiplier={props.priceMultiplier}
-          theme={props.theme}
-          pricingLabel={t("MODELS.DETAIL.PRICING")}
-        />
-      </div>
-    </section>
   );
 }
