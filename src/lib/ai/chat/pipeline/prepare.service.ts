@@ -73,8 +73,9 @@ export async function prepareChatRequest(
   const tokenizerState = activeTokenizerState();
 
   throwIfAborted(abortSignal);
-  const { convCtx, effectiveWebSearch, searchSystemMessage } =
-    await resolveContext(apiKey, body, userId, deps);
+  const context = await resolveContext(apiKey, body, userId, deps);
+  const convCtx = context.convCtx;
+  const searchSystemMessage = context.searchSystemMessage;
 
   const modelInfo = await deps.getModelInfo(body.model);
   throwIfAborted(abortSignal);

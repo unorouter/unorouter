@@ -5,7 +5,6 @@ import { extractLastUserText, type StreamMessages } from "../transforms";
 
 type ResolvedContext = {
   convCtx: LoadedConvContext | null;
-  effectiveWebSearch: boolean;
   searchSystemMessage: string | undefined;
 };
 
@@ -36,5 +35,5 @@ export async function resolveContext(
     });
   }
 
-  return { convCtx, effectiveWebSearch, searchSystemMessage };
+  return { convCtx, searchSystemMessage };
 }
