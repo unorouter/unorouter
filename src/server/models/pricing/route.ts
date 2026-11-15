@@ -1,7 +1,6 @@
 import { usesInputsForOwnPurposes } from "@/lib/api/own-purpose";
 import { unwrap } from "@/lib/utils/base";
 import {
-  getPricingCatalog,
   getPricingCounts,
   getPricingModelGroups,
   getPricingVendors,
@@ -10,6 +9,7 @@ import {
   getCatalog,
   getImageModels,
   getTaskImageModels,
+  getVendorCatalog,
   getModelByName,
   getSubscriptionPlansSummary,
 } from "@/server/models/pricing/pricing.service";
@@ -36,17 +36,9 @@ export const pricingRoute = new Elysia({ prefix: "/pricing" })
 
   .get("/task-image-models", async () => getTaskImageModels())
 
-  .get(
-    "/vendor",
-    async (ctx) =>
-      unwrap(
-        await getPricingCatalog({
-          vendor: ctx.query.name,
-          include_offline: true,
-        }),
-      ).models,
-    { query: t.Object({ name: t.String() }) },
-  )
+  .get("/vendor", async (ctx) => getVendorCatalog(ctx.query.name), {
+    query: t.Object({ name: t.String() }),
+  })
 
   .get(
     "/detail",
