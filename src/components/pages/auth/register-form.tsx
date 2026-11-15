@@ -260,12 +260,6 @@ export function RegisterForm() {
                 </div>
               )}
 
-              {registerMutation.error && (
-                <p className="text-destructive text-center text-xs font-medium">
-                  {registerMutation.error.message}
-                </p>
-              )}
-
               <TermsNotice variant="register" />
 
               <Button

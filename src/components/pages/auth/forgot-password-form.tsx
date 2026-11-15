@@ -7,7 +7,7 @@ import { GlassAuthCard } from "@/components/ui/glass-auth-card";
 import { useSendPasswordResetMutation } from "@/hooks/auth/auth-hook";
 import { useStatusQuery } from "@/hooks/ops/status-hook";
 import { Link } from "@/i18n/navigation";
-import { APP_VALUES, RESEND_COOLDOWN_SECONDS } from "@/lib/config/constants";
+import { APP_VALUES } from "@/lib/config/constants";
 import {
   forgotPasswordChecker,
   forgotPasswordSchema,
@@ -17,7 +17,7 @@ import { formDefaults, safeParse } from "@/lib/validation/helpers";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { useTranslations } from "next-intl";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 
 export function ForgotPasswordForm() {
@@ -33,16 +33,9 @@ export function ForgotPasswordForm() {
   const [turnstileToken, setTurnstileToken] = useState<string | undefined>();
   const turnstileRef = useRef<TurnstileInstance>(null);
   const [sent, setSent] = useState(false);
-  const [resendSeconds, setResendSeconds] = useState(0);
 
   const email = useWatch({ control: form.control, name: "email" });
   const isValid = safeParse(forgotPasswordChecker, { email }).success;
-
-  useEffect(() => {
-    if (resendSeconds <= 0) return;
-    const id = setTimeout(() => setResendSeconds((s) => s - 1), 1000);
-    return () => clearTimeout(id);
-  }, [resendSeconds]);
 
   async function onSubmit(data: ForgotPasswordSchema) {
     try {
@@ -50,7 +43,6 @@ export function ForgotPasswordForm() {
         query: { email: data.email.trim(), turnstile: turnstileToken },
       });
       setSent(true);
-      setResendSeconds(RESEND_COOLDOWN_SECONDS);
     } finally {
       turnstileRef.current?.reset();
       setTurnstileToken(undefined);
@@ -99,17 +91,10 @@ export function ForgotPasswordForm() {
                   </div>
                 )}
 
-              {resetMutation.error && (
-                <p className="text-destructive text-center text-xs font-medium">
-                  {resetMutation.error.message}
-                </p>
-              )}
-
               <Button
                 type="submit"
                 disabled={
                   !isValid ||
-                  resendSeconds > 0 ||
                   resetMutation.isPending ||
                   (statusQuery.data?.turnstile_check && !turnstileToken)
                 }

@@ -82,12 +82,6 @@ export function ResetPasswordForm(props: Props) {
               {props.email}
             </p>
 
-            {resetMutation.error && (
-              <p className="text-destructive text-center text-xs font-medium">
-                {resetMutation.error.message}
-              </p>
-            )}
-
             <Button
               onClick={onConfirm}
               disabled={resetMutation.isPending}

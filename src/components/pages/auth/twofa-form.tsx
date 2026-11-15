@@ -115,12 +115,6 @@ export function TwoFAForm(props: TwoFAFormProps) {
           />
         </div>
 
-        {verify2FA.error && (
-          <p className="text-destructive text-center text-xs font-medium">
-            {verify2FA.error.message}
-          </p>
-        )}
-
         <Button
           type="submit"
           disabled={code.length !== 6 || verify2FA.isPending}

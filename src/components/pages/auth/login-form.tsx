@@ -216,9 +216,9 @@ export function LoginForm() {
                   </div>
                 )}
 
-              {(formError || loginMutation.error) && (
+              {formError && (
                 <p className="text-destructive text-center text-xs font-medium">
-                  {formError ?? loginMutation.error?.message}
+                  {formError}
                 </p>
               )}
 
