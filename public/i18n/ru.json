@@ -3037,7 +3037,9 @@
     "UPDATE_AVAILABLE": "Доступна новая версия",
     "UPDATE_RELOAD": "Обновить",
     "TOTAL_COUNT": "всего {count}",
-    "ROWS": "Строки"
+    "ROWS": "Строки",
+    "COLUMNS": "Столбцы",
+    "TOGGLE_COLUMNS": "Показать или скрыть столбцы"
   },
   "LANGUAGE": {
     "EN": "English",

@@ -3037,7 +3037,9 @@
     "UPDATE_AVAILABLE": "Dostępna jest nowa wersja",
     "UPDATE_RELOAD": "Odśwież",
     "TOTAL_COUNT": "łącznie {count}",
-    "ROWS": "Wiersze"
+    "ROWS": "Wiersze",
+    "COLUMNS": "Kolumny",
+    "TOGGLE_COLUMNS": "Pokaż lub ukryj kolumny"
   },
   "LANGUAGE": {
     "EN": "English",

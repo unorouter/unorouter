@@ -3037,7 +3037,9 @@
     "UPDATE_AVAILABLE": "Yeni bir sürüm mevcut",
     "UPDATE_RELOAD": "Yeniden yükle",
     "TOTAL_COUNT": "toplam {count}",
-    "ROWS": "Satır"
+    "ROWS": "Satır",
+    "COLUMNS": "Sütunlar",
+    "TOGGLE_COLUMNS": "Sütunları göster veya gizle"
   },
   "LANGUAGE": {
     "EN": "English",

@@ -30,11 +30,11 @@ export function DataTableViewOptions<TData extends RowData>(
         render={<Button variant="outline" size="sm" className="h-8" />}
       >
         <Icon name="settings-2" className="mr-2 h-4 w-4" />
-        View
+        {t("COMMON.COLUMNS")}
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-40">
         <DropdownMenuGroup>
-          <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
+          <DropdownMenuLabel>{t("COMMON.TOGGLE_COLUMNS")}</DropdownMenuLabel>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         {props.table

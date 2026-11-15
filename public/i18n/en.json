@@ -3037,7 +3037,9 @@
     "UPDATE_AVAILABLE": "A new version is available",
     "UPDATE_RELOAD": "Reload",
     "TOTAL_COUNT": "{count} total",
-    "ROWS": "Rows"
+    "ROWS": "Rows",
+    "COLUMNS": "Columns",
+    "TOGGLE_COLUMNS": "Toggle columns"
   },
   "LANGUAGE": {
     "EN": "English",

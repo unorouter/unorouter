@@ -3037,7 +3037,9 @@
     "UPDATE_AVAILABLE": "新しいバージョンが利用可能です",
     "UPDATE_RELOAD": "再読み込み",
     "TOTAL_COUNT": "合計 {count} 件",
-    "ROWS": "行数"
+    "ROWS": "行数",
+    "COLUMNS": "列",
+    "TOGGLE_COLUMNS": "列の表示切り替え"
   },
   "LANGUAGE": {
     "EN": "English",

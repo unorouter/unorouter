@@ -3037,7 +3037,9 @@
     "UPDATE_AVAILABLE": "Đã có phiên bản mới",
     "UPDATE_RELOAD": "Tải lại",
     "TOTAL_COUNT": "tổng {count}",
-    "ROWS": "Hàng"
+    "ROWS": "Hàng",
+    "COLUMNS": "Cột",
+    "TOGGLE_COLUMNS": "Hiện hoặc ẩn cột"
   },
   "LANGUAGE": {
     "EN": "English",

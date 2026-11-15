@@ -3037,7 +3037,9 @@
     "UPDATE_AVAILABLE": "גרסה חדשה זמינה",
     "UPDATE_RELOAD": "רענון",
     "TOTAL_COUNT": "{count} סה״כ",
-    "ROWS": "שורות"
+    "ROWS": "שורות",
+    "COLUMNS": "עמודות",
+    "TOGGLE_COLUMNS": "הצגה או הסתרה של עמודות"
   },
   "LANGUAGE": {
     "EN": "English",

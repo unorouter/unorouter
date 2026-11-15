@@ -3037,7 +3037,9 @@
     "UPDATE_AVAILABLE": "Eine neue Version ist verfügbar",
     "UPDATE_RELOAD": "Neu laden",
     "TOTAL_COUNT": "{count} gesamt",
-    "ROWS": "Zeilen"
+    "ROWS": "Zeilen",
+    "COLUMNS": "Spalten",
+    "TOGGLE_COLUMNS": "Spalten ein- und ausblenden"
   },
   "LANGUAGE": {
     "EN": "English",

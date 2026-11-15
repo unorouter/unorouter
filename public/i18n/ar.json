@@ -3037,7 +3037,9 @@
     "UPDATE_AVAILABLE": "يتوفر إصدار جديد",
     "UPDATE_RELOAD": "إعادة التحميل",
     "TOTAL_COUNT": "{count} إجمالاً",
-    "ROWS": "الصفوف"
+    "ROWS": "الصفوف",
+    "COLUMNS": "الأعمدة",
+    "TOGGLE_COLUMNS": "إظهار الأعمدة أو إخفاؤها"
   },
   "LANGUAGE": {
     "EN": "English",
