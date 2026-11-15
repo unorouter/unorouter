@@ -1,5 +1,7 @@
 "use client";
 
+import { upper } from "@/lib/utils/base";
+
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useDashboardFlowQuery } from "@/hooks/billing/dashboard-hook";
@@ -107,7 +109,9 @@ export function FlowSection() {
       action={
         <Tabs
           value={metric}
-          onValueChange={(next) => setMetric(next as FlowMetric)}
+          onValueChange={(next) =>
+            setMetric(METRICS.find((m) => m === next) ?? "quota")
+          }
         >
           <TabsList variant="line" className="h-7">
             {METRICS.map((value) => (
@@ -116,9 +120,7 @@ export function FlowSection() {
                 value={value}
                 className="font-mono text-[10px]"
               >
-                {t(
-                  `DASHBOARD.FLOW.${value.toUpperCase() as Uppercase<FlowMetric>}`,
-                )}
+                {t(`DASHBOARD.FLOW.${upper(value)}`)}
               </TabsTrigger>
             ))}
           </TabsList>
