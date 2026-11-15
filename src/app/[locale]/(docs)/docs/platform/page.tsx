@@ -1,8 +1,9 @@
 import { DocIndexTemplate } from "@/components/pages/docs/doc-template";
+import { docSections } from "@/components/pages/docs/doc-registry";
 import {
   PLATFORM_DOC_SECTION_LABELS,
   PLATFORM_DOC_SECTION_ORDER,
-  platformDocsBySection,
+  PLATFORM_DOCS,
 } from "@/components/pages/docs/platform/platform-docs";
 import { pageMetadata } from "@/lib/seo/metadata";
 
@@ -20,17 +21,17 @@ export function generateMetadata(props: {
 export default function PlatformDocsIndexPage(props: {
   params: Promise<{ locale: string }>;
 }) {
-  const bySection = platformDocsBySection();
   return (
     <DocIndexTemplate
       params={props.params}
       namespace="DOCS_PLATFORM"
       href="/docs/platform"
       idPrefix="platform-docs"
-      sections={PLATFORM_DOC_SECTION_ORDER.map((section) => ({
-        labelKey: PLATFORM_DOC_SECTION_LABELS[section],
-        docs: bySection[section],
-      }))}
+      sections={docSections(
+        PLATFORM_DOCS,
+        PLATFORM_DOC_SECTION_ORDER,
+        PLATFORM_DOC_SECTION_LABELS,
+      )}
     />
   );
 }

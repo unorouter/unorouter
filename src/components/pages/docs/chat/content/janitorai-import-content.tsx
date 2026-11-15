@@ -1,6 +1,6 @@
 import { APP_VALUES } from "@/lib/config/constants";
 import { getTranslations } from "next-intl/server";
-import { chatDocKey } from "../chat-doc-template";
+import { docKey } from "../../doc-template";
 import {
   DocKbd,
   DocSection,
@@ -40,7 +40,7 @@ function Steps(props: { items: string[] }) {
 
 export async function JanitoraiImportContent() {
   const t = await getTranslations();
-  const k = (leaf: string) => t(chatDocKey(P, leaf), APP_VALUES);
+  const k = (leaf: string) => t(docKey(P, leaf), APP_VALUES);
 
   return (
     <>
@@ -84,7 +84,7 @@ export async function JanitoraiImportContent() {
 
       <DocSection id="import" title={k("H_IMPORT")}>
         <p>
-          {t(chatDocKey(P, "P_IMPORT_1"), {
+          {t(docKey(P, "P_IMPORT_1"), {
             ...APP_VALUES,
             tools: t("CHAT.MORE.TOOLS"),
             importExport: t("CHAT.MORE.IMPORT_EXPORT"),

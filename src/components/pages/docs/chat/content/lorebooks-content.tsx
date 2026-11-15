@@ -1,6 +1,6 @@
 import { APP_VALUES } from "@/lib/config/constants";
 import { getTranslations } from "next-intl/server";
-import { chatDocKey } from "../chat-doc-template";
+import { docKey } from "../../doc-template";
 import {
   DocCode,
   DocImage,
@@ -13,7 +13,7 @@ const P = "DOCS_CHAT.LOREBOOKS";
 
 export async function LorebooksContent() {
   const t = await getTranslations();
-  const k = (leaf: string) => t(chatDocKey(P, leaf), APP_VALUES);
+  const k = (leaf: string) => t(docKey(P, leaf), APP_VALUES);
 
   return (
     <>

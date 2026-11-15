@@ -1,8 +1,5 @@
-import {
-  ChatDocTemplate,
-  chatDocKey,
-} from "@/components/pages/docs/chat/chat-doc-template";
-import { getChatDoc } from "@/components/pages/docs/chat/chat-docs";
+import { CHAT_DOCS } from "@/components/pages/docs/chat/chat-docs";
+import { DocTemplate, docKey } from "@/components/pages/docs/doc-template";
 import { CardsContent } from "@/components/pages/docs/chat/content/cards-content";
 import { CharactersContent } from "@/components/pages/docs/chat/content/characters-content";
 import { CustomProvidersContent } from "@/components/pages/docs/chat/content/custom-providers-content";
@@ -37,16 +34,16 @@ interface PageProps {
 
 export async function generateMetadata(props: PageProps) {
   const params = await props.params;
-  const doc = getChatDoc(params.slug);
+  const doc = CHAT_DOCS.find((d) => d.slug === params.slug);
   if (!doc) return notFoundMetadata();
   const locale = await serverLocale(props);
   const t = await getTranslations({ locale });
   return getPageMetadata({
     locale,
     href: doc.href,
-    title: t(chatDocKey(doc.i18nPrefix, "META.TITLE"), APP_VALUES),
-    description: t(chatDocKey(doc.i18nPrefix, "META.DESCRIPTION"), APP_VALUES),
-    keywords: t(chatDocKey(doc.i18nPrefix, "META.KEYWORDS"), APP_VALUES),
+    title: t(docKey(doc.i18nPrefix, "META.TITLE"), APP_VALUES),
+    description: t(docKey(doc.i18nPrefix, "META.DESCRIPTION"), APP_VALUES),
+    keywords: t(docKey(doc.i18nPrefix, "META.KEYWORDS"), APP_VALUES),
     ogImage: ogBadge("chat", locale),
   });
 }
@@ -76,7 +73,7 @@ const CONTENT: Record<string, React.ComponentType> = {
 
 export default async function ChatDocPage(props: PageProps) {
   const params = await props.params;
-  const doc = getChatDoc(params.slug);
+  const doc = CHAT_DOCS.find((d) => d.slug === params.slug);
   const Content = doc ? CONTENT[doc.slug] : undefined;
   if (!doc || !Content) notFound();
   const t = await getTranslations();
@@ -84,15 +81,17 @@ export default async function ChatDocPage(props: PageProps) {
     <>
       <DocPageSchema
         slug={`docs/chat/${doc.slug}` as DocSlug}
-        title={t(chatDocKey(doc.i18nPrefix, "META.TITLE"), APP_VALUES)}
-        description={t(
-          chatDocKey(doc.i18nPrefix, "META.DESCRIPTION"),
-          APP_VALUES,
-        )}
+        title={t(docKey(doc.i18nPrefix, "META.TITLE"), APP_VALUES)}
+        description={t(docKey(doc.i18nPrefix, "META.DESCRIPTION"), APP_VALUES)}
       />
-      <ChatDocTemplate doc={doc}>
+      <DocTemplate
+        doc={doc}
+        docs={CHAT_DOCS}
+        namespace="DOCS_CHAT"
+        indexHref="/docs/chat"
+      >
         <Content />
-      </ChatDocTemplate>
+      </DocTemplate>
     </>
   );
 }

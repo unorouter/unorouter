@@ -8,7 +8,7 @@ import {
 } from "@/components/pages/docs/doc-parts";
 import { APP_VALUES } from "@/lib/config/constants";
 import { getTranslations } from "next-intl/server";
-import { platformDocKey } from "../platform-doc-template";
+import { docKey } from "../../doc-template";
 
 const P = "DOCS_PLATFORM.ERRORS_AND_RATE_LIMITS";
 
@@ -38,7 +38,7 @@ X-RateLimit-Reset: 1783198478`;
 
 export async function ErrorsAndRateLimitsContent() {
   const t = await getTranslations();
-  const k = (leaf: string) => t(platformDocKey(P, leaf), APP_VALUES);
+  const k = (leaf: string) => t(docKey(P, leaf), APP_VALUES);
 
   const statusRows = (
     [

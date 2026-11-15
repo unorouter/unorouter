@@ -1,12 +1,12 @@
 import {
   CHAT_DOC_SECTION_LABELS,
   CHAT_DOC_SECTION_ORDER,
-  chatDocsBySection,
+  CHAT_DOCS,
 } from "@/components/pages/docs/chat/chat-docs";
 import {
   PLATFORM_DOC_SECTION_LABELS,
   PLATFORM_DOC_SECTION_ORDER,
-  platformDocsBySection,
+  PLATFORM_DOCS,
 } from "@/components/pages/docs/platform/platform-docs";
 import {
   CATEGORY_ICONS,
@@ -18,6 +18,20 @@ import type { IntegrationIconKey } from "@/components/pages/docs/integration-typ
 import type { LinkHref } from "@/i18n/routing";
 import type { TranslationKey } from "@/lib/config/constants";
 import type { IconName } from "@/lib/config/icon-map";
+import { docSections, type Doc } from "@/components/pages/docs/doc-registry";
+
+function docNavGroups(
+  groups: { labelKey: TranslationKey; docs: Doc<string>[] }[],
+): DocsNavGroup[] {
+  return groups.map((group) => ({
+    labelKey: group.labelKey,
+    items: group.docs.map((doc) => ({
+      name: `${doc.i18nPrefix}.TITLE`,
+      href: doc.href,
+      iconName: doc.iconName,
+    })),
+  }));
+}
 
 export type GuideIconRef = {
   iconKey: IntegrationIconKey;
@@ -57,23 +71,9 @@ export const chatDocsNavItemsOverview: DocsNavItem[] = [
   },
 ];
 
-export const chatDocsNavGroups: DocsNavGroup[] = (() => {
-  const bySection = chatDocsBySection();
-  return CHAT_DOC_SECTION_ORDER.flatMap((section) => {
-    const docs = bySection[section];
-    if (docs.length === 0) return [];
-    return [
-      {
-        labelKey: CHAT_DOC_SECTION_LABELS[section],
-        items: docs.map((doc) => ({
-          name: `${doc.i18nPrefix}.TITLE`,
-          href: doc.href,
-          iconName: doc.iconName,
-        })),
-      },
-    ];
-  });
-})();
+export const chatDocsNavGroups: DocsNavGroup[] = docNavGroups(
+  docSections(CHAT_DOCS, CHAT_DOC_SECTION_ORDER, CHAT_DOC_SECTION_LABELS),
+);
 
 export const platformDocsNavItemsOverview: DocsNavItem[] = [
   {
@@ -84,23 +84,13 @@ export const platformDocsNavItemsOverview: DocsNavItem[] = [
   },
 ];
 
-export const platformDocsNavGroups: DocsNavGroup[] = (() => {
-  const bySection = platformDocsBySection();
-  return PLATFORM_DOC_SECTION_ORDER.flatMap((section) => {
-    const docs = bySection[section];
-    if (docs.length === 0) return [];
-    return [
-      {
-        labelKey: PLATFORM_DOC_SECTION_LABELS[section],
-        items: docs.map((doc) => ({
-          name: `${doc.i18nPrefix}.TITLE`,
-          href: doc.href,
-          iconName: doc.iconName,
-        })),
-      },
-    ];
-  });
-})();
+export const platformDocsNavGroups: DocsNavGroup[] = docNavGroups(
+  docSections(
+    PLATFORM_DOCS,
+    PLATFORM_DOC_SECTION_ORDER,
+    PLATFORM_DOC_SECTION_LABELS,
+  ),
+);
 
 export const docsNavGroups: DocsNavGroup[] = (() => {
   const byCategory = setupGuidesByCategory();

@@ -1,6 +1,6 @@
 import { APP_VALUES } from "@/lib/config/constants";
 import { getTranslations } from "next-intl/server";
-import { chatDocKey } from "../chat-doc-template";
+import { docKey } from "../../doc-template";
 import {
   DocCode,
   DocKbd,
@@ -12,7 +12,7 @@ const P = "DOCS_CHAT.REGEX_SCRIPTS";
 
 export async function RegexScriptsContent() {
   const t = await getTranslations();
-  const k = (leaf: string) => t(chatDocKey(P, leaf), APP_VALUES);
+  const k = (leaf: string) => t(docKey(P, leaf), APP_VALUES);
 
   return (
     <>

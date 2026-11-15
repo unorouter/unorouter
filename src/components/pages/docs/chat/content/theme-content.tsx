@@ -1,6 +1,6 @@
 import { APP_VALUES } from "@/lib/config/constants";
 import { getTranslations } from "next-intl/server";
-import { chatDocKey } from "../chat-doc-template";
+import { docKey } from "../../doc-template";
 import {
   DocAppLink,
   DocImage,
@@ -13,7 +13,7 @@ const P = "DOCS_CHAT.THEME";
 
 export async function ThemeContent() {
   const t = await getTranslations();
-  const k = (leaf: string) => t(chatDocKey(P, leaf), APP_VALUES);
+  const k = (leaf: string) => t(docKey(P, leaf), APP_VALUES);
 
   return (
     <>
@@ -69,11 +69,7 @@ export async function ThemeContent() {
               t("THEME.CATEGORY.COLORS"),
               k("N_MENUS"),
             ],
-            [
-              t("THEME.REGION.COMPOSER"),
-              t("THEME.CATEGORY.CHAT_SURFACES"),
-              "",
-            ],
+            [t("THEME.REGION.COMPOSER"), t("THEME.CATEGORY.CHAT_SURFACES"), ""],
             [
               `${t("THEME.REGION.BUBBLE_USER")}, ${t("THEME.REGION.BUBBLE_ASSISTANT")}`,
               t("THEME.CATEGORY.CHAT_SURFACES"),

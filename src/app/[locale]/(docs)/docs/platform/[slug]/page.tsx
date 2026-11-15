@@ -7,11 +7,8 @@ import { ModelsAndPricingContent } from "@/components/pages/docs/platform/conten
 import { NotificationsContent } from "@/components/pages/docs/platform/content/notifications-content";
 import { PlatformApiContent } from "@/components/pages/docs/platform/content/platform-api-content";
 import { QuickstartContent } from "@/components/pages/docs/platform/content/quickstart-content";
-import {
-  PlatformDocTemplate,
-  platformDocKey,
-} from "@/components/pages/docs/platform/platform-doc-template";
-import { getPlatformDoc } from "@/components/pages/docs/platform/platform-docs";
+import { PLATFORM_DOCS } from "@/components/pages/docs/platform/platform-docs";
+import { DocTemplate, docKey } from "@/components/pages/docs/doc-template";
 import { APP_VALUES } from "@/lib/config/constants";
 import { DocPageSchema } from "@/lib/seo/json-ld";
 import { getPageMetadata, notFoundMetadata } from "@/lib/seo/metadata";
@@ -26,19 +23,16 @@ interface PageProps {
 
 export async function generateMetadata(props: PageProps) {
   const params = await props.params;
-  const doc = getPlatformDoc(params.slug);
+  const doc = PLATFORM_DOCS.find((d) => d.slug === params.slug);
   if (!doc) return notFoundMetadata();
   const locale = await serverLocale(props);
   const t = await getTranslations({ locale });
   return getPageMetadata({
     locale,
     href: doc.href,
-    title: t(platformDocKey(doc.i18nPrefix, "META.TITLE"), APP_VALUES),
-    description: t(
-      platformDocKey(doc.i18nPrefix, "META.DESCRIPTION"),
-      APP_VALUES,
-    ),
-    keywords: t(platformDocKey(doc.i18nPrefix, "META.KEYWORDS"), APP_VALUES),
+    title: t(docKey(doc.i18nPrefix, "META.TITLE"), APP_VALUES),
+    description: t(docKey(doc.i18nPrefix, "META.DESCRIPTION"), APP_VALUES),
+    keywords: t(docKey(doc.i18nPrefix, "META.KEYWORDS"), APP_VALUES),
   });
 }
 
@@ -56,7 +50,7 @@ const CONTENT: Record<string, React.ComponentType> = {
 
 export default async function PlatformDocPage(props: PageProps) {
   const params = await props.params;
-  const doc = getPlatformDoc(params.slug);
+  const doc = PLATFORM_DOCS.find((d) => d.slug === params.slug);
   const Content = doc ? CONTENT[doc.slug] : undefined;
   if (!doc || !Content) notFound();
   const t = await getTranslations();
@@ -64,15 +58,17 @@ export default async function PlatformDocPage(props: PageProps) {
     <>
       <DocPageSchema
         slug={`docs/platform/${doc.slug}` as DocSlug}
-        title={t(platformDocKey(doc.i18nPrefix, "META.TITLE"), APP_VALUES)}
-        description={t(
-          platformDocKey(doc.i18nPrefix, "META.DESCRIPTION"),
-          APP_VALUES,
-        )}
+        title={t(docKey(doc.i18nPrefix, "META.TITLE"), APP_VALUES)}
+        description={t(docKey(doc.i18nPrefix, "META.DESCRIPTION"), APP_VALUES)}
       />
-      <PlatformDocTemplate doc={doc}>
+      <DocTemplate
+        doc={doc}
+        docs={PLATFORM_DOCS}
+        namespace="DOCS_PLATFORM"
+        indexHref="/docs/platform"
+      >
         <Content />
-      </PlatformDocTemplate>
+      </DocTemplate>
     </>
   );
 }

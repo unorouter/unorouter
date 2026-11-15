@@ -7,7 +7,7 @@ import {
 } from "@/components/pages/docs/doc-parts";
 import { APP_VALUES } from "@/lib/config/constants";
 import { getTranslations } from "next-intl/server";
-import { platformDocKey } from "../platform-doc-template";
+import { docKey } from "../../doc-template";
 
 type DocHref = React.ComponentProps<typeof DocAppLink>["href"];
 
@@ -15,9 +15,9 @@ const P = "DOCS_PLATFORM.MODELS_AND_PRICING";
 
 export async function ModelsAndPricingContent() {
   const t = await getTranslations();
-  const k = (leaf: string) => t(platformDocKey(P, leaf), APP_VALUES);
+  const k = (leaf: string) => t(docKey(P, leaf), APP_VALUES);
   const kLink = (leaf: string, href: DocHref) =>
-    t.rich(platformDocKey(P, leaf), {
+    t.rich(docKey(P, leaf), {
       ...APP_VALUES,
       a: (chunks) => <DocAppLink href={href}>{chunks}</DocAppLink>,
     });

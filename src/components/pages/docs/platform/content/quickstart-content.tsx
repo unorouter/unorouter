@@ -10,14 +10,14 @@ import {
 import { env } from "@/lib/config/env";
 import { APP_VALUES } from "@/lib/config/constants";
 import { getTranslations } from "next-intl/server";
-import { platformDocKey } from "../platform-doc-template";
+import { docKey } from "../../doc-template";
 
 const P = "DOCS_PLATFORM.QUICKSTART";
 const KEY = "YOUR_API_KEY";
 
 export async function QuickstartContent() {
   const t = await getTranslations();
-  const k = (leaf: string) => t(platformDocKey(P, leaf), APP_VALUES);
+  const k = (leaf: string) => t(docKey(P, leaf), APP_VALUES);
 
   const curl = `curl ${env.apiUrl}/v1/chat/completions \\
   -H "Content-Type: application/json" \\

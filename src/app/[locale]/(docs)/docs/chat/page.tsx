@@ -1,9 +1,10 @@
 import {
   CHAT_DOC_SECTION_LABELS,
   CHAT_DOC_SECTION_ORDER,
-  chatDocsBySection,
+  CHAT_DOCS,
 } from "@/components/pages/docs/chat/chat-docs";
 import { DocIndexTemplate } from "@/components/pages/docs/doc-template";
+import { docSections } from "@/components/pages/docs/doc-registry";
 import { pageMetadata } from "@/lib/seo/metadata";
 
 export function generateMetadata(props: {
@@ -20,17 +21,17 @@ export function generateMetadata(props: {
 export default function ChatDocsIndexPage(props: {
   params: Promise<{ locale: string }>;
 }) {
-  const bySection = chatDocsBySection();
   return (
     <DocIndexTemplate
       params={props.params}
       namespace="DOCS_CHAT"
       href="/docs/chat"
       idPrefix="chat-docs"
-      sections={CHAT_DOC_SECTION_ORDER.map((section) => ({
-        labelKey: CHAT_DOC_SECTION_LABELS[section],
-        docs: bySection[section],
-      }))}
+      sections={docSections(
+        CHAT_DOCS,
+        CHAT_DOC_SECTION_ORDER,
+        CHAT_DOC_SECTION_LABELS,
+      )}
     />
   );
 }

@@ -9,7 +9,7 @@ import {
 import { APP_VALUES } from "@/lib/config/constants";
 import { getRewardAmounts } from "@/lib/config/rewards";
 import { getLocale, getTranslations } from "next-intl/server";
-import { platformDocKey } from "../platform-doc-template";
+import { docKey } from "../../doc-template";
 
 const P = "DOCS_PLATFORM.DISCORD_REWARDS";
 
@@ -28,7 +28,7 @@ export async function DiscordRewardsContent() {
     levelMax: rewards.levelMax,
     levelTotal: rewards.levelTotal,
   };
-  const k = (leaf: string) => t(platformDocKey(P, leaf), values);
+  const k = (leaf: string) => t(docKey(P, leaf), values);
 
   return (
     <>
@@ -99,7 +99,7 @@ export async function DiscordRewardsContent() {
             String(i),
             level.role,
             level.messages,
-            t(platformDocKey(P, "LEVEL_REWARD_CELL"), {
+            t(docKey(P, "LEVEL_REWARD_CELL"), {
               ...values,
               amount: level.reward,
             }),

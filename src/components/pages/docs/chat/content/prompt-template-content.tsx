@@ -1,13 +1,13 @@
 import { APP_VALUES } from "@/lib/config/constants";
 import { getTranslations } from "next-intl/server";
-import { chatDocKey } from "../chat-doc-template";
+import { docKey } from "../../doc-template";
 import { DocCode, DocSection } from "@/components/pages/docs/doc-parts";
 
 const P = "DOCS_CHAT.PROMPT_TEMPLATE";
 
 export async function PromptTemplateContent() {
   const t = await getTranslations();
-  const k = (leaf: string) => t(chatDocKey(P, leaf), APP_VALUES);
+  const k = (leaf: string) => t(docKey(P, leaf), APP_VALUES);
 
   return (
     <>
