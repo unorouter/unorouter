@@ -5,14 +5,12 @@ import type { TranslationKey } from "@/lib/types";
 import { getTranslations } from "next-intl/server";
 import { Fragment } from "react";
 
-type LegalPara = { key: string; values?: true };
-
 export type LegalDocSection = {
   title: string;
-  para?: LegalPara;
-  intro?: LegalPara;
+  para?: string;
+  intro?: string;
   items?: string[];
-  outro?: LegalPara;
+  outro?: string;
   subs?: { title: string; para: string }[];
 };
 
@@ -29,8 +27,7 @@ export async function LegalDoc(props: {
     legalAddress: env.legalAddress,
     vatId: env.legalVatId,
   };
-  const para = (p: LegalPara) =>
-    p.values ? t(key(p.key), values) : t(key(p.key));
+  const para = (leaf: string) => t(key(leaf), values);
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-16">

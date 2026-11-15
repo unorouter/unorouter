@@ -4,10 +4,10 @@ import {
 } from "@/components/pages/legal/legal-doc";
 
 const SECTIONS: LegalDocSection[] = [
-  { title: "PAYMENTS_TITLE", para: { key: "PAYMENTS_CONTENT" } },
+  { title: "PAYMENTS_TITLE", para: "PAYMENTS_CONTENT" },
   {
     title: "ELIGIBILITY_TITLE",
-    intro: { key: "ELIGIBILITY_INTRO" },
+    intro: "ELIGIBILITY_INTRO",
     items: [
       "ELIGIBILITY_WINDOW",
       "ELIGIBILITY_USAGE",
@@ -16,7 +16,7 @@ const SECTIONS: LegalDocSection[] = [
   },
   {
     title: "NON_REFUNDABLE_TITLE",
-    intro: { key: "NON_REFUNDABLE_INTRO" },
+    intro: "NON_REFUNDABLE_INTRO",
     items: [
       "NON_REFUNDABLE_PARTIAL",
       "NON_REFUNDABLE_FEES",
@@ -25,14 +25,14 @@ const SECTIONS: LegalDocSection[] = [
   },
   {
     title: "REQUEST_TITLE",
-    intro: { key: "REQUEST_INTRO", values: true },
+    intro: "REQUEST_INTRO",
     items: ["REQUEST_ACCOUNT", "REQUEST_PROOF", "REQUEST_REASON"],
-    outro: { key: "REQUEST_VERIFY" },
+    outro: "REQUEST_VERIFY",
   },
-  { title: "PROCESSING_TITLE", para: { key: "PROCESSING_CONTENT" } },
-  { title: "LAW_TITLE", para: { key: "LAW_CONTENT" } },
-  { title: "CHANGES_TITLE", para: { key: "CHANGES_CONTENT" } },
-  { title: "CONTACT_TITLE", para: { key: "CONTACT_CONTENT", values: true } },
+  { title: "PROCESSING_TITLE", para: "PROCESSING_CONTENT" },
+  { title: "LAW_TITLE", para: "LAW_CONTENT" },
+  { title: "CHANGES_TITLE", para: "CHANGES_CONTENT" },
+  { title: "CONTACT_TITLE", para: "CONTACT_CONTENT" },
 ];
 
 export function RefundContent() {

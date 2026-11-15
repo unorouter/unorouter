@@ -6,20 +6,20 @@ import {
 const SECTIONS: LegalDocSection[] = [
   {
     title: "PROHIBITED_CONTENT_TITLE",
-    para: { key: "PROHIBITED_CONTENT_CONTENT" },
+    para: "PROHIBITED_CONTENT_CONTENT",
   },
   {
     title: "PROHIBITED_DEEPFAKE_TITLE",
-    para: { key: "PROHIBITED_DEEPFAKE_CONTENT" },
+    para: "PROHIBITED_DEEPFAKE_CONTENT",
   },
-  { title: "PROHIBITED_HARM_TITLE", para: { key: "PROHIBITED_HARM_CONTENT" } },
+  { title: "PROHIBITED_HARM_TITLE", para: "PROHIBITED_HARM_CONTENT" },
   {
     title: "UPSTREAM_MODERATION_TITLE",
-    para: { key: "UPSTREAM_MODERATION_CONTENT", values: true },
+    para: "UPSTREAM_MODERATION_CONTENT",
   },
-  { title: "ENFORCEMENT_TITLE", para: { key: "ENFORCEMENT_CONTENT" } },
-  { title: "CHANGES_TITLE", para: { key: "CHANGES_CONTENT" } },
-  { title: "CONTACT_TITLE", para: { key: "CONTACT_CONTENT", values: true } },
+  { title: "ENFORCEMENT_TITLE", para: "ENFORCEMENT_CONTENT" },
+  { title: "CHANGES_TITLE", para: "CHANGES_CONTENT" },
+  { title: "CONTACT_TITLE", para: "CONTACT_CONTENT" },
 ];
 
 export function AupContent() {
