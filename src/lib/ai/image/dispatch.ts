@@ -28,27 +28,22 @@ type RefBytes = {
   dataUri: string;
 };
 
-async function fetchRefBytes(url: string): Promise<RefBytes> {
-  const { buffer: buf } = await safeFetchBytes(url, MAX_REF_BYTES);
-  // Detected from the bytes, not the header: the URL is user-supplied and the
-  // result is re-sent upstream as a data URI.
+// Typed from the bytes, never the header or data URI label: the input is
+// user-supplied and goes back upstream as a data URI.
+async function toRefBytes(buf: Buffer): Promise<RefBytes> {
   const mime = await verifyMagicBytes(buf);
   const base64 = buf.toString("base64");
   return { buf, mime, base64, dataUri: base64ToDataUri(base64, mime) };
 }
 
-function dataUriToRefBytes(dataUri: string): RefBytes {
-  const header = dataUri.slice(0, dataUri.indexOf(","));
-  const mime = header.match(/data:([^;]+)/)?.[1]?.trim() || "image/png";
-  const base64 = dataUri.slice(dataUri.indexOf(",") + 1);
-  const buf = Buffer.from(base64, "base64");
-  return { buf, mime, base64, dataUri };
-}
-
 export async function loadRefs(urls: string[]): Promise<RefBytes[]> {
   return Promise.all(
-    urls.map((url) =>
-      url.startsWith("data:") ? dataUriToRefBytes(url) : fetchRefBytes(url),
+    urls.map(async (url) =>
+      toRefBytes(
+        url.startsWith("data:")
+          ? Buffer.from(url.slice(url.indexOf(",") + 1), "base64")
+          : (await safeFetchBytes(url, MAX_REF_BYTES)).buffer,
+      ),
     ),
   );
 }
