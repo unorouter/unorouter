@@ -195,15 +195,9 @@ export function TokenModelsCell(props: CellContext<TableFeats, TokenRow>) {
   const pricingQuery = usePricingVendorsQuery();
   const models = pricingQuery.data?.model_vendors ?? [];
 
-  if (!token.model_limits_enabled || !token.model_limits) {
-    return (
-      <span className="text-muted-foreground text-xs">
-        {t("TOKEN.ALL_MODELS")}
-      </span>
-    );
-  }
-
-  const modelNames = token.model_limits.split(",").filter(Boolean);
+  const modelNames = token.model_limits_enabled
+    ? (token.model_limits ?? "").split(",").filter(Boolean)
+    : [];
   if (modelNames.length === 0) {
     return (
       <span className="text-muted-foreground text-xs">
@@ -280,14 +274,9 @@ export function TokenActionCell(props: CellContext<TableFeats, TokenRow>) {
     {
       value: "toggle",
       label: isEnabled ? "TOKEN.DISABLE" : "TOKEN.ENABLE",
-      icon: isEnabled ? (
+      icon: (
         <Icon
-          name="power-off"
-          className="text-muted-foreground/70 mr-2 h-3.5 w-3.5"
-        />
-      ) : (
-        <Icon
-          name="power"
+          name={isEnabled ? "power-off" : "power"}
           className="text-muted-foreground/70 mr-2 h-3.5 w-3.5"
         />
       ),
