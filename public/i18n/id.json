@@ -3040,7 +3040,8 @@
     "COLUMNS": "Kolom",
     "TOGGLE_COLUMNS": "Tampilkan atau sembunyikan kolom",
     "TOGGLE_THEME": "Ganti tema",
-    "SWITCH_LANGUAGE": "Ganti bahasa"
+    "SWITCH_LANGUAGE": "Ganti bahasa",
+    "DRAG_TO_REORDER": "Seret untuk mengurutkan"
   },
   "LANGUAGE": {
     "EN": "English",
@@ -3384,7 +3385,8 @@
       "HINT": "Endpoint kompatibel OpenAI. Gunakan URL ini sebagai dasar saat mengkonfigurasi klien API.",
       "CURL_EXAMPLE": "Mulai cepat (curl)",
       "CURL_COPY": "Salin contoh curl",
-      "CURL_COPIED": "Contoh curl disalin ke clipboard"
+      "CURL_COPIED": "Contoh curl disalin ke clipboard",
+      "COPY": "Salin endpoint"
     },
     "TITLE": "Kunci API",
     "DESCRIPTION": "Buat dan kelola kunci API untuk mengakses model AI.",
@@ -3781,7 +3783,8 @@
       "SIDEBAR_HINT": "Item aktif, hover, dan batas di dalam bilah samping.",
       "PROSE_HINT": "Teks pesan, kutipan, ukuran avatar, dan lebar gambar."
     },
-    "SCOPE_HINT_APP": "Tema dasar untuk semua halaman, termasuk obrolan."
+    "SCOPE_HINT_APP": "Tema dasar untuk semua halaman, termasuk obrolan.",
+    "SWATCH": "Warna {label}"
   },
   "BILLING": {
     "SUBSCRIPTION": {
@@ -6782,7 +6785,8 @@
     "CLAMP_WARNING": "Penyedia memperkecil permintaan di atas 1 megapiksel atau 50 langkah.",
     "IMPORT_INVALID": "Berkas ini bukan ekspor generasi yang valid.",
     "CATALOG_ALL_ADDED": "Semua yang ditemukan sudah ditambahkan.",
-    "EDIT_IMAGES_TITLE": "Gambar yang akan diedit"
+    "EDIT_IMAGES_TITLE": "Gambar yang akan diedit",
+    "REFERENCE_N": "Referensi {n}"
   },
   "GIFT_CARDS": {
     "TITLE": "Kartu hadiah",

@@ -3040,7 +3040,8 @@
     "COLUMNS": "עמודות",
     "TOGGLE_COLUMNS": "הצגה או הסתרה של עמודות",
     "TOGGLE_THEME": "החלף ערכת נושא",
-    "SWITCH_LANGUAGE": "החלפת שפה"
+    "SWITCH_LANGUAGE": "החלפת שפה",
+    "DRAG_TO_REORDER": "גרור כדי לשנות סדר"
   },
   "LANGUAGE": {
     "EN": "English",
@@ -3384,7 +3385,8 @@
       "HINT": "נקודת קצה תואמת OpenAI. השתמשו ב-URL הזה כבסיס בהגדרת לקוח API.",
       "CURL_EXAMPLE": "התחלה מהירה (curl)",
       "CURL_COPY": "העתק דוגמת curl",
-      "CURL_COPIED": "דוגמת curl הועתקה ללוח"
+      "CURL_COPIED": "דוגמת curl הועתקה ללוח",
+      "COPY": "העתק נקודת קצה"
     },
     "TITLE": "מפתחות API",
     "DESCRIPTION": "צרו ונהלו מפתחות API לגישה למודלי AI.",
@@ -3781,7 +3783,8 @@
       "SIDEBAR_HINT": "פריט פעיל, ריחוף ומסגרת בתוך סרגל הצד.",
       "PROSE_HINT": "טקסט ההודעות, ציטוטים, גודל האווטאר ורוחב התמונות."
     },
-    "SCOPE_HINT_APP": "ערכת הבסיס לכל הדפים, כולל הצ'אט."
+    "SCOPE_HINT_APP": "ערכת הבסיס לכל הדפים, כולל הצ'אט.",
+    "SWATCH": "צבע {label}"
   },
   "BILLING": {
     "SUBSCRIPTION": {
@@ -6782,7 +6785,8 @@
     "CLAMP_WARNING": "הספק מקטין בקשות החורגות ממגה-פיקסל אחד או מ-50 צעדים.",
     "IMPORT_INVALID": "קובץ זה אינו ייצוא תקין של יצירת תמונה.",
     "CATALOG_ALL_ADDED": "כל מה שנמצא כבר נוסף.",
-    "EDIT_IMAGES_TITLE": "תמונות לעריכה"
+    "EDIT_IMAGES_TITLE": "תמונות לעריכה",
+    "REFERENCE_N": "הפניה {n}"
   },
   "GIFT_CARDS": {
     "TITLE": "כרטיסי מתנה",

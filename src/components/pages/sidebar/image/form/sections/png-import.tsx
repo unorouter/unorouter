@@ -159,8 +159,8 @@ export function PngImport() {
         return;
       }
       applyToForm(data);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "parse error");
+    } catch {
+      setError(t("ERRORS.UNEXPECTED_ERROR"));
     } finally {
       setIsParsing(false);
     }

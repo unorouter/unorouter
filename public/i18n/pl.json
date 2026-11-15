@@ -3040,7 +3040,8 @@
     "COLUMNS": "Kolumny",
     "TOGGLE_COLUMNS": "Pokaż lub ukryj kolumny",
     "TOGGLE_THEME": "Przełącz motyw",
-    "SWITCH_LANGUAGE": "Zmień język"
+    "SWITCH_LANGUAGE": "Zmień język",
+    "DRAG_TO_REORDER": "Przeciągnij, aby zmienić kolejność"
   },
   "LANGUAGE": {
     "EN": "English",
@@ -3384,7 +3385,8 @@
       "HINT": "Endpoint kompatybilny z OpenAI. Użyj tego URL jako bazowego przy konfigurowaniu klienta API.",
       "CURL_EXAMPLE": "Szybki start (curl)",
       "CURL_COPY": "Kopiuj przykład curl",
-      "CURL_COPIED": "Przykład curl skopiowany do schowka"
+      "CURL_COPIED": "Przykład curl skopiowany do schowka",
+      "COPY": "Kopiuj endpoint"
     },
     "TITLE": "Klucze API",
     "DESCRIPTION": "Twórz i zarządzaj kluczami API do uzyskiwania dostępu do modeli AI.",
@@ -3781,7 +3783,8 @@
       "SIDEBAR_HINT": "Aktywny element, najechanie i obramowanie w pasku bocznym.",
       "PROSE_HINT": "Tekst wiadomości, cytaty, rozmiar awatara i szerokość obrazów."
     },
-    "SCOPE_HINT_APP": "Motyw bazowy dla każdej strony, łącznie z czatem."
+    "SCOPE_HINT_APP": "Motyw bazowy dla każdej strony, łącznie z czatem.",
+    "SWATCH": "Kolor: {label}"
   },
   "BILLING": {
     "SUBSCRIPTION": {
@@ -6782,7 +6785,8 @@
     "CLAMP_WARNING": "Dostawca zmniejsza żądania przekraczające 1 megapiksel lub 50 kroków.",
     "IMPORT_INVALID": "Ten plik nie jest prawidłowym eksportem generacji.",
     "CATALOG_ALL_ADDED": "Wszystkie znalezione pozycje są już dodane.",
-    "EDIT_IMAGES_TITLE": "Obrazy do edycji"
+    "EDIT_IMAGES_TITLE": "Obrazy do edycji",
+    "REFERENCE_N": "Odniesienie {n}"
   },
   "GIFT_CARDS": {
     "TITLE": "Karty podarunkowe",

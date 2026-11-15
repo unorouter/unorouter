@@ -83,7 +83,7 @@ export function ReferenceUploader(props: Props) {
             >
               <SmartImage
                 src={ref.url}
-                alt={ref.name ?? `ref ${i + 1}`}
+                alt={ref.name ?? t("IMAGE.REFERENCE_N", { n: i + 1 })}
                 fill
                 sizes="(max-width: 640px) 33vw, 25vw"
                 className="object-cover"

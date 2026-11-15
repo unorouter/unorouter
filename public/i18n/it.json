@@ -3040,7 +3040,8 @@
     "COLUMNS": "Colonne",
     "TOGGLE_COLUMNS": "Mostra o nascondi colonne",
     "TOGGLE_THEME": "Cambia tema",
-    "SWITCH_LANGUAGE": "Cambia lingua"
+    "SWITCH_LANGUAGE": "Cambia lingua",
+    "DRAG_TO_REORDER": "Trascina per riordinare"
   },
   "LANGUAGE": {
     "EN": "English",
@@ -3384,7 +3385,8 @@
       "HINT": "Endpoint compatibile con OpenAI. Usa questo URL come base quando configuri un client API.",
       "CURL_EXAMPLE": "Avvio rapido (curl)",
       "CURL_COPY": "Copia esempio curl",
-      "CURL_COPIED": "Esempio curl copiato negli appunti"
+      "CURL_COPIED": "Esempio curl copiato negli appunti",
+      "COPY": "Copia endpoint"
     },
     "TITLE": "Chiavi API",
     "DESCRIPTION": "Crea e gestisci chiavi API per accedere a modelli AI.",
@@ -3781,7 +3783,8 @@
       "SIDEBAR_HINT": "Voce attiva, hover e bordo nella barra laterale.",
       "PROSE_HINT": "Testo dei messaggi, citazioni, dimensione avatar e larghezza immagini."
     },
-    "SCOPE_HINT_APP": "Il tema di base per ogni pagina, chat inclusa."
+    "SCOPE_HINT_APP": "Il tema di base per ogni pagina, chat inclusa.",
+    "SWATCH": "Colore di {label}"
   },
   "BILLING": {
     "SUBSCRIPTION": {
@@ -6782,7 +6785,8 @@
     "CLAMP_WARNING": "Il provider ridimensiona le richieste oltre 1 megapixel o 50 passi.",
     "IMPORT_INVALID": "Questo file non è un’esportazione di generazione valida.",
     "CATALOG_ALL_ADDED": "Tutti i risultati trovati sono già stati aggiunti.",
-    "EDIT_IMAGES_TITLE": "Immagini da modificare"
+    "EDIT_IMAGES_TITLE": "Immagini da modificare",
+    "REFERENCE_N": "Riferimento {n}"
   },
   "GIFT_CARDS": {
     "TITLE": "Carte regalo",

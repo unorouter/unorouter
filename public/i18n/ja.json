@@ -3040,7 +3040,8 @@
     "COLUMNS": "列",
     "TOGGLE_COLUMNS": "列の表示切り替え",
     "TOGGLE_THEME": "テーマを切り替え",
-    "SWITCH_LANGUAGE": "言語を切り替え"
+    "SWITCH_LANGUAGE": "言語を切り替え",
+    "DRAG_TO_REORDER": "ドラッグして並べ替え"
   },
   "LANGUAGE": {
     "EN": "English",
@@ -3384,7 +3385,8 @@
       "HINT": "OpenAI互換エンドポイントです。APIクライアントを設定するときは、このURLをベースとして使用してください。",
       "CURL_EXAMPLE": "クイックスタート（curl）",
       "CURL_COPY": "curl サンプルをコピー",
-      "CURL_COPIED": "curl サンプルをクリップボードにコピーしました"
+      "CURL_COPIED": "curl サンプルをクリップボードにコピーしました",
+      "COPY": "エンドポイントをコピー"
     },
     "TITLE": "APIキー",
     "DESCRIPTION": "AI モデルにアクセスするためのAPIキーを作成・管理します。",
@@ -3781,7 +3783,8 @@
       "SIDEBAR_HINT": "サイドバー内の選択項目、ホバー、枠線。",
       "PROSE_HINT": "メッセージの文字、引用、アバターのサイズ、画像の幅。"
     },
-    "SCOPE_HINT_APP": "チャットを含むすべてのページの基本テーマです。"
+    "SCOPE_HINT_APP": "チャットを含むすべてのページの基本テーマです。",
+    "SWATCH": "{label}の色"
   },
   "BILLING": {
     "SUBSCRIPTION": {
@@ -6782,7 +6785,8 @@
     "CLAMP_WARNING": "1メガピクセルまたは50ステップを超えるリクエストはプロバイダー側で縮小されます。",
     "IMPORT_INVALID": "このファイルは有効な生成エクスポートではありません。",
     "CATALOG_ALL_ADDED": "見つかった項目はすべて追加済みです。",
-    "EDIT_IMAGES_TITLE": "編集する画像"
+    "EDIT_IMAGES_TITLE": "編集する画像",
+    "REFERENCE_N": "参照 {n}"
   },
   "GIFT_CARDS": {
     "TITLE": "ギフトカード",

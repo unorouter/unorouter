@@ -3040,7 +3040,8 @@
     "COLUMNS": "欄位",
     "TOGGLE_COLUMNS": "顯示或隱藏欄位",
     "TOGGLE_THEME": "切換主題",
-    "SWITCH_LANGUAGE": "切換語言"
+    "SWITCH_LANGUAGE": "切換語言",
+    "DRAG_TO_REORDER": "拖曳以重新排序"
   },
   "LANGUAGE": {
     "EN": "English",
@@ -3384,7 +3385,8 @@
       "HINT": "相容 OpenAI 的端點。設定 API 用戶端時請將此 URL 作為基礎位址。",
       "CURL_EXAMPLE": "快速開始（curl）",
       "CURL_COPY": "複製 curl 範例",
-      "CURL_COPIED": "已將 curl 範例複製到剪貼簿"
+      "CURL_COPIED": "已將 curl 範例複製到剪貼簿",
+      "COPY": "複製端點"
     },
     "TITLE": "API 金鑰",
     "DESCRIPTION": "建立並管理用於存取 AI 模型的 API 金鑰。",
@@ -3781,7 +3783,8 @@
       "SIDEBAR_HINT": "側邊欄內的選取項目、懸停和邊框。",
       "PROSE_HINT": "訊息文字、引用、頭像大小和圖片寬度。"
     },
-    "SCOPE_HINT_APP": "所有頁面（包括聊天）的基礎主題。"
+    "SCOPE_HINT_APP": "所有頁面（包括聊天）的基礎主題。",
+    "SWATCH": "{label}顏色"
   },
   "BILLING": {
     "SUBSCRIPTION": {
@@ -6782,7 +6785,8 @@
     "CLAMP_WARNING": "超過1百萬像素或50步的請求會被服務方縮小後執行。",
     "IMPORT_INVALID": "此檔案不是有效的生成匯出檔。",
     "CATALOG_ALL_ADDED": "找到的項目均已加入。",
-    "EDIT_IMAGES_TITLE": "要編輯的圖片"
+    "EDIT_IMAGES_TITLE": "要編輯的圖片",
+    "REFERENCE_N": "參考圖 {n}"
   },
   "GIFT_CARDS": {
     "TITLE": "禮品卡",

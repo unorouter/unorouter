@@ -2,6 +2,7 @@
 
 import { DataTableColgroup } from "@/components/elements/table/data-table-colgroup";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useTranslations } from "next-intl";
 import {
   Table,
   TableBody,
@@ -72,6 +73,7 @@ interface DataTableProps<TData extends RowData> {
 }
 
 export function DataTable<TData extends RowData>(props: DataTableProps<TData>) {
+  const t = useTranslations();
   const tableAtoms = createTableAtoms(props.id, props.tableStore);
 
   const store = useAtomValue(tableAtoms.baseAtom);
@@ -284,7 +286,9 @@ export function DataTable<TData extends RowData>(props: DataTableProps<TData>) {
             className="h-40 text-center"
           >
             {props.emptyState ?? (
-              <span className="text-muted-foreground text-sm">No results.</span>
+              <span className="text-muted-foreground text-sm">
+                {t("SEARCH.NO_RESULTS")}
+              </span>
             )}
           </TableCell>
         </TableRow>

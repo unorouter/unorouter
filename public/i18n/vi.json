@@ -3040,7 +3040,8 @@
     "COLUMNS": "Cột",
     "TOGGLE_COLUMNS": "Hiện hoặc ẩn cột",
     "TOGGLE_THEME": "Đổi giao diện",
-    "SWITCH_LANGUAGE": "Đổi ngôn ngữ"
+    "SWITCH_LANGUAGE": "Đổi ngôn ngữ",
+    "DRAG_TO_REORDER": "Kéo để sắp xếp lại"
   },
   "LANGUAGE": {
     "EN": "English",
@@ -3384,7 +3385,8 @@
       "HINT": "Endpoint tương thích OpenAI. Sử dụng URL này làm địa chỉ gốc khi cấu hình API client.",
       "CURL_EXAMPLE": "Bắt đầu nhanh (curl)",
       "CURL_COPY": "Sao chép ví dụ curl",
-      "CURL_COPIED": "Đã sao chép ví dụ curl"
+      "CURL_COPIED": "Đã sao chép ví dụ curl",
+      "COPY": "Sao chép endpoint"
     },
     "TITLE": "API Key",
     "DESCRIPTION": "Tạo và quản lý API key để truy cập các mô hình AI.",
@@ -3781,7 +3783,8 @@
       "SIDEBAR_HINT": "Mục đang chọn, khi rê chuột và viền trong thanh bên.",
       "PROSE_HINT": "Chữ tin nhắn, trích dẫn, cỡ ảnh đại diện và chiều rộng hình ảnh."
     },
-    "SCOPE_HINT_APP": "Giao diện gốc cho mọi trang, bao gồm cả trò chuyện."
+    "SCOPE_HINT_APP": "Giao diện gốc cho mọi trang, bao gồm cả trò chuyện.",
+    "SWATCH": "Màu {label}"
   },
   "BILLING": {
     "SUBSCRIPTION": {
@@ -6782,7 +6785,8 @@
     "CLAMP_WARNING": "Nhà cung cấp thu nhỏ các yêu cầu vượt quá 1 megapixel hoặc 50 bước.",
     "IMPORT_INVALID": "Tệp này không phải là bản xuất tạo ảnh hợp lệ.",
     "CATALOG_ALL_ADDED": "Tất cả kết quả tìm thấy đã được thêm.",
-    "EDIT_IMAGES_TITLE": "Ảnh cần chỉnh sửa"
+    "EDIT_IMAGES_TITLE": "Ảnh cần chỉnh sửa",
+    "REFERENCE_N": "Tham chiếu {n}"
   },
   "GIFT_CARDS": {
     "TITLE": "Thẻ quà tặng",

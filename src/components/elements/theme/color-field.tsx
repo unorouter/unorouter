@@ -104,7 +104,7 @@ export function ColorField(props: {
               debouncedChange(hex);
             }}
             className="absolute inset-0 size-full cursor-pointer opacity-0"
-            aria-label={`${props.label} swatch`}
+            aria-label={t("THEME.SWATCH", { label: props.label })}
           />
         </span>
         <div className="flex min-w-0 flex-1 flex-col justify-start">
@@ -152,7 +152,7 @@ export function ColorField(props: {
               props.onChange(undefined);
             }}
             className="text-muted-foreground hover:text-foreground text-xs"
-            aria-label="reset"
+            aria-label={t("THEME.RESET_FIELD")}
           >
             ×
           </button>

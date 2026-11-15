@@ -6,7 +6,15 @@ import { dayjs } from "@/lib/utils/format/date";
 import { renderQuota } from "@/lib/utils/format/number";
 import { snapshotModelLabel } from "../image-constants";
 import { useImageNav } from "../image-nav";
+
+const PARAM_LABELS = [
+  ["steps", "IMAGE.PARAM_STEPS"],
+  ["cfg", "IMAGE.PARAM_CFG"],
+  ["guidance", "IMAGE.PARAM_GUIDANCE"],
+  ["seed", "IMAGE.PARAM_SEED"],
+] as const;
 import { useTranslations } from "next-intl";
+import { Fragment } from "react";
 
 export function RecentStrip() {
   const t = useTranslations();
@@ -71,25 +79,13 @@ export function RecentStrip() {
                 <span className="truncate text-sm">{snap.prompt}</span>
                 <span className="text-muted-foreground text-xs">
                   {snapshotModelLabel(snap.model, snap.extraParams)}
-                  {params?.steps !== undefined && (
-                    <>
-                      {" / "}steps {params.steps}
-                    </>
-                  )}
-                  {params?.cfg !== undefined && (
-                    <>
-                      {" / "}cfg {params.cfg}
-                    </>
-                  )}
-                  {params?.guidance !== undefined && (
-                    <>
-                      {" / "}g {params.guidance}
-                    </>
-                  )}
-                  {params?.seed !== undefined && (
-                    <>
-                      {" / "}seed {params.seed}
-                    </>
+                  {PARAM_LABELS.map(([key, label]) =>
+                    params?.[key] === undefined ? null : (
+                      <Fragment key={key}>
+                        {" / "}
+                        {t(label)} {params[key]}
+                      </Fragment>
+                    ),
                   )}
                   {snap.costQuota != null && (
                     <>

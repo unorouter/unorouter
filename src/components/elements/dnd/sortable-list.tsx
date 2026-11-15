@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 import { Icon } from "@/components/ui/icon";
 import {
   DndContext,
@@ -85,6 +86,7 @@ function SortableRow(props: {
   id: string;
   renderItem: (handle: ReactNode, isDragging: boolean) => ReactNode;
 }) {
+  const t = useTranslations();
   const sortable = useSortable({ id: props.id });
   const style = {
     transform: CSS.Transform.toString(sortable.transform),
@@ -101,7 +103,7 @@ function SortableRow(props: {
       // eslint-disable-next-line react-hooks/refs
       {...sortable.attributes}
       className="text-muted-foreground hover:text-foreground flex size-6 shrink-0 cursor-grab touch-none items-center justify-center rounded transition active:cursor-grabbing"
-      aria-label="Drag to reorder"
+      aria-label={t("COMMON.DRAG_TO_REORDER")}
     >
       <Icon name="grip-vertical" className="size-4" />
     </button>

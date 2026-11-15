@@ -3040,7 +3040,8 @@
     "COLUMNS": "Columns",
     "TOGGLE_COLUMNS": "Toggle columns",
     "TOGGLE_THEME": "Toggle theme",
-    "SWITCH_LANGUAGE": "Switch language"
+    "SWITCH_LANGUAGE": "Switch language",
+    "DRAG_TO_REORDER": "Drag to reorder"
   },
   "LANGUAGE": {
     "EN": "English",
@@ -3384,7 +3385,8 @@
       "HINT": "OpenAI-compatible endpoint. Use this URL as the base when configuring an API client.",
       "CURL_EXAMPLE": "Quick start (curl)",
       "CURL_COPY": "Copy curl example",
-      "CURL_COPIED": "curl example copied to clipboard"
+      "CURL_COPIED": "curl example copied to clipboard",
+      "COPY": "Copy endpoint"
     },
     "TITLE": "API Keys",
     "DESCRIPTION": "Create and manage API keys for accessing AI models.",
@@ -3781,7 +3783,8 @@
       "SIDEBAR_HINT": "Active item, hover and border inside the sidebar.",
       "PROSE_HINT": "Message text, quotes, avatar size and inline image width."
     },
-    "SCOPE_HINT_APP": "The base theme for every page, chat included."
+    "SCOPE_HINT_APP": "The base theme for every page, chat included.",
+    "SWATCH": "{label} color"
   },
   "BILLING": {
     "SUBSCRIPTION": {
@@ -6782,7 +6785,8 @@
     "CLAMP_WARNING": "Requests above 1 megapixel or 50 steps are scaled down by the provider.",
     "IMPORT_INVALID": "This file is not a valid generation export.",
     "CATALOG_ALL_ADDED": "Everything found is already added.",
-    "EDIT_IMAGES_TITLE": "Images to edit"
+    "EDIT_IMAGES_TITLE": "Images to edit",
+    "REFERENCE_N": "Reference {n}"
   },
   "GIFT_CARDS": {
     "TITLE": "Gift Cards",

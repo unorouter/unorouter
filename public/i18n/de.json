@@ -3040,7 +3040,8 @@
     "COLUMNS": "Spalten",
     "TOGGLE_COLUMNS": "Spalten ein- und ausblenden",
     "TOGGLE_THEME": "Theme wechseln",
-    "SWITCH_LANGUAGE": "Sprache wechseln"
+    "SWITCH_LANGUAGE": "Sprache wechseln",
+    "DRAG_TO_REORDER": "Zum Neuordnen ziehen"
   },
   "LANGUAGE": {
     "EN": "English",
@@ -3384,7 +3385,8 @@
       "HINT": "OpenAI-kompatibler Endpunkt. Nutze diese URL als Basis bei der Einrichtung eines API-Clients.",
       "CURL_EXAMPLE": "Schnellstart (curl)",
       "CURL_COPY": "curl-Beispiel kopieren",
-      "CURL_COPIED": "curl-Beispiel in die Zwischenablage kopiert"
+      "CURL_COPIED": "curl-Beispiel in die Zwischenablage kopiert",
+      "COPY": "Endpunkt kopieren"
     },
     "TITLE": "API-Schlüssel",
     "DESCRIPTION": "API-Schlüssel für den Zugriff auf KI-Modelle erstellen und verwalten.",
@@ -3781,7 +3783,8 @@
       "SIDEBAR_HINT": "Aktiver Eintrag, Hover und Rahmen in der Seitenleiste.",
       "PROSE_HINT": "Nachrichtentext, Zitate, Avatargröße und Bildbreite."
     },
-    "SCOPE_HINT_APP": "Das Basis-Theme für jede Seite, Chat eingeschlossen."
+    "SCOPE_HINT_APP": "Das Basis-Theme für jede Seite, Chat eingeschlossen.",
+    "SWATCH": "Farbe für {label}"
   },
   "BILLING": {
     "SUBSCRIPTION": {
@@ -6782,7 +6785,8 @@
     "CLAMP_WARNING": "Anfragen über 1 Megapixel oder 50 Steps werden vom Anbieter herunterskaliert.",
     "IMPORT_INVALID": "Diese Datei ist kein gültiger Generierungs-Export.",
     "CATALOG_ALL_ADDED": "Alle gefundenen Einträge sind bereits hinzugefügt.",
-    "EDIT_IMAGES_TITLE": "Zu bearbeitende Bilder"
+    "EDIT_IMAGES_TITLE": "Zu bearbeitende Bilder",
+    "REFERENCE_N": "Referenz {n}"
   },
   "GIFT_CARDS": {
     "TITLE": "Geschenkkarten",

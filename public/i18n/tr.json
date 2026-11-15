@@ -3040,7 +3040,8 @@
     "COLUMNS": "Sütunlar",
     "TOGGLE_COLUMNS": "Sütunları göster veya gizle",
     "TOGGLE_THEME": "Tema değiştir",
-    "SWITCH_LANGUAGE": "Dili değiştir"
+    "SWITCH_LANGUAGE": "Dili değiştir",
+    "DRAG_TO_REORDER": "Sıralamak için sürükleyin"
   },
   "LANGUAGE": {
     "EN": "English",
@@ -3384,7 +3385,8 @@
       "HINT": "OpenAI uyumlu endpoint. Bir API istemcisini yapılandırırken bu URL'yi base olarak kullanın.",
       "CURL_EXAMPLE": "Hızlı başlangıç (curl)",
       "CURL_COPY": "curl örneğini kopyala",
-      "CURL_COPIED": "curl örneği panoya kopyalandı"
+      "CURL_COPIED": "curl örneği panoya kopyalandı",
+      "COPY": "Uç noktayı kopyala"
     },
     "TITLE": "API Anahtarları",
     "DESCRIPTION": "AI modellerine erişmek için API anahtarları oluşturun ve yönetin.",
@@ -3781,7 +3783,8 @@
       "SIDEBAR_HINT": "Kenar çubuğundaki etkin öğe, üzerine gelme ve kenarlık.",
       "PROSE_HINT": "Mesaj metni, alıntılar, avatar boyutu ve görsel genişliği."
     },
-    "SCOPE_HINT_APP": "Sohbet dahil her sayfa için temel tema."
+    "SCOPE_HINT_APP": "Sohbet dahil her sayfa için temel tema.",
+    "SWATCH": "{label} rengi"
   },
   "BILLING": {
     "SUBSCRIPTION": {
@@ -6782,7 +6785,8 @@
     "CLAMP_WARNING": "Sağlayıcı 1 megapikseli veya 50 adımı aşan istekleri küçültür.",
     "IMPORT_INVALID": "Bu dosya geçerli bir üretim dışa aktarımı değil.",
     "CATALOG_ALL_ADDED": "Bulunan her şey zaten eklendi.",
-    "EDIT_IMAGES_TITLE": "Düzenlenecek görseller"
+    "EDIT_IMAGES_TITLE": "Düzenlenecek görseller",
+    "REFERENCE_N": "Referans {n}"
   },
   "GIFT_CARDS": {
     "TITLE": "Hediye kartları",

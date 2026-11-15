@@ -41,7 +41,7 @@ export function InitImageField(props: Props) {
         <div className="bg-muted relative overflow-hidden rounded-md">
           <SmartImage
             src={value}
-            alt="Init image"
+            alt={t("IMAGE.INIT_IMAGE")}
             width={0}
             height={0}
             sizes="100vw"

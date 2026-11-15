@@ -64,7 +64,7 @@ export function TokenEndpoint() {
             >
               <Icon name="copy" className="h-3.5 w-3.5" />
             </TooltipTrigger>
-            <TooltipContent>{t("TOKEN.COPY_KEY")}</TooltipContent>
+            <TooltipContent>{t("TOKEN.ENDPOINT.COPY")}</TooltipContent>
           </Tooltip>
         </TooltipProvider>
       </div>
