@@ -28,7 +28,7 @@ export async function NavAuth() {
       {/* Explicit trigger id: written for a React 18 useId instability that
           19 fixed. Two SSR renders here now emit identical base-ui ids, so
           this is belt-and-braces, not load-bearing. */}
-      <UserDropdown side="bottom" align="end" triggerId="nav-user-trigger">
+      <UserDropdown triggerId="nav-user-trigger">
         <button className="cursor-pointer focus:outline-none">
           {/* Deliberately NOT <UserAvatar />: it gates on the auth query, and
               HydrationBoundary defers an already-cached query to useEffect,

@@ -23,16 +23,10 @@ import { ReactElement } from "react";
 import { DataSubmenu } from "./data-submenu";
 import { UserInfo } from "./user-info";
 
-interface UserDropdownProps {
+export function UserDropdown(props: {
   children: ReactElement;
-  side?: "top" | "bottom" | "left" | "right";
-  align?: "start" | "center" | "end";
-  sideOffset?: number;
-  className?: string;
   triggerId?: string;
-}
-
-export function UserDropdown(props: UserDropdownProps) {
+}) {
   const t = useTranslations();
   const userDisplay = useUserDisplay();
   const logoutMutation = useLogoutMutation();
@@ -50,13 +44,12 @@ export function UserDropdown(props: UserDropdownProps) {
     <DropdownMenu>
       <DropdownMenuTrigger
         id={props.triggerId}
-        className={props.className}
         render={props.children}
       ></DropdownMenuTrigger>
       <DropdownMenuContent
-        side={props.side ?? "bottom"}
-        align={props.align ?? "end"}
-        sideOffset={props.sideOffset ?? 4}
+        side="bottom"
+        align="end"
+        sideOffset={4}
         className="min-w-56 rounded-lg"
       >
         <DropdownMenuGroup>

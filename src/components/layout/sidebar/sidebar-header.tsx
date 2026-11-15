@@ -48,7 +48,7 @@ export function SidebarHeader(props: SidebarHeaderProps) {
           {props.navConfig === "chat" && <ChatActionsMenu />}
           {props.navConfig === "generate" && <ImageActionsMenu />}
           {userDisplay.user ? (
-            <UserDropdown side="bottom" align="end">
+            <UserDropdown>
               <button
                 aria-label={t("COMMON.OPEN_MENU")}
                 className="hover:bg-accent cursor-pointer rounded-md p-1 transition-colors"
