@@ -31,18 +31,33 @@ import {
 import { Elysia } from "elysia";
 import { deriveUpstream } from "@/server/constants";
 
-const xPaymentInfo = (
-  method: "stripe" | "creem" | "nowpayments" | "delopay",
-  description: string,
-): Record<string, unknown> => ({
-  "x-payment-info": {
-    intent: "session",
-    method,
-    amount: null,
-    currency: "USD",
-    description,
-  },
-});
+const CHECKOUT = {
+  stripe: "Stripe checkout session",
+  creem: "Creem checkout session",
+  nowpayments: "NowPayments crypto checkout",
+  delopay: "DeloPay PayPal checkout",
+};
+
+const payDetail = (
+  method: keyof typeof CHECKOUT,
+  kind: "topup" | "subscription",
+): { summary: string } & Record<string, unknown> => {
+  const checkout = CHECKOUT[method];
+  const via = `via ${checkout.replace(" session", "")} URL`;
+  return {
+    summary: `Start a ${checkout} for a ${kind === "topup" ? "balance top-up" : "subscription plan"}`,
+    "x-payment-info": {
+      intent: "session",
+      method,
+      amount: null,
+      currency: "USD",
+      description:
+        kind === "topup"
+          ? `Top-up balance ${via}`
+          : `Subscribe to a plan ${via}`,
+    },
+  };
+};
 
 export const billingRoute = new Elysia({ prefix: "/core" })
   .derive(deriveUpstream)
@@ -103,10 +118,7 @@ export const billingRoute = new Elysia({ prefix: "/core" })
       ),
     {
       body: stripePayBody,
-      detail: {
-        summary: "Start a Stripe checkout session for a balance top-up",
-        ...xPaymentInfo("stripe", "Top-up balance via Stripe checkout URL"),
-      },
+      detail: payDetail("stripe", "topup"),
     },
   )
   .post(
@@ -125,10 +137,7 @@ export const billingRoute = new Elysia({ prefix: "/core" })
     },
     {
       body: creemPayBody,
-      detail: {
-        summary: "Start a Creem checkout session for a balance top-up",
-        ...xPaymentInfo("creem", "Top-up balance via Creem checkout URL"),
-      },
+      detail: payDetail("creem", "topup"),
     },
   )
   .post(
@@ -141,13 +150,7 @@ export const billingRoute = new Elysia({ prefix: "/core" })
       ),
     {
       body: nowPaymentsPayBody,
-      detail: {
-        summary: "Start a NowPayments crypto checkout for a balance top-up",
-        ...xPaymentInfo(
-          "nowpayments",
-          "Top-up balance via NowPayments crypto checkout URL",
-        ),
-      },
+      detail: payDetail("nowpayments", "topup"),
     },
   )
   .post(
@@ -160,13 +163,7 @@ export const billingRoute = new Elysia({ prefix: "/core" })
       ),
     {
       body: deloPayPayBody,
-      detail: {
-        summary: "Start a DeloPay PayPal checkout for a balance top-up",
-        ...xPaymentInfo(
-          "delopay",
-          "Top-up balance via DeloPay PayPal checkout URL",
-        ),
-      },
+      detail: payDetail("delopay", "topup"),
     },
   )
   .post(
@@ -179,13 +176,7 @@ export const billingRoute = new Elysia({ prefix: "/core" })
       ),
     {
       body: subscriptionPayBody,
-      detail: {
-        summary: "Start a Stripe checkout session for a subscription plan",
-        ...xPaymentInfo(
-          "stripe",
-          "Subscribe to a plan via Stripe checkout URL",
-        ),
-      },
+      detail: payDetail("stripe", "subscription"),
     },
   )
   .post(
@@ -198,10 +189,7 @@ export const billingRoute = new Elysia({ prefix: "/core" })
       ),
     {
       body: subscriptionPayBody,
-      detail: {
-        summary: "Start a Creem checkout session for a subscription plan",
-        ...xPaymentInfo("creem", "Subscribe to a plan via Creem checkout URL"),
-      },
+      detail: payDetail("creem", "subscription"),
     },
   )
   .post(
@@ -214,13 +202,7 @@ export const billingRoute = new Elysia({ prefix: "/core" })
       ),
     {
       body: subscriptionPayBody,
-      detail: {
-        summary: "Start a NowPayments crypto checkout for a subscription plan",
-        ...xPaymentInfo(
-          "nowpayments",
-          "Subscribe to a plan via NowPayments crypto checkout URL",
-        ),
-      },
+      detail: payDetail("nowpayments", "subscription"),
     },
   )
   .post(
@@ -233,12 +215,6 @@ export const billingRoute = new Elysia({ prefix: "/core" })
       ),
     {
       body: subscriptionPayBody,
-      detail: {
-        summary: "Start a DeloPay PayPal checkout for a subscription plan",
-        ...xPaymentInfo(
-          "delopay",
-          "Subscribe to a plan via DeloPay PayPal checkout URL",
-        ),
-      },
+      detail: payDetail("delopay", "subscription"),
     },
   );
