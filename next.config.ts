@@ -8,55 +8,29 @@ const localePattern = `/:locale(${LOCALES.join("|")})`;
 const statusHost = [{ type: "host", value: "status\\..*" }] as const;
 
 const nextConfig: NextConfig = {
-  // The build adapter assembles its own traced tree; Next's standalone
-  // post-processing then fails on files the adapter pruned.
-  output:
-    process.env.STANDALONE && !process.env.NEXT_ADAPTER_PATH
-      ? "standalone"
-      : undefined,
-  // Turbopack reuses chunk FILENAMES across builds while their bytes change
-  // (99% of shared names differed between two consecutive deploys), so a page
-  // from build N that lazy-loads a chunk gets build N+1's code under the same
-  // URL: a 200 with the wrong module, no ChunkLoadError, "x.filter is not a
-  // function" in a click handler. Stamping every asset URL with the build's
-  // commit makes the old page ask for the old bytes, and a version mismatch on
-  // navigation triggers a full reload instead of a client-side transition.
+  // Turbopack reuses chunk filenames across builds with different bytes; the
+  // commit stamp makes an old page fetch its own chunks.
   deploymentId: process.env.NEXT_DEPLOYMENT_ID,
-  // Read only by the error report endpoint; the patched adapter keeps them out
-  // of the served assets and the Dockerfile copies them aside.
+  // Kept out of the served assets by the patched adapter, uploaded to GlitchTip.
   productionBrowserSourceMaps: true,
-  // Type errors gate the CI checks job (bun typecheck), not the deploy build;
-  // checking types inside next build cost ~2.5min per deploy.
+  // CI typechecks separately; inside next build it cost ~2.5 min per deploy.
   typescript: { ignoreBuildErrors: true },
   env: {
-    // Build-time date (YYYY-MM-DD) for og-image cache busting and the blog
-    // publish-date filter, so both change per deploy rather than per request.
     NEXT_PUBLIC_BUILD_DATE: new Date().toISOString().slice(0, 10),
   },
-  // wasmoon's emscripten loader probes node builtins (`import('module')`);
-  // alias them to an empty stub in browser bundles. Server keeps real modules
-  // via serverExternalPackages below.
   turbopack: {
-    // GlitchTip matches browser stacks to their maps by these ids (k8s/sourcemaps.yaml uploads them)
+    // GlitchTip matches stacks to source maps by these ids.
     debugIds: true,
     resolveAlias: {
+      // wasmoon probes node builtins; browser bundles get an empty stub.
       module: { browser: "./src/lib/empty-module.ts" },
-      // sqlite-wasm builds the OPFS async-proxy worker URL at runtime
-      // (`new URL(proxyUri, import.meta.url)`), which turbopack cannot resolve
-      // statically. Only installOpfsSAHPoolVfs is used here, so the worker1
-      // entrypoint that reaches it is never loaded; stub it out.
+      // Unresolvable runtime worker URL; only installOpfsSAHPoolVfs is used.
       "./sqlite3-worker1.mjs": { browser: "./src/lib/empty-module.ts" },
     },
   },
-  // satori is external so turbopack does not bundle its emscripten loader: bundling
-  // rewrites harfbuzz's locateFile base to the build-root token "/ROOT", so the
-  // runtime open() hits /ROOT/node_modules/satori/node_modules/harfbuzzjs/hb.wasm
-  // and EVERY badge 500s (dev and standalone alike). Regressed in next 16.3.2.
+  // Bundling satori rewrites harfbuzz's wasm path to "/ROOT" and every badge 500s.
   serverExternalPackages: ["wasmoon", "sharp", "unpdf", "satori"],
-  cacheComponents: false,
-  // The Serwist route bundles the SW with esbuild at request time;
-  // the file tracer misses that and drops esbuild + serwist deps from the
-  // standalone output (/sw-worker/sw.js then 500s in production).
+  // The SW route bundles with esbuild at request time, which the tracer misses.
   outputFileTracingIncludes: {
     "/sw-worker/**": [
       "./node_modules/esbuild/**/*",
@@ -67,44 +41,30 @@ const nextConfig: NextConfig = {
     ],
   },
   experimental: {
-    // Server chunks carry debug ids like the browser ones; the Dockerfile sets
-    // their maps aside for the GlitchTip upload (standalone never embeds them).
+    // Standalone never embeds them; the Dockerfile sets them aside for upload.
     serverSourceMaps: true,
-    // Turbopack disk cache for `next build`; CI persists it via the
-    // Dockerfile cache mount.
     turbopackFileSystemCacheForBuild: true,
-    // TypeScript 7 ships no JS compiler API, so type checking must shell out
-    // to the tsc binary instead of the in-process API.
+    // TypeScript 7 has no JS compiler API.
     useTypeScriptCli: true,
-    // inlineCss tried and reverted: duplicated the full 274KB stylesheet into
-    // every document + RSC flight, far worse than the request it removed.
   },
   images: {
     formats: ["image/webp"],
     qualities: [10, 25, 50, 75, 90, 100],
     minimumCacheTTL: 60 * 60 * 24,
-    // Badge hero images are local /api routes WITH a query string; Next blocks
-    // local optimizer URLs that carry a search param unless declared here.
-    // No `search` key = any query string on this path is allowed. /images and
-    // /icons cover the brand logo and per-guide setup logos.
+    // Badge previews carry a query string, which Next refuses unless declared.
     localPatterns: [
       { pathname: "/api/ops/badge/**" },
       { pathname: "/images/**" },
-      { pathname: "/icons/**" },
     ],
-    // Badge previews are SVG from /api/ops/badge. The optimizer refuses SVG
-    // unless allowed; lock it down with a sandboxing CSP so an optimized SVG
-    // can't execute script or load subresources.
+    // Badge previews are SVG; the CSP sandboxes them.
     dangerouslyAllowSVG: true,
     contentSecurityPolicy:
       "default-src 'self'; script-src 'none'; sandbox; style-src 'unsafe-inline';",
   },
   async redirects() {
-    // Guide detail pages moved under /docs/integrations/<slug>; bare /docs is
-    // now the Platform tab. 301s keep indexed + externally linked URLs alive.
     const guideSlug = ":slug((?!chat$|platform$|integrations$)[^/]+)";
+    // Old asset and guide URLs stay alive for hotlinks and indexed pages.
     return [
-      // Static assets moved under /images; hotlinks and indexed URLs live on.
       {
         source: "/icons/:path*",
         destination: "/images/icons/:path*",
@@ -135,10 +95,7 @@ const nextConfig: NextConfig = {
   },
   async rewrites() {
     return [
-      // iOS Safari probes these well-known root paths directly (ignoring the
-      // <link rel="apple-touch-icon"> meta), 404ing on every iOS visit. Serve
-      // the existing icon so the root probe resolves instead of throwing a
-      // NEXT_HTTP_ERROR_FALLBACK 404 on the home route.
+      // iOS Safari probes these root paths regardless of the link tag.
       {
         source: "/apple-touch-icon.png",
         destination: "/images/icons/apple-icon.png",
@@ -147,8 +104,7 @@ const nextConfig: NextConfig = {
         source: "/apple-touch-icon-precomposed.png",
         destination: "/images/icons/apple-icon.png",
       },
-      // status.* subdomain serves the localized status page. next-intl
-      // middleware redirects bare `/` to `/<locale>` first, so we catch both.
+      // next-intl redirects bare / to /<locale> first, so both are caught.
       {
         source: "/",
         has: [...statusHost],
@@ -170,7 +126,7 @@ const nextConfig: NextConfig = {
           { key: "X-Frame-Options", value: "SAMEORIGIN" },
         ],
       },
-      // Directories that preview the home page in an iframe before listing us.
+      // Directories preview the home page in an iframe before listing us.
       ...["/", localePattern].map((source) => ({
         source,
         headers: [
@@ -181,22 +137,16 @@ const nextConfig: NextConfig = {
           },
         ],
       })),
-      // public/ assets get Next's 4h default, which Lighthouse flags on every
-      // page. Not immutable (no content hash in names), so 30d + SWR.
-      ...["/badges/:path*", "/icons/:path*", "/images/:path*"].map(
-        (source) => ({
-          source,
-          headers: [
-            {
-              key: "Cache-Control",
-              value: "public, max-age=2592000, stale-while-revalidate=86400",
-            },
-          ],
-        }),
-      ),
-      // Never store the SW route: a cached SW serves a stale precache manifest
-      // whose chunk hashes 404 after the next deploy (a year-long s-maxage once
-      // poisoned the edge cache un-purgeably).
+      {
+        source: "/images/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=2592000, stale-while-revalidate=86400",
+          },
+        ],
+      },
+      // A cached SW serves a stale precache manifest that 404s after a deploy.
       {
         source: "/sw-worker/:path*",
         headers: [{ key: "Cache-Control", value: "no-store, must-revalidate" }],
@@ -208,9 +158,7 @@ const nextConfig: NextConfig = {
 const withNextIntl = createNextIntlPlugin({
   experimental: {
     createMessagesDeclaration: ["./public/i18n/de.json"],
-    // Precompile ICU messages to ASTs at build: ~9-15KB less JS per page and
-    // invalid keys fail the build instead of erroring at render. No t.raw
-    // anywhere in the repo (unsupported with precompilation).
+    // Precompiled ICU: smaller pages, and a bad key fails the build.
     messages: {
       format: "json",
       path: "./public/i18n",
