@@ -5,7 +5,7 @@ import { fishTts, searchFishVoices } from "./fish.service";
 
 const ttsLimit = rateLimit("voice", 60);
 
-// Open to guests like custom-forward: the caller's own Fish key is required,
+// Open to guests: the caller's own Fish key is required,
 // and the target host is fixed, so this relays to Fish and nowhere else.
 export const voiceRoute = new Elysia({ prefix: "/voice" })
   .post(
