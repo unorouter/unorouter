@@ -29,6 +29,8 @@ RUN --mount=type=cache,target=/app/.next/cache \
 # Browser source maps stay out of the served assets; k8s/sourcemaps.yaml uploads them to GlitchTip by
 # debug id. GlitchTip only applies a map uploaded together with its minified file, so the .js go too.
 RUN mkdir -p /app/sourcemaps && cd .next/static && find . \( -name '*.map' -o -name '*.js' \) -exec cp --parents {} /app/sourcemaps/ \;
+# Server chunks and their maps the same way, so server stacks resolve to source lines too.
+RUN mkdir -p /app/sourcemaps/server && cd .next/server && find . \( -name '*.js.map' -o -name '*.js' \) -exec cp --parents {} /app/sourcemaps/server/ \;
 
 FROM gcr.io/distroless/cc-debian12:nonroot@sha256:9dac0a79194e45a7da0158a9c6da57b217585af0786db3845d1f0ec1a0dd182f AS prod
 WORKDIR /app

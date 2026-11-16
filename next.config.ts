@@ -91,6 +91,9 @@ const nextConfig: NextConfig = {
     ],
   },
   experimental: {
+    // Server chunks carry debug ids like the browser ones; the Dockerfile sets
+    // their maps aside for the GlitchTip upload (standalone never embeds them).
+    serverSourceMaps: true,
     // Turbopack disk cache for `next build`; CI persists it via the
     // Dockerfile cache mount.
     turbopackFileSystemCacheForBuild: true,
