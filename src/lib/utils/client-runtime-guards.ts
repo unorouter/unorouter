@@ -88,12 +88,13 @@ export function installResumeDiagnostics(): void {
     visible: document.visibilityState === "visible",
     readyState: document.readyState,
     swControlled: !!navigator.serviceWorker?.controller,
-    ...(nav instanceof PerformanceNavigationTiming && {
-      navType: nav.type,
-      transferKB: Math.round(nav.transferSize / 1024),
-      responseEndMs: Math.round(nav.responseEnd),
-      domCompleteMs: Math.round(nav.domComplete),
-    }),
+    ...(typeof PerformanceNavigationTiming !== "undefined" &&
+      nav instanceof PerformanceNavigationTiming && {
+        navType: nav.type,
+        transferKB: Math.round(nav.transferSize / 1024),
+        responseEndMs: Math.round(nav.responseEnd),
+        domCompleteMs: Math.round(nav.domComplete),
+      }),
   });
   // A boot with no db.open.start after it is a page whose content never
   // mounted: a chunk still loading, or hung. Name the chunk while it is

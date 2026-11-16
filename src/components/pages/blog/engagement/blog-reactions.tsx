@@ -68,7 +68,7 @@ export function BlogReactions(props: { slug: string; signedIn: boolean }) {
               !mine.has(kind) && "text-muted-foreground",
             )}
           >
-            {data?.reactions[kind] ?? 0}
+            {data?.reactions?.[kind] ?? 0}
           </span>
         </Button>
       ))}
