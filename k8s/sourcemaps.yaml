@@ -57,7 +57,7 @@ spec:
       volumes:
         - name: site
           image:
-            reference: ghcr.io/unorouter/unorouter:dd3fe687a6b8e874e9b2c04ac8a527cc21cc57bc@sha256:e11a29d92843c9390fc38edb4d0d406cbe4e9342dbfde7e86e2a236830c047b1
+            reference: ghcr.io/unorouter/unorouter:c0de68a5cad8fce166518b375a106d4f94376f0d@sha256:01eb14d58ad9c904ff313b75aca8b3a6b718b6803a15c4f30b64d84e5369eb56
             pullPolicy: IfNotPresent
         - name: tmp
           emptyDir: {}
