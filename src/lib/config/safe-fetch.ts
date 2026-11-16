@@ -1,10 +1,11 @@
 import { msg } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
+import ipaddr from "ipaddr.js";
 
 // Remote fetch for URLs a user or provider chooses. Private and reserved
 // addresses are refused by the cluster network (CiliumClusterwideNetworkPolicy
-// private-egress-deny in infra), whatever a name resolves to; this checks only
-// what the network cannot know.
+// private-egress-deny in infra), whatever a name resolves to; this checks what
+// the network cannot know, and refuses private IP literals before they dial.
 
 // Our own zones resolve to Cloudflare like any site, but a request from a node
 // arrives at the gateway as trusted with the caller's address lost, which made
@@ -21,6 +22,13 @@ const DOWNLOAD_TIMEOUT = 10_000;
 // Busy hosts queue well past 30s before the first byte; Cloudflare's 100s origin read is the ceiling.
 const STREAM_HEADERS_TIMEOUT = 90_000;
 const MAX_DOWNLOAD_BYTES = 50 * 1024 * 1024;
+
+// Unbracket first: ipaddr reads "[::ffff:a9fe:a9fe]" as no address (the 2026-09-29 bypass).
+function nonPublicIp(host: string): boolean {
+  const literal = host.replace(/^\[(.*)\]$/, "$1");
+  if (!ipaddr.isValid(literal)) return false;
+  return ipaddr.process(literal).range() !== "unicast";
+}
 
 function checkUrl(url: string): URL {
   let parsed: URL;
@@ -43,6 +51,9 @@ function checkUrl(url: string): URL {
   if (OWN_DOMAINS.some((d) => host === d || host.endsWith("." + d))) {
     throw new Error(msg("ERRORS.BLOCKED_URL"));
   }
+  // loopback never leaves the pod, so the network policy cannot see it
+  if (host === "localhost" || host.endsWith(".localhost") || nonPublicIp(host))
+    throw new Error(msg("ERRORS.BLOCKED_URL"));
   return parsed;
 }
 
