@@ -5,30 +5,6 @@ import { LOCALES } from "./src/lib/config/constants";
 
 const localePattern = `/:locale(${LOCALES.join("|")})`;
 
-// The consent page moved from /free-models; [old, new] localized slug per locale.
-const CONSENTS_MOVED: Record<string, [string, string]> = {
-  en: ["/free-models", "/consents"],
-  de: ["/kostenlose-modelle", "/einwilligungen"],
-  fr: ["/modeles-gratuits", "/consentements"],
-  ja: ["/muryo-moderu", "/doi"],
-  ru: ["/бесплатные-модели", "/согласия"],
-  vi: ["/mo-hinh-mien-phi", "/dong-y"],
-  "zh-CN": ["/mianfei-moxing", "/tongyi"],
-  "zh-TW": ["/mianfei-moxing", "/tongyi"],
-  it: ["/modelli-gratuiti", "/consensi"],
-  es: ["/modelos-gratuitos", "/consentimientos"],
-  "pt-BR": ["/modelos-gratuitos", "/consentimentos"],
-  ko: ["/muryo-modeu", "/dongui-gwalli"],
-  tr: ["/ucretsiz-modeller", "/onaylar"],
-  ar: ["/نماذج-مجانية", "/الموافقات"],
-  he: ["/דגמים-חינמיים", "/הסכמות"],
-  hi: ["/muft-madal", "/sahmatiyan"],
-  id: ["/model-gratis", "/persetujuan-model"],
-  pl: ["/darmowe-modele", "/zgody"],
-};
-const acceptMarkdown = [
-  { type: "header", key: "accept", value: ".*text/markdown.*" },
-] as const;
 const statusHost = [{ type: "host", value: "status\\..*" }] as const;
 
 const nextConfig: NextConfig = {
@@ -155,13 +131,6 @@ const nextConfig: NextConfig = {
         destination: "/:locale/docs/integrations/:slug",
         permanent: true,
       },
-      { source: "/free-models", destination: "/consents", permanent: true },
-      // Non-ASCII slugs are matched in their percent-encoded form.
-      ...Object.entries(CONSENTS_MOVED).map(([locale, [from, to]]) => ({
-        source: encodeURI(`/${locale}${from}`),
-        destination: encodeURI(`/${locale}${to}`),
-        permanent: true,
-      })),
     ];
   },
   async rewrites() {
@@ -177,14 +146,6 @@ const nextConfig: NextConfig = {
       {
         source: "/apple-touch-icon-precomposed.png",
         destination: "/images/icons/apple-icon.png",
-      },
-      // Agents that GET the homepage with Accept: text/markdown get llms.txt.
-      // Visible URL stays unchanged.
-      { source: "/", has: [...acceptMarkdown], destination: "/llms.txt" },
-      {
-        source: localePattern,
-        has: [...acceptMarkdown],
-        destination: "/llms.txt",
       },
       // status.* subdomain serves the localized status page. next-intl
       // middleware redirects bare `/` to `/<locale>` first, so we catch both.
