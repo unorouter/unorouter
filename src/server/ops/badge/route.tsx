@@ -13,7 +13,7 @@ import {
 import { Elysia } from "elysia";
 import { getTranslations } from "next-intl/server";
 import { findBadgeModel, getPricingData, getStats } from "./lib/data";
-import sharp from "sharp";
+import type sharpModule from "sharp";
 import { logger } from "@/lib/utils/logger";
 import { errMessage } from "@/lib/utils/base";
 import { THEME_COLORS } from "./lib/theme";
@@ -127,7 +127,23 @@ const PNG_HEADERS = {
   "cross-origin-resource-policy": "cross-origin",
 };
 
+// The bundled default import of sharp is undefined in the compiled binary (every
+// PNG went through a child process); requiring it from the extracted tree, where
+// the child finds it, loads the real module in-process.
+let sharpLoader: Promise<typeof sharpModule> | undefined;
+function loadSharp(): Promise<typeof sharpModule> {
+  sharpLoader ??= (async () => {
+    const { createRequire } = await import("node:module");
+    const { join } = await import("node:path");
+    const load = createRequire(join(await childCwd(), "package.json"));
+    const mod: typeof sharpModule = load("sharp");
+    return mod;
+  })();
+  return sharpLoader;
+}
+
 async function svgToPng(svg: string): Promise<Buffer> {
+  const sharp = await loadSharp();
   return sharp(Buffer.from(svg)).png().toBuffer();
 }
 
