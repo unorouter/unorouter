@@ -1,7 +1,12 @@
 import { NO_PERSONAL_DATA, stripEvent } from "@/lib/config/error-tracking";
 import { env } from "@/lib/config/env";
 import { serverEnv } from "@/server/env";
-import { Scope, createStackParser, createTransport } from "@sentry/core";
+import {
+  Scope,
+  createStackParser,
+  createTransport,
+  linkedErrorsIntegration,
+} from "@sentry/core";
 import { ServerRuntimeClient, nodeStackLineParser } from "@sentry/core/server";
 
 // Server render and BFF errors into the same GlitchTip project as the browser's,
@@ -20,7 +25,8 @@ function getClient(): ServerRuntimeClient | null {
     release: process.env.NEXT_DEPLOYMENT_ID || undefined,
     platform: "node",
     stackParser: createStackParser(nodeStackLineParser()),
-    integrations: [],
+    // Drizzle's "Failed query" carries the database error as its cause.
+    integrations: [linkedErrorsIntegration()],
     dataCollection: NO_PERSONAL_DATA,
     beforeSend: stripEvent,
     transport: (options) =>
