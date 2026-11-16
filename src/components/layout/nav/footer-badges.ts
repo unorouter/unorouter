@@ -504,12 +504,6 @@ export const FOOTER_BADGES: {
     width: 82,
   },
   {
-    href: "https://best.serp.co/products/unorouter.com/",
-    src: "https://best.serp.co/badge/featured-on-serp.co-light.svg",
-    name: "SERP Best Directory of Products and Resources",
-    width: 96,
-  },
-  {
     href: "https://www.bestaitool.co/product/unorouter",
     src: "https://www.bestaitool.co/badge/badge_dark.svg",
     name: "Find the Best AI Tools for Anything",
@@ -1926,7 +1920,7 @@ export const FOOTER_BADGES: {
     width: 89,
   },
   {
-    href: "https://discoverly.tech/",
+    href: "https://discoverly.tech/apps/unorouter",
     src: "https://discoverly.tech/badge.svg",
     name: "Discoverly: App directory to discover SaaS tools and software alternatives",
     alt: "Featured on Discoverly",
@@ -2309,7 +2303,7 @@ export const FOOTER_TEXT_LINKS = [
     href: "https://aitop10.tools/",
     label: "AiTop10 Tools",
   },
-  { href: "https://appstackbuilder.com", label: "appstackbuilder" },
+  { href: "https://appstackbuilder.com/launches/unorouter", label: "appstackbuilder" },
   { href: "https://auraplusplus.com", label: "Aura++" },
   {
     href: "https://www.automationtools.directory",
