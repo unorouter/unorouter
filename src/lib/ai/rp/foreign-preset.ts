@@ -119,8 +119,9 @@ export function mapSillyTavernPreset(
       impersonatePrompt: str(data.impersonation_prompt),
       prefill: str(data.assistant_prefill),
       continuePrompt: str(data.continue_nudge_prompt),
-      streamingEnabled:
-        typeof data.stream_openai === "boolean" ? data.stream_openai : null,
+      // stream_openai is not carried over: an imported preset must not switch a
+      // user to whole-reply mode they never chose in our UI.
+      streamingEnabled: null,
     },
   };
 }
