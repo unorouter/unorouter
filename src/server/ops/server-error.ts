@@ -63,5 +63,6 @@ export function recordServerError(
   scope.setTag("route", where.route);
   scope.setTag("method", where.method);
   scope.setContext("request", { path: where.path.split(/[?#]/)[0] });
-  reporter.captureException(error, undefined, scope);
+  // linkedErrorsIntegration reads the cause chain from the hint, not the argument.
+  reporter.captureException(error, { originalException: error }, scope);
 }
