@@ -233,7 +233,7 @@ export const FOOTER_BADGES: {
     width: 120,
   },
   {
-    href: "https://1000tools.best/projects/unorouter-227?utm_source=badge",
+    href: "https://1000tools.best/projects/unorouter-7533?utm_source=badge",
     src: "https://1000tools.best/1000tools/images/badges/featured-on-light.svg",
     name: "1000 Tools",
     width: 120,
@@ -733,7 +733,7 @@ export const FOOTER_BADGES: {
     width: 120,
   },
   {
-    href: "https://indiefa.me/?utm_source=unorouter.com&utm_medium=badge&utm_campaign=verified",
+    href: "https://indiefa.me/products/unorouter",
     src: "https://indiefa.me/badges/indiefame-verified-light.svg",
     name: "Discover Real Products, Not Ghost Listings",
     width: 105,
