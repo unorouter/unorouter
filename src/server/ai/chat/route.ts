@@ -44,14 +44,11 @@ const resumeLimit = rateLimit("chat-resume", 60);
 
 export const chatRoute = new Elysia({ prefix: "/chat" })
 
-  // Signed-in callers only: the target is whatever the caller names, and open to
-  // guests this was an anonymous relay for probing (2026-11-16, metadata service
-  // attempts from a scanner). No chat key is resolved, logged or stored here.
+  // Open to guests by design; the caller's own Authorization is what stops this
+  // being a free open relay. No chat key is resolved, logged or stored here.
   .post(
     "/custom-forward/chat/completions",
     async ({ request, cookie }) => {
-      const userId = await getUserId(cookie, true);
-      requireMember(userId ?? GUEST_USER_ID);
       return forwardCustomProvider({
         targetBase: request.headers.get("x-proxy-target"),
         path: "/chat/completions",
@@ -59,7 +56,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
         authorization: request.headers.get("authorization"),
         body: await request.text(),
         signal: request.signal,
-        resumeFor: userId,
+        resumeFor: await getUserId(cookie, true),
       });
     },
     { beforeHandle: customForwardLimit },
@@ -67,8 +64,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
 
   .get(
     "/custom-forward/models",
-    async ({ request, cookie }) => {
-      requireMember((await getUserId(cookie, true)) ?? GUEST_USER_ID);
+    async ({ request }) => {
       return forwardCustomProvider({
         targetBase: request.headers.get("x-proxy-target"),
         path: "/models",

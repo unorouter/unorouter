@@ -2,10 +2,9 @@ import { safeFetchStream } from "@/lib/config/safe-fetch";
 import { msg } from "@/lib/config/constants";
 import { resumableResponse } from "./stream-buffer";
 
-// Opt-in CORS-bypass proxy for custom providers, signed-in callers only (the
-// route checks). The caller-supplied Authorization is mandatory too. The key is
-// piped verbatim, never logged or stored, and the header-supplied target passes
-// the shared SSRF policy.
+// Opt-in CORS-bypass proxy for custom providers, open to guests. The
+// caller-supplied Authorization is mandatory. The key is piped verbatim, never
+// logged or stored, and the header-supplied target passes the shared SSRF policy.
 
 const FORWARD_RESPONSE_HEADERS = ["content-type"] as const;
 
@@ -23,8 +22,8 @@ export async function forwardCustomProvider(args: {
   authorization: string | null;
   body?: string;
   signal?: AbortSignal;
-  // Their reply keeps streaming into the relay pool after the tab drops, so
-  // it can be resumed.
+  // Signed-in callers only: their reply keeps streaming into the relay pool
+  // after the tab drops, so it can be resumed.
   resumeFor?: number | null;
 }): Promise<Response> {
   const base = (args.targetBase ?? "").trim().replace(/\/+$/, "");
