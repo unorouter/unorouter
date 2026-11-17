@@ -142,6 +142,9 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     text: "text-zinc-800 dark:text-zinc-200",
   }),
   [Vendor.IFM]: theme("zinc", "#18181b"),
+  [Vendor.PARTICLE]: theme("zinc", "#111111", {
+    text: "text-zinc-800 dark:text-zinc-200",
+  }),
   [Vendor.MEGANOVA]: theme("emerald", "#059669"),
   [Vendor.GRYPHE]: theme("amber", "#d97706"),
   [Vendor.ANTHRACITE]: theme("zinc", "#3f3f46"),
@@ -304,6 +307,7 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.THINKINGMACHINES]: () =>
     import("@/components/elements/brand/thinkingmachines-icon"),
   [Vendor.IFM]: () => import("@/components/elements/brand/ifm-icon"),
+  [Vendor.PARTICLE]: () => import("@/components/elements/brand/particle-icon"),
   [Vendor.RECURSIVE]: () =>
     import("@/components/elements/brand/recursive-icon"),
   [Vendor.MINDSHUB]: () => import("@/components/elements/brand/mindshub-icon"),
