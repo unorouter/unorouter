@@ -1,6 +1,7 @@
 import { msg } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import ipaddr from "ipaddr.js";
+import { lookup } from "node:dns/promises";
 
 // Remote fetch for URLs a user or provider chooses. Private and reserved
 // addresses are refused by the cluster network (CiliumClusterwideNetworkPolicy
@@ -57,6 +58,19 @@ function checkUrl(url: string): URL {
   return parsed;
 }
 
+// A name that resolves to an internal address is refused before the dial. A
+// rebind between this lookup and the connect still meets the network policy.
+async function checkResolved(parsed: URL): Promise<void> {
+  const host = parsed.hostname.replace(/^\[(.*)\]$/, "$1");
+  if (ipaddr.isValid(host)) return;
+  // an unresolvable name fails in fetch with its own error
+  const addrs = await lookup(host, { all: true, verbatim: true }).catch(
+    () => [],
+  );
+  if (addrs.some((a) => nonPublicIp(a.address)))
+    throw new Error(msg("ERRORS.BLOCKED_URL"));
+}
+
 // A redirect would take the request to a target that was never checked.
 function refuseRedirect(res: Response): Response {
   if (res.status >= 300 && res.status < 400) {
@@ -76,7 +90,7 @@ export async function safeFetchStream(
     signal?: AbortSignal;
   } = {},
 ): Promise<Response> {
-  checkUrl(url);
+  await checkResolved(checkUrl(url));
   const headers = new AbortController();
   const timer = setTimeout(() => headers.abort(), STREAM_HEADERS_TIMEOUT);
   try {
@@ -103,7 +117,7 @@ async function safeFetch(
     body?: string;
   } = {},
 ): Promise<{ res: Response; deadline: number }> {
-  checkUrl(url);
+  await checkResolved(checkUrl(url));
   const deadline = Date.now() + DOWNLOAD_TIMEOUT;
   const res = await fetch(url, {
     method: opts.method ?? "GET",
