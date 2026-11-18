@@ -102,10 +102,6 @@ export function uid(length = 21): string {
   return id;
 }
 
-export function copyToClipboard(text: string): Promise<void> {
-  return navigator.clipboard.writeText(text);
-}
-
 export function copyToClipboardAsync(
   getData: () => Promise<string>,
 ): Promise<void> {

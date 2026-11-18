@@ -20,7 +20,6 @@ import {
   type TransferStage,
 } from "@/lib/db/client/transfer/transfer";
 import type { TranslationKey } from "@/lib/types";
-import { copyToClipboard } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import { dbTransferAtom } from "@/store/chat-store";
 import { useAtom } from "jotai";
@@ -30,6 +29,7 @@ import { QRCodeSVG } from "qrcode.react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { askImportMode, toastImportResult } from "./database-submenu";
+import { copyText } from "@/lib/utils/client";
 
 const STAGE_KEY: Record<TransferStage, TranslationKey> = {
   export: "CHAT.DB_TRANSFER.STAGE_EXPORT",
@@ -125,8 +125,7 @@ function SendBody(props: {
             variant="outline"
             size="icon"
             onClick={async () => {
-              await copyToClipboard(sent.code);
-              setCopied(true);
+              if (await copyText(t, sent.code)) setCopied(true);
             }}
             aria-label={t("CHAT.DB_TRANSFER.COPY_CODE")}
           >

@@ -13,14 +13,13 @@ import {
 import { usePricingVendorsQuery } from "@/hooks/models/pricing-hook";
 import { renderQuota } from "@/lib/config/constants";
 import type { TableFeats } from "@/lib/config/table-features";
-import { copyToClipboard } from "@/lib/utils/base";
 import { modelColorStyle } from "@/lib/utils/format/color";
 import type { CellContext } from "@tanstack/react-table";
 import { formatTimestamp } from "@/lib/utils/format/date";
 import { formatPriceCompact } from "@/lib/utils/format/number";
+import { copyText } from "@/lib/utils/client";
 import { useTranslations } from "next-intl";
 import { createContext, useContext } from "react";
-import { toast } from "sonner";
 import { StackedCell } from "./cell-primitives";
 import {
   computeLogPricing,
@@ -135,8 +134,7 @@ export function LogModelCell(props: CellContext<TableFeats, LogRow>) {
               className="border-border/60 bg-muted/30 inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md border px-1.5 py-0.5"
               onClick={(e) => {
                 e.stopPropagation();
-                copyToClipboard(log.model_name);
-                toast.success(t("COMMON.COPIED_CLIPBOARD"));
+                void copyText(t, log.model_name, t("COMMON.COPIED_CLIPBOARD"));
               }}
             />
           }
@@ -199,8 +197,7 @@ export function LogTokenNameCell(props: CellContext<TableFeats, LogRow>) {
               className="inline-flex w-fit cursor-pointer items-center gap-1 border-0 bg-transparent p-0"
               onClick={(e) => {
                 e.stopPropagation();
-                copyToClipboard(log.token_name);
-                toast.success(t("COMMON.COPIED_CLIPBOARD"));
+                void copyText(t, log.token_name, t("COMMON.COPIED_CLIPBOARD"));
               }}
             />
           }

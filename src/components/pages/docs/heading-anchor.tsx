@@ -1,10 +1,9 @@
 "use client";
 
 import { Icon } from "@/components/ui/icon";
-import { copyToClipboard } from "@/lib/utils/base";
+import { copyText } from "@/lib/utils/client";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { toast } from "sonner";
 
 export function HeadingAnchor(props: { id: string; title: string }) {
   const t = useTranslations();
@@ -13,10 +12,11 @@ export function HeadingAnchor(props: { id: string; title: string }) {
   function handleCopy() {
     const url = `${window.location.origin}${window.location.pathname}#${props.id}`;
     window.history.replaceState(null, "", `#${props.id}`);
-    copyToClipboard(url);
-    setCopied(true);
-    toast.success(t("DOCS.LINK_COPIED"));
-    setTimeout(() => setCopied(false), 1500);
+    void copyText(t, url, t("DOCS.LINK_COPIED")).then((ok) => {
+      if (!ok) return;
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    });
   }
 
   return (

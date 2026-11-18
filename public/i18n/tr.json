@@ -4967,7 +4967,10 @@
     "RATE_LIMITED": "Çok fazla istek. Bir dakika bekleyip tekrar deneyin.",
     "STREAM_CONNECTION_LOST": "Yanıt gelirken bağlantı koptu. Yeniden denemek için yeniden oluştur.",
     "MESSAGE_NOT_SAVED": "Mesajın bu cihaza kaydedilemedi. Sayfayı yenilemeden önce kopyala.",
-    "VOICE_AUDIO_BLOCKED": "Tarayıcınız sesin başlamasına izin vermedi. Oynat düğmesine tekrar dokunun."
+    "VOICE_AUDIO_BLOCKED": "Tarayıcınız sesin başlamasına izin vermedi. Oynat düğmesine tekrar dokunun.",
+    "COPY_FAILED": "Panoya kopyalanamadı. Tarayıcınız engelledi.",
+    "FILE_EMPTY": "Dosya boş ya da okunamadı.",
+    "REF_IMAGE_SKIPPED": "{name} atlandı: yalnızca 5 MB'a kadar görseller eklenebilir."
   },
   "BADGE": {
     "TOKENS_SERVED": "token sunuldu",

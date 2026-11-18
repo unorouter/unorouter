@@ -46,6 +46,7 @@ import {
 import { setLocalMediaDimensions } from "@/lib/db/client/data/media/media";
 import { cn } from "@/lib/utils";
 import { downloadBlob } from "@/lib/utils/client";
+import { useCopyToClipboard } from "@/hooks/ui/use-copy-to-clipboard";
 import { useAuiState } from "@assistant-ui/react";
 import {
   type CodeHeaderProps,
@@ -254,10 +255,10 @@ export const StandaloneMarkdownText: FC = () => (
 
 const CodeHeader: FC<CodeHeaderProps> = (props) => {
   const t = useTranslations();
-  const { isCopied, copyToClipboard } = useCopyToClipboard();
+  const { isCopied, copy } = useCopyToClipboard();
   const onCopy = () => {
     if (!props.code || isCopied) return;
-    copyToClipboard(props.code);
+    void copy(props.code);
   };
 
   return (
@@ -271,30 +272,6 @@ const CodeHeader: FC<CodeHeaderProps> = (props) => {
       </TooltipIconButton>
     </div>
   );
-};
-
-const useCopyToClipboard = ({
-  copiedDuration = 3000,
-}: {
-  copiedDuration?: number;
-} = {}) => {
-  const [isCopied, setIsCopied] = useState<boolean>(false);
-
-  const copyToClipboard = (value: string) => {
-    if (!value || typeof navigator === "undefined" || !navigator.clipboard) {
-      return;
-    }
-
-    navigator.clipboard.writeText(value).then(
-      () => {
-        setIsCopied(true);
-        setTimeout(() => setIsCopied(false), copiedDuration);
-      },
-      () => {},
-    );
-  };
-
-  return { isCopied, copyToClipboard };
 };
 
 const defaultComponents = memoizeMarkdownComponents({
@@ -474,7 +451,7 @@ const defaultComponents = memoizeMarkdownComponents({
   SyntaxHighlighter: ShikiSyntaxHighlighter,
   img: function MarkdownImage({ src, alt, title }) {
     const t = useTranslations();
-    const { isCopied, copyToClipboard } = useCopyToClipboard();
+    const { isCopied, copy } = useCopyToClipboard();
     const imgSrc = typeof src === "string" ? src : undefined;
     const media = resolveMarkdownMedia(imgSrc, alt);
     const inlayMediaId = media.inlayMediaId;
@@ -504,7 +481,7 @@ const defaultComponents = memoizeMarkdownComponents({
 
     const handleCopyLink = () => {
       if (!imgSrc) return;
-      copyToClipboard(imgSrc);
+      void copy(imgSrc);
     };
 
     // An image growing from zero height on decode reads to the bottom-pin as the

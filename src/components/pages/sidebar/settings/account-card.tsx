@@ -22,13 +22,14 @@ import {
 } from "@/hooks/auth/settings-hook";
 import { useStatusQuery } from "@/hooks/ops/status-hook";
 import { rpc } from "@/lib/rpc";
-import { copyToClipboard, handleElysia } from "@/lib/utils/base";
+import { handleElysia } from "@/lib/utils/base";
 import {
   emailBindSchema,
   type EmailBindSchema,
 } from "@/lib/validation/settings";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
+import { copyText } from "@/lib/utils/client";
 import { useTranslations } from "next-intl";
 import { useQueryState } from "nuqs";
 import { useEffect, useRef, useState } from "react";
@@ -173,8 +174,7 @@ export function AccountCard() {
                 <Tooltip>
                   <TooltipTrigger
                     onClick={() => {
-                      void copyToClipboard(boundId);
-                      toast.success(t("COMMON.COPIED_CLIPBOARD"));
+                      void copyText(t, boundId, t("COMMON.COPIED_CLIPBOARD"));
                     }}
                     className="hover:text-foreground flex items-center gap-1 transition-colors"
                   >

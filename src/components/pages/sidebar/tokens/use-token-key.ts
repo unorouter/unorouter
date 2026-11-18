@@ -1,7 +1,8 @@
 "use client";
 
 import { useFetchTokenKeyMutation } from "@/hooks/billing/token-hook";
-import { copyToClipboard, copyToClipboardAsync } from "@/lib/utils/base";
+import { copyToClipboardAsync } from "@/lib/utils/base";
+import { copyText } from "@/lib/utils/client";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -31,8 +32,8 @@ export function useTokenKey(
     if (!token) return;
     const copied = () => toast.success(t("TOKEN.SUCCESS.KEY_COPIED"));
     if (revealedKey) {
-      copyToClipboard(`sk-${revealedKey}`);
-      return copied();
+      void copyText(t, `sk-${revealedKey}`, t("TOKEN.SUCCESS.KEY_COPIED"));
+      return;
     }
     copyToClipboardAsync(() =>
       fetchKey.mutateAsync({ id: token.id }).then((data) => `sk-${data.key}`),

@@ -4967,7 +4967,10 @@
     "RATE_LIMITED": "Trop de requêtes. Patientez une minute, puis réessayez.",
     "STREAM_CONNECTION_LOST": "La connexion a été coupée pendant la réception de la réponse. Régénérez pour réessayer.",
     "MESSAGE_NOT_SAVED": "Ton message n'a pas pu être enregistré sur cet appareil. Copie-le avant de recharger la page.",
-    "VOICE_AUDIO_BLOCKED": "Votre navigateur n'a pas autorisé le démarrage de l'audio. Touchez à nouveau le bouton de lecture."
+    "VOICE_AUDIO_BLOCKED": "Votre navigateur n'a pas autorisé le démarrage de l'audio. Touchez à nouveau le bouton de lecture.",
+    "COPY_FAILED": "Impossible de copier dans le presse-papiers. Votre navigateur l'a bloqué.",
+    "FILE_EMPTY": "Le fichier est vide ou n'a pas pu être lu.",
+    "REF_IMAGE_SKIPPED": "{name} a été ignoré : seules les images jusqu'à 5 Mo peuvent être ajoutées."
   },
   "BADGE": {
     "TOKENS_SERVED": "jetons servis",

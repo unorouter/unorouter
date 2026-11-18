@@ -12,10 +12,11 @@ import { Icon } from "@/components/ui/icon";
 import { useModelWatch } from "@/hooks/models/notify-hook";
 import { Link } from "@/i18n/navigation";
 import type { PricingCatalogModel } from "@/openapi";
-import { copyToClipboard, modelHref } from "@/lib/utils/base";
+import { modelHref } from "@/lib/utils/base";
 import { cn } from "@/lib/utils";
 import { chooseChatModelAtom } from "@/store/chat-store";
 import { useSetAtom } from "jotai";
+import { copyText } from "@/lib/utils/client";
 import { useTranslations } from "next-intl";
 
 export function ModelRowActions(props: { model: PricingCatalogModel }) {
@@ -85,7 +86,7 @@ export function ModelRowActions(props: { model: PricingCatalogModel }) {
           <DropdownMenuItem
             onClick={(e) => {
               e.stopPropagation();
-              void copyToClipboard(model.model_name);
+              void copyText(t, model.model_name, t("COMMON.COPIED_CLIPBOARD"));
             }}
           >
             <Icon

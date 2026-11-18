@@ -10,11 +10,10 @@ import {
 } from "@/components/ui/dialog";
 import { Icon } from "@/components/ui/icon";
 import { renderQuota } from "@/lib/config/constants";
-import { copyToClipboard } from "@/lib/utils/base";
 import { formatTimestamp } from "@/lib/utils/format/date";
 import { formatPriceCompact, QUOTA_TO_USD } from "@/lib/utils/format/number";
+import { copyText } from "@/lib/utils/client";
 import { useTranslations } from "next-intl";
-import { toast } from "sonner";
 import { getClientAttribution, parseOther, type LogRow } from "./log-helpers";
 
 export function LogDetailsDialog(props: {
@@ -228,8 +227,7 @@ function DetailRow(props: {
             type="button"
             className="text-muted-foreground hover:text-foreground shrink-0"
             onClick={() => {
-              copyToClipboard(props.value);
-              toast.success(t("COMMON.COPIED_CLIPBOARD"));
+              void copyText(t, props.value, t("COMMON.COPIED_CLIPBOARD"));
             }}
           >
             <Icon name="copy" className="size-3" />

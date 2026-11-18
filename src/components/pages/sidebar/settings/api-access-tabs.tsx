@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { useGenerateAccessTokenMutation } from "@/hooks/auth/settings-hook";
 import { env } from "@/lib/config/env";
-import { copyToClipboard } from "@/lib/utils/base";
+import { copyText } from "@/lib/utils/client";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -50,8 +50,7 @@ export function ApiAccessTabs() {
   }
 
   function copy(value: string, message: string) {
-    copyToClipboard(value);
-    toast.success(message);
+    void copyText(t, value, message);
   }
 
   // Every dashboard route takes the same two headers, so the snippets share

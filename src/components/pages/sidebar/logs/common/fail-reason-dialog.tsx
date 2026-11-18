@@ -7,9 +7,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Icon } from "@/components/ui/icon";
-import { copyToClipboard } from "@/lib/utils/base";
+import { copyText } from "@/lib/utils/client";
 import { useTranslations } from "next-intl";
-import { toast } from "sonner";
 
 export function FailReasonDialog(props: {
   open: boolean;
@@ -32,8 +31,11 @@ export function FailReasonDialog(props: {
               type="button"
               className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1 text-xs"
               onClick={() => {
-                copyToClipboard(props.failReason);
-                toast.success(t("COMMON.COPIED_CLIPBOARD"));
+                void copyText(
+                  t,
+                  props.failReason,
+                  t("COMMON.COPIED_CLIPBOARD"),
+                );
               }}
             >
               <Icon name="copy" className="size-3" />

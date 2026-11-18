@@ -4967,7 +4967,10 @@
     "RATE_LIMITED": "Too many requests. Wait a minute, then try again.",
     "STREAM_CONNECTION_LOST": "The connection dropped while the reply was streaming. Regenerate to try again.",
     "MESSAGE_NOT_SAVED": "Your message could not be saved on this device. Copy it before you reload the page.",
-    "VOICE_AUDIO_BLOCKED": "Your browser did not let the audio start. Tap the play button again."
+    "VOICE_AUDIO_BLOCKED": "Your browser did not let the audio start. Tap the play button again.",
+    "COPY_FAILED": "Could not copy to the clipboard. Your browser blocked it.",
+    "FILE_EMPTY": "The file is empty or could not be read.",
+    "REF_IMAGE_SKIPPED": "{name} was skipped: only images up to 5 MB can be added."
   },
   "BADGE": {
     "TOKENS_SERVED": "tokens served",

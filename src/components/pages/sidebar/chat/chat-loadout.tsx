@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 import type { NamedEntity } from "@/lib/types";
 import { chatLoadoutAtom, type ChatLoadout } from "@/store/chat-store";
 import { useAtom } from "jotai";
+import { handleError } from "@/lib/utils/client";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
@@ -234,7 +235,7 @@ export function ChatLoadout() {
           noneLabel={t("CHAT.OVERRIDES.NONE")}
           value={null}
           options={cards}
-          onChange={(id) => void applyCard(id)}
+          onChange={(id) => applyCard(id).catch((e) => handleError(e, t))}
         />
       )}
       <p className="text-muted-foreground text-xs">{t("CHAT.LOADOUT.HINT")}</p>

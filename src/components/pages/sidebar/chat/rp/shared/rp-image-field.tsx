@@ -11,7 +11,11 @@ import { Icon } from "@/components/ui/icon";
 import type { TranslationKey } from "@/lib/config/constants";
 import { mediaStore, upsertLocalMedia } from "@/lib/db/client/data/media/media";
 import { uid } from "@/lib/utils/base";
-import { fileToScaledDataUrl, splitDataUrl } from "@/lib/utils/client";
+import {
+  fileToScaledDataUrl,
+  handleError,
+  splitDataUrl,
+} from "@/lib/utils/client";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import {
@@ -209,11 +213,14 @@ export function RpImageField(props: {
         onChange={async (e) => {
           const file = e.target.files?.[0];
           e.target.value = "";
-          if (file) {
+          if (!file) return;
+          try {
             props.onPick({
               kind: "new",
               dataUrl: await fileToScaledDataUrl(file),
             });
+          } catch (err) {
+            handleError(err, t);
           }
         }}
       />

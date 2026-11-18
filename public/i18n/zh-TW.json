@@ -4967,7 +4967,10 @@
     "RATE_LIMITED": "請求過於頻繁，請等待一分鐘後再試。",
     "STREAM_CONNECTION_LOST": "回覆傳輸過程中連線中斷了。請重新產生再試一次。",
     "MESSAGE_NOT_SAVED": "你的訊息無法儲存到此裝置。重新載入頁面前請先複製。",
-    "VOICE_AUDIO_BLOCKED": "瀏覽器未允許開始播放音訊。請再次點擊播放按鈕。"
+    "VOICE_AUDIO_BLOCKED": "瀏覽器未允許開始播放音訊。請再次點擊播放按鈕。",
+    "COPY_FAILED": "無法複製到剪貼簿，瀏覽器封鎖了此操作。",
+    "FILE_EMPTY": "檔案為空或無法讀取。",
+    "REF_IMAGE_SKIPPED": "已略過 {name}：只能新增不超過 5 MB 的圖片。"
   },
   "BADGE": {
     "TOKENS_SERVED": "已服務 tokens",

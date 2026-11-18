@@ -12,6 +12,7 @@ import {
 import { detectPluginKind } from "@/lib/ai/chat/plugins/engine";
 import type { EntityEditId } from "@/lib/types";
 import { useTranslations } from "next-intl";
+import { toast } from "sonner";
 import { useState } from "react";
 import {
   confirmRpDelete,
@@ -56,8 +57,12 @@ export function JsPluginList(props: Props) {
   };
 
   const handleImport = async (file: File) => {
-    const script = await file.text();
-    if (!script.trim()) return;
+    // The list swallows onFile rejections, since mutations toast on their own.
+    const script = await file.text().catch(() => "");
+    if (!script.trim()) {
+      toast.error(t("ERRORS.FILE_EMPTY"));
+      return;
+    }
     await createMut.mutateAsync({
       body: {
         name: parsePluginName(script, file.name.replace(/\.[jt]s$/i, "")),

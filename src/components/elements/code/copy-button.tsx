@@ -2,10 +2,9 @@
 
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
-import { copyToClipboard } from "@/lib/utils/base";
+import { copyText } from "@/lib/utils/client";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { toast } from "sonner";
 
 type Props = {
   text: string;
@@ -22,12 +21,14 @@ export function CopyButton(props: Props) {
 
   function handleCopy(e: React.MouseEvent) {
     e.stopPropagation();
-    copyToClipboard(props.text);
-    setCopied(true);
-    if (!props.label) {
-      toast.success(props.toastMessage ?? t("DASHBOARD.COPIED"));
-    }
-    setTimeout(() => setCopied(false), 1500);
+    const success = props.label
+      ? undefined
+      : (props.toastMessage ?? t("DASHBOARD.COPIED"));
+    void copyText(t, props.text, success).then((ok) => {
+      if (!ok) return;
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    });
   }
 
   if (props.label) {

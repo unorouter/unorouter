@@ -4967,7 +4967,10 @@
     "RATE_LIMITED": "Troppe richieste. Attendi un minuto, poi riprova.",
     "STREAM_CONNECTION_LOST": "La connessione si è interrotta mentre arrivava la risposta. Rigenera per riprovare.",
     "MESSAGE_NOT_SAVED": "Il tuo messaggio non è stato salvato su questo dispositivo. Copialo prima di ricaricare la pagina.",
-    "VOICE_AUDIO_BLOCKED": "Il browser non ha permesso di avviare l'audio. Tocca di nuovo il pulsante di riproduzione."
+    "VOICE_AUDIO_BLOCKED": "Il browser non ha permesso di avviare l'audio. Tocca di nuovo il pulsante di riproduzione.",
+    "COPY_FAILED": "Impossibile copiare negli appunti. Il browser lo ha bloccato.",
+    "FILE_EMPTY": "Il file è vuoto o non è stato possibile leggerlo.",
+    "REF_IMAGE_SKIPPED": "{name} è stato saltato: si possono aggiungere solo immagini fino a 5 MB."
   },
   "BADGE": {
     "TOKENS_SERVED": "token serviti",

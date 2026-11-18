@@ -14,6 +14,7 @@ import { formDefaults } from "@/lib/validation/helpers";
 import { personaFormSchema, type PersonaForm } from "@/lib/validation/rp-forms";
 import { useRpForm } from "@/hooks/ui/use-rp-form";
 import { RpImageField, useImageDraft } from "../shared/rp-image-field";
+import { handleError } from "@/lib/utils/client";
 import { useTranslations } from "next-intl";
 import { FormFooter } from "../shared/form-footer";
 import { useInvalidToast } from "@/components/elements/form/use-invalid-toast";
@@ -62,7 +63,10 @@ export function PersonaEditor(props: Props) {
     <Card className="flex flex-col gap-3 p-4">
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmit, onInvalid)}
+          onSubmit={form.handleSubmit(
+            (data) => onSubmit(data).catch((e) => handleError(e, t)),
+            onInvalid,
+          )}
           className="flex flex-col gap-3"
         >
           <MyFormInput

@@ -207,6 +207,25 @@ function stringifyError(v: unknown): string {
   return "ERRORS.UNEXPECTED_ERROR";
 }
 
+export function copyText(
+  t: ReturnType<typeof useTranslations<never>>,
+  text: string,
+  success?: string,
+): Promise<boolean> {
+  return Promise.resolve()
+    .then(() => navigator.clipboard.writeText(text))
+    .then(
+      () => {
+        if (success) toast.success(success);
+        return true;
+      },
+      () => {
+        toast.error(t("ERRORS.COPY_FAILED"));
+        return false;
+      },
+    );
+}
+
 export function handleError(
   e: unknown,
   t?: ReturnType<typeof useTranslations<never>>,

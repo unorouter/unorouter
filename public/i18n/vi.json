@@ -4967,7 +4967,10 @@
     "RATE_LIMITED": "Quá nhiều yêu cầu. Vui lòng đợi một phút rồi thử lại.",
     "STREAM_CONNECTION_LOST": "Kết nối bị ngắt khi câu trả lời đang được gửi về. Hãy tạo lại để thử lần nữa.",
     "MESSAGE_NOT_SAVED": "Không thể lưu tin nhắn của bạn trên thiết bị này. Hãy sao chép trước khi tải lại trang.",
-    "VOICE_AUDIO_BLOCKED": "Trình duyệt không cho phép phát âm thanh. Hãy nhấn lại nút phát."
+    "VOICE_AUDIO_BLOCKED": "Trình duyệt không cho phép phát âm thanh. Hãy nhấn lại nút phát.",
+    "COPY_FAILED": "Không thể sao chép vào bộ nhớ tạm. Trình duyệt đã chặn.",
+    "FILE_EMPTY": "Tệp trống hoặc không đọc được.",
+    "REF_IMAGE_SKIPPED": "Đã bỏ qua {name}: chỉ có thể thêm ảnh tối đa 5 MB."
   },
   "BADGE": {
     "TOKENS_SERVED": "token đã phục vụ",

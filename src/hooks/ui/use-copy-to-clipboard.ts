@@ -1,9 +1,8 @@
 "use client";
 
-import { logger } from "@/lib/utils/logger";
+import { copyText } from "@/lib/utils/client";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { toast } from "sonner";
 
 export function useCopyToClipboard() {
   const t = useTranslations();
@@ -15,45 +14,19 @@ export function useCopyToClipboard() {
       timeout?: number;
       withToast?: boolean | string;
       successMessage?: string;
-    },
+    } = {},
   ) => {
+    const success =
+      typeof options.withToast === "string"
+        ? options.withToast
+        : options.withToast
+          ? (options.successMessage ?? t("COMMON.COPIED_CLIPBOARD"))
+          : undefined;
+    if (!(await copyText(t, value, success))) return false;
+    setText(value);
     const timeout = options.timeout ?? 3000;
-    const withToast = options.withToast ?? false;
-    const successMessage =
-      options.successMessage ?? t("COMMON.COPIED_CLIPBOARD");
-
-    if (!navigator?.clipboard) {
-      logger.warn("Clipboard not supported", { context: "ui.copy-clipboard" });
-      return false;
-    }
-
-    try {
-      await navigator.clipboard.writeText(value);
-      setText(value);
-
-      if (timeout) {
-        setTimeout(() => {
-          setText(null);
-        }, timeout);
-      }
-
-      if (withToast) {
-        if (typeof withToast === "string") {
-          toast.success(withToast);
-        } else {
-          toast.success(successMessage);
-        }
-      }
-
-      return true;
-    } catch (error) {
-      logger.warn("Copy failed", {
-        context: "ui.copy-clipboard",
-        error: String(error),
-      });
-      setText(null);
-      return false;
-    }
+    if (timeout) setTimeout(() => setText(null), timeout);
+    return true;
   };
 
   return { text, copy, isCopied: text !== null };

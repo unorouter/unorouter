@@ -6,10 +6,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { copyToClipboard } from "@/lib/utils/base";
 import { modelColorStyle } from "@/lib/utils/format/color";
+import { copyText } from "@/lib/utils/client";
 import { useTranslations } from "next-intl";
-import { toast } from "sonner";
 
 export const EMPTY_CELL = (
   <span className="text-muted-foreground text-xs">-</span>
@@ -42,8 +41,7 @@ export function CopyIdButton(props: { id: string; maxWidth?: string }) {
               type="button"
               className={`border-border/60 bg-muted/30 inline-flex w-fit cursor-pointer items-center gap-1 rounded-md border px-1.5 py-0.5 ${props.maxWidth ?? "max-w-44"}`}
               onClick={() => {
-                copyToClipboard(props.id);
-                toast.success(t("COMMON.COPIED_CLIPBOARD"));
+                void copyText(t, props.id, t("COMMON.COPIED_CLIPBOARD"));
               }}
             />
           }

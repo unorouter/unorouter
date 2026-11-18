@@ -10,10 +10,9 @@ import {
 } from "@/components/ui/tooltip";
 import { usePricingVendorsQuery } from "@/hooks/models/pricing-hook";
 import { env } from "@/lib/config/env";
-import { copyToClipboard } from "@/lib/utils/base";
+import { copyText } from "@/lib/utils/client";
 import { useTranslations } from "next-intl";
 import ShikiHighlighter from "react-shiki";
-import { toast } from "sonner";
 
 const FALLBACK_MODEL = "claude-opus-4-8";
 
@@ -35,12 +34,10 @@ export function TokenEndpoint() {
   }'`;
 
   const handleCopy = () => {
-    copyToClipboard(endpoint);
-    toast.success(t("TOKEN.ENDPOINT.COPIED"));
+    void copyText(t, endpoint, t("TOKEN.ENDPOINT.COPIED"));
   };
   const handleCopyCurl = () => {
-    copyToClipboard(curlExample);
-    toast.success(t("TOKEN.ENDPOINT.CURL_COPIED"));
+    void copyText(t, curlExample, t("TOKEN.ENDPOINT.CURL_COPIED"));
   };
 
   return (

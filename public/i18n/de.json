@@ -4967,7 +4967,10 @@
     "RATE_LIMITED": "Zu viele Anfragen. Bitte eine Minute warten und es dann erneut versuchen.",
     "STREAM_CONNECTION_LOST": "Die Verbindung ist abgebrochen, während die Antwort geladen wurde. Generiere sie neu, um es noch einmal zu versuchen.",
     "MESSAGE_NOT_SAVED": "Deine Nachricht konnte auf diesem Gerät nicht gespeichert werden. Kopiere sie, bevor du die Seite neu lädst.",
-    "VOICE_AUDIO_BLOCKED": "Dein Browser hat die Wiedergabe nicht gestartet. Tippe noch einmal auf Abspielen."
+    "VOICE_AUDIO_BLOCKED": "Dein Browser hat die Wiedergabe nicht gestartet. Tippe noch einmal auf Abspielen.",
+    "COPY_FAILED": "Kopieren in die Zwischenablage hat nicht geklappt. Dein Browser hat es blockiert.",
+    "FILE_EMPTY": "Die Datei ist leer oder konnte nicht gelesen werden.",
+    "REF_IMAGE_SKIPPED": "{name} wurde übersprungen: Nur Bilder bis 5 MB können hinzugefügt werden."
   },
   "BADGE": {
     "TOKENS_SERVED": "Tokens verarbeitet",

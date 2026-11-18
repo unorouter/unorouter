@@ -4967,7 +4967,10 @@
     "RATE_LIMITED": "Zbyt wiele żądań. Odczekaj minutę i spróbuj ponownie.",
     "STREAM_CONNECTION_LOST": "Połączenie zerwało się w trakcie odbierania odpowiedzi. Wygeneruj ją ponownie, aby spróbować jeszcze raz.",
     "MESSAGE_NOT_SAVED": "Nie udało się zapisać wiadomości na tym urządzeniu. Skopiuj ją, zanim odświeżysz stronę.",
-    "VOICE_AUDIO_BLOCKED": "Przeglądarka nie pozwoliła uruchomić dźwięku. Stuknij ponownie przycisk odtwarzania."
+    "VOICE_AUDIO_BLOCKED": "Przeglądarka nie pozwoliła uruchomić dźwięku. Stuknij ponownie przycisk odtwarzania.",
+    "COPY_FAILED": "Nie udało się skopiować do schowka. Przeglądarka to zablokowała.",
+    "FILE_EMPTY": "Plik jest pusty lub nie udało się go odczytać.",
+    "REF_IMAGE_SKIPPED": "Pominięto {name}: można dodać tylko obrazy do 5 MB."
   },
   "BADGE": {
     "TOKENS_SERVED": "obsłużone tokeny",

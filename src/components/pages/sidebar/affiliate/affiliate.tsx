@@ -11,10 +11,9 @@ import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { useAffiliateInviteesQuery } from "@/hooks/billing/affiliate-hook";
 import { renderQuota } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
-import { copyToClipboard } from "@/lib/utils/base";
+import { copyText } from "@/lib/utils/client";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { toast } from "sonner";
 import { CommissionsTab } from "./commissions-tab";
 import { InviteesTab } from "./invitees-tab";
 import { TransferDialog } from "./transfer-dialog";
@@ -40,14 +39,12 @@ export function Affiliate() {
 
   function handleCopyLink() {
     if (!inviteLink) return;
-    copyToClipboard(inviteLink);
-    toast.success(t("AFFILIATE.LINK_COPIED"));
+    void copyText(t, inviteLink, t("AFFILIATE.LINK_COPIED"));
   }
 
   function handleCopyCode() {
     if (!affCode) return;
-    copyToClipboard(affCode);
-    toast.success(t("AFFILIATE.CODE_COPIED"));
+    void copyText(t, affCode, t("AFFILIATE.CODE_COPIED"));
   }
 
   return (

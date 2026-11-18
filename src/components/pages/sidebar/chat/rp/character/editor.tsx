@@ -22,7 +22,7 @@ import {
 } from "@/lib/validation/rp-forms";
 import { useRpForm } from "@/hooks/ui/use-rp-form";
 import { csvToArray, uid } from "@/lib/utils/base";
-import { fileToScaledDataUrl } from "@/lib/utils/client";
+import { fileToScaledDataUrl, handleError } from "@/lib/utils/client";
 import {
   RpImageField,
   resolveMediaId,
@@ -166,7 +166,10 @@ export function CharacterEditor(props: Props) {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit, onInvalid)}
+        onSubmit={form.handleSubmit(
+          (data) => onSubmit(data).catch((e) => handleError(e, t)),
+          onInvalid,
+        )}
         className="flex flex-col gap-4"
       >
         <MyFormInput
@@ -337,7 +340,8 @@ export function CharacterEditor(props: Props) {
             onChange={(e) => {
               const f = e.target.files?.[0];
               const rowId = pendingAssetRowId.current;
-              if (f && rowId) void pickAssetFile(rowId, f);
+              if (f && rowId)
+                pickAssetFile(rowId, f).catch((e) => handleError(e, t));
               pendingAssetRowId.current = null;
               e.target.value = "";
             }}

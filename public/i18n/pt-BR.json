@@ -4967,7 +4967,10 @@
     "RATE_LIMITED": "Muitas solicitações. Aguarde um minuto e tente novamente.",
     "STREAM_CONNECTION_LOST": "A conexão caiu enquanto a resposta chegava. Gere de novo para tentar outra vez.",
     "MESSAGE_NOT_SAVED": "Sua mensagem não pôde ser salva neste dispositivo. Copie-a antes de recarregar a página.",
-    "VOICE_AUDIO_BLOCKED": "Seu navegador não permitiu iniciar o áudio. Toque no botão de reproduzir novamente."
+    "VOICE_AUDIO_BLOCKED": "Seu navegador não permitiu iniciar o áudio. Toque no botão de reproduzir novamente.",
+    "COPY_FAILED": "Não foi possível copiar para a área de transferência. Seu navegador bloqueou.",
+    "FILE_EMPTY": "O arquivo está vazio ou não pôde ser lido.",
+    "REF_IMAGE_SKIPPED": "{name} foi ignorado: só é possível adicionar imagens de até 5 MB."
   },
   "BADGE": {
     "TOKENS_SERVED": "tokens processados",

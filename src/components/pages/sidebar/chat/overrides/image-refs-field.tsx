@@ -12,6 +12,7 @@ import { handleError } from "@/lib/utils/client";
 import { fileToBase64, jsonArray, uid } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
 import { useRef } from "react";
+import { toast } from "sonner";
 import { useMediaSrc } from "@/hooks/ai/use-media-src";
 
 const MAX_REFS = 6;
@@ -39,8 +40,10 @@ export function ImageRefsField(props: { convId: string }) {
       const ids = [...refIds];
       for (const file of Array.from(files)) {
         if (ids.length >= MAX_REFS) break;
-        if (!file.type.startsWith("image/") || file.size > MAX_REF_BYTES)
+        if (!file.type.startsWith("image/") || file.size > MAX_REF_BYTES) {
+          toast.error(t("ERRORS.REF_IMAGE_SKIPPED", { name: file.name }));
           continue;
+        }
         const id = uid();
         await upsertLocalMedia({
           id,

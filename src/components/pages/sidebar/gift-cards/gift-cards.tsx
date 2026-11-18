@@ -13,12 +13,12 @@ import {
 import { renderQuota } from "@/lib/config/constants";
 import type { TableFeats } from "@/lib/config/table-features";
 import { DataTableId } from "@/lib/types/enums";
-import { copyToClipboard } from "@/lib/utils/base";
 import { formatMsDate } from "@/lib/utils/format/date";
 import type { Redemption } from "@/openapi";
 import { createTableAtoms } from "@/store/data-table-store";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useAtomValue } from "jotai";
+import { copyText } from "@/lib/utils/client";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -70,8 +70,7 @@ export function GiftCards() {
         <button
           type="button"
           onClick={() => {
-            copyToClipboard(row.original.key);
-            toast.success(t("GIFT_CARDS.COPIED"));
+            void copyText(t, row.original.key, t("GIFT_CARDS.COPIED"));
           }}
           className="text-muted-foreground hover:text-foreground font-mono text-xs"
           title={t("GIFT_CARDS.COPY")}

@@ -2,7 +2,7 @@
 
 import type { TwoFAMode } from "@/lib/types";
 import { Icon } from "@/components/ui/icon";
-import { copyToClipboard } from "@/lib/utils/base";
+
 import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { Button } from "@/components/ui/button";
 import {
@@ -32,7 +32,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { formDefaults } from "@/lib/validation/helpers";
-import { handleError } from "@/lib/utils/client";
+import { handleError, copyText } from "@/lib/utils/client";
 import {
   needsReverification,
   SecurityVerification,
@@ -120,8 +120,11 @@ export function Setup2FADialog(props: {
 
   function copyBackupCodes() {
     if (!setupData) return;
-    copyToClipboard(setupData.backup_codes.join("\n"));
-    toast.success(t("COMMON.COPIED_CLIPBOARD"));
+    void copyText(
+      t,
+      setupData.backup_codes.join("\n"),
+      t("COMMON.COPIED_CLIPBOARD"),
+    );
   }
 
   if (props.mode === "disable") {
@@ -206,8 +209,11 @@ export function Setup2FADialog(props: {
                   variant="ghost"
                   size="sm"
                   onClick={() => {
-                    copyToClipboard(setupData.secret);
-                    toast.success(t("COMMON.COPIED_CLIPBOARD"));
+                    void copyText(
+                      t,
+                      setupData.secret,
+                      t("COMMON.COPIED_CLIPBOARD"),
+                    );
                   }}
                 >
                   <Icon name="copy" className="h-4 w-4" />

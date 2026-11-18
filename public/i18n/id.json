@@ -4967,7 +4967,10 @@
     "RATE_LIMITED": "Terlalu banyak permintaan. Tunggu satu menit, lalu coba lagi.",
     "STREAM_CONNECTION_LOST": "Koneksi terputus saat balasan sedang dikirim. Buat ulang untuk mencoba lagi.",
     "MESSAGE_NOT_SAVED": "Pesanmu tidak dapat disimpan di perangkat ini. Salin dulu sebelum memuat ulang halaman.",
-    "VOICE_AUDIO_BLOCKED": "Browser Anda tidak mengizinkan audio dimulai. Ketuk tombol putar sekali lagi."
+    "VOICE_AUDIO_BLOCKED": "Browser Anda tidak mengizinkan audio dimulai. Ketuk tombol putar sekali lagi.",
+    "COPY_FAILED": "Tidak bisa menyalin ke papan klip. Browser Anda memblokirnya.",
+    "FILE_EMPTY": "File kosong atau tidak bisa dibaca.",
+    "REF_IMAGE_SKIPPED": "{name} dilewati: hanya gambar hingga 5 MB yang bisa ditambahkan."
   },
   "BADGE": {
     "TOKENS_SERVED": "token dilayani",

@@ -63,8 +63,8 @@ import { OWN_PURPOSE_OBJECTED } from "@/lib/api/own-purpose";
 import { msg, NONE_VALUE, type TranslationKey } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { cn } from "@/lib/utils";
-import { copyToClipboard } from "@/lib/utils/base";
-import { extractErrorDetail, handleError } from "@/lib/utils/client";
+
+import { extractErrorDetail, handleError, copyText } from "@/lib/utils/client";
 import { formatPrice } from "@/lib/utils/format/number";
 import {
   chatLoadoutAtom,
@@ -915,7 +915,7 @@ const ErrorCard: FC<{
     props.code ?? null,
     props.requestId ? `#${props.requestId}` : null,
   ].filter(Boolean);
-  const copyText = [
+  const errorText = [
     props.model ? `model: ${props.model}` : null,
     props.status ? `status: ${props.status}` : null,
     props.code ? `code: ${props.code}` : null,
@@ -937,8 +937,7 @@ const ErrorCard: FC<{
           tooltip={t("CHAT.ACTION.COPY")}
           className="-mt-1 -mr-1 h-6 w-6 shrink-0"
           onClick={() => {
-            copyToClipboard(copyText);
-            toast.success(t("CHAT.SUCCESS.ERROR_COPIED"));
+            void copyText(t, errorText, t("CHAT.SUCCESS.ERROR_COPIED"));
           }}
         >
           <Icon name="copy" className="h-3.5 w-3.5" />
