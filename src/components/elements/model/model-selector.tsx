@@ -441,32 +441,6 @@ export function ModelSelector(props: ModelSelectorProps) {
           )}
           <CommandList>
             <CommandEmpty>{t("CHAT.MODEL.NO_RESULTS")}</CommandEmpty>
-            {props.bestDeal && typeFilter === null && (
-              <CommandGroup>
-                <CommandItem
-                  value="best-deal"
-                  keywords={["cheapest", "discount", "deal"]}
-                  onSelect={() => {
-                    setOpen(false);
-                    props.bestDeal?.onOpen();
-                  }}
-                  className="text-xs"
-                >
-                  <Icon name="trending-down" className="size-3.5" />
-                  <span className="min-w-0 flex-1">
-                    <span className="block font-medium">
-                      {t("CHAT.BEST_DEAL.TITLE")}
-                    </span>
-                    <span className="text-muted-foreground block">
-                      {t("CHAT.BEST_DEAL.MENU_HINT")}
-                    </span>
-                  </span>
-                  {props.bestDeal.active && (
-                    <Icon name="check" className="size-3.5" />
-                  )}
-                </CommandItem>
-              </CommandGroup>
-            )}
             {customProviders.length > 0 && typeFilter === null && (
               <CustomProviderItems
                 providers={customProviders}
@@ -493,6 +467,29 @@ export function ModelSelector(props: ModelSelectorProps) {
               </CommandGroup>
             ))}
           </CommandList>
+          {props.bestDeal && (
+            <button
+              type="button"
+              onClick={() => {
+                setOpen(false);
+                props.bestDeal?.onOpen();
+              }}
+              className="hover:bg-accent flex w-full items-center gap-2 border-t px-3 py-2 text-left text-xs"
+            >
+              <Icon name="trending-down" className="size-3.5 shrink-0" />
+              <span className="min-w-0 flex-1">
+                <span className="block font-medium">
+                  {t("CHAT.BEST_DEAL.TITLE")}
+                </span>
+                <span className="text-muted-foreground block">
+                  {t("CHAT.BEST_DEAL.MENU_HINT")}
+                </span>
+              </span>
+              {props.bestDeal.active && (
+                <Icon name="check" className="size-3.5 shrink-0" />
+              )}
+            </button>
+          )}
           {isLoggedIn && groups.groupEntries.length > 0 && !selectedCustom && (
             <GroupSubmenu
               value={props.value}
