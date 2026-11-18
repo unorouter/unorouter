@@ -136,7 +136,7 @@ export function TesterForm() {
         return;
       }
       if (r.connectivityError) return;
-      await createTest.mutateAsync({ result: r });
+      createTest.mutate({ result: r });
     } finally {
       setRunning(false);
     }
@@ -177,6 +177,8 @@ export function TesterForm() {
             : t("MODEL_TESTER.PUBLISH.NOT_SAVED"),
         );
       } else setPublishMsg(t("MODEL_TESTER.PUBLISH.FAILED"));
+    } catch {
+      // useApiMutation already reported it; the catch stops the form rethrowing.
     } finally {
       setRunning(false);
     }

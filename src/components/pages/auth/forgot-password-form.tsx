@@ -37,16 +37,17 @@ export function ForgotPasswordForm() {
   const email = useWatch({ control: form.control, name: "email" });
   const isValid = safeParse(forgotPasswordChecker, { email }).success;
 
-  async function onSubmit(data: ForgotPasswordSchema) {
-    try {
-      await resetMutation.mutateAsync({
-        query: { email: data.email.trim(), turnstile: turnstileToken },
-      });
-      setSent(true);
-    } finally {
-      turnstileRef.current?.reset();
-      setTurnstileToken(undefined);
-    }
+  function onSubmit(data: ForgotPasswordSchema) {
+    resetMutation.mutate(
+      { query: { email: data.email.trim(), turnstile: turnstileToken } },
+      {
+        onSuccess: () => setSent(true),
+        onSettled: () => {
+          turnstileRef.current?.reset();
+          setTurnstileToken(undefined);
+        },
+      },
+    );
   }
 
   return (
