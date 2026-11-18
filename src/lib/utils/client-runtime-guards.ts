@@ -4,7 +4,6 @@ import {
   getChatDebugLog,
   logChatDebug,
 } from "@/lib/utils/chat-debug-log";
-import { isChunkLoadError } from "@/lib/utils/recovery";
 
 export const RELEASE = process.env.NEXT_PUBLIC_RELEASE_VERSION ?? "dev";
 const STALL_AFTER_MS = 8_000;
@@ -37,34 +36,6 @@ export function installDebugErrorCapture(): void {
       stack: reason?.stack ? String(reason.stack).slice(0, 500) : undefined,
     });
   });
-}
-
-// A rejection nobody caught right after a tap or key press came from that
-// action; without a toast the control just does nothing.
-const INTERACTION_WINDOW_MS = 10_000;
-
-export function installInteractionErrorToast(
-  report: (error: unknown) => void,
-): () => void {
-  let lastInteraction = 0;
-  const mark = () => {
-    lastInteraction = Date.now();
-  };
-  const onRejection = (e: PromiseRejectionEvent) => {
-    if (Date.now() - lastInteraction > INTERACTION_WINDOW_MS) return;
-    const reason = e.reason;
-    if (reason instanceof DOMException && reason.name === "AbortError") return;
-    if (isChunkLoadError(reason)) return;
-    report(reason);
-  };
-  window.addEventListener("pointerdown", mark, true);
-  window.addEventListener("keydown", mark, true);
-  window.addEventListener("unhandledrejection", onRejection);
-  return () => {
-    window.removeEventListener("pointerdown", mark, true);
-    window.removeEventListener("keydown", mark, true);
-    window.removeEventListener("unhandledrejection", onRejection);
-  };
 }
 
 // Without this the browser can evict OPFS under storage pressure, taking every
