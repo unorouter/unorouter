@@ -29,6 +29,7 @@ import { useRpForm } from "@/hooks/ui/use-rp-form";
 import {
   speak,
   voicePlaybackAtom,
+  unlockVoice,
 } from "@/components/pages/sidebar/chat/rp/voice/speak";
 import { cn } from "@/lib/utils";
 import { handleError } from "@/lib/utils/client";
@@ -180,7 +181,10 @@ export function VoiceSettingsDialog(props: {
                 type="button"
                 variant="outline"
                 disabled={!apiKey.trim()}
-                onClick={form.handleSubmit(test)}
+                onClick={(e) => {
+                  void unlockVoice().catch(() => {});
+                  void form.handleSubmit(test)(e);
+                }}
               >
                 <Icon
                   name={playing === TEST_KEY ? "loader" : "volume-2"}

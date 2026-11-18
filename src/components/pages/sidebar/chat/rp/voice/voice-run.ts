@@ -6,7 +6,10 @@ import {
 } from "@/lib/db/client/data/chat/chat";
 import { characterStore } from "@/lib/db/client/data/rp/rp";
 import { readLocalVoiceSettings } from "@/lib/db/client/data/voice";
-import { speak } from "@/components/pages/sidebar/chat/rp/voice/speak";
+import {
+  speak,
+  unlockVoice,
+} from "@/components/pages/sidebar/chat/rp/voice/speak";
 
 // The speaking character's own voice wins over the default, which is what gives
 // a group chat one voice per character.
@@ -15,6 +18,7 @@ export async function speakMessage(
   text: string,
   characterId?: string | null,
 ): Promise<void> {
+  void unlockVoice().catch(() => {});
   const settings = await readLocalVoiceSettings();
   if (!settings?.apiKey) return;
   const charId =

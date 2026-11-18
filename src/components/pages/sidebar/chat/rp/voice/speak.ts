@@ -123,15 +123,16 @@ function context(): AudioContext {
 
 let primeArmed = false;
 
+// WebKit refuses a resume that runs after an await ("Failed to start the audio
+// device"), so every tap path calls this before its first await.
+export const unlockVoice = () => context().resume();
+
 export function primeVoicePlayback() {
   if (primeArmed || typeof window === "undefined") return;
   primeArmed = true;
   window.addEventListener(
     "pointerdown",
-    () =>
-      void context()
-        .resume()
-        .catch(() => {}),
+    () => void unlockVoice().catch(() => {}),
     { once: true, capture: true },
   );
 }
@@ -171,6 +172,8 @@ export async function speak(
 ): Promise<void> {
   const body = buildTtsBody(settings, text, characterVoiceId);
   if (!body) return;
+  const ready = unlockVoice();
+  ready.catch(() => {});
   stopVoice();
   const mine = generation;
   setPlayback({ key, paused: false, loading: true });
@@ -179,7 +182,7 @@ export async function speak(
     const blob = await synthesize(settings.apiKey, body);
     const buffer = await ac.decodeAudioData(await blob.arrayBuffer());
     if (mine !== generation) return;
-    await ac.resume();
+    await ready;
     const node = ac.createBufferSource();
     node.buffer = buffer;
     node.connect(ac.destination);
