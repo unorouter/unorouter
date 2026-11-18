@@ -147,6 +147,11 @@ const FIT_OPTIONS = [
   { value: "tile", labelKey: "THEME.BG_FIT_TILE" },
 ] as const;
 
+const ASTERISK_OPTIONS = [
+  { value: "show", labelKey: "THEME.MD_ASTERISKS_SHOW" },
+  { value: "hide", labelKey: "THEME.MD_ASTERISKS_HIDE" },
+] as const;
+
 export const AVATAR_OPTIONS = [
   { value: "1", labelKey: "THEME.AVATAR_SIZE_SMALL" },
   { value: "2", labelKey: "THEME.AVATAR_SIZE_MEDIUM" },
@@ -383,6 +388,7 @@ export const TOKENS: readonly TokenDef[] = [
   color("md-italic-bold", "prose", "THEME.MD_ITALIC_BOLD", CHAT),
   color("md-single-quote", "prose", "THEME.MD_SINGLE_QUOTE", CHAT),
   color("md-double-quote", "prose", "THEME.MD_DOUBLE_QUOTE", CHAT),
+  select("md-asterisks", "prose", "THEME.MD_ASTERISKS", ASTERISK_OPTIONS, CHAT),
   {
     ...select(
       "chat-avatar",

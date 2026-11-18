@@ -1,6 +1,11 @@
 "use client";
 
+import {
+  rehypeHideStars,
+  tightenSpacedStars,
+} from "@/components/ui/assistant-ui/rehype-hide-stars";
 import { rehypeQuoteSpans } from "@/components/ui/assistant-ui/rehype-quote-spans";
+import { userThemeAtom } from "@/lib/theme/theme-store";
 import { ShikiSyntaxHighlighter } from "@/components/ui/assistant-ui/syntax-highlighter";
 import { TooltipIconButton } from "@/components/ui/assistant-ui/tooltip-icon-button";
 import {
@@ -172,6 +177,8 @@ export const MarkdownText = () => {
   // Unconditional: gated on a handler existing, a plugin enabled mid-session
   // would bump a counter nobody reads. It never changes without plugins.
   useAtomValue(jsDisplayVersionAtom);
+  const hideStars =
+    useAtomValue(userThemeAtom).scopes.chat?.all?.["md-asterisks"] === "hide";
   return (
     <>
       <MarkdownTextPrimitive
@@ -192,6 +199,7 @@ export const MarkdownText = () => {
             : []),
           ...(mathjax ? [withHoleRepair(mathjax)] : []),
           rehypeQuoteSpans,
+          ...(hideStars ? [rehypeHideStars] : []),
           rehypeDropHoles,
         ]}
         urlTransform={allowDataMediaUrls}
@@ -205,6 +213,7 @@ export const MarkdownText = () => {
           // that is spliced straight in, so its output goes through the same
           // allowlist as the model's.
           t = outsideCode(transformDisplayJsSync(t), escapeUnknownTags);
+          if (hideStars) t = outsideCode(t, tightenSpacedStars);
           return normalizeMathDelimiters(t);
         }}
       />
