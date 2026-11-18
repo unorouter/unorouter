@@ -4966,7 +4966,8 @@
     "GROUP_CYCLE": "Um grupo não pode ser movido para dentro de si mesmo.",
     "RATE_LIMITED": "Muitas solicitações. Aguarde um minuto e tente novamente.",
     "STREAM_CONNECTION_LOST": "A conexão caiu enquanto a resposta chegava. Gere de novo para tentar outra vez.",
-    "MESSAGE_NOT_SAVED": "Sua mensagem não pôde ser salva neste dispositivo. Copie-a antes de recarregar a página."
+    "MESSAGE_NOT_SAVED": "Sua mensagem não pôde ser salva neste dispositivo. Copie-a antes de recarregar a página.",
+    "VOICE_AUDIO_BLOCKED": "Seu navegador não permitiu iniciar o áudio. Toque no botão de reproduzir novamente."
   },
   "BADGE": {
     "TOKENS_SERVED": "tokens processados",

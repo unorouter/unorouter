@@ -7,6 +7,7 @@ import {
   MAX_TTS_TEXT,
   type FishTtsBody,
 } from "@/lib/validation/voice";
+import { msg } from "@/lib/config/constants";
 import { chatStore } from "@/store/chat-store";
 import { atom } from "jotai";
 
@@ -126,6 +127,7 @@ let primeArmed = false;
 // WebKit refuses a resume that runs after an await ("Failed to start the audio
 // device"), so every tap path calls this before its first await.
 export const unlockVoice = () => context().resume();
+export const AUDIO_BLOCKED = msg("ERRORS.VOICE_AUDIO_BLOCKED");
 
 export function primeVoicePlayback() {
   if (primeArmed || typeof window === "undefined") return;
@@ -182,7 +184,16 @@ export async function speak(
     const blob = await synthesize(settings.apiKey, body);
     const buffer = await ac.decodeAudioData(await blob.arrayBuffer());
     if (mine !== generation) return;
-    await ready;
+    // A refused resume can stay pending instead of rejecting on WebKit.
+    const started = await Promise.race([
+      ready.then(
+        () => true,
+        () => false,
+      ),
+      new Promise<false>((r) => setTimeout(() => r(false), 4000)),
+    ]);
+    if (mine !== generation) return;
+    if (!started || ac.state !== "running") throw new Error(AUDIO_BLOCKED);
     const node = ac.createBufferSource();
     node.buffer = buffer;
     node.connect(ac.destination);

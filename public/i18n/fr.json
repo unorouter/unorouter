@@ -4966,7 +4966,8 @@
     "GROUP_CYCLE": "Un groupe ne peut pas être déplacé dans lui-même.",
     "RATE_LIMITED": "Trop de requêtes. Patientez une minute, puis réessayez.",
     "STREAM_CONNECTION_LOST": "La connexion a été coupée pendant la réception de la réponse. Régénérez pour réessayer.",
-    "MESSAGE_NOT_SAVED": "Ton message n'a pas pu être enregistré sur cet appareil. Copie-le avant de recharger la page."
+    "MESSAGE_NOT_SAVED": "Ton message n'a pas pu être enregistré sur cet appareil. Copie-le avant de recharger la page.",
+    "VOICE_AUDIO_BLOCKED": "Votre navigateur n'a pas autorisé le démarrage de l'audio. Touchez à nouveau le bouton de lecture."
   },
   "BADGE": {
     "TOKENS_SERVED": "jetons servis",

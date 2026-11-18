@@ -4966,7 +4966,8 @@
     "GROUP_CYCLE": "Eine Gruppe kann nicht in sich selbst verschoben werden.",
     "RATE_LIMITED": "Zu viele Anfragen. Bitte eine Minute warten und es dann erneut versuchen.",
     "STREAM_CONNECTION_LOST": "Die Verbindung ist abgebrochen, während die Antwort geladen wurde. Generiere sie neu, um es noch einmal zu versuchen.",
-    "MESSAGE_NOT_SAVED": "Deine Nachricht konnte auf diesem Gerät nicht gespeichert werden. Kopiere sie, bevor du die Seite neu lädst."
+    "MESSAGE_NOT_SAVED": "Deine Nachricht konnte auf diesem Gerät nicht gespeichert werden. Kopiere sie, bevor du die Seite neu lädst.",
+    "VOICE_AUDIO_BLOCKED": "Dein Browser hat die Wiedergabe nicht gestartet. Tippe noch einmal auf Abspielen."
   },
   "BADGE": {
     "TOKENS_SERVED": "Tokens verarbeitet",

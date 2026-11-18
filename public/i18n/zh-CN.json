@@ -4966,7 +4966,8 @@
     "GROUP_CYCLE": "分组不能移动到其自身内部。",
     "RATE_LIMITED": "请求过于频繁，请等待一分钟后再试。",
     "STREAM_CONNECTION_LOST": "回复传输过程中连接断开了。请重新生成再试一次。",
-    "MESSAGE_NOT_SAVED": "你的消息无法保存到此设备。重新加载页面前请先复制它。"
+    "MESSAGE_NOT_SAVED": "你的消息无法保存到此设备。重新加载页面前请先复制它。",
+    "VOICE_AUDIO_BLOCKED": "浏览器未允许开始播放音频。请再次点击播放按钮。"
   },
   "BADGE": {
     "TOKENS_SERVED": "已处理 Token",

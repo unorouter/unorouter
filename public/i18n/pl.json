@@ -4966,7 +4966,8 @@
     "GROUP_CYCLE": "Grupy nie można przenieść do niej samej.",
     "RATE_LIMITED": "Zbyt wiele żądań. Odczekaj minutę i spróbuj ponownie.",
     "STREAM_CONNECTION_LOST": "Połączenie zerwało się w trakcie odbierania odpowiedzi. Wygeneruj ją ponownie, aby spróbować jeszcze raz.",
-    "MESSAGE_NOT_SAVED": "Nie udało się zapisać wiadomości na tym urządzeniu. Skopiuj ją, zanim odświeżysz stronę."
+    "MESSAGE_NOT_SAVED": "Nie udało się zapisać wiadomości na tym urządzeniu. Skopiuj ją, zanim odświeżysz stronę.",
+    "VOICE_AUDIO_BLOCKED": "Przeglądarka nie pozwoliła uruchomić dźwięku. Stuknij ponownie przycisk odtwarzania."
   },
   "BADGE": {
     "TOKENS_SERVED": "obsłużone tokeny",

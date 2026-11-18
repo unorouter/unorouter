@@ -4966,7 +4966,8 @@
     "GROUP_CYCLE": "A group cannot be moved into itself.",
     "RATE_LIMITED": "Too many requests. Wait a minute, then try again.",
     "STREAM_CONNECTION_LOST": "The connection dropped while the reply was streaming. Regenerate to try again.",
-    "MESSAGE_NOT_SAVED": "Your message could not be saved on this device. Copy it before you reload the page."
+    "MESSAGE_NOT_SAVED": "Your message could not be saved on this device. Copy it before you reload the page.",
+    "VOICE_AUDIO_BLOCKED": "Your browser did not let the audio start. Tap the play button again."
   },
   "BADGE": {
     "TOKENS_SERVED": "tokens served",

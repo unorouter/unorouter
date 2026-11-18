@@ -7,6 +7,7 @@ import {
 import { characterStore } from "@/lib/db/client/data/rp/rp";
 import { readLocalVoiceSettings } from "@/lib/db/client/data/voice";
 import {
+  AUDIO_BLOCKED,
   speak,
   unlockVoice,
 } from "@/components/pages/sidebar/chat/rp/voice/speak";
@@ -36,5 +37,8 @@ export async function autoplayReply(
   const settings = await readLocalVoiceSettings();
   if (!settings?.autoplay || !settings.apiKey) return;
   if ((await conversationStore.get(convId))?.voiceEnabled === false) return;
-  await speakMessage(messageId, text, characterId);
+  // Autoplay without a tap is expected to be refused; only a tap reports it.
+  await speakMessage(messageId, text, characterId).catch((e) => {
+    if (!(e instanceof Error && e.message === AUDIO_BLOCKED)) throw e;
+  });
 }

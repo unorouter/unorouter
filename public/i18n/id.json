@@ -4966,7 +4966,8 @@
     "GROUP_CYCLE": "Grup tidak dapat dipindahkan ke dalam dirinya sendiri.",
     "RATE_LIMITED": "Terlalu banyak permintaan. Tunggu satu menit, lalu coba lagi.",
     "STREAM_CONNECTION_LOST": "Koneksi terputus saat balasan sedang dikirim. Buat ulang untuk mencoba lagi.",
-    "MESSAGE_NOT_SAVED": "Pesanmu tidak dapat disimpan di perangkat ini. Salin dulu sebelum memuat ulang halaman."
+    "MESSAGE_NOT_SAVED": "Pesanmu tidak dapat disimpan di perangkat ini. Salin dulu sebelum memuat ulang halaman.",
+    "VOICE_AUDIO_BLOCKED": "Browser Anda tidak mengizinkan audio dimulai. Ketuk tombol putar sekali lagi."
   },
   "BADGE": {
     "TOKENS_SERVED": "token dilayani",
