@@ -4159,7 +4159,11 @@
       "MENU": "Narzędzia",
       "FETCH_PAGE": "Czytaj strony WWW",
       "FETCH_PAGE_HINT": "Pozwala modelowi otwierać linki i pliki PDF oraz czytać ich treść.",
-      "UNSUPPORTED_MODEL": "Ten model nie obsługuje narzędzi, więc odpowiedź powstaje bez nich."
+      "UNSUPPORTED_MODEL": "Ten model nie obsługuje narzędzi, więc odpowiedź powstaje bez nich.",
+      "CREATE_DOCUMENT": "Twórz pliki",
+      "CREATE_DOCUMENT_HINT": "Pozwala modelowi tworzyć pliki Word, PDF, PowerPoint i Excel do pobrania.",
+      "DOWNLOAD": "Pobierz",
+      "FILE_MISSING": "Tego pliku nie ma już na tym urządzeniu."
     },
     "TASK": {
       "STATUS_SUBMITTED": "Wysłane",

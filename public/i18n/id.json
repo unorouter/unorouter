@@ -4159,7 +4159,11 @@
       "MENU": "Alat",
       "FETCH_PAGE": "Baca halaman web",
       "FETCH_PAGE_HINT": "Model dapat membuka tautan dan PDF lalu membaca teksnya.",
-      "UNSUPPORTED_MODEL": "Model ini tidak dapat memakai alat, jadi balasan dibuat tanpa alat."
+      "UNSUPPORTED_MODEL": "Model ini tidak dapat memakai alat, jadi balasan dibuat tanpa alat.",
+      "CREATE_DOCUMENT": "Buat file",
+      "CREATE_DOCUMENT_HINT": "Model dapat membuat file Word, PDF, PowerPoint, dan Excel yang bisa Anda unduh.",
+      "DOWNLOAD": "Unduh",
+      "FILE_MISSING": "File ini sudah tidak ada di perangkat ini."
     },
     "TASK": {
       "STATUS_SUBMITTED": "Dikirim",

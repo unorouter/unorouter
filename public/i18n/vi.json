@@ -4159,7 +4159,11 @@
       "MENU": "Công cụ",
       "FETCH_PAGE": "Đọc trang web",
       "FETCH_PAGE_HINT": "Cho phép mô hình mở liên kết và PDF rồi đọc nội dung.",
-      "UNSUPPORTED_MODEL": "Mô hình này không dùng được công cụ nên câu trả lời được tạo mà không có chúng."
+      "UNSUPPORTED_MODEL": "Mô hình này không dùng được công cụ nên câu trả lời được tạo mà không có chúng.",
+      "CREATE_DOCUMENT": "Tạo tệp",
+      "CREATE_DOCUMENT_HINT": "Cho phép mô hình tạo tệp Word, PDF, PowerPoint và Excel để tải xuống.",
+      "DOWNLOAD": "Tải xuống",
+      "FILE_MISSING": "Tệp này không còn trên thiết bị này."
     },
     "TASK": {
       "STATUS_SUBMITTED": "Đã gửi",

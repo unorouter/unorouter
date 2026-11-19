@@ -236,7 +236,11 @@ async function runClientStream(args: {
       info.metadata?.supportsTools === true ||
       (info.metadata?.supportedParameters ?? []).includes("tools");
     if (supportsTools)
-      tools = buildToolSet(enabledTools, authUserId() !== GUEST_USER_ID);
+      tools = buildToolSet(
+        enabledTools,
+        authUserId() !== GUEST_USER_ID,
+        args.getConvId(),
+      );
     else
       toolAlerts.push({
         kind: "info",

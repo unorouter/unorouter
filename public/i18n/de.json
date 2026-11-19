@@ -4159,7 +4159,11 @@
       "MENU": "Werkzeuge",
       "FETCH_PAGE": "Webseiten lesen",
       "FETCH_PAGE_HINT": "Das Modell kann Links und PDFs öffnen und ihren Text lesen.",
-      "UNSUPPORTED_MODEL": "Dieses Modell kann keine Werkzeuge nutzen, die Antwort läuft ohne sie."
+      "UNSUPPORTED_MODEL": "Dieses Modell kann keine Werkzeuge nutzen, die Antwort läuft ohne sie.",
+      "CREATE_DOCUMENT": "Dateien erstellen",
+      "CREATE_DOCUMENT_HINT": "Das Modell kann Word-, PDF-, PowerPoint- und Excel-Dateien zum Herunterladen erstellen.",
+      "DOWNLOAD": "Herunterladen",
+      "FILE_MISSING": "Diese Datei ist nicht mehr auf diesem Gerät."
     },
     "TASK": {
       "STATUS_SUBMITTED": "Eingereicht",

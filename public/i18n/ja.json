@@ -4159,7 +4159,11 @@
       "MENU": "ツール",
       "FETCH_PAGE": "ウェブページを読む",
       "FETCH_PAGE_HINT": "モデルがリンクやPDFを開いて本文を読めるようにします。",
-      "UNSUPPORTED_MODEL": "このモデルはツールを使えないため、ツールなしで返信します。"
+      "UNSUPPORTED_MODEL": "このモデルはツールを使えないため、ツールなしで返信します。",
+      "CREATE_DOCUMENT": "ファイルを作成",
+      "CREATE_DOCUMENT_HINT": "モデルがダウンロード可能な Word、PDF、PowerPoint、Excel ファイルを作成できます。",
+      "DOWNLOAD": "ダウンロード",
+      "FILE_MISSING": "このファイルはこのデバイスにもうありません。"
     },
     "TASK": {
       "STATUS_SUBMITTED": "送信済み",

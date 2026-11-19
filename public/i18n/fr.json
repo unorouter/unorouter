@@ -4159,7 +4159,11 @@
       "MENU": "Outils",
       "FETCH_PAGE": "Lire des pages web",
       "FETCH_PAGE_HINT": "Permet au modèle d'ouvrir des liens et des PDF et d'en lire le texte.",
-      "UNSUPPORTED_MODEL": "Ce modèle ne peut pas utiliser d'outils, la réponse est donc générée sans eux."
+      "UNSUPPORTED_MODEL": "Ce modèle ne peut pas utiliser d'outils, la réponse est donc générée sans eux.",
+      "CREATE_DOCUMENT": "Créer des fichiers",
+      "CREATE_DOCUMENT_HINT": "Permet au modèle de créer des fichiers Word, PDF, PowerPoint et Excel à télécharger.",
+      "DOWNLOAD": "Télécharger",
+      "FILE_MISSING": "Ce fichier n'est plus sur cet appareil."
     },
     "TASK": {
       "STATUS_SUBMITTED": "Soumis",

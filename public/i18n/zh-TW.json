@@ -4159,7 +4159,11 @@
       "MENU": "工具",
       "FETCH_PAGE": "讀取網頁",
       "FETCH_PAGE_HINT": "讓模型開啟連結與 PDF 並讀取其中的文字。",
-      "UNSUPPORTED_MODEL": "此模型無法使用工具，回覆將不使用工具。"
+      "UNSUPPORTED_MODEL": "此模型無法使用工具，回覆將不使用工具。",
+      "CREATE_DOCUMENT": "建立檔案",
+      "CREATE_DOCUMENT_HINT": "讓模型建立可下載的 Word、PDF、PowerPoint 和 Excel 檔案。",
+      "DOWNLOAD": "下載",
+      "FILE_MISSING": "此檔案已不在此裝置上。"
     },
     "TASK": {
       "STATUS_SUBMITTED": "已送出",

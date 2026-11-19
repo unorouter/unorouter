@@ -4159,7 +4159,11 @@
       "MENU": "Tools",
       "FETCH_PAGE": "Read web pages",
       "FETCH_PAGE_HINT": "Lets the model open links and PDFs and read their text.",
-      "UNSUPPORTED_MODEL": "This model cannot use tools, so the reply runs without them."
+      "UNSUPPORTED_MODEL": "This model cannot use tools, so the reply runs without them.",
+      "CREATE_DOCUMENT": "Create files",
+      "CREATE_DOCUMENT_HINT": "Lets the model make Word, PDF, PowerPoint and Excel files you can download.",
+      "DOWNLOAD": "Download",
+      "FILE_MISSING": "This file is no longer on this device."
     },
     "TASK": {
       "STATUS_SUBMITTED": "Submitted",

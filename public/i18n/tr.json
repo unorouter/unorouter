@@ -4159,7 +4159,11 @@
       "MENU": "Araçlar",
       "FETCH_PAGE": "Web sayfalarını oku",
       "FETCH_PAGE_HINT": "Modelin bağlantıları ve PDF'leri açıp metinlerini okumasını sağlar.",
-      "UNSUPPORTED_MODEL": "Bu model araç kullanamıyor, bu yüzden yanıt araçlar olmadan üretiliyor."
+      "UNSUPPORTED_MODEL": "Bu model araç kullanamıyor, bu yüzden yanıt araçlar olmadan üretiliyor.",
+      "CREATE_DOCUMENT": "Dosya oluştur",
+      "CREATE_DOCUMENT_HINT": "Modelin indirilebilir Word, PDF, PowerPoint ve Excel dosyaları oluşturmasını sağlar.",
+      "DOWNLOAD": "İndir",
+      "FILE_MISSING": "Bu dosya artık bu cihazda değil."
     },
     "TASK": {
       "STATUS_SUBMITTED": "Gönderildi",

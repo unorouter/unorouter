@@ -4159,7 +4159,11 @@
       "MENU": "כלים",
       "FETCH_PAGE": "קריאת דפי אינטרנט",
       "FETCH_PAGE_HINT": "מאפשר למודל לפתוח קישורים וקובצי PDF ולקרוא את הטקסט שלהם.",
-      "UNSUPPORTED_MODEL": "המודל הזה לא יכול להשתמש בכלים, ולכן התשובה נוצרת בלעדיהם."
+      "UNSUPPORTED_MODEL": "המודל הזה לא יכול להשתמש בכלים, ולכן התשובה נוצרת בלעדיהם.",
+      "CREATE_DOCUMENT": "יצירת קבצים",
+      "CREATE_DOCUMENT_HINT": "מאפשר למודל ליצור קובצי Word,‏ PDF,‏ PowerPoint ו-Excel להורדה.",
+      "DOWNLOAD": "הורדה",
+      "FILE_MISSING": "הקובץ הזה כבר לא נמצא במכשיר הזה."
     },
     "TASK": {
       "STATUS_SUBMITTED": "נשלח",

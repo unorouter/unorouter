@@ -4159,7 +4159,11 @@
       "MENU": "الأدوات",
       "FETCH_PAGE": "قراءة صفحات الويب",
       "FETCH_PAGE_HINT": "يتيح للنموذج فتح الروابط وملفات PDF وقراءة نصها.",
-      "UNSUPPORTED_MODEL": "لا يستطيع هذا النموذج استخدام الأدوات، لذا يُنشأ الرد بدونها."
+      "UNSUPPORTED_MODEL": "لا يستطيع هذا النموذج استخدام الأدوات، لذا يُنشأ الرد بدونها.",
+      "CREATE_DOCUMENT": "إنشاء ملفات",
+      "CREATE_DOCUMENT_HINT": "يتيح للنموذج إنشاء ملفات Word وPDF وPowerPoint وExcel يمكنك تنزيلها.",
+      "DOWNLOAD": "تنزيل",
+      "FILE_MISSING": "لم يعد هذا الملف موجودًا على هذا الجهاز."
     },
     "TASK": {
       "STATUS_SUBMITTED": "أُرسل",

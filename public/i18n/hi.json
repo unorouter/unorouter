@@ -4159,7 +4159,11 @@
       "MENU": "टूल",
       "FETCH_PAGE": "वेब पेज पढ़ें",
       "FETCH_PAGE_HINT": "मॉडल को लिंक और PDF खोलकर उनका टेक्स्ट पढ़ने देता है.",
-      "UNSUPPORTED_MODEL": "यह मॉडल टूल इस्तेमाल नहीं कर सकता, इसलिए जवाब उनके बिना बनेगा."
+      "UNSUPPORTED_MODEL": "यह मॉडल टूल इस्तेमाल नहीं कर सकता, इसलिए जवाब उनके बिना बनेगा.",
+      "CREATE_DOCUMENT": "फ़ाइलें बनाएं",
+      "CREATE_DOCUMENT_HINT": "मॉडल को डाउनलोड करने लायक Word, PDF, PowerPoint और Excel फ़ाइलें बनाने देता है.",
+      "DOWNLOAD": "डाउनलोड करें",
+      "FILE_MISSING": "यह फ़ाइल अब इस डिवाइस पर नहीं है."
     },
     "TASK": {
       "STATUS_SUBMITTED": "Submitted",

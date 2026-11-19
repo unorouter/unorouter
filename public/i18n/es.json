@@ -4159,7 +4159,11 @@
       "MENU": "Herramientas",
       "FETCH_PAGE": "Leer páginas web",
       "FETCH_PAGE_HINT": "Permite al modelo abrir enlaces y PDF y leer su texto.",
-      "UNSUPPORTED_MODEL": "Este modelo no puede usar herramientas, así que la respuesta se genera sin ellas."
+      "UNSUPPORTED_MODEL": "Este modelo no puede usar herramientas, así que la respuesta se genera sin ellas.",
+      "CREATE_DOCUMENT": "Crear archivos",
+      "CREATE_DOCUMENT_HINT": "Permite al modelo crear archivos de Word, PDF, PowerPoint y Excel que puedes descargar.",
+      "DOWNLOAD": "Descargar",
+      "FILE_MISSING": "Este archivo ya no está en este dispositivo."
     },
     "TASK": {
       "STATUS_SUBMITTED": "Enviado",
