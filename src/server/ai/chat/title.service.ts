@@ -4,6 +4,7 @@ import {
 } from "@/lib/config/constants";
 import { freeModelRace } from "@/lib/ai/chat/free-model-race";
 import { stripThinkForDisplay } from "@/lib/ai/chat/think-tags";
+import { rec, safeJsonParse } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import { serverFreeModelRaceDeps } from "@/server/ai/chat/free-model-race.service";
 
@@ -14,6 +15,21 @@ export function truncateToTitle(text: string): string {
   const lastSpace = slice.lastIndexOf(" ");
   const trimmed = lastSpace > 20 ? slice.slice(0, lastSpace) : slice;
   return `${trimmed.trimEnd()}...`;
+}
+
+// A first message that asks for a tool call makes some models answer with the
+// call's JSON instead of a title.
+function titleFromReply(reply: string, text: string): string {
+  if (!reply) return truncateToTitle(text);
+  if (!/^[[{]/.test(reply)) return reply;
+  const parsed = rec(safeJsonParse<unknown>(reply, null));
+  const named = [
+    parsed?.title,
+    parsed?.name,
+    parsed?.file_name,
+    parsed?.filename,
+  ].find((v): v is string => typeof v === "string" && v.trim().length > 0);
+  return named ? truncateToTitle(named) : truncateToTitle(text);
 }
 
 export async function generateChatTitle(
@@ -39,7 +55,7 @@ export async function generateChatTitle(
       ...(titleModel ? { listFreeModels: async () => [titleModel] } : {}),
     });
     return {
-      title: stripThinkForDisplay(race.text).trim() || truncateToTitle(text),
+      title: titleFromReply(stripThinkForDisplay(race.text).trim(), text),
     };
   } catch (err) {
     logger.warn("Title generation failed, using truncated fallback", {
