@@ -4,9 +4,8 @@ import ipaddr from "ipaddr.js";
 import { lookup } from "node:dns/promises";
 
 // Remote fetch for URLs a user or provider chooses. Private and reserved
-// addresses are refused by the cluster network (CiliumClusterwideNetworkPolicy
-// private-egress-deny in infra), whatever a name resolves to; this checks what
-// the network cannot know, and refuses private IP literals before they dial.
+// addresses are refused here and again by the cluster network
+// (CiliumClusterwideNetworkPolicy private-egress-deny in infra).
 
 // Our own zones resolve to Cloudflare like any site, but a request from a node
 // arrives at the gateway as trusted with the caller's address lost, which made
@@ -58,17 +57,34 @@ function checkUrl(url: string): URL {
   return parsed;
 }
 
-// A name that resolves to an internal address is refused before the dial. A
-// rebind between this lookup and the connect still meets the network policy.
-async function checkResolved(parsed: URL): Promise<void> {
+type FetchInit = Omit<RequestInit, "headers"> & {
+  headers?: Record<string, string>;
+};
+
+// Dials the address that was checked: fetch resolving the name again let a
+// rebinding name reach the metadata address (2026-11-19). Bun verifies the
+// certificate against tls.serverName.
+async function pinnedFetch(url: string, init: FetchInit): Promise<Response> {
+  const parsed = checkUrl(url);
   const host = parsed.hostname.replace(/^\[(.*)\]$/, "$1");
-  if (ipaddr.isValid(host)) return;
-  // an unresolvable name fails in fetch with its own error
+  if (ipaddr.isValid(host)) return fetch(url, init);
   const addrs = await lookup(host, { all: true, verbatim: true }).catch(
     () => [],
   );
+  if (addrs.length === 0) throw new Error(msg("ERRORS.UPSTREAM_FETCH_FAILED"));
   if (addrs.some((a) => nonPublicIp(a.address)))
     throw new Error(msg("ERRORS.BLOCKED_URL"));
+  const address = addrs[0].address;
+  const target = new URL(parsed);
+  target.hostname = address.includes(":") ? `[${address}]` : address;
+  const pinned: FetchInit & { tls?: { serverName: string } } = {
+    ...init,
+    headers: { ...init.headers, host: parsed.host },
+    ...(parsed.protocol === "https:" && {
+      tls: { serverName: host.replace(/\.$/, "") },
+    }),
+  };
+  return fetch(target.toString(), pinned);
 }
 
 // A redirect would take the request to a target that was never checked.
@@ -90,11 +106,10 @@ export async function safeFetchStream(
     signal?: AbortSignal;
   } = {},
 ): Promise<Response> {
-  await checkResolved(checkUrl(url));
   const headers = new AbortController();
   const timer = setTimeout(() => headers.abort(), STREAM_HEADERS_TIMEOUT);
   try {
-    const res = await fetch(url, {
+    const res = await pinnedFetch(url, {
       method: opts.method ?? "GET",
       headers: opts.headers,
       body: opts.body,
@@ -117,9 +132,8 @@ async function safeFetch(
     body?: string;
   } = {},
 ): Promise<{ res: Response; deadline: number }> {
-  await checkResolved(checkUrl(url));
   const deadline = Date.now() + DOWNLOAD_TIMEOUT;
-  const res = await fetch(url, {
+  const res = await pinnedFetch(url, {
     method: opts.method ?? "GET",
     headers: opts.headers,
     body: opts.body,
