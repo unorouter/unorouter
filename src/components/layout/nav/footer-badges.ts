@@ -534,7 +534,7 @@ export const FOOTER_BADGES: {
     width: 120,
   },
   {
-    href: "https://daniellaunches.com",
+    href: "https://daniellaunches.com/tools/unorouter",
     src: "https://daniellaunches.com/badge-light.svg",
     name: "daniellaunches.com",
     width: 110,
@@ -1087,7 +1087,7 @@ export const FOOTER_BADGES: {
     width: 101,
   },
   {
-    href: "https://productwill.com",
+    href: "https://productwill.com/item/unorouter",
     src: "https://productwill.com/badages-awards.svg",
     name: "Product Will",
     width: 120,
@@ -1503,7 +1503,7 @@ export const FOOTER_BADGES: {
     width: 93,
   },
   {
-    href: "https://devtoollab.com/ai-tools",
+    href: "https://devtoollab.com/ai-tools/unorouter",
     src: "https://devtoollab.com/badges/featured-on-devtoollab.svg",
     name: "Free Online Developer Tools",
     alt: "Featured on DevToolLab",
@@ -1601,7 +1601,7 @@ export const FOOTER_BADGES: {
     width: 120,
   },
   {
-    href: "https://listmysaas.xyz",
+    href: "https://listmysaas.xyz/directory/unorouter",
     src: "https://listmysaas.xyz/listmysaasbadgenormal.svg",
     name: "ListMySaaS",
     alt: "Featured on ListMySaaS",
