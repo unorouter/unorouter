@@ -29,6 +29,7 @@ import {
 } from "@/lib/ai/chat/pipeline/finish-meta";
 import { makeUpstreamFetch } from "@/lib/ai/chat/provider-mutations";
 import { resumableFetch } from "@/lib/ai/chat/stream/resumable-fetch";
+import { retryToolStep } from "@/lib/ai/chat/stream/tool-step-retry";
 import { isCustomModelId } from "@/lib/ai/chat/custom-provider-id";
 import { textOf, type StreamMessages } from "@/lib/ai/chat/pipeline/transforms";
 import type { TokenizerRef } from "@/lib/ai/chat/tokenizer";
@@ -341,7 +342,7 @@ async function runClientStream(args: {
     ...(args.includeUsage ? { includeUsage: true } : {}),
     headers: { ...(xGroup ? { "X-Group": xGroup } : {}), ...args.extraHeaders },
     fetch: timer.wrapFetch(
-      resumableFetch(makeUpstreamFetch(prepared.bodyMutations)),
+      resumableFetch(retryToolStep(makeUpstreamFetch(prepared.bodyMutations))),
     ),
   });
 

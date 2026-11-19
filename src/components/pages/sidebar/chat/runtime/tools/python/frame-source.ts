@@ -7,9 +7,12 @@ os.makedirs("/work/output", exist_ok=True)
 os.makedirs("/work/inputs", exist_ok=True)
 os.chdir("/work/output")
 
-def _uno_save_figures():
+def _uno_save_figures(save):
     plt = sys.modules.get("matplotlib.pyplot")
     if plt is None:
+        return
+    if not save:
+        plt.close("all")
         return
     import warnings
     with warnings.catch_warnings():
@@ -56,7 +59,9 @@ self.onmessage = async (e) => {
     self.postMessage({ type: "ready", id: job.id });
     const before = walk("/work/output", new Map());
     let value = await py.runPythonAsync(job.code);
-    await py.runPythonAsync("_uno_save_figures()");
+    // A figure the code already saved itself is not saved a second time.
+    const wroteImage = [...walk("/work/output", new Map())].some(([p, sig]) => before.get(p) !== sig && /\\.(png|jpe?g|svg)$/i.test(p));
+    await py.runPythonAsync(wroteImage ? "_uno_save_figures(False)" : "_uno_save_figures(True)");
     let repr = null;
     if (value !== undefined && value !== null) {
       repr = String(value);
