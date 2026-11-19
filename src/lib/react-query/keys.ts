@@ -89,7 +89,7 @@ export const queryKeys = {
   jsPlugins: () => ["js-plugins"] as const,
   jsPlugin: (id: string) => ["js-plugins", id] as const,
   voiceSettings: () => ["voice-settings"] as const,
-  fishVoices: (q: string) => ["fish-voices", q] as const,
+  fishVoices: (q: string, lang: string) => ["fish-voices", q, lang] as const,
 
   imageSessionLists: () => ["image-sessions"] as const,
   imageSession: (id: string) => ["image-session", id] as const,

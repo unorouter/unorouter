@@ -4571,6 +4571,7 @@
       "NARRATOR": "Narrator voice",
       "NARRATOR_HINT": "Reads everything outside quotes.",
       "SEARCH_PLACEHOLDER": "Search Fish Audio voices",
+      "ALL_LANGUAGES": "All languages",
       "VOICE_ID_PLACEHOLDER": "or paste a voice id",
       "NO_VOICES": "No voices found",
       "READ_MODE": "What to read",

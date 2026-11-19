@@ -4571,6 +4571,7 @@
       "NARRATOR": "Voix du narrateur",
       "NARRATOR_HINT": "Lit tout ce qui est hors des guillemets.",
       "SEARCH_PLACEHOLDER": "Rechercher des voix Fish Audio",
+      "ALL_LANGUAGES": "Toutes les langues",
       "VOICE_ID_PLACEHOLDER": "ou colle un identifiant de voix",
       "NO_VOICES": "Aucune voix trouvée",
       "READ_MODE": "Ce qui est lu",

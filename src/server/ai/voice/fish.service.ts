@@ -1,6 +1,6 @@
 import { safeFetchStream } from "@/lib/config/safe-fetch";
 import { msg } from "@/lib/config/constants";
-import type { FishTtsBody } from "@/lib/validation/voice";
+import type { FishTtsBody, FishVoiceSearchQuery } from "@/lib/validation/voice";
 
 // Fish Audio answers no CORS preflight, so the browser cannot call it. The
 // host is fixed and the caller's own key is piped through, never stored.
@@ -56,12 +56,13 @@ export function fishTts(
 
 export function searchFishVoices(
   authorization: string | null,
-  query: string | undefined,
+  query: FishVoiceSearchQuery,
   signal: AbortSignal,
 ): Promise<Response> | Response {
   if (!authorization) return json(401, msg("ERRORS.NO_API_KEY"));
-  const params = new URLSearchParams({ page_size: "20", sort_by: "score" });
-  if (query?.trim()) params.set("title", query.trim());
+  const params = new URLSearchParams({ page_size: "50", sort_by: "score" });
+  if (query.q?.trim()) params.set("title", query.q.trim());
+  if (query.lang) params.set("language", query.lang);
   return pipe(`${FISH}/model?${params}`, {
     headers: { authorization },
     signal,

@@ -34,9 +34,28 @@ export const fishTtsBody = t.Object({
 });
 export type FishTtsBody = Static<typeof fishTtsBody>;
 
+export const FISH_VOICE_LANGUAGES = [
+  "en",
+  "zh",
+  "ja",
+  "ko",
+  "es",
+  "fr",
+  "de",
+  "it",
+  "pt",
+  "ru",
+  "ar",
+  "pl",
+  "nl",
+] as const;
+export type FishVoiceLanguage = (typeof FISH_VOICE_LANGUAGES)[number];
+
 export const fishVoiceSearchQuery = t.Object({
   q: t.Optional(t.String({ maxLength: 100 })),
+  lang: t.Optional(t.Union(FISH_VOICE_LANGUAGES.map((l) => t.Literal(l)))),
 });
+export type FishVoiceSearchQuery = Static<typeof fishVoiceSearchQuery>;
 
 export type FishVoice = {
   id: string;

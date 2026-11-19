@@ -19,7 +19,7 @@ export const voiceRoute = new Elysia({ prefix: "/voice" })
     ({ request, query }) =>
       searchFishVoices(
         request.headers.get("authorization"),
-        query.q,
+        query,
         request.signal,
       ),
     { query: fishVoiceSearchQuery, beforeHandle: ttsLimit },

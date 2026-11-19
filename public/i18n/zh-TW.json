@@ -4571,6 +4571,7 @@
       "NARRATOR": "旁白聲音",
       "NARRATOR_HINT": "朗讀引號以外的所有內容。",
       "SEARCH_PLACEHOLDER": "搜尋 Fish Audio 聲音",
+      "ALL_LANGUAGES": "所有語言",
       "VOICE_ID_PLACEHOLDER": "或貼上聲音 ID",
       "NO_VOICES": "找不到聲音",
       "READ_MODE": "朗讀內容",

@@ -4571,6 +4571,7 @@
       "NARRATOR": "내레이터 음성",
       "NARRATOR_HINT": "따옴표 밖의 내용을 모두 읽습니다.",
       "SEARCH_PLACEHOLDER": "Fish Audio 음성 검색",
+      "ALL_LANGUAGES": "모든 언어",
       "VOICE_ID_PLACEHOLDER": "또는 음성 ID 붙여넣기",
       "NO_VOICES": "음성을 찾을 수 없습니다",
       "READ_MODE": "읽을 내용",

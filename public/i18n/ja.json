@@ -4571,6 +4571,7 @@
       "NARRATOR": "ナレーターの声",
       "NARRATOR_HINT": "かぎかっこの外側をすべて読み上げます。",
       "SEARCH_PLACEHOLDER": "Fish Audio の声を検索",
+      "ALL_LANGUAGES": "すべての言語",
       "VOICE_ID_PLACEHOLDER": "または声の ID を貼り付け",
       "NO_VOICES": "声が見つかりません",
       "READ_MODE": "読み上げる範囲",

@@ -4571,6 +4571,7 @@
       "NARRATOR": "Голос рассказчика",
       "NARRATOR_HINT": "Читает всё, что вне кавычек.",
       "SEARCH_PLACEHOLDER": "Поиск голосов Fish Audio",
+      "ALL_LANGUAGES": "Все языки",
       "VOICE_ID_PLACEHOLDER": "или вставьте ID голоса",
       "NO_VOICES": "Голоса не найдены",
       "READ_MODE": "Что читать",

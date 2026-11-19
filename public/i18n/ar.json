@@ -4571,6 +4571,7 @@
       "NARRATOR": "صوت الراوي",
       "NARRATOR_HINT": "يقرأ كل ما هو خارج علامات الاقتباس.",
       "SEARCH_PLACEHOLDER": "ابحث في أصوات Fish Audio",
+      "ALL_LANGUAGES": "كل اللغات",
       "VOICE_ID_PLACEHOLDER": "أو الصق معرّف صوت",
       "NO_VOICES": "لم يتم العثور على أصوات",
       "READ_MODE": "ما الذي يُقرأ",

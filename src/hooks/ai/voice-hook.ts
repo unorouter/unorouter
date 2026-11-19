@@ -8,7 +8,11 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { useApiMutation } from "@/lib/react-query/hooks";
 import { rec, recArr, stringItems } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
-import type { FishVoice, VoiceSettingsForm } from "@/lib/validation/voice";
+import type {
+  FishVoice,
+  FishVoiceLanguage,
+  VoiceSettingsForm,
+} from "@/lib/validation/voice";
 import { useQuery } from "@tanstack/react-query";
 
 export function useVoiceSettingsQuery() {
@@ -36,14 +40,18 @@ export function useSaveVoiceSettingsMutation() {
   });
 }
 
-export function useFishVoicesQuery(query: string, apiKey: string) {
+export function useFishVoicesQuery(
+  query: string,
+  lang: FishVoiceLanguage | "",
+  apiKey: string,
+) {
   return useQuery({
-    queryKey: queryKeys.fishVoices(query),
+    queryKey: queryKeys.fishVoices(query, lang),
     enabled: apiKey.trim().length > 0,
     staleTime: 5 * 60_000,
     queryFn: async (): Promise<FishVoice[]> => {
       const res = await fetch(
-        `/api/ai/voice/fish/voices?q=${encodeURIComponent(query)}`,
+        `/api/ai/voice/fish/voices?${new URLSearchParams({ q: query, ...(lang && { lang }) })}`,
         { headers: { authorization: `Bearer ${apiKey.trim()}` } },
       );
       if (!res.ok) throw new Error(`Fish Audio ${res.status}`);

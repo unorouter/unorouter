@@ -19,6 +19,13 @@ import {
 } from "@/components/ui/form";
 import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import {
   useFishVoicesQuery,
@@ -32,16 +39,19 @@ import {
   unlockVoice,
 } from "@/components/pages/sidebar/chat/rp/voice/speak";
 import { cn } from "@/lib/utils";
+import { isOneOf } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import { dayjs } from "@/lib/utils/format/date";
 import { formDefaults } from "@/lib/validation/helpers";
 import {
+  FISH_VOICE_LANGUAGES,
+  type FishVoiceLanguage,
   voiceSettingsForm,
   type VoiceSettingsForm,
 } from "@/lib/validation/voice";
 import { chatStore } from "@/store/chat-store";
 import { useAtomValue } from "jotai";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useDeferredValue, useState } from "react";
 import type { Control } from "react-hook-form";
 
@@ -271,24 +281,51 @@ function VoiceField(props: {
   );
 }
 
+const isFishLanguage = isOneOf(FISH_VOICE_LANGUAGES);
+
 export function VoicePicker(props: {
   value: string;
   onChange: (id: string) => void;
   apiKey: string;
 }) {
   const t = useTranslations();
+  const locale = useLocale();
   const [search, setSearch] = useState("");
+  const [lang, setLang] = useState<FishVoiceLanguage | "">("");
   const query = useDeferredValue(search);
-  const voicesQuery = useFishVoicesQuery(query, props.apiKey);
+  const voicesQuery = useFishVoicesQuery(query, lang, props.apiKey);
   const voices = voicesQuery.data ?? [];
+  const languageName = new Intl.DisplayNames([locale], { type: "language" });
   return (
     <div className="flex flex-col gap-2">
-      <Input
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        placeholder={t("CHAT.VOICE.SEARCH_PLACEHOLDER")}
-        disabled={!props.apiKey.trim()}
-      />
+      <div className="flex gap-2">
+        <Input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder={t("CHAT.VOICE.SEARCH_PLACEHOLDER")}
+          disabled={!props.apiKey.trim()}
+          className="min-w-0 flex-1"
+        />
+        <Select
+          value={lang || "all"}
+          onValueChange={(v) => setLang(isFishLanguage(v) ? v : "")}
+          disabled={!props.apiKey.trim()}
+        >
+          <SelectTrigger className="w-36 shrink-0">
+            <SelectValue>
+              {lang ? languageName.of(lang) : t("CHAT.VOICE.ALL_LANGUAGES")}
+            </SelectValue>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">{t("CHAT.VOICE.ALL_LANGUAGES")}</SelectItem>
+            {FISH_VOICE_LANGUAGES.map((l) => (
+              <SelectItem key={l} value={l}>
+                {languageName.of(l)}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
       {props.apiKey.trim() && (
         <div className="border-border/40 flex max-h-40 flex-col overflow-y-auto rounded-md border">
           {voices.length === 0 && !voicesQuery.isFetching && (
