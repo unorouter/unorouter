@@ -1111,7 +1111,7 @@ export const FOOTER_BADGES: {
     width: 96,
   },
   {
-    href: "https://r-ai.dev",
+    href: "https://r-ai.dev/tool/unorouter",
     src: "https://r-ai.dev/badge-dark.svg",
     name: "R-AI",
     width: 120,
@@ -1495,7 +1495,7 @@ export const FOOTER_BADGES: {
     width: 90,
   },
   {
-    href: "https://zen99.co",
+    href: "https://zen99.co/tool/unorouter",
     src: "https://zen99.co/badge.svg",
     name: "Zen99",
     width: 78,
@@ -1612,7 +1612,7 @@ export const FOOTER_BADGES: {
     width: 120,
   },
   {
-    href: "https://pickapps.org",
+    href: "https://pickapps.org/products/unorouter",
     src: "https://pickapps.org/pickapps-badge.svg",
     name: "Discover the Best AI Tools and Websites",
     alt: "Listed on PickApps",
@@ -1738,7 +1738,7 @@ export const FOOTER_BADGES: {
     width: 107,
   },
   {
-    href: "https://chuchuang.work/",
+    href: "https://chuchuang.work/product/unorouter",
     src: "https://chuchuang.work/badge/badge-light.svg",
     name: "初创.work",
     alt: "Featured on chuchuang.work",
@@ -1934,14 +1934,14 @@ export const FOOTER_BADGES: {
     width: 120,
   },
   {
-    href: "https://tailyai.co",
+    href: "https://tailyai.co/t/unorouter",
     src: "https://tailyai.co/badge.svg",
     name: "TailyAI",
     alt: "Featured on TailyAI",
     width: 78,
   },
   {
-    href: "https://toolboard.org",
+    href: "https://toolboard.org/i/unorouter",
     src: "https://toolboard.org/badge.svg",
     name: "Toolboard",
     alt: "Featured on Toolboard",
@@ -1962,7 +1962,7 @@ export const FOOTER_BADGES: {
     width: 111,
   },
   {
-    href: "https://toolb.dev",
+    href: "https://toolb.dev/ai/unorouter",
     src: "https://toolb.dev/badge.svg",
     name: "Toolb",
     alt: "Featured on Toolb",
