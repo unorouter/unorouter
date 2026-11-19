@@ -4165,6 +4165,10 @@
       "DOWNLOAD": "Tải xuống",
       "FILE_MISSING": "Tệp này không còn trên thiết bị này."
     },
+    "ARTIFACT": {
+      "PREVIEW": "Xem trước",
+      "TITLE": "Bản xem trước"
+    },
     "TASK": {
       "STATUS_SUBMITTED": "Đã gửi",
       "STATUS_QUEUED": "Đang chờ xử lý",

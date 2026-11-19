@@ -4165,6 +4165,10 @@
       "DOWNLOAD": "다운로드",
       "FILE_MISSING": "이 파일은 더 이상 이 기기에 없습니다."
     },
+    "ARTIFACT": {
+      "PREVIEW": "미리보기",
+      "TITLE": "미리보기"
+    },
     "TASK": {
       "STATUS_SUBMITTED": "제출됨",
       "STATUS_QUEUED": "대기 중",

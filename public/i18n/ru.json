@@ -4165,6 +4165,10 @@
       "DOWNLOAD": "Скачать",
       "FILE_MISSING": "Этого файла больше нет на этом устройстве."
     },
+    "ARTIFACT": {
+      "PREVIEW": "Предпросмотр",
+      "TITLE": "Предпросмотр"
+    },
     "TASK": {
       "STATUS_SUBMITTED": "Отправлено",
       "STATUS_QUEUED": "В очереди",

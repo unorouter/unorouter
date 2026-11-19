@@ -4165,6 +4165,10 @@
       "DOWNLOAD": "İndir",
       "FILE_MISSING": "Bu dosya artık bu cihazda değil."
     },
+    "ARTIFACT": {
+      "PREVIEW": "Önizle",
+      "TITLE": "Önizleme"
+    },
     "TASK": {
       "STATUS_SUBMITTED": "Gönderildi",
       "STATUS_QUEUED": "Sıraya Alındı",

@@ -4165,6 +4165,10 @@
       "DOWNLOAD": "Scarica",
       "FILE_MISSING": "Questo file non è più su questo dispositivo."
     },
+    "ARTIFACT": {
+      "PREVIEW": "Anteprima",
+      "TITLE": "Anteprima"
+    },
     "TASK": {
       "STATUS_SUBMITTED": "Inviato",
       "STATUS_QUEUED": "In coda",

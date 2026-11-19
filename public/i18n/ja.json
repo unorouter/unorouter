@@ -4165,6 +4165,10 @@
       "DOWNLOAD": "ダウンロード",
       "FILE_MISSING": "このファイルはこのデバイスにもうありません。"
     },
+    "ARTIFACT": {
+      "PREVIEW": "プレビュー",
+      "TITLE": "プレビュー"
+    },
     "TASK": {
       "STATUS_SUBMITTED": "送信済み",
       "STATUS_QUEUED": "キューに追加",

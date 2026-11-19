@@ -4165,6 +4165,10 @@
       "DOWNLOAD": "Unduh",
       "FILE_MISSING": "File ini sudah tidak ada di perangkat ini."
     },
+    "ARTIFACT": {
+      "PREVIEW": "Pratinjau",
+      "TITLE": "Pratinjau"
+    },
     "TASK": {
       "STATUS_SUBMITTED": "Dikirim",
       "STATUS_QUEUED": "Antri",

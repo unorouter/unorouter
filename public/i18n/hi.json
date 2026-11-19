@@ -4165,6 +4165,10 @@
       "DOWNLOAD": "डाउनलोड करें",
       "FILE_MISSING": "यह फ़ाइल अब इस डिवाइस पर नहीं है."
     },
+    "ARTIFACT": {
+      "PREVIEW": "पूर्वावलोकन",
+      "TITLE": "पूर्वावलोकन"
+    },
     "TASK": {
       "STATUS_SUBMITTED": "Submitted",
       "STATUS_QUEUED": "Queued",

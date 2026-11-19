@@ -4165,6 +4165,10 @@
       "DOWNLOAD": "下載",
       "FILE_MISSING": "此檔案已不在此裝置上。"
     },
+    "ARTIFACT": {
+      "PREVIEW": "預覽",
+      "TITLE": "預覽"
+    },
     "TASK": {
       "STATUS_SUBMITTED": "已送出",
       "STATUS_QUEUED": "排隊中",

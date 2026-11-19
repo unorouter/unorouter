@@ -4165,6 +4165,10 @@
       "DOWNLOAD": "הורדה",
       "FILE_MISSING": "הקובץ הזה כבר לא נמצא במכשיר הזה."
     },
+    "ARTIFACT": {
+      "PREVIEW": "תצוגה מקדימה",
+      "TITLE": "תצוגה מקדימה"
+    },
     "TASK": {
       "STATUS_SUBMITTED": "נשלח",
       "STATUS_QUEUED": "בתור",

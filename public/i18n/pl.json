@@ -4165,6 +4165,10 @@
       "DOWNLOAD": "Pobierz",
       "FILE_MISSING": "Tego pliku nie ma już na tym urządzeniu."
     },
+    "ARTIFACT": {
+      "PREVIEW": "Podgląd",
+      "TITLE": "Podgląd"
+    },
     "TASK": {
       "STATUS_SUBMITTED": "Wysłane",
       "STATUS_QUEUED": "W kolejce",

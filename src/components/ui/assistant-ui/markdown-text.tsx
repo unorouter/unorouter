@@ -47,6 +47,10 @@ import { setLocalMediaDimensions } from "@/lib/db/client/data/media/media";
 import { cn } from "@/lib/utils";
 import { downloadBlob } from "@/lib/utils/client";
 import { useCopyToClipboard } from "@/hooks/ui/use-copy-to-clipboard";
+import {
+  ArtifactPreview,
+  PREVIEWABLE,
+} from "@/components/pages/sidebar/chat/artifacts/artifact-preview";
 import { useAuiState } from "@assistant-ui/react";
 import {
   type CodeHeaderProps,
@@ -256,6 +260,9 @@ export const StandaloneMarkdownText: FC = () => (
 const CodeHeader: FC<CodeHeaderProps> = (props) => {
   const t = useTranslations();
   const { isCopied, copy } = useCopyToClipboard();
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const language = (props.language ?? "").toLowerCase();
+  const canPreview = PREVIEWABLE.has(language) && !!props.code;
   const onCopy = () => {
     if (!props.code || isCopied) return;
     void copy(props.code);
@@ -266,10 +273,28 @@ const CodeHeader: FC<CodeHeaderProps> = (props) => {
       <span className="aui-code-header-language text-muted-foreground font-medium lowercase">
         {props.language}
       </span>
-      <TooltipIconButton tooltip={t("CHAT.ACTION.COPY")} onClick={onCopy}>
-        {!isCopied && <Icon name="copy" />}
-        {isCopied && <Icon name="check" />}
-      </TooltipIconButton>
+      <div className="flex items-center gap-1">
+        {canPreview && (
+          <TooltipIconButton
+            tooltip={t("CHAT.ARTIFACT.PREVIEW")}
+            onClick={() => setPreviewOpen(true)}
+          >
+            <Icon name="eye" />
+          </TooltipIconButton>
+        )}
+        <TooltipIconButton tooltip={t("CHAT.ACTION.COPY")} onClick={onCopy}>
+          {!isCopied && <Icon name="copy" />}
+          {isCopied && <Icon name="check" />}
+        </TooltipIconButton>
+      </div>
+      {canPreview && (
+        <ArtifactPreview
+          open={previewOpen}
+          onOpenChange={setPreviewOpen}
+          language={language}
+          code={props.code ?? ""}
+        />
+      )}
     </div>
   );
 };

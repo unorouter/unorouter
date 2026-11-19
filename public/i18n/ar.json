@@ -4165,6 +4165,10 @@
       "DOWNLOAD": "تنزيل",
       "FILE_MISSING": "لم يعد هذا الملف موجودًا على هذا الجهاز."
     },
+    "ARTIFACT": {
+      "PREVIEW": "معاينة",
+      "TITLE": "معاينة"
+    },
     "TASK": {
       "STATUS_SUBMITTED": "أُرسل",
       "STATUS_QUEUED": "في الطابور",
