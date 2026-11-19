@@ -4148,6 +4148,19 @@
       "NEEDS_TOKEN_TITLE": "API-Schlüssel erforderlich",
       "NEEDS_TOKEN_DESC": "Erstelle einen API-Schlüssel, um mit KI-Modellen zu chatten."
     },
+    "TOOL": {
+      "USED": "Verwendetes Werkzeug",
+      "CANCELLED": "Abgebrochenes Werkzeug",
+      "RESULT": "Ergebnis:",
+      "ERROR": "Fehler:",
+      "CANCELLED_REASON": "Abbruchgrund:"
+    },
+    "TOOLS": {
+      "MENU": "Werkzeuge",
+      "FETCH_PAGE": "Webseiten lesen",
+      "FETCH_PAGE_HINT": "Das Modell kann Links und PDFs öffnen und ihren Text lesen.",
+      "UNSUPPORTED_MODEL": "Dieses Modell kann keine Werkzeuge nutzen, die Antwort läuft ohne sie."
+    },
     "TASK": {
       "STATUS_SUBMITTED": "Eingereicht",
       "STATUS_QUEUED": "In der Warteschlange",
@@ -4972,7 +4985,8 @@
     "VOICE_AUDIO_BLOCKED": "Dein Browser hat die Wiedergabe nicht gestartet. Tippe noch einmal auf Abspielen.",
     "COPY_FAILED": "Kopieren in die Zwischenablage hat nicht geklappt. Dein Browser hat es blockiert.",
     "FILE_EMPTY": "Die Datei ist leer oder konnte nicht gelesen werden.",
-    "REF_IMAGE_SKIPPED": "{name} wurde übersprungen: Nur Bilder bis 5 MB können hinzugefügt werden."
+    "REF_IMAGE_SKIPPED": "{name} wurde übersprungen: Nur Bilder bis 5 MB können hinzugefügt werden.",
+    "UNSUPPORTED_CONTENT": "Dieser Dateityp lässt sich nicht als Text lesen."
   },
   "BADGE": {
     "TOKENS_SERVED": "Tokens verarbeitet",

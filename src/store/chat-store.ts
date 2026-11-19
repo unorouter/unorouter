@@ -45,6 +45,7 @@ export type ChatState = {
   model: string | null;
   groupByModel: Record<string, string>;
   webSearch: boolean;
+  tools: string[];
   defaults: StreamOverrides;
   loadout: ChatLoadout;
   samplerMemoryByModel: Record<string, ModelSamplerMemory>;
@@ -61,6 +62,7 @@ export const INITIAL_CHAT_STATE: ChatState = {
   model: null,
   groupByModel: {},
   webSearch: false,
+  tools: [],
   defaults: {},
   loadout: EMPTY_LOADOUT,
   samplerMemoryByModel: {},
@@ -93,6 +95,7 @@ const storeField = <K extends keyof ChatState>(key: K) =>
 
 export const chatModelAtom = storeField("model");
 export const chatWebSearchAtom = storeField("webSearch");
+export const chatToolsAtom = storeField("tools");
 export const chatDefaultsAtom = storeField("defaults");
 export const chatLoadoutAtom = storeField("loadout");
 export const samplerMemoryByModelAtom = storeField("samplerMemoryByModel");

@@ -84,30 +84,51 @@ describe("parts persistence", () => {
     ]);
   });
 
-  test("tool parts are not stored", () => {
-    expect(
-      partsToItems([
-        {
-          type: "tool-search",
-          toolCallId: "t1",
-          state: "input-available",
-          input: { q: "x" },
-        },
-        {
-          type: "dynamic-tool",
-          toolName: "fetch",
-          toolCallId: "t2",
-          state: "output-available",
-          output: { ok: true },
-        },
-        {
-          type: "tool-search",
-          toolCallId: "t3",
-          state: "output-error",
-          errorText: "boom",
-        },
-      ]),
-    ).toEqual([]);
+  test("dynamic tool calls round-trip and open a new step", () => {
+    const parts: MessagePart[] = [
+      {
+        type: "tool-search",
+        toolCallId: "t1",
+        state: "input-available",
+        input: { q: "x" },
+      },
+      {
+        type: "dynamic-tool",
+        toolName: "fetch_page",
+        toolCallId: "t2",
+        state: "output-available",
+        input: { url: "https://a.b" },
+        output: { ok: true },
+      },
+      {
+        type: "dynamic-tool",
+        toolName: "fetch_page",
+        toolCallId: "t3",
+        state: "input-available",
+        input: { url: "https://c.d" },
+      },
+      { type: "text", text: "done" },
+    ];
+    expect(itemsToParts(stored(parts))).toEqual([
+      {
+        type: "dynamic-tool",
+        toolName: "fetch_page",
+        toolCallId: "t2",
+        state: "output-available",
+        input: { url: "https://a.b" },
+        output: { ok: true },
+      },
+      {
+        type: "dynamic-tool",
+        toolName: "fetch_page",
+        toolCallId: "t3",
+        state: "output-error",
+        input: { url: "https://c.d" },
+        errorText: "interrupted",
+      },
+      { type: "step-start" },
+      { type: "text", text: "done" },
+    ]);
   });
 
   test("an error part survives a reload", () => {

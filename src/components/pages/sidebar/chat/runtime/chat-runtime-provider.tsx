@@ -26,7 +26,7 @@ import { acquireLock, releaseLock } from "@/lib/db/client/outbox/resource-lock";
 import type { ChatUIMessage } from "@/lib/types";
 import { captureFailedRequest, logChatDebug } from "@/lib/utils/chat-debug-log";
 import { gatewayCodeMessage, CONSENT_REQUIRED } from "@/lib/api/own-purpose";
-import { msg } from "@/lib/config/constants";
+import { isTranslationKey, msg } from "@/lib/config/constants";
 import { rec } from "@/lib/utils/base";
 import { queryKeys } from "@/lib/react-query/keys";
 import { extractErrorDetail, handleError } from "@/lib/utils/client";
@@ -156,8 +156,10 @@ function ChatRuntimeHook() {
       if (part.type === "data-alert") {
         const a = rec(part.data);
         if (typeof a?.text !== "string" || !a.text) return;
-        if (a.kind === "error") toast.error(a.text);
-        else toast.info(a.text);
+        const text =
+          isTranslationKey(a.text) && t.has(a.text) ? t(a.text) : a.text;
+        if (a.kind === "error") toast.error(text);
+        else toast.info(text);
       }
     },
     onError: (e) => {

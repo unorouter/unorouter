@@ -204,6 +204,45 @@ export async function safeFetchBytes(
   };
 }
 
+const MAX_REDIRECTS = 3;
+
+// Follows redirects by hand: each hop goes back through pinnedFetch, so a
+// redirect cannot reach a target that was never checked.
+export async function safeFetchFollow(
+  url: string,
+  opts: { headers?: Record<string, string>; maxBytes: number },
+): Promise<{
+  buffer: Buffer;
+  contentType: string | null;
+  status: number;
+  finalUrl: string;
+}> {
+  const deadline = Date.now() + DOWNLOAD_TIMEOUT;
+  let current = url;
+  for (let hop = 0; ; hop++) {
+    const res = await pinnedFetch(current, {
+      method: "GET",
+      headers: opts.headers,
+      signal: AbortSignal.timeout(Math.max(1, deadline - Date.now())),
+      redirect: "manual",
+    });
+    if (res.status >= 300 && res.status < 400) {
+      void res.body?.cancel();
+      const location = res.headers.get("location");
+      if (!location || hop >= MAX_REDIRECTS)
+        throw new Error(msg("ERRORS.BLOCKED_URL"));
+      current = new URL(location, current).toString();
+      continue;
+    }
+    return {
+      buffer: await readBodyWithLimit(res, opts.maxBytes, deadline),
+      contentType: res.headers.get("content-type"),
+      status: res.status,
+      finalUrl: current,
+    };
+  }
+}
+
 export async function safeFetchRaw(
   url: string,
   opts: {

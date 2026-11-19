@@ -1,6 +1,9 @@
 import type { ChatUIMessage } from "@/lib/types";
 import { rec } from "@/lib/utils/base";
-import type { PersistMessageItem } from "@/lib/validation/chat";
+import type {
+  PersistMessageItem,
+  ToolCallItemData,
+} from "@/lib/validation/chat";
 
 export type MessagePart = ChatUIMessage["parts"][number];
 
@@ -85,9 +88,12 @@ export function joinItemsToMessages<
 
 const REASONING_JOIN = "\n\n";
 
+// Tool steps each reason on their own; merging would move a later step's
+// reasoning ahead of the earlier tool call.
 function mergeReasoningParts(parts: MessagePart[]): MessagePart[] {
   const texts = parts.flatMap((p) => (p.type === "reasoning" ? [p.text] : []));
-  if (texts.length < 2) return parts;
+  if (texts.length < 2 || parts.some((p) => p.type === "dynamic-tool"))
+    return parts;
   const merged = texts
     .map((t) => t.trim())
     .filter(Boolean)
@@ -112,12 +118,33 @@ export function errorData(d: Record<string, unknown>) {
   };
 }
 
-// Tool parts are neither stored nor read back: chat sends no tools, and a
-// stored tool item converts to a nameless, id-less tool call upstream.
+// A turn is only persisted once it ends, so a call still waiting on input or
+// approval was cut off; it is stored as failed, since a call with no result
+// makes the next request a provider 400.
+function toolCallData(part: MessagePart): ToolCallItemData | null {
+  if (part.type !== "dynamic-tool") return null;
+  const base = {
+    toolCallId: part.toolCallId,
+    toolName: part.toolName,
+    input: part.input ?? null,
+  };
+  if (part.state === "output-available")
+    return { ...base, state: part.state, output: part.output };
+  if (part.state === "output-denied") return { ...base, state: part.state };
+  return {
+    ...base,
+    state: "output-error",
+    errorText: part.state === "output-error" ? part.errorText : "interrupted",
+  };
+}
+
 export function partsToItems(parts: MessagePart[]): PersistMessageItem[] {
   const out: PersistMessageItem[] = [];
   for (const part of mergeReasoningParts(parts)) {
-    if (part.type === "text") {
+    const toolCall = toolCallData(part);
+    if (toolCall) {
+      out.push({ type: "tool_call", data: toolCall });
+    } else if (part.type === "text") {
       out.push({ type: "text", data: { text: part.text } });
     } else if (part.type === "reasoning") {
       out.push({ type: "reasoning", data: { text: part.text } });
@@ -154,11 +181,47 @@ export function partsToItems(parts: MessagePart[]): PersistMessageItem[] {
   return out;
 }
 
+function toolCallPart(data: Record<string, unknown>): MessagePart | null {
+  // Imported chats may carry tool items in another app's shape.
+  if (typeof data.toolCallId !== "string" || typeof data.toolName !== "string")
+    return null;
+  const base = {
+    type: "dynamic-tool" as const,
+    toolCallId: data.toolCallId,
+    toolName: data.toolName,
+    input: data.input ?? null,
+  };
+  if (data.state === "output-available")
+    return { ...base, state: "output-available", output: data.output };
+  if (data.state === "output-denied")
+    return {
+      ...base,
+      state: "output-denied",
+      approval: { id: data.toolCallId, approved: false },
+    };
+  return {
+    ...base,
+    state: "output-error",
+    errorText:
+      typeof data.errorText === "string" ? data.errorText : "interrupted",
+  };
+}
+
 export function itemsToParts(items: ApiMessage["items"]): MessagePart[] {
   const parts: MessagePart[] = [];
   for (const it of items) {
     const data = it.data ?? {};
+    // A step only continues after it ends in tool calls, so the first non-tool
+    // item after one opens the next step. Without the marker the converter
+    // folds the later text into the tool-call message, ahead of the results.
+    if (it.type !== "tool_call" && parts.at(-1)?.type === "dynamic-tool")
+      parts.push({ type: "step-start" });
     switch (it.type) {
+      case "tool_call": {
+        const part = toolCallPart(data);
+        if (part) parts.push(part);
+        break;
+      }
       case "text":
       case "reasoning":
         parts.push({ type: it.type, text: String(data.text ?? "") });

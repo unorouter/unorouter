@@ -4148,6 +4148,19 @@
       "NEEDS_TOKEN_TITLE": "Kunci API Diperlukan",
       "NEEDS_TOKEN_DESC": "Buat kunci API untuk mulai chatting dengan model AI."
     },
+    "TOOL": {
+      "USED": "Tool digunakan",
+      "CANCELLED": "Tool dibatalkan",
+      "RESULT": "Hasil:",
+      "ERROR": "Error:",
+      "CANCELLED_REASON": "Alasan pembatalan:"
+    },
+    "TOOLS": {
+      "MENU": "Alat",
+      "FETCH_PAGE": "Baca halaman web",
+      "FETCH_PAGE_HINT": "Model dapat membuka tautan dan PDF lalu membaca teksnya.",
+      "UNSUPPORTED_MODEL": "Model ini tidak dapat memakai alat, jadi balasan dibuat tanpa alat."
+    },
     "TASK": {
       "STATUS_SUBMITTED": "Dikirim",
       "STATUS_QUEUED": "Antri",
@@ -4972,7 +4985,8 @@
     "VOICE_AUDIO_BLOCKED": "Browser Anda tidak mengizinkan audio dimulai. Ketuk tombol putar sekali lagi.",
     "COPY_FAILED": "Tidak bisa menyalin ke papan klip. Browser Anda memblokirnya.",
     "FILE_EMPTY": "File kosong atau tidak bisa dibaca.",
-    "REF_IMAGE_SKIPPED": "{name} dilewati: hanya gambar hingga 5 MB yang bisa ditambahkan."
+    "REF_IMAGE_SKIPPED": "{name} dilewati: hanya gambar hingga 5 MB yang bisa ditambahkan.",
+    "UNSUPPORTED_CONTENT": "Jenis file ini tidak dapat dibaca sebagai teks."
   },
   "BADGE": {
     "TOKENS_SERVED": "token dilayani",

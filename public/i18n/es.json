@@ -4148,6 +4148,19 @@
       "NEEDS_TOKEN_TITLE": "Clave API requerida",
       "NEEDS_TOKEN_DESC": "Genera una clave API para empezar a chatear con modelos de IA."
     },
+    "TOOL": {
+      "USED": "Herramienta usada",
+      "CANCELLED": "Herramienta cancelada",
+      "RESULT": "Resultado:",
+      "ERROR": "Error:",
+      "CANCELLED_REASON": "Razón de cancelación:"
+    },
+    "TOOLS": {
+      "MENU": "Herramientas",
+      "FETCH_PAGE": "Leer páginas web",
+      "FETCH_PAGE_HINT": "Permite al modelo abrir enlaces y PDF y leer su texto.",
+      "UNSUPPORTED_MODEL": "Este modelo no puede usar herramientas, así que la respuesta se genera sin ellas."
+    },
     "TASK": {
       "STATUS_SUBMITTED": "Enviado",
       "STATUS_QUEUED": "En cola",
@@ -4972,7 +4985,8 @@
     "VOICE_AUDIO_BLOCKED": "Tu navegador no permitió iniciar el audio. Vuelve a tocar el botón de reproducir.",
     "COPY_FAILED": "No se pudo copiar al portapapeles. Tu navegador lo bloqueó.",
     "FILE_EMPTY": "El archivo está vacío o no se pudo leer.",
-    "REF_IMAGE_SKIPPED": "Se omitió {name}: solo se pueden añadir imágenes de hasta 5 MB."
+    "REF_IMAGE_SKIPPED": "Se omitió {name}: solo se pueden añadir imágenes de hasta 5 MB.",
+    "UNSUPPORTED_CONTENT": "Este tipo de archivo no se puede leer como texto."
   },
   "BADGE": {
     "TOKENS_SERVED": "tokens procesados",

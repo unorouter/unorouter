@@ -4,6 +4,7 @@ import {
   convertToModelMessages,
   createUIMessageStream,
   DefaultChatTransport,
+  stepCountIs,
   streamText,
   toUIMessageStream,
   wrapLanguageModel,
@@ -43,6 +44,7 @@ import {
   chatGroupAtom,
   chatModelAtom,
   chatStore,
+  chatToolsAtom,
   chatWebSearchAtom,
   globalVarsAtom,
   groupByModelAtom,
@@ -59,6 +61,11 @@ import { buildChatContextFromLocalDb } from "@/lib/db/client/data/chat/chat-cont
 import { resolveModelTarget } from "@/components/pages/sidebar/chat/runtime/transport/resolve-model-target";
 import { makeStreamTimer } from "@/components/pages/sidebar/chat/runtime/transport/stream-timer";
 import { readConvHistoryForSend } from "@/lib/db/client/data/chat/chat";
+import { GUEST_USER_ID } from "@/lib/config/constants";
+import {
+  buildToolSet,
+  MAX_TOOL_STEPS,
+} from "@/components/pages/sidebar/chat/runtime/tools/registry";
 
 type SendOptions = Parameters<ChatTransport<ChatUIMessage>["sendMessages"]>[0];
 
@@ -218,6 +225,25 @@ async function runClientStream(args: {
     ? null
     : Object.keys(chatStore.get(groupByModelAtom));
 
+  // A custom provider has no catalog row, so its tools are the user's call.
+  const enabledTools = chatStore.get(chatToolsAtom);
+  const toolAlerts: { kind: string; text: string }[] = [];
+  let tools: ReturnType<typeof buildToolSet>;
+  if (enabledTools.length > 0) {
+    const info = await args.deps.getModelInfo(args.model);
+    const supportsTools =
+      !info ||
+      info.metadata?.supportsTools === true ||
+      (info.metadata?.supportedParameters ?? []).includes("tools");
+    if (supportsTools)
+      tools = buildToolSet(enabledTools, authUserId() !== GUEST_USER_ID);
+    else
+      toolAlerts.push({
+        kind: "info",
+        text: msg("CHAT.TOOLS.UNSUPPORTED_MODEL"),
+      });
+  }
+
   const wireOptions = prepared.providerOptions[CHAT_PROVIDER_NAME] ?? {};
   logChatDebug("request.shape", {
     model: args.model,
@@ -324,6 +350,7 @@ async function runClientStream(args: {
     system: prepared.effectiveSystem,
     // "Keep system roles as written" leaves system messages inside the history.
     allowSystemInMessages: true,
+    ...(tools ? { tools, stopWhen: stepCountIs(MAX_TOOL_STEPS) } : {}),
     maxRetries: 0,
     // Streaming errors arrive OFF the send-promise: useChat's onError never sees
     // them, so this is the only place the real cause can be captured.
@@ -443,7 +470,7 @@ async function runClientStream(args: {
   return createUIMessageStream({
     onError: failStream,
     execute: ({ writer }) => {
-      for (const a of prepared.startAlerts) {
+      for (const a of [...prepared.startAlerts, ...toolAlerts]) {
         writer.write({ type: "data-alert", data: a, transient: true });
       }
       writer.merge(uiStream);

@@ -4148,6 +4148,19 @@
       "NEEDS_TOKEN_TITLE": "API Key आवश्यक",
       "NEEDS_TOKEN_DESC": "AI मॉडलों के साथ chat करना शुरू करने के लिए एक API key बनाएं।"
     },
+    "TOOL": {
+      "USED": "टूल इस्तेमाल किया",
+      "CANCELLED": "Tool रद्द किया गया",
+      "RESULT": "परिणाम:",
+      "ERROR": "Error:",
+      "CANCELLED_REASON": "रद्द करने का कारण:"
+    },
+    "TOOLS": {
+      "MENU": "टूल",
+      "FETCH_PAGE": "वेब पेज पढ़ें",
+      "FETCH_PAGE_HINT": "मॉडल को लिंक और PDF खोलकर उनका टेक्स्ट पढ़ने देता है.",
+      "UNSUPPORTED_MODEL": "यह मॉडल टूल इस्तेमाल नहीं कर सकता, इसलिए जवाब उनके बिना बनेगा."
+    },
     "TASK": {
       "STATUS_SUBMITTED": "Submitted",
       "STATUS_QUEUED": "Queued",
@@ -4972,7 +4985,8 @@
     "VOICE_AUDIO_BLOCKED": "आपके ब्राउज़र ने ऑडियो शुरू नहीं होने दिया. चलाने वाले बटन पर फिर से टैप करें.",
     "COPY_FAILED": "क्लिपबोर्ड पर कॉपी नहीं हो सका. आपके ब्राउज़र ने इसे रोक दिया.",
     "FILE_EMPTY": "फ़ाइल खाली है या पढ़ी नहीं जा सकी.",
-    "REF_IMAGE_SKIPPED": "{name} छोड़ दी गई: सिर्फ़ 5 MB तक की इमेज जोड़ी जा सकती हैं."
+    "REF_IMAGE_SKIPPED": "{name} छोड़ दी गई: सिर्फ़ 5 MB तक की इमेज जोड़ी जा सकती हैं.",
+    "UNSUPPORTED_CONTENT": "इस तरह की फ़ाइल को टेक्स्ट के रूप में नहीं पढ़ा जा सकता."
   },
   "BADGE": {
     "TOKENS_SERVED": "tokens सर्व किए",

@@ -18,8 +18,18 @@ const MAX_MODEL_LEN = 128;
 export const MAX_TITLE_SEED_LEN = 10_000;
 const MAX_MESSAGES_PER_STREAM = 200;
 
+export type ToolCallItemData = {
+  toolCallId: string;
+  toolName: string;
+  input: unknown;
+  state: "output-available" | "output-error" | "output-denied";
+  output?: unknown;
+  errorText?: string;
+};
+
 export type PersistMessageItem =
   | { type: "text" | "reasoning"; data: { text: string } }
+  | { type: "tool_call"; data: ToolCallItemData }
   | {
       type: "file" | "image";
       data: { url: string; mime_type: string; name?: string };
@@ -232,6 +242,12 @@ export const forwardBody = t.Object(
   },
   { additionalProperties: true },
 );
+
+export const fetchPageBody = t.Object({
+  url: t.String({ minLength: 1, maxLength: 2048 }),
+  start: t.Optional(t.Integer({ minimum: 0 })),
+});
+export type FetchPageBody = Static<typeof fetchPageBody>;
 
 export const webSearchBody = t.Object({
   text: t.String({ maxLength: MAX_TEXT_LEN }),

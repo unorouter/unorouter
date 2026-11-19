@@ -4148,6 +4148,19 @@
       "NEEDS_TOKEN_TITLE": "API 키 필요",
       "NEEDS_TOKEN_DESC": "AI 모델과 채팅을 시작하려면 API 키를 생성하세요."
     },
+    "TOOL": {
+      "USED": "사용된 도구",
+      "CANCELLED": "취소된 도구",
+      "RESULT": "결과:",
+      "ERROR": "오류:",
+      "CANCELLED_REASON": "취소 이유:"
+    },
+    "TOOLS": {
+      "MENU": "도구",
+      "FETCH_PAGE": "웹페이지 읽기",
+      "FETCH_PAGE_HINT": "모델이 링크와 PDF를 열어 내용을 읽을 수 있습니다.",
+      "UNSUPPORTED_MODEL": "이 모델은 도구를 사용할 수 없어 도구 없이 답변합니다."
+    },
     "TASK": {
       "STATUS_SUBMITTED": "제출됨",
       "STATUS_QUEUED": "대기 중",
@@ -4972,7 +4985,8 @@
     "VOICE_AUDIO_BLOCKED": "브라우저가 오디오 재생을 허용하지 않았습니다. 재생 버튼을 다시 눌러 주세요.",
     "COPY_FAILED": "클립보드에 복사하지 못했습니다. 브라우저가 차단했습니다.",
     "FILE_EMPTY": "파일이 비어 있거나 읽을 수 없습니다.",
-    "REF_IMAGE_SKIPPED": "{name}을(를) 건너뛰었습니다: 5MB 이하의 이미지만 추가할 수 있습니다."
+    "REF_IMAGE_SKIPPED": "{name}을(를) 건너뛰었습니다: 5MB 이하의 이미지만 추가할 수 있습니다.",
+    "UNSUPPORTED_CONTENT": "이 파일 형식은 텍스트로 읽을 수 없습니다."
   },
   "BADGE": {
     "TOKENS_SERVED": "처리한 토큰",

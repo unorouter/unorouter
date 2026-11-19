@@ -16,14 +16,15 @@ export type TotalUsage = {
 };
 
 export function createMetaCollector() {
-  let requestId: string | null = null;
+  const requestIds: string[] = [];
   let responseHeaders: Record<string, string> | null = null;
   let droppedParams: string | null = null;
 
   return {
     captureHeaders(hdrs: Record<string, string> | null | undefined): void {
       if (!hdrs) return;
-      requestId = hdrs["x-oneapi-request-id"] ?? null;
+      const id = hdrs["x-oneapi-request-id"];
+      if (id && !requestIds.includes(id)) requestIds.push(id);
       responseHeaders = hdrs;
       const dropped = hdrs["x-newapi-dropped-params"];
       if (typeof dropped === "string" && dropped.length > 0) {
@@ -31,7 +32,10 @@ export function createMetaCollector() {
       }
     },
     get requestId() {
-      return requestId;
+      return requestIds[0] ?? null;
+    },
+    get extraRequestIds() {
+      return requestIds.slice(1);
     },
     get responseHeaders() {
       return responseHeaders;
@@ -94,6 +98,8 @@ export function buildFinishMeta(args: {
     meta.summary = prepared.memory.summaryWriteback;
   if (args.speakingCharacterId)
     meta.speakingCharacterId = args.speakingCharacterId;
+  if (args.collector.extraRequestIds.length > 0)
+    meta.extraRequestIds = args.collector.extraRequestIds;
   const u = args.buildUsage(
     args.totalUsage?.inputTokens ?? 0,
     args.totalUsage?.outputTokens ?? 0,

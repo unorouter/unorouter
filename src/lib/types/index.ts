@@ -79,6 +79,8 @@ export type ChatMessageMetadata = {
     height: number | null;
   }[];
   speakingCharacterId?: string;
+  // A tool loop makes one upstream request per step; the first is `debug.requestId`.
+  extraRequestIds?: string[];
 };
 
 export type ChatUIMessage = UIMessage<ChatMessageMetadata>;

@@ -4148,6 +4148,19 @@
       "NEEDS_TOKEN_TITLE": "Cần API Key",
       "NEEDS_TOKEN_DESC": "Tạo API key để bắt đầu trò chuyện với các mô hình AI."
     },
+    "TOOL": {
+      "USED": "Đã dùng công cụ",
+      "CANCELLED": "Đã hủy công cụ",
+      "RESULT": "Kết quả:",
+      "ERROR": "Lỗi:",
+      "CANCELLED_REASON": "Lý do hủy:"
+    },
+    "TOOLS": {
+      "MENU": "Công cụ",
+      "FETCH_PAGE": "Đọc trang web",
+      "FETCH_PAGE_HINT": "Cho phép mô hình mở liên kết và PDF rồi đọc nội dung.",
+      "UNSUPPORTED_MODEL": "Mô hình này không dùng được công cụ nên câu trả lời được tạo mà không có chúng."
+    },
     "TASK": {
       "STATUS_SUBMITTED": "Đã gửi",
       "STATUS_QUEUED": "Đang chờ xử lý",
@@ -4972,7 +4985,8 @@
     "VOICE_AUDIO_BLOCKED": "Trình duyệt không cho phép phát âm thanh. Hãy nhấn lại nút phát.",
     "COPY_FAILED": "Không thể sao chép vào bộ nhớ tạm. Trình duyệt đã chặn.",
     "FILE_EMPTY": "Tệp trống hoặc không đọc được.",
-    "REF_IMAGE_SKIPPED": "Đã bỏ qua {name}: chỉ có thể thêm ảnh tối đa 5 MB."
+    "REF_IMAGE_SKIPPED": "Đã bỏ qua {name}: chỉ có thể thêm ảnh tối đa 5 MB.",
+    "UNSUPPORTED_CONTENT": "Không thể đọc loại tệp này dưới dạng văn bản."
   },
   "BADGE": {
     "TOKENS_SERVED": "token đã phục vụ",

@@ -4148,6 +4148,19 @@
       "NEEDS_TOKEN_TITLE": "נדרש מפתח API",
       "NEEDS_TOKEN_DESC": "ייצרו מפתח API כדי להתחיל לצ'אט עם מודלי AI."
     },
+    "TOOL": {
+      "USED": "השתמש בכלי",
+      "CANCELLED": "בוטל כלי",
+      "RESULT": "תוצאה:",
+      "ERROR": "שגיאה:",
+      "CANCELLED_REASON": "סיבת ביטול:"
+    },
+    "TOOLS": {
+      "MENU": "כלים",
+      "FETCH_PAGE": "קריאת דפי אינטרנט",
+      "FETCH_PAGE_HINT": "מאפשר למודל לפתוח קישורים וקובצי PDF ולקרוא את הטקסט שלהם.",
+      "UNSUPPORTED_MODEL": "המודל הזה לא יכול להשתמש בכלים, ולכן התשובה נוצרת בלעדיהם."
+    },
     "TASK": {
       "STATUS_SUBMITTED": "נשלח",
       "STATUS_QUEUED": "בתור",
@@ -4972,7 +4985,8 @@
     "VOICE_AUDIO_BLOCKED": "הדפדפן לא אפשר להפעיל את השמע. הקש שוב על כפתור ההפעלה.",
     "COPY_FAILED": "לא ניתן להעתיק ללוח. הדפדפן חסם זאת.",
     "FILE_EMPTY": "הקובץ ריק או שלא ניתן היה לקרוא אותו.",
-    "REF_IMAGE_SKIPPED": "{name} דולג: אפשר להוסיף רק תמונות עד 5 MB."
+    "REF_IMAGE_SKIPPED": "{name} דולג: אפשר להוסיף רק תמונות עד 5 MB.",
+    "UNSUPPORTED_CONTENT": "לא ניתן לקרוא סוג קובץ זה כטקסט."
   },
   "BADGE": {
     "TOKENS_SERVED": "טוקנים שהוגשו",

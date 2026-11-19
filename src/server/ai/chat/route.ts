@@ -11,6 +11,7 @@ import {
   triggerLlmBody,
   triggerSimilarityBody,
   webSearchBody,
+  fetchPageBody,
 } from "@/lib/validation/chat";
 import {
   assertGuestFreeModel,
@@ -34,6 +35,7 @@ import { forwardCustomProvider } from "./custom-forward.service";
 import { abortStream, tailStream } from "./stream-buffer";
 import { mirrorTail, publishAbort } from "./stream-mirror";
 import { resolveWebSearch } from "./web-search.service";
+import { fetchPage } from "./tools/fetch-page.service";
 
 const customForwardLimit = rateLimit("chat-custom-forward", 120);
 
@@ -181,6 +183,15 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     },
     // Every call runs a three-model classifier race and may spend a Tavily credit.
     { body: webSearchBody, beforeHandle: rateLimit("chat-web-search", 20) },
+  )
+
+  .post(
+    "/tools/fetch-page",
+    async ({ body, userId }) => {
+      requireMember(userId);
+      return { success: true, data: await fetchPage(body) };
+    },
+    { body: fetchPageBody, beforeHandle: rateLimit("chat-tool-fetch", 30) },
   )
 
   .post(

@@ -4148,6 +4148,19 @@
       "NEEDS_TOKEN_TITLE": "API Anahtarı Gerekli",
       "NEEDS_TOKEN_DESC": "AI modelleriyle sohbet etmeye başlamak için bir API anahtarı oluşturun."
     },
+    "TOOL": {
+      "USED": "Kullanılan araç",
+      "CANCELLED": "İptal edilen araç",
+      "RESULT": "Sonuç:",
+      "ERROR": "Hata:",
+      "CANCELLED_REASON": "İptal nedeni:"
+    },
+    "TOOLS": {
+      "MENU": "Araçlar",
+      "FETCH_PAGE": "Web sayfalarını oku",
+      "FETCH_PAGE_HINT": "Modelin bağlantıları ve PDF'leri açıp metinlerini okumasını sağlar.",
+      "UNSUPPORTED_MODEL": "Bu model araç kullanamıyor, bu yüzden yanıt araçlar olmadan üretiliyor."
+    },
     "TASK": {
       "STATUS_SUBMITTED": "Gönderildi",
       "STATUS_QUEUED": "Sıraya Alındı",
@@ -4972,7 +4985,8 @@
     "VOICE_AUDIO_BLOCKED": "Tarayıcınız sesin başlamasına izin vermedi. Oynat düğmesine tekrar dokunun.",
     "COPY_FAILED": "Panoya kopyalanamadı. Tarayıcınız engelledi.",
     "FILE_EMPTY": "Dosya boş ya da okunamadı.",
-    "REF_IMAGE_SKIPPED": "{name} atlandı: yalnızca 5 MB'a kadar görseller eklenebilir."
+    "REF_IMAGE_SKIPPED": "{name} atlandı: yalnızca 5 MB'a kadar görseller eklenebilir.",
+    "UNSUPPORTED_CONTENT": "Bu dosya türü metin olarak okunamıyor."
   },
   "BADGE": {
     "TOKENS_SERVED": "token sunuldu",

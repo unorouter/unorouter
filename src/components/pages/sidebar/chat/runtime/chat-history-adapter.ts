@@ -470,7 +470,10 @@ async function persistRequestLog(
   ]);
   const reqId = logRow.requestId;
   if (reqId && !isCustomModelId(resolvedModel)) {
-    await enqueueLogEnrich(messageId, reqId);
+    await enqueueLogEnrich(messageId, [
+      reqId,
+      ...(metadata?.extraRequestIds ?? []),
+    ]);
     drainSoon();
   }
 }

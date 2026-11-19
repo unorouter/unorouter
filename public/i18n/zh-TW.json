@@ -4148,6 +4148,19 @@
       "NEEDS_TOKEN_TITLE": "需要 API 金鑰",
       "NEEDS_TOKEN_DESC": "產生一把 API 金鑰，開始與 AI 模型對話。"
     },
+    "TOOL": {
+      "USED": "已使用工具",
+      "CANCELLED": "工具已取消",
+      "RESULT": "結果：",
+      "ERROR": "錯誤：",
+      "CANCELLED_REASON": "取消原因："
+    },
+    "TOOLS": {
+      "MENU": "工具",
+      "FETCH_PAGE": "讀取網頁",
+      "FETCH_PAGE_HINT": "讓模型開啟連結與 PDF 並讀取其中的文字。",
+      "UNSUPPORTED_MODEL": "此模型無法使用工具，回覆將不使用工具。"
+    },
     "TASK": {
       "STATUS_SUBMITTED": "已送出",
       "STATUS_QUEUED": "排隊中",
@@ -4972,7 +4985,8 @@
     "VOICE_AUDIO_BLOCKED": "瀏覽器未允許開始播放音訊。請再次點擊播放按鈕。",
     "COPY_FAILED": "無法複製到剪貼簿，瀏覽器封鎖了此操作。",
     "FILE_EMPTY": "檔案為空或無法讀取。",
-    "REF_IMAGE_SKIPPED": "已略過 {name}：只能新增不超過 5 MB 的圖片。"
+    "REF_IMAGE_SKIPPED": "已略過 {name}：只能新增不超過 5 MB 的圖片。",
+    "UNSUPPORTED_CONTENT": "無法以文字形式讀取此檔案類型。"
   },
   "BADGE": {
     "TOKENS_SERVED": "已服務 tokens",

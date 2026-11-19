@@ -4148,6 +4148,19 @@
       "NEEDS_TOKEN_TITLE": "API Key Required",
       "NEEDS_TOKEN_DESC": "Generate an API key to start chatting with AI models."
     },
+    "TOOL": {
+      "USED": "Used tool",
+      "CANCELLED": "Cancelled tool",
+      "RESULT": "Result:",
+      "ERROR": "Error:",
+      "CANCELLED_REASON": "Cancelled reason:"
+    },
+    "TOOLS": {
+      "MENU": "Tools",
+      "FETCH_PAGE": "Read web pages",
+      "FETCH_PAGE_HINT": "Lets the model open links and PDFs and read their text.",
+      "UNSUPPORTED_MODEL": "This model cannot use tools, so the reply runs without them."
+    },
     "TASK": {
       "STATUS_SUBMITTED": "Submitted",
       "STATUS_QUEUED": "Queued",
@@ -4972,7 +4985,8 @@
     "VOICE_AUDIO_BLOCKED": "Your browser did not let the audio start. Tap the play button again.",
     "COPY_FAILED": "Could not copy to the clipboard. Your browser blocked it.",
     "FILE_EMPTY": "The file is empty or could not be read.",
-    "REF_IMAGE_SKIPPED": "{name} was skipped: only images up to 5 MB can be added."
+    "REF_IMAGE_SKIPPED": "{name} was skipped: only images up to 5 MB can be added.",
+    "UNSUPPORTED_CONTENT": "This file type cannot be read as text."
   },
   "BADGE": {
     "TOKENS_SERVED": "tokens served",

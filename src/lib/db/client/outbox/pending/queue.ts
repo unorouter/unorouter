@@ -25,7 +25,7 @@ const KIND = "";
 
 export async function enqueueLogEnrich(
   msgId: string,
-  requestId: string,
+  requestIds: string[],
 ): Promise<void> {
   const local = await getLocalDb();
   if (!local) return;
@@ -52,7 +52,7 @@ export async function enqueueLogEnrich(
     attempts: 0,
     nextAttemptAt: null,
     lastError: null,
-    payload: JSON.stringify({ requestId }),
+    payload: JSON.stringify({ requestIds }),
     seq: (existing?.seq ?? 0) + 1,
   };
   await local.db
@@ -69,10 +69,14 @@ export async function enqueueLogEnrich(
 }
 
 async function runTask(msgId: string, payload: string | null) {
-  const rawId = payload ? rec(JSON.parse(payload))?.requestId : undefined;
-  const requestId = typeof rawId === "string" ? rawId : undefined;
-  if (!requestId) return; // nothing to enrich; the row is dropped
-  await enrichRequestLogFromUpstream(msgId, requestId);
+  const body = payload ? rec(JSON.parse(payload)) : null;
+  // Rows queued before tool loops carry a single `requestId`.
+  const raw = Array.isArray(body?.requestIds)
+    ? body.requestIds
+    : [body?.requestId];
+  const requestIds = raw.filter((id): id is string => typeof id === "string");
+  if (requestIds.length === 0) return; // nothing to enrich; the row is dropped
+  await enrichRequestLogFromUpstream(msgId, requestIds);
 }
 
 async function drainPending(): Promise<void> {

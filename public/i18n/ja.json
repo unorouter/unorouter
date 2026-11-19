@@ -4148,6 +4148,19 @@
       "NEEDS_TOKEN_TITLE": "APIキーが必要です",
       "NEEDS_TOKEN_DESC": "APIキーを生成して AI モデルとチャットを始めましょう。"
     },
+    "TOOL": {
+      "USED": "ツールを使用",
+      "CANCELLED": "ツールをキャンセル",
+      "RESULT": "結果：",
+      "ERROR": "エラー：",
+      "CANCELLED_REASON": "キャンセル理由："
+    },
+    "TOOLS": {
+      "MENU": "ツール",
+      "FETCH_PAGE": "ウェブページを読む",
+      "FETCH_PAGE_HINT": "モデルがリンクやPDFを開いて本文を読めるようにします。",
+      "UNSUPPORTED_MODEL": "このモデルはツールを使えないため、ツールなしで返信します。"
+    },
     "TASK": {
       "STATUS_SUBMITTED": "送信済み",
       "STATUS_QUEUED": "キューに追加",
@@ -4972,7 +4985,8 @@
     "VOICE_AUDIO_BLOCKED": "ブラウザが音声の再生を許可しませんでした。もう一度再生ボタンをタップしてください。",
     "COPY_FAILED": "クリップボードにコピーできませんでした。ブラウザがブロックしました。",
     "FILE_EMPTY": "ファイルが空か、読み込めませんでした。",
-    "REF_IMAGE_SKIPPED": "{name} はスキップされました：追加できるのは 5 MB までの画像のみです。"
+    "REF_IMAGE_SKIPPED": "{name} はスキップされました：追加できるのは 5 MB までの画像のみです。",
+    "UNSUPPORTED_CONTENT": "この種類のファイルはテキストとして読み取れません。"
   },
   "BADGE": {
     "TOKENS_SERVED": "処理済みトークン",

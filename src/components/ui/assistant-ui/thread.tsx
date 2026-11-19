@@ -25,6 +25,12 @@ import {
 } from "@/components/elements/model/own-purpose-objection-withdraw";
 import { TooltipIconButton } from "@/components/ui/assistant-ui/tooltip-icon-button";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Icon } from "@/components/ui/icon";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
@@ -59,6 +65,8 @@ import {
   parseCustomModelId,
 } from "@/lib/ai/chat/custom-provider-id";
 import { partsToItems, type MessagePart } from "@/lib/ai/chat/messages";
+import { ToolFallback } from "@/components/ui/assistant-ui/tool-fallback";
+import { CHAT_TOOLS } from "@/components/pages/sidebar/chat/runtime/tools/registry";
 import { OWN_PURPOSE_OBJECTED } from "@/lib/api/own-purpose";
 import { msg, NONE_VALUE, type TranslationKey } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
@@ -71,6 +79,7 @@ import {
   chatModelAtom,
   chatRunningAtom,
   chatStore,
+  chatToolsAtom,
   chatWebSearchAtom,
   convIdAtom,
   historyLoadedAtom,
@@ -94,6 +103,7 @@ import {
   useAui,
   useAuiState,
   type TextMessagePartProps,
+  type ToolCallMessagePartComponent,
 } from "@assistant-ui/react";
 import { useStorageBlocked } from "@/hooks/ai/use-storage-blocked";
 import { useChatSettingsQuery } from "@/hooks/ai/rp/conversations";
@@ -639,6 +649,54 @@ const ComposerWebSearchToggle: FC = () => {
   );
 };
 
+const ComposerToolsMenu: FC = () => {
+  const t = useTranslations();
+  const hydrated = useHydrated();
+  const authQuery = useAuthQuery();
+  const [enabled, setEnabled] = useAtom(chatToolsAtom);
+  if (!hydrated || !authQuery.data) return null;
+  const active = CHAT_TOOLS.filter((c) => enabled.includes(c.name)).length;
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        render={
+          <Button
+            variant={active > 0 ? "default" : "ghost"}
+            size="icon"
+            aria-label={t("CHAT.TOOLS.MENU")}
+            className="aui-composer-tools size-8 rounded-full transition-colors"
+          />
+        }
+      >
+        <Icon name="wrench" className="size-4" />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="start" className="w-72">
+        {CHAT_TOOLS.map((tool) => (
+          <DropdownMenuCheckboxItem
+            key={tool.name}
+            checked={enabled.includes(tool.name)}
+            closeOnClick={false}
+            onCheckedChange={(on) =>
+              setEnabled(
+                on
+                  ? [...enabled, tool.name]
+                  : enabled.filter((n) => n !== tool.name),
+              )
+            }
+          >
+            <span className="flex flex-col">
+              <span>{t(tool.titleKey)}</span>
+              <span className="text-muted-foreground text-xs">
+                {t(tool.hintKey)}
+              </span>
+            </span>
+          </DropdownMenuCheckboxItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
 const ComposerContinueButton: FC = () => {
   const t = useTranslations();
   const threadRuntime = useAui().thread;
@@ -819,6 +877,7 @@ const ComposerAction: FC = () => {
       <div className="text-primary flex items-center">
         <ComposerAddAttachment />
         <ComposerWebSearchToggle />
+        <ComposerToolsMenu />
         <ComposerContinueButton />
         <ComposerImpersonateButton />
       </div>
@@ -956,6 +1015,17 @@ const ErrorCard: FC<{
         </div>
       )}
     </div>
+  );
+};
+
+const ChatToolCard: ToolCallMessagePartComponent = (props) => {
+  const t = useTranslations();
+  const tool = CHAT_TOOLS.find((c) => c.name === props.toolName);
+  return (
+    <ToolFallback
+      {...props}
+      toolName={tool ? t(tool.titleKey) : props.toolName}
+    />
   );
 };
 
@@ -1111,6 +1181,7 @@ const AssistantMessage: FC = () => {
                     data: {
                       by_name: { task: () => null, error: PersistedErrorPart },
                     },
+                    tools: { Fallback: ChatToolCard },
                   }}
                 />
               </SectionBoundary>

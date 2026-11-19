@@ -4148,6 +4148,19 @@
       "NEEDS_TOKEN_TITLE": "Wymagany klucz API",
       "NEEDS_TOKEN_DESC": "Wygeneruj klucz API, aby zacząć czatować z modelami AI."
     },
+    "TOOL": {
+      "USED": "Użyto narzędzia",
+      "CANCELLED": "Anulowano narzędzie",
+      "RESULT": "Wynik:",
+      "ERROR": "Błąd:",
+      "CANCELLED_REASON": "Powód anulowania:"
+    },
+    "TOOLS": {
+      "MENU": "Narzędzia",
+      "FETCH_PAGE": "Czytaj strony WWW",
+      "FETCH_PAGE_HINT": "Pozwala modelowi otwierać linki i pliki PDF oraz czytać ich treść.",
+      "UNSUPPORTED_MODEL": "Ten model nie obsługuje narzędzi, więc odpowiedź powstaje bez nich."
+    },
     "TASK": {
       "STATUS_SUBMITTED": "Wysłane",
       "STATUS_QUEUED": "W kolejce",
@@ -4972,7 +4985,8 @@
     "VOICE_AUDIO_BLOCKED": "Przeglądarka nie pozwoliła uruchomić dźwięku. Stuknij ponownie przycisk odtwarzania.",
     "COPY_FAILED": "Nie udało się skopiować do schowka. Przeglądarka to zablokowała.",
     "FILE_EMPTY": "Plik jest pusty lub nie udało się go odczytać.",
-    "REF_IMAGE_SKIPPED": "Pominięto {name}: można dodać tylko obrazy do 5 MB."
+    "REF_IMAGE_SKIPPED": "Pominięto {name}: można dodać tylko obrazy do 5 MB.",
+    "UNSUPPORTED_CONTENT": "Tego typu pliku nie da się odczytać jako tekstu."
   },
   "BADGE": {
     "TOKENS_SERVED": "obsłużone tokeny",

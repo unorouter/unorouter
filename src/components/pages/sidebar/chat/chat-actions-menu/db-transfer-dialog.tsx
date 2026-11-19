@@ -20,6 +20,7 @@ import {
   type TransferStage,
 } from "@/lib/db/client/transfer/transfer";
 import type { TranslationKey } from "@/lib/types";
+import { isTranslationKey } from "@/lib/config/constants";
 import { logger } from "@/lib/utils/logger";
 import { dbTransferAtom } from "@/store/chat-store";
 import { useAtom } from "jotai";
@@ -46,10 +47,6 @@ const EXPIRY_KEY: Record<SentTransfer["expiry"], TranslationKey> = {
   untilReceived: "CHAT.DB_TRANSFER.EXPIRES_UNTIL_RECEIVED",
 };
 
-function isTranslationKey(value: string): value is TranslationKey {
-  return value.startsWith("ERRORS.");
-}
-
 function useFail() {
   const t = useTranslations();
   return (err: unknown, stage: string) => {
@@ -59,7 +56,7 @@ function useFail() {
       stage,
       error: text,
     });
-    toast.error(isTranslationKey(text) ? t(text) : text);
+    toast.error(isTranslationKey(text) && t.has(text) ? t(text) : text);
   };
 }
 

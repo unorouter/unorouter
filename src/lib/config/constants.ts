@@ -147,6 +147,11 @@ export const LANGUAGES: {
 
 export const msg = <T extends TranslationKey>(key: T): T => key;
 
+// Shape only: callers still confirm with `t.has`, since errors and alerts carry
+// either a msg() key or provider prose.
+export const isTranslationKey = (value: string): value is TranslationKey =>
+  /^[A-Z][A-Z0-9_]*(\.[A-Z0-9_]+)+$/.test(value);
+
 export const APP_VALUES = {
   appName: env.appName,
   appDomain: new URL(env.appUrl).hostname.replace(/^www\./, ""),

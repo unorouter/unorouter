@@ -14,30 +14,45 @@ import { handleElysia } from "@/lib/utils/base";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { quotaToDollars } from "@/lib/utils/format/number";
 
+const sumOf = (values: Array<number | null | undefined>) =>
+  values.every((v) => v == null)
+    ? undefined
+    : values.reduce<number>((n, v) => n + (v ?? 0), 0);
+
 export async function enrichRequestLogFromUpstream(
   msgId: string,
-  requestId: string,
+  requestIds: string[],
 ): Promise<void> {
-  const res = handleElysia(
-    await rpc.api.ops.logs["by-request"].get({
-      query: { request_id: requestId },
-    }),
-  );
-  if (res.quota == null && res.channel == null) {
-    logChatDebug("enrich.not_yet_logged", { msgId });
-    throw new Error("upstream log not ready");
+  const rows = [];
+  for (const requestId of requestIds) {
+    const res = handleElysia(
+      await rpc.api.ops.logs["by-request"].get({
+        query: { request_id: requestId },
+      }),
+    );
+    if (res.quota == null && res.channel == null) {
+      logChatDebug("enrich.not_yet_logged", { msgId, requestId });
+      throw new Error("upstream log not ready");
+    }
+    rows.push(res);
   }
-  logChatDebug("enrich.patched", { msgId, channel: res.channel ?? null });
+  const channels = [...new Set(rows.flatMap((r) => r.channel ?? []))];
+  logChatDebug("enrich.patched", {
+    msgId,
+    steps: rows.length,
+    channel: channels.join(", ") || null,
+  });
   const before = await readLocalRequestLog(msgId);
+  const quota = sumOf(rows.map((r) => r.quota));
   const patch = {
-    cost: res.quota != null ? quotaToDollars(res.quota) : undefined,
-    inputTokens: res.promptTokens ?? undefined,
-    outputTokens: res.completionTokens ?? undefined,
+    cost: quota != null ? quotaToDollars(quota) : undefined,
+    inputTokens: sumOf(rows.map((r) => r.promptTokens)),
+    outputTokens: sumOf(rows.map((r) => r.completionTokens)),
   };
   await patchLocalRequestLogUpstream(msgId, {
     ...patch,
-    durationMs: res.useTime ?? undefined,
-    channelName: res.channel ?? undefined,
+    durationMs: sumOf(rows.map((r) => r.useTime)),
+    channelName: channels.length > 0 ? channels.join(", ") : undefined,
   });
   const keys: QueryKey[] = [queryKeys.requestLog(msgId)];
   // The conversation totals were bumped with whatever the stream reported,

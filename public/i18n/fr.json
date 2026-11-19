@@ -4148,6 +4148,19 @@
       "NEEDS_TOKEN_TITLE": "Clé API requise",
       "NEEDS_TOKEN_DESC": "Générez une clé API pour commencer à discuter avec les modèles IA."
     },
+    "TOOL": {
+      "USED": "Outil utilisé",
+      "CANCELLED": "Outil annulé",
+      "RESULT": "Résultat :",
+      "ERROR": "Erreur :",
+      "CANCELLED_REASON": "Raison de l'annulation :"
+    },
+    "TOOLS": {
+      "MENU": "Outils",
+      "FETCH_PAGE": "Lire des pages web",
+      "FETCH_PAGE_HINT": "Permet au modèle d'ouvrir des liens et des PDF et d'en lire le texte.",
+      "UNSUPPORTED_MODEL": "Ce modèle ne peut pas utiliser d'outils, la réponse est donc générée sans eux."
+    },
     "TASK": {
       "STATUS_SUBMITTED": "Soumis",
       "STATUS_QUEUED": "En file d'attente",
@@ -4972,7 +4985,8 @@
     "VOICE_AUDIO_BLOCKED": "Votre navigateur n'a pas autorisé le démarrage de l'audio. Touchez à nouveau le bouton de lecture.",
     "COPY_FAILED": "Impossible de copier dans le presse-papiers. Votre navigateur l'a bloqué.",
     "FILE_EMPTY": "Le fichier est vide ou n'a pas pu être lu.",
-    "REF_IMAGE_SKIPPED": "{name} a été ignoré : seules les images jusqu'à 5 Mo peuvent être ajoutées."
+    "REF_IMAGE_SKIPPED": "{name} a été ignoré : seules les images jusqu'à 5 Mo peuvent être ajoutées.",
+    "UNSUPPORTED_CONTENT": "Ce type de fichier ne peut pas être lu comme du texte."
   },
   "BADGE": {
     "TOKENS_SERVED": "jetons servis",
