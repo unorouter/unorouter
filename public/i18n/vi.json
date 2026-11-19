@@ -4603,6 +4603,9 @@
       "STOP": "Dừng đọc",
       "CHARACTER_VOICE": "Giọng nói",
       "CHARACTER_VOICE_HINT": "Giọng Fish Audio cho nhân vật này. Để trống để dùng giọng mặc định trong cài đặt giọng nói.",
+      "CHARACTER_SPEED": "Tốc độ giọng",
+      "CHARACTER_SPEED_DEFAULT": "Mặc định",
+      "CHARACTER_SPEED_RESET": "Đặt lại",
       "PAUSE": "Tạm dừng",
       "RESUME": "Tiếp tục",
       "LOADING": "Đang tạo âm thanh"

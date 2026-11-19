@@ -4603,6 +4603,9 @@
       "STOP": "पढ़ना बंद करें",
       "CHARACTER_VOICE": "आवाज़",
       "CHARACTER_VOICE_HINT": "इस किरदार की Fish Audio आवाज़। आवाज़ सेटिंग्स की डिफ़ॉल्ट आवाज़ के लिए खाली छोड़ें।",
+      "CHARACTER_SPEED": "आवाज़ की गति",
+      "CHARACTER_SPEED_DEFAULT": "डिफ़ॉल्ट",
+      "CHARACTER_SPEED_RESET": "रीसेट करें",
       "PAUSE": "रोकें",
       "RESUME": "जारी रखें",
       "LOADING": "ऑडियो बन रहा है"

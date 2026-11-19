@@ -4603,6 +4603,9 @@
       "STOP": "Stop reading",
       "CHARACTER_VOICE": "Voice",
       "CHARACTER_VOICE_HINT": "Fish Audio voice for this character. Leave empty to use the default voice from Voice settings.",
+      "CHARACTER_SPEED": "Voice speed",
+      "CHARACTER_SPEED_DEFAULT": "Default",
+      "CHARACTER_SPEED_RESET": "Reset",
       "PAUSE": "Pause",
       "RESUME": "Resume",
       "LOADING": "Generating audio"

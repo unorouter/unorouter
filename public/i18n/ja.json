@@ -4603,6 +4603,9 @@
       "STOP": "読み上げを停止",
       "CHARACTER_VOICE": "声",
       "CHARACTER_VOICE_HINT": "このキャラクターの Fish Audio の声。空欄なら音声設定のデフォルトの声を使います。",
+      "CHARACTER_SPEED": "声の速さ",
+      "CHARACTER_SPEED_DEFAULT": "デフォルト",
+      "CHARACTER_SPEED_RESET": "リセット",
       "PAUSE": "一時停止",
       "RESUME": "再開",
       "LOADING": "音声を生成中"

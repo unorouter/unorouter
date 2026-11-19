@@ -31,7 +31,13 @@ export async function speakMessage(
     : message
       ? await readPrimaryCharacter(message.convId)
       : null;
-  await speak(messageId, settings, text, character?.voiceId ?? null);
+  const speed = character?.voiceSpeed ?? settings.speed;
+  await speak(
+    messageId,
+    { ...settings, speed },
+    text,
+    character?.voiceId ?? null,
+  );
 }
 
 export async function autoplayReply(

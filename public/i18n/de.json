@@ -4603,6 +4603,9 @@
       "STOP": "Vorlesen stoppen",
       "CHARACTER_VOICE": "Stimme",
       "CHARACTER_VOICE_HINT": "Fish-Audio-Stimme für diesen Charakter. Leer lassen für die Standardstimme aus den Stimmeinstellungen.",
+      "CHARACTER_SPEED": "Sprechtempo",
+      "CHARACTER_SPEED_DEFAULT": "Standard",
+      "CHARACTER_SPEED_RESET": "Zurücksetzen",
       "PAUSE": "Pausieren",
       "RESUME": "Fortsetzen",
       "LOADING": "Audio wird erzeugt"

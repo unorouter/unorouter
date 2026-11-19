@@ -233,6 +233,7 @@ export const characters = sqliteTable(
     postHistoryInstructions: text("post_history_instructions"),
     defaultReasoningEffort: text("default_reasoning_effort"),
     voiceId: text("voice_id"),
+    voiceSpeed: real("voice_speed"),
     tags: text("tags", { mode: "json" }).$type<string[]>(),
     triggers: text("triggers", { mode: "json" }),
     turnTriggers: text("turn_triggers", { mode: "json" }).$type<string[]>(),

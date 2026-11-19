@@ -4603,6 +4603,9 @@
       "STOP": "إيقاف القراءة",
       "CHARACTER_VOICE": "الصوت",
       "CHARACTER_VOICE_HINT": "صوت Fish Audio لهذه الشخصية. اتركه فارغًا لاستخدام الصوت الافتراضي من إعدادات الصوت.",
+      "CHARACTER_SPEED": "سرعة الصوت",
+      "CHARACTER_SPEED_DEFAULT": "الافتراضية",
+      "CHARACTER_SPEED_RESET": "إعادة تعيين",
       "PAUSE": "إيقاف مؤقت",
       "RESUME": "استئناف",
       "LOADING": "جارٍ إنشاء الصوت"

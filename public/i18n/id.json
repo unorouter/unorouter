@@ -4603,6 +4603,9 @@
       "STOP": "Hentikan pembacaan",
       "CHARACTER_VOICE": "Suara",
       "CHARACTER_VOICE_HINT": "Suara Fish Audio untuk karakter ini. Kosongkan untuk memakai suara bawaan dari pengaturan suara.",
+      "CHARACTER_SPEED": "Kecepatan suara",
+      "CHARACTER_SPEED_DEFAULT": "Bawaan",
+      "CHARACTER_SPEED_RESET": "Atur ulang",
       "PAUSE": "Jeda",
       "RESUME": "Lanjutkan",
       "LOADING": "Membuat audio"

@@ -4603,6 +4603,9 @@
       "STOP": "Okumayı durdur",
       "CHARACTER_VOICE": "Ses",
       "CHARACTER_VOICE_HINT": "Bu karakter için Fish Audio sesi. Ses ayarlarındaki varsayılan sesi kullanmak için boş bırak.",
+      "CHARACTER_SPEED": "Ses hızı",
+      "CHARACTER_SPEED_DEFAULT": "Varsayılan",
+      "CHARACTER_SPEED_RESET": "Sıfırla",
       "PAUSE": "Duraklat",
       "RESUME": "Devam et",
       "LOADING": "Ses oluşturuluyor"

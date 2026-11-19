@@ -4603,6 +4603,9 @@
       "STOP": "Arrêter la lecture",
       "CHARACTER_VOICE": "Voix",
       "CHARACTER_VOICE_HINT": "Voix Fish Audio de ce personnage. Laisse vide pour utiliser la voix par défaut des réglages de voix.",
+      "CHARACTER_SPEED": "Vitesse de la voix",
+      "CHARACTER_SPEED_DEFAULT": "Par défaut",
+      "CHARACTER_SPEED_RESET": "Réinitialiser",
       "PAUSE": "Pause",
       "RESUME": "Reprendre",
       "LOADING": "Génération de l’audio"

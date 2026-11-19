@@ -4,7 +4,14 @@ import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
 import { MyFormTextarea } from "@/components/elements/form/my-form-textarea";
 import { Button } from "@/components/ui/button";
-import { Form, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
+import { Slider } from "@/components/ui/slider";
 import { VoicePicker } from "../voice/settings-dialog";
 import { useVoiceSettingsQuery } from "@/hooks/ai/voice-hook";
 import { Icon } from "@/components/ui/icon";
@@ -111,6 +118,7 @@ export function CharacterEditor(props: Props) {
         ...existing,
         tags: Array.isArray(existing.tags) ? existing.tags.join(", ") : "",
         voiceId: existing.voiceId ?? "",
+        voiceSpeed: existing.voiceSpeed ?? 0,
         triggers: Array.isArray(existing.turnTriggers)
           ? existing.turnTriggers.join(", ")
           : "",
@@ -145,6 +153,7 @@ export function CharacterEditor(props: Props) {
       ...rest,
       tags: csvToArray(data.tags),
       voiceId: data.voiceId || null,
+      voiceSpeed: data.voiceSpeed || null,
       turnTriggers: csvToArray(triggerWords),
       alternateGreetings: greetings
         .map((g) => g.text.trim())
@@ -287,6 +296,47 @@ export function CharacterEditor(props: Props) {
                 onChange={r.field.onChange}
                 apiKey={voiceSettingsQuery.data?.apiKey ?? ""}
               />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="voiceSpeed"
+          render={(r) => (
+            <FormItem>
+              <div className="flex items-center justify-between gap-2">
+                <FormLabel>{t("CHAT.VOICE.CHARACTER_SPEED")}</FormLabel>
+                <span className="text-muted-foreground text-xs tabular-nums">
+                  {r.field.value > 0
+                    ? `${r.field.value.toFixed(1)}x`
+                    : t("CHAT.VOICE.CHARACTER_SPEED_DEFAULT")}
+                </span>
+                {r.field.value > 0 && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="h-6 text-xs"
+                    onClick={() => r.field.onChange(0)}
+                  >
+                    {t("CHAT.VOICE.CHARACTER_SPEED_RESET")}
+                  </Button>
+                )}
+              </div>
+              <FormControl>
+                <Slider
+                  min={0.5}
+                  max={2}
+                  step={0.1}
+                  value={[
+                    r.field.value || (voiceSettingsQuery.data?.speed ?? 1),
+                  ]}
+                  onValueChange={(v) => {
+                    const n = Array.isArray(v) ? v[0] : v;
+                    if (typeof n === "number") r.field.onChange(n);
+                  }}
+                />
+              </FormControl>
             </FormItem>
           )}
         />

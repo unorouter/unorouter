@@ -283,6 +283,8 @@ export const characterFormSchema = t.Object({
   tags: t.String({ default: "" }),
   triggers: t.String({ default: "" }),
   voiceId: t.String({ maxLength: 32, default: "" }),
+  // 0 keeps the speed from the voice settings.
+  voiceSpeed: t.Number({ minimum: 0, maximum: 2, default: 0 }),
   alwaysActive: t.Boolean({ default: true }),
   matchWholeWords: t.Boolean({ default: false }),
 });

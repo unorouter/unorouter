@@ -4603,6 +4603,9 @@
       "STOP": "읽기 중지",
       "CHARACTER_VOICE": "음성",
       "CHARACTER_VOICE_HINT": "이 캐릭터의 Fish Audio 음성입니다. 비워 두면 음성 설정의 기본 음성을 사용합니다.",
+      "CHARACTER_SPEED": "음성 속도",
+      "CHARACTER_SPEED_DEFAULT": "기본값",
+      "CHARACTER_SPEED_RESET": "초기화",
       "PAUSE": "일시 정지",
       "RESUME": "계속 재생",
       "LOADING": "오디오 생성 중"

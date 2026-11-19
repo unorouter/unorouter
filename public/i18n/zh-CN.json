@@ -4603,6 +4603,9 @@
       "STOP": "停止朗读",
       "CHARACTER_VOICE": "声音",
       "CHARACTER_VOICE_HINT": "该角色的 Fish Audio 声音。留空则使用语音设置中的默认声音。",
+      "CHARACTER_SPEED": "语速",
+      "CHARACTER_SPEED_DEFAULT": "默认",
+      "CHARACTER_SPEED_RESET": "重置",
       "PAUSE": "暂停",
       "RESUME": "继续",
       "LOADING": "正在生成音频"

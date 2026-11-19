@@ -79,6 +79,10 @@
     {
       "tag": "0019_red_veda",
       "sql": "ALTER TABLE `conversations` ADD `voice_enabled` integer;"
+    },
+    {
+      "tag": "0020_long_sleeper",
+      "sql": "ALTER TABLE `characters` ADD `voice_speed` real;"
     }
   ]
 }

@@ -4603,6 +4603,9 @@
       "STOP": "停止朗讀",
       "CHARACTER_VOICE": "聲音",
       "CHARACTER_VOICE_HINT": "這個角色的 Fish Audio 聲音。留空則使用語音設定中的預設聲音。",
+      "CHARACTER_SPEED": "語速",
+      "CHARACTER_SPEED_DEFAULT": "預設",
+      "CHARACTER_SPEED_RESET": "重設",
       "PAUSE": "暫停",
       "RESUME": "繼續",
       "LOADING": "正在產生音訊"
