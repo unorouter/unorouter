@@ -2820,7 +2820,7 @@
     "CHILDREN_CONTENT": "Nuestros servicios no están dirigidos a menores. Debe tener al menos 13 años para utilizarlos, así como edad suficiente para celebrar un contrato vinculante en su país de residencia, o contar con el permiso de un padre, madre o tutor. No recopilamos conscientemente información personal de menores de 13 años. Si tenemos conocimiento de que hemos recopilado dicha información, la eliminaremos. Si cree que un menor nos ha facilitado datos personales, póngase en contacto con nosotros en {supportEmail}.",
     "TRANSFERS_TITLE": "10. Transferencias internacionales de datos",
     "TRANSFERS_CONTENT": "Sus datos personales pueden transferirse y tratarse en países distintos de su país de residencia. En el caso de nuestra propia infraestructura y de nuestros proveedores de pagos, solo transferimos datos personales fuera del Espacio Económico Europeo cuando existe una decisión de adecuación de la Comisión Europea para el país de destino o cuando se han suscrito cláusulas contractuales tipo aprobadas por la Comisión Europea. Los proveedores de modelos son un caso distinto. Muchas solicitudes, incluidas las dirigidas a modelos de conocidos desarrolladores occidentales, las atienden proveedores con sede fuera del Espacio Económico Europeo en países sin decisión de adecuación, en particular China, Hong Kong, Singapur, Tailandia y los Emiratos Árabes Unidos, así como proveedores en Estados Unidos que no están certificados conforme al Marco de Privacidad de Datos UE-EE. UU. ni vinculados con nosotros mediante cláusulas contractuales tipo. El nivel de protección de datos en estos países no es comparable al de la Unión Europea: las autoridades pueden tener amplias facultades de acceso a los datos y es posible que usted no disponga de derechos ni recursos equivalentes. Algunos de estos proveedores revisan, conservan o entrenan modelos con lo que reciben. Para los consumidores, la transferencia es necesaria para ejecutar nuestro contrato, porque el proveedor a través del cual se presta un modelo forma parte del servicio que usted utiliza (art. 49.1.b) del RGPD). Cada página de modelo muestra los grupos de proveedores que lo prestan, y con el anclaje de grupos puede limitar una clave a grupos concretos. Con el enrutamiento automático, la solicitud se dirige al grupo disponible más barato, que a menudo es uno de los proveedores aquí descritos. No incluya datos personales de otras personas en el contenido que envíe a un modelo; le desaconsejamos incluir los suyos. Los proveedores que también utilizan sus entradas para sus propios fines, en particular para entrenar modelos de IA, se tratan de otra forma, con independencia de que el modelo sea gratuito o de pago (véase la sección 4). Lo mismo se aplica a los proveedores que no han publicado cómo tratan las entradas. Si uno de estos proveedores tiene su sede en un tercer país sin un nivel adecuado de protección de datos, solo transferimos allí sus entradas después de que usted haya dado su consentimiento expreso en un diálogo que indica los países de destino (art. 49.1.a del RGPD). Su consentimiento se refiere a los proveedores a través de los cuales se ofrece el modelo en el momento de prestarlo; si se añade otro proveedor de este tipo, le pediremos de nuevo su consentimiento. Puede retirar el consentimiento en cualquier momento en la configuración de su cuenta o, como invitado, mediante «Gestionar consentimientos» en el chat; después, el modelo queda bloqueado para usted. Para todos los demás proveedores, la transferencia sigue basándose en la ejecución de nuestro contrato (art. 49.1.b del RGPD). Los modelos que requieren dicho consentimiento no están disponibles para cuentas de empresa.",
-    "TRANSFERS_EMAIL": "Correo electrónico y pagos con criptomonedas: enviamos los correos electrónicos relativos a la cuenta y a las transacciones, como los códigos de registro, los restablecimientos de contraseña y las confirmaciones de pago, a través de Resend, en Estados Unidos, que está certificado conforme al Marco de Privacidad de Datos UE-EE. UU. Los correos electrónicos que usted envía a nuestra dirección de soporte se almacenan en nuestro proveedor de buzón de correo netcup GmbH, en Alemania, que los trata por cuenta nuestra en virtud de un contrato de encargo del tratamiento (art. 28 del RGPD). No se transfieren a ningún tercer país. Le rogamos que no envíe información sensible por correo electrónico. Si paga con criptomonedas, el pago se realiza en la página de pago de NowPayments, operada por FD Transfers LLC en San Vicente y las Granadinas. A NowPayments solo le enviamos el importe y un número de pedido aleatorio, sin nombre ni dirección de correo electrónico. En su página de pago, NowPayments trata sus datos, como su dirección IP y la dirección de su monedero, como responsable del tratamiento por cuenta propia conforme a su propia política de privacidad.",
+    "TRANSFERS_EMAIL": "Correo electrónico y pagos con criptomonedas: enviamos los correos electrónicos relativos a la cuenta y a las transacciones, como los códigos de registro, los restablecimientos de contraseña y las confirmaciones de pago, a través de Resend, en Estados Unidos, que está certificado conforme al Marco de Privacidad de Datos UE-EE. UU. Los mensajes de nuestro formulario de contacto también llegan a nuestro buzón de soporte a través de Resend. Los correos electrónicos que usted envía a nuestra dirección de soporte se almacenan en nuestro proveedor de buzón de correo netcup GmbH, en Alemania, que los trata por cuenta nuestra en virtud de un contrato de encargo del tratamiento (art. 28 del RGPD). No se transfieren a ningún tercer país. Le rogamos que no envíe información sensible por correo electrónico. Si paga con criptomonedas, el pago se realiza en la página de pago de NowPayments, operada por FD Transfers LLC en San Vicente y las Granadinas. A NowPayments solo le enviamos el importe y un número de pedido aleatorio, sin nombre ni dirección de correo electrónico. En su página de pago, NowPayments trata sus datos, como su dirección IP y la dirección de su monedero, como responsable del tratamiento por cuenta propia conforme a su propia política de privacidad.",
     "CHANGES_TITLE": "11. Cambios a esta política",
     "CHANGES_CONTENT": "Podemos actualizar esta Política de Privacidad de vez en cuando. Le notificaremos los cambios sustanciales publicando la política actualizada en nuestro sitio web y actualizando la fecha de \"Última actualización\" que figura arriba y, cuando el cambio afecte sustancialmente a sus derechos, avisaremos por correo electrónico a los titulares de cuentas. El uso continuado de nuestros servicios después de que una actualización entre en vigor constituye la aceptación de la política revisada. Le rogamos que mantenga actualizada la dirección de correo electrónico de su cuenta para que podamos ponernos en contacto con usted.",
     "CONTACT_TITLE": "12. Contáctanos",
@@ -2947,7 +2947,8 @@
     "RESPONSIBLE_TITLE": "Responsable del contenido conforme al § 18, apdo. 2 MStV",
     "RESPONSIBLE_CONTENT": "{legalName}\n{legalAddress}\nGermany",
     "DISPUTE_TITLE": "Resolución de litigios de consumo",
-    "DISPUTE_CONTENT": "No estamos dispuestos ni obligados a participar en procedimientos de resolución de litigios ante una entidad de arbitraje de consumo."
+    "DISPUTE_CONTENT": "No estamos dispuestos ni obligados a participar en procedimientos de resolución de litigios ante una entidad de arbitraje de consumo.",
+    "CONTACT_FORM_LINK": "Formulario de contacto"
   },
   "MAIN": {
     "ENUM": {
@@ -7010,5 +7011,23 @@
     "HOT": "Popular",
     "NEW": "Nuevo",
     "TOP": "Top"
+  },
+  "CONTACT": {
+    "TITLE": "Contacto",
+    "INTRO": "Envíanos un mensaje y te responderemos por correo electrónico, normalmente en pocas horas.",
+    "NAME": "Nombre (opcional)",
+    "EMAIL": "Tu correo electrónico",
+    "SUBJECT": "Asunto (opcional)",
+    "MESSAGE": "Mensaje",
+    "SEND": "Enviar mensaje",
+    "SENDING": "Enviando...",
+    "SENT": "Gracias, tu mensaje se ha enviado. Responderemos a la dirección de correo indicada.",
+    "PRIVACY_NOTE": "Usamos tus datos solo para responder a tu mensaje. Más información en nuestra <privacy>política de privacidad</privacy>.",
+    "ERROR_MESSAGE_LENGTH": "Escribe al menos 10 caracteres.",
+    "META": {
+      "TITLE": "Contacto - {appName}",
+      "DESCRIPTION": "Formulario de contacto de {appName}.",
+      "KEYWORDS": "contacto, {appName}"
+    }
   }
 }

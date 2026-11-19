@@ -2820,7 +2820,7 @@
     "CHILDREN_CONTENT": "Nasze usługi nie są skierowane do dzieci. Aby z nich korzystać, muszą Państwo mieć ukończone co najmniej 13 lat oraz wiek wystarczający do zawarcia wiążącej umowy w kraju zamieszkania, albo posiadać zgodę rodzica lub opiekuna. Świadomie nie gromadzimy danych osobowych dzieci poniżej 13 roku życia. Jeśli dowiemy się, że zgromadziliśmy takie informacje, usuniemy je. Jeśli sądzą Państwo, że dziecko przekazało nam dane osobowe, prosimy o kontakt pod adresem {supportEmail}.",
     "TRANSFERS_TITLE": "10. Międzynarodowe transfery danych",
     "TRANSFERS_CONTENT": "Twoje dane osobowe mogą być przekazywane i przetwarzane w krajach innych niż kraj Twojego zamieszkania. W przypadku naszej własnej infrastruktury oraz dostawców płatności przekazujemy dane osobowe poza Europejski Obszar Gospodarczy tylko wtedy, gdy dla kraju docelowego istnieje decyzja Komisji Europejskiej stwierdzająca odpowiedni stopień ochrony lub gdy zawarto standardowe klauzule umowne zatwierdzone przez Komisję Europejską. Dostawcy modeli to odrębny przypadek. Wiele żądań, także do modeli znanych zachodnich twórców, obsługują dostawcy z siedzibą poza Europejskim Obszarem Gospodarczym w krajach bez decyzji stwierdzającej odpowiedni stopień ochrony, w szczególności w Chinach, Hongkongu, Singapurze, Tajlandii i Zjednoczonych Emiratach Arabskich, a także dostawcy w Stanach Zjednoczonych, którzy nie są certyfikowani w ramach Ramowego porozumienia UE-USA w zakresie ochrony danych ani nie są z nami związani standardowymi klauzulami umownymi. Poziom ochrony danych w tych krajach nie jest porównywalny z poziomem w Unii Europejskiej: organy mogą mieć tam szerokie uprawnienia dostępu do danych, a Ty możesz nie mieć równoważnych praw i środków prawnych. Niektórzy z tych dostawców analizują, przechowują lub wykorzystują otrzymane dane do trenowania. W przypadku konsumentów przekazanie jest niezbędne do wykonania naszej umowy, ponieważ dostawca, przez którego udostępniany jest model, stanowi część usługi, z której korzystasz (art. 49 ust. 1 lit. b RODO). Na stronie każdego modelu wymienione są grupy dostawców, które go udostępniają, a dzięki przypinaniu grup możesz ograniczyć klucz do wybranych grup. Przy routingu automatycznym żądanie trafia do najtańszej dostępnej grupy, którą często jest jeden z opisanych tu dostawców. Nie umieszczaj danych osobowych innych osób w treściach wysyłanych do modelu; odradzamy też podawanie własnych. Inaczej traktowani są dostawcy, którzy wykorzystują Państwa dane wejściowe także do własnych celów, w szczególności do trenowania modeli AI, niezależnie od tego, czy model jest darmowy, czy płatny (zob. sekcja 4). To samo dotyczy dostawców, którzy nie opublikowali, w jaki sposób postępują z danymi wejściowymi. Jeżeli taki dostawca ma siedzibę w państwie trzecim, które nie zapewnia odpowiedniego stopnia ochrony danych, przekazujemy tam Państwa dane wejściowe dopiero po wyrażeniu przez Państwa wyraźnej zgody w oknie, które wskazuje państwa docelowe (art. 49 ust. 1 lit. a RODO). Zgoda dotyczy dostawców, za pośrednictwem których model jest oferowany w chwili jej wyrażenia; jeżeli dojdzie kolejny taki dostawca, ponownie poprosimy Państwa o zgodę. Zgodę mogą Państwo w każdej chwili wycofać w ustawieniach konta, a jako gość przez „Zarządzaj zgodami” w czacie; model zostaje wtedy dla Państwa zablokowany. W przypadku wszystkich pozostałych dostawców przekazanie nadal opiera się na wykonaniu naszej umowy (art. 49 ust. 1 lit. b RODO). Modele wymagające takiej zgody nie są dostępne dla kont firmowych.",
-    "TRANSFERS_EMAIL": "Poczta elektroniczna i płatności kryptowalutami: wiadomości e-mail dotyczące konta i transakcji, takie jak kody rejestracyjne, resetowanie hasła i potwierdzenia płatności, wysyłamy za pośrednictwem Resend w Stanach Zjednoczonych, który posiada certyfikację w ramach Ramowego porozumienia UE-USA w zakresie ochrony danych. Wiadomości e-mail wysyłane przez Ciebie na nasz adres pomocy technicznej są przechowywane u naszego dostawcy skrzynki pocztowej netcup GmbH w Niemczech, który przetwarza je w naszym imieniu na podstawie umowy powierzenia przetwarzania danych (art. 28 RODO). Nie są one przekazywane do państwa trzeciego. Prosimy nie przesyłać informacji wrażliwych pocztą elektroniczną. Jeśli płacisz kryptowalutą, płatność odbywa się na stronie płatności NowPayments, prowadzonej przez FD Transfers LLC w Saint Vincent i Grenadynach. Przekazujemy NowPayments wyłącznie kwotę i losowy numer zamówienia, bez imienia i nazwiska ani adresu e-mail. Na swojej stronie płatności NowPayments przetwarza Twoje dane, takie jak adres IP i adres portfela, jako odrębny administrator zgodnie z własną polityką prywatności.",
+    "TRANSFERS_EMAIL": "Poczta elektroniczna i płatności kryptowalutami: wiadomości e-mail dotyczące konta i transakcji, takie jak kody rejestracyjne, resetowanie hasła i potwierdzenia płatności, wysyłamy za pośrednictwem Resend w Stanach Zjednoczonych, który posiada certyfikację w ramach Ramowego porozumienia UE-USA w zakresie ochrony danych. Wiadomości z naszego formularza kontaktowego również trafiają do naszej skrzynki wsparcia za pośrednictwem Resend. Wiadomości e-mail wysyłane przez Ciebie na nasz adres pomocy technicznej są przechowywane u naszego dostawcy skrzynki pocztowej netcup GmbH w Niemczech, który przetwarza je w naszym imieniu na podstawie umowy powierzenia przetwarzania danych (art. 28 RODO). Nie są one przekazywane do państwa trzeciego. Prosimy nie przesyłać informacji wrażliwych pocztą elektroniczną. Jeśli płacisz kryptowalutą, płatność odbywa się na stronie płatności NowPayments, prowadzonej przez FD Transfers LLC w Saint Vincent i Grenadynach. Przekazujemy NowPayments wyłącznie kwotę i losowy numer zamówienia, bez imienia i nazwiska ani adresu e-mail. Na swojej stronie płatności NowPayments przetwarza Twoje dane, takie jak adres IP i adres portfela, jako odrębny administrator zgodnie z własną polityką prywatności.",
     "CHANGES_TITLE": "11. Zmiany niniejszej Polityki",
     "CHANGES_CONTENT": "Możemy okresowo aktualizować niniejszą Politykę prywatności. O istotnych zmianach poinformujemy Państwa, publikując zaktualizowaną politykę w naszej witrynie i aktualizując powyższą datę \"Ostatniej aktualizacji\", a jeżeli zmiana istotnie wpłynie na Państwa prawa, powiadomimy posiadaczy kont pocztą elektroniczną. Dalsze korzystanie z naszych usług po wejściu aktualizacji w życie oznacza akceptację zmienionej polityki. Prosimy o utrzymywanie aktualnego adresu e-mail przypisanego do konta, abyśmy mogli się z Państwem skontaktować.",
     "CONTACT_TITLE": "12. Skontaktuj się z nami",
@@ -2947,7 +2947,8 @@
     "RESPONSIBLE_TITLE": "Odpowiedzialny za treść zgodnie z § 18 ust. 2 MStV",
     "RESPONSIBLE_CONTENT": "{legalName}\n{legalAddress}\nGermany",
     "DISPUTE_TITLE": "Rozwiązywanie sporów konsumenckich",
-    "DISPUTE_CONTENT": "Nie jesteśmy gotowi ani zobowiązani do udziału w postępowaniu w sprawie rozwiązywania sporów przed podmiotem polubownego rozwiązywania sporów konsumenckich."
+    "DISPUTE_CONTENT": "Nie jesteśmy gotowi ani zobowiązani do udziału w postępowaniu w sprawie rozwiązywania sporów przed podmiotem polubownego rozwiązywania sporów konsumenckich.",
+    "CONTACT_FORM_LINK": "Formularz kontaktowy"
   },
   "MAIN": {
     "ENUM": {
@@ -7010,5 +7011,23 @@
     "HOT": "Gorące",
     "NEW": "Nowe",
     "TOP": "Top"
+  },
+  "CONTACT": {
+    "TITLE": "Kontakt",
+    "INTRO": "Napisz do nas, odpowiemy e-mailem, zwykle w ciągu kilku godzin.",
+    "NAME": "Imię (opcjonalnie)",
+    "EMAIL": "Twój adres e-mail",
+    "SUBJECT": "Temat (opcjonalnie)",
+    "MESSAGE": "Wiadomość",
+    "SEND": "Wyślij wiadomość",
+    "SENDING": "Wysyłanie...",
+    "SENT": "Dziękujemy, wiadomość została wysłana. Odpowiemy na podany adres e-mail.",
+    "PRIVACY_NOTE": "Twoje dane wykorzystujemy wyłącznie do odpowiedzi na wiadomość. Więcej w <privacy>polityce prywatności</privacy>.",
+    "ERROR_MESSAGE_LENGTH": "Napisz co najmniej 10 znaków.",
+    "META": {
+      "TITLE": "Kontakt - {appName}",
+      "DESCRIPTION": "Formularz kontaktowy {appName}.",
+      "KEYWORDS": "kontakt, {appName}"
+    }
   }
 }

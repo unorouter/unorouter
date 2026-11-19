@@ -25,3 +25,12 @@ export const twoFALoginBody = t.Object({
   // send it explicitly rather than relying on that default holding.
   method: t.Optional(t.String()),
 });
+
+// Limits mirror the gateway's ContactRequest validation.
+export const contactBody = t.Object({
+  name: t.String({ maxLength: 100 }),
+  email: t.String({ maxLength: 254 }),
+  subject: t.String({ maxLength: 200 }),
+  message: t.String({ minLength: 10, maxLength: 5000 }),
+  turnstile: t.Optional(t.String()),
+});

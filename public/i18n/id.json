@@ -2820,7 +2820,7 @@
     "CHILDREN_CONTENT": "Layanan kami tidak ditujukan bagi anak-anak. Anda harus berusia sekurang-kurangnya 13 tahun untuk menggunakannya, dan cukup umur untuk mengadakan kontrak yang mengikat di negara tempat Anda tinggal, atau memiliki izin dari orang tua atau wali. Kami tidak dengan sengaja mengumpulkan informasi pribadi dari anak-anak di bawah usia 13 tahun. Jika kami mengetahui bahwa kami telah mengumpulkan informasi tersebut, kami akan menghapusnya. Jika Anda meyakini bahwa seorang anak telah memberikan data pribadi kepada kami, hubungi kami di {supportEmail}.",
     "TRANSFERS_TITLE": "10. Transfer Data Internasional",
     "TRANSFERS_CONTENT": "Data pribadi Anda dapat ditransfer ke dan diproses di negara selain negara tempat tinggal Anda. Untuk infrastruktur kami sendiri serta penyedia pembayaran, kami hanya mentransfer data pribadi ke luar Wilayah Ekonomi Eropa jika negara tujuan tercakup oleh keputusan kecukupan Komisi Eropa atau jika telah disepakati klausul kontrak standar yang disetujui Komisi Eropa. Penyedia model merupakan kasus tersendiri. Banyak permintaan, termasuk permintaan ke model dari pengembang Barat ternama, dilayani oleh penyedia yang berkedudukan di luar Wilayah Ekonomi Eropa di negara tanpa keputusan kecukupan, khususnya Tiongkok, Hong Kong, Singapura, Thailand, dan Uni Emirat Arab, serta oleh penyedia di Amerika Serikat yang tidak tersertifikasi berdasarkan Kerangka Privasi Data UE-AS dan tidak terikat dengan kami melalui klausul kontrak standar. Tingkat perlindungan data di negara-negara ini tidak sebanding dengan di Uni Eropa: otoritas di sana dapat memiliki kewenangan luas untuk mengakses data, dan Anda mungkin tidak memiliki hak dan upaya hukum yang setara. Sebagian penyedia ini memeriksa, menyimpan, atau melatih model dengan data yang mereka terima. Bagi konsumen, transfer ini diperlukan untuk melaksanakan kontrak kami dengan Anda, karena penyedia yang melayani suatu model merupakan bagian dari layanan yang Anda gunakan (Pasal 49(1)(b) GDPR). Setiap halaman model mencantumkan grup penyedia yang melayani model tersebut, dan dengan penyematan grup Anda dapat membatasi kunci ke grup tertentu. Dengan perutean otomatis, permintaan diarahkan ke grup termurah yang tersedia, yang sering kali merupakan salah satu penyedia yang dijelaskan di sini. Jangan sertakan data pribadi orang lain dalam konten yang Anda kirim ke model, dan kami menyarankan agar Anda juga tidak menyertakan data pribadi Anda sendiri. Penyedia yang juga menggunakan masukan Anda untuk tujuan mereka sendiri, khususnya untuk melatih model AI, diperlakukan berbeda, baik modelnya gratis maupun berbayar (lihat bagian 4). Hal yang sama berlaku bagi penyedia yang tidak mempublikasikan cara mereka menangani masukan. Jika penyedia tersebut berkedudukan di negara ketiga tanpa tingkat perlindungan data yang memadai, kami hanya mentransfer masukan Anda ke sana setelah Anda memberikan persetujuan tegas dalam dialog yang menyebutkan negara tujuan (Pasal 49(1)(a) GDPR). Persetujuan Anda berlaku untuk penyedia yang melaluinya model ditawarkan pada saat Anda memberikan persetujuan; jika ditambahkan penyedia lain dengan sifat yang sama, kami akan meminta persetujuan Anda lagi. Anda dapat menarik persetujuan kapan saja di pengaturan akun Anda, atau sebagai tamu melalui \"Kelola persetujuan\" di chat; setelah itu model diblokir untuk Anda. Untuk semua penyedia lainnya, transfer tetap didasarkan pada pelaksanaan kontrak kami (Pasal 49(1)(b) GDPR). Model yang memerlukan persetujuan tersebut tidak tersedia untuk akun bisnis.",
-    "TRANSFERS_EMAIL": "Surel dan pembayaran dengan mata uang kripto: kami mengirim surel akun dan transaksi, seperti kode pendaftaran, pengaturan ulang kata sandi, dan konfirmasi pembayaran, melalui Resend di Amerika Serikat, yang tersertifikasi berdasarkan Kerangka Privasi Data UE-AS. Surel yang Anda kirim ke alamat dukungan kami disimpan di penyedia kotak surat kami, netcup GmbH, di Jerman, yang memprosesnya atas nama kami berdasarkan perjanjian pemrosesan data (Pasal 28 GDPR). Surel tersebut tidak ditransfer ke negara ketiga. Mohon jangan mengirim informasi sensitif melalui surel. Jika Anda membayar dengan mata uang kripto, pembayaran dilakukan di halaman pembayaran NowPayments, yang dioperasikan oleh FD Transfers LLC di Saint Vincent dan Grenadine. Kami hanya mengirimkan jumlah pembayaran dan nomor pesanan acak kepada NowPayments, tanpa nama atau alamat surel. Di halaman pembayarannya, NowPayments memproses data Anda, seperti alamat IP dan alamat dompet Anda, sebagai pengendali data tersendiri berdasarkan kebijakan privasinya sendiri.",
+    "TRANSFERS_EMAIL": "Surel dan pembayaran dengan mata uang kripto: kami mengirim surel akun dan transaksi, seperti kode pendaftaran, pengaturan ulang kata sandi, dan konfirmasi pembayaran, melalui Resend di Amerika Serikat, yang tersertifikasi berdasarkan Kerangka Privasi Data UE-AS. Pesan dari formulir kontak kami juga sampai ke kotak surat dukungan kami melalui Resend. Surel yang Anda kirim ke alamat dukungan kami disimpan di penyedia kotak surat kami, netcup GmbH, di Jerman, yang memprosesnya atas nama kami berdasarkan perjanjian pemrosesan data (Pasal 28 GDPR). Surel tersebut tidak ditransfer ke negara ketiga. Mohon jangan mengirim informasi sensitif melalui surel. Jika Anda membayar dengan mata uang kripto, pembayaran dilakukan di halaman pembayaran NowPayments, yang dioperasikan oleh FD Transfers LLC di Saint Vincent dan Grenadine. Kami hanya mengirimkan jumlah pembayaran dan nomor pesanan acak kepada NowPayments, tanpa nama atau alamat surel. Di halaman pembayarannya, NowPayments memproses data Anda, seperti alamat IP dan alamat dompet Anda, sebagai pengendali data tersendiri berdasarkan kebijakan privasinya sendiri.",
     "CHANGES_TITLE": "11. Perubahan pada Kebijakan Ini",
     "CHANGES_CONTENT": "Kami dapat memperbarui Kebijakan Privasi ini dari waktu ke waktu. Kami akan memberi tahu Anda tentang perubahan material dengan memuat kebijakan yang diperbarui di situs web kami dan memperbarui tanggal \"Terakhir Diperbarui\" di atas, dan apabila perubahan tersebut secara material memengaruhi hak Anda, kami akan memberikan pemberitahuan kepada pemegang akun melalui surel. Penggunaan berkelanjutan atas layanan kami setelah pembaruan berlaku merupakan penerimaan atas kebijakan yang telah direvisi. Mohon jaga agar alamat surel pada akun Anda tetap mutakhir sehingga kami dapat menghubungi Anda.",
     "CONTACT_TITLE": "12. Hubungi Kami",
@@ -2947,7 +2947,8 @@
     "RESPONSIBLE_TITLE": "Penanggung jawab konten sesuai § 18 ayat 2 MStV",
     "RESPONSIBLE_CONTENT": "{legalName}\n{legalAddress}\nGermany",
     "DISPUTE_TITLE": "Penyelesaian sengketa konsumen",
-    "DISPUTE_CONTENT": "Kami tidak bersedia dan tidak berkewajiban untuk berpartisipasi dalam prosedur penyelesaian sengketa di hadapan badan arbitrase konsumen."
+    "DISPUTE_CONTENT": "Kami tidak bersedia dan tidak berkewajiban untuk berpartisipasi dalam prosedur penyelesaian sengketa di hadapan badan arbitrase konsumen.",
+    "CONTACT_FORM_LINK": "Formulir kontak"
   },
   "MAIN": {
     "ENUM": {
@@ -7010,5 +7011,23 @@
     "HOT": "Populer",
     "NEW": "Terbaru",
     "TOP": "Teratas"
+  },
+  "CONTACT": {
+    "TITLE": "Kontak",
+    "INTRO": "Kirim pesan kepada kami, kami akan membalas lewat email, biasanya dalam beberapa jam.",
+    "NAME": "Nama (opsional)",
+    "EMAIL": "Alamat email kamu",
+    "SUBJECT": "Subjek (opsional)",
+    "MESSAGE": "Pesan",
+    "SEND": "Kirim pesan",
+    "SENDING": "Mengirim...",
+    "SENT": "Terima kasih, pesanmu sudah terkirim. Kami akan membalas ke alamat email yang kamu masukkan.",
+    "PRIVACY_NOTE": "Datamu hanya kami gunakan untuk membalas pesan ini. Selengkapnya di <privacy>kebijakan privasi</privacy> kami.",
+    "ERROR_MESSAGE_LENGTH": "Tulis minimal 10 karakter.",
+    "META": {
+      "TITLE": "Kontak - {appName}",
+      "DESCRIPTION": "Formulir kontak {appName}.",
+      "KEYWORDS": "kontak, {appName}"
+    }
   }
 }

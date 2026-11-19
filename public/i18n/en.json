@@ -2820,7 +2820,7 @@
     "CHILDREN_CONTENT": "Our services are not directed to children. You must be at least 13 years old to use them, and old enough to enter into a binding contract in your country of residence, or have the permission of a parent or guardian. We do not knowingly collect personal information from children under 13. If we learn that we have collected such information, we will delete it. If you believe a child has provided us personal data, contact us at {supportEmail}.",
     "TRANSFERS_TITLE": "10. International Data Transfers",
     "TRANSFERS_CONTENT": "Your personal data may be transferred to and processed in countries other than your country of residence. For our own infrastructure and payment providers, we transfer personal data out of the European Economic Area only where an adequacy decision of the European Commission covers the destination country or where standard contractual clauses approved by the European Commission are in place. Model providers are a separate case. Many requests, including requests to models from well-known Western developers, are served by providers based outside the European Economic Area in countries for which no adequacy decision exists, in particular China, Hong Kong, Singapore, Thailand and the United Arab Emirates, and by providers in the United States that are neither certified under the EU-US Data Privacy Framework nor bound to us by standard contractual clauses. The level of data protection in these countries is not comparable to that in the European Union: authorities there may have far-reaching powers to access data, and you may not have equivalent rights and legal remedies. Some of these providers inspect, retain or train on what they receive. For consumers, the transfer is necessary to perform our contract with you, because the provider through which a model is served is part of the service you use (Art. 49(1)(b) GDPR). Each model page lists the provider groups that serve the model, and you can limit a key to specific groups with group pinning. With automatic routing, a request goes to the cheapest available group, which is often one of the providers described here. Do not include personal data of other people in the content you send to a model, and we advise against including your own. Providers that also use your inputs for their own purposes, in particular to train AI models, are handled differently, whether the model is free or paid (see section 4). The same applies to providers that have not published how they handle inputs. If such a provider is based in a third country without an adequate level of data protection, we only transfer your inputs there after you have expressly consented in a dialog that names the destination countries (Art. 49(1)(a) GDPR). Your consent covers the providers through which the model is offered at the time you consent; if another such provider is added, we ask for your consent again. You can withdraw your consent at any time in your account settings, or as a guest via \"Manage consents\" in the chat; the model is then blocked for you. For all other providers, the transfer remains based on the performance of our contract (Art. 49(1)(b) GDPR). Models that require such consent are not available to business accounts.",
-    "TRANSFERS_EMAIL": "Email and cryptocurrency payments: we send account and transaction emails, such as sign-up codes, password resets and payment confirmations, through Resend in the United States, which is certified under the EU-US Data Privacy Framework. Emails you send to our support address are stored with our mailbox provider netcup GmbH in Germany, which processes them on our behalf under a data processing agreement (Art. 28 GDPR). They are not transferred to a third country. Please do not send sensitive information by email. If you pay with cryptocurrency, the payment is handled on the payment page of NowPayments, operated by FD Transfers LLC in Saint Vincent and the Grenadines. We only send NowPayments the amount and a random order number, no name or email address. On its payment page NowPayments processes your data, such as your IP address and wallet address, as its own controller under its own privacy policy.",
+    "TRANSFERS_EMAIL": "Email and cryptocurrency payments: we send account and transaction emails, such as sign-up codes, password resets and payment confirmations, through Resend in the United States, which is certified under the EU-US Data Privacy Framework. Messages from our contact form also reach our support mailbox through Resend. Emails you send to our support address are stored with our mailbox provider netcup GmbH in Germany, which processes them on our behalf under a data processing agreement (Art. 28 GDPR). They are not transferred to a third country. Please do not send sensitive information by email. If you pay with cryptocurrency, the payment is handled on the payment page of NowPayments, operated by FD Transfers LLC in Saint Vincent and the Grenadines. We only send NowPayments the amount and a random order number, no name or email address. On its payment page NowPayments processes your data, such as your IP address and wallet address, as its own controller under its own privacy policy.",
     "CHANGES_TITLE": "11. Changes to This Policy",
     "CHANGES_CONTENT": "We may update this Privacy Policy from time to time. We will notify you of material changes by posting the updated policy on our website and updating the \"Last Updated\" date above, and where the change materially affects your rights we will give account holders notice by email. Your continued use of our services after an update takes effect constitutes acceptance of the revised policy. Please keep the email address on your account current so that we can reach you.",
     "CONTACT_TITLE": "12. Contact Us",
@@ -2947,7 +2947,8 @@
     "RESPONSIBLE_TITLE": "Responsible for content pursuant to § 18(2) MStV",
     "RESPONSIBLE_CONTENT": "{legalName}\n{legalAddress}\nGermany",
     "DISPUTE_TITLE": "Consumer dispute resolution",
-    "DISPUTE_CONTENT": "We are neither willing nor obliged to participate in dispute resolution proceedings before a consumer arbitration board."
+    "DISPUTE_CONTENT": "We are neither willing nor obliged to participate in dispute resolution proceedings before a consumer arbitration board.",
+    "CONTACT_FORM_LINK": "Contact form"
   },
   "MAIN": {
     "ENUM": {
@@ -7010,5 +7011,23 @@
     "HOT": "Hot",
     "NEW": "New",
     "TOP": "Top"
+  },
+  "CONTACT": {
+    "TITLE": "Contact",
+    "INTRO": "Send us a message and we will reply by email, usually within a few hours.",
+    "NAME": "Name (optional)",
+    "EMAIL": "Your email address",
+    "SUBJECT": "Subject (optional)",
+    "MESSAGE": "Message",
+    "SEND": "Send message",
+    "SENDING": "Sending...",
+    "SENT": "Thanks, your message was sent. We will reply to the email address you entered.",
+    "PRIVACY_NOTE": "We use your details only to answer your message. More in our <privacy>privacy policy</privacy>.",
+    "ERROR_MESSAGE_LENGTH": "Please write at least 10 characters.",
+    "META": {
+      "TITLE": "Contact - {appName}",
+      "DESCRIPTION": "Contact form for {appName}.",
+      "KEYWORDS": "contact, {appName}"
+    }
   }
 }

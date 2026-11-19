@@ -65,6 +65,7 @@ export const NEW_API_OPERATIONS = new Set([
   "GET /api/verify/methods",
   "GET /dashboard/billing/subscription",
   "GET /v1/video/generations/{task_id}",
+  "POST /api/contact",
   "POST /api/notify/subscription",
   "POST /api/oauth/exchange",
   "POST /api/subscription/creem/pay",
@@ -103,8 +104,8 @@ export const NEW_API_OPERATIONS = new Set([
   "PUT /api/token/",
   "PUT /api/user/guest/own-purpose-objection",
   "PUT /api/user/self",
-  "PUT /api/user/self/timeout",
   "PUT /api/user/self/own-purpose-objection",
+  "PUT /api/user/self/timeout",
 ]);
 
 export const UNO_IMPORT_OPERATIONS = new Set([

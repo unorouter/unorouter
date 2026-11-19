@@ -2820,7 +2820,7 @@
     "CHILDREN_CONTENT": "Unsere Dienste richten sich nicht an Kinder. Sie müssen mindestens 13 Jahre alt sein, um sie zu nutzen, und alt genug, um in Ihrem Wohnsitzland einen bindenden Vertrag zu schließen, oder die Erlaubnis eines Elternteils oder Erziehungsberechtigten haben. Wir erheben wissentlich keine personenbezogenen Daten von Kindern unter 13 Jahren. Wenn wir erfahren, dass wir solche Informationen erhoben haben, werden wir sie löschen. Wenn Sie glauben, dass ein Kind uns personenbezogene Daten übermittelt hat, kontaktieren Sie uns unter {supportEmail}.",
     "TRANSFERS_TITLE": "10. Internationale Datenübertragungen",
     "TRANSFERS_CONTENT": "Ihre personenbezogenen Daten können in andere Länder als Ihr Wohnsitzland übermittelt und dort verarbeitet werden. Bei unserer eigenen Infrastruktur sowie bei Zahlungsanbietern übermitteln wir personenbezogene Daten nur dann aus dem Europäischen Wirtschaftsraum, wenn für das Zielland ein Angemessenheitsbeschluss der Europäischen Kommission besteht oder von der Europäischen Kommission genehmigte Standardvertragsklauseln vereinbart sind. Für Modellanbieter gilt etwas anderes. Viele Anfragen, auch Anfragen an Modelle bekannter westlicher Hersteller, werden von Anbietern bearbeitet, die ihren Sitz außerhalb des Europäischen Wirtschaftsraums in Ländern ohne Angemessenheitsbeschluss haben, insbesondere in China, Hongkong, Singapur, Thailand und den Vereinigten Arabischen Emiraten, sowie von Anbietern in den USA, die weder nach dem EU-US Data Privacy Framework zertifiziert noch durch Standardvertragsklauseln an uns gebunden sind. Das Datenschutzniveau in diesen Ländern ist mit dem in der Europäischen Union nicht vergleichbar: Behörden haben dort zum Teil weitreichende Zugriffsbefugnisse, und Ihnen stehen möglicherweise keine gleichwertigen Rechte und Rechtsbehelfe zur Verfügung. Einige dieser Anbieter prüfen, speichern oder trainieren mit den Daten, die sie erhalten. Gegenüber Verbrauchern ist die Übermittlung zur Erfüllung unseres Vertrags erforderlich, weil der Anbieter, über den ein Modell bereitgestellt wird, Teil der von Ihnen genutzten Leistung ist (Art. 49 Abs. 1 lit. b DSGVO). Auf jeder Modellseite sind die Anbietergruppen aufgeführt, die das Modell bereitstellen, und mit Group Pinning können Sie einen Schlüssel auf bestimmte Gruppen beschränken. Beim automatischen Routing geht eine Anfrage an die günstigste verfügbare Gruppe, häufig einen der hier beschriebenen Anbieter. Geben Sie in Inhalte, die Sie an ein Modell senden, keine personenbezogenen Daten anderer Personen ein; von der Eingabe eigener Daten raten wir ab. Für Anbieter, die Ihre Eingaben auch für eigene Zwecke nutzen, insbesondere zum Training von KI-Modellen, gilt etwas anderes, unabhängig davon, ob das Modell kostenlos oder kostenpflichtig ist (siehe Abschnitt 4). Dasselbe gilt für Anbieter, die nicht veröffentlicht haben, wie sie mit Eingaben umgehen. Hat ein solcher Anbieter seinen Sitz in einem Drittland ohne angemessenes Datenschutzniveau, übermitteln wir Ihre Eingaben dorthin erst, nachdem Sie in einem Dialog, der die Zielländer nennt, ausdrücklich eingewilligt haben (Art. 49 Abs. 1 lit. a DSGVO). Ihre Einwilligung gilt für die Anbieter, über die das Modell im Zeitpunkt Ihrer Einwilligung angeboten wird; kommt ein weiterer solcher Anbieter hinzu, bitten wir Sie erneut um Ihre Einwilligung. Sie können die Einwilligung jederzeit in den Kontoeinstellungen widerrufen, als Gast über „Einwilligungen verwalten“ im Chat; das Modell ist danach für Sie gesperrt. Für alle übrigen Anbieter beruht die Übermittlung weiterhin auf der Erfüllung unseres Vertrags (Art. 49 Abs. 1 lit. b DSGVO). Für Geschäftskonten sind Modelle, die eine solche Einwilligung erfordern, nicht verfügbar.",
-    "TRANSFERS_EMAIL": "E-Mail und Zahlungen mit Kryptowährungen: Konto- und Transaktions-E-Mails wie Registrierungscodes, Nachrichten zum Zurücksetzen des Passworts und Zahlungsbestätigungen versenden wir über Resend in den USA; Resend ist nach dem EU-US Data Privacy Framework zertifiziert. E-Mails, die Sie an unsere Support-Adresse senden, werden bei unserem Postfachanbieter netcup GmbH in Deutschland gespeichert, der sie in unserem Auftrag auf Grundlage eines Vertrags zur Auftragsverarbeitung verarbeitet (Art. 28 DSGVO). Eine Übermittlung in ein Drittland findet nicht statt. Bitte senden Sie keine sensiblen Informationen per E-Mail. Wenn Sie mit Kryptowährung bezahlen, erfolgt die Zahlung auf der Zahlungsseite von NowPayments, betrieben von der FD Transfers LLC in St. Vincent und den Grenadinen. Wir übermitteln NowPayments nur den Betrag und eine zufällige Bestellnummer, keinen Namen und keine E-Mail-Adresse. Auf seiner Zahlungsseite verarbeitet NowPayments Ihre Daten, etwa Ihre IP-Adresse und Wallet-Adresse, als eigener Verantwortlicher nach seiner eigenen Datenschutzerklärung.",
+    "TRANSFERS_EMAIL": "E-Mail und Zahlungen mit Kryptowährungen: Konto- und Transaktions-E-Mails wie Registrierungscodes, Nachrichten zum Zurücksetzen des Passworts und Zahlungsbestätigungen versenden wir über Resend in den USA; Resend ist nach dem EU-US Data Privacy Framework zertifiziert. Nachrichten aus unserem Kontaktformular gelangen ebenfalls über Resend in unser Support-Postfach. E-Mails, die Sie an unsere Support-Adresse senden, werden bei unserem Postfachanbieter netcup GmbH in Deutschland gespeichert, der sie in unserem Auftrag auf Grundlage eines Vertrags zur Auftragsverarbeitung verarbeitet (Art. 28 DSGVO). Eine Übermittlung in ein Drittland findet nicht statt. Bitte senden Sie keine sensiblen Informationen per E-Mail. Wenn Sie mit Kryptowährung bezahlen, erfolgt die Zahlung auf der Zahlungsseite von NowPayments, betrieben von der FD Transfers LLC in St. Vincent und den Grenadinen. Wir übermitteln NowPayments nur den Betrag und eine zufällige Bestellnummer, keinen Namen und keine E-Mail-Adresse. Auf seiner Zahlungsseite verarbeitet NowPayments Ihre Daten, etwa Ihre IP-Adresse und Wallet-Adresse, als eigener Verantwortlicher nach seiner eigenen Datenschutzerklärung.",
     "CHANGES_TITLE": "11. Änderungen dieser Richtlinie",
     "CHANGES_CONTENT": "Wir können diese Datenschutzerklärung von Zeit zu Zeit aktualisieren. Wir werden Sie über wesentliche Änderungen informieren, indem wir die aktualisierte Erklärung auf unserer Website veröffentlichen und das oben stehende Datum \"Zuletzt aktualisiert\" anpassen, und wenn die Änderung Ihre Rechte wesentlich betrifft, werden wir Kontoinhaber per E-Mail benachrichtigen. Ihre fortgesetzte Nutzung unserer Dienste nach Inkrafttreten einer Aktualisierung gilt als Annahme der überarbeiteten Erklärung. Bitte halten Sie die E-Mail-Adresse in Ihrem Konto aktuell, damit wir Sie erreichen können.",
     "CONTACT_TITLE": "12. Kontakt",
@@ -2947,7 +2947,8 @@
     "RESPONSIBLE_TITLE": "Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV",
     "RESPONSIBLE_CONTENT": "{legalName}\n{legalAddress}\nDeutschland",
     "DISPUTE_TITLE": "Verbraucherstreitbeilegung",
-    "DISPUTE_CONTENT": "Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen."
+    "DISPUTE_CONTENT": "Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.",
+    "CONTACT_FORM_LINK": "Kontaktformular"
   },
   "MAIN": {
     "ENUM": {
@@ -7010,5 +7011,23 @@
     "HOT": "Angesagt",
     "NEW": "Neu",
     "TOP": "Top"
+  },
+  "CONTACT": {
+    "TITLE": "Kontakt",
+    "INTRO": "Schreib uns eine Nachricht, wir antworten per E-Mail, meist innerhalb weniger Stunden.",
+    "NAME": "Name (optional)",
+    "EMAIL": "Deine E-Mail-Adresse",
+    "SUBJECT": "Betreff (optional)",
+    "MESSAGE": "Nachricht",
+    "SEND": "Nachricht senden",
+    "SENDING": "Wird gesendet...",
+    "SENT": "Danke, deine Nachricht ist angekommen. Wir antworten an die angegebene E-Mail-Adresse.",
+    "PRIVACY_NOTE": "Deine Angaben nutzen wir nur, um deine Nachricht zu beantworten. Mehr in der <privacy>Datenschutzerklärung</privacy>.",
+    "ERROR_MESSAGE_LENGTH": "Bitte schreib mindestens 10 Zeichen.",
+    "META": {
+      "TITLE": "Kontakt - {appName}",
+      "DESCRIPTION": "Kontaktformular von {appName}.",
+      "KEYWORDS": "Kontakt, {appName}"
+    }
   }
 }

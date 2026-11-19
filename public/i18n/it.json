@@ -2820,7 +2820,7 @@
     "CHILDREN_CONTENT": "I nostri servizi non sono rivolti ai minori. Per utilizzarli deve avere almeno 13 anni ed essere in età sufficiente per stipulare un contratto vincolante nel suo paese di residenza, oppure disporre dell'autorizzazione di un genitore o di un tutore. Non raccogliamo consapevolmente informazioni personali da minori di 13 anni. Se veniamo a conoscenza di aver raccolto tali informazioni, provvederemo a cancellarle. Se ritiene che un minore ci abbia fornito dati personali, ci contatti all'indirizzo {supportEmail}.",
     "TRANSFERS_TITLE": "10. Trasferimenti internazionali di dati",
     "TRANSFERS_CONTENT": "I tuoi dati personali possono essere trasferiti e trattati in paesi diversi da quello di residenza. Per la nostra infrastruttura e per i fornitori di pagamento trasferiamo dati personali al di fuori dello Spazio economico europeo solo se il paese di destinazione è coperto da una decisione di adeguatezza della Commissione europea o se sono state stipulate clausole contrattuali tipo approvate dalla Commissione europea. I fornitori di modelli costituiscono un caso a parte. Molte richieste, comprese quelle a modelli di noti sviluppatori occidentali, sono servite da fornitori con sede al di fuori dello Spazio economico europeo in paesi privi di decisione di adeguatezza, in particolare Cina, Hong Kong, Singapore, Thailandia ed Emirati Arabi Uniti, nonché da fornitori negli Stati Uniti che non sono certificati ai sensi del quadro UE-USA per la protezione dei dati né vincolati a noi da clausole contrattuali tipo. Il livello di protezione dei dati in questi paesi non è paragonabile a quello dell’Unione europea: le autorità possono disporre di ampi poteri di accesso ai dati e potresti non avere diritti e mezzi di ricorso equivalenti. Alcuni di questi fornitori esaminano, conservano o usano per l’addestramento ciò che ricevono. Per i consumatori, il trasferimento è necessario per l’esecuzione del nostro contratto, perché il fornitore tramite cui un modello è servito fa parte del servizio che utilizzi (art. 49, par. 1, lett. b) del GDPR). Ogni pagina modello elenca i gruppi di fornitori che lo servono e con il blocco dei gruppi puoi limitare una chiave a gruppi specifici. Con l’instradamento automatico la richiesta va al gruppo disponibile più economico, che spesso è uno dei fornitori qui descritti. Non inserire dati personali di altre persone nei contenuti che invii a un modello; ti sconsigliamo di inserire i tuoi. Diverso è il caso dei fornitori che utilizzano i suoi input anche per scopi propri, in particolare per addestrare modelli di IA, indipendentemente dal fatto che il modello sia gratuito o a pagamento (si veda la sezione 4). Lo stesso vale per i fornitori che non hanno reso noto come trattano gli input. Se un tale fornitore ha sede in un paese terzo privo di un livello adeguato di protezione dei dati, vi trasferiamo i suoi input solo dopo che lei ha prestato il consenso esplicito in una finestra che indica i paesi di destinazione (art. 49, par. 1, lett. a) GDPR). Il suo consenso riguarda i fornitori tramite i quali il modello è offerto al momento del consenso; se si aggiunge un altro fornitore di questo tipo, le chiediamo nuovamente il consenso. Può revocare il consenso in qualsiasi momento nelle impostazioni del suo account o, come ospite, tramite «Gestisci consensi» nella chat; il modello viene quindi bloccato per lei. Per tutti gli altri fornitori il trasferimento continua a basarsi sull'esecuzione del nostro contratto (art. 49, par. 1, lett. b) GDPR). I modelli che richiedono tale consenso non sono disponibili per gli account aziendali.",
-    "TRANSFERS_EMAIL": "E-mail e pagamenti in criptovalute: inviamo le e-mail relative all’account e alle transazioni, come i codici di registrazione, il ripristino della password e le conferme di pagamento, tramite Resend, negli Stati Uniti, certificato ai sensi del quadro UE-USA per la protezione dei dati. Le e-mail che invii al nostro indirizzo di assistenza sono conservate presso il nostro fornitore di casella di posta netcup GmbH, in Germania, che le tratta per nostro conto sulla base di un accordo sul trattamento dei dati (art. 28 del GDPR). Non vengono trasferite verso alcun paese terzo. Ti chiediamo di non inviare informazioni sensibili via e-mail. Se paghi in criptovaluta, il pagamento avviene sulla pagina di pagamento di NowPayments, gestita da FD Transfers LLC a Saint Vincent e Grenadine. A NowPayments inviamo solo l’importo e un numero d’ordine casuale, senza nome né indirizzo e-mail. Sulla propria pagina di pagamento NowPayments tratta i tuoi dati, come il tuo indirizzo IP e l’indirizzo del tuo wallet, in qualità di autonomo titolare del trattamento ai sensi della propria informativa sulla privacy.",
+    "TRANSFERS_EMAIL": "E-mail e pagamenti in criptovalute: inviamo le e-mail relative all’account e alle transazioni, come i codici di registrazione, il ripristino della password e le conferme di pagamento, tramite Resend, negli Stati Uniti, certificato ai sensi del quadro UE-USA per la protezione dei dati. Anche i messaggi inviati tramite il nostro modulo di contatto arrivano alla nostra casella di supporto tramite Resend. Le e-mail che invii al nostro indirizzo di assistenza sono conservate presso il nostro fornitore di casella di posta netcup GmbH, in Germania, che le tratta per nostro conto sulla base di un accordo sul trattamento dei dati (art. 28 del GDPR). Non vengono trasferite verso alcun paese terzo. Ti chiediamo di non inviare informazioni sensibili via e-mail. Se paghi in criptovaluta, il pagamento avviene sulla pagina di pagamento di NowPayments, gestita da FD Transfers LLC a Saint Vincent e Grenadine. A NowPayments inviamo solo l’importo e un numero d’ordine casuale, senza nome né indirizzo e-mail. Sulla propria pagina di pagamento NowPayments tratta i tuoi dati, come il tuo indirizzo IP e l’indirizzo del tuo wallet, in qualità di autonomo titolare del trattamento ai sensi della propria informativa sulla privacy.",
     "CHANGES_TITLE": "11. Modifiche a questa informativa",
     "CHANGES_CONTENT": "Possiamo aggiornare la presente Informativa sulla privacy di tanto in tanto. La informeremo delle modifiche sostanziali pubblicando l'informativa aggiornata sul nostro sito web e aggiornando la data di \"Ultimo aggiornamento\" riportata sopra e, qualora la modifica incida in modo sostanziale sui suoi diritti, ne daremo comunicazione ai titolari di account via e-mail. L'uso continuato dei nostri servizi dopo l'entrata in vigore di un aggiornamento costituisce accettazione dell'informativa rivista. La preghiamo di mantenere aggiornato l'indirizzo e-mail associato al suo account affinché possiamo contattarla.",
     "CONTACT_TITLE": "12. Contattaci",
@@ -2947,7 +2947,8 @@
     "RESPONSIBLE_TITLE": "Responsabile dei contenuti ai sensi del § 18, comma 2 MStV",
     "RESPONSIBLE_CONTENT": "{legalName}\n{legalAddress}\nGermany",
     "DISPUTE_TITLE": "Risoluzione delle controversie dei consumatori",
-    "DISPUTE_CONTENT": "Non siamo disposti né obbligati a partecipare a procedure di risoluzione delle controversie dinanzi a un organismo di conciliazione per i consumatori."
+    "DISPUTE_CONTENT": "Non siamo disposti né obbligati a partecipare a procedure di risoluzione delle controversie dinanzi a un organismo di conciliazione per i consumatori.",
+    "CONTACT_FORM_LINK": "Modulo di contatto"
   },
   "MAIN": {
     "ENUM": {
@@ -7010,5 +7011,23 @@
     "HOT": "In tendenza",
     "NEW": "Nuovi",
     "TOP": "Top"
+  },
+  "CONTACT": {
+    "TITLE": "Contatti",
+    "INTRO": "Inviaci un messaggio e ti risponderemo via e-mail, di solito entro poche ore.",
+    "NAME": "Nome (facoltativo)",
+    "EMAIL": "Il tuo indirizzo e-mail",
+    "SUBJECT": "Oggetto (facoltativo)",
+    "MESSAGE": "Messaggio",
+    "SEND": "Invia messaggio",
+    "SENDING": "Invio in corso...",
+    "SENT": "Grazie, il tuo messaggio è stato inviato. Risponderemo all'indirizzo e-mail indicato.",
+    "PRIVACY_NOTE": "Usiamo i tuoi dati solo per rispondere al tuo messaggio. Maggiori informazioni nella nostra <privacy>informativa sulla privacy</privacy>.",
+    "ERROR_MESSAGE_LENGTH": "Scrivi almeno 10 caratteri.",
+    "META": {
+      "TITLE": "Contatti - {appName}",
+      "DESCRIPTION": "Modulo di contatto di {appName}.",
+      "KEYWORDS": "contatti, {appName}"
+    }
   }
 }

@@ -170,6 +170,23 @@ export interface CompactPageDTO {
 }
 
 /**
+ * ContactRequest schema
+ */
+export interface ContactRequest {
+  /** @maxLength 254 */
+  email: string;
+  /**
+   * @minLength 10
+   * @maxLength 5000
+   */
+  message: string;
+  /** @maxLength 100 */
+  name: string;
+  /** @maxLength 200 */
+  subject: string;
+}
+
+/**
  * CreateTokenRequest schema
  */
 export interface CreateTokenRequest {
@@ -2399,6 +2416,11 @@ export interface Verify2FARequest {
   flow_token?: string;
 }
 
+export type SendContactMessageParams = {
+  /** Cloudflare Turnstile verification token */
+  turnstile?: string;
+};
+
 export type GetUserFlowQuotaDatesParams = {
   start_timestamp?: number;
   end_timestamp?: number;
@@ -2698,6 +2720,83 @@ export type SendEmailVerificationParams = {
 export type GetVerificationMethodsParams = {
   /** Step-up scope to list the verification methods for */
   scope: string;
+};
+
+export type sendContactMessageResponse200ApplicationJson = {
+  data: MessageResponse;
+  status: 200;
+};
+
+export type sendContactMessageResponse200ApplicationXml = {
+  data: MessageResponse;
+  status: 200;
+};
+
+export type sendContactMessageResponseSuccess = (
+  | sendContactMessageResponse200ApplicationJson
+  | sendContactMessageResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type sendContactMessageResponse = sendContactMessageResponseSuccess;
+
+export const getSendContactMessageUrl = (params?: SendContactMessageParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : String(value));
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/contact?${stringifiedParams}`
+    : `/api/contact`;
+};
+
+/**
+ * @summary Send Contact Message
+ */
+export const sendContactMessage = async (
+  contactRequest: ContactRequest,
+  params?: SendContactMessageParams,
+  options?: Parameters<typeof customFetch>[1],
+): Promise<sendContactMessageResponse> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(
+          h as Iterable<Iterable<string>>,
+          (entry) => Array.from(entry) as [string, string],
+        ),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<
+      string | readonly string[] | undefined
+    >(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+  return customFetch<sendContactMessageResponse>(
+    getSendContactMessageUrl(params),
+    {
+      ...options,
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
+      body: JSON.stringify(contactRequest),
+    },
+  );
 };
 
 export type getUserFlowQuotaDatesResponse200ApplicationJson = {

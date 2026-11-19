@@ -2820,7 +2820,7 @@
     "CHILDREN_CONTENT": "Nossos serviços não são direcionados a crianças. Você deve ter pelo menos 13 anos para utilizá-los e idade suficiente para celebrar um contrato vinculante em seu país de residência, ou ter a permissão de um pai, mãe ou responsável. Não coletamos conscientemente informações pessoais de crianças menores de 13 anos. Se soubermos que coletamos tais informações, iremos excluí-las. Se você acredita que uma criança nos forneceu dados pessoais, entre em contato conosco pelo endereço {supportEmail}.",
     "TRANSFERS_TITLE": "10. Transferências internacionais de dados",
     "TRANSFERS_CONTENT": "Seus dados pessoais podem ser transferidos e tratados em países diferentes do seu país de residência. Para nossa própria infraestrutura e nossos provedores de pagamento, só transferimos dados pessoais para fora do Espaço Econômico Europeu quando há uma decisão de adequação da Comissão Europeia para o país de destino ou quando foram firmadas cláusulas contratuais-padrão aprovadas pela Comissão Europeia. Os provedores de modelos são um caso à parte. Muitas solicitações, inclusive para modelos de desenvolvedores ocidentais conhecidos, são atendidas por provedores sediados fora do Espaço Econômico Europeu em países sem decisão de adequação, em especial China, Hong Kong, Singapura, Tailândia e Emirados Árabes Unidos, e por provedores nos Estados Unidos que não são certificados pelo Quadro de Privacidade de Dados UE-EUA nem vinculados a nós por cláusulas contratuais-padrão. O nível de proteção de dados nesses países não é comparável ao da União Europeia: as autoridades podem ter amplos poderes de acesso aos dados, e você pode não ter direitos e recursos legais equivalentes. Alguns desses provedores analisam, retêm ou treinam modelos com o que recebem. Para consumidores, a transferência é necessária para executar nosso contrato, porque o provedor pelo qual um modelo é fornecido faz parte do serviço que você usa (art. 49(1)(b) do RGPD). Cada página de modelo lista os grupos de provedores que o fornecem, e com a fixação de grupos você pode limitar uma chave a grupos específicos. Com o roteamento automático, a solicitação vai para o grupo disponível mais barato, que muitas vezes é um dos provedores descritos aqui. Não inclua dados pessoais de outras pessoas no conteúdo que você envia a um modelo; desaconselhamos incluir os seus. Os provedores que também usam suas entradas para fins próprios, em especial para treinar modelos de IA, são tratados de outra forma, seja o modelo gratuito ou pago (veja a seção 4). O mesmo se aplica aos provedores que não publicaram como tratam as entradas. Se um desses provedores tiver sede em um país terceiro sem nível adequado de proteção de dados, só transferimos suas entradas para lá depois que você der seu consentimento expresso em uma janela que indica os países de destino (art. 49.º, n.º 1, alínea a, do RGPD). Seu consentimento abrange os provedores por meio dos quais o modelo é oferecido no momento do consentimento; se outro provedor desse tipo for adicionado, pediremos novamente o seu consentimento. Você pode revogar o consentimento a qualquer momento nas configurações da sua conta ou, como visitante, em \"Gerenciar consentimentos\" no chat; depois disso, o modelo fica bloqueado para você. Para todos os demais provedores, a transferência continua baseada na execução do nosso contrato (art. 49.º, n.º 1, alínea b, do RGPD). Modelos que exigem esse consentimento não estão disponíveis para contas empresariais.",
-    "TRANSFERS_EMAIL": "E-mail e pagamentos com criptomoedas: enviamos e-mails de conta e de transações, como códigos de cadastro, redefinições de senha e confirmações de pagamento, por meio da Resend, nos Estados Unidos, que é certificada pelo Quadro de Privacidade de Dados UE-EUA. Os e-mails que você envia ao nosso endereço de suporte são armazenados em nosso provedor de caixa de e-mail netcup GmbH, na Alemanha, que os trata em nosso nome com base em um contrato de tratamento de dados (art. 28 do RGPD). Eles não são transferidos para nenhum país terceiro. Pedimos que não envie informações sensíveis por e-mail. Se você pagar com criptomoeda, o pagamento é feito na página de pagamento da NowPayments, operada pela FD Transfers LLC em São Vicente e Granadinas. Enviamos à NowPayments apenas o valor e um número de pedido aleatório, sem nome nem endereço de e-mail. Em sua página de pagamento, a NowPayments trata seus dados, como seu endereço IP e o endereço da sua carteira, como controladora própria, nos termos de sua própria política de privacidade.",
+    "TRANSFERS_EMAIL": "E-mail e pagamentos com criptomoedas: enviamos e-mails de conta e de transações, como códigos de cadastro, redefinições de senha e confirmações de pagamento, por meio da Resend, nos Estados Unidos, que é certificada pelo Quadro de Privacidade de Dados UE-EUA. As mensagens do nosso formulário de contato também chegam à nossa caixa de suporte por meio da Resend. Os e-mails que você envia ao nosso endereço de suporte são armazenados em nosso provedor de caixa de e-mail netcup GmbH, na Alemanha, que os trata em nosso nome com base em um contrato de tratamento de dados (art. 28 do RGPD). Eles não são transferidos para nenhum país terceiro. Pedimos que não envie informações sensíveis por e-mail. Se você pagar com criptomoeda, o pagamento é feito na página de pagamento da NowPayments, operada pela FD Transfers LLC em São Vicente e Granadinas. Enviamos à NowPayments apenas o valor e um número de pedido aleatório, sem nome nem endereço de e-mail. Em sua página de pagamento, a NowPayments trata seus dados, como seu endereço IP e o endereço da sua carteira, como controladora própria, nos termos de sua própria política de privacidade.",
     "CHANGES_TITLE": "11. Alterações nesta política",
     "CHANGES_CONTENT": "Podemos atualizar esta Política de Privacidade periodicamente. Notificaremos você sobre alterações relevantes publicando a política atualizada em nosso site e atualizando a data de \"Última atualização\" acima e, quando a alteração afetar materialmente seus direitos, avisaremos os titulares de contas por e-mail. O uso contínuo dos nossos serviços após a entrada em vigor de uma atualização constitui aceitação da política revisada. Por favor, mantenha atualizado o endereço de e-mail da sua conta para que possamos entrar em contato com você.",
     "CONTACT_TITLE": "12. Contate-nos",
@@ -2947,7 +2947,8 @@
     "RESPONSIBLE_TITLE": "Responsável pelo conteúdo conforme o § 18, parágrafo 2 MStV",
     "RESPONSIBLE_CONTENT": "{legalName}\n{legalAddress}\nGermany",
     "DISPUTE_TITLE": "Resolução de litígios de consumo",
-    "DISPUTE_CONTENT": "Não estamos dispostos nem obrigados a participar de procedimentos de resolução de litígios perante um órgão de arbitragem de consumo."
+    "DISPUTE_CONTENT": "Não estamos dispostos nem obrigados a participar de procedimentos de resolução de litígios perante um órgão de arbitragem de consumo.",
+    "CONTACT_FORM_LINK": "Formulário de contato"
   },
   "MAIN": {
     "ENUM": {
@@ -7010,5 +7011,23 @@
     "HOT": "Em alta",
     "NEW": "Novos",
     "TOP": "Top"
+  },
+  "CONTACT": {
+    "TITLE": "Contato",
+    "INTRO": "Envie uma mensagem e responderemos por e-mail, geralmente em poucas horas.",
+    "NAME": "Nome (opcional)",
+    "EMAIL": "Seu e-mail",
+    "SUBJECT": "Assunto (opcional)",
+    "MESSAGE": "Mensagem",
+    "SEND": "Enviar mensagem",
+    "SENDING": "Enviando...",
+    "SENT": "Obrigado, sua mensagem foi enviada. Responderemos para o e-mail informado.",
+    "PRIVACY_NOTE": "Usamos seus dados apenas para responder à sua mensagem. Saiba mais na nossa <privacy>política de privacidade</privacy>.",
+    "ERROR_MESSAGE_LENGTH": "Escreva pelo menos 10 caracteres.",
+    "META": {
+      "TITLE": "Contato - {appName}",
+      "DESCRIPTION": "Formulário de contato da {appName}.",
+      "KEYWORDS": "contato, {appName}"
+    }
   }
 }

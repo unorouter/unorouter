@@ -2820,7 +2820,7 @@
     "CHILDREN_CONTENT": "Hizmetlerimiz çocuklara yönelik değildir. Bunları kullanmak için en az 13 yaşında olmanız ve ikamet ettiğiniz ülkede bağlayıcı bir sözleşme yapabilecek yaşta olmanız ya da bir ebeveyn veya vasinin iznine sahip olmanız gerekir. 13 yaşın altındaki çocuklardan bilerek kişisel bilgi toplamayız. Böyle bir bilgi topladığımızı öğrenirsek onu sileriz. Bir çocuğun bize kişisel veri sağladığına inanıyorsanız {supportEmail} adresinden bizimle iletişime geçiniz.",
     "TRANSFERS_TITLE": "10. Uluslararası Veri Transferleri",
     "TRANSFERS_CONTENT": "Kişisel verileriniz ikamet ettiğiniz ülke dışındaki ülkelere aktarılabilir ve orada işlenebilir. Kendi altyapımız ile ödeme sağlayıcılarımız için kişisel verileri Avrupa Ekonomik Alanı dışına yalnızca hedef ülke için Avrupa Komisyonu'nun bir yeterlilik kararı bulunduğunda veya Avrupa Komisyonu tarafından onaylanmış standart sözleşme maddeleri yapıldığında aktarırız. Model sağlayıcıları ayrı bir durumdur. Tanınmış Batılı geliştiricilerin modellerine yapılanlar dahil pek çok istek, Avrupa Ekonomik Alanı dışında, yeterlilik kararı bulunmayan ülkelerde, özellikle Çin, Hong Kong, Singapur, Tayland ve Birleşik Arap Emirlikleri'nde yerleşik sağlayıcılar ile AB-ABD Veri Gizliliği Çerçevesi kapsamında sertifikalı olmayan ve bize standart sözleşme maddeleriyle bağlı olmayan ABD'deki sağlayıcılar tarafından karşılanır. Bu ülkelerdeki veri koruma düzeyi Avrupa Birliği'ndekiyle karşılaştırılamaz: oradaki makamların verilere erişim konusunda geniş yetkileri olabilir ve eşdeğer haklara ve hukuki başvuru yollarına sahip olmayabilirsiniz. Bu sağlayıcıların bazıları aldıkları verileri inceler, saklar veya model eğitiminde kullanır. Tüketiciler açısından aktarım, sözleşmemizin ifası için gereklidir; çünkü bir modelin sunulduğu sağlayıcı, kullandığınız hizmetin bir parçasıdır (GDPR md. 49(1)(b)). Her model sayfası, modeli sunan sağlayıcı gruplarını listeler ve grup sabitleme ile bir anahtarı belirli gruplarla sınırlayabilirsiniz. Otomatik yönlendirmede istek, mevcut en ucuz gruba gider; bu grup çoğu zaman burada açıklanan sağlayıcılardan biridir. Bir modele gönderdiğiniz içeriğe başka kişilerin kişisel verilerini eklemeyin; kendi verilerinizi eklemenizi de önermiyoruz. Girdilerinizi kendi amaçları için de, özellikle yapay zekâ modellerini eğitmek için kullanan sağlayıcılar ise model ücretsiz veya ücretli olsun farklı ele alınır (bkz. bölüm 4). Aynı durum, girdileri nasıl işlediklerini yayımlamamış sağlayıcılar için de geçerlidir. Böyle bir sağlayıcının merkezi yeterli veri koruma düzeyine sahip olmayan bir üçüncü ülkedeyse, girdilerinizi oraya ancak hedef ülkeleri belirten bir pencerede açık onay vermenizden sonra aktarırız (GDPR md. 49(1)(a)). Onayınız, onay verdiğiniz anda modelin sunulduğu sağlayıcıları kapsar; bu türden başka bir sağlayıcı eklenirse onayınızı yeniden isteriz. Onayınızı istediğiniz zaman hesap ayarlarınızdan, misafir olarak ise sohbetteki \"Onayları yönet\" üzerinden geri alabilirsiniz; model bundan sonra sizin için engellenir. Diğer tüm sağlayıcılar için aktarım, sözleşmemizin ifasına dayanmaya devam eder (GDPR md. 49(1)(b)). Böyle bir onay gerektiren modeller kurumsal hesaplar için kullanılamaz.",
-    "TRANSFERS_EMAIL": "E-posta ve kripto para ödemeleri: Kayıt kodları, parola sıfırlama e-postaları ve ödeme onayları gibi hesap ve işlem e-postalarını, ABD'de bulunan ve AB-ABD Veri Gizliliği Çerçevesi kapsamında sertifikalı olan Resend üzerinden göndeririz. Destek adresimize gönderdiğiniz e-postalar, Almanya'daki e-posta kutusu sağlayıcımız netcup GmbH nezdinde saklanır; netcup GmbH bunları bir veri işleme sözleşmesi kapsamında bizim adımıza işler (GDPR md. 28). Bu e-postalar üçüncü bir ülkeye aktarılmaz. Lütfen e-posta ile hassas bilgi göndermeyin. Kripto para ile ödeme yaparsanız ödeme, Saint Vincent ve Grenadinler'de yerleşik FD Transfers LLC tarafından işletilen NowPayments'ın ödeme sayfasında gerçekleştirilir. NowPayments'a yalnızca tutarı ve rastgele bir sipariş numarasını göndeririz; ad veya e-posta adresi göndermeyiz. NowPayments, ödeme sayfasında IP adresiniz ve cüzdan adresiniz gibi verilerinizi kendi gizlilik politikası kapsamında bağımsız veri sorumlusu olarak işler.",
+    "TRANSFERS_EMAIL": "E-posta ve kripto para ödemeleri: Kayıt kodları, parola sıfırlama e-postaları ve ödeme onayları gibi hesap ve işlem e-postalarını, ABD'de bulunan ve AB-ABD Veri Gizliliği Çerçevesi kapsamında sertifikalı olan Resend üzerinden göndeririz. İletişim formumuzdan gelen mesajlar da destek posta kutumuza Resend üzerinden ulaşır. Destek adresimize gönderdiğiniz e-postalar, Almanya'daki e-posta kutusu sağlayıcımız netcup GmbH nezdinde saklanır; netcup GmbH bunları bir veri işleme sözleşmesi kapsamında bizim adımıza işler (GDPR md. 28). Bu e-postalar üçüncü bir ülkeye aktarılmaz. Lütfen e-posta ile hassas bilgi göndermeyin. Kripto para ile ödeme yaparsanız ödeme, Saint Vincent ve Grenadinler'de yerleşik FD Transfers LLC tarafından işletilen NowPayments'ın ödeme sayfasında gerçekleştirilir. NowPayments'a yalnızca tutarı ve rastgele bir sipariş numarasını göndeririz; ad veya e-posta adresi göndermeyiz. NowPayments, ödeme sayfasında IP adresiniz ve cüzdan adresiniz gibi verilerinizi kendi gizlilik politikası kapsamında bağımsız veri sorumlusu olarak işler.",
     "CHANGES_TITLE": "11. Bu Politikadaki Değişiklikler",
     "CHANGES_CONTENT": "Bu Gizlilik Politikasını zaman zaman güncelleyebiliriz. Önemli değişiklikleri, güncellenmiş politikayı web sitemizde yayımlayarak ve yukarıdaki \"Son Güncelleme\" tarihini güncelleyerek size bildiririz; değişiklik haklarınızı önemli ölçüde etkiliyorsa hesap sahiplerine e-posta ile bildirimde bulunuruz. Bir güncelleme yürürlüğe girdikten sonra hizmetlerimizi kullanmaya devam etmeniz, gözden geçirilmiş politikanın kabulü anlamına gelir. Size ulaşabilmemiz için lütfen hesabınızdaki e-posta adresini güncel tutunuz.",
     "CONTACT_TITLE": "12. Bize Ulaşın",
@@ -2947,7 +2947,8 @@
     "RESPONSIBLE_TITLE": "§ 18 fıkra 2 MStV uyarınca içerikten sorumlu kişi",
     "RESPONSIBLE_CONTENT": "{legalName}\n{legalAddress}\nGermany",
     "DISPUTE_TITLE": "Tüketici uyuşmazlıklarının çözümü",
-    "DISPUTE_CONTENT": "Bir tüketici hakem kurulu önündeki uyuşmazlık çözüm süreçlerine katılmaya istekli veya yükümlü değiliz."
+    "DISPUTE_CONTENT": "Bir tüketici hakem kurulu önündeki uyuşmazlık çözüm süreçlerine katılmaya istekli veya yükümlü değiliz.",
+    "CONTACT_FORM_LINK": "İletişim formu"
   },
   "MAIN": {
     "ENUM": {
@@ -7010,5 +7011,23 @@
     "HOT": "Popüler",
     "NEW": "Yeni",
     "TOP": "En çok"
+  },
+  "CONTACT": {
+    "TITLE": "İletişim",
+    "INTRO": "Bize bir mesaj gönderin, genellikle birkaç saat içinde e-posta ile yanıt veririz.",
+    "NAME": "Ad (isteğe bağlı)",
+    "EMAIL": "E-posta adresiniz",
+    "SUBJECT": "Konu (isteğe bağlı)",
+    "MESSAGE": "Mesaj",
+    "SEND": "Mesajı gönder",
+    "SENDING": "Gönderiliyor...",
+    "SENT": "Teşekkürler, mesajınız gönderildi. Girdiğiniz e-posta adresine yanıt vereceğiz.",
+    "PRIVACY_NOTE": "Bilgilerinizi yalnızca mesajınızı yanıtlamak için kullanırız. Ayrıntılar <privacy>gizlilik politikamızda</privacy>.",
+    "ERROR_MESSAGE_LENGTH": "Lütfen en az 10 karakter yazın.",
+    "META": {
+      "TITLE": "İletişim - {appName}",
+      "DESCRIPTION": "{appName} iletişim formu.",
+      "KEYWORDS": "iletişim, {appName}"
+    }
   }
 }

@@ -14,6 +14,7 @@ export type StaticRoute = Exclude<
 
 export const pathnames = {
   "/": "/",
+  "/contact": "/contact",
   "/models": {
     de: "/modelle",
     fr: "/modeles",
@@ -1227,6 +1228,7 @@ export const privateRoutes = {
     "/login",
     "/register",
     "/recover",
+    "/contact",
   ],
   dynamicParents: ["/chat/[convId]", "/image/[id]", "/room/[roomId]"],
   publicChildren: ["/chat/presets", "/chat/cards", "/chat/providers"],

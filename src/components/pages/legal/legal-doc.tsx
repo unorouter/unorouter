@@ -12,6 +12,7 @@ export type LegalDocSection = {
   items?: string[];
   outro?: string;
   subs?: { title: string; para: string }[];
+  link?: { href: "/contact"; label: string };
 };
 
 export async function LegalDoc(props: {
@@ -61,6 +62,13 @@ export async function LegalDoc(props: {
           {s.para && (
             <p className="text-muted-foreground leading-relaxed whitespace-pre-line">
               {para(s.para)}
+            </p>
+          )}
+          {s.link && (
+            <p className="mt-2 leading-relaxed">
+              <Link href={s.link.href} className="underline">
+                {t(key(s.link.label))}
+              </Link>
             </p>
           )}
           {s.intro && (

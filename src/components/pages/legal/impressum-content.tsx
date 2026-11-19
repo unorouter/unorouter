@@ -8,7 +8,11 @@ const SECTIONS: LegalDocSection[] = [
     title: "PROVIDER_TITLE",
     para: "PROVIDER_CONTENT",
   },
-  { title: "CONTACT_TITLE", para: "CONTACT_CONTENT" },
+  {
+    title: "CONTACT_TITLE",
+    para: "CONTACT_CONTENT",
+    link: { href: "/contact", label: "CONTACT_FORM_LINK" },
+  },
   { title: "VAT_TITLE", para: "VAT_CONTENT" },
   {
     title: "RESPONSIBLE_TITLE",

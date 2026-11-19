@@ -2820,7 +2820,7 @@
     "CHILDREN_CONTENT": "Các dịch vụ của chúng tôi không hướng đến trẻ em. Quý khách phải ít nhất 13 tuổi để sử dụng chúng, và đủ tuổi để giao kết một hợp đồng có hiệu lực ràng buộc tại quốc gia nơi quý khách cư trú, hoặc có sự cho phép của cha mẹ hay người giám hộ. Chúng tôi không cố ý thu thập thông tin cá nhân từ trẻ em dưới 13 tuổi. Nếu chúng tôi biết rằng mình đã thu thập thông tin như vậy, chúng tôi sẽ xóa nó. Nếu quý khách tin rằng một trẻ em đã cung cấp cho chúng tôi dữ liệu cá nhân, vui lòng liên hệ với chúng tôi tại {supportEmail}.",
     "TRANSFERS_TITLE": "10. Chuyển dữ liệu quốc tế",
     "TRANSFERS_CONTENT": "Dữ liệu cá nhân của bạn có thể được chuyển đến và xử lý tại các quốc gia khác với quốc gia bạn cư trú. Đối với hạ tầng của chính chúng tôi và các nhà cung cấp thanh toán, chúng tôi chỉ chuyển dữ liệu cá nhân ra ngoài Khu vực Kinh tế Châu Âu khi quốc gia đích có quyết định về mức độ bảo vệ tương xứng của Ủy ban Châu Âu hoặc khi đã ký kết các điều khoản hợp đồng tiêu chuẩn được Ủy ban Châu Âu phê duyệt. Nhà cung cấp mô hình là một trường hợp riêng. Nhiều yêu cầu, kể cả yêu cầu đến các mô hình của những nhà phát triển phương Tây nổi tiếng, được phục vụ bởi các nhà cung cấp đặt trụ sở ngoài Khu vực Kinh tế Châu Âu tại các quốc gia không có quyết định về mức độ bảo vệ tương xứng, đặc biệt là Trung Quốc, Hồng Kông, Singapore, Thái Lan và Các Tiểu vương quốc Ả Rập Thống nhất, cũng như bởi các nhà cung cấp tại Hoa Kỳ không được chứng nhận theo Khung bảo mật dữ liệu EU-Hoa Kỳ và không ràng buộc với chúng tôi bằng các điều khoản hợp đồng tiêu chuẩn. Mức độ bảo vệ dữ liệu tại các quốc gia này không tương đương với Liên minh Châu Âu: cơ quan chức năng ở đó có thể có quyền truy cập dữ liệu rộng rãi và bạn có thể không có các quyền và biện pháp pháp lý tương đương. Một số nhà cung cấp này xem xét, lưu giữ hoặc dùng dữ liệu nhận được để huấn luyện mô hình. Đối với người tiêu dùng, việc chuyển dữ liệu là cần thiết để thực hiện hợp đồng của chúng tôi với bạn, vì nhà cung cấp phục vụ một mô hình là một phần của dịch vụ bạn sử dụng (Điều 49(1)(b) GDPR). Trang của mỗi mô hình liệt kê các nhóm nhà cung cấp phục vụ mô hình đó, và bằng tính năng ghim nhóm, bạn có thể giới hạn một khóa ở những nhóm cụ thể. Với định tuyến tự động, yêu cầu được gửi đến nhóm khả dụng rẻ nhất, thường là một trong các nhà cung cấp được mô tả ở đây. Không đưa dữ liệu cá nhân của người khác vào nội dung bạn gửi đến mô hình, và chúng tôi khuyên bạn cũng không nên đưa dữ liệu của chính mình. Các nhà cung cấp cũng sử dụng dữ liệu nhập của quý khách cho mục đích riêng, đặc biệt là để huấn luyện mô hình AI, được xử lý khác, bất kể mô hình miễn phí hay trả phí (xem mục 4). Điều này cũng áp dụng cho các nhà cung cấp chưa công bố cách họ xử lý dữ liệu nhập. Nếu một nhà cung cấp như vậy có trụ sở tại nước thứ ba không có mức độ bảo vệ dữ liệu đầy đủ, chúng tôi chỉ chuyển dữ liệu nhập của quý khách đến đó sau khi quý khách đồng ý rõ ràng trong một hộp thoại nêu tên các quốc gia đích (Điều 49(1)(a) GDPR). Sự đồng ý của quý khách áp dụng cho các nhà cung cấp mà qua đó mô hình được cung cấp tại thời điểm đồng ý; nếu có thêm một nhà cung cấp như vậy, chúng tôi sẽ xin lại sự đồng ý của quý khách. Quý khách có thể rút lại sự đồng ý bất cứ lúc nào trong cài đặt tài khoản, hoặc với tư cách khách qua \"Quản lý đồng ý\" trong chat; sau đó mô hình bị chặn đối với quý khách. Đối với tất cả các nhà cung cấp khác, việc chuyển giao vẫn dựa trên việc thực hiện hợp đồng của chúng tôi (Điều 49(1)(b) GDPR). Các mô hình cần sự đồng ý như vậy không khả dụng cho tài khoản doanh nghiệp.",
-    "TRANSFERS_EMAIL": "Email và thanh toán bằng tiền mã hóa: chúng tôi gửi các email về tài khoản và giao dịch, chẳng hạn như mã đăng ký, email đặt lại mật khẩu và xác nhận thanh toán, thông qua Resend tại Hoa Kỳ, đơn vị được chứng nhận theo Khung bảo mật dữ liệu EU-Hoa Kỳ. Email bạn gửi đến địa chỉ hỗ trợ của chúng tôi được lưu trữ tại nhà cung cấp hộp thư netcup GmbH ở Đức, đơn vị xử lý các email này thay mặt chúng tôi theo một thỏa thuận xử lý dữ liệu (Điều 28 GDPR). Các email này không được chuyển sang bất kỳ quốc gia thứ ba nào. Vui lòng không gửi thông tin nhạy cảm qua email. Nếu bạn thanh toán bằng tiền mã hóa, việc thanh toán được thực hiện trên trang thanh toán của NowPayments do FD Transfers LLC tại Saint Vincent và Grenadines vận hành. Chúng tôi chỉ gửi cho NowPayments số tiền và một mã đơn hàng ngẫu nhiên, không gửi tên hay địa chỉ email. Trên trang thanh toán của mình, NowPayments xử lý dữ liệu của bạn, chẳng hạn như địa chỉ IP và địa chỉ ví, với tư cách là bên kiểm soát dữ liệu độc lập theo chính sách quyền riêng tư của riêng họ.",
+    "TRANSFERS_EMAIL": "Email và thanh toán bằng tiền mã hóa: chúng tôi gửi các email về tài khoản và giao dịch, chẳng hạn như mã đăng ký, email đặt lại mật khẩu và xác nhận thanh toán, thông qua Resend tại Hoa Kỳ, đơn vị được chứng nhận theo Khung bảo mật dữ liệu EU-Hoa Kỳ. Tin nhắn gửi qua biểu mẫu liên hệ cũng được chuyển đến hộp thư hỗ trợ của chúng tôi thông qua Resend. Email bạn gửi đến địa chỉ hỗ trợ của chúng tôi được lưu trữ tại nhà cung cấp hộp thư netcup GmbH ở Đức, đơn vị xử lý các email này thay mặt chúng tôi theo một thỏa thuận xử lý dữ liệu (Điều 28 GDPR). Các email này không được chuyển sang bất kỳ quốc gia thứ ba nào. Vui lòng không gửi thông tin nhạy cảm qua email. Nếu bạn thanh toán bằng tiền mã hóa, việc thanh toán được thực hiện trên trang thanh toán của NowPayments do FD Transfers LLC tại Saint Vincent và Grenadines vận hành. Chúng tôi chỉ gửi cho NowPayments số tiền và một mã đơn hàng ngẫu nhiên, không gửi tên hay địa chỉ email. Trên trang thanh toán của mình, NowPayments xử lý dữ liệu của bạn, chẳng hạn như địa chỉ IP và địa chỉ ví, với tư cách là bên kiểm soát dữ liệu độc lập theo chính sách quyền riêng tư của riêng họ.",
     "CHANGES_TITLE": "11. Thay đổi chính sách",
     "CHANGES_CONTENT": "Chúng tôi có thể cập nhật Chính sách Quyền riêng tư này theo thời gian. Chúng tôi sẽ thông báo cho quý khách về những thay đổi quan trọng bằng cách đăng chính sách đã cập nhật trên trang web của chúng tôi và cập nhật ngày \"Cập nhật lần cuối\" ở trên, và khi thay đổi ảnh hưởng đáng kể đến các quyền của quý khách, chúng tôi sẽ thông báo cho chủ tài khoản qua thư điện tử. Việc quý khách tiếp tục sử dụng các dịch vụ của chúng tôi sau khi một bản cập nhật có hiệu lực đồng nghĩa với việc chấp nhận chính sách đã sửa đổi. Vui lòng giữ cho địa chỉ thư điện tử trên tài khoản của quý khách luôn cập nhật để chúng tôi có thể liên hệ với quý khách.",
     "CONTACT_TITLE": "12. Liên hệ",
@@ -2947,7 +2947,8 @@
     "RESPONSIBLE_TITLE": "Người chịu trách nhiệm về nội dung theo § 18 khoản 2 MStV",
     "RESPONSIBLE_CONTENT": "{legalName}\n{legalAddress}\nGermany",
     "DISPUTE_TITLE": "Giải quyết tranh chấp người tiêu dùng",
-    "DISPUTE_CONTENT": "Chúng tôi không sẵn sàng và không có nghĩa vụ tham gia thủ tục giải quyết tranh chấp trước cơ quan hòa giải người tiêu dùng."
+    "DISPUTE_CONTENT": "Chúng tôi không sẵn sàng và không có nghĩa vụ tham gia thủ tục giải quyết tranh chấp trước cơ quan hòa giải người tiêu dùng.",
+    "CONTACT_FORM_LINK": "Biểu mẫu liên hệ"
   },
   "MAIN": {
     "ENUM": {
@@ -7010,5 +7011,23 @@
     "HOT": "Nổi bật",
     "NEW": "Mới",
     "TOP": "Hàng đầu"
+  },
+  "CONTACT": {
+    "TITLE": "Liên hệ",
+    "INTRO": "Gửi tin nhắn cho chúng tôi, chúng tôi sẽ trả lời qua email, thường trong vài giờ.",
+    "NAME": "Tên (không bắt buộc)",
+    "EMAIL": "Địa chỉ email của bạn",
+    "SUBJECT": "Tiêu đề (không bắt buộc)",
+    "MESSAGE": "Tin nhắn",
+    "SEND": "Gửi tin nhắn",
+    "SENDING": "Đang gửi...",
+    "SENT": "Cảm ơn, tin nhắn của bạn đã được gửi. Chúng tôi sẽ trả lời đến địa chỉ email bạn đã nhập.",
+    "PRIVACY_NOTE": "Chúng tôi chỉ dùng thông tin của bạn để trả lời tin nhắn. Xem thêm trong <privacy>chính sách quyền riêng tư</privacy>.",
+    "ERROR_MESSAGE_LENGTH": "Vui lòng viết ít nhất 10 ký tự.",
+    "META": {
+      "TITLE": "Liên hệ - {appName}",
+      "DESCRIPTION": "Biểu mẫu liên hệ của {appName}.",
+      "KEYWORDS": "liên hệ, {appName}"
+    }
   }
 }
