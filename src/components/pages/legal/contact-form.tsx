@@ -59,18 +59,7 @@ export function ContactForm() {
   }
 
   return (
-    <main className="mx-auto max-w-2xl px-6 py-16">
-      <Link
-        href="/impressum"
-        className="text-muted-foreground hover:text-foreground mb-8 inline-block text-sm"
-      >
-        &larr; {t("IMPRESSUM.TITLE")}
-      </Link>
-      <h1 className="mb-2 text-3xl font-bold">{t("CONTACT.TITLE")}</h1>
-      <p className="text-muted-foreground mb-10 leading-relaxed">
-        {t("CONTACT.INTRO")}
-      </p>
-
+    <>
       {sent ? (
         <p className="text-muted-foreground leading-relaxed">
           {t("CONTACT.SENT")}
@@ -149,6 +138,6 @@ export function ContactForm() {
           </form>
         </Form>
       )}
-    </main>
+    </>
   );
 }

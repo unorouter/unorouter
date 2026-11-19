@@ -1,4 +1,5 @@
 import { ContactForm } from "@/components/pages/legal/contact-form";
+import { Link } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
 import { getPageMetadata } from "@/lib/seo/metadata";
 import { serverLocale } from "@/lib/utils/server";
@@ -20,6 +21,21 @@ export async function generateMetadata(props: {
   });
 }
 
-export default function ContactPage() {
-  return <ContactForm />;
+export default async function ContactPage() {
+  const t = await getTranslations();
+  return (
+    <main className="mx-auto max-w-2xl px-6 py-16">
+      <Link
+        href="/impressum"
+        className="text-muted-foreground hover:text-foreground mb-8 inline-block text-sm"
+      >
+        &larr; {t("IMPRESSUM.TITLE")}
+      </Link>
+      <h1 className="mb-2 text-3xl font-bold">{t("CONTACT.TITLE")}</h1>
+      <p className="text-muted-foreground mb-10 leading-relaxed">
+        {t("CONTACT.INTRO")}
+      </p>
+      <ContactForm />
+    </main>
+  );
 }
