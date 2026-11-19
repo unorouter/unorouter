@@ -4163,7 +4163,9 @@
       "CREATE_DOCUMENT": "Crear archivos",
       "CREATE_DOCUMENT_HINT": "Permite al modelo crear archivos de Word, PDF, PowerPoint y Excel que puedes descargar.",
       "DOWNLOAD": "Descargar",
-      "FILE_MISSING": "Este archivo ya no está en este dispositivo."
+      "FILE_MISSING": "Este archivo ya no está en este dispositivo.",
+      "RUN_PYTHON": "Ejecutar Python",
+      "RUN_PYTHON_HINT": "Permite al modelo ejecutar Python en tu navegador para cálculos, datos y gráficos. La primera ejecución descarga unos 10 MB."
     },
     "ARTIFACT": {
       "PREVIEW": "Vista previa",

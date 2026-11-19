@@ -4163,7 +4163,9 @@
       "CREATE_DOCUMENT": "Tạo tệp",
       "CREATE_DOCUMENT_HINT": "Cho phép mô hình tạo tệp Word, PDF, PowerPoint và Excel để tải xuống.",
       "DOWNLOAD": "Tải xuống",
-      "FILE_MISSING": "Tệp này không còn trên thiết bị này."
+      "FILE_MISSING": "Tệp này không còn trên thiết bị này.",
+      "RUN_PYTHON": "Chạy Python",
+      "RUN_PYTHON_HINT": "Cho phép mô hình chạy Python trong trình duyệt để tính toán, xử lý dữ liệu và vẽ biểu đồ. Lần chạy đầu tải xuống khoảng 10 MB."
     },
     "ARTIFACT": {
       "PREVIEW": "Xem trước",

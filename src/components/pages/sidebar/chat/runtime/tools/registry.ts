@@ -5,6 +5,7 @@ import type { TSchema } from "@sinclair/typebox";
 import type { TranslationKey } from "@/lib/config/constants";
 import { fetchPageTool } from "./fetch-page";
 import { createDocumentTool } from "./documents/create-document";
+import { runPythonTool } from "./python/run-python";
 
 export type ChatTool = {
   // Persisted in message items: renaming one orphans its stored calls.
@@ -24,9 +25,11 @@ export type ToolContext = {
 };
 
 // Sorted by name so the tool list sent upstream keeps its prompt-cache prefix.
-export const CHAT_TOOLS: ChatTool[] = [fetchPageTool, createDocumentTool].sort(
-  (a, b) => a.name.localeCompare(b.name),
-);
+export const CHAT_TOOLS: ChatTool[] = [
+  fetchPageTool,
+  createDocumentTool,
+  runPythonTool,
+].sort((a, b) => a.name.localeCompare(b.name));
 
 export const MAX_TOOL_STEPS = 8;
 

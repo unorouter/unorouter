@@ -4163,7 +4163,9 @@
       "CREATE_DOCUMENT": "फ़ाइलें बनाएं",
       "CREATE_DOCUMENT_HINT": "मॉडल को डाउनलोड करने लायक Word, PDF, PowerPoint और Excel फ़ाइलें बनाने देता है.",
       "DOWNLOAD": "डाउनलोड करें",
-      "FILE_MISSING": "यह फ़ाइल अब इस डिवाइस पर नहीं है."
+      "FILE_MISSING": "यह फ़ाइल अब इस डिवाइस पर नहीं है.",
+      "RUN_PYTHON": "Python चलाएं",
+      "RUN_PYTHON_HINT": "मॉडल को आपके ब्राउज़र में गणना, डेटा और चार्ट के लिए Python चलाने देता है. पहली बार लगभग 10 MB डाउनलोड होता है."
     },
     "ARTIFACT": {
       "PREVIEW": "पूर्वावलोकन",

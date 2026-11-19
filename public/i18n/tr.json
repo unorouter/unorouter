@@ -4163,7 +4163,9 @@
       "CREATE_DOCUMENT": "Dosya oluştur",
       "CREATE_DOCUMENT_HINT": "Modelin indirilebilir Word, PDF, PowerPoint ve Excel dosyaları oluşturmasını sağlar.",
       "DOWNLOAD": "İndir",
-      "FILE_MISSING": "Bu dosya artık bu cihazda değil."
+      "FILE_MISSING": "Bu dosya artık bu cihazda değil.",
+      "RUN_PYTHON": "Python çalıştır",
+      "RUN_PYTHON_HINT": "Modelin hesaplama, veri ve grafikler için tarayıcınızda Python çalıştırmasını sağlar. İlk çalıştırma yaklaşık 10 MB indirir."
     },
     "ARTIFACT": {
       "PREVIEW": "Önizle",

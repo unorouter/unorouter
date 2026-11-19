@@ -4163,7 +4163,9 @@
       "CREATE_DOCUMENT": "Dateien erstellen",
       "CREATE_DOCUMENT_HINT": "Das Modell kann Word-, PDF-, PowerPoint- und Excel-Dateien zum Herunterladen erstellen.",
       "DOWNLOAD": "Herunterladen",
-      "FILE_MISSING": "Diese Datei ist nicht mehr auf diesem Gerät."
+      "FILE_MISSING": "Diese Datei ist nicht mehr auf diesem Gerät.",
+      "RUN_PYTHON": "Python ausführen",
+      "RUN_PYTHON_HINT": "Das Modell kann Python in deinem Browser ausführen, für Rechnungen, Daten und Diagramme. Der erste Lauf lädt etwa 10 MB herunter."
     },
     "ARTIFACT": {
       "PREVIEW": "Vorschau",

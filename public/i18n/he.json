@@ -4163,7 +4163,9 @@
       "CREATE_DOCUMENT": "יצירת קבצים",
       "CREATE_DOCUMENT_HINT": "מאפשר למודל ליצור קובצי Word,‏ PDF,‏ PowerPoint ו-Excel להורדה.",
       "DOWNLOAD": "הורדה",
-      "FILE_MISSING": "הקובץ הזה כבר לא נמצא במכשיר הזה."
+      "FILE_MISSING": "הקובץ הזה כבר לא נמצא במכשיר הזה.",
+      "RUN_PYTHON": "הרצת Python",
+      "RUN_PYTHON_HINT": "מאפשר למודל להריץ Python בדפדפן שלך לחישובים, נתונים ותרשימים. ההרצה הראשונה מורידה כ-10 MB."
     },
     "ARTIFACT": {
       "PREVIEW": "תצוגה מקדימה",

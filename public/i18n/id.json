@@ -4163,7 +4163,9 @@
       "CREATE_DOCUMENT": "Buat file",
       "CREATE_DOCUMENT_HINT": "Model dapat membuat file Word, PDF, PowerPoint, dan Excel yang bisa Anda unduh.",
       "DOWNLOAD": "Unduh",
-      "FILE_MISSING": "File ini sudah tidak ada di perangkat ini."
+      "FILE_MISSING": "File ini sudah tidak ada di perangkat ini.",
+      "RUN_PYTHON": "Jalankan Python",
+      "RUN_PYTHON_HINT": "Model dapat menjalankan Python di browser Anda untuk hitungan, data, dan grafik. Jalankan pertama mengunduh sekitar 10 MB."
     },
     "ARTIFACT": {
       "PREVIEW": "Pratinjau",

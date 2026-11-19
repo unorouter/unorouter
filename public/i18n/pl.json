@@ -4163,7 +4163,9 @@
       "CREATE_DOCUMENT": "Twórz pliki",
       "CREATE_DOCUMENT_HINT": "Pozwala modelowi tworzyć pliki Word, PDF, PowerPoint i Excel do pobrania.",
       "DOWNLOAD": "Pobierz",
-      "FILE_MISSING": "Tego pliku nie ma już na tym urządzeniu."
+      "FILE_MISSING": "Tego pliku nie ma już na tym urządzeniu.",
+      "RUN_PYTHON": "Uruchom Pythona",
+      "RUN_PYTHON_HINT": "Pozwala modelowi uruchamiać Pythona w przeglądarce do obliczeń, danych i wykresów. Pierwsze uruchomienie pobiera około 10 MB."
     },
     "ARTIFACT": {
       "PREVIEW": "Podgląd",

@@ -4163,7 +4163,9 @@
       "CREATE_DOCUMENT": "Create files",
       "CREATE_DOCUMENT_HINT": "Lets the model make Word, PDF, PowerPoint and Excel files you can download.",
       "DOWNLOAD": "Download",
-      "FILE_MISSING": "This file is no longer on this device."
+      "FILE_MISSING": "This file is no longer on this device.",
+      "RUN_PYTHON": "Run Python",
+      "RUN_PYTHON_HINT": "Lets the model run Python in your browser for math, data and charts. The first run downloads about 10 MB."
     },
     "ARTIFACT": {
       "PREVIEW": "Preview",

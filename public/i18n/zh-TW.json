@@ -4163,7 +4163,9 @@
       "CREATE_DOCUMENT": "建立檔案",
       "CREATE_DOCUMENT_HINT": "讓模型建立可下載的 Word、PDF、PowerPoint 和 Excel 檔案。",
       "DOWNLOAD": "下載",
-      "FILE_MISSING": "此檔案已不在此裝置上。"
+      "FILE_MISSING": "此檔案已不在此裝置上。",
+      "RUN_PYTHON": "執行 Python",
+      "RUN_PYTHON_HINT": "讓模型在你的瀏覽器中執行 Python，用於計算、資料處理和圖表。首次執行會下載約 10 MB。"
     },
     "ARTIFACT": {
       "PREVIEW": "預覽",

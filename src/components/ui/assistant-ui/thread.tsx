@@ -68,6 +68,7 @@ import { partsToItems, type MessagePart } from "@/lib/ai/chat/messages";
 import { ToolFallback } from "@/components/ui/assistant-ui/tool-fallback";
 import { CHAT_TOOLS } from "@/components/pages/sidebar/chat/runtime/tools/registry";
 import { DocumentFileCard } from "@/components/pages/sidebar/chat/runtime/tools/documents/document-card";
+import { PythonOutputCard } from "@/components/pages/sidebar/chat/runtime/tools/python/output-card";
 import { OWN_PURPOSE_OBJECTED } from "@/lib/api/own-purpose";
 import { msg, NONE_VALUE, type TranslationKey } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
@@ -1030,6 +1031,9 @@ const ChatToolCard: ToolCallMessagePartComponent = (props) => {
       />
       {props.toolName === "create_document" && (
         <DocumentFileCard result={props.result} />
+      )}
+      {props.toolName === "run_python" && (
+        <PythonOutputCard result={props.result} />
       )}
     </>
   );

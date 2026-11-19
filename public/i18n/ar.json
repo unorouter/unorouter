@@ -4163,7 +4163,9 @@
       "CREATE_DOCUMENT": "إنشاء ملفات",
       "CREATE_DOCUMENT_HINT": "يتيح للنموذج إنشاء ملفات Word وPDF وPowerPoint وExcel يمكنك تنزيلها.",
       "DOWNLOAD": "تنزيل",
-      "FILE_MISSING": "لم يعد هذا الملف موجودًا على هذا الجهاز."
+      "FILE_MISSING": "لم يعد هذا الملف موجودًا على هذا الجهاز.",
+      "RUN_PYTHON": "تشغيل Python",
+      "RUN_PYTHON_HINT": "يتيح للنموذج تشغيل Python في متصفحك للحسابات والبيانات والرسوم البيانية. يُنزّل التشغيل الأول نحو 10 ميغابايت."
     },
     "ARTIFACT": {
       "PREVIEW": "معاينة",

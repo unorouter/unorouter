@@ -4163,7 +4163,9 @@
       "CREATE_DOCUMENT": "ファイルを作成",
       "CREATE_DOCUMENT_HINT": "モデルがダウンロード可能な Word、PDF、PowerPoint、Excel ファイルを作成できます。",
       "DOWNLOAD": "ダウンロード",
-      "FILE_MISSING": "このファイルはこのデバイスにもうありません。"
+      "FILE_MISSING": "このファイルはこのデバイスにもうありません。",
+      "RUN_PYTHON": "Python を実行",
+      "RUN_PYTHON_HINT": "モデルがブラウザ内で Python を実行し、計算・データ処理・グラフ作成ができます。初回は約 10 MB をダウンロードします。"
     },
     "ARTIFACT": {
       "PREVIEW": "プレビュー",
