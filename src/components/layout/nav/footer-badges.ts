@@ -1141,7 +1141,7 @@ export const FOOTER_BADGES: {
     width: 80,
   },
   {
-    href: "https://sameproduct.com",
+    href: "https://sameproduct.com/item/unorouter",
     src: "https://sameproduct.com/badages-awards.svg",
     name: "Same Product",
     width: 120,
@@ -1153,7 +1153,7 @@ export const FOOTER_BADGES: {
     width: 96,
   },
   {
-    href: "https://semilaunch.com",
+    href: "https://semilaunch.com/product/unorouter",
     src: "https://semilaunch.com/assets/badge.png",
     name: "semilaunch.com",
     width: 69,
@@ -1249,7 +1249,7 @@ export const FOOTER_BADGES: {
     width: 120,
   },
   {
-    href: "https://soproduct.com",
+    href: "https://soproduct.com/item/unorouter",
     src: "https://soproduct.com/badages-awards.svg",
     name: "So Product",
     width: 120,
@@ -1337,7 +1337,7 @@ export const FOOTER_BADGES: {
     width: 110,
   },
   {
-    href: "https://thankjohn.com",
+    href: "https://thankjohn.com/tool/unorouter",
     src: "https://thankjohn.com/badge.svg",
     name: "Thank John",
     width: 78,
@@ -1839,7 +1839,7 @@ export const FOOTER_BADGES: {
     width: 109,
   },
   {
-    href: "https://tool0.org",
+    href: "https://tool0.org/unorouter",
     src: "https://tool0.org/theme/nav001/default/style/submit_badge_light.svg",
     name: "Tool0",
     alt: "Featured on tool0.org",
@@ -2267,9 +2267,9 @@ export const FOOTER_TEXT_LINKS = [
     label: "600.tools: Explore 600 curated tools for every purpose",
   },
   { href: "https://ai-findr.com/", label: "AI Findr Tools Diresctory" },
-  { href: "https://aiblog.tools", label: "Find us on AIBlog.Tools" },
+  { href: "https://aiblog.tools/tool/unoroutercom", label: "Find us on AIBlog.Tools" },
   {
-    href: "https://aihuntbase.com",
+    href: "https://aihuntbase.com/tools/unorouter",
     label: "AI Hunt Base",
   },
   { href: "https://aihustle.tools", label: "AI Hustle Tools" },
@@ -2369,7 +2369,7 @@ export const FOOTER_TEXT_LINKS = [
     label: "https://useneedle.net/directory/unorouter",
   },
   { href: "https://www.vibe-coding.cloud/", label: "Vibe Coding" },
-  { href: "https://vinggle.com", label: "LISTED ON VINGGLE" },
+  { href: "https://vinggle.com/tool/unorouter", label: "LISTED ON VINGGLE" },
   {
     href: "https://www.webprojectlist.com/doncryptusunorouter/unorouter/",
     label: "WebProjectList",
