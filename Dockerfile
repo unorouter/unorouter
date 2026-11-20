@@ -13,6 +13,8 @@ ENV NEXT_BUN_COMPILE_VERBOSE=1
 # next-bun-compile 2 writes <NBC_OUT>/<NBC_BINARY>, defaulting to dist/app
 ENV NBC_OUT=.
 ENV NBC_BINARY=server
+# Browser .map files stay out of the served binary; the build copies them aside for GlitchTip.
+ENV NBC_PRIVATE_SOURCEMAPS=1
 ARG TARGETARCH
 ARG GIT_SHA=dev
 ENV NEXT_PUBLIC_RELEASE_VERSION=$GIT_SHA

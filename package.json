@@ -139,7 +139,7 @@
     "drizzle-kit": "0.31.11",
     "eslint": "10.14.0",
     "eslint-config-next": "16.4.6",
-    "next-bun-compile": "2.2.0",
+    "next-bun-compile": "2.4.1",
     "orval": "8.47.0",
     "prettier": "3.10.0",
     "prettier-plugin-tailwindcss": "0.8.1",
@@ -149,8 +149,7 @@
     "typescript": "7.0.2"
   },
   "patchedDependencies": {
-    "@sqlite.org/sqlite-wasm@3.54.1-build1": "patches/@sqlite.org%2Fsqlite-wasm@3.54.1-build1.patch",
-    "next-bun-compile@2.2.0": "patches/next-bun-compile@2.2.0.patch"
+    "@sqlite.org/sqlite-wasm@3.54.1-build1": "patches/@sqlite.org%2Fsqlite-wasm@3.54.1-build1.patch"
   },
   "overrides": {
     "@sqlite.org/sqlite-wasm": "3.54.1-build1",
