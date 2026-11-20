@@ -24,6 +24,10 @@ export async function PersonasContent() {
       <DocSection id="default" title={k("H_DEFAULT")}>
         <p>{k("P_DEFAULT_1")}</p>
       </DocSection>
+      <DocSection id="several" title={k("H_SEVERAL")}>
+        <p>{k("P_SEVERAL_1")}</p>
+        <p>{k("P_SEVERAL_2")}</p>
+      </DocSection>
       <DocSection id="import" title={k("H_IMPORT")}>
         <p>{k("P_IMPORT_1")}</p>
       </DocSection>

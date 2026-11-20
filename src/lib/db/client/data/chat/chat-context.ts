@@ -1,6 +1,7 @@
 "use client";
 
 import type { LoadedConvContext } from "@/lib/types";
+import { extraPersonaIds } from "@/lib/db/conversation-settings";
 import {
   readLocalConversationBindings,
   readLocalConversationSettings,
@@ -27,7 +28,7 @@ export async function buildChatContextFromLocalDb(
     (b) => b.lorebookId,
   );
 
-  const [characterRows, lorebookRows, persona, preset] = await Promise.all([
+  const [characterRows, lorebookRows, personaRows, preset] = await Promise.all([
     Promise.all(
       charBindings.map(async (b) => ({
         binding: b,
@@ -35,7 +36,7 @@ export async function buildChatContextFromLocalDb(
       })),
     ),
     Promise.all(lorebookIds.map((id) => readLocalLorebookBundle(id))),
-    settings.personaId ? personaStore.get(settings.personaId) : null,
+    personaStore.list(),
     settings.presetId ? presetStore.get(settings.presetId) : null,
   ]);
   const boundCharacters = characterRows.flatMap((c, i) =>
@@ -49,11 +50,19 @@ export async function buildChatContextFromLocalDb(
       : [],
   );
   const bundles = lorebookRows.filter((l) => l != null);
+  const personas = personaRows ?? [];
+  const persona = personas.find((p) => p.id === settings.personaId);
+  const extraPersonas = extraPersonaIds(settings).flatMap((id) => {
+    const p = personas.find((row) => row.id === id);
+    return p && p.id !== persona?.id ? [p] : [];
+  });
 
   return {
     settings,
     boundCharacters,
-    persona: persona ?? undefined,
+    persona,
+    extraPersonas,
+    personaNames: Object.fromEntries(personas.map((p) => [p.id, p.name])),
     preset: preset ?? undefined,
     lbRows: bundles.map((l) => l.lorebook),
     lbEntries: bundles.flatMap((l) =>

@@ -79,6 +79,7 @@ export type ChatMessageMetadata = {
     height: number | null;
   }[];
   speakingCharacterId?: string;
+  personaId?: string;
   // A tool loop makes one upstream request per step; the first is `debug.requestId`.
   extraRequestIds?: string[];
 };
@@ -216,6 +217,8 @@ export type LoadedConvContext = {
     character: CharacterRow;
   }[];
   persona: PersonaRow | undefined;
+  extraPersonas: PersonaRow[];
+  personaNames: Record<string, string>;
   preset: PresetRow | undefined;
   lbRows: LorebookRow[];
   lbEntries: LorebookEntryRow[];

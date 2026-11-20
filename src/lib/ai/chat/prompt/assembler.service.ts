@@ -365,15 +365,19 @@ export async function assembleForStream(
   }
   const descriptionSlot = joinNonEmpty(charBlocks);
 
-  const personaSlot = persona
-    ? joinNonEmpty([
-        `# User persona: ${persona.name}`,
-        expand(persona.description),
-        persona.personality
-          ? `## Personality\n${expand(persona.personality)}`
-          : "",
-      ])
-    : "";
+  const chatPersonas = [...(persona ? [persona] : []), ...ctx.extraPersonas];
+  const personaSlot = joinNonEmpty([
+    ...chatPersonas.map((p) =>
+      joinNonEmpty([
+        `# User persona: ${p.name}`,
+        expand(p.description),
+        p.personality ? `## Personality\n${expand(p.personality)}` : "",
+      ]),
+    ),
+    chatPersonas.length > 1
+      ? `The user plays ${chatPersonas.map((p) => p.name).join(", ")}. Each user message starts with the name of the one speaking.`
+      : "",
+  ]);
 
   const sysOverride =
     settings.systemPromptOverride ?? primary?.systemPrompt ?? null;

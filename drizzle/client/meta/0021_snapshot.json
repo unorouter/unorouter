@@ -1,8 +1,8 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "c7b0358d-c04a-4c7f-a118-aad47389c15d",
-  "prevId": "9d89d871-78c4-4864-8bf7-7c22a4ad841c",
+  "id": "427087c4-f7f6-404a-892d-fae8b0170663",
+  "prevId": "c7b0358d-c04a-4c7f-a118-aad47389c15d",
   "tables": {
     "card_characters": {
       "name": "card_characters",
@@ -749,6 +749,13 @@
         },
         "persona_id": {
           "name": "persona_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "persona_ids": {
+          "name": "persona_ids",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -1613,6 +1620,13 @@
         },
         "character_id": {
           "name": "character_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "persona_id": {
+          "name": "persona_id",
           "type": "text",
           "primaryKey": false,
           "notNull": false,

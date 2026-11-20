@@ -87,6 +87,16 @@ export function OverridesBindingFields(props: {
 
       <MyFormCombobox
         control={props.control}
+        name="personaIds"
+        label={t("CHAT.OVERRIDES.EXTRA_PERSONAS")}
+        searchPlaceholder={t("CHAT.OVERRIDES.SEARCH_PERSONAS")}
+        emptyText={t("CHAT.OVERRIDES.NO_PERSONAS")}
+        reorderHint={t("CHAT.OVERRIDES.REORDER_HINT")}
+        options={personasQuery.data}
+      />
+
+      <MyFormCombobox
+        control={props.control}
         name="characterIds"
         label={t("CHAT.OVERRIDES.CHARACTERS")}
         searchPlaceholder={t("CHAT.OVERRIDES.SEARCH_CHARACTERS")}

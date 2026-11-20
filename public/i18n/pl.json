@@ -4340,7 +4340,10 @@
       "IMAGE_REFS_HINT": "Do 6 obrazów wysyłanych jako referencje przy każdym generowaniu na czacie. Wsparcie zależy od modelu.",
       "IMAGE_STYLE_TEMPLATE": "Szablon stylu",
       "VOICE_ENABLED": "Głos",
-      "VOICE_ENABLED_HINT": "Czytaj ten czat na głos według ustawień głosu. Wyłącz, aby ten czat pozostał cichy."
+      "VOICE_ENABLED_HINT": "Czytaj ten czat na głos według ustawień głosu. Wyłącz, aby ten czat pozostał cichy.",
+      "EXTRA_PERSONAS": "Więcej person w tym czacie",
+      "SEARCH_PERSONAS": "Szukaj person",
+      "NO_PERSONAS": "Brak person."
     },
     "SAMPLING": {
       "UNSUPPORTED": "Nie obsługiwane przez wszystkich dostawców obsługujących ten model. Ustawienie tego nie ma efektu.",
@@ -4619,6 +4622,9 @@
       "PAUSE": "Wstrzymaj",
       "RESUME": "Wznów",
       "LOADING": "Generowanie dźwięku"
+    },
+    "PERSONA_SWITCH": {
+      "SPEAK_AS": "Mów jako"
     }
   },
   "ROOM": {
@@ -5695,6 +5701,9 @@
       "P_FIELDS_2": "Pisz opis w trzeciej osobie i krótko. Jest wysyłany z każdą wiadomością.",
       "H_DEFAULT": "Persona domyślna",
       "P_DEFAULT_1": "Oznacz jedną personę jako domyślną dla nowych czatów. Zmieniaj persony w pojedynczej rozmowie w szufladzie ustawień albo przypnij inną w zestawie startowym.",
+      "H_SEVERAL": "Kilka person w jednym czacie",
+      "P_SEVERAL_1": "Graj więcej niż jedną własną postacią w tym samym czacie. Przycisk awatara obok pola wiadomości wybiera, kto mówi; każda wiadomość pamięta personę, która ją wysłała, a model widzi każdą wiadomość użytkownika oznaczoną tym imieniem.",
+      "P_SEVERAL_2": "Persony, z których się przełączysz, zostają w czacie, więc ich opisy nadal trafiają do promptu. Dodasz lub usuniesz je w polu Więcej person w tym czacie w ustawieniach czatu.",
       "H_IMPORT": "Import",
       "P_IMPORT_1": "Persony importują się z plików person eksportowanych przez inne frontendy. Zduplikuj istniejącą personę, aby zrobić jej wariant."
     },

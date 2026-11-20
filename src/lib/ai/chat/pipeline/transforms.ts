@@ -349,6 +349,39 @@ export function collectHistory(
   return out;
 }
 
+// With more than one persona in play, each user turn is prefixed with the name
+// of the persona that sent it; an unstamped turn belongs to the active one.
+export function labelPersonaTurns(
+  messages: StreamMessages,
+  activeId: string | undefined,
+  extraIds: string[],
+  names: Record<string, string>,
+): StreamMessages {
+  const speakerOf = (m: StreamMessages[number]) => {
+    const said = "metadata" in m ? rec(m.metadata)?.personaId : undefined;
+    return typeof said === "string" ? said : activeId;
+  };
+  const used = new Set(
+    messages.flatMap((m) => (m.role === "user" ? [speakerOf(m)] : [])),
+  );
+  if (extraIds.length === 0 && used.size < 2) return messages;
+  return messages.map((m) => {
+    const id = m.role === "user" ? speakerOf(m) : undefined;
+    const name = id ? names[id] : undefined;
+    if (!name) return m;
+    const first = m.parts.findIndex((p) => p.type === "text");
+    if (first < 0) return m;
+    return {
+      ...m,
+      parts: m.parts.map((p, i) =>
+        i === first && p.type === "text"
+          ? { ...p, text: `${name}: ${p.text}` }
+          : p,
+      ),
+    };
+  });
+}
+
 function metaSpeakingCharacterId(
   m: StreamMessages[number],
 ): string | undefined {

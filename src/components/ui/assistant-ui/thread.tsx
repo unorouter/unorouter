@@ -112,6 +112,7 @@ import { useChatSettingsQuery } from "@/hooks/ai/rp/conversations";
 import { updateLocalConversationSettings } from "@/lib/db/client/data/chat/chat";
 import { usePersonasQuery } from "@/hooks/ai/rp/personas";
 import { RpAvatar } from "@/components/pages/sidebar/chat/rp/shared/rp-list-parts";
+import { ComposerPersonaSwitcher } from "@/components/pages/sidebar/chat/persona-switcher";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useLocale, useTranslations } from "next-intl";
@@ -877,6 +878,7 @@ const ComposerAction: FC = () => {
   return (
     <div className="aui-composer-action-wrapper relative flex items-center justify-between">
       <div className="text-primary flex items-center">
+        <ComposerPersonaSwitcher />
         <ComposerAddAttachment />
         <ComposerWebSearchToggle />
         <ComposerToolsMenu />
@@ -1591,10 +1593,12 @@ const UserPersonaAvatar: FC = () => {
   const convId = useAuiState((s) => s.threadListItem?.remoteId);
   const settings = useChatSettingsQuery(convId ?? undefined).data;
   const personas = usePersonasQuery().data;
+  const meta = useMessageMeta();
   const personaId =
-    settings?.personaId && settings.personaId !== NONE_VALUE
+    meta?.personaId ??
+    (settings?.personaId && settings.personaId !== NONE_VALUE
       ? settings.personaId
-      : null;
+      : null);
   const persona = personas?.find((p) => p.id === personaId);
   if (!persona) return null;
   const name = persona.title || persona.name;

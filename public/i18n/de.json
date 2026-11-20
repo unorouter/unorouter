@@ -4340,7 +4340,10 @@
       "IMAGE_REFS_HINT": "Bis zu 6 Bilder werden bei jeder Generierung im Chat als Referenz mitgesendet. Modellunterstützung variiert.",
       "IMAGE_STYLE_TEMPLATE": "Stilvorlage",
       "VOICE_ENABLED": "Stimme",
-      "VOICE_ENABLED_HINT": "Diesen Chat mit deinen Stimmeinstellungen vorlesen. Ausschalten, damit dieser Chat stumm bleibt."
+      "VOICE_ENABLED_HINT": "Diesen Chat mit deinen Stimmeinstellungen vorlesen. Ausschalten, damit dieser Chat stumm bleibt.",
+      "EXTRA_PERSONAS": "Weitere Personas in diesem Chat",
+      "SEARCH_PERSONAS": "Personas suchen",
+      "NO_PERSONAS": "Noch keine Personas."
     },
     "SAMPLING": {
       "UNSUPPORTED": "Wird nicht von allen Anbietern dieses Modells unterstützt. Eine Änderung hat keine Wirkung.",
@@ -4619,6 +4622,9 @@
       "PAUSE": "Pausieren",
       "RESUME": "Fortsetzen",
       "LOADING": "Audio wird erzeugt"
+    },
+    "PERSONA_SWITCH": {
+      "SPEAK_AS": "Sprechen als"
     }
   },
   "ROOM": {
@@ -5695,6 +5701,9 @@
       "P_FIELDS_2": "Die Beschreibung in der dritten Person und kurz halten. Sie wird mit jeder Nachricht gesendet.",
       "H_DEFAULT": "Standard-Persona",
       "P_DEFAULT_1": "Eine Persona als Standard für neue Chats markieren. Personas je Unterhaltung in der Einstellungsleiste tauschen oder eine andere im Loadout festpinnen.",
+      "H_SEVERAL": "Mehrere Personas in einem Chat",
+      "P_SEVERAL_1": "Spiele mehr als einen deiner eigenen Charaktere im selben Chat. Der Avatar-Button neben dem Eingabefeld legt fest, wer spricht; jede Nachricht merkt sich die Persona, die sie gesendet hat, und das Modell sieht jede Nutzernachricht mit diesem Namen markiert.",
+      "P_SEVERAL_2": "Personas, von denen du wegwechselst, bleiben im Chat, ihre Beschreibungen gehen also weiter in den Prompt. Hinzufügen oder entfernen kannst du sie unter Weitere Personas in diesem Chat in den Chat-Einstellungen.",
       "H_IMPORT": "Import",
       "P_IMPORT_1": "Personas lassen sich aus Persona-Dateien anderer Frontends importieren. Eine vorhandene Persona duplizieren, um eine Variante zu erzeugen."
     },

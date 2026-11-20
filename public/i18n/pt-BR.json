@@ -4340,7 +4340,10 @@
       "IMAGE_REFS_HINT": "Até 6 imagens são enviadas como referência a cada geração no chat. O suporte varia por modelo.",
       "IMAGE_STYLE_TEMPLATE": "Modelo de estilo",
       "VOICE_ENABLED": "Voz",
-      "VOICE_ENABLED_HINT": "Lê este chat em voz alta com suas configurações de voz. Desative para deixar este chat em silêncio."
+      "VOICE_ENABLED_HINT": "Lê este chat em voz alta com suas configurações de voz. Desative para deixar este chat em silêncio.",
+      "EXTRA_PERSONAS": "Mais personas neste chat",
+      "SEARCH_PERSONAS": "Buscar personas",
+      "NO_PERSONAS": "Nenhuma persona ainda."
     },
     "SAMPLING": {
       "UNSUPPORTED": "Não suportado por todos os provedores servindo este modelo. Defini-lo não tem efeito.",
@@ -4619,6 +4622,9 @@
       "PAUSE": "Pausar",
       "RESUME": "Retomar",
       "LOADING": "Gerando áudio"
+    },
+    "PERSONA_SWITCH": {
+      "SPEAK_AS": "Falar como"
     }
   },
   "ROOM": {
@@ -5695,6 +5701,9 @@
       "P_FIELDS_2": "Mantenha a descrição em terceira pessoa e curta. Ela é enviada em cada mensagem.",
       "H_DEFAULT": "Persona padrão",
       "P_DEFAULT_1": "Marque uma persona como padrão para chats novos. Troque de persona por conversa na gaveta de configurações ou fixe outra no loadout.",
+      "H_SEVERAL": "Várias personas em um chat",
+      "P_SEVERAL_1": "Interprete mais de um dos seus próprios personagens no mesmo chat. O botão de avatar ao lado da caixa de mensagem escolhe quem fala; cada mensagem lembra a persona que a enviou, e o modelo vê cada mensagem do usuário marcada com esse nome.",
+      "P_SEVERAL_2": "As personas que você deixa de usar continuam no chat, então suas descrições seguem indo para o prompt. Adicione ou remova em Mais personas neste chat, no painel de configurações.",
       "H_IMPORT": "Importar",
       "P_IMPORT_1": "Personas podem ser importadas de arquivos exportados por outros frontends. Duplique uma persona existente para criar uma variante."
     },

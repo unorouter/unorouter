@@ -4340,7 +4340,10 @@
       "IMAGE_REFS_HINT": "Fino a 6 immagini inviate come riferimento a ogni generazione in chat. Il supporto varia per modello.",
       "IMAGE_STYLE_TEMPLATE": "Modello di stile",
       "VOICE_ENABLED": "Voce",
-      "VOICE_ENABLED_HINT": "Legge questa chat ad alta voce con le tue impostazioni voce. Disattivala per tenere questa chat in silenzio."
+      "VOICE_ENABLED_HINT": "Legge questa chat ad alta voce con le tue impostazioni voce. Disattivala per tenere questa chat in silenzio.",
+      "EXTRA_PERSONAS": "Altre persona in questa chat",
+      "SEARCH_PERSONAS": "Cerca persona",
+      "NO_PERSONAS": "Ancora nessuna persona."
     },
     "SAMPLING": {
       "UNSUPPORTED": "Non supportato da tutti i provider che servono questo modello. Impostarlo non ha effetto.",
@@ -4619,6 +4622,9 @@
       "PAUSE": "Pausa",
       "RESUME": "Riprendi",
       "LOADING": "Generazione dell’audio"
+    },
+    "PERSONA_SWITCH": {
+      "SPEAK_AS": "Parla come"
     }
   },
   "ROOM": {
@@ -5695,6 +5701,9 @@
       "P_FIELDS_2": "Tieni la descrizione in terza persona e breve. Viene inviata con ogni messaggio.",
       "H_DEFAULT": "Persona predefinita",
       "P_DEFAULT_1": "Segna una persona come predefinita per le nuove chat. Cambia persona per singola conversazione nel pannello impostazioni, oppure fissane un'altra nell'equipaggiamento.",
+      "H_SEVERAL": "Più persona in una chat",
+      "P_SEVERAL_1": "Interpreta più di uno dei tuoi personaggi nella stessa chat. Il pulsante avatar accanto alla casella del messaggio sceglie chi parla; ogni messaggio ricorda la persona che lo ha inviato e il modello vede ogni messaggio dell’utente etichettato con quel nome.",
+      "P_SEVERAL_2": "Le persona da cui passi ad altre restano nella chat, quindi le loro descrizioni continuano a entrare nel prompt. Aggiungile o rimuovile in Altre persona in questa chat, nel pannello delle impostazioni.",
       "H_IMPORT": "Importazione",
       "P_IMPORT_1": "Le persone si importano da file persona esportati da altri frontend. Duplica una persona esistente per crearne una variante."
     },

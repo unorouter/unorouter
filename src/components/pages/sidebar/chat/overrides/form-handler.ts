@@ -5,7 +5,11 @@ import {
   type TranslationKey,
 } from "@/lib/config/constants";
 import { conversationCharacters } from "@/lib/db/schema/shared";
-import type { ConversationSettingsProjection } from "@/lib/db/conversation-settings";
+import {
+  extraPersonaIds,
+  personaIdsColumn,
+  type ConversationSettingsProjection,
+} from "@/lib/db/conversation-settings";
 import {
   formReasoningEffortToValue,
   narrowReasoningEffort,
@@ -127,6 +131,7 @@ function buildDefaultsForm(
   );
   return {
     personaId: NONE_VALUE,
+    personaIds: [],
     presetId: NONE_VALUE,
     reasoningEffort:
       modelMemory.reasoningEffort ?? chatDefaults.reasoningEffort ?? NONE_VALUE,
@@ -166,6 +171,7 @@ function buildSettingsForm(
 ): ConversationOverridesForm {
   return {
     personaId: settings.personaId ?? NONE_VALUE,
+    personaIds: extraPersonaIds(settings),
     presetId: settings.presetId ?? NONE_VALUE,
     reasoningEffort: narrowReasoningEffort(
       settings.reasoningEffort,
@@ -267,6 +273,9 @@ export function buildSettingsBody(
     chatMemory: data.chatMemory ?? null,
     contextTokens: data.contextTokens ?? null,
     personaId: data.personaId === NONE_VALUE ? null : data.personaId,
+    personaIds: personaIdsColumn(
+      data.personaIds.filter((id) => id !== data.personaId),
+    ),
     presetId: data.presetId === NONE_VALUE ? null : data.presetId,
     streamingEnabled: overrideOrInherit(
       data.streamingEnabled,

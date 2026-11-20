@@ -702,6 +702,7 @@ export function createChatHistoryAdapter(
         const branchVars = isAssistant
           ? ((await runOutputTriggers(id, parts, turnVars)) ?? turnVars)
           : turnVars;
+        const existingConv = await conversationStore.get(id);
         const newMessage = {
           ...(existingRow ?? {}),
           id: messageId,
@@ -710,6 +711,9 @@ export function createChatHistoryAdapter(
           role: content.role,
           model: resolvedModel,
           characterId: existingRow?.characterId ?? speakingCharId,
+          personaId: isAssistant
+            ? null
+            : (existingRow?.personaId ?? existingConv?.personaId ?? null),
           inputTokens:
             (existingRow?.inputTokens ?? 0) + (usage?.inputTokens ?? 0) || null,
           outputTokens:
@@ -723,7 +727,6 @@ export function createChatHistoryAdapter(
           createdAt: existingRow?.createdAt ?? now,
           updatedAt: now,
         };
-        const existingConv = await conversationStore.get(id);
         if (!existingConv) {
           await conversationStore.upsert({
             id,

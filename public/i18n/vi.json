@@ -4340,7 +4340,10 @@
       "IMAGE_REFS_HINT": "Tối đa 6 ảnh được gửi làm tham chiếu với mỗi lần tạo trong trò chuyện. Hỗ trợ tùy theo mô hình.",
       "IMAGE_STYLE_TEMPLATE": "Mẫu phong cách",
       "VOICE_ENABLED": "Giọng nói",
-      "VOICE_ENABLED_HINT": "Đọc to cuộc trò chuyện này theo cài đặt giọng nói của bạn. Tắt để cuộc trò chuyện này im lặng."
+      "VOICE_ENABLED_HINT": "Đọc to cuộc trò chuyện này theo cài đặt giọng nói của bạn. Tắt để cuộc trò chuyện này im lặng.",
+      "EXTRA_PERSONAS": "Thêm persona trong cuộc trò chuyện này",
+      "SEARCH_PERSONAS": "Tìm persona",
+      "NO_PERSONAS": "Chưa có persona nào."
     },
     "SAMPLING": {
       "UNSUPPORTED": "Không phải tất cả nhà cung cấp của mô hình này đều hỗ trợ. Đặt giá trị sẽ không có tác dụng.",
@@ -4619,6 +4622,9 @@
       "PAUSE": "Tạm dừng",
       "RESUME": "Tiếp tục",
       "LOADING": "Đang tạo âm thanh"
+    },
+    "PERSONA_SWITCH": {
+      "SPEAK_AS": "Nói với tư cách"
     }
   },
   "ROOM": {
@@ -5695,6 +5701,9 @@
       "P_FIELDS_2": "Hãy viết mô tả ở ngôi thứ ba và ngắn gọn. Nó được gửi kèm mọi tin nhắn.",
       "H_DEFAULT": "Persona mặc định",
       "P_DEFAULT_1": "Đánh dấu một hồ sơ nhân vật làm mặc định cho cuộc trò chuyện mới. Đổi hồ sơ theo từng cuộc trò chuyện trong ngăn cài đặt, hoặc ghim một hồ sơ khác trong bộ trang bị.",
+      "H_SEVERAL": "Nhiều persona trong một cuộc trò chuyện",
+      "P_SEVERAL_1": "Nhập vai nhiều nhân vật của riêng bạn trong cùng một cuộc trò chuyện. Nút ảnh đại diện cạnh ô nhập tin nhắn chọn ai đang nói; mỗi tin nhắn ghi nhớ persona đã gửi nó, và mô hình thấy mỗi tin nhắn của người dùng được gắn nhãn bằng tên đó.",
+      "P_SEVERAL_2": "Những persona bạn chuyển đi vẫn ở lại trong cuộc trò chuyện, nên mô tả của chúng vẫn được đưa vào prompt. Thêm hoặc bỏ chúng trong mục Thêm persona trong cuộc trò chuyện này ở bảng cài đặt.",
       "H_IMPORT": "Nhập",
       "P_IMPORT_1": "Hồ sơ nhân vật nhập được từ tệp hồ sơ do các giao diện khác xuất ra. Nhân bản một hồ sơ có sẵn để tạo biến thể."
     },

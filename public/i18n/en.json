@@ -4340,7 +4340,10 @@
       "IMAGE_REFS_HINT": "Up to 6 images sent as references with each in-chat generation. Model support varies.",
       "IMAGE_STYLE_TEMPLATE": "Style template",
       "VOICE_ENABLED": "Voice",
-      "VOICE_ENABLED_HINT": "Read this chat aloud with your Voice settings. Turn it off to keep this chat silent."
+      "VOICE_ENABLED_HINT": "Read this chat aloud with your Voice settings. Turn it off to keep this chat silent.",
+      "EXTRA_PERSONAS": "More personas in this chat",
+      "SEARCH_PERSONAS": "Search personas",
+      "NO_PERSONAS": "No personas yet."
     },
     "SAMPLING": {
       "UNSUPPORTED": "Not supported by all providers serving this model. Setting it has no effect.",
@@ -4619,6 +4622,9 @@
       "PAUSE": "Pause",
       "RESUME": "Resume",
       "LOADING": "Generating audio"
+    },
+    "PERSONA_SWITCH": {
+      "SPEAK_AS": "Speak as"
     }
   },
   "ROOM": {
@@ -5695,6 +5701,9 @@
       "P_FIELDS_2": "Keep the description in third person and short. It is sent with every message.",
       "H_DEFAULT": "Default persona",
       "P_DEFAULT_1": "Mark one persona as default for new chats. Swap personas per conversation in the settings drawer, or pin a different one in the loadout.",
+      "H_SEVERAL": "Several personas in one chat",
+      "P_SEVERAL_1": "Play more than one of your own characters in the same chat. The avatar button next to the message box picks who speaks; each message remembers the persona that sent it, and the model sees every user message labelled with that name.",
+      "P_SEVERAL_2": "Personas you switch away from stay in the chat, so their descriptions keep going into the prompt. Add or remove them under More personas in this chat in the settings drawer.",
       "H_IMPORT": "Import",
       "P_IMPORT_1": "Personas import from persona files exported by other frontends. Duplicate an existing persona to make a variant."
     },

@@ -31,6 +31,7 @@ import {
   expandMessageMacros,
   extractLastUserText,
   fitToTokenBudget,
+  labelPersonaTurns,
   messageTokens,
   spliceDepthInjections,
   textOf,
@@ -185,8 +186,16 @@ export async function assemblePrompt(
     reserveTokens,
   );
 
+  const labelledMessages = convCtx
+    ? labelPersonaTurns(
+        slicedMessages,
+        convCtx.persona?.id,
+        convCtx.extraPersonas.map((p) => p.id),
+        convCtx.personaNames,
+      )
+    : slicedMessages;
   const splicedMessages = spliceDepthInjections(
-    slicedMessages,
+    labelledMessages,
     assembled.authorNote ? [assembled.authorNote] : [],
   );
   const historyMessages = expandMessageMacros(splicedMessages, assembled.vars);

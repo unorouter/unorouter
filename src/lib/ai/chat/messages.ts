@@ -11,6 +11,7 @@ export type ApiMessage = {
   id: string;
   parentId?: string | null;
   characterId?: string | null;
+  personaId?: string | null;
   role: string;
   model?: string | null;
   inputTokens?: number | null;

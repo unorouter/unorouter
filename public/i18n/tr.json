@@ -4340,7 +4340,10 @@
       "IMAGE_REFS_HINT": "Sohbetteki her oluşturmada en fazla 6 görsel referans olarak gönderilir. Destek modele göre değişir.",
       "IMAGE_STYLE_TEMPLATE": "Stil şablonu",
       "VOICE_ENABLED": "Ses",
-      "VOICE_ENABLED_HINT": "Bu sohbeti ses ayarlarınla sesli oku. Bu sohbetin sessiz kalması için kapat."
+      "VOICE_ENABLED_HINT": "Bu sohbeti ses ayarlarınla sesli oku. Bu sohbetin sessiz kalması için kapat.",
+      "EXTRA_PERSONAS": "Bu sohbetteki diğer personalar",
+      "SEARCH_PERSONAS": "Persona ara",
+      "NO_PERSONAS": "Henüz persona yok."
     },
     "SAMPLING": {
       "UNSUPPORTED": "Bu modeli sunan tüm sağlayıcılar tarafından desteklenmez. Ayarlamak etkisizdir.",
@@ -4619,6 +4622,9 @@
       "PAUSE": "Duraklat",
       "RESUME": "Devam et",
       "LOADING": "Ses oluşturuluyor"
+    },
+    "PERSONA_SWITCH": {
+      "SPEAK_AS": "Şu olarak konuş"
     }
   },
   "ROOM": {
@@ -5695,6 +5701,9 @@
       "P_FIELDS_2": "Açıklamayı üçüncü şahısta ve kısa tutun. Her mesajla birlikte gönderilir.",
       "H_DEFAULT": "Varsayılan persona",
       "P_DEFAULT_1": "Yeni sohbetler için bir personayı varsayılan olarak işaretleyin. Ayarlar çekmecesinde konuşma başına persona değiştirin ya da donanımda farklı birini sabitleyin.",
+      "H_SEVERAL": "Tek sohbette birden fazla persona",
+      "P_SEVERAL_1": "Aynı sohbette kendi karakterlerinden birden fazlasını oyna. Mesaj kutusunun yanındaki avatar düğmesi kimin konuştuğunu seçer; her mesaj onu gönderen personayı hatırlar ve model her kullanıcı mesajını o isimle etiketlenmiş görür.",
+      "P_SEVERAL_2": "Değiştirip bıraktığın personalar sohbette kalır, böylece açıklamaları prompta girmeye devam eder. Ayarlar panelindeki Bu sohbetteki diğer personalar alanından ekleyip çıkarabilirsin.",
       "H_IMPORT": "İçe aktarma",
       "P_IMPORT_1": "Personalar diğer arayüzlerin dışa aktardığı persona dosyalarından içe aktarılır. Varyant oluşturmak için mevcut bir personayı çoğaltın."
     },

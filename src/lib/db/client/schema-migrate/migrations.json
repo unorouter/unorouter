@@ -83,6 +83,10 @@
     {
       "tag": "0020_long_sleeper",
       "sql": "ALTER TABLE `characters` ADD `voice_speed` real;"
+    },
+    {
+      "tag": "0021_magenta_the_fury",
+      "sql": "ALTER TABLE `conversations` ADD `persona_ids` text;--> statement-breakpoint\nALTER TABLE `messages` ADD `persona_id` text;"
     }
   ]
 }

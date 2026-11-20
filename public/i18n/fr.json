@@ -4340,7 +4340,10 @@
       "IMAGE_REFS_HINT": "Jusqu'à 6 images sont envoyées comme références à chaque génération dans le chat. La prise en charge varie selon le modèle.",
       "IMAGE_STYLE_TEMPLATE": "Modèle de style",
       "VOICE_ENABLED": "Voix",
-      "VOICE_ENABLED_HINT": "Lit ce chat à voix haute avec tes réglages de voix. Désactive-le pour garder ce chat silencieux."
+      "VOICE_ENABLED_HINT": "Lit ce chat à voix haute avec tes réglages de voix. Désactive-le pour garder ce chat silencieux.",
+      "EXTRA_PERSONAS": "Autres personas dans ce chat",
+      "SEARCH_PERSONAS": "Rechercher des personas",
+      "NO_PERSONAS": "Aucune persona pour l’instant."
     },
     "SAMPLING": {
       "UNSUPPORTED": "Non pris en charge par tous les fournisseurs de ce modèle. Le définir n'a aucun effet.",
@@ -4619,6 +4622,9 @@
       "PAUSE": "Pause",
       "RESUME": "Reprendre",
       "LOADING": "Génération de l’audio"
+    },
+    "PERSONA_SWITCH": {
+      "SPEAK_AS": "Parler en tant que"
     }
   },
   "ROOM": {
@@ -5695,6 +5701,9 @@
       "P_FIELDS_2": "Gardez la description à la troisième personne et courte. Elle est envoyée avec chaque message.",
       "H_DEFAULT": "Persona par défaut",
       "P_DEFAULT_1": "Marquez un persona par défaut pour les nouveaux chats. Changez de persona par conversation dans le tiroir de paramètres, ou épinglez-en un autre dans l'équipement.",
+      "H_SEVERAL": "Plusieurs personas dans un chat",
+      "P_SEVERAL_1": "Joue plus d’un de tes propres personnages dans le même chat. Le bouton d’avatar à côté de la zone de message choisit qui parle ; chaque message retient la persona qui l’a envoyé, et le modèle voit chaque message utilisateur étiqueté avec ce nom.",
+      "P_SEVERAL_2": "Les personas que tu quittes restent dans le chat, leurs descriptions continuent donc d’entrer dans le prompt. Ajoute-les ou retire-les sous Autres personas dans ce chat, dans le panneau des réglages.",
       "H_IMPORT": "Import",
       "P_IMPORT_1": "Les personas s'importent depuis des fichiers de persona exportés par d'autres interfaces. Dupliquez un persona existant pour en faire une variante."
     },

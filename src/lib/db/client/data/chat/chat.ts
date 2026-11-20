@@ -188,6 +188,7 @@ export async function readConvHistoryForSend(convId: string) {
       id: m.id,
       role: m.role,
       characterId: m.characterId,
+      ...(m.personaId ? { metadata: { personaId: m.personaId } } : {}),
       parts: itemsToParts(m.items),
     })),
     allIds: new Set(joined.map((m) => m.id)),

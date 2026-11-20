@@ -4340,7 +4340,10 @@
       "IMAGE_REFS_HINT": "Hasta 6 imágenes se envían como referencia con cada generación en el chat. El soporte varía según el modelo.",
       "IMAGE_STYLE_TEMPLATE": "Plantilla de estilo",
       "VOICE_ENABLED": "Voz",
-      "VOICE_ENABLED_HINT": "Lee este chat en voz alta con tus ajustes de voz. Desactívalo para que este chat quede en silencio."
+      "VOICE_ENABLED_HINT": "Lee este chat en voz alta con tus ajustes de voz. Desactívalo para que este chat quede en silencio.",
+      "EXTRA_PERSONAS": "Más personas en este chat",
+      "SEARCH_PERSONAS": "Buscar personas",
+      "NO_PERSONAS": "Aún no hay personas."
     },
     "SAMPLING": {
       "UNSUPPORTED": "No soportado por todos los proveedores que sirven este modelo. Configurarlo no tiene efecto.",
@@ -4619,6 +4622,9 @@
       "PAUSE": "Pausar",
       "RESUME": "Reanudar",
       "LOADING": "Generando audio"
+    },
+    "PERSONA_SWITCH": {
+      "SPEAK_AS": "Hablar como"
     }
   },
   "ROOM": {
@@ -5695,6 +5701,9 @@
       "P_FIELDS_2": "Mantén la descripción en tercera persona y corta. Se envía con cada mensaje.",
       "H_DEFAULT": "Persona predeterminada",
       "P_DEFAULT_1": "Marca una persona como predeterminada para los chats nuevos. Cambia de persona por conversación en el cajón de ajustes o fija otra en el equipamiento.",
+      "H_SEVERAL": "Varias personas en un chat",
+      "P_SEVERAL_1": "Interpreta a más de uno de tus propios personajes en el mismo chat. El botón de avatar junto al cuadro de mensaje elige quién habla; cada mensaje recuerda la persona que lo envió, y el modelo ve cada mensaje del usuario etiquetado con ese nombre.",
+      "P_SEVERAL_2": "Las personas que dejas de usar siguen en el chat, así que sus descripciones siguen entrando en el prompt. Añádelas o quítalas en Más personas en este chat, en el panel de ajustes.",
       "H_IMPORT": "Importar",
       "P_IMPORT_1": "Las personas se importan desde archivos de persona exportados por otros frontends. Duplica una persona existente para crear una variante."
     },

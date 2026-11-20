@@ -4340,7 +4340,10 @@
       "IMAGE_REFS_HINT": "Hingga 6 gambar dikirim sebagai referensi pada setiap generasi di chat. Dukungan tiap model berbeda.",
       "IMAGE_STYLE_TEMPLATE": "Templat gaya",
       "VOICE_ENABLED": "Suara",
-      "VOICE_ENABLED_HINT": "Bacakan obrolan ini dengan pengaturan suaramu. Matikan agar obrolan ini tetap senyap."
+      "VOICE_ENABLED_HINT": "Bacakan obrolan ini dengan pengaturan suaramu. Matikan agar obrolan ini tetap senyap.",
+      "EXTRA_PERSONAS": "Persona lain di chat ini",
+      "SEARCH_PERSONAS": "Cari persona",
+      "NO_PERSONAS": "Belum ada persona."
     },
     "SAMPLING": {
       "UNSUPPORTED": "Tidak didukung oleh semua penyedia yang melayani model ini. Mengaturnya tidak berpengaruh.",
@@ -4619,6 +4622,9 @@
       "PAUSE": "Jeda",
       "RESUME": "Lanjutkan",
       "LOADING": "Membuat audio"
+    },
+    "PERSONA_SWITCH": {
+      "SPEAK_AS": "Bicara sebagai"
     }
   },
   "ROOM": {
@@ -5695,6 +5701,9 @@
       "P_FIELDS_2": "Tulis deskripsi dalam sudut pandang orang ketiga dan singkat. Deskripsi itu dikirim bersama setiap pesan.",
       "H_DEFAULT": "Persona bawaan",
       "P_DEFAULT_1": "Tandai satu persona sebagai bawaan untuk obrolan baru. Ganti persona per percakapan di laci pengaturan, atau sematkan persona lain di loadout.",
+      "H_SEVERAL": "Beberapa persona dalam satu chat",
+      "P_SEVERAL_1": "Mainkan lebih dari satu karaktermu sendiri di chat yang sama. Tombol avatar di samping kotak pesan memilih siapa yang berbicara; setiap pesan mengingat persona yang mengirimnya, dan model melihat setiap pesan pengguna diberi label dengan nama itu.",
+      "P_SEVERAL_2": "Persona yang kamu tinggalkan tetap ada di chat, jadi deskripsinya tetap masuk ke prompt. Tambahkan atau hapus di Persona lain di chat ini pada panel pengaturan.",
       "H_IMPORT": "Impor",
       "P_IMPORT_1": "Persona dapat diimpor dari file persona yang diekspor front-end lain. Duplikat persona yang ada untuk membuat variannya."
     },

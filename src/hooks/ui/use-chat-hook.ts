@@ -16,6 +16,7 @@ import { useAtomValue } from "jotai";
 type MessageMeta = {
   model: string | null;
   characterId: string | null;
+  personaId: string | null;
   inputTokens: number | null;
   outputTokens: number | null;
   cost: number | null;
@@ -48,6 +49,7 @@ export function useMessageMeta(): MessageMeta | null {
   return {
     model: msg.model ?? null,
     characterId: msg.characterId ?? null,
+    personaId: msg.personaId ?? null,
     inputTokens: msg.inputTokens ?? null,
     outputTokens: msg.outputTokens ?? null,
     cost: msg.cost ?? null,
