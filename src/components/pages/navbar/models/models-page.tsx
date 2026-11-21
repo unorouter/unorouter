@@ -17,7 +17,8 @@ import {
 } from "@/store/models-store";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
-import dynamic from "next/dynamic";
+import { useRouter } from "@/i18n/navigation";
+import { modelHref } from "@/lib/utils/base";
 import { buildModelColumns } from "./browse/model-columns";
 import { ModelListCard } from "./browse/model-list-card";
 import { ModelsEmpty } from "./browse/models-empty";
@@ -25,18 +26,12 @@ import { ModelsToolbar, SearchBox } from "./browse/models-toolbar";
 import { ModalityTabs } from "./filters/modality-tabs";
 import { ModelsFilterSidebar } from "./filters/models-filter-sidebar";
 
-// Static import chained recharts (PerformanceSection) into the initial models
-// bundle; the sheet only renders after a row click.
-const ModelDetailSheet = dynamic(
-  () => import("./detail/model-detail-sheet").then((m) => m.ModelDetailSheet),
-  { ssr: false },
-);
-
 const modelsTableAtoms = createTableAtoms(DataTableId.MODELS);
 
 export function ModelsPage() {
   const t = useTranslations();
   const m = useModelsFilter();
+  const router = useRouter();
   const clearFilters = useSetAtom(clearFiltersAtom);
   const isDirty = useAtomValue(isDirtyAtom);
   const activeFilterCount = useAtomValue(activeFilterCountAtom);
@@ -108,7 +103,9 @@ export function ModelsPage() {
                 localSorting
                 windowVirtual
                 stickyHeaderTop="calc(3.5rem + 2.4375rem)"
-                onRowClick={(model) => m.setSelectedModelName(model.model_name)}
+                onRowClick={(model) =>
+                  router.push(modelHref(model.model_name, model.vendor))
+                }
               />
             ) : (
               m.filtered.map((model) => (
@@ -116,22 +113,15 @@ export function ModelsPage() {
                   key={model.model_name}
                   model={model}
                   rank={m.rankMap.get(model.model_name)}
-                  onClick={() => m.setSelectedModelName(model.model_name)}
+                  onClick={() =>
+                    router.push(modelHref(model.model_name, model.vendor))
+                  }
                 />
               ))
             )}
           </div>
         </SidebarInset>
       </SidebarProvider>
-
-      <ModelDetailSheet
-        model={m.selectedModel}
-        endpointMap={m.endpointMap}
-        open={m.selectedModel !== null}
-        onOpenChange={(open) => {
-          if (!open) m.setSelectedModelName(null);
-        }}
-      />
     </div>
   );
 }

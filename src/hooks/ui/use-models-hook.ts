@@ -17,7 +17,6 @@ import {
   PRICE_MAX,
   priceRangeAtom,
   searchAtom,
-  selectedModelNameAtom,
   selectedVendorsAtom,
   seriesAtom,
   effectiveSortKeysAtom,
@@ -70,9 +69,6 @@ export function useModelsFilter() {
   const [search, setSearch] = useAtom(searchAtom);
   const [outputModality, setOutputModality] = useAtom(outputModalityAtom);
   const selectedVendors = useAtomValue(selectedVendorsAtom);
-  const [selectedModelName, setSelectedModelName] = useAtom(
-    selectedModelNameAtom,
-  );
   const viewMode = useAtomValue(viewModeAtom);
   const activeSortKeys = useAtomValue(effectiveSortKeysAtom);
   const inputModalities = useAtomValue(inputModalitiesAtom);
@@ -88,14 +84,10 @@ export function useModelsFilter() {
   const discountedOnly = useAtomValue(discountedOnlyAtom);
 
   const models = data?.models ?? [];
-  const endpointMap = data?.supported_endpoint ?? {};
 
   const rankMap = new Map<string, RankedModel>(
     (rankings.data?.models ?? []).map((row) => [row.model_name, row]),
   );
-
-  const selectedModel =
-    models.find((m) => m.model_name === selectedModelName) ?? null;
 
   const query = search.trim().toLowerCase();
   const ageCutoff =
@@ -169,13 +161,10 @@ export function useModelsFilter() {
     setSearch,
     outputModality,
     setOutputModality,
-    selectedModel,
-    setSelectedModelName,
     viewMode,
     models,
     tabModels,
     filtered,
     rankMap,
-    endpointMap,
   };
 }

@@ -36,6 +36,7 @@ import { PriceHistory } from "./pricing/price-history";
 import { hasAnyParameter } from "./header/capability-helpers";
 import { ModelBreadcrumb } from "./header/model-breadcrumb";
 import { BenchmarksSection } from "./tabs/benchmarks-section";
+import { ModelConsentSection } from "./model-consent-section";
 import { ModelCrossLinks } from "./model-cross-links";
 import { SectionHeading } from "./shared/section-heading";
 import { ModelRankingSection } from "./tabs/model-ranking-section";
@@ -345,6 +346,8 @@ print(res.choices[0].message.content)`;
                 />
               )}
             </section>
+
+            <ModelConsentSection model={m.model_name} theme={theme} />
 
             <PerfUptimePanel modelName={m.model_name} theme={theme} />
 

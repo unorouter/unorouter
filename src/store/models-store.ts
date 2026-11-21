@@ -33,7 +33,6 @@ export type ModelsStoreState = {
   search: string;
   outputModality: OutputModality;
   selectedVendors: string[];
-  selectedModelName: string | null;
   viewMode: ViewMode;
   // Index 0 is primary, later keys break its ties; empty falls back to sortOrder.
   sortKeys: SortOrder[];
@@ -60,7 +59,6 @@ export const INITIAL_MODELS_STATE: ModelsStoreState = {
   search: "",
   outputModality: "all",
   selectedVendors: [],
-  selectedModelName: null,
   viewMode: "table",
   sortKeys: [],
   sortOrder: "newest",
@@ -93,7 +91,6 @@ const field = <K extends keyof ModelsStoreState>(
 
 export const searchAtom = field("search");
 export const selectedVendorsAtom = field("selectedVendors", arr);
-export const selectedModelNameAtom = field("selectedModelName");
 export const outputModalityAtom = field("outputModality");
 export const viewModeAtom = field("viewMode", (v) =>
   v === "table" || v === "list" ? v : "table",
@@ -139,7 +136,6 @@ export const clearFiltersAtom = atom(null, (get, set) => {
   set(modelsStoreAtom, {
     ...INITIAL_MODELS_STATE,
     collapsedVendors: arr(s.collapsedVendors),
-    selectedModelName: s.selectedModelName ?? null,
   });
 });
 
