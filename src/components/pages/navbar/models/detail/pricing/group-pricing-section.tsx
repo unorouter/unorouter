@@ -39,9 +39,10 @@ export function GroupPricingSection(props: {
   groupProviders: GroupProviders;
   autoGroups?: string[];
   theme: Theme;
+  defaultOpen?: boolean;
 }) {
   const t = useTranslations();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(props.defaultOpen ?? false);
   const model = props.model;
   const hasGrid = !!model.grid_pricing?.length;
   const entries = buildGroupEntries(model.enable_groups, props.groupRatioMap);

@@ -343,6 +343,9 @@ print(res.choices[0].message.content)`;
                   groupRatioMap={props.groupRatioMap}
                   groupProviders={m.group_providers ?? {}}
                   theme={theme}
+                  // The consent section below names providers by account
+                  // ("open"); this table is where each lane's host shows.
+                  defaultOpen
                 />
               )}
             </section>
