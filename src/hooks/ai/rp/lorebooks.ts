@@ -62,6 +62,7 @@ export const useLorebooksQuery = lorebooks.useList;
 export const useLorebookQuery = lorebooks.useItem;
 export const useCreateLorebookMutation = lorebooks.useCreate;
 export const useDeleteLorebookMutation = lorebooks.useDelete;
+export const useDeleteLorebooksMutation = lorebooks.useDeleteMany;
 export const useDuplicateLorebookMutation = lorebooks.useDuplicate;
 
 export function useUpdateLorebookMutation() {

@@ -93,6 +93,19 @@ export function makeRpEntity<
           qc.removeQueries({ queryKey: opts.itemKey(id) }),
       }),
 
+    useDeleteMany: () =>
+      useApiMutation({
+        mutationFn: async (ids: string[]) => {
+          for (const id of ids) await store.drop(id);
+          return { ids };
+        },
+        invalidates: [opts.listKey()],
+        onSuccess: (_data, ids, qc) => {
+          for (const id of ids)
+            qc.removeQueries({ queryKey: opts.itemKey(id) });
+        },
+      }),
+
     useDuplicate: () => {
       const t = useTranslations();
       return useApiMutation({

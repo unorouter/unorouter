@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import {
   useCreateLorebookMutation,
   useDeleteLorebookMutation,
+  useDeleteLorebooksMutation,
   useDuplicateLorebookMutation,
   useImportLorebookFromUrlMutation,
   useImportLorebookMutation,
@@ -24,6 +25,7 @@ import {
   RP_ACTION_BUTTON,
   RpImportControl,
   RpListDialog,
+  toggleRpSelected,
 } from "../shared/rp-list-parts";
 import { useToggleFavoriteMutation } from "@/hooks/ai/rp/favorites";
 import { LorebookEditor } from "./editor";
@@ -38,6 +40,8 @@ export function LorebookList(props: Props) {
   const lorebooksQuery = useLorebooksQuery();
   const [rpQuery, setRpQuery] = useState("");
   const createMut = useCreateLorebookMutation();
+  const deleteManyMut = useDeleteLorebooksMutation();
+  const [selectedIds, setSelectedIds] = useState<Set<string> | null>(null);
   const deleteMut = useDeleteLorebookMutation();
   const duplicateMut = useDuplicateLorebookMutation();
   const importMut = useImportLorebookMutation();
@@ -60,6 +64,21 @@ export function LorebookList(props: Props) {
     deleteMut.mutate(id);
   };
 
+  const visible = rpFilter(lorebooksQuery.data, rpQuery, (l) => [
+    l.name,
+    l.description,
+  ]);
+
+  const handleDeleteSelected = async (ids: string[]) => {
+    const ok = await confirmRpDelete(
+      t,
+      "COMMON.CONFIRM.DELETE_LOREBOOKS_TITLE",
+      "COMMON.CONFIRM.DELETE_LOREBOOKS_DESC",
+    );
+    if (!ok) return;
+    deleteManyMut.mutate(ids, { onSuccess: () => setSelectedIds(null) });
+  };
+
   const handleExport = (id: string, format: LorebookExportFormat) =>
     exportMut.mutate({ kind: "lorebooks", id, format });
 
@@ -80,6 +99,13 @@ export function LorebookList(props: Props) {
       editingId={openLbId}
       query={rpQuery}
       setQuery={setRpQuery}
+      selection={{
+        ids: selectedIds,
+        visibleIds: visible.map((row) => row.id),
+        onChange: setSelectedIds,
+        onDelete: handleDeleteSelected,
+        isPending: deleteManyMut.isPending,
+      }}
       actions={
         <>
           <RpImportControl
@@ -128,14 +154,20 @@ export function LorebookList(props: Props) {
         )
       }
     >
-      {rpFilter(lorebooksQuery.data, rpQuery, (l) => [
-        l.name,
-        l.description,
-      ]).map((l) => (
+      {visible.map((l) => (
         <RpEntityRow
           createdAt={l.createdAt}
           updatedAt={l.updatedAt}
           key={l.id}
+          selection={
+            selectedIds
+              ? {
+                  checked: selectedIds.has(l.id),
+                  onToggle: () =>
+                    setSelectedIds(toggleRpSelected(selectedIds, l.id)),
+                }
+              : undefined
+          }
           favorite={{
             on: l.isFavorite,
             onToggle: () =>

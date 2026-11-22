@@ -37,6 +37,7 @@ export const useCharacterQuery = characters.useItem;
 export const useCreateCharacterMutation = characters.useCreate;
 export const useUpdateCharacterMutation = characters.useUpdate;
 export const useDeleteCharacterMutation = characters.useDelete;
+export const useDeleteCharactersMutation = characters.useDeleteMany;
 export const useDuplicateCharacterMutation = characters.useDuplicate;
 
 async function saveMedia(

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import {
   useCharactersQuery,
   useDeleteCharacterMutation,
+  useDeleteCharactersMutation,
   useDuplicateCharacterMutation,
   useImportCharacterCardMutation,
   useImportCharacterFromUrlMutation,
@@ -23,6 +24,7 @@ import {
   RP_ACTION_BUTTON,
   RpImportControl,
   RpListDialog,
+  toggleRpSelected,
 } from "../shared/rp-list-parts";
 import { useToggleFavoriteMutation } from "@/hooks/ai/rp/favorites";
 import { CharacterEditor } from "./editor";
@@ -36,6 +38,8 @@ export function CharacterList(props: Props) {
   const t = useTranslations();
   const charsQuery = useCharactersQuery();
   const [rpQuery, setRpQuery] = useState("");
+  const deleteManyMut = useDeleteCharactersMutation();
+  const [selectedIds, setSelectedIds] = useState<Set<string> | null>(null);
   const deleteMut = useDeleteCharacterMutation();
   const duplicateMut = useDuplicateCharacterMutation();
   const importMut = useImportCharacterCardMutation();
@@ -44,6 +48,21 @@ export function CharacterList(props: Props) {
   const favoriteMut = useToggleFavoriteMutation("character");
 
   const [view, setView] = useState<EditorState>({ mode: "list" });
+
+  const visible = rpFilter(charsQuery.data, rpQuery, (c) => [
+    c.name,
+    c.description,
+  ]);
+
+  const handleDeleteSelected = async (ids: string[]) => {
+    const ok = await confirmRpDelete(
+      t,
+      "COMMON.CONFIRM.DELETE_CHARACTERS_TITLE",
+      "COMMON.CONFIRM.DELETE_CHARACTERS_DESC",
+    );
+    if (!ok) return;
+    deleteManyMut.mutate(ids, { onSuccess: () => setSelectedIds(null) });
+  };
 
   const handleExport = (id: string, format: CharacterExportFormat) =>
     exportMut.mutate({ kind: "characters", id, format });
@@ -67,6 +86,13 @@ export function CharacterList(props: Props) {
       editingId={view.mode === "edit" ? (view.id ?? "new") : null}
       query={rpQuery}
       setQuery={setRpQuery}
+      selection={{
+        ids: selectedIds,
+        visibleIds: visible.map((row) => row.id),
+        onChange: setSelectedIds,
+        onDelete: handleDeleteSelected,
+        isPending: deleteManyMut.isPending,
+      }}
       actions={
         <>
           <RpImportControl
@@ -97,53 +123,60 @@ export function CharacterList(props: Props) {
         )
       }
     >
-      {rpFilter(charsQuery.data, rpQuery, (c) => [c.name, c.description]).map(
-        (c) => (
-          <RpEntityRow
-            createdAt={c.createdAt}
-            updatedAt={c.updatedAt}
-            key={c.id}
-            favorite={{
-              on: c.isFavorite,
-              onToggle: () =>
-                favoriteMut.mutate({ id: c.id, isFavorite: !c.isFavorite }),
-            }}
-            onOpen={() => setView({ mode: "edit", id: c.id })}
-            leading={<RpAvatar mediaId={c.avatarMediaId} name={c.name} />}
-            name={c.name}
-            description={c.description}
-            actions={
-              <RpExportMenu
-                ariaLabel={t("RP.CHARACTERS_EXPORT")}
-                items={[
-                  {
-                    label: t("RP.EXPORT_PNG"),
-                    onClick: () => handleExport(c.id, "png"),
-                  },
-                  {
-                    label: t("RP.EXPORT_JSON"),
-                    onClick: () => handleExport(c.id, "json"),
-                  },
-                  {
-                    label: t("RP.EXPORT_CHARX"),
-                    onClick: () => handleExport(c.id, "charx"),
-                  },
-                ]}
-              />
-            }
-            onDuplicate={() => duplicateMut.mutate(c.id)}
-            onDelete={async () => {
-              const ok = await confirmRpDelete(
-                t,
-                "COMMON.CONFIRM.DELETE_CHARACTER_TITLE",
-                "COMMON.CONFIRM.DELETE_CHARACTER_DESC",
-              );
-              if (!ok) return;
-              deleteMut.mutate(c.id);
-            }}
-          />
-        ),
-      )}
+      {visible.map((c) => (
+        <RpEntityRow
+          createdAt={c.createdAt}
+          updatedAt={c.updatedAt}
+          key={c.id}
+          selection={
+            selectedIds
+              ? {
+                  checked: selectedIds.has(c.id),
+                  onToggle: () =>
+                    setSelectedIds(toggleRpSelected(selectedIds, c.id)),
+                }
+              : undefined
+          }
+          favorite={{
+            on: c.isFavorite,
+            onToggle: () =>
+              favoriteMut.mutate({ id: c.id, isFavorite: !c.isFavorite }),
+          }}
+          onOpen={() => setView({ mode: "edit", id: c.id })}
+          leading={<RpAvatar mediaId={c.avatarMediaId} name={c.name} />}
+          name={c.name}
+          description={c.description}
+          actions={
+            <RpExportMenu
+              ariaLabel={t("RP.CHARACTERS_EXPORT")}
+              items={[
+                {
+                  label: t("RP.EXPORT_PNG"),
+                  onClick: () => handleExport(c.id, "png"),
+                },
+                {
+                  label: t("RP.EXPORT_JSON"),
+                  onClick: () => handleExport(c.id, "json"),
+                },
+                {
+                  label: t("RP.EXPORT_CHARX"),
+                  onClick: () => handleExport(c.id, "charx"),
+                },
+              ]}
+            />
+          }
+          onDuplicate={() => duplicateMut.mutate(c.id)}
+          onDelete={async () => {
+            const ok = await confirmRpDelete(
+              t,
+              "COMMON.CONFIRM.DELETE_CHARACTER_TITLE",
+              "COMMON.CONFIRM.DELETE_CHARACTER_DESC",
+            );
+            if (!ok) return;
+            deleteMut.mutate(c.id);
+          }}
+        />
+      ))}
     </RpListDialog>
   );
 }

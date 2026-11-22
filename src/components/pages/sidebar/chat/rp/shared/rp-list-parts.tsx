@@ -3,6 +3,7 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import { confirm } from "@/components/ui/confirm";
 import {
   Dialog,
@@ -150,16 +151,27 @@ export function RpEntityRow(props: {
   updatedAt?: Date | string | number | null;
   onDuplicate?: () => void | Promise<void>;
   onDelete: () => void | Promise<void>;
+  // Set while the list is in select mode: a click toggles the row instead of opening it.
+  selection?: { checked: boolean; onToggle: () => void };
 }) {
   const t = useTranslations();
+  const selection = props.selection;
   return (
     <Card
       // shrink-0 because the list is a flex column: without it a long list
       // compresses every row to a fraction of its content height and the text
       // of one row renders over the next.
       className="hover:bg-accent flex shrink-0 cursor-pointer flex-row items-center gap-3 p-3 transition-colors max-sm:flex-wrap"
-      onClick={props.onOpen}
+      onClick={selection ? selection.onToggle : props.onOpen}
     >
+      {selection && (
+        <Checkbox
+          checked={selection.checked}
+          onCheckedChange={selection.onToggle}
+          onClick={(e) => e.stopPropagation()}
+          aria-label={t("CHAT.SELECT")}
+        />
+      )}
       {props.leading}
       {/* Beside four buttons a phone showed about six characters of the name. */}
       <div className="flex min-w-0 flex-1 flex-col max-sm:basis-[calc(100%-3.25rem)]">
@@ -171,31 +183,33 @@ export function RpEntityRow(props: {
         )}
         <RpEntityDates created={props.createdAt} updated={props.updatedAt} />
       </div>
-      <div className="flex shrink-0 items-center gap-1 max-sm:ml-auto">
-        {props.favorite && (
+      {!selection && (
+        <div className="flex shrink-0 items-center gap-1 max-sm:ml-auto">
+          {props.favorite && (
+            <RpRowButton
+              icon="star"
+              label={t(props.favorite.on ? "RP.UNFAVORITE" : "RP.FAVORITE")}
+              onClick={props.favorite.onToggle}
+              iconClassName={
+                props.favorite.on ? "fill-current text-amber-500" : undefined
+              }
+            />
+          )}
+          {props.actions}
+          {props.onDuplicate && (
+            <RpRowButton
+              icon="copy"
+              label={t("RP.DUPLICATE")}
+              onClick={() => void props.onDuplicate!()}
+            />
+          )}
           <RpRowButton
-            icon="star"
-            label={t(props.favorite.on ? "RP.UNFAVORITE" : "RP.FAVORITE")}
-            onClick={props.favorite.onToggle}
-            iconClassName={
-              props.favorite.on ? "fill-current text-amber-500" : undefined
-            }
+            icon="trash-2"
+            label={t("COMMON.DELETE")}
+            onClick={() => void props.onDelete()}
           />
-        )}
-        {props.actions}
-        {props.onDuplicate && (
-          <RpRowButton
-            icon="copy"
-            label={t("RP.DUPLICATE")}
-            onClick={() => void props.onDuplicate!()}
-          />
-        )}
-        <RpRowButton
-          icon="trash-2"
-          label={t("COMMON.DELETE")}
-          onClick={() => void props.onDelete()}
-        />
-      </div>
+        </div>
+      )}
     </Card>
   );
 }
@@ -320,6 +334,13 @@ export function RpExportMenu(props: {
   );
 }
 
+export function toggleRpSelected(ids: Set<string>, id: string): Set<string> {
+  const next = new Set(ids);
+  if (next.has(id)) next.delete(id);
+  else next.add(id);
+  return next;
+}
+
 export function rpFilter<T>(
   rows: T[] | null | undefined,
   query: string,
@@ -349,11 +370,32 @@ export function RpListDialog(props: {
   actionsClassName?: string;
   editor: ReactNode;
   children: ReactNode;
+  // Bulk delete: ids is null outside select mode; visibleIds is the filtered list.
+  selection?: {
+    ids: Set<string> | null;
+    visibleIds: string[];
+    onChange: (ids: Set<string> | null) => void;
+    onDelete: (ids: string[]) => void;
+    isPending: boolean;
+  };
 }) {
   const t = useTranslations();
+  const selection = props.selection;
+  const selectedIds = selection?.ids ?? null;
+  const allSelected =
+    selectedIds !== null &&
+    selection !== undefined &&
+    selection.visibleIds.length > 0 &&
+    selection.visibleIds.every((id) => selectedIds.has(id));
 
   return (
-    <Dialog open={props.open} onOpenChange={props.onOpenChange}>
+    <Dialog
+      open={props.open}
+      onOpenChange={(open) => {
+        if (!open) selection?.onChange(null);
+        props.onOpenChange(open);
+      }}
+    >
       <DialogContent
         className={cn(
           "flex max-h-[85svh] flex-col overflow-x-hidden sm:max-w-xl",
@@ -395,6 +437,51 @@ export function RpListDialog(props: {
                 placeholder={t("RP.LIST_SEARCH")}
                 aria-label={t("RP.LIST_SEARCH")}
               />
+
+              {selection && !props.isEmpty && (
+                <div className="flex items-center justify-between gap-2">
+                  {selectedIds ? (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() =>
+                        selection.onChange(
+                          allSelected
+                            ? new Set()
+                            : new Set(selection.visibleIds),
+                        )
+                      }
+                    >
+                      {allSelected
+                        ? t("CHAT.SELECT_NONE")
+                        : t("CHAT.SELECT_ALL")}
+                    </Button>
+                  ) : (
+                    <span />
+                  )}
+                  <div className="flex items-center gap-2">
+                    {selectedIds && (
+                      <Button
+                        variant="destructive"
+                        size="sm"
+                        disabled={selectedIds.size === 0 || selection.isPending}
+                        onClick={() => selection.onDelete([...selectedIds])}
+                      >
+                        {t("CHAT.DELETE_SELECTED", { count: selectedIds.size })}
+                      </Button>
+                    )}
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() =>
+                        selection.onChange(selectedIds ? null : new Set())
+                      }
+                    >
+                      {selectedIds ? t("COMMON.CANCEL") : t("CHAT.SELECT")}
+                    </Button>
+                  </div>
+                </div>
+              )}
 
               {props.isEmpty && <RpEmptyCard labelKey={props.emptyKey} />}
 
