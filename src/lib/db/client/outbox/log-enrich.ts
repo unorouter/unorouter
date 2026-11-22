@@ -1,6 +1,10 @@
 "use client";
 
-import { bumpLocalConversationTotals } from "@/lib/db/client/data/chat/chat";
+import {
+  bumpLocalConversationTotals,
+  messageStore,
+  updateLocalMessage,
+} from "@/lib/db/client/data/chat/chat";
 import {
   patchLocalRequestLogUpstream,
   readLocalRequestLog,
@@ -68,6 +72,18 @@ export async function enrichRequestLogFromUpstream(
     if (delta.inputTokens || delta.outputTokens || delta.cost) {
       await bumpLocalConversationTotals(before.convId, delta);
       keys.push(queryKeys.chatMeta(before.convId), queryKeys.conversations());
+      // The message footer reads the message row, which holds the catalog
+      // estimate; a continued message already carries earlier turns' totals.
+      const message = await messageStore.get(msgId);
+      if (message) {
+        await updateLocalMessage(msgId, {
+          inputTokens: (message.inputTokens ?? 0) + delta.inputTokens || null,
+          outputTokens:
+            (message.outputTokens ?? 0) + delta.outputTokens || null,
+          cost: (message.cost ?? 0) + delta.cost || null,
+        });
+        keys.push(queryKeys.chatMessages(before.convId));
+      }
     }
   }
   invalidateAndBroadcast(getQueryClient(), keys);
