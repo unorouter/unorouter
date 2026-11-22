@@ -1096,36 +1096,40 @@ const MessageError: FC = () => {
   );
 };
 
+// The timer writes to the DOM directly: a state update every 50ms re-rendered the
+// thread 20 times a second and tripped React's update depth limit on Android.
 const StreamingIndicator: FC = () => {
   const isStreaming = useAuiState(
     (s) => s.message.status?.type === "running" && s.message.parts.length === 0,
   );
-  const [elapsed, setElapsed] = useState(0);
+  const timerRef = useRef<HTMLSpanElement>(null);
   const activeModel = useAtomValue(chatModelAtom);
   const pricing = usePricingCatalogQuery();
-
-  useEffect(() => {
-    if (!isStreaming) return;
-    const start = Date.now();
-    const id = setInterval(() => setElapsed(Date.now() - start), 50);
-    return () => clearInterval(id);
-  }, [isStreaming]);
-
-  if (!isStreaming) return null;
-
   const modelType = pricing.data?.models.find(
     (m) => m.model_name === activeModel,
   )?.type;
   const gradientWindow =
     modelType === "image" ? 120 : modelType === "video" ? 300 : 60;
 
-  const seconds = elapsed / 1000;
-  const t = Math.min(seconds / gradientWindow, 1);
-  const r = Math.round(140 + t * 115);
-  const g = Math.round(140 - t * 100);
-  const b = Math.round(140 - t * 110);
-  const timerColor = `rgb(${r}, ${g}, ${b})`;
-  const display = elapsed < 1000 ? `${elapsed}ms` : `${seconds.toFixed(1)}s`;
+  useEffect(() => {
+    if (!isStreaming) return;
+    const start = Date.now();
+    const tick = () => {
+      const el = timerRef.current;
+      if (!el) return;
+      const elapsed = Date.now() - start;
+      const seconds = elapsed / 1000;
+      const t = Math.min(seconds / gradientWindow, 1);
+      el.textContent =
+        elapsed < 1000 ? `${elapsed}ms` : `${seconds.toFixed(1)}s`;
+      el.style.color = `rgb(${Math.round(140 + t * 115)}, ${Math.round(140 - t * 100)}, ${Math.round(140 - t * 110)})`;
+    };
+    tick();
+    const id = setInterval(tick, 50);
+    return () => clearInterval(id);
+  }, [isStreaming, gradientWindow]);
+
+  if (!isStreaming) return null;
 
   return (
     <div className="flex items-center gap-2.5 px-1 py-2">
@@ -1135,11 +1139,9 @@ const StreamingIndicator: FC = () => {
         <span className="bg-muted-foreground/60 h-1.5 w-1.5 animate-pulse rounded-full [animation-delay:300ms]" />
       </div>
       <span
+        ref={timerRef}
         className="font-mono text-[10px] tabular-nums transition-colors"
-        style={{ color: timerColor }}
-      >
-        {display}
-      </span>
+      />
     </div>
   );
 };
