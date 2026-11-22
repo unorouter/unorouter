@@ -338,6 +338,9 @@ export function ModelSelector(props: ModelSelectorProps) {
   const loginRedirect = useLoginRedirect();
   const [open, setOpen] = useState(false);
   const [typeFilter, setTypeFilter] = useState<string | null>(null);
+  // Kept across close: picking a model closes the popover, and comparing
+  // several models of one family otherwise means retyping the query each time.
+  const [search, setSearch] = useState("");
   const pricingQuery = usePricingCatalogQuery();
   const authQuery = useAuthQuery();
   const isLoggedIn = !!authQuery.data;
@@ -429,6 +432,8 @@ export function ModelSelector(props: ModelSelectorProps) {
       >
         <Command>
           <CommandInput
+            value={search}
+            onValueChange={setSearch}
             placeholder={t("CHAT.MODEL.SEARCH")}
             className="h-8 text-xs"
           />
