@@ -11,6 +11,8 @@ export const FOOTER_BADGES: {
   data?: Record<`data-${string}`, string>;
   // Exact alt text, for the few verifiers that match on it.
   alt?: string;
+  // A followed link, only for directories that delist on a nofollow badge.
+  follow?: boolean;
 }[] = [
   {
     href: "https://startupfa.me/s/unorouter?utm_source=unorouter.com",
@@ -261,6 +263,7 @@ export const FOOTER_BADGES: {
     src: "https://agentwork.tools/badge/badge_dark.svg",
     name: "AgentWork.Tools",
     width: 89,
+    follow: true,
   },
   {
     href: "https://ai-directory.dev/tool/unorouter",
@@ -478,6 +481,7 @@ export const FOOTER_BADGES: {
     src: "https://another.directory/badges/listed-light.svg",
     name: "Another Directory: discover new software tools and apps",
     width: 107,
+    follow: true,
   },
   {
     href: "https://apptooling.com/projects/unorouter?utm_source=badge",
@@ -538,6 +542,7 @@ export const FOOTER_BADGES: {
     src: "https://daniellaunches.com/badge-light.svg",
     name: "daniellaunches.com",
     width: 110,
+    follow: true,
   },
   {
     href: "https://debutpin.com/p/unorouter",
@@ -550,6 +555,7 @@ export const FOOTER_BADGES: {
     src: "https://debutyard.com/badge/unorouter?theme=light",
     name: "DebutYard: Launch. Network. Grow.",
     width: 98,
+    follow: true,
   },
   {
     href: "https://deeplaunch.io",
@@ -803,6 +809,7 @@ export const FOOTER_BADGES: {
     src: "https://launchdog.dev/badges/unorouter.svg",
     name: "Launchdog",
     width: 89,
+    follow: true,
   },
   {
     href: "https://launchelion.com/tools/unorouter?ref=unorouter",
@@ -2243,9 +2250,65 @@ export const FOOTER_BADGES: {
     alt: "Featured on FindAIForMe",
     width: 95,
   },
+  {
+    href: "https://aiboom.tools",
+    src: "https://aiboom.tools/badge/badge_light.svg",
+    name: "AIBoom.Tools",
+    width: 93,
+    follow: true,
+  },
+  {
+    href: "https://bigkr.com",
+    src: "https://bigkr.com/badge/badge_light.svg",
+    name: "BigKr",
+    width: 89,
+    follow: true,
+  },
+  {
+    href: "https://super-launch.app",
+    src: "https://super-launch.app/badge/badge_light.svg",
+    name: "Super Launch",
+    width: 89,
+    follow: true,
+  },
+  {
+    href: "https://best.serp.co/products/unorouter.com/",
+    src: "https://best.serp.co/badge/featured-on-serp.co-light.svg",
+    name: "SERP Best Directory of Products and Resources",
+    width: 96,
+    follow: true,
+  },
+  {
+    href: "https://findalternative.to/unorouter/about?utm_source=badge",
+    src: "https://findalternative.to/api/badge/01M76FZR5Y7R6PW8VCCNTMAYBB.svg?theme=light&variant=hero",
+    name: "findalternative.to",
+    alt: "Find UnoRouter on findalternative.to",
+    width: 111,
+    follow: true,
+  },
+  {
+    href: "https://aitevon.com",
+    src: "https://aitevon.com/badges/aitevon-featured-light.svg",
+    name: "AITevon",
+    alt: "Featured on AITevon",
+    width: 76,
+    follow: true,
+  },
+  {
+    href: "https://thesaasdir.com/product/unorouter?ref=badge",
+    src: "https://thesaasdir.com/badge/unorouter.svg",
+    name: "TheSaaSDir",
+    width: 182,
+    follow: true,
+  },
 ] as const;
 
 export const FOOTER_TEXT_LINKS = [
+  {
+    href: "https://thistools.app/projects/unorouter",
+    label: "thistools",
+    follow: true,
+  },
   {
     href: "https://www.aitoolsprime.com?utm_source=badge&utm_medium=referral&utm_campaign=featured_badge",
     label: "AI Tools Prime",
@@ -2267,7 +2330,10 @@ export const FOOTER_TEXT_LINKS = [
     label: "600.tools: Explore 600 curated tools for every purpose",
   },
   { href: "https://ai-findr.com/", label: "AI Findr Tools Diresctory" },
-  { href: "https://aiblog.tools/tool/unoroutercom", label: "Find us on AIBlog.Tools" },
+  {
+    href: "https://aiblog.tools/tool/unoroutercom",
+    label: "Find us on AIBlog.Tools",
+  },
   {
     href: "https://aihuntbase.com/tools/unorouter",
     label: "AI Hunt Base",

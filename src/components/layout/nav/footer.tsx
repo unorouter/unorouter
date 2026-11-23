@@ -235,7 +235,8 @@ export function Footer() {
         {/* Every badge and text link must stay in the home page's server-rendered DOM:
             huzzler, dododirectory and saasbison auto-delist when their link is missing.
             They are sponsored nofollow because a required badge is a link exchange
-            under Google's link spam policy. */}
+            under Google's link spam policy; `follow` badges are the exceptions whose
+            directory delists on a nofollow link. */}
         {isHome && (
           <div className="border-muted/50 space-y-4 border-t pt-8 pb-4">
             {badgeRows.map((row, rowIndex) => (
@@ -269,7 +270,11 @@ export function Footer() {
                             {...("data" in item ? item.data : undefined)}
                             href={item.href}
                             target="_blank"
-                            rel="sponsored nofollow noopener noreferrer"
+                            rel={
+                              "follow" in item && item.follow
+                                ? "noopener noreferrer"
+                                : "sponsored nofollow noopener noreferrer"
+                            }
                             className="shrink-0"
                             tabIndex={isDup ? -1 : undefined}
                           >
@@ -303,7 +308,11 @@ export function Footer() {
                             key={item.href}
                             href={item.href}
                             target="_blank"
-                            rel="sponsored nofollow noopener noreferrer"
+                            rel={
+                              "follow" in item && item.follow
+                                ? "noopener noreferrer"
+                                : "sponsored nofollow noopener noreferrer"
+                            }
                             tabIndex={isDup ? -1 : undefined}
                             className="text-foreground/50 hover:text-foreground/70 shrink-0 text-xs whitespace-nowrap transition-colors"
                           >

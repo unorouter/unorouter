@@ -23,12 +23,16 @@ export function GET() {
       .join("");
     const alt =
       "alt" in badge && badge.alt ? badge.alt : `Featured on ${badge.name}`;
-    return `<a href="${escapeHtml(badge.href)}" target="_blank" rel="sponsored nofollow noopener"${data}><img src="${escapeHtml(badge.src)}" alt="${escapeHtml(alt)}" width="${badge.width}" height="24" loading="lazy"></a>`;
+    const rel = badge.follow ? "noopener" : "sponsored nofollow noopener";
+    return `<a href="${escapeHtml(badge.href)}" target="_blank" rel="${rel}"${data}><img src="${escapeHtml(badge.src)}" alt="${escapeHtml(alt)}" width="${badge.width}" height="24" loading="lazy"></a>`;
   });
-  const texts = FOOTER_TEXT_LINKS.map(
-    (link) =>
-      `<a href="${escapeHtml(link.href)}" target="_blank" rel="sponsored nofollow noopener">${escapeHtml(link.label)}</a>`,
-  );
+  const texts = FOOTER_TEXT_LINKS.map((link) => {
+    const rel =
+      "follow" in link && link.follow
+        ? "noopener"
+        : "sponsored nofollow noopener";
+    return `<a href="${escapeHtml(link.href)}" target="_blank" rel="${rel}">${escapeHtml(link.label)}</a>`;
+  });
 
   const html = `<!doctype html>
 <html lang="en">
