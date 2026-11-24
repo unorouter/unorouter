@@ -155,6 +155,22 @@ export const LEGAL_REGISTRY = [
 
 export const BLOG_REGISTRY = [
   {
+    slug: "custom-provider-images-videos",
+    date: "2026-11-24",
+    tags: ["announcement", "product"],
+    i18nKey: "BLOG.POSTS.CUSTOM_PROVIDER_IMAGES_VIDEOS",
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "update",
+    wordCount: 310,
+    headings: [
+      { id: "set-up", i18nLeaf: "H_SETUP", level: 2 },
+      { id: "images", i18nLeaf: "H_IMAGES", level: 2 },
+      { id: "videos", i18nLeaf: "H_VIDEOS", level: 2 },
+      { id: "your-files", i18nLeaf: "H_STORAGE", level: 2 },
+    ],
+  },
+  {
     slug: "free-ai-api",
     date: "2026-11-08",
     tags: ["guide", "product"],

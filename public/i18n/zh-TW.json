@@ -628,6 +628,22 @@
       "guide": "指南"
     },
     "POSTS": {
+      "CUSTOM_PROVIDER_IMAGES_VIDEOS": {
+        "TITLE": "自訂提供商現在可以在聊天中產生圖像與影片",
+        "DESCRIPTION": "在 {appName} 聊天中選擇你自己的 OpenAI 相容提供商的圖像與影片模型。提示詞從你的瀏覽器直接送到提供商，結果儲存在你的裝置上。",
+        "AUTHOR": "{appName} 團隊",
+        "INTRO": "在此之前，{appName} 聊天中的自訂提供商只能用文字回覆。從今天起，你可以在聊天的模型選擇器中選擇它的圖像與影片模型，送出提示詞，並在對話中收到圖片或影片片段。你的金鑰依然從不離開你的裝置。",
+        "H_SETUP": "如何設定",
+        "P_SETUP": "從聊天選單開啟<s>自訂提供商</s>，加入提供商的基礎 URL 與金鑰，然後載入它的模型清單。提供商標示為圖像或影片模型的模型，在勾選時會自動標上類型。其餘模型請開啟模型設定，把類型設為<s>圖像</s>或<s>影片</s>。之後它們會出現在模型選擇器的 Image 與 Video 中，與 {appName} 自己的模型並列。",
+        "H_IMAGES": "圖像",
+        "P_IMAGES": "你的訊息會作為提示詞送到提供商的 <c>/images/generations</c> 端點。附加圖片時則改送到 <c>/images/edits</c>，用於以圖生圖。在回覆中傳回圖片的聊天模型，現在也會顯示這些圖片。",
+        "H_VIDEOS": "影片",
+        "P_VIDEOS": "影片模型會在提供商端啟動任務，並顯示一張進度卡片。{appName} 支援兩種常見的影片 API：OpenAI 風格的 <c>/videos</c>，以及多數中轉站使用的任務 API <c>/video/generations</c>，並自動使用你的提供商回應的那一種。模型支援時，可以附加一張圖片作為起始畫面。影片產生期間可以重新整理頁面：卡片會繼續查詢，完成的影片直接在聊天中播放。",
+        "H_STORAGE": "檔案存放在哪裡",
+        "P_STORAGE": "提供商的連結會過期，常常一小時內就失效，所以每個完成的圖像與影片都會像其他聊天內容一樣，複製到你瀏覽器的儲存空間。請求從你的瀏覽器直接送往提供商。如果某個提供商阻擋來自瀏覽器的請求，請開啟它的代理開關。透過代理下載需要先登入。",
+        "CTA": "詳情請閱讀<guide>自訂提供商指南</guide>，或<chat>開啟聊天</chat>試試看。有提供商無法使用？在 <discord>Discord</discord> 上告訴我們。",
+        "META_DESCRIPTION": "在 {appName} 聊天中選擇你自己的 OpenAI 相容提供商的圖像與影片模型：在瀏覽器中產生，並儲存在你的裝置上。"
+      },
       "QRONOS_JOINS_PARTNERS": {
         "TITLE": "Qronos 成為 {appName} 合作夥伴",
         "DESCRIPTION": "Qronos AI 在 {appName} 上運行其 LLM 閘道，並經營一個以 AI 角色扮演和故事創作為主的 Discord 社群。介紹他們是誰，以及我們的合作夥伴計畫如何運作。",
@@ -5011,12 +5027,12 @@
     "FILE_EMPTY": "檔案為空或無法讀取。",
     "REF_IMAGE_SKIPPED": "已略過 {name}：只能新增不超過 5 MB 的圖片。",
     "UNSUPPORTED_CONTENT": "無法以文字形式讀取此檔案類型。",
-    "CUSTOM_IMAGE_EMPTY": "提供者的回覆中沒有圖像。",
-    "CUSTOM_VIDEO_NO_JOB": "提供者沒有傳回影片任務 ID。",
-    "CUSTOM_VIDEO_NO_FILE": "影片已生成，但提供者沒有傳送檔案。",
-    "PROVIDER_REQUEST_FAILED": "向提供者發出的請求失敗。",
-    "CUSTOM_MEDIA_LOGIN": "瀏覽器無法從提供者下載此檔案。請登入，讓 Uno 幫你取得。",
-    "CUSTOM_PROVIDER_MISSING": "此模型的自訂提供者已不存在。"
+    "CUSTOM_IMAGE_EMPTY": "提供商的回覆中沒有圖像。",
+    "CUSTOM_VIDEO_NO_JOB": "提供商沒有傳回影片任務 ID。",
+    "CUSTOM_VIDEO_NO_FILE": "影片已生成，但提供商沒有傳送檔案。",
+    "PROVIDER_REQUEST_FAILED": "向提供商發出的請求失敗。",
+    "CUSTOM_MEDIA_LOGIN": "瀏覽器無法從提供商下載此檔案。請登入，讓 Uno 幫你取得。",
+    "CUSTOM_PROVIDER_MISSING": "此模型的自訂提供商已不存在。"
   },
   "BADGE": {
     "TOKENS_SERVED": "已服務 tokens",
@@ -6048,8 +6064,8 @@
       "P_MODELS_1": "載入提供商的模型清單，搜尋並勾選你想要的模型；聊天選擇器中只顯示已勾選的模型。清單中沒有的模型 ID 可以在搜尋框中輸入後新增。每個模型的類型為文字或圖像。圖像類型的模型用於圖像產生器，而不是聊天下拉選單。",
       "P_MODELS_2": "模型條目攜帶自己的設定，包括用於預算計算的分詞器。",
       "H_MEDIA": "圖像與影片模型",
-      "P_MEDIA_1": "提供者標記為圖像或影片模型的模型，在勾選時會自動取得該類型；否則請在模型設定中手動指定。在模型選擇器的「Image」或「Video」中選擇它，你的訊息就是提示詞。圖像模型呼叫 /images/generations，附加圖片時呼叫 /images/edits。影片模型呼叫 /videos，若中轉站只提供 /video/generations 則改用它，重新整理頁面後任務仍會繼續查詢。",
-      "P_MEDIA_2": "生成好的圖像與影片會複製到本裝置，因為提供者的連結會過期。聊天模型在回覆中傳送的圖像也會以同樣方式儲存。開啟代理時，下載結果需要先登入。",
+      "P_MEDIA_1": "提供商標記為圖像或影片模型的模型，在勾選時會自動取得該類型；否則請在模型設定中手動指定。在模型選擇器的「Image」或「Video」中選擇它，你的訊息就是提示詞。圖像模型呼叫 /images/generations，附加圖片時呼叫 /images/edits。影片模型呼叫 /videos，若中轉站只提供 /video/generations 則改用它，重新整理頁面後任務仍會繼續查詢。",
+      "P_MEDIA_2": "生成好的圖像與影片會複製到本裝置，因為提供商的連結會過期。聊天模型在回覆中傳送的圖像也會以同樣方式儲存。開啟代理時，下載結果需要先登入。",
       "H_TOKENIZERS": "按模型分詞器",
       "P_TOKENIZERS_1": "token 計數驅動歷史裁剪與世界書預算，因此在長聊天中正確的分詞器很重要。每個自訂模型從 13 個預設中選擇：",
       "P_TOKENIZERS_2": "或透過 slug 或 URL 指向任意 HuggingFace 分詞器：",

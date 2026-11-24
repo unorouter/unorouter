@@ -628,6 +628,22 @@
       "guide": "poradnik"
     },
     "POSTS": {
+      "CUSTOM_PROVIDER_IMAGES_VIDEOS": {
+        "TITLE": "Własni dostawcy tworzą teraz obrazy i filmy w czacie",
+        "DESCRIPTION": "Wybierz modele obrazów i wideo własnego dostawcy zgodnego z OpenAI w czacie {appName}. Prompty trafiają prosto z przeglądarki do dostawcy, a wyniki zapisują się na Twoim urządzeniu.",
+        "AUTHOR": "Zespół {appName}",
+        "INTRO": "Do tej pory własny dostawca w czacie {appName} mógł odpowiadać tylko tekstem. Od dziś możesz wybrać jego modele obrazów i wideo w selektorze modeli, wysłać prompt i dostać obraz albo klip w rozmowie. Twój klucz nadal nigdy nie opuszcza urządzenia.",
+        "H_SETUP": "Jak to skonfigurować",
+        "P_SETUP": "Otwórz <s>Niestandardowi dostawcy</s> w menu czatu, dodaj bazowy URL i klucz dostawcy i wczytaj listę modeli. Modele, które dostawca oznacza jako modele obrazów lub wideo, są oznaczane automatycznie po zaznaczeniu. Dla pozostałych otwórz ustawienia modelu i ustaw typ na <s>Obraz</s> lub <s>Wideo</s>. Potem pojawiają się w selektorze modeli w zakładkach Image i Video, obok modeli {appName}.",
+        "H_IMAGES": "Obrazy",
+        "P_IMAGES": "Twoja wiadomość staje się promptem i trafia do endpointu <c>/images/generations</c> dostawcy. Jeśli dołączysz obraz, trafia do <c>/images/edits</c>, czyli obraz na obraz. Modele czatu, które odsyłają obrazy w odpowiedzi, teraz też je pokazują.",
+        "H_VIDEOS": "Filmy",
+        "P_VIDEOS": "Modele wideo uruchamiają zadanie u dostawcy i pokazują kartę z postępem. {appName} obsługuje oba popularne API wideo, <c>/videos</c> w stylu OpenAI i API zadań <c>/video/generations</c>, którego używa większość relayów, i wybiera to, na które odpowiada Twój dostawca. Dołącz obraz, aby użyć go jako obrazu startowego, jeśli model to obsługuje. Możesz przeładować stronę w trakcie generowania: karta dalej sprawdza stan, a gotowy film odtwarza się w czacie.",
+        "H_STORAGE": "Gdzie trafiają Twoje pliki",
+        "P_STORAGE": "Linki dostawców wygasają, często w ciągu godziny, więc każdy gotowy obraz i film jest kopiowany do pamięci przeglądarki, tak jak reszta Twoich czatów. Żądania idą z przeglądarki prosto do dostawcy. Jeśli dostawca blokuje żądania z przeglądarki, włącz jego przełącznik proxy. Pobieranie przez proxy wymaga zalogowania.",
+        "CTA": "Szczegóły znajdziesz w <guide>przewodniku po własnych dostawcach</guide>, albo <chat>otwórz czat</chat> i wypróbuj. Dostawca nie działa? Daj nam znać na <discord>Discordzie</discord>.",
+        "META_DESCRIPTION": "Wybierz modele obrazów i wideo własnego dostawcy zgodnego z OpenAI w czacie {appName}: obrazy i filmy tworzone z przeglądarki i zapisywane na Twoim urządzeniu."
+      },
       "QRONOS_JOINS_PARTNERS": {
         "TITLE": "Qronos dołącza do partnerów {appName}",
         "DESCRIPTION": "Qronos AI uruchamia swoją bramę LLM na {appName} i prowadzi społeczność na Discordzie poświęconą odgrywaniu ról z AI i opowiadaniu historii. Kim są i jak działa nasz program partnerski.",

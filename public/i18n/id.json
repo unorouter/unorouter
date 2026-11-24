@@ -628,6 +628,22 @@
       "guide": "panduan"
     },
     "POSTS": {
+      "CUSTOM_PROVIDER_IMAGES_VIDEOS": {
+        "TITLE": "Penyedia khusus kini bisa membuat gambar dan video di chat",
+        "DESCRIPTION": "Pilih model gambar dan video dari penyedia kompatibel OpenAI milikmu sendiri di chat {appName}. Prompt dikirim langsung dari browsermu ke penyedia, dan hasilnya disimpan di perangkatmu.",
+        "AUTHOR": "Tim {appName}",
+        "INTRO": "Sampai sekarang, penyedia khusus di chat {appName} hanya bisa menjawab dengan teks. Mulai hari ini kamu bisa memilih model gambar dan videonya di pemilih model chat, mengirim prompt, dan menerima gambar atau klipnya di percakapan. Kuncimu tetap tidak pernah meninggalkan perangkatmu.",
+        "H_SETUP": "Cara mengaturnya",
+        "P_SETUP": "Buka <s>Penyedia khusus</s> dari menu chat, tambahkan URL dasar dan kunci penyedia, lalu muat daftar modelnya. Model yang dicantumkan penyedia sebagai model gambar atau video ditandai otomatis saat kamu mencentangnya. Untuk yang lain, buka pengaturan model dan atur tipenya ke <s>Gambar</s> atau <s>Video</s>. Setelah itu model muncul di pemilih model di bawah Image dan Video, di samping model milik {appName}.",
+        "H_IMAGES": "Gambar",
+        "P_IMAGES": "Pesanmu menjadi prompt dan dikirim ke endpoint <c>/images/generations</c> milik penyedia. Lampirkan gambar dan pesan dikirim ke <c>/images/edits</c>, untuk gambar ke gambar. Model chat yang mengirim gambar di dalam balasannya kini juga menampilkannya.",
+        "H_VIDEOS": "Video",
+        "P_VIDEOS": "Model video memulai tugas di penyedia dan menampilkan kartu berisi progresnya. {appName} mendukung dua API video yang umum, <c>/videos</c> gaya OpenAI dan API tugas <c>/video/generations</c> yang dipakai sebagian besar relay, dan memilih yang dijawab penyedia. Lampirkan gambar untuk dipakai sebagai gambar awal jika modelnya mendukung. Kamu bisa memuat ulang halaman saat video dibuat: kartu terus memeriksa, dan video yang selesai langsung diputar di chat.",
+        "H_STORAGE": "Ke mana file-mu disimpan",
+        "P_STORAGE": "Tautan penyedia kedaluwarsa, sering dalam satu jam, jadi setiap gambar dan video yang selesai disalin ke penyimpanan browsermu, seperti chat-mu yang lain. Permintaan dikirim dari browsermu langsung ke penyedia. Jika penyedia memblokir permintaan dari browser, nyalakan sakelar proxy-nya. Unduhan lewat proxy memerlukan login.",
+        "CTA": "Baca <guide>panduan penyedia khusus</guide> untuk detailnya, atau <chat>buka chat</chat> dan coba. Ada penyedia yang tidak berfungsi? Kabari kami di <discord>Discord</discord>.",
+        "META_DESCRIPTION": "Pilih model gambar dan video dari penyedia kompatibel OpenAI milikmu di chat {appName}: gambar dan video dibuat dari browsermu dan disimpan di perangkatmu."
+      },
       "QRONOS_JOINS_PARTNERS": {
         "TITLE": "Qronos bergabung dengan mitra {appName}",
         "DESCRIPTION": "Qronos AI menjalankan gateway LLM mereka di {appName} dan mengelola komunitas Discord untuk roleplay AI dan bercerita. Siapa mereka, dan bagaimana program mitra kami bekerja.",
@@ -5016,7 +5032,7 @@
     "CUSTOM_VIDEO_NO_FILE": "Video sudah selesai, tetapi penyedia tidak mengirim file.",
     "PROVIDER_REQUEST_FAILED": "Permintaan ke penyedia gagal.",
     "CUSTOM_MEDIA_LOGIN": "Browsermu tidak dapat mengunduh file ini dari penyedia. Masuk agar Uno dapat mengambilnya untukmu.",
-    "CUSTOM_PROVIDER_MISSING": "Penyedia kustom untuk model ini sudah tidak ada."
+    "CUSTOM_PROVIDER_MISSING": "Penyedia khusus untuk model ini sudah tidak ada."
   },
   "BADGE": {
     "TOKENS_SERVED": "token dilayani",

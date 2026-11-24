@@ -628,6 +628,22 @@
       "guide": "guide"
     },
     "POSTS": {
+      "CUSTOM_PROVIDER_IMAGES_VIDEOS": {
+        "TITLE": "Custom providers can now make images and videos in chat",
+        "DESCRIPTION": "Pick the image and video models of your own OpenAI-compatible provider in {appName} chat. Prompts go straight from your browser to the provider, and the results are saved on your device.",
+        "AUTHOR": "{appName} team",
+        "INTRO": "Until now, a custom provider in {appName} chat could only answer with text. Starting today you can pick its image and video models in the chat model picker, send a prompt, and get the picture or the clip back in the conversation. Your key still never leaves your device.",
+        "H_SETUP": "How to set it up",
+        "P_SETUP": "Open <s>Custom providers</s> from the chat menu, add your provider's base URL and key, and load its model list. Models the provider lists as image or video models are marked automatically when you tick them. For the rest, open the model's settings and set its type to <s>Image</s> or <s>Video</s>. They then show up in the model picker under Image and Video, next to {appName}'s own models.",
+        "H_IMAGES": "Images",
+        "P_IMAGES": "Your message becomes the prompt and goes to the provider's <c>/images/generations</c> endpoint. Attach a picture and it goes to <c>/images/edits</c> instead, for image to image. Chat models that send images back inside their reply now show those images too.",
+        "H_VIDEOS": "Videos",
+        "P_VIDEOS": "Video models start a job on the provider and show a card with its progress. {appName} speaks both common video APIs, the OpenAI style <c>/videos</c> and the <c>/video/generations</c> task API most relays use, and picks whichever your provider answers. Attach a picture to use it as the starting image where the model supports it. You can reload the page while the video renders: the card keeps checking, and the finished video plays right in the chat.",
+        "H_STORAGE": "Where your files go",
+        "P_STORAGE": "Provider links expire, often within an hour, so every finished image and video is copied into your browser's storage, like the rest of your chats. Requests go from your browser straight to the provider. If a provider blocks browser requests, turn on its proxy toggle. Downloads through the proxy need you to be signed in.",
+        "CTA": "Read the <guide>custom providers guide</guide> for details, or <chat>open the chat</chat> and try it. A provider that does not work? Tell us on <discord>Discord</discord>.",
+        "META_DESCRIPTION": "Pick the image and video models of your own OpenAI-compatible provider in {appName} chat: images and videos generated from your browser and saved on your device."
+      },
       "QRONOS_JOINS_PARTNERS": {
         "TITLE": "Qronos joins the {appName} partners",
         "DESCRIPTION": "Qronos AI runs its LLM gateway on {appName} and hosts a Discord community for AI roleplay and storytelling. Who they are, and how our partner program works.",

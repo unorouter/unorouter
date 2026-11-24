@@ -628,6 +628,22 @@
       "guide": "hướng dẫn"
     },
     "POSTS": {
+      "CUSTOM_PROVIDER_IMAGES_VIDEOS": {
+        "TITLE": "Nhà cung cấp tùy chỉnh giờ đã tạo được hình ảnh và video trong chat",
+        "DESCRIPTION": "Chọn các mô hình hình ảnh và video từ nhà cung cấp tương thích OpenAI của riêng bạn trong chat {appName}. Prompt được gửi thẳng từ trình duyệt tới nhà cung cấp, và kết quả được lưu trên thiết bị của bạn.",
+        "AUTHOR": "Đội ngũ {appName}",
+        "INTRO": "Trước đây, nhà cung cấp tùy chỉnh trong chat {appName} chỉ trả lời được bằng văn bản. Từ hôm nay, bạn có thể chọn các mô hình hình ảnh và video của nó trong bộ chọn mô hình, gửi prompt và nhận lại hình ảnh hoặc đoạn clip ngay trong cuộc trò chuyện. Khóa của bạn vẫn không bao giờ rời khỏi thiết bị.",
+        "H_SETUP": "Cách thiết lập",
+        "P_SETUP": "Mở <s>Nhà cung cấp tùy chỉnh</s> từ menu chat, thêm URL gốc và khóa của nhà cung cấp, rồi tải danh sách mô hình. Những mô hình mà nhà cung cấp liệt kê là mô hình hình ảnh hoặc video sẽ được đánh dấu tự động khi bạn chọn. Với các mô hình còn lại, mở cài đặt của mô hình và đặt loại là <s>Hình ảnh</s> hoặc <s>Video</s>. Sau đó chúng xuất hiện trong bộ chọn mô hình ở mục Image và Video, cạnh các mô hình của {appName}.",
+        "H_IMAGES": "Hình ảnh",
+        "P_IMAGES": "Tin nhắn của bạn trở thành prompt và được gửi tới endpoint <c>/images/generations</c> của nhà cung cấp. Nếu đính kèm ảnh, nó sẽ được gửi tới <c>/images/edits</c>, để tạo ảnh từ ảnh. Các mô hình chat gửi hình ảnh trong câu trả lời giờ cũng hiển thị chúng.",
+        "H_VIDEOS": "Video",
+        "P_VIDEOS": "Mô hình video khởi chạy một tác vụ ở nhà cung cấp và hiển thị một thẻ với tiến độ. {appName} hỗ trợ cả hai API video phổ biến, <c>/videos</c> kiểu OpenAI và API tác vụ <c>/video/generations</c> mà hầu hết relay dùng, và chọn cái mà nhà cung cấp của bạn phản hồi. Đính kèm ảnh để dùng làm ảnh khởi đầu nếu mô hình hỗ trợ. Bạn có thể tải lại trang trong lúc video đang được tạo: thẻ vẫn tiếp tục kiểm tra, và video hoàn tất sẽ phát ngay trong chat.",
+        "H_STORAGE": "Tệp của bạn được lưu ở đâu",
+        "P_STORAGE": "Liên kết của nhà cung cấp hết hạn, thường chỉ trong một giờ, nên mỗi hình ảnh và video hoàn tất đều được sao chép vào bộ nhớ trình duyệt của bạn, giống phần còn lại của các cuộc chat. Yêu cầu đi từ trình duyệt thẳng tới nhà cung cấp. Nếu nhà cung cấp chặn yêu cầu từ trình duyệt, hãy bật công tắc proxy của nó. Tải xuống qua proxy yêu cầu bạn đăng nhập.",
+        "CTA": "Đọc <guide>hướng dẫn về nhà cung cấp tùy chỉnh</guide> để biết chi tiết, hoặc <chat>mở chat</chat> và thử ngay. Có nhà cung cấp không hoạt động? Hãy báo chúng tôi trên <discord>Discord</discord>.",
+        "META_DESCRIPTION": "Chọn các mô hình hình ảnh và video từ nhà cung cấp tương thích OpenAI của bạn trong chat {appName}: hình ảnh và video tạo từ trình duyệt và lưu trên thiết bị của bạn."
+      },
       "QRONOS_JOINS_PARTNERS": {
         "TITLE": "Qronos gia nhập đối tác của {appName}",
         "DESCRIPTION": "Qronos AI vận hành cổng LLM của họ trên {appName} và quản lý một cộng đồng Discord về nhập vai với AI và kể chuyện. Họ là ai, và chương trình đối tác của chúng tôi hoạt động thế nào.",

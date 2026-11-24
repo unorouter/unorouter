@@ -628,6 +628,22 @@
       "guide": "guía"
     },
     "POSTS": {
+      "CUSTOM_PROVIDER_IMAGES_VIDEOS": {
+        "TITLE": "Los proveedores personalizados ya crean imágenes y vídeos en el chat",
+        "DESCRIPTION": "Elige los modelos de imagen y vídeo de tu propio proveedor compatible con OpenAI en el chat de {appName}. Los prompts van directamente de tu navegador al proveedor y los resultados se guardan en tu dispositivo.",
+        "AUTHOR": "Equipo de {appName}",
+        "INTRO": "Hasta ahora, un proveedor personalizado en el chat de {appName} solo podía responder con texto. Desde hoy puedes elegir sus modelos de imagen y vídeo en el selector de modelos del chat, enviar un prompt y recibir la imagen o el clip en la conversación. Tu clave sigue sin salir nunca de tu dispositivo.",
+        "H_SETUP": "Cómo configurarlo",
+        "P_SETUP": "Abre <s>Proveedores personalizados</s> desde el menú del chat, añade la URL base y la clave de tu proveedor y carga su lista de modelos. Los modelos que el proveedor lista como de imagen o vídeo se marcan automáticamente al seleccionarlos. Para el resto, abre la configuración del modelo y pon su tipo en <s>Imagen</s> o <s>Vídeo</s>. Después aparecen en el selector de modelos bajo Image y Video, junto a los modelos propios de {appName}.",
+        "H_IMAGES": "Imágenes",
+        "P_IMAGES": "Tu mensaje se convierte en el prompt y va al endpoint <c>/images/generations</c> del proveedor. Si adjuntas una imagen, va a <c>/images/edits</c>, para imagen a imagen. Los modelos de chat que devuelven imágenes dentro de su respuesta ahora también las muestran.",
+        "H_VIDEOS": "Vídeos",
+        "P_VIDEOS": "Los modelos de vídeo inician una tarea en el proveedor y muestran una tarjeta con su progreso. {appName} habla las dos API de vídeo habituales, <c>/videos</c> al estilo de OpenAI y la API de tareas <c>/video/generations</c> que usan la mayoría de los relays, y elige la que responda tu proveedor. Adjunta una imagen para usarla como imagen inicial cuando el modelo lo admita. Puedes recargar la página mientras se genera el vídeo: la tarjeta sigue comprobando y el vídeo terminado se reproduce en el chat.",
+        "H_STORAGE": "Dónde quedan tus archivos",
+        "P_STORAGE": "Los enlaces de los proveedores caducan, a menudo en una hora, así que cada imagen y vídeo terminado se copia al almacenamiento de tu navegador, como el resto de tus chats. Las solicitudes van de tu navegador directamente al proveedor. Si un proveedor bloquea las solicitudes del navegador, activa su interruptor de proxy. Las descargas a través del proxy requieren que hayas iniciado sesión.",
+        "CTA": "Lee la <guide>guía de proveedores personalizados</guide> para más detalles, o <chat>abre el chat</chat> y pruébalo. ¿Un proveedor no funciona? Avísanos en <discord>Discord</discord>.",
+        "META_DESCRIPTION": "Elige los modelos de imagen y vídeo de tu propio proveedor compatible con OpenAI en el chat de {appName}: imágenes y vídeos generados desde tu navegador y guardados en tu dispositivo."
+      },
       "QRONOS_JOINS_PARTNERS": {
         "TITLE": "Qronos se une a los socios de {appName}",
         "DESCRIPTION": "Qronos AI ejecuta su gateway de LLM sobre {appName} y tiene una comunidad de Discord para rol con IA y narración. Quiénes son y cómo funciona nuestro programa de socios.",

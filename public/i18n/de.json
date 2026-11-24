@@ -628,6 +628,22 @@
       "guide": "Anleitung"
     },
     "POSTS": {
+      "CUSTOM_PROVIDER_IMAGES_VIDEOS": {
+        "TITLE": "Eigene Anbieter erstellen jetzt Bilder und Videos im Chat",
+        "DESCRIPTION": "Wähle im {appName} Chat die Bild- und Videomodelle deines eigenen OpenAI-kompatiblen Anbieters. Prompts gehen direkt von deinem Browser zum Anbieter, und die Ergebnisse werden auf deinem Gerät gespeichert.",
+        "AUTHOR": "{appName} Team",
+        "INTRO": "Bisher konnte ein eigener Anbieter im {appName} Chat nur mit Text antworten. Ab heute kannst du seine Bild- und Videomodelle in der Modellauswahl des Chats wählen, einen Prompt senden und das Bild oder den Clip direkt im Gespräch zurückbekommen. Dein Schlüssel verlässt dein Gerät weiterhin nie.",
+        "H_SETUP": "So richtest du es ein",
+        "P_SETUP": "Öffne <s>Eigene Anbieter</s> im Chat-Menü, trage die Basis-URL und den Schlüssel deines Anbieters ein und lade seine Modellliste. Modelle, die der Anbieter als Bild- oder Videomodelle führt, werden beim Ankreuzen automatisch markiert. Für alle anderen öffnest du die Einstellungen des Modells und stellst den Typ auf <s>Bild</s> oder <s>Video</s>. Danach erscheinen sie in der Modellauswahl unter Image und Video, neben den eigenen Modellen von {appName}.",
+        "H_IMAGES": "Bilder",
+        "P_IMAGES": "Deine Nachricht wird zum Prompt und geht an den Endpunkt <c>/images/generations</c> des Anbieters. Hängst du ein Bild an, geht sie stattdessen an <c>/images/edits</c>, für Bild zu Bild. Chatmodelle, die in ihrer Antwort Bilder zurückschicken, zeigen diese jetzt ebenfalls an.",
+        "H_VIDEOS": "Videos",
+        "P_VIDEOS": "Videomodelle starten einen Auftrag beim Anbieter und zeigen eine Karte mit dem Fortschritt. {appName} beherrscht beide gängigen Video-APIs, das OpenAI-artige <c>/videos</c> und die Task-API <c>/video/generations</c>, die die meisten Relays nutzen, und nimmt die, auf die dein Anbieter antwortet. Häng ein Bild an, um es als Startbild zu verwenden, wo das Modell das unterstützt. Du kannst die Seite neu laden, während das Video entsteht: Die Karte prüft weiter, und das fertige Video läuft direkt im Chat.",
+        "H_STORAGE": "Wo deine Dateien landen",
+        "P_STORAGE": "Links von Anbietern laufen ab, oft schon nach einer Stunde, deshalb wird jedes fertige Bild und Video in den Speicher deines Browsers kopiert, wie der Rest deiner Chats. Anfragen gehen von deinem Browser direkt zum Anbieter. Blockiert ein Anbieter Anfragen aus dem Browser, schalte seinen Proxy-Schalter ein. Downloads über den Proxy erfordern, dass du angemeldet bist.",
+        "CTA": "Details findest du in der <guide>Anleitung zu eigenen Anbietern</guide>, oder <chat>öffne den Chat</chat> und probier es aus. Ein Anbieter funktioniert nicht? Sag uns auf <discord>Discord</discord> Bescheid.",
+        "META_DESCRIPTION": "Wähle im {appName} Chat die Bild- und Videomodelle deines eigenen OpenAI-kompatiblen Anbieters: Bilder und Videos aus deinem Browser erzeugt und auf deinem Gerät gespeichert."
+      },
       "QRONOS_JOINS_PARTNERS": {
         "TITLE": "Qronos wird Partner von {appName}",
         "DESCRIPTION": "Qronos AI betreibt sein LLM-Gateway auf {appName} und hat eine Discord-Community für KI-Rollenspiel und Storytelling. Wer sie sind und wie unser Partnerprogramm funktioniert.",

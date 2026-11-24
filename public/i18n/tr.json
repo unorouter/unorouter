@@ -628,6 +628,22 @@
       "guide": "rehber"
     },
     "POSTS": {
+      "CUSTOM_PROVIDER_IMAGES_VIDEOS": {
+        "TITLE": "Özel sağlayıcılar artık sohbette görsel ve video üretiyor",
+        "DESCRIPTION": "{appName} sohbetinde kendi OpenAI uyumlu sağlayıcının görsel ve video modellerini seç. İstemler tarayıcından doğrudan sağlayıcıya gider, sonuçlar cihazına kaydedilir.",
+        "AUTHOR": "{appName} ekibi",
+        "INTRO": "Şimdiye kadar {appName} sohbetindeki özel bir sağlayıcı yalnızca metinle yanıt verebiliyordu. Bugünden itibaren görsel ve video modellerini sohbetin model seçicisinden seçebilir, bir istem gönderip görseli ya da klibi sohbetin içinde alabilirsin. Anahtarın yine hiçbir zaman cihazından çıkmaz.",
+        "H_SETUP": "Nasıl kurulur",
+        "P_SETUP": "Sohbet menüsünden <s>Özel sağlayıcılar</s>ı aç, sağlayıcının temel URL'sini ve anahtarını ekle ve model listesini yükle. Sağlayıcının görsel ya da video modeli olarak listelediği modeller, işaretlediğinde otomatik olarak etiketlenir. Diğerleri için modelin ayarlarını açıp türünü <s>Görsel</s> ya da <s>Video</s> yap. Ardından model seçicide Image ve Video sekmelerinde, {appName} modellerinin yanında görünürler.",
+        "H_IMAGES": "Görseller",
+        "P_IMAGES": "Mesajın istem olur ve sağlayıcının <c>/images/generations</c> uç noktasına gider. Bir resim eklersen görselden görsele için <c>/images/edits</c> uç noktasına gider. Yanıtlarının içinde görsel gönderen sohbet modelleri artık bu görselleri de gösteriyor.",
+        "H_VIDEOS": "Videolar",
+        "P_VIDEOS": "Video modelleri sağlayıcıda bir iş başlatır ve ilerlemeyi gösteren bir kart açar. {appName} iki yaygın video API'sini de konuşur: OpenAI tarzı <c>/videos</c> ve çoğu aktarıcının kullandığı <c>/video/generations</c> görev API'si, sağlayıcın hangisine yanıt verirse onu seçer. Model destekliyorsa bir resim ekleyerek başlangıç görseli olarak kullanabilirsin. Video oluşturulurken sayfayı yenileyebilirsin: kart kontrol etmeye devam eder ve biten video doğrudan sohbette oynar.",
+        "H_STORAGE": "Dosyaların nereye gidiyor",
+        "P_STORAGE": "Sağlayıcı bağlantılarının süresi, çoğu zaman bir saat içinde dolar, bu yüzden biten her görsel ve video, sohbetlerinin geri kalanı gibi tarayıcının depolama alanına kopyalanır. İstekler tarayıcından doğrudan sağlayıcıya gider. Bir sağlayıcı tarayıcı isteklerini engelliyorsa proxy anahtarını aç. Proxy üzerinden indirme için giriş yapmış olman gerekir.",
+        "CTA": "Ayrıntılar için <guide>özel sağlayıcılar rehberini</guide> oku ya da <chat>sohbeti aç</chat> ve dene. Çalışmayan bir sağlayıcı mı var? <discord>Discord</discord>'da bize haber ver.",
+        "META_DESCRIPTION": "{appName} sohbetinde kendi OpenAI uyumlu sağlayıcının görsel ve video modellerini seç: tarayıcından üretilen ve cihazına kaydedilen görseller ve videolar."
+      },
       "QRONOS_JOINS_PARTNERS": {
         "TITLE": "Qronos, {appName} ortaklarına katıldı",
         "DESCRIPTION": "Qronos AI, LLM ağ geçidini {appName} üzerinde çalıştırıyor ve yapay zeka rol yapma ile hikaye anlatımı için bir Discord topluluğu yürütüyor. Kim olduklarını ve ortaklık programımızın nasıl işlediğini anlatıyoruz.",
