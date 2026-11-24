@@ -4490,6 +4490,7 @@
       "MODEL_TYPE": "Tipo",
       "MODEL_TYPE_TEXT": "Testo",
       "MODEL_TYPE_IMAGE": "Immagine",
+      "MODEL_TYPE_VIDEO": "Video",
       "FETCH_BLOCKED": "Il browser ha bloccato la richiesta. L’endpoint deve inviare intestazioni CORS e l’eventuale protezione anti-bot davanti deve consentire questo sito.",
       "FETCH_NOT_JSON": "L’endpoint ha risposto con una pagina web invece dei dati dei modelli, di solito un controllo anti-bot. Consenti questo sito oppure aggiungi i modelli manualmente.",
       "PAGE_SUBTITLE": "Collega i tuoi endpoint compatibili con OpenAI e scegli quali dei loro modelli compaiono nella chat.",
@@ -5009,7 +5010,13 @@
     "COPY_FAILED": "Impossibile copiare negli appunti. Il browser lo ha bloccato.",
     "FILE_EMPTY": "Il file è vuoto o non è stato possibile leggerlo.",
     "REF_IMAGE_SKIPPED": "{name} è stato saltato: si possono aggiungere solo immagini fino a 5 MB.",
-    "UNSUPPORTED_CONTENT": "Questo tipo di file non può essere letto come testo."
+    "UNSUPPORTED_CONTENT": "Questo tipo di file non può essere letto come testo.",
+    "CUSTOM_IMAGE_EMPTY": "La risposta del provider non conteneva alcuna immagine.",
+    "CUSTOM_VIDEO_NO_JOB": "Il provider non ha restituito un ID del job video.",
+    "CUSTOM_VIDEO_NO_FILE": "Il video è terminato, ma il provider non ha inviato alcun file.",
+    "PROVIDER_REQUEST_FAILED": "La richiesta al provider non è riuscita.",
+    "CUSTOM_MEDIA_LOGIN": "Il tuo browser non è riuscito a scaricare questo file dal provider. Accedi così Uno può recuperarlo per te.",
+    "CUSTOM_PROVIDER_MISSING": "Il provider personalizzato di questo modello non esiste più."
   },
   "BADGE": {
     "TOKENS_SERVED": "token serviti",
@@ -6040,6 +6047,9 @@
       "H_MODELS": "Modelli",
       "P_MODELS_1": "Carica l'elenco dei modelli del provider, cercalo e spunta i modelli che vuoi; solo quelli spuntati compaiono nel selettore della chat. Un ID non presente in elenco si può scrivere nella ricerca e aggiungere. Ogni modello è di tipo testo o immagine. I modelli di tipo immagine alimentano il generatore di immagini, non il menu della chat.",
       "P_MODELS_2": "Ogni voce di modello porta le proprie impostazioni, compreso il tokenizer usato per il budget.",
+      "H_MEDIA": "Modelli di immagini e video",
+      "P_MEDIA_1": "Un modello che il provider elenca come modello di immagini o video riceve quel tipo quando lo spunti; altrimenti impostalo a mano nelle impostazioni del modello. Sceglilo nel selettore sotto Image o Video e il tuo messaggio diventa il prompt. I modelli di immagini chiamano /images/generations, oppure /images/edits se alleghi un’immagine. I modelli video chiamano /videos, oppure /video/generations sui relay che hanno solo quello, e il job continua a essere interrogato dopo un ricaricamento.",
+      "P_MEDIA_2": "Immagini e video completati vengono copiati su questo dispositivo, perché i link dei provider scadono. Le immagini che un modello di chat invia nella risposta vengono salvate allo stesso modo. Con il proxy attivo, scaricare un risultato richiede l’accesso.",
       "H_TOKENIZERS": "Tokenizer per modello",
       "P_TOKENIZERS_1": "Il conteggio dei token guida il taglio della cronologia e i budget dei lorebook, quindi il tokenizer giusto conta nelle chat lunghe. Ogni modello personalizzato sceglie tra 13 preimpostazioni:",
       "P_TOKENIZERS_2": "Oppure punta a qualsiasi tokenizer HuggingFace tramite slug o URL:",

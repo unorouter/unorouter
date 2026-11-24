@@ -4,9 +4,15 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import {
+  useCustomVideoStatusQuery,
+  useFinalizeCustomVideoMutation,
   useFinalizeTaskMutation,
   useTaskStatusQuery,
 } from "@/hooks/ai/chat-hook";
+import {
+  isCustomModelId,
+  parseCustomModelId,
+} from "@/lib/ai/chat/custom-provider-id";
 import { cn } from "@/lib/utils";
 import { rec, recArr } from "@/lib/utils/base";
 import { replaceMessageParts } from "@/store/chat-store";
@@ -20,6 +26,7 @@ type TaskPart = {
   progress: string;
   model: string;
   kind?: string;
+  api?: "videos" | "generations";
 };
 
 function buildTaskPart(source: unknown): TaskPart | null {
@@ -33,6 +40,9 @@ function buildTaskPart(source: unknown): TaskPart | null {
     progress: typeof row.progress === "string" ? row.progress : "10%",
     model: row.model,
     ...(typeof row.kind === "string" && { kind: row.kind }),
+    ...((row.api === "videos" || row.api === "generations") && {
+      api: row.api,
+    }),
   };
 }
 
@@ -113,18 +123,33 @@ function TaskCard(props: Props) {
 
   // A card still rendering as SUCCESS means finalize never ran (finalizing
   // rewrites it to a video), so it keeps polling until it can.
-  const statusQuery = useTaskStatusQuery(
+  const custom = isCustomModelId(props.part.model);
+  const gatewayQuery = useTaskStatusQuery(
     props.part.taskId,
-    true,
+    !custom,
     POLL_INTERVAL_MS,
   );
+  const customQuery = useCustomVideoStatusQuery(
+    props.part.model,
+    props.part.api ?? "videos",
+    props.part.taskId,
+    custom,
+  );
+  const statusQuery = custom ? customQuery : gatewayQuery;
   const finalizeMutation = useFinalizeTaskMutation();
+  const finalizeCustom = useFinalizeCustomVideoMutation();
 
   const effectiveStatus = statusQuery.data?.status ?? props.part.status;
   const isTerminal = TERMINAL_STATUSES.has(effectiveStatus);
   const effectiveProgress = statusQuery.data?.progress ?? props.part.progress;
-  const failReason = statusQuery.data?.failReason;
-  const isRunning = statusQuery.isFetching || finalizeMutation.isPending;
+  const failReason =
+    statusQuery.data?.failReason ??
+    (customQuery.error ? customQuery.error.message : undefined) ??
+    (finalizeCustom.error ? finalizeCustom.error.message : undefined);
+  const isRunning =
+    statusQuery.isFetching ||
+    finalizeMutation.isPending ||
+    finalizeCustom.isPending;
 
   const data = statusQuery.data;
   useEffect(() => {
@@ -136,6 +161,27 @@ function TaskCard(props: Props) {
       !finalizeMutation.isPending
     ) {
       finalizedRef.current = true;
+      if (custom) {
+        finalizeCustom.mutate(
+          {
+            convId: props.convId,
+            msgId: props.msgId,
+            modelId: props.part.model,
+            url: data.resultUrl,
+          },
+          {
+            onSuccess: (result) =>
+              replaceMessageParts(props.msgId, (parts) => [
+                ...parts.filter((p) => p.type !== "data-task"),
+                { type: "text", text: result.text },
+              ]),
+            onError: () => {
+              finalizedRef.current = false;
+            },
+          },
+        );
+        return;
+      }
       finalizeMutation.mutate(
         {
           convId: props.convId,
@@ -197,9 +243,9 @@ function TaskCard(props: Props) {
           )}
         </div>
         <span className="text-muted-foreground truncate text-xs">
-          {props.part.model}
+          {parseCustomModelId(props.part.model)?.modelKey ?? props.part.model}
         </span>
-        {effectiveStatus === "FAILURE" && failReason && (
+        {(effectiveStatus === "FAILURE" || custom) && failReason && (
           <span className="text-destructive text-xs wrap-break-word">
             {failReason}
           </span>

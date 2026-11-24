@@ -4490,6 +4490,7 @@
       "MODEL_TYPE": "Tipo",
       "MODEL_TYPE_TEXT": "Texto",
       "MODEL_TYPE_IMAGE": "Imagen",
+      "MODEL_TYPE_VIDEO": "Vídeo",
       "FETCH_BLOCKED": "El navegador bloqueó la solicitud. El endpoint debe enviar cabeceras CORS, y cualquier protección antibots delante debe permitir este sitio.",
       "FETCH_NOT_JSON": "El endpoint respondió con una página web en lugar de datos de modelos, normalmente una comprobación antibots. Permite este sitio allí o añade tus modelos manualmente.",
       "PAGE_SUBTITLE": "Conecta tus propios endpoints compatibles con OpenAI y elige cuáles de sus modelos aparecen en el chat.",
@@ -5009,7 +5010,13 @@
     "COPY_FAILED": "No se pudo copiar al portapapeles. Tu navegador lo bloqueó.",
     "FILE_EMPTY": "El archivo está vacío o no se pudo leer.",
     "REF_IMAGE_SKIPPED": "Se omitió {name}: solo se pueden añadir imágenes de hasta 5 MB.",
-    "UNSUPPORTED_CONTENT": "Este tipo de archivo no se puede leer como texto."
+    "UNSUPPORTED_CONTENT": "Este tipo de archivo no se puede leer como texto.",
+    "CUSTOM_IMAGE_EMPTY": "La respuesta del proveedor no contenía ninguna imagen.",
+    "CUSTOM_VIDEO_NO_JOB": "El proveedor no devolvió un ID de tarea de vídeo.",
+    "CUSTOM_VIDEO_NO_FILE": "El vídeo terminó, pero el proveedor no envió ningún archivo.",
+    "PROVIDER_REQUEST_FAILED": "La solicitud al proveedor falló.",
+    "CUSTOM_MEDIA_LOGIN": "Tu navegador no pudo descargar este archivo del proveedor. Inicia sesión para que Uno lo obtenga por ti.",
+    "CUSTOM_PROVIDER_MISSING": "El proveedor personalizado de este modelo ya no existe."
   },
   "BADGE": {
     "TOKENS_SERVED": "tokens procesados",
@@ -6040,6 +6047,9 @@
       "H_MODELS": "Modelos",
       "P_MODELS_1": "Carga la lista de modelos del proveedor, búscala y marca los modelos que quieras; solo los marcados aparecen en el selector del chat. Un ID que no esté en la lista se puede escribir en la búsqueda y añadir. Cada modelo es de tipo texto o imagen. Los modelos de tipo imagen alimentan el generador de imágenes, no el desplegable del chat.",
       "P_MODELS_2": "Cada entrada de modelo lleva sus propios ajustes, incluido el tokenizador usado para presupuestar.",
+      "H_MEDIA": "Modelos de imagen y vídeo",
+      "P_MEDIA_1": "Un modelo que el proveedor lista como de imagen o vídeo recibe ese tipo al marcarlo; si no, ajústalo a mano en la configuración del modelo. Elígelo en el selector bajo Image o Video y tu mensaje será el prompt. Los modelos de imagen llaman a /images/generations, o a /images/edits si adjuntas una imagen. Los modelos de vídeo llaman a /videos, o a /video/generations en relays que solo tienen ese, y la tarea se sigue consultando tras recargar.",
+      "P_MEDIA_2": "Las imágenes y vídeos terminados se copian a este dispositivo, porque los enlaces del proveedor caducan. Las imágenes que un modelo de chat envía dentro de su respuesta se guardan igual. Con el proxy activado, descargar un resultado requiere iniciar sesión.",
       "H_TOKENIZERS": "Tokenizadores por modelo",
       "P_TOKENIZERS_1": "El conteo de tokens gobierna el recorte del historial y los presupuestos de lorebook, así que el tokenizador correcto importa en chats largos. Cada modelo personalizado elige entre 13 preajustes:",
       "P_TOKENIZERS_2": "O apunta a cualquier tokenizador de HuggingFace por slug o URL:",

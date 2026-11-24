@@ -31,7 +31,11 @@ import { generateChatTitle, truncateToTitle } from "./title.service";
 import { runTriggerLLM, runTriggerSimilarity } from "./trigger-ops.service";
 import { streamMedia } from "./media/stream.service";
 import { forwardChatCompletions } from "./forward.service";
-import { forwardCustomProvider } from "./custom-forward.service";
+import {
+  customForwardPath,
+  forwardCustomMedia,
+  forwardCustomProvider,
+} from "./custom-forward.service";
 import { abortStream, tailStream } from "./stream-buffer";
 import { mirrorTail, publishAbort } from "./stream-mirror";
 import { resolveWebSearch } from "./web-search.service";
@@ -72,6 +76,52 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
         path: "/models",
         method: "GET",
         authorization: request.headers.get("authorization"),
+        signal: request.signal,
+      });
+    },
+    { beforeHandle: customForwardLimit },
+  )
+
+  // Signed-in only: unlike the endpoints above, a result URL is not checked by
+  // the provider's own key, so a guest would have an open download relay.
+  .get(
+    "/custom-forward/media",
+    async ({ request, query, cookie }) => {
+      requireMember((await getUserId(cookie, true)) ?? GUEST_USER_ID);
+      return forwardCustomMedia({
+        targetBase: request.headers.get("x-proxy-target"),
+        url: typeof query.url === "string" ? query.url : null,
+        authorization: request.headers.get("authorization"),
+        signal: request.signal,
+      });
+    },
+    { beforeHandle: customForwardLimit },
+  )
+
+  .get(
+    "/custom-forward/*",
+    async ({ request }) => {
+      return forwardCustomProvider({
+        targetBase: request.headers.get("x-proxy-target"),
+        path: customForwardPath(request),
+        method: "GET",
+        authorization: request.headers.get("authorization"),
+        signal: request.signal,
+      });
+    },
+    { beforeHandle: customForwardLimit },
+  )
+
+  .post(
+    "/custom-forward/*",
+    async ({ request }) => {
+      return forwardCustomProvider({
+        targetBase: request.headers.get("x-proxy-target"),
+        path: customForwardPath(request),
+        method: "POST",
+        authorization: request.headers.get("authorization"),
+        body: await request.arrayBuffer(),
+        contentType: request.headers.get("content-type"),
         signal: request.signal,
       });
     },

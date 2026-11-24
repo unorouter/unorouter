@@ -4490,6 +4490,7 @@
       "MODEL_TYPE": "Type",
       "MODEL_TYPE_TEXT": "Text",
       "MODEL_TYPE_IMAGE": "Image",
+      "MODEL_TYPE_VIDEO": "Video",
       "FETCH_BLOCKED": "The browser blocked the request. The endpoint must send CORS headers, and any bot protection in front of it has to allow this site.",
       "FETCH_NOT_JSON": "The endpoint answered with a web page instead of model data, usually a bot-protection challenge. Allow this site through it, or add your models manually.",
       "PAGE_SUBTITLE": "Connect your own OpenAI-compatible endpoints and pick which of their models show up in chat.",
@@ -5009,7 +5010,13 @@
     "COPY_FAILED": "Could not copy to the clipboard. Your browser blocked it.",
     "FILE_EMPTY": "The file is empty or could not be read.",
     "REF_IMAGE_SKIPPED": "{name} was skipped: only images up to 5 MB can be added.",
-    "UNSUPPORTED_CONTENT": "This file type cannot be read as text."
+    "UNSUPPORTED_CONTENT": "This file type cannot be read as text.",
+    "CUSTOM_IMAGE_EMPTY": "The provider's reply contained no image.",
+    "CUSTOM_VIDEO_NO_JOB": "The provider did not return a video job id.",
+    "CUSTOM_VIDEO_NO_FILE": "The video finished, but the provider sent no file.",
+    "PROVIDER_REQUEST_FAILED": "The provider request failed.",
+    "CUSTOM_MEDIA_LOGIN": "Your browser could not download this file from the provider. Sign in so Uno can fetch it for you.",
+    "CUSTOM_PROVIDER_MISSING": "The custom provider for this model no longer exists."
   },
   "BADGE": {
     "TOKENS_SERVED": "tokens served",
@@ -6040,6 +6047,9 @@
       "H_MODELS": "Models",
       "P_MODELS_1": "Load the provider's model list, search it and tick the models you want; only ticked models appear in the chat picker. A model id the list does not have can be typed into the search and added. Each model is typed text or image. Image-typed models feed the image generator, not the chat dropdown.",
       "P_MODELS_2": "Model entries carry their own settings, including the tokenizer used for budgeting.",
+      "H_MEDIA": "Image and video models",
+      "P_MEDIA_1": "A model the provider lists as an image or video model gets that type when you tick it; set it by hand in the model's settings otherwise. Pick it in the chat picker under Image or Video and your message is the prompt. Image models call /images/generations, or /images/edits when you attach a picture. Video models call /videos, falling back to /video/generations on relays that only have that, and the job keeps polling after a reload.",
+      "P_MEDIA_2": "Finished images and videos are copied to this device, since provider links expire. Images a chat model sends back inside its reply are saved the same way. With the proxy on, downloading a result needs you to be signed in.",
       "H_TOKENIZERS": "Per-model tokenizers",
       "P_TOKENIZERS_1": "Token counting drives history trimming and lorebook budgets, so the right tokenizer matters for long chats. Every custom model picks from 13 presets:",
       "P_TOKENIZERS_2": "Or point at any HuggingFace tokenizer by slug or URL:",

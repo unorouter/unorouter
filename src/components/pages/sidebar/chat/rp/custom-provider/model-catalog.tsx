@@ -93,7 +93,7 @@ export function ModelCatalog(props: Props) {
         key: r.id,
         label: r.model?.name ?? r.id,
         tokenizer: "auto",
-        ...(r.model?.imageOnly ? { type: "image" } : {}),
+        ...(r.model?.media ? { type: r.model.media } : {}),
       })),
     ];
   };
@@ -311,9 +311,13 @@ function ModelRow(props: {
             {t("CHAT.CUSTOM_PROVIDER.BADGE_VISION")}
           </span>
         )}
-        {model?.imageOnly && (
+        {model?.media && (
           <span className="bg-muted rounded px-1">
-            {t("CHAT.CUSTOM_PROVIDER.MODEL_TYPE_IMAGE")}
+            {t(
+              model.media === "video"
+                ? "CHAT.CUSTOM_PROVIDER.MODEL_TYPE_VIDEO"
+                : "CHAT.CUSTOM_PROVIDER.MODEL_TYPE_IMAGE",
+            )}
           </span>
         )}
         {model?.contextLength ? (
@@ -363,7 +367,9 @@ function ModelSettings(props: {
           onChange={(e) =>
             props.form.setValue(
               `${base}.type`,
-              e.target.value === "image" ? "image" : "text",
+              e.target.value === "image" || e.target.value === "video"
+                ? e.target.value
+                : "text",
               { shouldDirty: true },
             )
           }
@@ -373,6 +379,9 @@ function ModelSettings(props: {
           </option>
           <option value="image">
             {t("CHAT.CUSTOM_PROVIDER.MODEL_TYPE_IMAGE")}
+          </option>
+          <option value="video">
+            {t("CHAT.CUSTOM_PROVIDER.MODEL_TYPE_VIDEO")}
           </option>
         </select>
         <span className="text-muted-foreground shrink-0 text-[11px]">

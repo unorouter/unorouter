@@ -4490,6 +4490,7 @@
       "MODEL_TYPE": "Tipe",
       "MODEL_TYPE_TEXT": "Teks",
       "MODEL_TYPE_IMAGE": "Gambar",
+      "MODEL_TYPE_VIDEO": "Video",
       "FETCH_BLOCKED": "Peramban memblokir permintaan. Endpoint harus mengirim header CORS, dan proteksi bot di depannya harus mengizinkan situs ini.",
       "FETCH_NOT_JSON": "Endpoint menjawab dengan halaman web alih-alih data model, biasanya pemeriksaan proteksi bot. Izinkan situs ini melewatinya, atau tambahkan model secara manual.",
       "PAGE_SUBTITLE": "Hubungkan endpoint kompatibel OpenAI milikmu dan pilih model mana yang muncul di chat.",
@@ -5009,7 +5010,13 @@
     "COPY_FAILED": "Tidak bisa menyalin ke papan klip. Browser Anda memblokirnya.",
     "FILE_EMPTY": "File kosong atau tidak bisa dibaca.",
     "REF_IMAGE_SKIPPED": "{name} dilewati: hanya gambar hingga 5 MB yang bisa ditambahkan.",
-    "UNSUPPORTED_CONTENT": "Jenis file ini tidak dapat dibaca sebagai teks."
+    "UNSUPPORTED_CONTENT": "Jenis file ini tidak dapat dibaca sebagai teks.",
+    "CUSTOM_IMAGE_EMPTY": "Balasan penyedia tidak berisi gambar.",
+    "CUSTOM_VIDEO_NO_JOB": "Penyedia tidak mengembalikan ID tugas video.",
+    "CUSTOM_VIDEO_NO_FILE": "Video sudah selesai, tetapi penyedia tidak mengirim file.",
+    "PROVIDER_REQUEST_FAILED": "Permintaan ke penyedia gagal.",
+    "CUSTOM_MEDIA_LOGIN": "Browsermu tidak dapat mengunduh file ini dari penyedia. Masuk agar Uno dapat mengambilnya untukmu.",
+    "CUSTOM_PROVIDER_MISSING": "Penyedia kustom untuk model ini sudah tidak ada."
   },
   "BADGE": {
     "TOKENS_SERVED": "token dilayani",
@@ -6040,6 +6047,9 @@
       "H_MODELS": "Model",
       "P_MODELS_1": "Muat daftar model penyedia, cari di dalamnya, lalu centang model yang kamu inginkan; hanya yang dicentang muncul di pemilih chat. ID model yang tidak ada di daftar bisa diketik di pencarian lalu ditambahkan. Setiap model bertipe teks atau gambar. Model bertipe gambar dipakai generator gambar, bukan dropdown chat.",
       "P_MODELS_2": "Entri model membawa pengaturannya sendiri, termasuk tokenizer yang dipakai untuk penganggaran.",
+      "H_MEDIA": "Model gambar dan video",
+      "P_MEDIA_1": "Model yang dicantumkan penyedia sebagai model gambar atau video mendapat tipe itu saat kamu mencentangnya; jika tidak, atur manual di pengaturan model. Pilih di pemilih model di bawah Image atau Video, lalu pesanmu menjadi prompt. Model gambar memanggil /images/generations, atau /images/edits saat kamu melampirkan gambar. Model video memanggil /videos, atau /video/generations pada relay yang hanya punya itu, dan tugasnya tetap dipantau setelah memuat ulang.",
+      "P_MEDIA_2": "Gambar dan video yang selesai disalin ke perangkat ini, karena tautan penyedia kedaluwarsa. Gambar yang dikirim model chat di dalam balasannya disimpan dengan cara yang sama. Dengan proxy aktif, mengunduh hasil memerlukan login.",
       "H_TOKENIZERS": "Tokenizer per model",
       "P_TOKENIZERS_1": "Penghitungan token menggerakkan pemangkasan riwayat dan anggaran lorebook, jadi tokenizer yang tepat penting di chat panjang. Tiap model kustom memilih dari 13 preset:",
       "P_TOKENIZERS_2": "Atau arahkan ke tokenizer HuggingFace mana pun lewat slug atau URL:",

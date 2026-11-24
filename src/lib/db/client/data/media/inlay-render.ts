@@ -13,7 +13,12 @@ import {
 
 export const inlayVersionAtom = atom(0);
 
-type InlayEntry = { src: string; width: number | null; height: number | null };
+type InlayEntry = {
+  src: string;
+  width: number | null;
+  height: number | null;
+  kind?: "video" | "audio";
+};
 
 const cache = new Map<string, InlayEntry>();
 const pending = new Set<string>();
@@ -93,7 +98,17 @@ function requestInlay(id: string): void {
         (row?.dataBase64
           ? mediaBlobUrl(id, row.dataBase64, row.mimeType)
           : (row?.r2Url ?? null)) ?? "";
-      cache.set(id, { src, ...(await measuredDims(id, src, row)) });
+      const kind = row?.mimeType.startsWith("video/")
+        ? "video"
+        : row?.mimeType.startsWith("audio/")
+          ? "audio"
+          : undefined;
+      cache.set(id, {
+        src,
+        ...(kind
+          ? { kind, width: null, height: null }
+          : await measuredDims(id, src, row)),
+      });
       scheduleBump();
     })
     .finally(() => pending.delete(id));
@@ -112,6 +127,6 @@ export function replaceInlayTokens(text: string): string {
       requestInlay(id);
       return "";
     }
-    return tokenMarkdown(`inlay:${id}`, hit);
+    return tokenMarkdown(`inlay:${id}${hit.kind ? `~${hit.kind}` : ""}`, hit);
   });
 }

@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  isCustomModelId,
-  parseCustomModelId,
-} from "@/lib/ai/chat/custom-provider-id";
+import { isCustomModelId } from "@/lib/ai/chat/custom-provider-id";
 import { CUSTOM_CIVITAI_MODEL_ID, isValidAir } from "@/lib/ai/image/constants";
 import { rpc } from "@/lib/rpc";
 import {
@@ -27,7 +24,7 @@ import {
   replaceLocalMessageItems,
 } from "@/lib/db/client/data/chat/chat";
 import { invalidateInlay } from "@/lib/db/client/data/media/inlay-render";
-import { customProviderStore } from "@/lib/db/client/data/rp/custom-providers";
+import { resolveCustomModel } from "@/components/pages/sidebar/chat/runtime/transport/provider-fetch";
 import { presetStore } from "@/lib/db/client/data/rp/rp";
 import { DEFAULT_IMAGE_INSTRUCTION } from "@/lib/ai/chat/image-style-templates";
 import { resolveModelTarget } from "@/components/pages/sidebar/chat/runtime/transport/resolve-model-target";
@@ -134,15 +131,13 @@ export async function requestImggen(
   },
 ) {
   if (opts.imageModel && isCustomModelId(opts.imageModel)) {
-    const parsed = parseCustomModelId(opts.imageModel);
-    if (!parsed) throw new Error("invalid custom model id");
-    const provider = await customProviderStore.get(parsed.providerId);
-    if (!provider) throw new Error("custom provider not found");
+    const custom = await resolveCustomModel(opts.imageModel);
+    if (!custom) throw new Error("custom provider not found");
     const { generateCustomProviderImage } =
       await import("@/components/pages/sidebar/chat/illustrator/custom-image-gen");
     return generateCustomProviderImage(
-      provider,
-      parsed.modelKey,
+      custom.ctx,
+      custom.model,
       prompt,
       opts.refUrls ?? [],
     );

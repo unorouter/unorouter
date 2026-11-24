@@ -4490,6 +4490,7 @@
       "MODEL_TYPE": "Loại",
       "MODEL_TYPE_TEXT": "Văn bản",
       "MODEL_TYPE_IMAGE": "Hình ảnh",
+      "MODEL_TYPE_VIDEO": "Video",
       "FETCH_BLOCKED": "Trình duyệt đã chặn yêu cầu. Điểm cuối phải gửi tiêu đề CORS, và lớp chống bot phía trước nó phải cho phép trang này.",
       "FETCH_NOT_JSON": "Điểm cuối trả về một trang web thay vì dữ liệu mô hình, thường là bước kiểm tra chống bot. Hãy cho phép trang này đi qua, hoặc tự thêm mô hình.",
       "PAGE_SUBTITLE": "Kết nối các endpoint tương thích OpenAI của riêng bạn và chọn mô hình nào của chúng xuất hiện trong chat.",
@@ -5009,7 +5010,13 @@
     "COPY_FAILED": "Không thể sao chép vào bộ nhớ tạm. Trình duyệt đã chặn.",
     "FILE_EMPTY": "Tệp trống hoặc không đọc được.",
     "REF_IMAGE_SKIPPED": "Đã bỏ qua {name}: chỉ có thể thêm ảnh tối đa 5 MB.",
-    "UNSUPPORTED_CONTENT": "Không thể đọc loại tệp này dưới dạng văn bản."
+    "UNSUPPORTED_CONTENT": "Không thể đọc loại tệp này dưới dạng văn bản.",
+    "CUSTOM_IMAGE_EMPTY": "Phản hồi của nhà cung cấp không chứa hình ảnh nào.",
+    "CUSTOM_VIDEO_NO_JOB": "Nhà cung cấp không trả về ID tác vụ video.",
+    "CUSTOM_VIDEO_NO_FILE": "Video đã xong nhưng nhà cung cấp không gửi tệp nào.",
+    "PROVIDER_REQUEST_FAILED": "Yêu cầu tới nhà cung cấp đã thất bại.",
+    "CUSTOM_MEDIA_LOGIN": "Trình duyệt không thể tải tệp này từ nhà cung cấp. Hãy đăng nhập để Uno tải giúp bạn.",
+    "CUSTOM_PROVIDER_MISSING": "Nhà cung cấp tùy chỉnh của mô hình này không còn tồn tại."
   },
   "BADGE": {
     "TOKENS_SERVED": "token đã phục vụ",
@@ -6040,6 +6047,9 @@
       "H_MODELS": "Mô hình",
       "P_MODELS_1": "Tải danh sách mô hình của nhà cung cấp, tìm kiếm và đánh dấu mô hình bạn muốn; chỉ mô hình được đánh dấu mới hiện trong bộ chọn chat. ID mô hình không có trong danh sách có thể nhập vào ô tìm kiếm rồi thêm. Mỗi mô hình có loại văn bản hoặc hình ảnh. Mô hình loại hình ảnh dùng cho trình tạo ảnh, không phải danh sách chat.",
       "P_MODELS_2": "Mục mô hình mang cài đặt riêng, bao gồm bộ token hóa dùng để tính ngân sách.",
+      "H_MEDIA": "Mô hình hình ảnh và video",
+      "P_MEDIA_1": "Mô hình mà nhà cung cấp liệt kê là mô hình hình ảnh hoặc video sẽ nhận loại đó khi bạn đánh dấu; nếu không, hãy đặt thủ công trong cài đặt của mô hình. Chọn nó trong bộ chọn mô hình ở mục Image hoặc Video, tin nhắn của bạn sẽ là prompt. Mô hình hình ảnh gọi /images/generations, hoặc /images/edits khi bạn đính kèm ảnh. Mô hình video gọi /videos, hoặc /video/generations với các relay chỉ có endpoint đó, và tác vụ vẫn được kiểm tra tiếp sau khi tải lại trang.",
+      "P_MEDIA_2": "Hình ảnh và video đã xong được sao chép về thiết bị này, vì liên kết của nhà cung cấp sẽ hết hạn. Hình ảnh mà mô hình chat gửi trong câu trả lời cũng được lưu như vậy. Khi bật proxy, bạn cần đăng nhập để tải kết quả về.",
       "H_TOKENIZERS": "Bộ token hóa theo từng mô hình",
       "P_TOKENIZERS_1": "Việc đếm token chi phối việc cắt tỉa lịch sử và ngân sách sổ tri thức, nên bộ token hóa đúng rất quan trọng trong các chat dài. Mỗi mô hình tùy chỉnh chọn từ 13 preset:",
       "P_TOKENIZERS_2": "Hoặc trỏ đến bất kỳ bộ token hóa HuggingFace nào theo slug hoặc URL:",

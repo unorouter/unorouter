@@ -4490,6 +4490,7 @@
       "MODEL_TYPE": "Typ",
       "MODEL_TYPE_TEXT": "Tekst",
       "MODEL_TYPE_IMAGE": "Obraz",
+      "MODEL_TYPE_VIDEO": "Wideo",
       "FETCH_BLOCKED": "Przeglądarka zablokowała żądanie. Punkt końcowy musi wysyłać nagłówki CORS, a ewentualna ochrona przed botami musi zezwalać tej witrynie.",
       "FETCH_NOT_JSON": "Punkt końcowy zwrócił stronę internetową zamiast danych modeli, zwykle test ochrony przed botami. Zezwól tej witrynie albo dodaj modele ręcznie.",
       "PAGE_SUBTITLE": "Podłącz własne endpointy zgodne z OpenAI i wybierz, które z ich modeli pojawią się w czacie.",
@@ -5009,7 +5010,13 @@
     "COPY_FAILED": "Nie udało się skopiować do schowka. Przeglądarka to zablokowała.",
     "FILE_EMPTY": "Plik jest pusty lub nie udało się go odczytać.",
     "REF_IMAGE_SKIPPED": "Pominięto {name}: można dodać tylko obrazy do 5 MB.",
-    "UNSUPPORTED_CONTENT": "Tego typu pliku nie da się odczytać jako tekstu."
+    "UNSUPPORTED_CONTENT": "Tego typu pliku nie da się odczytać jako tekstu.",
+    "CUSTOM_IMAGE_EMPTY": "Odpowiedź dostawcy nie zawierała obrazu.",
+    "CUSTOM_VIDEO_NO_JOB": "Dostawca nie zwrócił identyfikatora zadania wideo.",
+    "CUSTOM_VIDEO_NO_FILE": "Wideo jest gotowe, ale dostawca nie wysłał pliku.",
+    "PROVIDER_REQUEST_FAILED": "Żądanie do dostawcy nie powiodło się.",
+    "CUSTOM_MEDIA_LOGIN": "Przeglądarka nie mogła pobrać tego pliku od dostawcy. Zaloguj się, aby Uno pobrało go za Ciebie.",
+    "CUSTOM_PROVIDER_MISSING": "Własny dostawca tego modelu już nie istnieje."
   },
   "BADGE": {
     "TOKENS_SERVED": "obsłużone tokeny",
@@ -6040,6 +6047,9 @@
       "H_MODELS": "Modele",
       "P_MODELS_1": "Wczytaj listę modeli dostawcy, przeszukaj ją i zaznacz potrzebne modele; w wyborze w czacie pojawiają się tylko zaznaczone. ID modelu, którego nie ma na liście, można wpisać w wyszukiwarkę i dodać. Każdy model ma typ tekst albo obraz. Modele typu obraz zasilają generator obrazów, a nie listę w czacie.",
       "P_MODELS_2": "Wpisy modeli niosą własne ustawienia, w tym tokenizer używany do budżetowania.",
+      "H_MEDIA": "Modele obrazów i wideo",
+      "P_MEDIA_1": "Model, który dostawca oznacza jako model obrazów lub wideo, dostaje ten typ po zaznaczeniu; w przeciwnym razie ustaw go ręcznie w ustawieniach modelu. Wybierz go w selektorze w zakładce Image lub Video, a Twoja wiadomość stanie się promptem. Modele obrazów wywołują /images/generations albo /images/edits, gdy dołączysz obraz. Modele wideo wywołują /videos, a na relayach, które mają tylko to, /video/generations, a zadanie jest dalej sprawdzane po przeładowaniu.",
+      "P_MEDIA_2": "Gotowe obrazy i filmy są kopiowane na to urządzenie, bo linki dostawców wygasają. Obrazy, które model czatu wysyła w odpowiedzi, są zapisywane tak samo. Przy włączonym proxy pobranie wyniku wymaga zalogowania.",
       "H_TOKENIZERS": "Tokenizery per model",
       "P_TOKENIZERS_1": "Liczenie tokenów steruje przycinaniem historii i budżetami lorebooków, więc właściwy tokenizer ma znaczenie w długich czatach. Każdy własny model wybiera z 13 presetów:",
       "P_TOKENIZERS_2": "Albo wskaż dowolny tokenizer HuggingFace przez slug lub URL:",

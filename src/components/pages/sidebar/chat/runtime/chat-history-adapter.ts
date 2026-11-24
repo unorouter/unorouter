@@ -31,6 +31,7 @@ import { makeClientTriggerOps } from "@/components/pages/sidebar/chat/runtime/tr
 import { hasJsHandlers, runJsEditTrigger } from "@/lib/ai/chat/plugins/engine";
 import { autoplayReply } from "@/components/pages/sidebar/chat/rp/voice/voice-run";
 import { insertLocalRequestLog } from "@/lib/db/client/data/chat/request-log";
+import { storeInlineMedia } from "./inline-media";
 import {
   drainSoon,
   enqueueLogEnrich,
@@ -653,7 +654,10 @@ export function createChatHistoryAdapter(
         const originalAssistantText = assistantTextOf(content);
 
         const parts = isAssistant
-          ? await applyAssistantOutputTransforms(id, content.parts)
+          ? await storeInlineMedia(
+              id,
+              await applyAssistantOutputTransforms(id, content.parts),
+            )
           : content.parts;
         const items = partsToItems(parts);
         const resolvedModel = isAssistant ? chatStore.get(chatModelAtom) : null;

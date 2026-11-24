@@ -30,6 +30,10 @@ export async function CustomProvidersContent() {
         <p>{k("P_MODELS_1")}</p>
         <p>{k("P_MODELS_2")}</p>
       </DocSection>
+      <DocSection id="media" title={k("H_MEDIA")}>
+        <p>{k("P_MEDIA_1")}</p>
+        <p>{k("P_MEDIA_2")}</p>
+      </DocSection>
       <DocSection id="tokenizers" title={k("H_TOKENIZERS")}>
         <p>{k("P_TOKENIZERS_1")}</p>
         <p>

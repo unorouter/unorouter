@@ -4490,6 +4490,7 @@
       "MODEL_TYPE": "类型",
       "MODEL_TYPE_TEXT": "文本",
       "MODEL_TYPE_IMAGE": "图像",
+      "MODEL_TYPE_VIDEO": "视频",
       "FETCH_BLOCKED": "浏览器拦截了该请求。端点必须返回 CORS 标头，其前面的机器人防护也要放行本站。",
       "FETCH_NOT_JSON": "端点返回的是网页而不是模型数据，通常是机器人防护验证页。请放行本站，或手动添加模型。",
       "PAGE_SUBTITLE": "连接你自己的 OpenAI 兼容端点，并选择哪些模型显示在聊天中。",
@@ -5009,7 +5010,13 @@
     "COPY_FAILED": "无法复制到剪贴板，浏览器阻止了此操作。",
     "FILE_EMPTY": "文件为空或无法读取。",
     "REF_IMAGE_SKIPPED": "已跳过 {name}：只能添加不超过 5 MB 的图片。",
-    "UNSUPPORTED_CONTENT": "无法以文本形式读取此文件类型。"
+    "UNSUPPORTED_CONTENT": "无法以文本形式读取此文件类型。",
+    "CUSTOM_IMAGE_EMPTY": "提供商的回复中没有图像。",
+    "CUSTOM_VIDEO_NO_JOB": "提供商没有返回视频任务 ID。",
+    "CUSTOM_VIDEO_NO_FILE": "视频已生成，但提供商没有发送文件。",
+    "PROVIDER_REQUEST_FAILED": "向提供商发出的请求失败。",
+    "CUSTOM_MEDIA_LOGIN": "浏览器无法从提供商下载此文件。请登录，让 Uno 帮你获取。",
+    "CUSTOM_PROVIDER_MISSING": "此模型的自定义提供商已不存在。"
   },
   "BADGE": {
     "TOKENS_SERVED": "已处理 Token",
@@ -6040,6 +6047,9 @@
       "H_MODELS": "模型",
       "P_MODELS_1": "加载提供商的模型列表，搜索并勾选你想要的模型；聊天选择器中只显示已勾选的模型。列表中没有的模型 ID 可以在搜索框中输入后添加。每个模型的类型为文本或图像。图像类型的模型用于图像生成器，而不是聊天下拉菜单。",
       "P_MODELS_2": "模型条目携带自己的设置，包括用于预算计算的分词器。",
+      "H_MEDIA": "图像和视频模型",
+      "P_MEDIA_1": "提供商标记为图像或视频模型的模型，在勾选时会自动获得该类型；否则请在模型设置中手动指定。在模型选择器的“Image”或“Video”中选择它，你的消息就是提示词。图像模型调用 /images/generations，附带图片时调用 /images/edits。视频模型调用 /videos，若中转站只提供 /video/generations 则改用它，刷新页面后任务仍会继续查询。",
+      "P_MEDIA_2": "生成好的图像和视频会复制到本设备，因为提供商的链接会过期。聊天模型在回复中发送的图像也会以同样方式保存。开启代理时，下载结果需要先登录。",
       "H_TOKENIZERS": "按模型分词器",
       "P_TOKENIZERS_1": "token 计数驱动历史裁剪与世界书预算，因此在长聊天中正确的分词器很重要。每个自定义模型从 13 个预设中选择：",
       "P_TOKENIZERS_2": "或通过 slug 或 URL 指向任意 HuggingFace 分词器：",

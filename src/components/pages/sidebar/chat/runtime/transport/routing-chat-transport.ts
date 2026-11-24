@@ -28,6 +28,9 @@ import {
   type TotalUsage,
 } from "@/lib/ai/chat/pipeline/finish-meta";
 import { makeUpstreamFetch } from "@/lib/ai/chat/provider-mutations";
+import { customMediaStream } from "./custom-media-stream";
+import { inlineImagesFetch } from "@/lib/ai/chat/stream/inline-images-fetch";
+import { resolveCustomModel } from "./provider-fetch";
 import { resumableFetch } from "@/lib/ai/chat/stream/resumable-fetch";
 import { retryToolStep } from "@/lib/ai/chat/stream/tool-step-retry";
 import { isCustomModelId } from "@/lib/ai/chat/custom-provider-id";
@@ -342,7 +345,11 @@ async function runClientStream(args: {
     ...(args.includeUsage ? { includeUsage: true } : {}),
     headers: { ...(xGroup ? { "X-Group": xGroup } : {}), ...args.extraHeaders },
     fetch: timer.wrapFetch(
-      resumableFetch(retryToolStep(makeUpstreamFetch(prepared.bodyMutations))),
+      inlineImagesFetch(
+        resumableFetch(
+          retryToolStep(makeUpstreamFetch(prepared.bodyMutations)),
+        ),
+      ),
     ),
   });
 
@@ -502,6 +509,18 @@ export function makeRoutingTransport(
       const modelId = chatStore.get(chatModelAtom) ?? "";
       if (!isCustomModelId(modelId) && (await isMediaModel(modelId)))
         return mediaTransport.sendMessages(options);
+      const custom = isCustomModelId(modelId)
+        ? await resolveCustomModel(modelId)
+        : null;
+      if (custom && custom.type !== "text")
+        return customMediaStream({
+          ctx: custom.ctx,
+          modelId,
+          model: custom.model,
+          type: custom.type,
+          messages: options.messages,
+          abortSignal: options.abortSignal,
+        });
       const target = await resolveModelTarget(modelId);
       return runClientStream({
         apiKey: target.apiKey,

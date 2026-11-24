@@ -4490,6 +4490,7 @@
       "MODEL_TYPE": "Type",
       "MODEL_TYPE_TEXT": "Texte",
       "MODEL_TYPE_IMAGE": "Image",
+      "MODEL_TYPE_VIDEO": "Vidéo",
       "FETCH_BLOCKED": "Le navigateur a bloqué la requête. Le point de terminaison doit envoyer des en-têtes CORS, et toute protection anti-bots en amont doit autoriser ce site.",
       "FETCH_NOT_JSON": "Le point de terminaison a renvoyé une page web au lieu des données de modèles, en général une vérification anti-bots. Autorisez ce site ou ajoutez vos modèles manuellement.",
       "PAGE_SUBTITLE": "Connectez vos propres endpoints compatibles OpenAI et choisissez lesquels de leurs modèles apparaissent dans le chat.",
@@ -5009,7 +5010,13 @@
     "COPY_FAILED": "Impossible de copier dans le presse-papiers. Votre navigateur l'a bloqué.",
     "FILE_EMPTY": "Le fichier est vide ou n'a pas pu être lu.",
     "REF_IMAGE_SKIPPED": "{name} a été ignoré : seules les images jusqu'à 5 Mo peuvent être ajoutées.",
-    "UNSUPPORTED_CONTENT": "Ce type de fichier ne peut pas être lu comme du texte."
+    "UNSUPPORTED_CONTENT": "Ce type de fichier ne peut pas être lu comme du texte.",
+    "CUSTOM_IMAGE_EMPTY": "La réponse du fournisseur ne contenait aucune image.",
+    "CUSTOM_VIDEO_NO_JOB": "Le fournisseur n’a renvoyé aucun identifiant de tâche vidéo.",
+    "CUSTOM_VIDEO_NO_FILE": "La vidéo est terminée, mais le fournisseur n’a envoyé aucun fichier.",
+    "PROVIDER_REQUEST_FAILED": "La requête au fournisseur a échoué.",
+    "CUSTOM_MEDIA_LOGIN": "Ton navigateur n’a pas pu télécharger ce fichier depuis le fournisseur. Connecte-toi pour qu’Uno le récupère pour toi.",
+    "CUSTOM_PROVIDER_MISSING": "Le fournisseur personnalisé de ce modèle n’existe plus."
   },
   "BADGE": {
     "TOKENS_SERVED": "jetons servis",
@@ -6040,6 +6047,9 @@
       "H_MODELS": "Modèles",
       "P_MODELS_1": "Chargez la liste de modèles du fournisseur, cherchez-y et cochez les modèles voulus ; seuls les modèles cochés apparaissent dans le sélecteur du chat. Un identifiant absent de la liste peut être tapé dans la recherche puis ajouté. Chaque modèle est de type texte ou image. Les modèles de type image alimentent le générateur d'images, pas la liste du chat.",
       "P_MODELS_2": "Chaque entrée de modèle porte ses propres réglages, dont le tokenizer utilisé pour la budgétisation.",
+      "H_MEDIA": "Modèles d’image et de vidéo",
+      "P_MEDIA_1": "Un modèle que le fournisseur liste comme modèle d’image ou de vidéo reçoit ce type quand tu le coches ; sinon, règle-le à la main dans les paramètres du modèle. Choisis-le dans le sélecteur sous Image ou Video et ton message devient le prompt. Les modèles d’image appellent /images/generations, ou /images/edits si tu joins une image. Les modèles vidéo appellent /videos, ou /video/generations sur les relais qui n’ont que celui-ci, et la tâche continue d’être interrogée après un rechargement.",
+      "P_MEDIA_2": "Les images et vidéos terminées sont copiées sur cet appareil, car les liens des fournisseurs expirent. Les images qu’un modèle de chat renvoie dans sa réponse sont enregistrées de la même façon. Avec le proxy activé, télécharger un résultat nécessite d’être connecté.",
       "H_TOKENIZERS": "Tokenizers par modèle",
       "P_TOKENIZERS_1": "Le comptage de tokens pilote la coupe de l'historique et les budgets de lorebook : le bon tokenizer compte pour les longs chats. Chaque modèle personnalisé choisit parmi 13 préréglages :",
       "P_TOKENIZERS_2": "Ou pointez vers n'importe quel tokenizer HuggingFace par slug ou URL :",

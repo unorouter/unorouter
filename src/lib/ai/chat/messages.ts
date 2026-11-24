@@ -173,6 +173,7 @@ export function partsToItems(parts: MessagePart[]): PersistMessageItem[] {
           status: String(d.status ?? "pending"),
           ...(typeof d.progress === "string" && { progress: d.progress }),
           ...(typeof d.kind === "string" && { kind: d.kind }),
+          ...(typeof d.api === "string" && { api: d.api }),
         },
       });
     } else if (part.type === "data-error") {
@@ -250,6 +251,7 @@ export function itemsToParts(items: ApiMessage["items"]): MessagePart[] {
               progress: data.progress,
             }),
             ...(typeof data.kind === "string" && { kind: data.kind }),
+            ...(typeof data.api === "string" && { api: data.api }),
           },
         });
         break;

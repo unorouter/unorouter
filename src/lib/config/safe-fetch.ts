@@ -102,7 +102,7 @@ export async function safeFetchStream(
   opts: {
     method?: string;
     headers?: Record<string, string>;
-    body?: string;
+    body?: string | ArrayBuffer;
     signal?: AbortSignal;
   } = {},
 ): Promise<Response> {
@@ -240,6 +240,66 @@ export async function safeFetchFollow(
       status: res.status,
       finalUrl: current,
     };
+  }
+}
+
+// Streams a large download: every redirect hop is checked again, a hop to
+// another origin drops the Authorization header, and the body errors past
+// maxBytes instead of buffering it.
+export async function safeFetchStreamFollow(
+  url: string,
+  opts: {
+    headers?: Record<string, string>;
+    signal?: AbortSignal;
+    maxBytes: number;
+  },
+): Promise<Response> {
+  const origin = new URL(url).origin;
+  let current = url;
+  for (let hop = 0; ; hop++) {
+    const waitHeaders = new AbortController();
+    const timer = setTimeout(() => waitHeaders.abort(), STREAM_HEADERS_TIMEOUT);
+    const headers = { ...opts.headers };
+    if (new URL(current).origin !== origin) delete headers.authorization;
+    let res: Response;
+    try {
+      res = await pinnedFetch(current, {
+        method: "GET",
+        headers,
+        signal: opts.signal
+          ? AbortSignal.any([opts.signal, waitHeaders.signal])
+          : waitHeaders.signal,
+        redirect: "manual",
+      });
+    } finally {
+      clearTimeout(timer);
+    }
+    if (res.status >= 300 && res.status < 400) {
+      void res.body?.cancel();
+      const location = res.headers.get("location");
+      if (!location || hop >= MAX_REDIRECTS)
+        throw new Error(msg("ERRORS.BLOCKED_URL"));
+      current = new URL(location, current).toString();
+      continue;
+    }
+    const declared = Number(res.headers.get("content-length") ?? 0);
+    if (declared > opts.maxBytes) {
+      void res.body?.cancel();
+      throw new Error(msg("ERRORS.RESPONSE_TOO_LARGE"));
+    }
+    if (!res.body) return res;
+    let total = 0;
+    const capped = res.body.pipeThrough(
+      new TransformStream<Uint8Array, Uint8Array>({
+        transform(chunk, controller) {
+          total += chunk.byteLength;
+          if (total > opts.maxBytes)
+            controller.error(new Error(msg("ERRORS.RESPONSE_TOO_LARGE")));
+          else controller.enqueue(chunk);
+        },
+      }),
+    );
+    return new Response(capped, { status: res.status, headers: res.headers });
   }
 }
 

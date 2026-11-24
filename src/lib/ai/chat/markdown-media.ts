@@ -13,7 +13,7 @@ type ResolvedMarkdownMedia = {
   height: number | null;
 };
 
-const INLAY_ALT_RE = /^inlay:([\w-]+)(?:@(\d+)x(\d+))?$/;
+const INLAY_ALT_RE = /^inlay:([\w-]+)(?:~(video|audio))?(?:@(\d+)x(\d+))?$/;
 const ASSET_ALT_RE = /^img:(.*?)(?:@(\d+)x(\d+))?$/;
 
 export function resolveMarkdownMedia(
@@ -23,19 +23,29 @@ export function resolveMarkdownMedia(
   const inlayMatch = alt ? INLAY_ALT_RE.exec(alt) : null;
   const inlayMediaId = inlayMatch ? inlayMatch[1] : null;
   const assetMatch = !inlayMatch && alt ? ASSET_ALT_RE.exec(alt) : null;
-  const sizeMatch = inlayMatch ?? assetMatch;
-  const width = sizeMatch?.[2] ? Number(sizeMatch[2]) : 0;
-  const height = sizeMatch?.[3] ? Number(sizeMatch[3]) : 0;
+  const size = inlayMatch
+    ? [inlayMatch[3], inlayMatch[4]]
+    : [assetMatch?.[2], assetMatch?.[3]];
+  const width = size[0] ? Number(size[0]) : 0;
+  const height = size[1] ? Number(size[1]) : 0;
   const aspectRatio = width > 0 && height > 0 ? width / height : null;
   const isAsset = assetMatch !== null;
   const isDataUri = !!src && src.startsWith("data:");
   let kind: MarkdownMediaKind = "image";
   if (
     src &&
-    (alt === "video" || src.startsWith("data:video/") || VIDEO_EXT_RE.test(src))
+    (alt === "video" ||
+      inlayMatch?.[2] === "video" ||
+      src.startsWith("data:video/") ||
+      VIDEO_EXT_RE.test(src))
   ) {
     kind = "video";
-  } else if (src && (src.startsWith("data:audio/") || AUDIO_EXT_RE.test(src))) {
+  } else if (
+    src &&
+    (inlayMatch?.[2] === "audio" ||
+      src.startsWith("data:audio/") ||
+      AUDIO_EXT_RE.test(src))
+  ) {
     kind = "audio";
   }
   return {

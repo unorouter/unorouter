@@ -183,8 +183,11 @@ function CatalogModelItem(props: {
   );
 }
 
+const CUSTOM_TYPE_TAG = { text: "Text", image: "Image", video: "Video" };
+
 function CustomProviderItems(props: {
   providers: CustomProvider[];
+  typeFilter: string | null;
   value: string | null;
   onPick: (id: string) => void;
 }) {
@@ -194,7 +197,11 @@ function CustomProviderItems(props: {
     <CommandGroup heading={t("CHAT.MODEL.CUSTOM_PROVIDERS")}>
       {props.providers.flatMap((provider) =>
         (provider.models ?? [])
-          .filter((model) => model.type !== "image")
+          .filter(
+            (model) =>
+              props.typeFilter === null ||
+              CUSTOM_TYPE_TAG[model.type ?? "text"] === props.typeFilter,
+          )
           .map((model) => {
             const id = makeCustomModelId(provider.id, model.key);
             return (
@@ -208,7 +215,16 @@ function CustomProviderItems(props: {
                 onSelect={() => props.onPick(id)}
                 className="text-xs"
               >
-                <Icon name="server" className="h-3.5 w-3.5 shrink-0" />
+                <Icon
+                  name={
+                    model.type === "video"
+                      ? "video"
+                      : model.type === "image"
+                        ? "image"
+                        : "server"
+                  }
+                  className="h-3.5 w-3.5 shrink-0"
+                />
                 <span className="min-w-0 flex-1 truncate font-mono">
                   {provider.name} / {model.label}
                 </span>
@@ -446,9 +462,10 @@ export function ModelSelector(props: ModelSelectorProps) {
           )}
           <CommandList>
             <CommandEmpty>{t("CHAT.MODEL.NO_RESULTS")}</CommandEmpty>
-            {customProviders.length > 0 && typeFilter === null && (
+            {customProviders.length > 0 && (
               <CustomProviderItems
                 providers={customProviders}
+                typeFilter={typeFilter}
                 value={props.value}
                 onPick={pickModel}
               />

@@ -13,7 +13,9 @@ export const MAX_MODELS = 1000;
 const customProviderModelType = t.Union([
   t.Literal("text"),
   t.Literal("image"),
+  t.Literal("video"),
 ]);
+export type CustomProviderModelType = Static<typeof customProviderModelType>;
 
 const customProviderModel = t.Object({
   key: t.String({ minLength: 1, maxLength: 256 }),

@@ -4490,6 +4490,7 @@
       "MODEL_TYPE": "Tür",
       "MODEL_TYPE_TEXT": "Metin",
       "MODEL_TYPE_IMAGE": "Görsel",
+      "MODEL_TYPE_VIDEO": "Video",
       "FETCH_BLOCKED": "Tarayıcı isteği engelledi. Uç noktanın CORS başlıkları göndermesi ve önündeki bot korumasının bu siteye izin vermesi gerekir.",
       "FETCH_NOT_JSON": "Uç nokta, model verisi yerine bir web sayfası döndürdü; genelde bot koruma doğrulamasıdır. Bu siteye izin verin ya da modelleri elle ekleyin.",
       "PAGE_SUBTITLE": "Kendi OpenAI uyumlu uç noktalarını bağla ve hangi modellerinin sohbette görüneceğini seç.",
@@ -5009,7 +5010,13 @@
     "COPY_FAILED": "Panoya kopyalanamadı. Tarayıcınız engelledi.",
     "FILE_EMPTY": "Dosya boş ya da okunamadı.",
     "REF_IMAGE_SKIPPED": "{name} atlandı: yalnızca 5 MB'a kadar görseller eklenebilir.",
-    "UNSUPPORTED_CONTENT": "Bu dosya türü metin olarak okunamıyor."
+    "UNSUPPORTED_CONTENT": "Bu dosya türü metin olarak okunamıyor.",
+    "CUSTOM_IMAGE_EMPTY": "Sağlayıcının yanıtında görsel yoktu.",
+    "CUSTOM_VIDEO_NO_JOB": "Sağlayıcı bir video iş kimliği döndürmedi.",
+    "CUSTOM_VIDEO_NO_FILE": "Video tamamlandı ama sağlayıcı dosya göndermedi.",
+    "PROVIDER_REQUEST_FAILED": "Sağlayıcıya yapılan istek başarısız oldu.",
+    "CUSTOM_MEDIA_LOGIN": "Tarayıcın bu dosyayı sağlayıcıdan indiremedi. Uno'nun senin için alabilmesi için giriş yap.",
+    "CUSTOM_PROVIDER_MISSING": "Bu modelin özel sağlayıcısı artık yok."
   },
   "BADGE": {
     "TOKENS_SERVED": "token sunuldu",
@@ -6040,6 +6047,9 @@
       "H_MODELS": "Modeller",
       "P_MODELS_1": "Sağlayıcının model listesini yükle, içinde ara ve istediğin modelleri işaretle; sohbet seçicide yalnızca işaretliler görünür. Listede olmayan bir model kimliği aramaya yazılıp eklenebilir. Her model metin ya da görsel türündedir. Görsel türündeki modeller sohbet listesini değil görsel üreticiyi besler.",
       "P_MODELS_2": "Model girdileri, bütçeleme için kullanılan tokenizer dahil kendi ayarlarını taşır.",
+      "H_MEDIA": "Görsel ve video modelleri",
+      "P_MEDIA_1": "Sağlayıcının görsel veya video modeli olarak listelediği bir model, işaretlediğinde bu türü alır; aksi halde modelin ayarlarından elle seç. Model seçicide Image veya Video altında seç; mesajın istem olur. Görsel modelleri /images/generations, bir resim eklediğinde /images/edits çağırır. Video modelleri /videos çağırır, yalnızca onu sunan aktarıcılarda /video/generations kullanır ve iş, sayfa yenilendikten sonra da sorgulanmaya devam eder.",
+      "P_MEDIA_2": "Tamamlanan görseller ve videolar bu cihaza kopyalanır, çünkü sağlayıcı bağlantılarının süresi dolar. Bir sohbet modelinin yanıtında gönderdiği görseller de aynı şekilde kaydedilir. Proxy açıkken bir sonucu indirmek için giriş yapman gerekir.",
       "H_TOKENIZERS": "Model bazlı tokenizer'lar",
       "P_TOKENIZERS_1": "Token sayımı geçmiş kırpmayı ve lorebook bütçelerini sürer; uzun sohbetlerde doğru tokenizer önemlidir. Her özel model 13 ön ayardan seçer:",
       "P_TOKENIZERS_2": "Ya da slug veya URL ile herhangi bir HuggingFace tokenizer'ına işaret et:",

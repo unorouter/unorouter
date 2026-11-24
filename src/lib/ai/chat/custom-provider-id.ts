@@ -44,9 +44,30 @@ export type CatalogModel = {
   name: string | null;
   contextLength: number | null;
   vision: boolean;
-  imageOnly: boolean;
+  media: "image" | "video" | null;
   free: boolean;
 };
+
+// new-api relays list endpoint types per model; OpenRouter style lists list
+// output modalities. Names are the last resort for plain id-only lists.
+function mediaTypeOf(
+  id: string,
+  output: string[],
+  endpoints: string[],
+): CatalogModel["media"] {
+  if (output.includes("video") || endpoints.includes("openai-video"))
+    return "video";
+  if (output.length > 0 && !output.includes("text")) return "image";
+  if (
+    endpoints.length > 0 &&
+    endpoints.every((e) => e === "image-generation" || e === "image-edit")
+  )
+    return "image";
+  if (output.length > 0 || endpoints.length > 0) return null;
+  if (/(^|[-_/.])(video|sora|veo|kling|seedance|hailuo|wan2)|[it]2v/i.test(id))
+    return "video";
+  return null;
+}
 
 // Plain OpenAI lists carry only ids; OpenRouter style lists add the rest.
 function toCatalogModel(m: Record<string, unknown>): CatalogModel | null {
@@ -60,7 +81,7 @@ function toCatalogModel(m: Record<string, unknown>): CatalogModel | null {
     contextLength:
       typeof m.context_length === "number" ? m.context_length : null,
     vision: stringItems(arch?.input_modalities).includes("image"),
-    imageOnly: output.length > 0 && !output.includes("text"),
+    media: mediaTypeOf(m.id, output, stringItems(m.supported_endpoint_types)),
     free:
       m.id.endsWith(":free") ||
       (pricing?.prompt === "0" && pricing?.completion === "0"),

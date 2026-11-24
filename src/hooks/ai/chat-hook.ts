@@ -11,7 +11,16 @@ import {
   reloadLiveThreadFromDb,
   setLiveMessages,
 } from "@/store/chat-store";
-import { handleElysia, uid } from "@/lib/utils/base";
+import { handleElysia, uid, uint8ToBase64 } from "@/lib/utils/base";
+import { upsertLocalMedia } from "@/lib/db/client/data/media/media";
+import {
+  pollCustomVideo,
+  type CustomVideoApi,
+} from "@/components/pages/sidebar/chat/runtime/transport/custom-video";
+import {
+  fetchProviderMedia,
+  resolveCustomModel,
+} from "@/components/pages/sidebar/chat/runtime/transport/provider-fetch";
 import { dayjs } from "@/lib/utils/format/date";
 import { logChatDebug } from "@/lib/utils/chat-debug-log";
 import type { PersistMessageItem } from "@/lib/validation/chat";
@@ -240,6 +249,69 @@ export function useFinalizeTaskMutation() {
         },
       ]);
       return data;
+    },
+    invalidates: (args) => [queryKeys.chatMessages(args.convId)],
+  });
+}
+
+const CUSTOM_VIDEO_TERMINAL = new Set(["SUCCESS", "FAILURE"]);
+
+// Polled from the browser against the user's own provider; the key never
+// leaves the device, and a reload resumes from the persisted task item.
+export function useCustomVideoStatusQuery(
+  modelId: string,
+  api: CustomVideoApi,
+  taskId: string,
+  enabled: boolean,
+) {
+  return useQuery({
+    queryKey: queryKeys.customVideoStatus(taskId),
+    queryFn: async ({ signal }) => {
+      const custom = await resolveCustomModel(modelId);
+      if (!custom) throw new Error(msg("ERRORS.CUSTOM_PROVIDER_MISSING"));
+      return pollCustomVideo(custom.ctx, api, taskId, signal);
+    },
+    enabled: enabled && !!taskId,
+    retry: 2,
+    refetchInterval: (query) =>
+      CUSTOM_VIDEO_TERMINAL.has(query.state.data?.status ?? "") ? false : 5000,
+    refetchIntervalInBackground: true,
+  });
+}
+
+// The provider's URL expires, so the file is copied into local media at once.
+export function useFinalizeCustomVideoMutation() {
+  return useApiMutation({
+    mutationFn: async (args: {
+      convId: string;
+      msgId: string;
+      modelId: string;
+      url: string;
+    }) => {
+      const custom = await resolveCustomModel(args.modelId);
+      if (!custom) throw new Error(msg("ERRORS.CUSTOM_PROVIDER_MISSING"));
+      const blob = await fetchProviderMedia(custom.ctx, args.url);
+      const bytes = new Uint8Array(await blob.arrayBuffer());
+      const mediaId = uid();
+      await upsertLocalMedia({
+        id: mediaId,
+        convId: args.convId,
+        mimeType: blob.type.startsWith("video/") ? blob.type : "video/mp4",
+        sizeBytes: bytes.length,
+        dataBase64: uint8ToBase64(bytes),
+      });
+      const text = `{{inlay::${mediaId}}}`;
+      await replaceLocalMessageItems(args.msgId, [
+        {
+          id: uid(),
+          messageId: args.msgId,
+          sequenceIndex: 0,
+          outputIndex: null,
+          type: "text",
+          data: { text },
+        },
+      ]);
+      return { text };
     },
     invalidates: (args) => [queryKeys.chatMessages(args.convId)],
   });
