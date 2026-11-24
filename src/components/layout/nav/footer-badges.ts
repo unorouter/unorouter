@@ -453,7 +453,7 @@ export const FOOTER_BADGES: {
     width: 120,
   },
   {
-    href: "https://aitrustlist.com",
+    href: "https://aitrustlist.com/ai/unorouter",
     src: "https://aitrustlist.com/badge-light.svg",
     name: "AI Tools Directory: Traffic & Growth Rankings",
     width: 120,
@@ -1298,7 +1298,7 @@ export const FOOTER_BADGES: {
     width: 82,
   },
   {
-    href: "https://startuptostartup.com",
+    href: "https://startuptostartup.com/item/unorouter",
     src: "https://startuptostartup.com/badages-awards.svg",
     name: "Startup To Startup",
     width: 120,
@@ -1825,7 +1825,7 @@ export const FOOTER_BADGES: {
     width: 89,
   },
   {
-    href: "https://appydev.co/?utm_source=appydev_badge&utm_medium=referral&utm_campaign=unorouter",
+    href: "https://appydev.co/tool/unorouter-ee4e264f-190c-4b84-b720-c9640cc16476/",
     src: "https://appydev.co/badges/appydev-light.svg",
     name: "Appydev",
     alt: "Featured on AppyDev",
@@ -2224,7 +2224,7 @@ export const FOOTER_BADGES: {
     width: 111,
   },
   {
-    href: "https://saasdb.net",
+    href: "https://saasdb.net/unorouter",
     src: "/images/badges/saasdb.svg",
     name: "SaaSDB",
     width: 80,
@@ -2315,7 +2315,7 @@ export const FOOTER_TEXT_LINKS = [
   },
   { href: "https://indieshowcase.io/unorouter", label: "IndieShowcase" },
   { href: "https://urise.dev/products/unorouter-8l5rd", label: "Urise" },
-  { href: "https://submitmysaas.com", label: "Featured on SubmitMySaas" },
+  { href: "https://submitmysaas.com/projects/unorouter", label: "Featured on SubmitMySaas" },
   { href: "https://www.seewhatnewai.com/unorouter", label: "SeeWhatNewAI" },
   {
     href: "https://www.toolpilot.ai/products/unorouter",
@@ -2343,7 +2343,7 @@ export const FOOTER_TEXT_LINKS = [
   { href: "https://www.aitoolsaver.com", label: "Featured on AiToolSaver" },
   { href: "https://aitoolscoop.com", label: "AI Tool Scoop" },
   {
-    href: "https://aitoolsdirectory.si",
+    href: "https://aitoolsdirectory.si/tool/unorouter",
     label: "FEATURED ON AIToolsDirectory.si",
   },
   { href: "https://www.aitoolzdir.com", label: "AI Toolz Dir" },
