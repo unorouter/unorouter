@@ -259,7 +259,7 @@ export const FOOTER_BADGES: {
     width: 120,
   },
   {
-    href: "https://agentwork.tools",
+    href: "https://agentwork.tools/product/unorouter",
     src: "https://agentwork.tools/badge/badge_dark.svg",
     name: "AgentWork.Tools",
     width: 89,
