@@ -187,7 +187,11 @@ export const MarkdownText = () => {
   return (
     <>
       <MarkdownTextPrimitive
-        remarkPlugins={[remarkGfm, remarkBreaks, remarkMath]}
+        remarkPlugins={[
+          [remarkGfm, { singleTilde: false }],
+          remarkBreaks,
+          remarkMath,
+        ]}
         // rehypeDropHoles brackets the chain against holes left by a plugin that
         // splices children mid-traversal. mathjax additionally gets wrapped,
         // because it throws INSIDE its own visitParents and a bracketing pass
@@ -237,7 +241,7 @@ export const MarkdownText = () => {
 // unconditionally and everything outside it is escaped to plain text.
 export const StandaloneMarkdownText: FC = () => (
   <MarkdownTextPrimitive
-    remarkPlugins={[remarkGfm, remarkBreaks]}
+    remarkPlugins={[[remarkGfm, { singleTilde: false }], remarkBreaks]}
     rehypePlugins={[
       rehypeDropHoles,
       rehypeRaw,

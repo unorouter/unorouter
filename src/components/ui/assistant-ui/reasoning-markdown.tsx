@@ -78,7 +78,7 @@ function unwrapFence(text: string): string {
 export const ReasoningMarkdown = () => (
   <MarkdownTextPrimitive
     preprocess={unwrapFence}
-    remarkPlugins={[remarkGfm, remarkBreaks]}
+    remarkPlugins={[[remarkGfm, { singleTilde: false }], remarkBreaks]}
     className="aui-md text-muted-foreground text-xs"
     components={reasoningComponents}
   />
