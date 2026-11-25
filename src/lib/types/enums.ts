@@ -127,6 +127,12 @@ export enum Vendor {
   MINDSHUB = "mindshub",
   PKRD = "pkrd",
   REKA = "reka",
+  CLOUDFLARE = "cloudflare",
+  DAILY = "daily",
+  BASETEN = "baseten",
+  MORPH = "morph",
+  LGAI = "lg ai research",
+  TAGFLOW = "tagflow ai",
 }
 
 export enum OS {
