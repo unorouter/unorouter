@@ -5043,7 +5043,9 @@
     "CUSTOM_VIDEO_NO_FILE": "O vídeo terminou, mas o provedor não enviou nenhum arquivo.",
     "PROVIDER_REQUEST_FAILED": "A solicitação ao provedor falhou.",
     "CUSTOM_MEDIA_LOGIN": "Seu navegador não conseguiu baixar este arquivo do provedor. Entre na sua conta para que o Uno o busque para você.",
-    "CUSTOM_PROVIDER_MISSING": "O provedor personalizado deste modelo não existe mais."
+    "CUSTOM_PROVIDER_MISSING": "O provedor personalizado deste modelo não existe mais.",
+    "REQUEST_TOO_LARGE": "Esta mensagem é grande demais para enviar. As mensagens podem ter até 25 MB, incluindo anexos.",
+    "LARGE_UPLOAD_LOGIN": "Entre na sua conta para enviar anexos maiores que 2 MB."
   },
   "BADGE": {
     "TOKENS_SERVED": "tokens processados",

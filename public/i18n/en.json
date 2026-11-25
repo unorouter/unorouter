@@ -5043,7 +5043,9 @@
     "CUSTOM_VIDEO_NO_FILE": "The video finished, but the provider sent no file.",
     "PROVIDER_REQUEST_FAILED": "The provider request failed.",
     "CUSTOM_MEDIA_LOGIN": "Your browser could not download this file from the provider. Sign in so Uno can fetch it for you.",
-    "CUSTOM_PROVIDER_MISSING": "The custom provider for this model no longer exists."
+    "CUSTOM_PROVIDER_MISSING": "The custom provider for this model no longer exists.",
+    "REQUEST_TOO_LARGE": "This message is too large to send. Messages can be up to 25 MB, attachments included.",
+    "LARGE_UPLOAD_LOGIN": "Sign in to send attachments larger than 2 MB."
   },
   "BADGE": {
     "TOKENS_SERVED": "tokens served",

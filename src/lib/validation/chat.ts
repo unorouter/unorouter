@@ -233,6 +233,10 @@ export const titleGenerationBody = t.Object({
   titlePrompt: t.Optional(t.String({ maxLength: 4_096 })),
 });
 
+// Checked on the request headers before the body is read (chat route onRequest).
+export const GUEST_REQUEST_MAX_MB = 2;
+export const REQUEST_MAX_MB = 25;
+
 export const forwardBody = t.Object(
   {
     model: t.String({ maxLength: MAX_MODEL_LEN }),

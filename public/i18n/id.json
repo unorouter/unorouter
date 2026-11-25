@@ -5043,7 +5043,9 @@
     "CUSTOM_VIDEO_NO_FILE": "Video sudah selesai, tetapi penyedia tidak mengirim file.",
     "PROVIDER_REQUEST_FAILED": "Permintaan ke penyedia gagal.",
     "CUSTOM_MEDIA_LOGIN": "Browsermu tidak dapat mengunduh file ini dari penyedia. Masuk agar Uno dapat mengambilnya untukmu.",
-    "CUSTOM_PROVIDER_MISSING": "Penyedia khusus untuk model ini sudah tidak ada."
+    "CUSTOM_PROVIDER_MISSING": "Penyedia khusus untuk model ini sudah tidak ada.",
+    "REQUEST_TOO_LARGE": "Pesan ini terlalu besar untuk dikirim. Ukuran pesan maksimal 25 MB, termasuk lampiran.",
+    "LARGE_UPLOAD_LOGIN": "Masuk untuk mengirim lampiran lebih dari 2 MB."
   },
   "BADGE": {
     "TOKENS_SERVED": "token dilayani",

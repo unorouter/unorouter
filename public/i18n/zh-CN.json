@@ -5043,7 +5043,9 @@
     "CUSTOM_VIDEO_NO_FILE": "视频已生成，但提供商没有发送文件。",
     "PROVIDER_REQUEST_FAILED": "向提供商发出的请求失败。",
     "CUSTOM_MEDIA_LOGIN": "浏览器无法从提供商下载此文件。请登录，让 Uno 帮你获取。",
-    "CUSTOM_PROVIDER_MISSING": "此模型的自定义提供商已不存在。"
+    "CUSTOM_PROVIDER_MISSING": "此模型的自定义提供商已不存在。",
+    "REQUEST_TOO_LARGE": "此消息过大，无法发送。消息（含附件）最大为 25 MB。",
+    "LARGE_UPLOAD_LOGIN": "登录后才能发送大于 2 MB 的附件。"
   },
   "BADGE": {
     "TOKENS_SERVED": "已处理 Token",

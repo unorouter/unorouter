@@ -5043,7 +5043,9 @@
     "CUSTOM_VIDEO_NO_FILE": "Video đã xong nhưng nhà cung cấp không gửi tệp nào.",
     "PROVIDER_REQUEST_FAILED": "Yêu cầu tới nhà cung cấp đã thất bại.",
     "CUSTOM_MEDIA_LOGIN": "Trình duyệt không thể tải tệp này từ nhà cung cấp. Hãy đăng nhập để Uno tải giúp bạn.",
-    "CUSTOM_PROVIDER_MISSING": "Nhà cung cấp tùy chỉnh của mô hình này không còn tồn tại."
+    "CUSTOM_PROVIDER_MISSING": "Nhà cung cấp tùy chỉnh của mô hình này không còn tồn tại.",
+    "REQUEST_TOO_LARGE": "Tin nhắn này quá lớn để gửi. Tin nhắn có thể tối đa 25 MB, bao gồm cả tệp đính kèm.",
+    "LARGE_UPLOAD_LOGIN": "Đăng nhập để gửi tệp đính kèm lớn hơn 2 MB."
   },
   "BADGE": {
     "TOKENS_SERVED": "token đã phục vụ",

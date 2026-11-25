@@ -5043,7 +5043,9 @@
     "CUSTOM_VIDEO_NO_FILE": "Video tamamlandı ama sağlayıcı dosya göndermedi.",
     "PROVIDER_REQUEST_FAILED": "Sağlayıcıya yapılan istek başarısız oldu.",
     "CUSTOM_MEDIA_LOGIN": "Tarayıcın bu dosyayı sağlayıcıdan indiremedi. Uno'nun senin için alabilmesi için giriş yap.",
-    "CUSTOM_PROVIDER_MISSING": "Bu modelin özel sağlayıcısı artık yok."
+    "CUSTOM_PROVIDER_MISSING": "Bu modelin özel sağlayıcısı artık yok.",
+    "REQUEST_TOO_LARGE": "Bu mesaj gönderilemeyecek kadar büyük. Mesajlar ekler dahil en fazla 25 MB olabilir.",
+    "LARGE_UPLOAD_LOGIN": "2 MB'tan büyük ekler göndermek için giriş yapın."
   },
   "BADGE": {
     "TOKENS_SERVED": "token sunuldu",

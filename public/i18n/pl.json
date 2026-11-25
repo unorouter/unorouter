@@ -5043,7 +5043,9 @@
     "CUSTOM_VIDEO_NO_FILE": "Wideo jest gotowe, ale dostawca nie wysłał pliku.",
     "PROVIDER_REQUEST_FAILED": "Żądanie do dostawcy nie powiodło się.",
     "CUSTOM_MEDIA_LOGIN": "Przeglądarka nie mogła pobrać tego pliku od dostawcy. Zaloguj się, aby Uno pobrało go za Ciebie.",
-    "CUSTOM_PROVIDER_MISSING": "Własny dostawca tego modelu już nie istnieje."
+    "CUSTOM_PROVIDER_MISSING": "Własny dostawca tego modelu już nie istnieje.",
+    "REQUEST_TOO_LARGE": "Ta wiadomość jest za duża, aby ją wysłać. Wiadomość może mieć maksymalnie 25 MB razem z załącznikami.",
+    "LARGE_UPLOAD_LOGIN": "Zaloguj się, aby wysyłać załączniki większe niż 2 MB."
   },
   "BADGE": {
     "TOKENS_SERVED": "obsłużone tokeny",

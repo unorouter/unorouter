@@ -1,4 +1,6 @@
-import { GUEST_USER_ID, msg } from "@/lib/config/constants";
+import { GUEST_USER_ID, USER_ID_COOKIE, msg } from "@/lib/config/constants";
+import { verifyUserId } from "@/lib/utils/session-cookie";
+import { parseCookie } from "cookie";
 import { assertGuestOwnPurposeAccess } from "@/server/auth/guest-consent.service";
 import {
   finalizeTaskBody,
@@ -12,6 +14,8 @@ import {
   triggerSimilarityBody,
   webSearchBody,
   fetchPageBody,
+  GUEST_REQUEST_MAX_MB,
+  REQUEST_MAX_MB,
 } from "@/lib/validation/chat";
 import {
   assertGuestFreeModel,
@@ -48,7 +52,26 @@ function requireMember(userId: number) {
 }
 const resumeLimit = rateLimit("chat-resume", 60);
 
+const BODY_CAPPED = /\/chat\/(custom-)?forward\/chat\/completions$/;
+const MB = 1024 * 1024;
+
+// Before the body is read: both proxies parse it whole, so the size is decided
+// on the header and large attachments are for signed-in users only.
+async function capRequestBody(request: Request) {
+  if (!BODY_CAPPED.test(new URL(request.url).pathname)) return;
+  const header = request.headers.get("content-length");
+  if (header === null) return status(411);
+  const size = Number(header);
+  if (size <= GUEST_REQUEST_MAX_MB * MB) return;
+  if (size > REQUEST_MAX_MB * MB)
+    return status(413, msg("ERRORS.REQUEST_TOO_LARGE"));
+  const cookies = parseCookie(request.headers.get("cookie") ?? "");
+  if ((await verifyUserId(cookies[USER_ID_COOKIE])) === null)
+    return status(413, msg("ERRORS.LARGE_UPLOAD_LOGIN"));
+}
+
 export const chatRoute = new Elysia({ prefix: "/chat" })
+  .onRequest(({ request }) => capRequestBody(request))
 
   // Open to guests by design; the caller's own Authorization is what stops this
   // being a free open relay. No chat key is resolved, logged or stored here.

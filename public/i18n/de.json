@@ -5043,7 +5043,9 @@
     "CUSTOM_VIDEO_NO_FILE": "Das Video ist fertig, aber der Anbieter hat keine Datei gesendet.",
     "PROVIDER_REQUEST_FAILED": "Die Anfrage an den Anbieter ist fehlgeschlagen.",
     "CUSTOM_MEDIA_LOGIN": "Dein Browser konnte diese Datei nicht vom Anbieter laden. Melde dich an, damit Uno sie für dich abruft.",
-    "CUSTOM_PROVIDER_MISSING": "Der eigene Anbieter für dieses Modell existiert nicht mehr."
+    "CUSTOM_PROVIDER_MISSING": "Der eigene Anbieter für dieses Modell existiert nicht mehr.",
+    "REQUEST_TOO_LARGE": "Diese Nachricht ist zu groß zum Senden. Nachrichten dürfen samt Anhängen höchstens 25 MB groß sein.",
+    "LARGE_UPLOAD_LOGIN": "Melde dich an, um Anhänge über 2 MB zu senden."
   },
   "BADGE": {
     "TOKENS_SERVED": "Tokens verarbeitet",

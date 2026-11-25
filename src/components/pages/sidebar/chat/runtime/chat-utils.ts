@@ -2,7 +2,9 @@ import { mediaStore, upsertLocalMedia } from "@/lib/db/client/data/media/media";
 import { base64ToDataUri, fileToBase64, uid } from "@/lib/utils/base";
 import { ensureConvId } from "@/store/chat-store";
 import type { AttachmentAdapter } from "@assistant-ui/react";
-import { msg } from "@/lib/config/constants";
+import { GUEST_USER_ID, msg } from "@/lib/config/constants";
+import { authUserId } from "@/hooks/auth/auth-hook";
+import { GUEST_REQUEST_MAX_MB } from "@/lib/validation/chat";
 import {
   mhtmlToHtml,
   zipToText,
@@ -51,6 +53,11 @@ const TEXT_EXTENSIONS: Record<string, string> = {
 const MAX_VIDEO_MB = 15;
 
 async function convertFile(file: File): Promise<File> {
+  if (
+    file.size > GUEST_REQUEST_MAX_MB * 1024 * 1024 &&
+    authUserId() === GUEST_USER_ID
+  )
+    throw new Error(msg("ERRORS.LARGE_UPLOAD_LOGIN"));
   const ext = file.name.split(".").pop()?.toLowerCase() ?? "";
   if (ext === "zip" || file.type.includes("zip")) return zipToText(file);
   if (ext === "mhtml" || ext === "mht" || file.type === "multipart/related")

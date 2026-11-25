@@ -5043,7 +5043,9 @@
     "CUSTOM_VIDEO_NO_FILE": "Il video è terminato, ma il provider non ha inviato alcun file.",
     "PROVIDER_REQUEST_FAILED": "La richiesta al provider non è riuscita.",
     "CUSTOM_MEDIA_LOGIN": "Il tuo browser non è riuscito a scaricare questo file dal provider. Accedi così Uno può recuperarlo per te.",
-    "CUSTOM_PROVIDER_MISSING": "Il provider personalizzato di questo modello non esiste più."
+    "CUSTOM_PROVIDER_MISSING": "Il provider personalizzato di questo modello non esiste più.",
+    "REQUEST_TOO_LARGE": "Questo messaggio è troppo grande per essere inviato. I messaggi possono arrivare a 25 MB, allegati inclusi.",
+    "LARGE_UPLOAD_LOGIN": "Accedi per inviare allegati più grandi di 2 MB."
   },
   "BADGE": {
     "TOKENS_SERVED": "token serviti",
