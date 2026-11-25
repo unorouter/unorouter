@@ -6,6 +6,7 @@ import {
 } from "@/lib/ai/image/dispatch";
 import { isValidAir } from "@/lib/ai/image/constants";
 import { msg } from "@/lib/config/constants";
+import { status } from "elysia";
 import type {
   GeneratedImage,
   ImageParams,
@@ -165,7 +166,7 @@ async function resolveModel(model: string): Promise<ResolvedModel> {
       context: "image.submit",
       model,
     });
-    throw new Error(msg("ERRORS.NOT_FOUND"));
+    throw status(404, msg("ERRORS.NOT_FOUND"));
   }
   const endpoint = toSyncImageEndpoint(info.metadata?.imageParams?.endpoint);
   if (!endpoint) {

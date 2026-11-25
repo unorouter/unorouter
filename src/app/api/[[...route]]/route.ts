@@ -16,6 +16,7 @@ import { blogDomainRoute } from "@/server/blog/route";
 import { modelsDomainRoute } from "@/server/models/route";
 import { opsDomainRoute } from "@/server/ops/route";
 import { UpstreamImageError } from "@/server/ai/image/upstream";
+import { FetchRefusedError } from "@/lib/config/safe-fetch";
 import { recordServerError } from "@/server/ops/server-error";
 import { fromTypes, openapi } from "@elysiajs/openapi";
 import { APICallError, RetryError } from "ai";
@@ -111,6 +112,10 @@ export const app = new Elysia({ prefix: "/api" })
     // are logged where they happened; only failures of this process are recorded.
     if (error instanceof UpstreamError || error instanceof UpstreamImageError)
       return;
+    if (error instanceof FetchRefusedError) {
+      set.status = 422;
+      return error.message;
+    }
     const call = RetryError.isInstance(error) ? error.lastError : error;
     if (APICallError.isInstance(call)) {
       set.status = call.statusCode === 429 ? 429 : 502;

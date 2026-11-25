@@ -30,30 +30,34 @@ function nonPublicIp(host: string): boolean {
   return ipaddr.process(literal).range() !== "unicast";
 }
 
+// The target URL refused or failed: the caller's outcome, not a bug of ours.
+export class FetchRefusedError extends Error {}
+
 function checkUrl(url: string): URL {
   let parsed: URL;
   try {
     parsed = new URL(url);
   } catch {
-    throw new Error(msg("ERRORS.INVALID_URL"));
+    throw new FetchRefusedError(msg("ERRORS.INVALID_URL"));
   }
   if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
-    throw new Error(msg("ERRORS.BLOCKED_URL"));
+    throw new FetchRefusedError(msg("ERRORS.BLOCKED_URL"));
   }
   const port = parsed.port
     ? Number(parsed.port)
     : parsed.protocol === "https:"
       ? 443
       : 80;
-  if (!ALLOWED_PORTS.has(port)) throw new Error(msg("ERRORS.BLOCKED_URL"));
+  if (!ALLOWED_PORTS.has(port))
+    throw new FetchRefusedError(msg("ERRORS.BLOCKED_URL"));
   // DNS and Cloudflare read "api.unorouter.com." as "api.unorouter.com".
   const host = parsed.hostname.toLowerCase().replace(/\.$/, "");
   if (OWN_DOMAINS.some((d) => host === d || host.endsWith("." + d))) {
-    throw new Error(msg("ERRORS.BLOCKED_URL"));
+    throw new FetchRefusedError(msg("ERRORS.BLOCKED_URL"));
   }
   // loopback never leaves the pod, so the network policy cannot see it
   if (host === "localhost" || host.endsWith(".localhost") || nonPublicIp(host))
-    throw new Error(msg("ERRORS.BLOCKED_URL"));
+    throw new FetchRefusedError(msg("ERRORS.BLOCKED_URL"));
   return parsed;
 }
 
@@ -71,9 +75,10 @@ async function pinnedFetch(url: string, init: FetchInit): Promise<Response> {
   const addrs = await lookup(host, { all: true, verbatim: true }).catch(
     () => [],
   );
-  if (addrs.length === 0) throw new Error(msg("ERRORS.UPSTREAM_FETCH_FAILED"));
+  if (addrs.length === 0)
+    throw new FetchRefusedError(msg("ERRORS.UPSTREAM_FETCH_FAILED"));
   if (addrs.some((a) => nonPublicIp(a.address)))
-    throw new Error(msg("ERRORS.BLOCKED_URL"));
+    throw new FetchRefusedError(msg("ERRORS.BLOCKED_URL"));
   const address = addrs[0].address;
   const target = new URL(parsed);
   target.hostname = address.includes(":") ? `[${address}]` : address;
@@ -91,7 +96,7 @@ async function pinnedFetch(url: string, init: FetchInit): Promise<Response> {
 function refuseRedirect(res: Response): Response {
   if (res.status >= 300 && res.status < 400) {
     void res.body?.cancel();
-    throw new Error(msg("ERRORS.BLOCKED_URL"));
+    throw new FetchRefusedError(msg("ERRORS.BLOCKED_URL"));
   }
   return res;
 }
@@ -152,7 +157,7 @@ async function readBefore(
   let timer: ReturnType<typeof setTimeout> | undefined;
   const expired = new Promise<never>((_, reject) => {
     timer = setTimeout(
-      () => reject(new Error(msg("ERRORS.UPSTREAM_FETCH_FAILED"))),
+      () => reject(new FetchRefusedError(msg("ERRORS.UPSTREAM_FETCH_FAILED"))),
       Math.max(0, deadline - Date.now()),
     );
   });
@@ -173,7 +178,7 @@ async function readBodyWithLimit(
 ): Promise<Buffer> {
   const declared = Number(res.headers.get("content-length") ?? "0");
   if (declared && declared > maxBytes) {
-    throw new Error(msg("ERRORS.RESPONSE_TOO_LARGE"));
+    throw new FetchRefusedError(msg("ERRORS.RESPONSE_TOO_LARGE"));
   }
   const reader = res.body?.getReader();
   if (!reader) return Buffer.alloc(0);
@@ -185,7 +190,7 @@ async function readBodyWithLimit(
     total += next.value.byteLength;
     if (total > maxBytes) {
       reader.cancel().catch(() => {});
-      throw new Error(msg("ERRORS.RESPONSE_TOO_LARGE"));
+      throw new FetchRefusedError(msg("ERRORS.RESPONSE_TOO_LARGE"));
     }
     chunks.push(next.value);
   }
@@ -197,7 +202,7 @@ export async function safeFetchBytes(
   maxBytes = MAX_DOWNLOAD_BYTES,
 ): Promise<{ buffer: Buffer; contentType: string | null }> {
   const { res, deadline } = await safeFetch(url);
-  if (!res.ok) throw new Error(msg("ERRORS.UPSTREAM_FETCH_FAILED"));
+  if (!res.ok) throw new FetchRefusedError(msg("ERRORS.UPSTREAM_FETCH_FAILED"));
   return {
     buffer: await readBodyWithLimit(res, maxBytes, deadline),
     contentType: res.headers.get("content-type"),
@@ -230,7 +235,7 @@ export async function safeFetchFollow(
       void res.body?.cancel();
       const location = res.headers.get("location");
       if (!location || hop >= MAX_REDIRECTS)
-        throw new Error(msg("ERRORS.BLOCKED_URL"));
+        throw new FetchRefusedError(msg("ERRORS.BLOCKED_URL"));
       current = new URL(location, current).toString();
       continue;
     }
@@ -278,14 +283,14 @@ export async function safeFetchStreamFollow(
       void res.body?.cancel();
       const location = res.headers.get("location");
       if (!location || hop >= MAX_REDIRECTS)
-        throw new Error(msg("ERRORS.BLOCKED_URL"));
+        throw new FetchRefusedError(msg("ERRORS.BLOCKED_URL"));
       current = new URL(location, current).toString();
       continue;
     }
     const declared = Number(res.headers.get("content-length") ?? 0);
     if (declared > opts.maxBytes) {
       void res.body?.cancel();
-      throw new Error(msg("ERRORS.RESPONSE_TOO_LARGE"));
+      throw new FetchRefusedError(msg("ERRORS.RESPONSE_TOO_LARGE"));
     }
     if (!res.body) return res;
     let total = 0;
@@ -294,7 +299,9 @@ export async function safeFetchStreamFollow(
         transform(chunk, controller) {
           total += chunk.byteLength;
           if (total > opts.maxBytes)
-            controller.error(new Error(msg("ERRORS.RESPONSE_TOO_LARGE")));
+            controller.error(
+              new FetchRefusedError(msg("ERRORS.RESPONSE_TOO_LARGE")),
+            );
           else controller.enqueue(chunk);
         },
       }),

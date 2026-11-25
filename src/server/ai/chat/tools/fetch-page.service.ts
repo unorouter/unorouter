@@ -1,5 +1,5 @@
 import { msg } from "@/lib/config/constants";
-import { safeFetchFollow } from "@/lib/config/safe-fetch";
+import { FetchRefusedError, safeFetchFollow } from "@/lib/config/safe-fetch";
 import { extractPdfText } from "@/lib/ai/chat/pipeline/pdf-extract";
 import type { FetchPageBody } from "@/lib/validation/chat";
 
@@ -49,7 +49,8 @@ export async function fetchPage(body: FetchPageBody) {
     },
     maxBytes: MAX_PDF_BYTES,
   });
-  if (res.status >= 400) throw new Error(msg("ERRORS.UPSTREAM_FETCH_FAILED"));
+  if (res.status >= 400)
+    throw new FetchRefusedError(msg("ERRORS.UPSTREAM_FETCH_FAILED"));
   const type = (res.contentType ?? "").toLowerCase();
   const isPdf =
     type.startsWith("application/pdf") ||
@@ -61,7 +62,7 @@ export async function fetchPage(body: FetchPageBody) {
     text = (await extractPdfText(new Uint8Array(res.buffer))) ?? "";
   } else if (TEXT_TYPES.test(type) || !type) {
     if (res.buffer.byteLength > MAX_HTML_BYTES)
-      throw new Error(msg("ERRORS.RESPONSE_TOO_LARGE"));
+      throw new FetchRefusedError(msg("ERRORS.RESPONSE_TOO_LARGE"));
     const raw = res.buffer.toString("utf8");
     if (type.startsWith("text/plain") || type.startsWith("text/markdown")) {
       text = raw;
@@ -71,7 +72,7 @@ export async function fetchPage(body: FetchPageBody) {
       text = page.markdown;
     }
   } else {
-    throw new Error(msg("ERRORS.UNSUPPORTED_CONTENT"));
+    throw new FetchRefusedError(msg("ERRORS.UNSUPPORTED_CONTENT"));
   }
 
   const start = Math.min(body.start ?? 0, text.length);
