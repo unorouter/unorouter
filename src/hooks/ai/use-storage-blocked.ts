@@ -12,8 +12,9 @@ export function useStorageBlocked(): "blocked" | "held" | "emptied" | null {
   const [probeFailed, setProbeFailed] = useState(false);
   useEffect(() => {
     let alive = true;
-    navigator.storage
-      ?.getDirectory()
+    // Chrome before 102 has navigator.storage but no getDirectory.
+    Promise.resolve()
+      .then(() => navigator.storage.getDirectory())
       .catch(() => alive && setProbeFailed(true));
     return () => {
       alive = false;
