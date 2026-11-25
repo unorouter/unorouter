@@ -4215,7 +4215,9 @@
       "PREVIEW": "Podgląd załącznika",
       "IMAGE_PREVIEW_FULL": "Podgląd załącznika obrazu",
       "LABEL": "załącznik",
-      "UNSUPPORTED_TYPE": "Typ pliku {type} nie jest obsługiwany. Prześlij obraz PNG, JPEG, WebP lub GIF."
+      "UNSUPPORTED_TYPE": "Typ pliku {type} nie jest obsługiwany. Prześlij obraz, PDF, wideo, ZIP, HTML lub plik tekstowy.",
+      "VIDEO_TOO_LARGE": "Filmy mogą mieć maksymalnie 15 MB.",
+      "ZIP_NO_TEXT": "To archiwum ZIP nie zawiera plików tekstowych, które model może odczytać."
     },
     "WEB_SEARCH": {
       "ON": "Wyszukiwanie web włączone",

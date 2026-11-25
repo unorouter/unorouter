@@ -2,6 +2,11 @@ import { mediaStore, upsertLocalMedia } from "@/lib/db/client/data/media/media";
 import { base64ToDataUri, fileToBase64, uid } from "@/lib/utils/base";
 import { ensureConvId } from "@/store/chat-store";
 import type { AttachmentAdapter } from "@assistant-ui/react";
+import { msg } from "@/lib/config/constants";
+import {
+  mhtmlToHtml,
+  zipToText,
+} from "@/components/pages/sidebar/chat/runtime/attachment-convert";
 
 export function extractFirstUserText(
   messages: readonly {
@@ -34,7 +39,28 @@ const TEXT_EXTENSIONS: Record<string, string> = {
   xml: "text/xml",
   yaml: "text/yaml",
   yml: "text/yaml",
+  html: "text/html",
+  htm: "text/html",
+  mp4: "video/mp4",
+  webm: "video/webm",
+  mov: "video/quicktime",
 };
+
+// Gemini takes about 20 MB of inline data per request, base64 included.
+// CHAT.ATTACHMENT.VIDEO_TOO_LARGE states this number.
+const MAX_VIDEO_MB = 15;
+
+async function convertFile(file: File): Promise<File> {
+  const ext = file.name.split(".").pop()?.toLowerCase() ?? "";
+  if (ext === "zip" || file.type.includes("zip")) return zipToText(file);
+  if (ext === "mhtml" || ext === "mht" || file.type === "multipart/related")
+    return mhtmlToHtml(file);
+  if (resolveTextMime(file).startsWith("video/")) {
+    if (file.size > MAX_VIDEO_MB * 1024 * 1024)
+      throw new Error(msg("CHAT.ATTACHMENT.VIDEO_TOO_LARGE"));
+  }
+  return file;
+}
 
 function resolveTextMime(file: File): string {
   if (file.type) return file.type;
@@ -48,9 +74,11 @@ export function createLocalAttachmentAdapter(): AttachmentAdapter {
     accept:
       "image/png,image/jpeg,image/webp,image/gif,application/pdf," +
       "text/plain,text/markdown,text/csv,application/json,text/xml,application/xml," +
-      ".txt,.md,.markdown,.csv,.json,.xml,.yaml,.yml,.log",
+      "text/html,multipart/related,application/zip,video/mp4,video/webm,video/quicktime," +
+      ".txt,.md,.markdown,.csv,.json,.xml,.yaml,.yml,.log,.html,.htm,.mhtml,.mht,.zip,.mp4,.webm,.mov",
 
-    async add({ file }) {
+    async add({ file: picked }) {
+      const file = await convertFile(picked);
       const contentType = resolveTextMime(file);
       return {
         id: uid(),

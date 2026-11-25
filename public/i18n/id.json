@@ -4215,7 +4215,9 @@
       "PREVIEW": "Pratinjau lampiran",
       "IMAGE_PREVIEW_FULL": "Pratinjau Lampiran Gambar",
       "LABEL": "lampiran",
-      "UNSUPPORTED_TYPE": "Tipe file {type} tidak didukung. Silakan unggah gambar PNG, JPEG, WebP, atau GIF."
+      "UNSUPPORTED_TYPE": "Tipe file {type} tidak didukung. Unggah gambar, PDF, video, ZIP, HTML, atau file teks.",
+      "VIDEO_TOO_LARGE": "Ukuran video maksimal 15 MB.",
+      "ZIP_NO_TEXT": "ZIP ini tidak berisi file teks yang bisa dibaca model."
     },
     "WEB_SEARCH": {
       "ON": "Pencarian web diaktifkan",

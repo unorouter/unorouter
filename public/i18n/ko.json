@@ -4215,7 +4215,9 @@
       "PREVIEW": "첨부 미리보기",
       "IMAGE_PREVIEW_FULL": "이미지 첨부 미리보기",
       "LABEL": "첨부",
-      "UNSUPPORTED_TYPE": "파일 유형 {type}은 지원되지 않습니다. PNG, JPEG, WebP 또는 GIF 이미지를 업로드하세요."
+      "UNSUPPORTED_TYPE": "파일 유형 {type}은 지원되지 않습니다. 이미지, PDF, 동영상, ZIP, HTML 또는 텍스트 파일을 업로드하세요.",
+      "VIDEO_TOO_LARGE": "동영상은 최대 15MB까지 가능합니다.",
+      "ZIP_NO_TEXT": "이 ZIP에는 모델이 읽을 수 있는 텍스트 파일이 없습니다."
     },
     "WEB_SEARCH": {
       "ON": "웹 검색 활성화됨",

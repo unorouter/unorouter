@@ -4215,7 +4215,9 @@
       "PREVIEW": "添付プレビュー",
       "IMAGE_PREVIEW_FULL": "画像添付のプレビュー",
       "LABEL": "添付",
-      "UNSUPPORTED_TYPE": "ファイル形式 {type} はサポートされていません。PNG、JPEG、WebP、または GIF の画像をアップロードしてください。"
+      "UNSUPPORTED_TYPE": "ファイル形式 {type} はサポートされていません。画像、PDF、動画、ZIP、HTML、またはテキストファイルをアップロードしてください。",
+      "VIDEO_TOO_LARGE": "動画は 15 MB までです。",
+      "ZIP_NO_TEXT": "この ZIP にはモデルが読めるテキストファイルがありません。"
     },
     "WEB_SEARCH": {
       "ON": "ウェブ検索を有効化",

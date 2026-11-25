@@ -4215,7 +4215,9 @@
       "PREVIEW": "Prévia de anexo",
       "IMAGE_PREVIEW_FULL": "Prévia completa de anexo de imagem",
       "LABEL": "anexo",
-      "UNSUPPORTED_TYPE": "Tipo de arquivo {type} não é suportado. Faça upload de imagem PNG, JPEG, WebP ou GIF."
+      "UNSUPPORTED_TYPE": "Tipo de arquivo {type} não é suportado. Envie uma imagem, PDF, vídeo, ZIP, HTML ou arquivo de texto.",
+      "VIDEO_TOO_LARGE": "Vídeos podem ter até 15 MB.",
+      "ZIP_NO_TEXT": "Este ZIP não tem arquivos de texto que o modelo consiga ler."
     },
     "WEB_SEARCH": {
       "ON": "Busca web ativada",

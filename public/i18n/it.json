@@ -4215,7 +4215,9 @@
       "PREVIEW": "Anteprima allegato",
       "IMAGE_PREVIEW_FULL": "Anteprima allegato immagine",
       "LABEL": "allegato",
-      "UNSUPPORTED_TYPE": "Il tipo di file {type} non è supportato. Carica un'immagine PNG, JPEG, WebP o GIF."
+      "UNSUPPORTED_TYPE": "Il tipo di file {type} non è supportato. Carica un'immagine, un PDF, un video, uno ZIP, un HTML o un file di testo.",
+      "VIDEO_TOO_LARGE": "I video possono pesare fino a 15 MB.",
+      "ZIP_NO_TEXT": "Questo ZIP non contiene file di testo leggibili dal modello."
     },
     "WEB_SEARCH": {
       "ON": "Ricerca web abilitata",

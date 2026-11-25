@@ -4215,7 +4215,9 @@
       "PREVIEW": "Attachment preview",
       "IMAGE_PREVIEW_FULL": "Image Attachment Preview",
       "LABEL": "attachment",
-      "UNSUPPORTED_TYPE": "File type {type} is not supported. Please upload a PNG, JPEG, WebP, or GIF image."
+      "UNSUPPORTED_TYPE": "File type {type} is not supported. Upload an image, PDF, video, zip, HTML or text file.",
+      "VIDEO_TOO_LARGE": "Videos can be up to 15 MB.",
+      "ZIP_NO_TEXT": "This zip has no text files the model can read."
     },
     "WEB_SEARCH": {
       "ON": "Web search enabled",

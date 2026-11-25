@@ -4215,7 +4215,9 @@
       "PREVIEW": "Vista previa de adjunto",
       "IMAGE_PREVIEW_FULL": "Vista previa de adjunto de imagen",
       "LABEL": "adjunto",
-      "UNSUPPORTED_TYPE": "El tipo de archivo {type} no es compatible. Sube una imagen PNG, JPEG, WebP o GIF."
+      "UNSUPPORTED_TYPE": "El tipo de archivo {type} no es compatible. Sube una imagen, un PDF, un vídeo, un ZIP, un HTML o un archivo de texto.",
+      "VIDEO_TOO_LARGE": "Los vídeos pueden pesar hasta 15 MB.",
+      "ZIP_NO_TEXT": "Este ZIP no contiene archivos de texto que el modelo pueda leer."
     },
     "WEB_SEARCH": {
       "ON": "Búsqueda web activada",

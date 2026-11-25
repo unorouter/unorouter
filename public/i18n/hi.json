@@ -4215,7 +4215,9 @@
       "PREVIEW": "Attachment preview",
       "IMAGE_PREVIEW_FULL": "Image Attachment Preview",
       "LABEL": "attachment",
-      "UNSUPPORTED_TYPE": "फ़ाइल प्रकार {type} समर्थित नहीं है। कृपया एक PNG, JPEG, WebP, या GIF image अपलोड करें।"
+      "UNSUPPORTED_TYPE": "फ़ाइल प्रकार {type} समर्थित नहीं है। कोई इमेज, PDF, वीडियो, ZIP, HTML या टेक्स्ट फ़ाइल अपलोड करें।",
+      "VIDEO_TOO_LARGE": "वीडियो अधिकतम 15 MB के हो सकते हैं।",
+      "ZIP_NO_TEXT": "इस ZIP में ऐसी कोई टेक्स्ट फ़ाइल नहीं है जिसे मॉडल पढ़ सके।"
     },
     "WEB_SEARCH": {
       "ON": "Web search सक्षम",

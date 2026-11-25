@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { errMessage } from "@/lib/utils/base";
+import { handleError } from "@/lib/utils/client";
 import {
   AttachmentPrimitive,
   ComposerPrimitive,
@@ -236,13 +237,11 @@ export const ComposerAddAttachment: FC = () => {
     try {
       await aui.composer().addAttachment(file);
     } catch (err) {
-      const message = errMessage(err);
+      if (!/not accepted/i.test(errMessage(err))) return handleError(err, t);
       toast.error(
-        /not accepted/i.test(message)
-          ? t("CHAT.ATTACHMENT.UNSUPPORTED_TYPE", {
-              type: file.type || t("CHAT.ATTACHMENT.FILE"),
-            })
-          : message,
+        t("CHAT.ATTACHMENT.UNSUPPORTED_TYPE", {
+          type: file.type || t("CHAT.ATTACHMENT.FILE"),
+        }),
       );
     }
   };

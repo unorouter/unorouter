@@ -4215,7 +4215,9 @@
       "PREVIEW": "Xem trước đính kèm",
       "IMAGE_PREVIEW_FULL": "Xem trước đầy đủ hình ảnh đính kèm",
       "LABEL": "đính kèm",
-      "UNSUPPORTED_TYPE": "Định dạng tệp {type} không được hỗ trợ. Vui lòng tải lên hình ảnh PNG, JPEG, WebP hoặc GIF."
+      "UNSUPPORTED_TYPE": "Định dạng tệp {type} không được hỗ trợ. Hãy tải lên hình ảnh, PDF, video, ZIP, HTML hoặc tệp văn bản.",
+      "VIDEO_TOO_LARGE": "Video có dung lượng tối đa 15 MB.",
+      "ZIP_NO_TEXT": "Tệp ZIP này không có tệp văn bản nào mà mô hình đọc được."
     },
     "WEB_SEARCH": {
       "ON": "Đã bật tìm kiếm web",

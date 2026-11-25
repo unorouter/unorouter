@@ -4215,7 +4215,9 @@
       "PREVIEW": "附件預覽",
       "IMAGE_PREVIEW_FULL": "圖片附件預覽",
       "LABEL": "附件",
-      "UNSUPPORTED_TYPE": "不支援的檔案類型 {type}。請上傳 PNG、JPEG、WebP 或 GIF 格式的圖片。"
+      "UNSUPPORTED_TYPE": "不支援的檔案類型 {type}。請上傳圖片、PDF、影片、ZIP、HTML 或文字檔。",
+      "VIDEO_TOO_LARGE": "影片最大為 15 MB。",
+      "ZIP_NO_TEXT": "此 ZIP 中沒有模型可讀取的文字檔。"
     },
     "WEB_SEARCH": {
       "ON": "已開啟網路搜尋",

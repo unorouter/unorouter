@@ -4215,7 +4215,9 @@
       "PREVIEW": "Anhangsvorschau",
       "IMAGE_PREVIEW_FULL": "Bild-Anhangsvorschau",
       "LABEL": "Anhang",
-      "UNSUPPORTED_TYPE": "Dateityp {type} wird nicht unterstützt. Bitte lade ein Bild im Format PNG, JPEG, WebP oder GIF hoch."
+      "UNSUPPORTED_TYPE": "Dateityp {type} wird nicht unterstützt. Lade ein Bild, PDF, Video, ZIP, HTML oder eine Textdatei hoch.",
+      "VIDEO_TOO_LARGE": "Videos dürfen höchstens 15 MB groß sein.",
+      "ZIP_NO_TEXT": "Diese ZIP-Datei enthält keine Textdateien, die das Modell lesen kann."
     },
     "WEB_SEARCH": {
       "ON": "Websuche aktiviert",

@@ -4215,7 +4215,9 @@
       "PREVIEW": "Ek önizleme",
       "IMAGE_PREVIEW_FULL": "Görsel Ek Önizleme",
       "LABEL": "ek",
-      "UNSUPPORTED_TYPE": "Dosya tipi {type} desteklenmiyor. Lütfen bir PNG, JPEG, WebP veya GIF görseli yükleyin."
+      "UNSUPPORTED_TYPE": "Dosya tipi {type} desteklenmiyor. Bir görsel, PDF, video, ZIP, HTML veya metin dosyası yükleyin.",
+      "VIDEO_TOO_LARGE": "Videolar en fazla 15 MB olabilir.",
+      "ZIP_NO_TEXT": "Bu ZIP, modelin okuyabileceği bir metin dosyası içermiyor."
     },
     "WEB_SEARCH": {
       "ON": "Web arama etkin",

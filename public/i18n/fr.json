@@ -4215,7 +4215,9 @@
       "PREVIEW": "Aperçu de la pièce jointe",
       "IMAGE_PREVIEW_FULL": "Aperçu de la pièce jointe image",
       "LABEL": "pièce jointe",
-      "UNSUPPORTED_TYPE": "Le type de fichier {type} n'est pas pris en charge. Veuillez téléverser une image PNG, JPEG, WebP ou GIF."
+      "UNSUPPORTED_TYPE": "Le type de fichier {type} n'est pas pris en charge. Téléversez une image, un PDF, une vidéo, un ZIP, un HTML ou un fichier texte.",
+      "VIDEO_TOO_LARGE": "Les vidéos peuvent faire jusqu'à 15 Mo.",
+      "ZIP_NO_TEXT": "Ce ZIP ne contient aucun fichier texte lisible par le modèle."
     },
     "WEB_SEARCH": {
       "ON": "Recherche web activée",
