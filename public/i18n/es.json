@@ -1519,8 +1519,8 @@
     "SIMILAR_TITLE": "Modelos similares",
     "AT_CAPACITY_TITLE": "Todos los proveedores de este modelo están ocupados ahora mismo",
     "AT_CAPACITY_BODY": "Cada proveedor ascendente alcanzó su límite de velocidad. El modelo vuelve automáticamente cuando los límites se levantan, normalmente en cuestión de horas. Inténtalo de nuevo en un rato o cambia a otro modelo.",
-    "OWN_PURPOSE_TITLE": "Entradas utilizadas para fines propios de los proveedores",
-    "OWN_PURPOSE_BODY": "Al menos un proveedor de este modelo utiliza tus entradas para sus propios fines, por ejemplo para entrenar modelos de IA. No introduzcas datos personales de terceros ni datos sensibles. Puedes oponerte a este uso en cualquier momento en la configuración de tu cuenta o mediante «Gestionar consentimientos» en el chat.",
+    "OWN_PURPOSE_TITLE": "Algunos proveedores de este modelo guardan tus entradas o entrenan con ellas",
+    "OWN_PURPOSE_BODY": "Al menos un proveedor de este modelo guarda tus entradas, las usa para sus propios fines, como entrenar modelos de IA, o no ha indicado qué hace con ellas. No introduzcas datos personales de terceros ni datos sensibles. Puedes oponerte en cualquier momento en los ajustes de tu cuenta o mediante «Gestionar consentimientos» en el chat.",
     "OFFLINE_REQUEST_CTA": "Solicitar este modelo en Discord",
     "OVERVIEW_TAB": "Resumen",
     "API_TAB": "API",
@@ -1607,7 +1607,9 @@
     "LIVE_SUCCESS": "Tasa de éxito",
     "LIVE_TTFT": "Tiempo hasta el primer token",
     "LIVE_TPS": "Tokens por segundo",
-    "LIVE_PROVIDERS": "Proveedores"
+    "LIVE_PROVIDERS": "Proveedores",
+    "OWN_PURPOSE_OBJECT_OK": "Si te opones, este modelo sigue funcionando: tus solicitudes van solo a proveedores que usan tus entradas únicamente para responderlas ({count} de sus proveedores).",
+    "OWN_PURPOSE_OBJECT_BLOCKED": "Si te opones, este modelo no estará disponible para ti, porque todos sus proveedores usan las entradas para sus propios fines."
   },
   "PRICING": {
     "FEATURE": {

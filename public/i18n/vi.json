@@ -1519,8 +1519,8 @@
     "SIMILAR_TITLE": "Mô hình tương tự",
     "AT_CAPACITY_TITLE": "Tất cả nhà cung cấp của mô hình này hiện đang bận",
     "AT_CAPACITY_BODY": "Mọi nhà cung cấp thượng nguồn đã chạm giới hạn tốc độ. Mô hình tự động trở lại khi giới hạn được gỡ, thường trong vài giờ. Hãy thử lại sau ít phút hoặc chuyển sang mô hình khác.",
-    "OWN_PURPOSE_TITLE": "Dữ liệu nhập được dùng cho mục đích riêng của nhà cung cấp",
-    "OWN_PURPOSE_BODY": "Ít nhất một nhà cung cấp của mô hình này sử dụng dữ liệu bạn nhập cho mục đích riêng, chẳng hạn để huấn luyện mô hình AI. Không nhập dữ liệu cá nhân của bên thứ ba hoặc dữ liệu nhạy cảm. Bạn có thể phản đối việc sử dụng này bất cứ lúc nào trong cài đặt tài khoản hoặc qua \"Quản lý đồng ý\" trong chat.",
+    "OWN_PURPOSE_TITLE": "Một số nhà cung cấp của mô hình này lưu hoặc dùng đầu vào của bạn để huấn luyện",
+    "OWN_PURPOSE_BODY": "Ít nhất một nhà cung cấp của mô hình này lưu đầu vào của bạn, dùng chúng cho mục đích riêng như huấn luyện mô hình AI, hoặc chưa cho biết họ làm gì với chúng. Đừng nhập dữ liệu cá nhân của người khác hoặc dữ liệu nhạy cảm. Bạn có thể phản đối bất cứ lúc nào trong cài đặt tài khoản hoặc qua \"Quản lý đồng ý\" trong trò chuyện.",
     "OFFLINE_REQUEST_CTA": "Yêu cầu mô hình này trên Discord",
     "OVERVIEW_TAB": "Tổng quan",
     "API_TAB": "API",
@@ -1607,7 +1607,9 @@
     "LIVE_SUCCESS": "Tỷ lệ thành công",
     "LIVE_TTFT": "Thời gian tới token đầu tiên",
     "LIVE_TPS": "Token mỗi giây",
-    "LIVE_PROVIDERS": "Nhà cung cấp"
+    "LIVE_PROVIDERS": "Nhà cung cấp",
+    "OWN_PURPOSE_OBJECT_OK": "Nếu bạn phản đối, mô hình này vẫn hoạt động: yêu cầu của bạn chỉ được gửi tới các nhà cung cấp chỉ dùng đầu vào để trả lời ({count} nhà cung cấp của nó).",
+    "OWN_PURPOSE_OBJECT_BLOCKED": "Nếu bạn phản đối, mô hình này sẽ không khả dụng với bạn, vì tất cả nhà cung cấp của nó đều dùng đầu vào cho mục đích riêng."
   },
   "PRICING": {
     "FEATURE": {

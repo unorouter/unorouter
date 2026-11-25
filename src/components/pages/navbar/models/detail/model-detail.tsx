@@ -269,7 +269,9 @@ print(res.choices[0].message.content)`;
         </div>
 
         {props.offline && <AtCapacityBanner />}
-        {usesInputsForOwnPurposes(m) && <OwnPurposeNotice />}
+        {usesInputsForOwnPurposes(m) && (
+          <OwnPurposeNotice groupProviders={m.group_providers ?? {}} />
+        )}
       </section>
 
       <ModelTabs

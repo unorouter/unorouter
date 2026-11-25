@@ -1519,8 +1519,8 @@
     "SIMILAR_TITLE": "Benzer modeller",
     "AT_CAPACITY_TITLE": "Bu modelin tüm sağlayıcıları şu anda meşgul",
     "AT_CAPACITY_BODY": "Her üst akış sağlayıcısı hız sınırına ulaştı. Sınırlar kalkınca model otomatik olarak geri gelir, genellikle birkaç saat içinde. Biraz sonra tekrar deneyin ya da başka bir modele geçin.",
-    "OWN_PURPOSE_TITLE": "Girdiler sağlayıcıların kendi amaçları için kullanılıyor",
-    "OWN_PURPOSE_BODY": "Bu modelin en az bir sağlayıcısı girdilerini kendi amaçları için, örneğin yapay zekâ modellerini eğitmek için kullanır. Üçüncü kişilere ait kişisel verileri ve hassas verileri girme. Bu kullanıma istediğin zaman hesap ayarlarından veya sohbetteki \"Onayları yönet\" üzerinden itiraz edebilirsin.",
+    "OWN_PURPOSE_TITLE": "Bu modelin bazı sağlayıcıları girdilerinizi saklar veya onlarla eğitim yapar",
+    "OWN_PURPOSE_BODY": "Bu modelin en az bir sağlayıcısı girdilerinizi saklar, yapay zeka modeli eğitmek gibi kendi amaçları için kullanır ya da onlarla ne yaptığını belirtmemiştir. Üçüncü kişilerin kişisel verilerini veya hassas veriler girmeyin. Hesap ayarlarınızdan veya sohbetteki \"Onayları yönet\" bölümünden istediğiniz zaman itiraz edebilirsiniz.",
     "OFFLINE_REQUEST_CTA": "Bu modeli Discord'da iste",
     "OVERVIEW_TAB": "Genel bakış",
     "API_TAB": "API",
@@ -1607,7 +1607,9 @@
     "LIVE_SUCCESS": "Başarı oranı",
     "LIVE_TTFT": "İlk tokene kadar süre",
     "LIVE_TPS": "Saniyede token",
-    "LIVE_PROVIDERS": "Sağlayıcılar"
+    "LIVE_PROVIDERS": "Sağlayıcılar",
+    "OWN_PURPOSE_OBJECT_OK": "İtiraz ederseniz bu model çalışmaya devam eder: istekleriniz yalnızca girdilerinizi sadece yanıt vermek için kullanan sağlayıcılara gider (bu tür sağlayıcı sayısı: {count}).",
+    "OWN_PURPOSE_OBJECT_BLOCKED": "İtiraz ederseniz bu model sizin için kullanılamaz, çünkü tüm sağlayıcıları girdileri kendi amaçları için kullanır."
   },
   "PRICING": {
     "FEATURE": {

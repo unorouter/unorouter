@@ -1519,8 +1519,8 @@
     "SIMILAR_TITLE": "Ähnliche Modelle",
     "AT_CAPACITY_TITLE": "Alle Anbieter für dieses Modell sind gerade ausgelastet",
     "AT_CAPACITY_BODY": "Jeder Upstream-Anbieter hat sein Ratenlimit erreicht. Das Modell kommt automatisch zurück, sobald die Limits fallen, meist innerhalb von Stunden. Versuche es später erneut oder wechsle zu einem anderen Modell.",
-    "OWN_PURPOSE_TITLE": "Eingaben werden für eigene Zwecke der Anbieter genutzt",
-    "OWN_PURPOSE_BODY": "Mindestens ein Anbieter dieses Modells nutzt deine Eingaben für eigene Zwecke, etwa zum Training von KI-Modellen. Gib keine personenbezogenen Daten Dritter und keine sensiblen Daten ein. Du kannst dieser Nutzung jederzeit in den Kontoeinstellungen oder über „Einwilligungen verwalten“ im Chat widersprechen.",
+    "OWN_PURPOSE_TITLE": "Einige Anbieter dieses Modells speichern deine Eingaben oder trainieren damit",
+    "OWN_PURPOSE_BODY": "Mindestens ein Anbieter dieses Modells speichert deine Eingaben, nutzt sie für eigene Zwecke wie das Training von KI-Modellen oder hat nicht angegeben, was er damit macht. Gib keine personenbezogenen Daten Dritter und keine sensiblen Daten ein. Du kannst jederzeit in deinen Kontoeinstellungen oder über „Einwilligungen verwalten“ im Chat widersprechen.",
     "OFFLINE_REQUEST_CTA": "Dieses Modell auf Discord anfragen",
     "OVERVIEW_TAB": "Übersicht",
     "API_TAB": "API",
@@ -1607,7 +1607,9 @@
     "LIVE_SUCCESS": "Erfolgsquote",
     "LIVE_TTFT": "Zeit bis zum ersten Token",
     "LIVE_TPS": "Tokens pro Sekunde",
-    "LIVE_PROVIDERS": "Anbieter"
+    "LIVE_PROVIDERS": "Anbieter",
+    "OWN_PURPOSE_OBJECT_OK": "Wenn du widersprichst, funktioniert dieses Modell weiter: Deine Anfragen gehen dann nur an Anbieter, die deine Eingaben ausschließlich zur Beantwortung nutzen ({count} seiner Anbieter).",
+    "OWN_PURPOSE_OBJECT_BLOCKED": "Wenn du widersprichst, ist dieses Modell für dich nicht verfügbar, weil alle seine Anbieter Eingaben für eigene Zwecke nutzen."
   },
   "PRICING": {
     "FEATURE": {

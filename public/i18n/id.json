@@ -1519,8 +1519,8 @@
     "SIMILAR_TITLE": "Model serupa",
     "AT_CAPACITY_TITLE": "Semua penyedia model ini sedang sibuk saat ini",
     "AT_CAPACITY_BODY": "Setiap penyedia upstream telah mencapai batas lajunya. Model kembali otomatis begitu batasnya longgar, biasanya dalam hitungan jam. Coba lagi sebentar lagi atau beralih ke model lain.",
-    "OWN_PURPOSE_TITLE": "Masukan digunakan untuk tujuan penyedia sendiri",
-    "OWN_PURPOSE_BODY": "Setidaknya satu penyedia model ini menggunakan masukanmu untuk tujuannya sendiri, misalnya untuk melatih model AI. Jangan memasukkan data pribadi pihak ketiga atau data sensitif. Kamu dapat mengajukan keberatan atas penggunaan ini kapan saja di pengaturan akunmu atau melalui \"Kelola persetujuan\" di chat.",
+    "OWN_PURPOSE_TITLE": "Beberapa penyedia model ini menyimpan input Anda atau melatih model dengannya",
+    "OWN_PURPOSE_BODY": "Setidaknya satu penyedia model ini menyimpan input Anda, menggunakannya untuk tujuannya sendiri seperti melatih model AI, atau tidak menjelaskan apa yang dilakukannya dengan input tersebut. Jangan masukkan data pribadi orang lain atau data sensitif. Anda dapat mengajukan keberatan kapan saja di pengaturan akun atau melalui \"Kelola persetujuan\" di chat.",
     "OFFLINE_REQUEST_CTA": "Minta model ini di Discord",
     "OVERVIEW_TAB": "Ikhtisar",
     "API_TAB": "API",
@@ -1607,7 +1607,9 @@
     "LIVE_SUCCESS": "Tingkat keberhasilan",
     "LIVE_TTFT": "Waktu ke token pertama",
     "LIVE_TPS": "Token per detik",
-    "LIVE_PROVIDERS": "Penyedia"
+    "LIVE_PROVIDERS": "Penyedia",
+    "OWN_PURPOSE_OBJECT_OK": "Jika Anda mengajukan keberatan, model ini tetap berfungsi: permintaan Anda hanya dikirim ke penyedia yang menggunakan input Anda semata untuk menjawabnya ({count} penyedianya).",
+    "OWN_PURPOSE_OBJECT_BLOCKED": "Jika Anda mengajukan keberatan, model ini tidak tersedia untuk Anda, karena semua penyedianya menggunakan input untuk tujuan mereka sendiri."
   },
   "PRICING": {
     "FEATURE": {

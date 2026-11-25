@@ -1519,8 +1519,8 @@
     "SIMILAR_TITLE": "Podobne modele",
     "AT_CAPACITY_TITLE": "Wszyscy dostawcy tego modelu są teraz zajęci",
     "AT_CAPACITY_BODY": "Każdy dostawca nadrzędny osiągnął swój limit szybkości. Model wraca automatycznie, gdy limity ustąpią, zwykle w ciągu kilku godzin. Spróbuj ponownie za chwilę albo przełącz się na inny model.",
-    "OWN_PURPOSE_TITLE": "Dane wejściowe wykorzystywane do własnych celów dostawców",
-    "OWN_PURPOSE_BODY": "Co najmniej jeden dostawca tego modelu wykorzystuje Twoje dane wejściowe do własnych celów, na przykład do trenowania modeli AI. Nie wprowadzaj danych osobowych osób trzecich ani danych wrażliwych. W każdej chwili możesz sprzeciwić się temu wykorzystaniu w ustawieniach konta lub przez „Zarządzaj zgodami” w czacie.",
+    "OWN_PURPOSE_TITLE": "Niektórzy dostawcy tego modelu przechowują Twoje dane wejściowe lub trenują na nich",
+    "OWN_PURPOSE_BODY": "Co najmniej jeden dostawca tego modelu przechowuje Twoje dane wejściowe, wykorzystuje je do własnych celów, np. do trenowania modeli AI, albo nie podał, co z nimi robi. Nie wprowadzaj danych osobowych osób trzecich ani danych wrażliwych. Możesz w każdej chwili wnieść sprzeciw w ustawieniach konta lub przez „Zarządzaj zgodami” w czacie.",
     "OFFLINE_REQUEST_CTA": "Poproś o ten model na Discordzie",
     "OVERVIEW_TAB": "Przegląd",
     "API_TAB": "API",
@@ -1607,7 +1607,9 @@
     "LIVE_SUCCESS": "Skuteczność",
     "LIVE_TTFT": "Czas do pierwszego tokena",
     "LIVE_TPS": "Tokeny na sekundę",
-    "LIVE_PROVIDERS": "Dostawcy"
+    "LIVE_PROVIDERS": "Dostawcy",
+    "OWN_PURPOSE_OBJECT_OK": "Jeśli wniesiesz sprzeciw, ten model nadal działa: Twoje zapytania trafiają wtedy tylko do dostawców, którzy używają danych wejściowych wyłącznie do udzielenia odpowiedzi (liczba takich dostawców: {count}).",
+    "OWN_PURPOSE_OBJECT_BLOCKED": "Jeśli wniesiesz sprzeciw, ten model nie będzie dla Ciebie dostępny, ponieważ wszyscy jego dostawcy wykorzystują dane wejściowe do własnych celów."
   },
   "PRICING": {
     "FEATURE": {

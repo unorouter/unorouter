@@ -1519,8 +1519,8 @@
     "SIMILAR_TITLE": "Modèles similaires",
     "AT_CAPACITY_TITLE": "Tous les fournisseurs de ce modèle sont occupés en ce moment",
     "AT_CAPACITY_BODY": "Chaque fournisseur amont a atteint sa limite de débit. Le modèle revient automatiquement dès que les limites se lèvent, généralement en quelques heures. Réessayez dans un moment ou passez à un autre modèle.",
-    "OWN_PURPOSE_TITLE": "Saisies utilisées aux propres fins des fournisseurs",
-    "OWN_PURPOSE_BODY": "Au moins un fournisseur de ce modèle utilise tes saisies à ses propres fins, par exemple pour entraîner des modèles d'IA. Ne saisis ni données personnelles de tiers ni données sensibles. Tu peux t'opposer à cette utilisation à tout moment dans les paramètres de ton compte ou via « Gérer les consentements » dans le chat.",
+    "OWN_PURPOSE_TITLE": "Certains fournisseurs de ce modèle conservent vos saisies ou s’en servent pour l’entraînement",
+    "OWN_PURPOSE_BODY": "Au moins un fournisseur de ce modèle conserve vos saisies, les utilise à ses propres fins, par exemple pour entraîner des modèles d’IA, ou n’a pas indiqué ce qu’il en fait. Ne saisissez pas de données personnelles de tiers ni de données sensibles. Vous pouvez vous y opposer à tout moment dans les paramètres de votre compte ou via « Gérer les consentements » dans le chat.",
     "OFFLINE_REQUEST_CTA": "Demander ce modèle sur Discord",
     "OVERVIEW_TAB": "Aperçu",
     "API_TAB": "API",
@@ -1607,7 +1607,9 @@
     "LIVE_SUCCESS": "Taux de réussite",
     "LIVE_TTFT": "Délai du premier token",
     "LIVE_TPS": "Tokens par seconde",
-    "LIVE_PROVIDERS": "Fournisseurs"
+    "LIVE_PROVIDERS": "Fournisseurs",
+    "OWN_PURPOSE_OBJECT_OK": "Si vous vous y opposez, ce modèle reste disponible : vos requêtes ne vont alors qu’aux fournisseurs qui utilisent vos saisies uniquement pour y répondre ({count} de ses fournisseurs).",
+    "OWN_PURPOSE_OBJECT_BLOCKED": "Si vous vous y opposez, ce modèle n’est plus disponible pour vous, car tous ses fournisseurs utilisent les saisies à leurs propres fins."
   },
   "PRICING": {
     "FEATURE": {

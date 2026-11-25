@@ -1519,8 +1519,8 @@
     "SIMILAR_TITLE": "Similar models",
     "AT_CAPACITY_TITLE": "All providers for this model are busy right now",
     "AT_CAPACITY_BODY": "Every upstream provider has hit its rate limit. The model comes back automatically once limits lift, usually within hours. Try again in a little while or switch to another model.",
-    "OWN_PURPOSE_TITLE": "Inputs used for the providers' own purposes",
-    "OWN_PURPOSE_BODY": "At least one provider of this model uses your inputs for its own purposes, for example to train AI models. Do not enter personal data of third parties or sensitive data. You can object to this use at any time in your account settings or via \"Manage consents\" in the chat.",
+    "OWN_PURPOSE_TITLE": "Some providers of this model keep or train on your inputs",
+    "OWN_PURPOSE_BODY": "At least one provider of this model keeps your inputs, uses them for its own purposes such as training AI models, or has not said what it does with them. Do not enter personal data of others or sensitive data. You can object at any time in your account settings or via \"Manage consents\" in the chat.",
     "OFFLINE_REQUEST_CTA": "Request this model on Discord",
     "OVERVIEW_TAB": "Overview",
     "API_TAB": "API",
@@ -1607,7 +1607,9 @@
     "LIVE_SUCCESS": "Success rate",
     "LIVE_TTFT": "Time to first token",
     "LIVE_TPS": "Tokens per second",
-    "LIVE_PROVIDERS": "Providers"
+    "LIVE_PROVIDERS": "Providers",
+    "OWN_PURPOSE_OBJECT_OK": "If you object, this model still works: your requests then go only to providers that use your inputs just to answer them ({count} of its providers).",
+    "OWN_PURPOSE_OBJECT_BLOCKED": "If you object, this model is not available to you, because all of its providers use inputs for their own purposes."
   },
   "PRICING": {
     "FEATURE": {

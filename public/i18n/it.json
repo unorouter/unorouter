@@ -1519,8 +1519,8 @@
     "SIMILAR_TITLE": "Modelli simili",
     "AT_CAPACITY_TITLE": "Tutti i provider di questo modello sono occupati al momento",
     "AT_CAPACITY_BODY": "Ogni provider a monte ha raggiunto il suo limite di velocità. Il modello torna automaticamente quando i limiti si allentano, di solito entro poche ore. Riprova tra poco o passa a un altro modello.",
-    "OWN_PURPOSE_TITLE": "Input utilizzati per scopi propri dei fornitori",
-    "OWN_PURPOSE_BODY": "Almeno un fornitore di questo modello utilizza i tuoi input per scopi propri, ad esempio per addestrare modelli di IA. Non inserire dati personali di terzi né dati sensibili. Puoi opporti a questo utilizzo in qualsiasi momento nelle impostazioni del tuo account o tramite «Gestisci consensi» nella chat.",
+    "OWN_PURPOSE_TITLE": "Alcuni provider di questo modello conservano i tuoi input o li usano per l'addestramento",
+    "OWN_PURPOSE_BODY": "Almeno un provider di questo modello conserva i tuoi input, li usa per scopi propri come l'addestramento di modelli di IA, oppure non ha indicato cosa ne fa. Non inserire dati personali di terzi né dati sensibili. Puoi opporti in qualsiasi momento nelle impostazioni dell'account o tramite \"Gestisci consensi\" nella chat.",
     "OFFLINE_REQUEST_CTA": "Richiedi questo modello su Discord",
     "OVERVIEW_TAB": "Panoramica",
     "API_TAB": "API",
@@ -1607,7 +1607,9 @@
     "LIVE_SUCCESS": "Tasso di successo",
     "LIVE_TTFT": "Tempo al primo token",
     "LIVE_TPS": "Token al secondo",
-    "LIVE_PROVIDERS": "Provider"
+    "LIVE_PROVIDERS": "Provider",
+    "OWN_PURPOSE_OBJECT_OK": "Se ti opponi, questo modello continua a funzionare: le tue richieste vanno solo ai provider che usano i tuoi input esclusivamente per rispondere ({count} dei suoi provider).",
+    "OWN_PURPOSE_OBJECT_BLOCKED": "Se ti opponi, questo modello non sarà disponibile per te, perché tutti i suoi provider usano gli input per scopi propri."
   },
   "PRICING": {
     "FEATURE": {

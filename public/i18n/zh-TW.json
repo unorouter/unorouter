@@ -1519,8 +1519,8 @@
     "SIMILAR_TITLE": "相似模型",
     "AT_CAPACITY_TITLE": "該模型的所有供應商目前都很繁忙",
     "AT_CAPACITY_BODY": "每個上游供應商都已達到速率上限。上限解除後模型會自動恢復，通常在數小時內。請稍後重試，或改用其他模型。",
-    "OWN_PURPOSE_TITLE": "輸入將被用於供應商的自身目的",
-    "OWN_PURPOSE_BODY": "此模型至少有一家供應商將你的輸入用於其自身目的，例如訓練 AI 模型。請勿輸入第三方的個人資料或敏感資料。你可以隨時在帳戶設定中或透過聊天中的「管理同意」反對此類使用。",
+    "OWN_PURPOSE_TITLE": "此模型的部分供應商會保存你的輸入或用其訓練模型",
+    "OWN_PURPOSE_BODY": "此模型至少有一家供應商會保存你的輸入、將其用於自身目的（例如訓練 AI 模型），或未說明如何處理輸入。請勿輸入第三方的個人資料或敏感資料。你可以隨時在帳戶設定中或透過聊天中的「管理同意」提出反對。",
     "OFFLINE_REQUEST_CTA": "在 Discord 上申請此模型",
     "OVERVIEW_TAB": "概覽",
     "API_TAB": "API",
@@ -1607,7 +1607,9 @@
     "LIVE_SUCCESS": "成功率",
     "LIVE_TTFT": "首個 token 延遲",
     "LIVE_TPS": "每秒 token 數",
-    "LIVE_PROVIDERS": "供應商"
+    "LIVE_PROVIDERS": "供應商",
+    "OWN_PURPOSE_OBJECT_OK": "如果你提出反對，此模型仍然可用：你的請求只會傳送給僅將輸入用於回答請求的供應商（共 {count} 家）。",
+    "OWN_PURPOSE_OBJECT_BLOCKED": "如果你提出反對，此模型將無法使用，因為它的所有供應商都會將輸入用於自身目的。"
   },
   "PRICING": {
     "FEATURE": {
