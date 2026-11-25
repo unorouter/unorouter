@@ -37,16 +37,13 @@ export function useBillingActions() {
   const enableStripe = topUpInfo?.enable_stripe_topup ?? false;
   const enableCreem = topUpInfo?.enable_creem_topup ?? false;
   const enableNowPayments = topUpInfo?.enable_nowpayments_topup ?? false;
-  const enableDeloPay = topUpInfo?.enable_delopay_topup ?? false;
   const enableCard = enableStripe || enableCreem;
   const enableCrypto = enableNowPayments;
-  // Hidden for now; DeloPay stays on upstream so in-flight PayPal webhooks still credit.
-  const enablePayPal = false;
+  // PayPal runs through Freemius, which sells fixed priced amounts only.
+  const enablePayPal = topUpInfo?.enable_freemius_topup ?? false;
+  const payPalAmounts = topUpInfo?.freemius_amounts ?? [];
+  const payPalSubscriptionPlans = topUpInfo?.freemius_subscription_plans ?? [];
   const discount = topUpInfo?.discount ?? {};
-  const deloPayMinTopUp = topUpInfo?.delopay_min_topup || 1;
-  const deloPayFeeFixed = topUpInfo?.delopay_fee_fixed ?? 0;
-  const deloPayFeePercent = topUpInfo?.delopay_fee_percent ?? 0;
-  const deloPayFeeThreshold = topUpInfo?.delopay_fee_threshold ?? 0;
   const creemFeeFixed = topUpInfo?.creem_fee_fixed ?? 0;
   const creemFeePercent = topUpInfo?.creem_fee_percent ?? 0;
   const creemFeeThreshold = topUpInfo?.creem_fee_threshold ?? 0;
@@ -86,15 +83,6 @@ export function useBillingActions() {
     return Math.max(credited, Math.ceil(billed * 100) / 100);
   }
 
-  function deloPayChargedAmount(amount: number): number {
-    return chargedWithFee(
-      discountedAmount(amount),
-      deloPayFeeFixed,
-      deloPayFeePercent,
-      deloPayFeeThreshold,
-    );
-  }
-
   function creemChargedAmount(amount: number): number {
     return chargedWithFee(
       amount,
@@ -114,9 +102,14 @@ export function useBillingActions() {
     const crypto =
       enableNowPayments &&
       (paymentMethod === "crypto" || (!enableStripe && !enableCreem));
-    if (paymentMethod === "paypal" && enableDeloPay)
+    if (
+      paymentMethod === "paypal" &&
+      enablePayPal &&
+      payPalSubscriptionPlans.includes(plan.plan.id)
+    )
       subMutation.mutate(
-        async () => handleElysia(await sub["delopay-pay"].post(body)).pay_link,
+        async () =>
+          handleElysia(await sub["freemius-pay"].post(body)).pay_link,
       );
     else if (crypto)
       subMutation.mutate(
@@ -179,11 +172,14 @@ export function useBillingActions() {
     );
   }
 
-  function payDeloPay(amount: number) {
+  function payPayPal(amount: number) {
     topUpMutation.mutate(
       async () =>
         handleElysia(
-          await core["delopay-pay"].post({ amount, payment_method: "delopay" }),
+          await core["freemius-pay"].post({
+            amount,
+            payment_method: "freemius",
+          }),
         ).pay_link,
     );
   }
@@ -193,9 +189,9 @@ export function useBillingActions() {
     enableStripe,
     enableCreem,
     enableNowPayments,
-    enableDeloPay,
+    enablePayPal,
+    payPalAmounts,
     enableCard,
-    deloPayMinTopUp,
     availableMethods,
     paymentMethod,
     setPaymentMethod,
@@ -205,10 +201,9 @@ export function useBillingActions() {
     payStripe,
     payCreem,
     payNowPayments,
-    payDeloPay,
+    payPayPal,
     discountedAmount,
     discountSavings,
-    deloPayChargedAmount,
     creemChargedAmount,
   };
 }

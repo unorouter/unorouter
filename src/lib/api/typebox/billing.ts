@@ -37,6 +37,11 @@ export const deloPayPayBody = t.Object({
   payment_method: t.String(),
 });
 
+export const freemiusPayBody = t.Object({
+  amount: t.Number(),
+  payment_method: t.String(),
+});
+
 export const subscriptionPayBody = t.Object({
   plan_id: t.Number(),
 });

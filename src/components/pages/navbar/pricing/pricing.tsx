@@ -37,8 +37,6 @@ const TIER_KEYS = [
 
 const CUSTOM_MIN = 1;
 const CUSTOM_MAX = 100000;
-// PayPal is the chargeback-prone rail: preset amounts only, capped (gateway enforces it too).
-const DELOPAY_MAX = 500;
 
 export function Pricing() {
   const t = useTranslations();
@@ -65,14 +63,7 @@ export function Pricing() {
 
   const cryptoCustomEnabled =
     billing.paymentMethod === "crypto" && billing.enableNowPayments;
-  const paypalSelected =
-    billing.paymentMethod === "paypal" && billing.enableDeloPay;
   const showCustomField = !!customTopUpProductId || cryptoCustomEnabled;
-  const paypalFee = billing.deloPayChargedAmount(1) - 1;
-  const paypalFeeNotice =
-    paypalFee > 0
-      ? t("PRICING.TOPUP.PAYPAL_FEE", { fee: `$${paypalFee.toFixed(2)}` })
-      : "";
 
   const payCustom = authed(() =>
     cryptoCustomEnabled
@@ -106,17 +97,12 @@ export function Pricing() {
       }));
     }
 
-    if (billing.paymentMethod === "paypal" && billing.enableDeloPay) {
-      return (topUpInfo.amount_options ?? [])
-        .filter(
-          (amount) =>
-            amount >= billing.deloPayMinTopUp && amount <= DELOPAY_MAX,
-        )
-        .map((amount) => ({
-          key: `delopay-${amount}`,
-          amount,
-          handler: authed(() => billing.payDeloPay(amount)),
-        }));
+    if (billing.paymentMethod === "paypal" && billing.enablePayPal) {
+      return billing.payPalAmounts.map((amount) => ({
+        key: `paypal-${amount}`,
+        amount,
+        handler: authed(() => billing.payPayPal(amount)),
+      }));
     }
 
     if (billing.enableCreem && topUpInfo.creemProducts.length > 0) {
@@ -211,11 +197,6 @@ export function Pricing() {
                 </button>
               ))}
             </div>
-            {paypalSelected && paypalFeeNotice && (
-              <p className="text-muted-foreground mt-3 text-center font-mono text-[10px]">
-                {paypalFeeNotice}
-              </p>
-            )}
             {showCustomField && (
               <div className="mx-auto mt-2 flex max-w-xl items-center justify-center gap-2">
                 <div className="border-border focus-within:border-foreground/50 flex items-center border px-3 py-2 transition-colors">

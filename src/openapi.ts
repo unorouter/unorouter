@@ -274,6 +274,18 @@ export interface FlowQuotaData {
   username?: string;
 }
 
+export interface FreemiusPayData {
+  pay_link: string;
+}
+
+/**
+ * FreemiusPayRequest schema
+ */
+export interface FreemiusPayRequest {
+  amount: number;
+  payment_method: string;
+}
+
 export interface GroupDataPolicy {
   onward_unvetted: boolean;
   prompts: string;
@@ -1437,6 +1449,15 @@ export interface ResponseDtoDeloPayPayData {
 }
 
 /**
+ * Response_dto.FreemiusPayData schema
+ */
+export interface ResponseDtoFreemiusPayData {
+  data: FreemiusPayData;
+  message: string;
+  success: boolean;
+}
+
+/**
  * Response_dto.LogByRequestData schema
  */
 export interface ResponseDtoLogByRequestData {
@@ -1997,12 +2018,17 @@ export interface TopUpInfoData {
   discount: TopUpInfoDataDiscount;
   enable_creem_topup: boolean;
   enable_delopay_topup: boolean;
+  enable_freemius_topup: boolean;
   enable_nowpayments_topup: boolean;
   enable_online_topup: boolean;
   enable_redemption: boolean;
   enable_stripe_topup: boolean;
   enable_waffo_pancake_topup: boolean;
   enable_waffo_topup: boolean;
+  /** @nullable */
+  freemius_amounts: number[] | null;
+  /** @nullable */
+  freemius_subscription_plans: number[] | null;
   min_topup: number;
   nowpayments_min_topup: number;
   pay_methods: TopUpInfoDataPayMethodsItem[];
@@ -2284,6 +2310,13 @@ export interface SubscriptionCreemPayRequest {
  * SubscriptionDeloPayPayRequest schema
  */
 export interface SubscriptionDeloPayPayRequest {
+  plan_id: number;
+}
+
+/**
+ * SubscriptionFreemiusPayRequest schema
+ */
+export interface SubscriptionFreemiusPayRequest {
   plan_id: number;
 }
 
@@ -4470,6 +4503,71 @@ export const subscriptionRequestDeloPayPay = async (
   );
 };
 
+export type subscriptionRequestFreemiusPayResponse200ApplicationJson = {
+  data: ResponseDtoFreemiusPayData;
+  status: 200;
+};
+
+export type subscriptionRequestFreemiusPayResponse200ApplicationXml = {
+  data: ResponseDtoFreemiusPayData;
+  status: 200;
+};
+
+export type subscriptionRequestFreemiusPayResponseSuccess = (
+  | subscriptionRequestFreemiusPayResponse200ApplicationJson
+  | subscriptionRequestFreemiusPayResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type subscriptionRequestFreemiusPayResponse =
+  subscriptionRequestFreemiusPayResponseSuccess;
+
+export const getSubscriptionRequestFreemiusPayUrl = () => {
+  return `/api/subscription/freemius/pay`;
+};
+
+/**
+ * @summary Subscription Request Freemius Pay
+ */
+export const subscriptionRequestFreemiusPay = async (
+  subscriptionFreemiusPayRequest: SubscriptionFreemiusPayRequest,
+  options?: Parameters<typeof customFetch>[1],
+): Promise<subscriptionRequestFreemiusPayResponse> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(
+          h as Iterable<Iterable<string>>,
+          (entry) => Array.from(entry) as [string, string],
+        ),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<
+      string | readonly string[] | undefined
+    >(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+  return customFetch<subscriptionRequestFreemiusPayResponse>(
+    getSubscriptionRequestFreemiusPayUrl(),
+    {
+      ...options,
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
+      body: JSON.stringify(subscriptionFreemiusPayRequest),
+    },
+  );
+};
+
 export type subscriptionRequestNowPaymentsPayResponse200ApplicationJson = {
   data: ResponseDtoNowPaymentsPayData;
   status: 200;
@@ -5606,6 +5704,67 @@ export const requestDeloPayPay = async (
       ...getHeaders(options?.headers),
     },
     body: JSON.stringify(deloPayPayRequest),
+  });
+};
+
+export type requestFreemiusPayResponse200ApplicationJson = {
+  data: ResponseDtoFreemiusPayData;
+  status: 200;
+};
+
+export type requestFreemiusPayResponse200ApplicationXml = {
+  data: ResponseDtoFreemiusPayData;
+  status: 200;
+};
+
+export type requestFreemiusPayResponseSuccess = (
+  | requestFreemiusPayResponse200ApplicationJson
+  | requestFreemiusPayResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type requestFreemiusPayResponse = requestFreemiusPayResponseSuccess;
+
+export const getRequestFreemiusPayUrl = () => {
+  return `/api/user/freemius/pay`;
+};
+
+/**
+ * @summary Request Freemius Pay
+ */
+export const requestFreemiusPay = async (
+  freemiusPayRequest: FreemiusPayRequest,
+  options?: Parameters<typeof customFetch>[1],
+): Promise<requestFreemiusPayResponse> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(
+          h as Iterable<Iterable<string>>,
+          (entry) => Array.from(entry) as [string, string],
+        ),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<
+      string | readonly string[] | undefined
+    >(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+  return customFetch<requestFreemiusPayResponse>(getRequestFreemiusPayUrl(), {
+    ...options,
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
+    body: JSON.stringify(freemiusPayRequest),
   });
 };
 

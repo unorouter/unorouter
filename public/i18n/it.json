@@ -1664,8 +1664,7 @@
       "STEP": "Inizia qui",
       "LABEL": "Pagamento a consumo",
       "DESC": "Aggiungi credito, usa qualsiasi modello.",
-      "FOOTNOTE": "Il credito a consumo non scade mai.",
-      "PAYPAL_FEE": "PayPal aggiunge una commissione di {fee} al momento del pagamento."
+      "FOOTNOTE": "Il credito a consumo non scade mai."
     },
     "BRIDGE": {
       "TITLE": "Lo usi spesso? Abbonati e ottieni più credito ogni mese.",

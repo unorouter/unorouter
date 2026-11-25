@@ -10,7 +10,6 @@ import { useState } from "react";
 const CUSTOM_MIN = 1;
 const CUSTOM_MAX = 100000;
 // PayPal is the chargeback-prone rail: preset amounts only, capped (gateway enforces it too).
-const DELOPAY_MAX = 500;
 
 function CustomAmountField(props: {
   disabled: boolean;
@@ -116,14 +115,13 @@ export function TopUpSection() {
     !billing.enableStripe &&
     !billing.enableCreem &&
     !billing.enableNowPayments &&
-    !billing.enableDeloPay
+    !billing.enablePayPal
   )
     return null;
 
   const showCrypto =
     billing.paymentMethod === "crypto" && billing.enableNowPayments;
-  const showPayPal =
-    billing.paymentMethod === "paypal" && billing.enableDeloPay;
+  const showPayPal = billing.paymentMethod === "paypal" && billing.enablePayPal;
   const showCard = billing.paymentMethod === "card" && billing.enableCard;
   const grid = "grid grid-cols-2 gap-3 md:grid-cols-4";
 
@@ -192,21 +190,15 @@ export function TopUpSection() {
       {showPayPal && (
         <div className="space-y-3">
           <div className={grid}>
-            {amountOptions
-              .filter(
-                (amount) =>
-                  amount >= billing.deloPayMinTopUp && amount <= DELOPAY_MAX,
-              )
-              .map((amount) => (
-                <TopUpTile
-                  key={amount}
-                  price={amount}
-                  actual={billing.deloPayChargedAmount(amount)}
-                  save={billing.discountSavings(amount)}
-                  disabled={billing.isTopUpMutating}
-                  onPay={() => billing.payDeloPay(amount)}
-                />
-              ))}
+            {billing.payPalAmounts.map((amount) => (
+              <TopUpTile
+                key={amount}
+                price={amount}
+                actual={amount}
+                disabled={billing.isTopUpMutating}
+                onPay={() => billing.payPayPal(amount)}
+              />
+            ))}
           </div>
         </div>
       )}

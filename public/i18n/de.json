@@ -1664,8 +1664,7 @@
       "STEP": "Hier starten",
       "LABEL": "Pay as you go",
       "DESC": "Guthaben aufladen, jedes Modell nutzen.",
-      "FOOTNOTE": "Pay-as-you-go-Guthaben verfällt nie.",
-      "PAYPAL_FEE": "PayPal berechnet beim Bezahlen eine Bearbeitungsgebühr von {fee}."
+      "FOOTNOTE": "Pay-as-you-go-Guthaben verfällt nie."
     },
     "BRIDGE": {
       "TITLE": "Nutzt du es regelmäßig? Abonniere und erhalte jeden Monat mehr Guthaben.",

@@ -1664,8 +1664,7 @@
       "STEP": "Zacznij tutaj",
       "LABEL": "Płacisz za użycie",
       "DESC": "Dodaj kredyt, używaj dowolnego modelu.",
-      "FOOTNOTE": "Kredyt pay as you go nigdy nie wygasa.",
-      "PAYPAL_FEE": "PayPal dolicza {fee} opłaty za obsługę płatności przy kasie."
+      "FOOTNOTE": "Kredyt pay as you go nigdy nie wygasa."
     },
     "BRIDGE": {
       "TITLE": "Używasz regularnie? Wykup subskrypcję i zyskaj więcej kredytu co miesiąc.",

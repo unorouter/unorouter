@@ -1664,8 +1664,7 @@
       "STEP": "Mulai di sini",
       "LABEL": "Bayar sesuai pakai",
       "DESC": "Tambah kredit, gunakan model apa pun.",
-      "FOOTNOTE": "Kredit bayar sesuai pemakaian tidak pernah hangus.",
-      "PAYPAL_FEE": "PayPal menambahkan biaya pemrosesan {fee} saat pembayaran."
+      "FOOTNOTE": "Kredit bayar sesuai pemakaian tidak pernah hangus."
     },
     "BRIDGE": {
       "TITLE": "Sering memakainya? Berlangganan dan dapatkan lebih banyak kredit tiap bulan.",
