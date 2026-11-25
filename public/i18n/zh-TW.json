@@ -1600,7 +1600,14 @@
     "META_TITLE_FREE_ONLY": "{name} API：免費額度，相容 OpenAI｜{appName}",
     "META_DESC_FREE_ONLY": "{vendor} 的 {name} API 免費額度：每 token $0，無需信用卡。一組 {appName} 金鑰即可搭配任何 OpenAI SDK 使用。",
     "META_DESC_FIXED": "{vendor} 的 {name} API：每次請求 {price}，{free, select, yes {提供免費額度} other {無免費額度}}。一組 {appName} 金鑰即可搭配任何 OpenAI SDK 使用。",
-    "META_DESC_TIERED": "{vendor} 的 {name} API：依上下文長度分級的每 token 價格，{free, select, yes {提供免費額度} other {無免費額度}}。一組 {appName} 金鑰即可搭配任何 OpenAI SDK 使用。"
+    "META_DESC_TIERED": "{vendor} 的 {name} API：依上下文長度分級的每 token 價格，{free, select, yes {提供免費額度} other {無免費額度}}。一組 {appName} 金鑰即可搭配任何 OpenAI SDK 使用。",
+    "LIVE_TITLE": "{appName} 即時數據（最近 7 天）",
+    "LIVE_SUMMARY": "{appName} 最近 7 天：對 {model} 的請求成功率為 {success}%，首個 token 平均在 {ttft} 後抵達，輸出速度為每秒 {tps} 個 token，提供此模型的供應商數量：{providers}。",
+    "LIVE_SUMMARY_NO_SUCCESS": "{appName} 最近 7 天：對 {model} 的請求平均在 {ttft} 後收到首個 token，輸出速度為每秒 {tps} 個 token，提供此模型的供應商數量：{providers}。",
+    "LIVE_SUCCESS": "成功率",
+    "LIVE_TTFT": "首個 token 延遲",
+    "LIVE_TPS": "每秒 token 數",
+    "LIVE_PROVIDERS": "供應商"
   },
   "PRICING": {
     "FEATURE": {

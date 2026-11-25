@@ -1600,7 +1600,14 @@
     "META_TITLE_FREE_ONLY": "{name} API : offre gratuite, compatible OpenAI | {appName}",
     "META_DESC_FREE_ONLY": "API {name} de {vendor} en offre gratuite : 0 $ par token, sans carte bancaire. Fonctionne avec n'importe quel SDK OpenAI via une seule clé {appName}.",
     "META_DESC_FIXED": "API {name} de {vendor} : {price} par requête, {free, select, yes {offre gratuite disponible} other {sans offre gratuite}}. Fonctionne avec n'importe quel SDK OpenAI via une seule clé {appName}.",
-    "META_DESC_TIERED": "API {name} de {vendor} : prix par token par paliers selon la longueur du contexte, {free, select, yes {offre gratuite disponible} other {sans offre gratuite}}. Fonctionne avec n'importe quel SDK OpenAI via une seule clé {appName}."
+    "META_DESC_TIERED": "API {name} de {vendor} : prix par token par paliers selon la longueur du contexte, {free, select, yes {offre gratuite disponible} other {sans offre gratuite}}. Fonctionne avec n'importe quel SDK OpenAI via une seule clé {appName}.",
+    "LIVE_TITLE": "En direct sur {appName}, 7 derniers jours",
+    "LIVE_SUMMARY": "7 derniers jours sur {appName} : {success} % des requêtes vers {model} ont abouti, le premier token est arrivé en moyenne après {ttft}, la sortie a défilé à {tps} tokens par seconde, fournisseurs qui le servent : {providers}.",
+    "LIVE_SUMMARY_NO_SUCCESS": "7 derniers jours sur {appName} : les requêtes vers {model} ont reçu leur premier token en moyenne après {ttft}, la sortie a défilé à {tps} tokens par seconde, fournisseurs qui le servent : {providers}.",
+    "LIVE_SUCCESS": "Taux de réussite",
+    "LIVE_TTFT": "Délai du premier token",
+    "LIVE_TPS": "Tokens par seconde",
+    "LIVE_PROVIDERS": "Fournisseurs"
   },
   "PRICING": {
     "FEATURE": {

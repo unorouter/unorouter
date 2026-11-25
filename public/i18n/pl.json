@@ -1600,7 +1600,14 @@
     "META_TITLE_FREE_ONLY": "{name} API: darmowy plan, zgodne z OpenAI | {appName}",
     "META_DESC_FREE_ONLY": "API {name} od {vendor} w darmowym planie: $0 za token, bez karty kredytowej. Działa z każdym SDK OpenAI przez jeden klucz {appName}.",
     "META_DESC_FIXED": "API {name} od {vendor}: {price} za zapytanie, {free, select, yes {darmowy plan dostępny} other {bez darmowego planu}}. Działa z każdym SDK OpenAI przez jeden klucz {appName}.",
-    "META_DESC_TIERED": "API {name} od {vendor}: progowa cena za token zależna od długości kontekstu, {free, select, yes {darmowy plan dostępny} other {bez darmowego planu}}. Działa z każdym SDK OpenAI przez jeden klucz {appName}."
+    "META_DESC_TIERED": "API {name} od {vendor}: progowa cena za token zależna od długości kontekstu, {free, select, yes {darmowy plan dostępny} other {bez darmowego planu}}. Działa z każdym SDK OpenAI przez jeden klucz {appName}.",
+    "LIVE_TITLE": "Na żywo w {appName}, ostatnie 7 dni",
+    "LIVE_SUMMARY": "Ostatnie 7 dni w {appName}: {success}% zapytań do {model} zakończyło się sukcesem, pierwszy token przychodził średnio po {ttft}, odpowiedź płynęła z prędkością {tps} tokenów na sekundę, dostawcy obsługujący model: {providers}.",
+    "LIVE_SUMMARY_NO_SUCCESS": "Ostatnie 7 dni w {appName}: zapytania do {model} dostawały pierwszy token średnio po {ttft}, odpowiedź płynęła z prędkością {tps} tokenów na sekundę, dostawcy obsługujący model: {providers}.",
+    "LIVE_SUCCESS": "Skuteczność",
+    "LIVE_TTFT": "Czas do pierwszego tokena",
+    "LIVE_TPS": "Tokeny na sekundę",
+    "LIVE_PROVIDERS": "Dostawcy"
   },
   "PRICING": {
     "FEATURE": {

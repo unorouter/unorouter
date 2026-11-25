@@ -1600,7 +1600,14 @@
     "META_TITLE_FREE_ONLY": "{name} API: 무료 티어, OpenAI 호환 | {appName}",
     "META_DESC_FREE_ONLY": "{vendor}의 {name} API 무료 티어: 토큰당 $0, 신용카드 불필요. {appName} 키 하나로 모든 OpenAI SDK에서 사용할 수 있습니다.",
     "META_DESC_FIXED": "{vendor}의 {name} API: 요청당 {price}, {free, select, yes {무료 티어 제공} other {무료 티어 없음}}. {appName} 키 하나로 모든 OpenAI SDK에서 사용할 수 있습니다.",
-    "META_DESC_TIERED": "{vendor}의 {name} API: 컨텍스트 길이에 따른 구간별 토큰당 가격, {free, select, yes {무료 티어 제공} other {무료 티어 없음}}. {appName} 키 하나로 모든 OpenAI SDK에서 사용할 수 있습니다."
+    "META_DESC_TIERED": "{vendor}의 {name} API: 컨텍스트 길이에 따른 구간별 토큰당 가격, {free, select, yes {무료 티어 제공} other {무료 티어 없음}}. {appName} 키 하나로 모든 OpenAI SDK에서 사용할 수 있습니다.",
+    "LIVE_TITLE": "{appName} 실시간 데이터, 최근 7일",
+    "LIVE_SUMMARY": "{appName} 최근 7일: {model} 요청의 {success}%가 성공했고, 첫 토큰은 평균 {ttft} 후에 도착했으며, 출력은 초당 {tps} 토큰으로 스트리밍되었습니다. 제공 중인 공급자 수: {providers}.",
+    "LIVE_SUMMARY_NO_SUCCESS": "{appName} 최근 7일: {model} 요청은 평균 {ttft} 후에 첫 토큰을 받았고, 출력은 초당 {tps} 토큰으로 스트리밍되었습니다. 제공 중인 공급자 수: {providers}.",
+    "LIVE_SUCCESS": "성공률",
+    "LIVE_TTFT": "첫 토큰까지 시간",
+    "LIVE_TPS": "초당 토큰",
+    "LIVE_PROVIDERS": "공급자"
   },
   "PRICING": {
     "FEATURE": {

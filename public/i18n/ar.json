@@ -1600,7 +1600,14 @@
     "META_TITLE_FREE_ONLY": "{name} API: فئة مجانية، متوافقة مع OpenAI | {appName}",
     "META_DESC_FREE_ONLY": "واجهة API لـ {name} من {vendor} بفئة مجانية: $0 لكل token، بدون بطاقة ائتمان. تعمل مع أي OpenAI SDK بمفتاح {appName} واحد.",
     "META_DESC_FIXED": "واجهة API لـ {name} من {vendor}: {price} لكل طلب، {free, select, yes {تتوفر فئة مجانية} other {بدون فئة مجانية}}. تعمل مع أي OpenAI SDK بمفتاح {appName} واحد.",
-    "META_DESC_TIERED": "واجهة API لـ {name} من {vendor}: سعر متدرج لكل token حسب طول السياق، {free, select, yes {تتوفر فئة مجانية} other {بدون فئة مجانية}}. تعمل مع أي OpenAI SDK بمفتاح {appName} واحد."
+    "META_DESC_TIERED": "واجهة API لـ {name} من {vendor}: سعر متدرج لكل token حسب طول السياق، {free, select, yes {تتوفر فئة مجانية} other {بدون فئة مجانية}}. تعمل مع أي OpenAI SDK بمفتاح {appName} واحد.",
+    "LIVE_TITLE": "مباشر على {appName}، آخر 7 أيام",
+    "LIVE_SUMMARY": "آخر 7 أيام على {appName}: نجحت {success}% من الطلبات إلى {model}، ووصل أول رمز بعد {ttft} في المتوسط، وتدفق الناتج بسرعة {tps} رمزًا في الثانية، وعدد المزودين الذين يقدمونه: {providers}.",
+    "LIVE_SUMMARY_NO_SUCCESS": "آخر 7 أيام على {appName}: تلقت الطلبات إلى {model} أول رمز بعد {ttft} في المتوسط، وتدفق الناتج بسرعة {tps} رمزًا في الثانية، وعدد المزودين الذين يقدمونه: {providers}.",
+    "LIVE_SUCCESS": "معدل النجاح",
+    "LIVE_TTFT": "الوقت حتى أول رمز",
+    "LIVE_TPS": "رموز في الثانية",
+    "LIVE_PROVIDERS": "المزودون"
   },
   "PRICING": {
     "FEATURE": {

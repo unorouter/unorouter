@@ -1600,7 +1600,14 @@
     "META_TITLE_FREE_ONLY": "{name} API: फ्री टियर, OpenAI संगत | {appName}",
     "META_DESC_FREE_ONLY": "{vendor} का {name} API फ्री टियर पर: प्रति टोकन $0, क्रेडिट कार्ड की ज़रूरत नहीं। एक {appName} key से किसी भी OpenAI SDK के साथ काम करता है।",
     "META_DESC_FIXED": "{vendor} का {name} API: प्रति अनुरोध {price}, {free, select, yes {फ्री टियर उपलब्ध} other {कोई फ्री टियर नहीं}}। एक {appName} key से किसी भी OpenAI SDK के साथ काम करता है।",
-    "META_DESC_TIERED": "{vendor} का {name} API: कॉन्टेक्स्ट लंबाई के अनुसार स्तरित प्रति टोकन कीमत, {free, select, yes {फ्री टियर उपलब्ध} other {कोई फ्री टियर नहीं}}। एक {appName} key से किसी भी OpenAI SDK के साथ काम करता है।"
+    "META_DESC_TIERED": "{vendor} का {name} API: कॉन्टेक्स्ट लंबाई के अनुसार स्तरित प्रति टोकन कीमत, {free, select, yes {फ्री टियर उपलब्ध} other {कोई फ्री टियर नहीं}}। एक {appName} key से किसी भी OpenAI SDK के साथ काम करता है।",
+    "LIVE_TITLE": "{appName} पर लाइव, पिछले 7 दिन",
+    "LIVE_SUMMARY": "{appName} पर पिछले 7 दिन: {model} के {success}% अनुरोध सफल रहे, पहला टोकन औसतन {ttft} बाद आया, आउटपुट {tps} टोकन प्रति सेकंड की गति से आया, और इसे देने वाले प्रदाता: {providers}।",
+    "LIVE_SUMMARY_NO_SUCCESS": "{appName} पर पिछले 7 दिन: {model} के अनुरोधों को पहला टोकन औसतन {ttft} बाद मिला, आउटपुट {tps} टोकन प्रति सेकंड की गति से आया, और इसे देने वाले प्रदाता: {providers}।",
+    "LIVE_SUCCESS": "सफलता दर",
+    "LIVE_TTFT": "पहले टोकन तक का समय",
+    "LIVE_TPS": "टोकन प्रति सेकंड",
+    "LIVE_PROVIDERS": "प्रदाता"
   },
   "PRICING": {
     "FEATURE": {

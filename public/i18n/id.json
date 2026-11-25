@@ -1600,7 +1600,14 @@
     "META_TITLE_FREE_ONLY": "{name} API: tier gratis, kompatibel OpenAI | {appName}",
     "META_DESC_FREE_ONLY": "API {name} dari {vendor} di tier gratis: $0 per token, tanpa kartu kredit. Bekerja dengan SDK OpenAI mana pun lewat satu key {appName}.",
     "META_DESC_FIXED": "API {name} dari {vendor}: {price} per permintaan, {free, select, yes {tier gratis tersedia} other {tanpa tier gratis}}. Bekerja dengan SDK OpenAI mana pun lewat satu key {appName}.",
-    "META_DESC_TIERED": "API {name} dari {vendor}: harga per token berjenjang sesuai panjang konteks, {free, select, yes {tier gratis tersedia} other {tanpa tier gratis}}. Bekerja dengan SDK OpenAI mana pun lewat satu key {appName}."
+    "META_DESC_TIERED": "API {name} dari {vendor}: harga per token berjenjang sesuai panjang konteks, {free, select, yes {tier gratis tersedia} other {tanpa tier gratis}}. Bekerja dengan SDK OpenAI mana pun lewat satu key {appName}.",
+    "LIVE_TITLE": "Langsung di {appName}, 7 hari terakhir",
+    "LIVE_SUMMARY": "7 hari terakhir di {appName}: {success}% permintaan ke {model} berhasil, token pertama tiba rata-rata setelah {ttft}, keluaran mengalir {tps} token per detik, dan penyedia yang melayaninya: {providers}.",
+    "LIVE_SUMMARY_NO_SUCCESS": "7 hari terakhir di {appName}: permintaan ke {model} menerima token pertama rata-rata setelah {ttft}, keluaran mengalir {tps} token per detik, dan penyedia yang melayaninya: {providers}.",
+    "LIVE_SUCCESS": "Tingkat keberhasilan",
+    "LIVE_TTFT": "Waktu ke token pertama",
+    "LIVE_TPS": "Token per detik",
+    "LIVE_PROVIDERS": "Penyedia"
   },
   "PRICING": {
     "FEATURE": {

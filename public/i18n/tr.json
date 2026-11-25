@@ -1600,7 +1600,14 @@
     "META_TITLE_FREE_ONLY": "{name} API: ücretsiz katman, OpenAI uyumlu | {appName}",
     "META_DESC_FREE_ONLY": "{vendor} {name} API ücretsiz katmanda: token başına $0, kredi kartı gerekmez. Tek bir {appName} anahtarıyla her OpenAI SDK ile çalışır.",
     "META_DESC_FIXED": "{vendor} {name} API: istek başına {price}, {free, select, yes {ücretsiz katman mevcut} other {ücretsiz katman yok}}. Tek bir {appName} anahtarıyla her OpenAI SDK ile çalışır.",
-    "META_DESC_TIERED": "{vendor} {name} API: bağlam uzunluğuna göre kademeli token başına fiyat, {free, select, yes {ücretsiz katman mevcut} other {ücretsiz katman yok}}. Tek bir {appName} anahtarıyla her OpenAI SDK ile çalışır."
+    "META_DESC_TIERED": "{vendor} {name} API: bağlam uzunluğuna göre kademeli token başına fiyat, {free, select, yes {ücretsiz katman mevcut} other {ücretsiz katman yok}}. Tek bir {appName} anahtarıyla her OpenAI SDK ile çalışır.",
+    "LIVE_TITLE": "{appName}'da canlı, son 7 gün",
+    "LIVE_SUMMARY": "{appName}'da son 7 gün: {model} isteklerinin %{success} kadarı başarılı oldu, ilk token ortalama {ttft} sonra geldi, çıktı saniyede {tps} token hızında aktı, modeli sunan sağlayıcı sayısı: {providers}.",
+    "LIVE_SUMMARY_NO_SUCCESS": "{appName}'da son 7 gün: {model} istekleri ilk tokeni ortalama {ttft} sonra aldı, çıktı saniyede {tps} token hızında aktı, modeli sunan sağlayıcı sayısı: {providers}.",
+    "LIVE_SUCCESS": "Başarı oranı",
+    "LIVE_TTFT": "İlk tokene kadar süre",
+    "LIVE_TPS": "Saniyede token",
+    "LIVE_PROVIDERS": "Sağlayıcılar"
   },
   "PRICING": {
     "FEATURE": {

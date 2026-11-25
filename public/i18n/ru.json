@@ -1600,7 +1600,14 @@
     "META_TITLE_FREE_ONLY": "{name} API: бесплатный тариф, совместим с OpenAI | {appName}",
     "META_DESC_FREE_ONLY": "API {name} от {vendor} на бесплатном тарифе: $0 за токен, без банковской карты. Работает с любым OpenAI SDK через один ключ {appName}.",
     "META_DESC_FIXED": "API {name} от {vendor}: {price} за запрос, {free, select, yes {есть бесплатный тариф} other {бесплатного тарифа нет}}. Работает с любым OpenAI SDK через один ключ {appName}.",
-    "META_DESC_TIERED": "API {name} от {vendor}: ступенчатая цена за токен в зависимости от длины контекста, {free, select, yes {есть бесплатный тариф} other {бесплатного тарифа нет}}. Работает с любым OpenAI SDK через один ключ {appName}."
+    "META_DESC_TIERED": "API {name} от {vendor}: ступенчатая цена за токен в зависимости от длины контекста, {free, select, yes {есть бесплатный тариф} other {бесплатного тарифа нет}}. Работает с любым OpenAI SDK через один ключ {appName}.",
+    "LIVE_TITLE": "В реальном времени на {appName}, последние 7 дней",
+    "LIVE_SUMMARY": "За последние 7 дней на {appName}: {success}% запросов к {model} выполнены успешно, первый токен приходил в среднем через {ttft}, вывод шёл со скоростью {tps} токенов в секунду, провайдеров, обслуживающих модель: {providers}.",
+    "LIVE_SUMMARY_NO_SUCCESS": "За последние 7 дней на {appName}: запросы к {model} получали первый токен в среднем через {ttft}, вывод шёл со скоростью {tps} токенов в секунду, провайдеров, обслуживающих модель: {providers}.",
+    "LIVE_SUCCESS": "Доля успешных",
+    "LIVE_TTFT": "Время до первого токена",
+    "LIVE_TPS": "Токенов в секунду",
+    "LIVE_PROVIDERS": "Провайдеры"
   },
   "PRICING": {
     "FEATURE": {

@@ -1600,7 +1600,14 @@
     "META_TITLE_FREE_ONLY": "{name} API: free tier, OpenAI compatible | {appName}",
     "META_DESC_FREE_ONLY": "{name} API by {vendor} on a free tier: $0 per token, no credit card. Works with any OpenAI SDK through one {appName} key.",
     "META_DESC_FIXED": "{name} API by {vendor}: {price} per request, {free, select, yes {free tier available} other {no free tier}}. Works with any OpenAI SDK through one {appName} key.",
-    "META_DESC_TIERED": "{name} API by {vendor}: tiered price per token by context length, {free, select, yes {free tier available} other {no free tier}}. Works with any OpenAI SDK through one {appName} key."
+    "META_DESC_TIERED": "{name} API by {vendor}: tiered price per token by context length, {free, select, yes {free tier available} other {no free tier}}. Works with any OpenAI SDK through one {appName} key.",
+    "LIVE_TITLE": "Live on {appName}, last 7 days",
+    "LIVE_SUMMARY": "Last 7 days on {appName}: {success}% of requests to {model} succeeded, the first token arrived after {ttft} on average, output streamed at {tps} tokens per second, and providers serving it: {providers}.",
+    "LIVE_SUMMARY_NO_SUCCESS": "Last 7 days on {appName}: requests to {model} got their first token after {ttft} on average, output streamed at {tps} tokens per second, and providers serving it: {providers}.",
+    "LIVE_SUCCESS": "Success rate",
+    "LIVE_TTFT": "Time to first token",
+    "LIVE_TPS": "Tokens per second",
+    "LIVE_PROVIDERS": "Providers"
   },
   "PRICING": {
     "FEATURE": {

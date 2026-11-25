@@ -29,6 +29,7 @@ import { OwnPurposeNotice } from "./header/own-purpose-notice";
 import { ModelDescription } from "./header/model-description";
 import { ModelFaq } from "./header/model-faq";
 import { ModelHeaderChips, ModelMetaStats } from "./header/model-header-chips";
+import { ModelLiveStats } from "./header/model-live-stats";
 import { CodeExamplesTabs } from "./tabs/code-examples-tabs";
 import { GridPricingTable } from "./pricing/grid-pricing-table";
 import { GroupPricingSection } from "./pricing/group-pricing-section";
@@ -274,6 +275,12 @@ print(res.choices[0].message.content)`;
       <ModelTabs
         overview={
           <>
+            <ModelLiveStats
+              modelName={m.model_name}
+              providers={m.enable_groups.length}
+              theme={theme}
+            />
+
             <section className="mt-12">
               <SectionHeading theme={theme}>
                 {t("MODEL_PAGE.PRICING_TITLE")}

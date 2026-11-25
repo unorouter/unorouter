@@ -1600,7 +1600,14 @@
     "META_TITLE_FREE_ONLY": "{name} API: gói miễn phí, tương thích OpenAI | {appName}",
     "META_DESC_FREE_ONLY": "API {name} của {vendor} ở gói miễn phí: $0 mỗi token, không cần thẻ tín dụng. Dùng được với mọi SDK OpenAI qua một key {appName}.",
     "META_DESC_FIXED": "API {name} của {vendor}: {price} mỗi yêu cầu, {free, select, yes {có gói miễn phí} other {không có gói miễn phí}}. Dùng được với mọi SDK OpenAI qua một key {appName}.",
-    "META_DESC_TIERED": "API {name} của {vendor}: giá mỗi token theo bậc tùy độ dài ngữ cảnh, {free, select, yes {có gói miễn phí} other {không có gói miễn phí}}. Dùng được với mọi SDK OpenAI qua một key {appName}."
+    "META_DESC_TIERED": "API {name} của {vendor}: giá mỗi token theo bậc tùy độ dài ngữ cảnh, {free, select, yes {có gói miễn phí} other {không có gói miễn phí}}. Dùng được với mọi SDK OpenAI qua một key {appName}.",
+    "LIVE_TITLE": "Trực tiếp trên {appName}, 7 ngày qua",
+    "LIVE_SUMMARY": "7 ngày qua trên {appName}: {success}% yêu cầu tới {model} thành công, token đầu tiên đến trung bình sau {ttft}, đầu ra chạy {tps} token mỗi giây, số nhà cung cấp phục vụ: {providers}.",
+    "LIVE_SUMMARY_NO_SUCCESS": "7 ngày qua trên {appName}: yêu cầu tới {model} nhận token đầu tiên trung bình sau {ttft}, đầu ra chạy {tps} token mỗi giây, số nhà cung cấp phục vụ: {providers}.",
+    "LIVE_SUCCESS": "Tỷ lệ thành công",
+    "LIVE_TTFT": "Thời gian tới token đầu tiên",
+    "LIVE_TPS": "Token mỗi giây",
+    "LIVE_PROVIDERS": "Nhà cung cấp"
   },
   "PRICING": {
     "FEATURE": {

@@ -1600,7 +1600,14 @@
     "META_TITLE_FREE_ONLY": "{name} API: שכבה חינמית, תואם OpenAI | {appName}",
     "META_DESC_FREE_ONLY": "API של {name} מבית {vendor} בשכבה חינמית: $0 לטוקן, בלי כרטיס אשראי. עובד עם כל SDK של OpenAI דרך מפתח {appName} אחד.",
     "META_DESC_FIXED": "API של {name} מבית {vendor}: {price} לבקשה, {free, select, yes {יש שכבה חינמית} other {ללא שכבה חינמית}}. עובד עם כל SDK של OpenAI דרך מפתח {appName} אחד.",
-    "META_DESC_TIERED": "API של {name} מבית {vendor}: מחיר מדורג לטוקן לפי אורך ההקשר, {free, select, yes {יש שכבה חינמית} other {ללא שכבה חינמית}}. עובד עם כל SDK של OpenAI דרך מפתח {appName} אחד."
+    "META_DESC_TIERED": "API של {name} מבית {vendor}: מחיר מדורג לטוקן לפי אורך ההקשר, {free, select, yes {יש שכבה חינמית} other {ללא שכבה חינמית}}. עובד עם כל SDK של OpenAI דרך מפתח {appName} אחד.",
+    "LIVE_TITLE": "בזמן אמת ב-{appName}, 7 הימים האחרונים",
+    "LIVE_SUMMARY": "7 הימים האחרונים ב-{appName}: {success}% מהבקשות ל-{model} הצליחו, הטוקן הראשון הגיע בממוצע אחרי {ttft}, הפלט זרם בקצב של {tps} טוקנים לשנייה, ומספר הספקים שמגישים אותו: {providers}.",
+    "LIVE_SUMMARY_NO_SUCCESS": "7 הימים האחרונים ב-{appName}: בקשות ל-{model} קיבלו את הטוקן הראשון בממוצע אחרי {ttft}, הפלט זרם בקצב של {tps} טוקנים לשנייה, ומספר הספקים שמגישים אותו: {providers}.",
+    "LIVE_SUCCESS": "שיעור הצלחה",
+    "LIVE_TTFT": "זמן עד הטוקן הראשון",
+    "LIVE_TPS": "טוקנים לשנייה",
+    "LIVE_PROVIDERS": "ספקים"
   },
   "PRICING": {
     "FEATURE": {

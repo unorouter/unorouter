@@ -1600,7 +1600,14 @@
     "META_TITLE_FREE_ONLY": "{name} API：免费额度，兼容 OpenAI | {appName}",
     "META_DESC_FREE_ONLY": "{vendor} 的 {name} API 免费额度：每 Token $0，无需信用卡。一个 {appName} 密钥即可配合任意 OpenAI SDK 使用。",
     "META_DESC_FIXED": "{vendor} 的 {name} API：每次请求 {price}，{free, select, yes {提供免费额度} other {无免费额度}}。一个 {appName} 密钥即可配合任意 OpenAI SDK 使用。",
-    "META_DESC_TIERED": "{vendor} 的 {name} API：按上下文长度分档的每 Token 价格，{free, select, yes {提供免费额度} other {无免费额度}}。一个 {appName} 密钥即可配合任意 OpenAI SDK 使用。"
+    "META_DESC_TIERED": "{vendor} 的 {name} API：按上下文长度分档的每 Token 价格，{free, select, yes {提供免费额度} other {无免费额度}}。一个 {appName} 密钥即可配合任意 OpenAI SDK 使用。",
+    "LIVE_TITLE": "{appName} 实时数据（最近 7 天）",
+    "LIVE_SUMMARY": "{appName} 最近 7 天：对 {model} 的请求成功率为 {success}%，首个 token 平均在 {ttft} 后到达，输出速度为每秒 {tps} 个 token，提供该模型的供应商数量：{providers}。",
+    "LIVE_SUMMARY_NO_SUCCESS": "{appName} 最近 7 天：对 {model} 的请求平均在 {ttft} 后收到首个 token，输出速度为每秒 {tps} 个 token，提供该模型的供应商数量：{providers}。",
+    "LIVE_SUCCESS": "成功率",
+    "LIVE_TTFT": "首 token 延迟",
+    "LIVE_TPS": "每秒 token 数",
+    "LIVE_PROVIDERS": "供应商"
   },
   "PRICING": {
     "FEATURE": {

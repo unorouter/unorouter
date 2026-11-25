@@ -1600,7 +1600,14 @@
     "META_TITLE_FREE_ONLY": "{name} API：無料枠あり、OpenAI互換 | {appName}",
     "META_DESC_FREE_ONLY": "{vendor} の {name} API を無料枠で：トークン単価 $0、クレジットカード不要。{appName} のキー1つで、どの OpenAI SDK からも使えます。",
     "META_DESC_FIXED": "{vendor} の {name} API：1リクエスト {price}、{free, select, yes {無料枠あり} other {無料枠なし}}。{appName} のキー1つで、どの OpenAI SDK からも使えます。",
-    "META_DESC_TIERED": "{vendor} の {name} API：コンテキスト長に応じた段階制のトークン単価、{free, select, yes {無料枠あり} other {無料枠なし}}。{appName} のキー1つで、どの OpenAI SDK からも使えます。"
+    "META_DESC_TIERED": "{vendor} の {name} API：コンテキスト長に応じた段階制のトークン単価、{free, select, yes {無料枠あり} other {無料枠なし}}。{appName} のキー1つで、どの OpenAI SDK からも使えます。",
+    "LIVE_TITLE": "{appName} のライブデータ（過去7日間）",
+    "LIVE_SUMMARY": "{appName} の過去7日間：{model} へのリクエストの {success}% が成功し、最初のトークンは平均 {ttft} で届き、出力は毎秒 {tps} トークンで流れました。提供しているプロバイダー数：{providers}。",
+    "LIVE_SUMMARY_NO_SUCCESS": "{appName} の過去7日間：{model} へのリクエストは平均 {ttft} で最初のトークンを受け取り、出力は毎秒 {tps} トークンで流れました。提供しているプロバイダー数：{providers}。",
+    "LIVE_SUCCESS": "成功率",
+    "LIVE_TTFT": "最初のトークンまでの時間",
+    "LIVE_TPS": "毎秒トークン数",
+    "LIVE_PROVIDERS": "プロバイダー"
   },
   "PRICING": {
     "FEATURE": {
