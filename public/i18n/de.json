@@ -3865,7 +3865,8 @@
       "ACTUAL_PAYMENT": "Tatsächliche Zahlung",
       "SAVE": "Sparen",
       "CUSTOM_AMOUNT": "Eigener Betrag",
-      "PAY": "Bezahlen"
+      "PAY": "Bezahlen",
+      "DIGISTORE_VAT": "Digistore24 schlägt beim Bezahlen die Mehrwertsteuer auf, wo sie anfällt."
     },
     "PORTAL": {
       "MANAGE": "Abrechnung verwalten",
@@ -3884,7 +3885,8 @@
       "LABEL": "Zahlungsmethode",
       "CARD": "Karte / Google & Apple Pay / Alipay",
       "CRYPTO": "Krypto",
-      "PAYPAL": "PayPal"
+      "PAYPAL": "PayPal",
+      "DIGISTORE": "Digistore24 (Karte, PayPal und mehr)"
     },
     "TRANSACTIONS": {
       "DATE": "Datum",

@@ -3865,7 +3865,8 @@
       "ACTUAL_PAYMENT": "Pembayaran sebenarnya",
       "SAVE": "Simpan",
       "CUSTOM_AMOUNT": "Jumlah khusus",
-      "PAY": "Bayar"
+      "PAY": "Bayar",
+      "DIGISTORE_VAT": "Digistore24 menambahkan PPN saat pembayaran jika berlaku."
     },
     "PORTAL": {
       "MANAGE": "Kelola penagihan",
@@ -3884,7 +3885,8 @@
       "LABEL": "Metode pembayaran",
       "CARD": "Kartu / Google & Apple Pay / Alipay",
       "CRYPTO": "Crypto",
-      "PAYPAL": "PayPal"
+      "PAYPAL": "PayPal",
+      "DIGISTORE": "Digistore24 (kartu, PayPal, dan lainnya)"
     },
     "TRANSACTIONS": {
       "DATE": "Tanggal",

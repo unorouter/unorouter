@@ -3865,7 +3865,8 @@
       "ACTUAL_PAYMENT": "Rzeczywista płatność",
       "SAVE": "Zapisz",
       "CUSTOM_AMOUNT": "Własna kwota",
-      "PAY": "Zapłać"
+      "PAY": "Zapłać",
+      "DIGISTORE_VAT": "Digistore24 dolicza VAT przy płatności, jeśli ma on zastosowanie."
     },
     "PORTAL": {
       "MANAGE": "Zarządzaj rozliczeniami",
@@ -3884,7 +3885,8 @@
       "LABEL": "Metoda płatności",
       "CARD": "Karta / Google & Apple Pay / Alipay",
       "CRYPTO": "Krypto",
-      "PAYPAL": "PayPal"
+      "PAYPAL": "PayPal",
+      "DIGISTORE": "Digistore24 (karta, PayPal i inne)"
     },
     "TRANSACTIONS": {
       "DATE": "Data",

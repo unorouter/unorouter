@@ -3865,7 +3865,8 @@
       "ACTUAL_PAYMENT": "Actual payment",
       "SAVE": "Save",
       "CUSTOM_AMOUNT": "Custom amount",
-      "PAY": "Pay"
+      "PAY": "Pay",
+      "DIGISTORE_VAT": "Digistore24 adds VAT at checkout where it applies."
     },
     "PORTAL": {
       "MANAGE": "Manage billing",
@@ -3882,7 +3883,8 @@
       "LABEL": "Payment method",
       "CARD": "Card / Google & Apple Pay / Alipay",
       "CRYPTO": "Crypto",
-      "PAYPAL": "PayPal"
+      "PAYPAL": "PayPal",
+      "DIGISTORE": "Digistore24 (card, PayPal and more)"
     },
     "SUPPORT_TITLE": "Need help?",
     "SUPPORT_TEXT": "Questions about billing or your account? Email us at {supportEmail} and we will respond within one business day.",

@@ -3865,7 +3865,8 @@
       "ACTUAL_PAYMENT": "वास्तविक भुगतान",
       "SAVE": "सहेजें",
       "CUSTOM_AMOUNT": "कस्टम राशि",
-      "PAY": "भुगतान करें"
+      "PAY": "भुगतान करें",
+      "DIGISTORE_VAT": "जहाँ लागू हो, Digistore24 भुगतान के समय VAT जोड़ता है।"
     },
     "PORTAL": {
       "MANAGE": "Billing प्रबंधित करें",
@@ -3884,7 +3885,8 @@
       "LABEL": "भुगतान विधि",
       "CARD": "कार्ड / Google & Apple Pay / Alipay",
       "CRYPTO": "Crypto",
-      "PAYPAL": "PayPal"
+      "PAYPAL": "PayPal",
+      "DIGISTORE": "Digistore24 (कार्ड, PayPal और अन्य)"
     },
     "TRANSACTIONS": {
       "DATE": "तारीख",

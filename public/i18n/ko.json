@@ -3865,7 +3865,8 @@
       "ACTUAL_PAYMENT": "실제 결제",
       "SAVE": "저장",
       "CUSTOM_AMOUNT": "직접 입력 금액",
-      "PAY": "결제"
+      "PAY": "결제",
+      "DIGISTORE_VAT": "Digistore24는 해당되는 경우 결제 시 부가가치세(VAT)를 추가합니다."
     },
     "PORTAL": {
       "MANAGE": "결제 관리",
@@ -3884,7 +3885,8 @@
       "LABEL": "결제 수단",
       "CARD": "카드 / Google & Apple Pay / Alipay",
       "CRYPTO": "암호화폐",
-      "PAYPAL": "PayPal"
+      "PAYPAL": "PayPal",
+      "DIGISTORE": "Digistore24 (카드, PayPal 등)"
     },
     "TRANSACTIONS": {
       "DATE": "날짜",

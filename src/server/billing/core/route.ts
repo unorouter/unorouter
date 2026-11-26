@@ -2,6 +2,7 @@ import {
   billingPortalQuery,
   creemPayBody,
   deloPayPayBody,
+  digistorePayBody,
   freemiusPayBody,
   nowPaymentsPayBody,
   redeemBody,
@@ -20,11 +21,13 @@ import {
   getUserTopUps,
   requestCreemPay,
   requestDeloPayPay,
+  requestDigistorePay,
   requestFreemiusPay,
   requestNowPaymentsPay,
   requestStripePay,
   subscriptionRequestCreemPay,
   subscriptionRequestDeloPayPay,
+  subscriptionRequestDigistorePay,
   subscriptionRequestFreemiusPay,
   subscriptionRequestNowPaymentsPay,
   subscriptionRequestStripePay,
@@ -40,6 +43,7 @@ const CHECKOUT = {
   nowpayments: "NowPayments crypto checkout",
   delopay: "DeloPay PayPal checkout",
   freemius: "Freemius PayPal checkout",
+  digistore: "Digistore24 checkout",
 };
 
 const payDetail = (
@@ -153,6 +157,15 @@ export const billingRoute = new Elysia({ prefix: "/core" })
     },
   )
   .post(
+    "/digistore-pay",
+    async ({ body, upstream }) =>
+      unwrap(await requestDigistorePay(body, upstream)),
+    {
+      body: digistorePayBody,
+      detail: payDetail("digistore", "topup"),
+    },
+  )
+  .post(
     "/subscription/stripe-pay",
     async ({ body, upstream }) =>
       unwrap(await subscriptionRequestStripePay(body, upstream)),
@@ -195,5 +208,14 @@ export const billingRoute = new Elysia({ prefix: "/core" })
     {
       body: subscriptionPayBody,
       detail: payDetail("freemius", "subscription"),
+    },
+  )
+  .post(
+    "/subscription/digistore-pay",
+    async ({ body, upstream }) =>
+      unwrap(await subscriptionRequestDigistorePay(body, upstream)),
+    {
+      body: subscriptionPayBody,
+      detail: payDetail("digistore", "subscription"),
     },
   );

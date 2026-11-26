@@ -3865,7 +3865,8 @@
       "ACTUAL_PAYMENT": "الدفع الفعلي",
       "SAVE": "حفظ",
       "CUSTOM_AMOUNT": "مبلغ مخصص",
-      "PAY": "ادفع"
+      "PAY": "ادفع",
+      "DIGISTORE_VAT": "تضيف Digistore24 ضريبة القيمة المضافة عند الدفع حيثما تنطبق."
     },
     "PORTAL": {
       "MANAGE": "إدارة الفوترة",
@@ -3884,7 +3885,8 @@
       "LABEL": "طريقة الدفع",
       "CARD": "بطاقة / Google & Apple Pay / Alipay",
       "CRYPTO": "عملات مشفّرة",
-      "PAYPAL": "PayPal"
+      "PAYPAL": "PayPal",
+      "DIGISTORE": "Digistore24 (بطاقة وPayPal والمزيد)"
     },
     "TRANSACTIONS": {
       "DATE": "التاريخ",

@@ -3865,7 +3865,8 @@
       "ACTUAL_PAYMENT": "実際のお支払い額",
       "SAVE": "保存",
       "CUSTOM_AMOUNT": "カスタム金額",
-      "PAY": "支払う"
+      "PAY": "支払う",
+      "DIGISTORE_VAT": "Digistore24 では、該当する場合はお支払い時に付加価値税（VAT）が加算されます。"
     },
     "PORTAL": {
       "MANAGE": "請求を管理",
@@ -3884,7 +3885,8 @@
       "LABEL": "支払い方法",
       "CARD": "カード / Google & Apple Pay / Alipay",
       "CRYPTO": "暗号通貨",
-      "PAYPAL": "PayPal"
+      "PAYPAL": "PayPal",
+      "DIGISTORE": "Digistore24（カード、PayPal など）"
     },
     "TRANSACTIONS": {
       "DATE": "日付",

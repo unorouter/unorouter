@@ -43,6 +43,11 @@ export function useBillingActions() {
   const enablePayPal = topUpInfo?.enable_freemius_topup ?? false;
   const payPalAmounts = topUpInfo?.freemius_amounts ?? [];
   const payPalSubscriptionPlans = topUpInfo?.freemius_subscription_plans ?? [];
+  // Digistore24 sells one fixed priced product per amount and per plan, VAT on top.
+  const enableDigistore = topUpInfo?.enable_digistore_topup ?? false;
+  const digistoreAmounts = topUpInfo?.digistore_amounts ?? [];
+  const digistoreSubscriptionPlans =
+    topUpInfo?.digistore_subscription_plans ?? [];
   const discount = topUpInfo?.discount ?? {};
   const creemFeeFixed = topUpInfo?.creem_fee_fixed ?? 0;
   const creemFeePercent = topUpInfo?.creem_fee_percent ?? 0;
@@ -52,6 +57,7 @@ export function useBillingActions() {
   if (enableCard) availableMethods.push("card");
   if (enablePayPal) availableMethods.push("paypal");
   if (enableCrypto) availableMethods.push("crypto");
+  if (enableDigistore) availableMethods.push("digistore");
 
   // The stored choice can outlive its provider being switched off upstream, so
   // fall back to the first one still offered.
@@ -108,8 +114,16 @@ export function useBillingActions() {
       payPalSubscriptionPlans.includes(plan.plan.id)
     )
       subMutation.mutate(
+        async () => handleElysia(await sub["freemius-pay"].post(body)).pay_link,
+      );
+    else if (
+      paymentMethod === "digistore" &&
+      enableDigistore &&
+      digistoreSubscriptionPlans.includes(plan.plan.id)
+    )
+      subMutation.mutate(
         async () =>
-          handleElysia(await sub["freemius-pay"].post(body)).pay_link,
+          handleElysia(await sub["digistore-pay"].post(body)).pay_link,
       );
     else if (crypto)
       subMutation.mutate(
@@ -184,6 +198,18 @@ export function useBillingActions() {
     );
   }
 
+  function payDigistore(amount: number) {
+    topUpMutation.mutate(
+      async () =>
+        handleElysia(
+          await core["digistore-pay"].post({
+            amount,
+            payment_method: "digistore",
+          }),
+        ).pay_link,
+    );
+  }
+
   return {
     topUpInfo,
     enableStripe,
@@ -191,6 +217,8 @@ export function useBillingActions() {
     enableNowPayments,
     enablePayPal,
     payPalAmounts,
+    enableDigistore,
+    digistoreAmounts,
     enableCard,
     availableMethods,
     paymentMethod,
@@ -202,6 +230,7 @@ export function useBillingActions() {
     payCreem,
     payNowPayments,
     payPayPal,
+    payDigistore,
     discountedAmount,
     discountSavings,
     creemChargedAmount,

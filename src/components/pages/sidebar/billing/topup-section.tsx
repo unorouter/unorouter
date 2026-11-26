@@ -101,6 +101,7 @@ function TopUpTile(props: {
 }
 
 export function TopUpSection() {
+  const t = useTranslations();
   const billing = useBillingActions();
   const topUpInfo = billing.topUpInfo;
 
@@ -115,13 +116,16 @@ export function TopUpSection() {
     !billing.enableStripe &&
     !billing.enableCreem &&
     !billing.enableNowPayments &&
-    !billing.enablePayPal
+    !billing.enablePayPal &&
+    !billing.enableDigistore
   )
     return null;
 
   const showCrypto =
     billing.paymentMethod === "crypto" && billing.enableNowPayments;
   const showPayPal = billing.paymentMethod === "paypal" && billing.enablePayPal;
+  const showDigistore =
+    billing.paymentMethod === "digistore" && billing.enableDigistore;
   const showCard = billing.paymentMethod === "card" && billing.enableCard;
   const grid = "grid grid-cols-2 gap-3 md:grid-cols-4";
 
@@ -200,6 +204,25 @@ export function TopUpSection() {
               />
             ))}
           </div>
+        </div>
+      )}
+
+      {showDigistore && (
+        <div className="space-y-3">
+          <div className={grid}>
+            {billing.digistoreAmounts.map((amount) => (
+              <TopUpTile
+                key={amount}
+                price={amount}
+                actual={amount}
+                disabled={billing.isTopUpMutating}
+                onPay={() => billing.payDigistore(amount)}
+              />
+            ))}
+          </div>
+          <p className="text-muted-foreground font-mono text-[10px]">
+            {t("BILLING.TOPUP.DIGISTORE_VAT")}
+          </p>
         </div>
       )}
     </div>

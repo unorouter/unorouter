@@ -3865,7 +3865,8 @@
       "ACTUAL_PAYMENT": "Thanh toán thực tế",
       "SAVE": "Lưu",
       "CUSTOM_AMOUNT": "Số tiền tùy chỉnh",
-      "PAY": "Thanh toán"
+      "PAY": "Thanh toán",
+      "DIGISTORE_VAT": "Digistore24 cộng thêm thuế VAT khi thanh toán nếu áp dụng."
     },
     "PORTAL": {
       "MANAGE": "Quản lý thanh toán",
@@ -3884,7 +3885,8 @@
       "LABEL": "Phương thức thanh toán",
       "CARD": "Thẻ / Google & Apple Pay / Alipay",
       "CRYPTO": "Tiền mã hoá",
-      "PAYPAL": "PayPal"
+      "PAYPAL": "PayPal",
+      "DIGISTORE": "Digistore24 (thẻ, PayPal và các phương thức khác)"
     },
     "TRANSACTIONS": {
       "DATE": "Ngày",

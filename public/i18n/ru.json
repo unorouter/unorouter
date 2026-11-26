@@ -3865,7 +3865,8 @@
       "ACTUAL_PAYMENT": "Фактический платёж",
       "SAVE": "Сохранить",
       "CUSTOM_AMOUNT": "Своя сумма",
-      "PAY": "Оплатить"
+      "PAY": "Оплатить",
+      "DIGISTORE_VAT": "Digistore24 добавляет НДС при оплате, если он применяется."
     },
     "PORTAL": {
       "MANAGE": "Управлять оплатой",
@@ -3884,7 +3885,8 @@
       "LABEL": "Способ оплаты",
       "CARD": "Карта / Google & Apple Pay / Alipay",
       "CRYPTO": "Криптовалюта",
-      "PAYPAL": "PayPal"
+      "PAYPAL": "PayPal",
+      "DIGISTORE": "Digistore24 (карта, PayPal и другие)"
     },
     "TRANSACTIONS": {
       "DATE": "Дата",

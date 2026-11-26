@@ -3865,7 +3865,8 @@
       "ACTUAL_PAYMENT": "תשלום בפועל",
       "SAVE": "שמור",
       "CUSTOM_AMOUNT": "סכום מותאם אישית",
-      "PAY": "שלם"
+      "PAY": "שלם",
+      "DIGISTORE_VAT": "Digistore24 מוסיפה מע״מ בעת התשלום כאשר הוא חל."
     },
     "PORTAL": {
       "MANAGE": "ניהול חיובים",
@@ -3884,7 +3885,8 @@
       "LABEL": "אמצעי תשלום",
       "CARD": "כרטיס / Google & Apple Pay / Alipay",
       "CRYPTO": "קריפטו",
-      "PAYPAL": "PayPal"
+      "PAYPAL": "PayPal",
+      "DIGISTORE": "Digistore24 (כרטיס, PayPal ועוד)"
     },
     "TRANSACTIONS": {
       "DATE": "תאריך",

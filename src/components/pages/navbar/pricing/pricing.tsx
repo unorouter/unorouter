@@ -105,6 +105,14 @@ export function Pricing() {
       }));
     }
 
+    if (billing.paymentMethod === "digistore" && billing.enableDigistore) {
+      return billing.digistoreAmounts.map((amount) => ({
+        key: `digistore-${amount}`,
+        amount,
+        handler: authed(() => billing.payDigistore(amount)),
+      }));
+    }
+
     if (billing.enableCreem && topUpInfo.creemProducts.length > 0) {
       return topUpInfo.creemProducts.map((product) => ({
         key: product.productId,
@@ -197,6 +205,12 @@ export function Pricing() {
                 </button>
               ))}
             </div>
+            {billing.paymentMethod === "digistore" &&
+              billing.enableDigistore && (
+                <p className="text-muted-foreground mt-3 text-center font-mono text-[10px]">
+                  {t("BILLING.TOPUP.DIGISTORE_VAT")}
+                </p>
+              )}
             {showCustomField && (
               <div className="mx-auto mt-2 flex max-w-xl items-center justify-center gap-2">
                 <div className="border-border focus-within:border-foreground/50 flex items-center border px-3 py-2 transition-colors">

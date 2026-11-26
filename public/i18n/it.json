@@ -3865,7 +3865,8 @@
       "ACTUAL_PAYMENT": "Pagamento effettivo",
       "SAVE": "Salva",
       "CUSTOM_AMOUNT": "Importo personalizzato",
-      "PAY": "Paga"
+      "PAY": "Paga",
+      "DIGISTORE_VAT": "Digistore24 aggiunge l'IVA al pagamento quando è dovuta."
     },
     "PORTAL": {
       "MANAGE": "Gestisci fatturazione",
@@ -3884,7 +3885,8 @@
       "LABEL": "Metodo di pagamento",
       "CARD": "Carta / Google & Apple Pay / Alipay",
       "CRYPTO": "Crypto",
-      "PAYPAL": "PayPal"
+      "PAYPAL": "PayPal",
+      "DIGISTORE": "Digistore24 (carta, PayPal e altro)"
     },
     "TRANSACTIONS": {
       "DATE": "Data",

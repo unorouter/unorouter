@@ -3865,7 +3865,8 @@
       "ACTUAL_PAYMENT": "Gerçek ödeme",
       "SAVE": "Kaydet",
       "CUSTOM_AMOUNT": "Özel tutar",
-      "PAY": "Öde"
+      "PAY": "Öde",
+      "DIGISTORE_VAT": "Digistore24, geçerli olduğu durumlarda ödeme sırasında KDV ekler."
     },
     "PORTAL": {
       "MANAGE": "Faturalandırmayı yönet",
@@ -3884,7 +3885,8 @@
       "LABEL": "Ödeme yöntemi",
       "CARD": "Kart / Google & Apple Pay / Alipay",
       "CRYPTO": "Crypto",
-      "PAYPAL": "PayPal"
+      "PAYPAL": "PayPal",
+      "DIGISTORE": "Digistore24 (kart, PayPal ve daha fazlası)"
     },
     "TRANSACTIONS": {
       "DATE": "Tarih",

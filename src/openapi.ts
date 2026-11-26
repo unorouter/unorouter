@@ -249,6 +249,18 @@ export interface DeloPayPayRequest {
   payment_method: string;
 }
 
+export interface DigistorePayData {
+  pay_link: string;
+}
+
+/**
+ * DigistorePayRequest schema
+ */
+export interface DigistorePayRequest {
+  amount: number;
+  payment_method: string;
+}
+
 export interface EndpointInfo {
   method: string;
   path: string;
@@ -1449,6 +1461,15 @@ export interface ResponseDtoDeloPayPayData {
 }
 
 /**
+ * Response_dto.DigistorePayData schema
+ */
+export interface ResponseDtoDigistorePayData {
+  data: DigistorePayData;
+  message: string;
+  success: boolean;
+}
+
+/**
  * Response_dto.FreemiusPayData schema
  */
 export interface ResponseDtoFreemiusPayData {
@@ -2015,9 +2036,14 @@ export interface TopUpInfoData {
   delopay_fee_threshold: number;
   delopay_min_topup: number;
   /** @nullable */
+  digistore_amounts: number[] | null;
+  /** @nullable */
+  digistore_subscription_plans: number[] | null;
+  /** @nullable */
   discount: TopUpInfoDataDiscount;
   enable_creem_topup: boolean;
   enable_delopay_topup: boolean;
+  enable_digistore_topup: boolean;
   enable_freemius_topup: boolean;
   enable_nowpayments_topup: boolean;
   enable_online_topup: boolean;
@@ -2310,6 +2336,13 @@ export interface SubscriptionCreemPayRequest {
  * SubscriptionDeloPayPayRequest schema
  */
 export interface SubscriptionDeloPayPayRequest {
+  plan_id: number;
+}
+
+/**
+ * SubscriptionDigistorePayRequest schema
+ */
+export interface SubscriptionDigistorePayRequest {
   plan_id: number;
 }
 
@@ -4503,6 +4536,71 @@ export const subscriptionRequestDeloPayPay = async (
   );
 };
 
+export type subscriptionRequestDigistorePayResponse200ApplicationJson = {
+  data: ResponseDtoDigistorePayData;
+  status: 200;
+};
+
+export type subscriptionRequestDigistorePayResponse200ApplicationXml = {
+  data: ResponseDtoDigistorePayData;
+  status: 200;
+};
+
+export type subscriptionRequestDigistorePayResponseSuccess = (
+  | subscriptionRequestDigistorePayResponse200ApplicationJson
+  | subscriptionRequestDigistorePayResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type subscriptionRequestDigistorePayResponse =
+  subscriptionRequestDigistorePayResponseSuccess;
+
+export const getSubscriptionRequestDigistorePayUrl = () => {
+  return `/api/subscription/digistore/pay`;
+};
+
+/**
+ * @summary Subscription Request Digistore Pay
+ */
+export const subscriptionRequestDigistorePay = async (
+  subscriptionDigistorePayRequest: SubscriptionDigistorePayRequest,
+  options?: Parameters<typeof customFetch>[1],
+): Promise<subscriptionRequestDigistorePayResponse> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(
+          h as Iterable<Iterable<string>>,
+          (entry) => Array.from(entry) as [string, string],
+        ),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<
+      string | readonly string[] | undefined
+    >(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+  return customFetch<subscriptionRequestDigistorePayResponse>(
+    getSubscriptionRequestDigistorePayUrl(),
+    {
+      ...options,
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...getHeaders(options?.headers),
+      },
+      body: JSON.stringify(subscriptionDigistorePayRequest),
+    },
+  );
+};
+
 export type subscriptionRequestFreemiusPayResponse200ApplicationJson = {
   data: ResponseDtoFreemiusPayData;
   status: 200;
@@ -5704,6 +5802,67 @@ export const requestDeloPayPay = async (
       ...getHeaders(options?.headers),
     },
     body: JSON.stringify(deloPayPayRequest),
+  });
+};
+
+export type requestDigistorePayResponse200ApplicationJson = {
+  data: ResponseDtoDigistorePayData;
+  status: 200;
+};
+
+export type requestDigistorePayResponse200ApplicationXml = {
+  data: ResponseDtoDigistorePayData;
+  status: 200;
+};
+
+export type requestDigistorePayResponseSuccess = (
+  | requestDigistorePayResponse200ApplicationJson
+  | requestDigistorePayResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type requestDigistorePayResponse = requestDigistorePayResponseSuccess;
+
+export const getRequestDigistorePayUrl = () => {
+  return `/api/user/digistore/pay`;
+};
+
+/**
+ * @summary Request Digistore Pay
+ */
+export const requestDigistorePay = async (
+  digistorePayRequest: DigistorePayRequest,
+  options?: Parameters<typeof customFetch>[1],
+): Promise<requestDigistorePayResponse> => {
+  const getHeaders = (
+    h?: NonNullable<RequestInit["headers"]>,
+  ): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(
+          h as Iterable<Iterable<string>>,
+          (entry) => Array.from(entry) as [string, string],
+        ),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<
+      string | readonly string[] | undefined
+    >(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+  return customFetch<requestDigistorePayResponse>(getRequestDigistorePayUrl(), {
+    ...options,
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...getHeaders(options?.headers),
+    },
+    body: JSON.stringify(digistorePayRequest),
   });
 };
 

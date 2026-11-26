@@ -3865,7 +3865,8 @@
       "ACTUAL_PAYMENT": "Pagamento real",
       "SAVE": "Salvar",
       "CUSTOM_AMOUNT": "Valor personalizado",
-      "PAY": "Pagar"
+      "PAY": "Pagar",
+      "DIGISTORE_VAT": "A Digistore24 acrescenta o imposto sobre valor agregado (IVA) no pagamento, quando aplicável."
     },
     "PORTAL": {
       "MANAGE": "Gerenciar faturamento",
@@ -3884,7 +3885,8 @@
       "LABEL": "Método de pagamento",
       "CARD": "Cartão / Google & Apple Pay / Alipay",
       "CRYPTO": "Cripto",
-      "PAYPAL": "PayPal"
+      "PAYPAL": "PayPal",
+      "DIGISTORE": "Digistore24 (cartão, PayPal e mais)"
     },
     "TRANSACTIONS": {
       "DATE": "Data",

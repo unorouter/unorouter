@@ -51,6 +51,11 @@ export function PaymentMethodToggle(props: {
               {t("BILLING.PAYMENT_METHOD.CRYPTO")}
             </TabsTrigger>
           )}
+          {billing.availableMethods.includes("digistore") && (
+            <TabsTrigger value="digistore">
+              {t("BILLING.PAYMENT_METHOD.DIGISTORE")}
+            </TabsTrigger>
+          )}
         </TabsList>
       </Tabs>
     </div>

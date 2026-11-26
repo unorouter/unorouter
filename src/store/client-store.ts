@@ -5,7 +5,7 @@ import { atomWithStorage } from "jotai/utils";
 
 export const CLIENT_STORE_KEY = "client-store";
 
-export type PaymentMethod = "card" | "crypto" | "paypal";
+export type PaymentMethod = "card" | "crypto" | "paypal" | "digistore";
 
 type ClientState = {
   apiKey: string | null;

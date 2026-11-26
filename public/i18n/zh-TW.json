@@ -3865,7 +3865,8 @@
       "ACTUAL_PAYMENT": "實付金額",
       "SAVE": "儲存",
       "CUSTOM_AMOUNT": "自訂金額",
-      "PAY": "支付"
+      "PAY": "支付",
+      "DIGISTORE_VAT": "如適用，Digistore24 會在結帳時加收加值稅。"
     },
     "PORTAL": {
       "MANAGE": "管理帳務",
@@ -3884,7 +3885,8 @@
       "LABEL": "支付方式",
       "CARD": "信用卡 / Google & Apple Pay / 支付寶",
       "CRYPTO": "加密貨幣",
-      "PAYPAL": "PayPal"
+      "PAYPAL": "PayPal",
+      "DIGISTORE": "Digistore24（信用卡、PayPal 等）"
     },
     "TRANSACTIONS": {
       "DATE": "日期",
