@@ -28,9 +28,10 @@ export function buildConsentRows(
     const serving = providers.filter((p) =>
       (p.models ?? []).includes(model.model_name),
     );
-    const given =
-      serving.length > 0 &&
-      serving.every((p) => p.status === ProviderConsentItemStatus.given);
+    // A model no listed provider serves has nothing left to grant.
+    const given = serving.every(
+      (p) => p.status === ProviderConsentItemStatus.given,
+    );
     const status: ConsentStatus =
       kind === "none" ? "not_needed" : given ? "given" : "missing";
     return {

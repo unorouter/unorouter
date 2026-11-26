@@ -30,7 +30,7 @@ import { ConsentModelCard } from "./consent-model-card";
 import { buildConsentRows } from "./consent-rows";
 import { useConsentFilters } from "./use-consent-filters";
 
-const consentTableAtoms = createTableAtoms(DataTableId.FREE_MODELS);
+const consentTableAtoms = createTableAtoms(DataTableId.CONSENT_MODELS);
 
 export function ModelView(props: {
   view: ViewMode;
@@ -126,7 +126,7 @@ export function ModelView(props: {
             />
           ) : props.view === "table" ? (
             <DataTable
-              id={DataTableId.FREE_MODELS}
+              id={DataTableId.CONSENT_MODELS}
               data={filters.filtered}
               columns={columns}
               localSorting
