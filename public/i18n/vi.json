@@ -6985,7 +6985,8 @@
     "OBJECTED_ERROR": "Sự phản đối của bạn đang chặn mô hình này. Bạn đã phản đối các nhà cung cấp sử dụng dữ liệu đầu vào của bạn cho mục đích riêng, ví dụ để huấn luyện, và mô hình này chỉ được cung cấp qua các nhà cung cấp như vậy. Các sự đồng ý của bạn không thay đổi điều này, sự phản đối được ưu tiên. Hãy rút lại sự phản đối tại đây hoặc chọn mô hình khác.",
     "OBJECTED_ERROR_PROVIDERS": "Sự phản đối của bạn đang chặn mô hình này. Bạn đã phản đối các nhà cung cấp sử dụng dữ liệu đầu vào của bạn cho mục đích riêng, ví dụ để huấn luyện, và mọi nhà cung cấp của mô hình này đều làm vậy: {providers}. Các sự đồng ý của bạn không thay đổi điều này, sự phản đối được ưu tiên.",
     "WITHDRAW_BUTTON": "Rút lại sự phản đối",
-    "ACTIVE_NOTE": "Sự phản đối việc sử dụng cho mục đích riêng của bạn đang bật. Nó vẫn chặn các nhà cung cấp sử dụng dữ liệu đầu vào của bạn cho mục đích riêng, kể cả sau khi bạn đồng ý tại đây."
+    "ACTIVE_NOTE": "Sự phản đối việc sử dụng cho mục đích riêng của bạn đang bật. Nó vẫn chặn các nhà cung cấp sử dụng dữ liệu đầu vào của bạn cho mục đích riêng, kể cả sau khi bạn đồng ý tại đây.",
+    "NOT_CONSENT": "Đây không phải là sự đồng ý. Khi bật, các nhà cung cấp này vẫn bị chặn kể cả sau khi bạn đã đồng ý, vì vậy hãy để tắt để sử dụng chúng."
   },
   "PROVIDER_CONSENT": {
     "TITLE": "Đồng ý chuyển dữ liệu đầu vào của bạn đến các nhà cung cấp này",

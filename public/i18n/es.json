@@ -6985,7 +6985,8 @@
     "OBJECTED_ERROR": "Tu oposición bloquea este modelo. Te opusiste a los proveedores que usan tus entradas para sus propios fines, por ejemplo para entrenar, y este modelo solo se ofrece a través de ellos. Tus consentimientos no cambian esto, la oposición tiene prioridad. Retira la oposición aquí o elige otro modelo.",
     "OBJECTED_ERROR_PROVIDERS": "Tu oposición bloquea este modelo. Te opusiste a los proveedores que usan tus entradas para sus propios fines, por ejemplo para entrenar, y todos los proveedores de este modelo lo hacen: {providers}. Tus consentimientos no cambian esto, la oposición tiene prioridad.",
     "WITHDRAW_BUTTON": "Retirar la oposición",
-    "ACTIVE_NOTE": "Tu oposición al uso para fines propios está activa. Sigue bloqueando a los proveedores que usan tus entradas para sus propios fines, incluso después de que des tu consentimiento aquí."
+    "ACTIVE_NOTE": "Tu oposición al uso para fines propios está activa. Sigue bloqueando a los proveedores que usan tus entradas para sus propios fines, incluso después de que des tu consentimiento aquí.",
+    "NOT_CONSENT": "Esto no es un consentimiento. Mientras esté activado, estos proveedores siguen bloqueados aunque les des tu consentimiento, así que déjalo desactivado para usarlos."
   },
   "PROVIDER_CONSENT": {
     "TITLE": "Consentimiento para la transferencia de tus entradas a estos proveedores",

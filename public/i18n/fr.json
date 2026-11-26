@@ -6985,7 +6985,8 @@
     "OBJECTED_ERROR": "Ton opposition bloque ce modèle. Tu t'es opposé aux fournisseurs qui utilisent tes saisies à leurs propres fins, par exemple pour l'entraînement, et ce modèle n'est proposé que par de tels fournisseurs. Tes consentements n'y changent rien, l'opposition prime. Retire l'opposition ici ou choisis un autre modèle.",
     "OBJECTED_ERROR_PROVIDERS": "Ton opposition bloque ce modèle. Tu t'es opposé aux fournisseurs qui utilisent tes saisies à leurs propres fins, par exemple pour l'entraînement, et tous les fournisseurs de ce modèle le font : {providers}. Tes consentements n'y changent rien, l'opposition prime.",
     "WITHDRAW_BUTTON": "Retirer l'opposition",
-    "ACTIVE_NOTE": "Ton opposition à l'utilisation à des fins propres est active. Elle bloque toujours les fournisseurs qui utilisent tes saisies à leurs propres fins, même après ton consentement ici."
+    "ACTIVE_NOTE": "Ton opposition à l'utilisation à des fins propres est active. Elle bloque toujours les fournisseurs qui utilisent tes saisies à leurs propres fins, même après ton consentement ici.",
+    "NOT_CONSENT": "Ce n'est pas un consentement. Tant qu'il est activé, ces fournisseurs restent bloqués même après ton consentement, laisse-le donc désactivé pour les utiliser."
   },
   "PROVIDER_CONSENT": {
     "TITLE": "Consentement au transfert de tes saisies vers ces fournisseurs",

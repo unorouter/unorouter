@@ -74,12 +74,6 @@ export function ConsentsPage() {
             </Link>
           </div>
         )}
-        <div className="bg-card space-y-2 rounded-lg border p-4">
-          <h2 className="text-foreground text-sm font-medium">
-            {t("OWN_PURPOSE.TITLE")}
-          </h2>
-          <OwnPurposeObjectionToggle />
-        </div>
         <div className="border-border flex gap-1 border-b pb-px">
           {TABS.map((tab) => {
             const active = params.tab === tab;
@@ -126,6 +120,19 @@ export function ConsentsPage() {
           }
         />
       )}
+
+      <div className="mt-6 px-4 md:px-6">
+        <div className="bg-card space-y-2 rounded-lg border p-4">
+          <h2 className="text-foreground text-sm font-medium">
+            {t("OWN_PURPOSE.TITLE")}
+          </h2>
+          <p className="text-warning flex items-start gap-1.5 text-sm">
+            <Icon name="triangle-alert" className="mt-0.5 h-4 w-4 shrink-0" />
+            {t("OWN_PURPOSE.NOT_CONSENT")}
+          </p>
+          <OwnPurposeObjectionToggle />
+        </div>
+      </div>
 
       <ProviderConsentDialog
         open={params.alias !== null}

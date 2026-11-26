@@ -6985,7 +6985,8 @@
     "OBJECTED_ERROR": "Your objection blocks this model. You objected to providers that use your inputs for their own purposes, for example training, and this model is only offered through such providers. Your consents do not change this, the objection takes priority. Withdraw the objection here or choose another model.",
     "OBJECTED_ERROR_PROVIDERS": "Your objection blocks this model. You objected to providers that use your inputs for their own purposes, for example training, and every provider of it does: {providers}. Your consents do not change this, the objection takes priority.",
     "WITHDRAW_BUTTON": "Withdraw objection",
-    "ACTIVE_NOTE": "Your objection to use for own purposes is active. It still blocks providers that use your inputs for their own purposes, even after you consent here."
+    "ACTIVE_NOTE": "Your objection to use for own purposes is active. It still blocks providers that use your inputs for their own purposes, even after you consent here.",
+    "NOT_CONSENT": "This is not a consent. While it is on, these providers stay blocked even after you consent to them, so leave it off to use them."
   },
   "PROVIDER_CONSENT": {
     "TITLE": "Consent to the transfer of your inputs to these providers",

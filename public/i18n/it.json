@@ -6985,7 +6985,8 @@
     "OBJECTED_ERROR": "La tua opposizione blocca questo modello. Ti sei opposto ai fornitori che usano i tuoi input per scopi propri, ad esempio per l'addestramento, e questo modello è offerto solo tramite tali fornitori. I tuoi consensi non cambiano nulla, l'opposizione ha la precedenza. Ritira l'opposizione qui o scegli un altro modello.",
     "OBJECTED_ERROR_PROVIDERS": "La tua opposizione blocca questo modello. Ti sei opposto ai fornitori che usano i tuoi input per scopi propri, ad esempio per l'addestramento, e tutti i fornitori di questo modello lo fanno: {providers}. I tuoi consensi non cambiano nulla, l'opposizione ha la precedenza.",
     "WITHDRAW_BUTTON": "Ritira l'opposizione",
-    "ACTIVE_NOTE": "La tua opposizione all'uso per scopi propri è attiva. Continua a bloccare i fornitori che usano i tuoi input per scopi propri, anche dopo il tuo consenso qui."
+    "ACTIVE_NOTE": "La tua opposizione all'uso per scopi propri è attiva. Continua a bloccare i fornitori che usano i tuoi input per scopi propri, anche dopo il tuo consenso qui.",
+    "NOT_CONSENT": "Questo non è un consenso. Finché è attivo, questi fornitori restano bloccati anche dopo che hai dato il consenso, quindi lascialo disattivato per usarli."
   },
   "PROVIDER_CONSENT": {
     "TITLE": "Consenso al trasferimento dei tuoi input a questi fornitori",
