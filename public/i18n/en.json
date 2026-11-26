@@ -1649,7 +1649,7 @@
       "Q5": "What happens if a provider fails?",
       "A5": "{appName} routes requests across multiple providers with automatic failover. If one provider is rate-limited or down, we retry against the next healthy upstream transparently.",
       "Q6": "Can I get a refund?",
-      "A6": "Unused prepaid credit is refundable for 30 days from purchase. Contact {supportEmail} for refund requests.",
+      "A6": "Unused prepaid credit is refundable for 7 days from purchase. Contact {supportEmail} for refund requests.",
       "Q7": "Can I use this with SillyTavern, RisuAI, or other OpenAI-compatible AI chat clients?",
       "A7": "Yes. Every plan works as a custom OpenAI-compatible source in any major character chat client. SillyTavern, Janitor.AI, RisuAI, and Chub each have a setup guide in the docs.",
       "Q8": "How long can my conversations or character history be?",
@@ -3883,7 +3883,7 @@
       "LABEL": "Payment method",
       "CARD": "Card / Google & Apple Pay / Alipay",
       "CRYPTO": "Crypto",
-      "PAYPAL": "PayPal",
+      "PAYPAL": "PayPal / other cards",
       "DIGISTORE": "Digistore24 (card, PayPal and more)"
     },
     "SUPPORT_TITLE": "Need help?",

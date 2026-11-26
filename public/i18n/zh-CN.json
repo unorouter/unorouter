@@ -1649,7 +1649,7 @@
       "Q5": "提供方故障怎么办？",
       "A5": "{appName} 会在多个提供方之间路由请求并自动容灾。若某个提供方被限流或宕机，我们会透明地重试下一个健康的上游。",
       "Q6": "可以退款吗？",
-      "A6": "未使用的预付额度在购买后 30 天内可退款。退款请求请联系 {supportEmail}。",
+      "A6": "未使用的预付额度在购买后 7 天内可退款。退款请求请联系 {supportEmail}。",
       "Q7": "我可以将它与 SillyTavern、RisuAI 或其他 OpenAI 兼容的 AI 聊天客户端一起使用吗？",
       "A7": "可以。每个套餐都能在任意主流角色聊天客户端中作为自定义的 OpenAI 兼容源使用。SillyTavern、Janitor.AI、RisuAI 和 Chub 在文档中各有一份设置指南。",
       "Q8": "对话或角色历史最长能保留多久？",
@@ -3885,7 +3885,7 @@
       "LABEL": "支付方式",
       "CARD": "银行卡 / Google & Apple Pay / 支付宝",
       "CRYPTO": "加密货币",
-      "PAYPAL": "PayPal",
+      "PAYPAL": "PayPal / 其他银行卡",
       "DIGISTORE": "Digistore24（银行卡、PayPal 等）"
     },
     "TRANSACTIONS": {

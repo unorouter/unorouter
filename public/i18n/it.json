@@ -1649,7 +1649,7 @@
       "Q5": "Cosa succede se un provider fallisce?",
       "A5": "{appName} instrada le richieste attraverso più provider con failover automatico. Se un provider è limitato per tariffa o caduto, riproviamo contro il prossimo upstream sano in modo trasparente.",
       "Q6": "Posso ottenere un rimborso?",
-      "A6": "Il credito prepagato non utilizzato è rimborsabile per 30 giorni dall'acquisto. Contatta {supportEmail} per richieste di rimborso.",
+      "A6": "Il credito prepagato non utilizzato è rimborsabile per 7 giorni dall'acquisto. Contatta {supportEmail} per richieste di rimborso.",
       "Q7": "Posso usarlo con SillyTavern, RisuAI o altri client di chat IA compatibili con OpenAI?",
       "A7": "Sì. Ogni piano funziona come sorgente personalizzata compatibile con OpenAI in qualsiasi client di chat con personaggi importante. SillyTavern, Janitor.AI, RisuAI e Chub hanno ciascuno una guida di configurazione nella documentazione.",
       "Q8": "Quanto possono essere lunghe le mie conversazioni o cronologia di personaggi?",
@@ -3885,7 +3885,7 @@
       "LABEL": "Metodo di pagamento",
       "CARD": "Carta / Google & Apple Pay / Alipay",
       "CRYPTO": "Crypto",
-      "PAYPAL": "PayPal",
+      "PAYPAL": "PayPal / altre carte",
       "DIGISTORE": "Digistore24 (carta, PayPal e altro)"
     },
     "TRANSACTIONS": {

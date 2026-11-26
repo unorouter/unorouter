@@ -1649,7 +1649,7 @@
       "Q5": "Bir sağlayıcı başarısız olursa ne olur?",
       "A5": "{appName} otomatik failover ile birden çok sağlayıcı arasında istekleri yönlendirir. Bir sağlayıcı hız sınırına ulaşmışsa veya çökmüşse, sonraki sağlıklı upstream'e şeffaf bir şekilde yeniden deneriz.",
       "Q6": "İade alabilir miyim?",
-      "A6": "Kullanılmayan ön ödemeli kredi satın alma tarihinden itibaren 30 gün boyunca iade edilebilir. İade istekleri için {supportEmail} ile iletişime geçin.",
+      "A6": "Kullanılmayan ön ödemeli kredi satın alma tarihinden itibaren 7 gün boyunca iade edilebilir. İade istekleri için {supportEmail} ile iletişime geçin.",
       "Q7": "Bunu SillyTavern, RisuAI veya OpenAI uyumlu diğer yapay zeka sohbet istemcileriyle kullanabilir miyim?",
       "A7": "Evet. Her plan, büyük karakter sohbet istemcilerinin herhangi birinde özel OpenAI uyumlu kaynak olarak çalışır. SillyTavern, Janitor.AI, RisuAI ve Chub'ın her birinin dokümanlarda bir kurulum kılavuzu vardır.",
       "Q8": "Sohbetlerim veya karakter geçmişim ne kadar uzun olabilir?",
@@ -3885,7 +3885,7 @@
       "LABEL": "Ödeme yöntemi",
       "CARD": "Kart / Google & Apple Pay / Alipay",
       "CRYPTO": "Crypto",
-      "PAYPAL": "PayPal",
+      "PAYPAL": "PayPal / diğer kartlar",
       "DIGISTORE": "Digistore24 (kart, PayPal ve daha fazlası)"
     },
     "TRANSACTIONS": {

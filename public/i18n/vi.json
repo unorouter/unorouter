@@ -1649,7 +1649,7 @@
       "Q5": "Điều gì xảy ra nếu nhà cung cấp bị lỗi?",
       "A5": "{appName} định tuyến yêu cầu qua nhiều nhà cung cấp với tự động chuyển đổi dự phòng. Nếu một bên bị giới hạn tốc độ hoặc ngừng hoạt động, chúng tôi tự động thử lại với upstream khỏe mạnh tiếp theo một cách minh bạch.",
       "Q6": "Tôi có được hoàn tiền không?",
-      "A6": "Tín dụng trả trước chưa dùng có thể hoàn tiền trong vòng 30 ngày kể từ khi mua. Liên hệ {supportEmail} cho yêu cầu hoàn tiền.",
+      "A6": "Tín dụng trả trước chưa dùng có thể hoàn tiền trong vòng 7 ngày kể từ khi mua. Liên hệ {supportEmail} cho yêu cầu hoàn tiền.",
       "Q7": "Tôi có thể dùng cái này với SillyTavern, RisuAI hoặc các ứng dụng chat AI tương thích OpenAI khác không?",
       "A7": "Có. Mọi gói đều hoạt động như một nguồn tùy chỉnh tương thích OpenAI trong bất kỳ ứng dụng chat nhân vật lớn nào. SillyTavern, Janitor.AI, RisuAI và Chub mỗi cái đều có một hướng dẫn thiết lập trong tài liệu.",
       "Q8": "Cuộc trò chuyện hoặc lịch sử nhân vật có thể dài đến đâu?",
@@ -3885,7 +3885,7 @@
       "LABEL": "Phương thức thanh toán",
       "CARD": "Thẻ / Google & Apple Pay / Alipay",
       "CRYPTO": "Tiền mã hoá",
-      "PAYPAL": "PayPal",
+      "PAYPAL": "PayPal / thẻ khác",
       "DIGISTORE": "Digistore24 (thẻ, PayPal và các phương thức khác)"
     },
     "TRANSACTIONS": {

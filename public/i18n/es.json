@@ -1649,7 +1649,7 @@
       "Q5": "¿Qué pasa si un proveedor falla?",
       "A5": "{appName} enruta solicitudes a través de múltiples proveedores con failover automático. Si un proveedor está limitado por tasa o caído, reintentamos contra el próximo upstream saludable de forma transparente.",
       "Q6": "¿Puedo obtener un reembolso?",
-      "A6": "El crédito prepagado no utilizado es reembolsable durante 30 días desde la compra. Contacta {supportEmail} para solicitudes de reembolso.",
+      "A6": "El crédito prepagado no utilizado es reembolsable durante 7 días desde la compra. Contacta {supportEmail} para solicitudes de reembolso.",
       "Q7": "¿Puedo usar esto con SillyTavern, RisuAI u otros clientes de chat de IA compatibles con OpenAI?",
       "A7": "Sí. Todos los planes funcionan como fuente personalizada compatible con OpenAI en cualquier cliente de chat de personajes importante. SillyTavern, Janitor.AI, RisuAI y Chub tienen cada uno una guía de configuración en la documentación.",
       "Q8": "¿Qué tan largas pueden ser mis conversaciones o historiales de personajes?",
@@ -3885,7 +3885,7 @@
       "LABEL": "Método de pago",
       "CARD": "Tarjeta / Google & Apple Pay / Alipay",
       "CRYPTO": "Cripto",
-      "PAYPAL": "PayPal",
+      "PAYPAL": "PayPal / otras tarjetas",
       "DIGISTORE": "Digistore24 (tarjeta, PayPal y más)"
     },
     "TRANSACTIONS": {

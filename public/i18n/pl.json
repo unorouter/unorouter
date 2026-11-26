@@ -1649,7 +1649,7 @@
       "Q5": "Co się dzieje, gdy dostawca pada?",
       "A5": "{appName} routuje zapytania przez wielu dostawców z automatycznym failover. Jeśli jeden dostawca jest ograniczony lub padł, ponawiamy przezroczyście wobec następnego zdrowego upstream.",
       "Q6": "Czy mogę otrzymać zwrot?",
-      "A6": "Nieużyty kredyt prepaid podlega zwrotowi przez 30 dni od zakupu. Skontaktuj się z {supportEmail} w sprawie zwrotów.",
+      "A6": "Nieużyty kredyt prepaid podlega zwrotowi przez 7 dni od zakupu. Skontaktuj się z {supportEmail} w sprawie zwrotów.",
       "Q7": "Czy mogę używać tego z SillyTavern, RisuAI lub innymi klientami czatu AI zgodnymi z OpenAI?",
       "A7": "Tak. Każdy plan działa jako niestandardowe źródło zgodne z OpenAI w dowolnym większym kliencie czatu z postaciami. SillyTavern, Janitor.AI, RisuAI i Chub mają każdy przewodnik konfiguracji w dokumentacji.",
       "Q8": "Jak długie mogą być moje rozmowy lub historia postaci?",
@@ -3885,7 +3885,7 @@
       "LABEL": "Metoda płatności",
       "CARD": "Karta / Google & Apple Pay / Alipay",
       "CRYPTO": "Krypto",
-      "PAYPAL": "PayPal",
+      "PAYPAL": "PayPal / inne karty",
       "DIGISTORE": "Digistore24 (karta, PayPal i inne)"
     },
     "TRANSACTIONS": {

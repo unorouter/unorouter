@@ -1649,7 +1649,7 @@
       "Q5": "Apa yang terjadi jika penyedia gagal?",
       "A5": "{appName} me-route permintaan di beberapa penyedia dengan failover otomatis. Jika satu penyedia dibatasi rate atau turun, kami mencoba lagi terhadap upstream sehat berikutnya secara transparan.",
       "Q6": "Bisakah saya mendapatkan pengembalian dana?",
-      "A6": "Kredit prabayar yang tidak terpakai dapat dikembalikan selama 30 hari dari pembelian. Hubungi {supportEmail} untuk permintaan pengembalian dana.",
+      "A6": "Kredit prabayar yang tidak terpakai dapat dikembalikan selama 7 hari dari pembelian. Hubungi {supportEmail} untuk permintaan pengembalian dana.",
       "Q7": "Bisakah saya menggunakan ini dengan SillyTavern, RisuAI, atau klien obrolan AI lain yang kompatibel dengan OpenAI?",
       "A7": "Ya. Setiap paket berfungsi sebagai sumber kustom yang kompatibel dengan OpenAI di klien obrolan karakter mana pun yang besar. SillyTavern, Janitor.AI, RisuAI, dan Chub masing-masing memiliki panduan pengaturan di dokumentasi.",
       "Q8": "Berapa panjang sohbet atau riwayat karakter saya?",
@@ -3885,7 +3885,7 @@
       "LABEL": "Metode pembayaran",
       "CARD": "Kartu / Google & Apple Pay / Alipay",
       "CRYPTO": "Crypto",
-      "PAYPAL": "PayPal",
+      "PAYPAL": "PayPal / kartu lain",
       "DIGISTORE": "Digistore24 (kartu, PayPal, dan lainnya)"
     },
     "TRANSACTIONS": {

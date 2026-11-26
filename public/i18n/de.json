@@ -1649,7 +1649,7 @@
       "Q5": "Was passiert, wenn ein Anbieter ausfällt?",
       "A5": "{appName} verteilt Anfragen auf mehrere Anbieter mit automatischem Failover. Wenn ein Anbieter rate-limited oder offline ist, wiederholen wir die Anfrage transparent über den nächsten gesunden Upstream.",
       "Q6": "Kann ich eine Rückerstattung bekommen?",
-      "A6": "Nicht verbrauchtes Guthaben ist 30 Tage ab Kauf erstattungsfähig. Kontaktiere {supportEmail} für Rückerstattungsanfragen.",
+      "A6": "Nicht verbrauchtes Guthaben ist 7 Tage ab Kauf erstattungsfähig. Kontaktiere {supportEmail} für Rückerstattungsanfragen.",
       "Q7": "Kann ich das mit SillyTavern, RisuAI oder anderen OpenAI-kompatiblen KI-Chat-Clients nutzen?",
       "A7": "Ja. Jeder Plan funktioniert als benutzerdefinierte OpenAI-kompatible Quelle in jedem großen Charakter-Chat-Client. SillyTavern, Janitor.AI, RisuAI und Chub haben jeweils eine Anleitung in den Docs.",
       "Q8": "Wie lang können meine Gespräche oder Charakter-Verläufe sein?",
@@ -3885,7 +3885,7 @@
       "LABEL": "Zahlungsmethode",
       "CARD": "Karte / Google & Apple Pay / Alipay",
       "CRYPTO": "Krypto",
-      "PAYPAL": "PayPal",
+      "PAYPAL": "PayPal / andere Karten",
       "DIGISTORE": "Digistore24 (Karte, PayPal und mehr)"
     },
     "TRANSACTIONS": {

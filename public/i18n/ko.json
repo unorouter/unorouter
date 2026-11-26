@@ -1649,7 +1649,7 @@
       "Q5": "공급자가 실패하면 어떻게 되나요?",
       "A5": "{appName}은 자동 페일오버로 여러 공급자에 걸쳐 요청을 라우팅합니다. 한 공급자가 속도 제한되거나 다운되면 다음 정상 업스트림에 투명하게 재시도합니다.",
       "Q6": "환불 받을 수 있나요?",
-      "A6": "사용하지 않은 선불 크레딧은 구매 후 30일 동안 환불 가능합니다. 환불 요청은 {supportEmail}로 문의하세요.",
+      "A6": "사용하지 않은 선불 크레딧은 구매 후 7일 동안 환불 가능합니다. 환불 요청은 {supportEmail}로 문의하세요.",
       "Q7": "SillyTavern, RisuAI 또는 다른 OpenAI 호환 AI 채팅 클라이언트와 함께 사용할 수 있나요?",
       "A7": "네. 모든 요금제는 주요 캐릭터 채팅 클라이언트에서 커스텀 OpenAI 호환 소스로 작동합니다. SillyTavern, Janitor.AI, RisuAI, Chub 각각 문서에 설정 가이드가 있습니다.",
       "Q8": "대화 또는 캐릭터 히스토리는 얼마나 길 수 있나요?",
@@ -3885,7 +3885,7 @@
       "LABEL": "결제 수단",
       "CARD": "카드 / Google & Apple Pay / Alipay",
       "CRYPTO": "암호화폐",
-      "PAYPAL": "PayPal",
+      "PAYPAL": "PayPal / 기타 카드",
       "DIGISTORE": "Digistore24 (카드, PayPal 등)"
     },
     "TRANSACTIONS": {
