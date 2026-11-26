@@ -1076,7 +1076,7 @@ export const FOOTER_BADGES: {
     width: 77,
   },
   {
-    href: "https://www.product-tower.com",
+    href: "https://www.product-tower.com/en/product/unorouter",
     src: "https://www.product-tower.com/api/badge/unorouter/featured?theme=light&lang=en",
     name: "Startup Directory and Launch Platform for Turkish Founders",
     width: 90,
@@ -2406,7 +2406,7 @@ export const FOOTER_TEXT_LINKS = [
     href: "https://launchtory.com/projects/unorouter",
     label: "UnoRouter on Launchtory",
   },
-  { href: "https://launchvoid.com", label: "Featured on LaunchVoid" },
+  { href: "https://www.launchvoid.com/startup/unorouter-ybqn", label: "Featured on LaunchVoid" },
   {
     href: "https://www.listyourproject.com/doncryptus/unorouter/",
     label: "ListYourProject",
