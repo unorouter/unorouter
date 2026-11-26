@@ -12,6 +12,7 @@ import {
 } from "@/openapi";
 import { deriveUpstream, getUserId } from "@/server/constants";
 import { Elysia } from "elysia";
+import { rateLimit } from "@/server/rate-limit";
 import {
   ensureGuestId,
   forgetGuestConsents,
@@ -60,7 +61,10 @@ export const providerConsentRoute = new Elysia({
         }),
       );
     },
-    { body: providerConsentGrantBody },
+    {
+      body: providerConsentGrantBody,
+      beforeHandle: rateLimit("consent-write", 10),
+    },
   )
 
   .delete(
@@ -77,5 +81,8 @@ export const providerConsentRoute = new Elysia({
         }),
       );
     },
-    { body: providerConsentRevokeBody },
+    {
+      body: providerConsentRevokeBody,
+      beforeHandle: rateLimit("consent-write", 10),
+    },
   );
