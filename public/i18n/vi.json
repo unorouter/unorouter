@@ -6972,7 +6972,9 @@
     },
     "TAB_PROVIDERS": "Nhà cung cấp",
     "TAB_MODELS": "Mô hình",
-    "COVERED_BY_PROVIDERS": "Đã được bao gồm bởi sự đồng ý cho nhà cung cấp"
+    "COVERED_BY_PROVIDERS": "Đã được bao gồm bởi sự đồng ý cho nhà cung cấp",
+    "GUEST_NOTICE": "Bạn chưa đăng nhập. Sự đồng ý bạn đưa ra ở đây chỉ áp dụng cho chat trong trình duyệt này, không áp dụng cho khóa API của bạn. Hãy đăng nhập bằng tài khoản sở hữu khóa, rồi đồng ý.",
+    "GUEST_LOGIN": "Đăng nhập"
   },
   "OWN_PURPOSE": {
     "TITLE": "Phản đối việc nhà cung cấp sử dụng cho mục đích riêng",
@@ -7026,7 +7028,8 @@
       "GRANT_ALL": "{count, plural, other {Đồng ý cho cả #}}",
       "BACK": "Quay lại tất cả nhà cung cấp",
       "CLEAR": "Bỏ bộ lọc mô hình",
-      "INACTIVE_GROUP": "{count, plural, other {# nhà cung cấp không hoạt động (đã bao gồm trong sự đồng ý)}}"
+      "INACTIVE_GROUP": "{count, plural, other {# nhà cung cấp không hoạt động (đã bao gồm trong sự đồng ý)}}",
+      "COVERED_HINT_GUEST": "Đã lưu sự đồng ý cho chat trong trình duyệt này. Khóa API của bạn chỉ dùng các sự đồng ý được đưa ra khi đã đăng nhập vào tài khoản của nó."
     },
     "COUNTS_SHORT": "{activeModels}/{models} mô hình, {activeChannels}/{channels} kết nối",
     "REASON": {

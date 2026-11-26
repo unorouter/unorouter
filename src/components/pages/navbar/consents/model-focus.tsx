@@ -13,6 +13,7 @@ import {
   useModelProviderConsentsQuery,
   useRevokeProviderConsentMutation,
 } from "@/hooks/auth/provider-consent-hook";
+import { useApiKey } from "@/hooks/ui/use-api-key";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import type { ViewMode } from "@/components/pages/navbar/models/filters/view-mode-toggle";
@@ -33,6 +34,7 @@ export function ModelFocus(props: {
   const query = useModelProviderConsentsQuery(props.model);
   const revokeMutation = useRevokeProviderConsentMutation();
   const [granting, setGranting] = useState(false);
+  const token = useApiKey();
 
   const handlers: ProviderHandlers = {
     open: props.onOpenAlias,
@@ -151,7 +153,9 @@ export function ModelFocus(props: {
         <div className="bg-card flex flex-wrap items-center gap-3 rounded-lg border p-4">
           <Icon name="circle-check" className="text-success h-5 w-5" />
           <p className="text-muted-foreground flex-1 text-sm">
-            {t("PROVIDER_CONSENT.FOCUS.COVERED_HINT")}
+            {token.isLoggedIn
+              ? t("PROVIDER_CONSENT.FOCUS.COVERED_HINT")
+              : t("PROVIDER_CONSENT.FOCUS.COVERED_HINT_GUEST")}
           </p>
           {backLink}
         </div>

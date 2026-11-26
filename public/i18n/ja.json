@@ -6972,7 +6972,9 @@
     },
     "TAB_PROVIDERS": "提供者",
     "TAB_MODELS": "モデル",
-    "COVERED_BY_PROVIDERS": "提供者への同意でカバー済み"
+    "COVERED_BY_PROVIDERS": "提供者への同意でカバー済み",
+    "GUEST_NOTICE": "ログインしていません。ここで行った同意はこのブラウザのチャットにのみ適用され、API キーには適用されません。キーが属するアカウントでログインしてから同意してください。",
+    "GUEST_LOGIN": "ログイン"
   },
   "OWN_PURPOSE": {
     "TITLE": "プロバイダー独自の目的での利用に対する異議",
@@ -7026,7 +7028,8 @@
       "GRANT_ALL": "{count, plural, other {# 件すべてに同意する}}",
       "BACK": "すべての提供者に戻る",
       "CLEAR": "モデルの絞り込みを解除",
-      "INACTIVE_GROUP": "{count, plural, other {停止中の提供者 # 件（同意に含まれます）}}"
+      "INACTIVE_GROUP": "{count, plural, other {停止中の提供者 # 件（同意に含まれます）}}",
+      "COVERED_HINT_GUEST": "このブラウザのチャット用に同意を保存しました。API キーは、そのアカウントにログインした状態で行った同意のみを使用します。"
     },
     "COUNTS_SHORT": "モデル {activeModels}/{models}、接続 {activeChannels}/{channels}",
     "REASON": {

@@ -6972,7 +6972,9 @@
     },
     "TAB_PROVIDERS": "Dostawcy",
     "TAB_MODELS": "Modele",
-    "COVERED_BY_PROVIDERS": "Objęte zgodami dla dostawców"
+    "COVERED_BY_PROVIDERS": "Objęte zgodami dla dostawców",
+    "GUEST_NOTICE": "Nie jesteś zalogowany. Zgody udzielone tutaj dotyczą tylko czatu w tej przeglądarce, a nie twojego klucza API. Zaloguj się na konto, do którego należy twój klucz, i dopiero wtedy wyraź zgodę.",
+    "GUEST_LOGIN": "Zaloguj się"
   },
   "OWN_PURPOSE": {
     "TITLE": "Sprzeciw wobec wykorzystania do własnych celów dostawców",
@@ -7026,7 +7028,8 @@
       "GRANT_ALL": "{count, plural, one {Wyraź zgodę dla tego dostawcy} few {Wyraź zgodę dla wszystkich #} many {Wyraź zgodę dla wszystkich #} other {Wyraź zgodę dla wszystkich #}}",
       "BACK": "Wróć do wszystkich dostawców",
       "CLEAR": "Usuń filtr modelu",
-      "INACTIVE_GROUP": "{count, plural, one {# nieaktywny dostawca (objęty zgodą)} few {# nieaktywni dostawcy (objęci zgodą)} many {# nieaktywnych dostawców (objętych zgodą)} other {# nieaktywnego dostawcy (objętego zgodą)}}"
+      "INACTIVE_GROUP": "{count, plural, one {# nieaktywny dostawca (objęty zgodą)} few {# nieaktywni dostawcy (objęci zgodą)} many {# nieaktywnych dostawców (objętych zgodą)} other {# nieaktywnego dostawcy (objętego zgodą)}}",
+      "COVERED_HINT_GUEST": "Zgoda zapisana dla czatu w tej przeglądarce. Twój klucz API korzysta tylko ze zgód udzielonych po zalogowaniu na jego konto."
     },
     "COUNTS_SHORT": "{activeModels}/{models} modeli, {activeChannels}/{channels} poł.",
     "REASON": {

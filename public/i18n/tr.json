@@ -6972,7 +6972,9 @@
     },
     "TAB_PROVIDERS": "Sağlayıcılar",
     "TAB_MODELS": "Modeller",
-    "COVERED_BY_PROVIDERS": "Sağlayıcı onaylarıyla kapsanıyor"
+    "COVERED_BY_PROVIDERS": "Sağlayıcı onaylarıyla kapsanıyor",
+    "GUEST_NOTICE": "Giriş yapmadın. Burada verdiğin onaylar yalnızca bu tarayıcıdaki sohbet için geçerlidir, API anahtarın için değil. Anahtarının ait olduğu hesapla giriş yap, sonra onay ver.",
+    "GUEST_LOGIN": "Giriş yap"
   },
   "OWN_PURPOSE": {
     "TITLE": "Sağlayıcıların kendi amaçları için kullanımına itiraz",
@@ -7026,7 +7028,8 @@
       "GRANT_ALL": "{count, plural, one {Bu sağlayıcıya onay ver} other {# sağlayıcının tümüne onay ver}}",
       "BACK": "Tüm sağlayıcılara dön",
       "CLEAR": "Model filtresini kaldır",
-      "INACTIVE_GROUP": "{count, plural, one {# etkin olmayan sağlayıcı (onaya dahil)} other {# etkin olmayan sağlayıcı (onaya dahil)}}"
+      "INACTIVE_GROUP": "{count, plural, one {# etkin olmayan sağlayıcı (onaya dahil)} other {# etkin olmayan sağlayıcı (onaya dahil)}}",
+      "COVERED_HINT_GUEST": "Onay bu tarayıcıdaki sohbet için kaydedildi. API anahtarın yalnızca kendi hesabına giriş yapılmışken verilen onayları kullanır."
     },
     "COUNTS_SHORT": "{activeModels}/{models} model, {activeChannels}/{channels} bağl.",
     "REASON": {

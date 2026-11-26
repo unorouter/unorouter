@@ -6972,7 +6972,9 @@
     },
     "TAB_PROVIDERS": "Anbieter",
     "TAB_MODELS": "Modelle",
-    "COVERED_BY_PROVIDERS": "Durch Einwilligungen für Anbieter abgedeckt"
+    "COVERED_BY_PROVIDERS": "Durch Einwilligungen für Anbieter abgedeckt",
+    "GUEST_NOTICE": "Du bist nicht angemeldet. Einwilligungen, die du hier gibst, gelten nur für den Chat in diesem Browser, nicht für deinen API-Schlüssel. Melde dich mit dem Konto an, zu dem dein Schlüssel gehört, und willige dann ein.",
+    "GUEST_LOGIN": "Anmelden"
   },
   "OWN_PURPOSE": {
     "TITLE": "Widerspruch gegen die Nutzung für eigene Zwecke der Anbieter",
@@ -7026,7 +7028,8 @@
       "GRANT_ALL": "{count, plural, one {In diesen Anbieter einwilligen} other {In alle # einwilligen}}",
       "BACK": "Zurück zu allen Anbietern",
       "CLEAR": "Modellfilter entfernen",
-      "INACTIVE_GROUP": "{count, plural, one {# inaktiver Anbieter (in der Einwilligung enthalten)} other {# inaktive Anbieter (in der Einwilligung enthalten)}}"
+      "INACTIVE_GROUP": "{count, plural, one {# inaktiver Anbieter (in der Einwilligung enthalten)} other {# inaktive Anbieter (in der Einwilligung enthalten)}}",
+      "COVERED_HINT_GUEST": "Einwilligung für den Chat in diesem Browser gespeichert. Dein API-Schlüssel nutzt nur Einwilligungen, die du angemeldet in seinem Konto gegeben hast."
     },
     "COUNTS_SHORT": "{activeModels}/{models} Modelle, {activeChannels}/{channels} Kan.",
     "REASON": {

@@ -6972,7 +6972,9 @@
     },
     "TAB_PROVIDERS": "Providers",
     "TAB_MODELS": "Models",
-    "COVERED_BY_PROVIDERS": "Covered by provider consents"
+    "COVERED_BY_PROVIDERS": "Covered by provider consents",
+    "GUEST_NOTICE": "You are not logged in. Consents you give here only apply to the chat in this browser, not to your API key. Log in with the account your key belongs to, then consent.",
+    "GUEST_LOGIN": "Log in"
   },
   "OWN_PURPOSE": {
     "TITLE": "Objection to use for the providers' own purposes",
@@ -7026,7 +7028,8 @@
       "GRANT_ALL": "{count, plural, one {Consent to this provider} other {Consent to all #}}",
       "BACK": "Back to all providers",
       "CLEAR": "Remove model filter",
-      "INACTIVE_GROUP": "{count, plural, one {# inactive provider (included in the consent)} other {# inactive providers (included in the consent)}}"
+      "INACTIVE_GROUP": "{count, plural, one {# inactive provider (included in the consent)} other {# inactive providers (included in the consent)}}",
+      "COVERED_HINT_GUEST": "Consent saved for the chat in this browser. Your API key only uses consents given while logged in to its account."
     },
     "COUNTS_SHORT": "{activeModels}/{models} models, {activeChannels}/{channels} ch",
     "REASON": {

@@ -6972,7 +6972,9 @@
     },
     "TAB_PROVIDERS": "Fornitori",
     "TAB_MODELS": "Modelli",
-    "COVERED_BY_PROVIDERS": "Coperto dai consensi ai fornitori"
+    "COVERED_BY_PROVIDERS": "Coperto dai consensi ai fornitori",
+    "GUEST_NOTICE": "Non hai effettuato l'accesso. I consensi che dai qui valgono solo per la chat in questo browser, non per la tua chiave API. Accedi con l'account a cui appartiene la tua chiave, poi dai il consenso.",
+    "GUEST_LOGIN": "Accedi"
   },
   "OWN_PURPOSE": {
     "TITLE": "Opposizione all'uso per scopi propri dei fornitori",
@@ -7026,7 +7028,8 @@
       "GRANT_ALL": "{count, plural, one {Acconsenti a questo fornitore} other {Acconsenti a tutti e #}}",
       "BACK": "Torna a tutti i fornitori",
       "CLEAR": "Rimuovi il filtro del modello",
-      "INACTIVE_GROUP": "{count, plural, one {# fornitore inattivo (incluso nel consenso)} other {# fornitori inattivi (inclusi nel consenso)}}"
+      "INACTIVE_GROUP": "{count, plural, one {# fornitore inattivo (incluso nel consenso)} other {# fornitori inattivi (inclusi nel consenso)}}",
+      "COVERED_HINT_GUEST": "Consenso salvato per la chat in questo browser. La tua chiave API usa solo i consensi dati dopo aver effettuato l'accesso al suo account."
     },
     "COUNTS_SHORT": "{activeModels}/{models} modelli, {activeChannels}/{channels} conn.",
     "REASON": {

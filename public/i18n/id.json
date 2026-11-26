@@ -6972,7 +6972,9 @@
     },
     "TAB_PROVIDERS": "Penyedia",
     "TAB_MODELS": "Model",
-    "COVERED_BY_PROVIDERS": "Tercakup oleh persetujuan untuk penyedia"
+    "COVERED_BY_PROVIDERS": "Tercakup oleh persetujuan untuk penyedia",
+    "GUEST_NOTICE": "Kamu belum masuk. Persetujuan yang kamu berikan di sini hanya berlaku untuk chat di browser ini, bukan untuk kunci API kamu. Masuk dengan akun pemilik kunci itu, lalu berikan persetujuan.",
+    "GUEST_LOGIN": "Masuk"
   },
   "OWN_PURPOSE": {
     "TITLE": "Keberatan atas penggunaan untuk tujuan penyedia sendiri",
@@ -7026,7 +7028,8 @@
       "GRANT_ALL": "{count, plural, other {Setujui semua #}}",
       "BACK": "Kembali ke semua penyedia",
       "CLEAR": "Hapus filter model",
-      "INACTIVE_GROUP": "{count, plural, other {# penyedia tidak aktif (termasuk dalam persetujuan)}}"
+      "INACTIVE_GROUP": "{count, plural, other {# penyedia tidak aktif (termasuk dalam persetujuan)}}",
+      "COVERED_HINT_GUEST": "Persetujuan disimpan untuk chat di browser ini. Kunci API kamu hanya memakai persetujuan yang diberikan saat masuk ke akunnya."
     },
     "COUNTS_SHORT": "{activeModels}/{models} model, {activeChannels}/{channels} kon.",
     "REASON": {

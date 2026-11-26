@@ -6972,7 +6972,9 @@
     },
     "TAB_PROVIDERS": "Fournisseurs",
     "TAB_MODELS": "Modèles",
-    "COVERED_BY_PROVIDERS": "Couvert par les consentements aux fournisseurs"
+    "COVERED_BY_PROVIDERS": "Couvert par les consentements aux fournisseurs",
+    "GUEST_NOTICE": "Tu n'es pas connecté. Les consentements donnés ici ne valent que pour le chat dans ce navigateur, pas pour ta clé API. Connecte-toi avec le compte auquel appartient ta clé, puis donne ton consentement.",
+    "GUEST_LOGIN": "Se connecter"
   },
   "OWN_PURPOSE": {
     "TITLE": "Opposition à l'utilisation aux propres fins des fournisseurs",
@@ -7026,7 +7028,8 @@
       "GRANT_ALL": "{count, plural, one {Consentir à ce fournisseur} other {Consentir aux #}}",
       "BACK": "Retour à tous les fournisseurs",
       "CLEAR": "Retirer le filtre de modèle",
-      "INACTIVE_GROUP": "{count, plural, one {# fournisseur inactif (inclus dans le consentement)} other {# fournisseurs inactifs (inclus dans le consentement)}}"
+      "INACTIVE_GROUP": "{count, plural, one {# fournisseur inactif (inclus dans le consentement)} other {# fournisseurs inactifs (inclus dans le consentement)}}",
+      "COVERED_HINT_GUEST": "Consentement enregistré pour le chat dans ce navigateur. Ta clé API n'utilise que les consentements donnés en étant connecté à son compte."
     },
     "COUNTS_SHORT": "{activeModels}/{models} modèles, {activeChannels}/{channels} conn.",
     "REASON": {

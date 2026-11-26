@@ -6972,7 +6972,9 @@
     },
     "TAB_PROVIDERS": "供應商",
     "TAB_MODELS": "模型",
-    "COVERED_BY_PROVIDERS": "已由對供應商的同意涵蓋"
+    "COVERED_BY_PROVIDERS": "已由對供應商的同意涵蓋",
+    "GUEST_NOTICE": "你尚未登入。在這裡給予的同意只適用於此瀏覽器中的聊天，不適用於你的 API 金鑰。請先用該金鑰所屬的帳戶登入，再給予同意。",
+    "GUEST_LOGIN": "登入"
   },
   "OWN_PURPOSE": {
     "TITLE": "反對供應商將輸入用於其自身目的",
@@ -7026,7 +7028,8 @@
       "GRANT_ALL": "{count, plural, other {同意全部 # 個}}",
       "BACK": "返回所有供應商",
       "CLEAR": "移除模型篩選",
-      "INACTIVE_GROUP": "{count, plural, other {# 個未啟用的供應商（已包含在同意中）}}"
+      "INACTIVE_GROUP": "{count, plural, other {# 個未啟用的供應商（已包含在同意中）}}",
+      "COVERED_HINT_GUEST": "已為此瀏覽器中的聊天儲存同意。你的 API 金鑰只使用登入其帳戶後給予的同意。"
     },
     "COUNTS_SHORT": "模型 {activeModels}/{models}，連線 {activeChannels}/{channels}",
     "REASON": {

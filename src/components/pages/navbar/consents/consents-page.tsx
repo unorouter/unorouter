@@ -3,8 +3,10 @@
 import { OwnPurposeObjectionToggle } from "@/components/elements/model/own-purpose-objection-toggle";
 import { ProviderConsentDialog } from "@/components/elements/model/provider-consent-panel";
 import { Icon } from "@/components/ui/icon";
+import { useApiKey } from "@/hooks/ui/use-api-key";
+import { Link } from "@/i18n/navigation";
 import type { IconName } from "@/lib/config/icon-map";
-import { msg } from "@/lib/config/constants";
+import { AUTH_REDIRECT_QUERY, msg } from "@/lib/config/constants";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { parseAsString, parseAsStringLiteral, useQueryStates } from "nuqs";
@@ -37,6 +39,7 @@ const PARSERS = {
 export function ConsentsPage() {
   const t = useTranslations();
   const [params, setParams] = useQueryStates(PARSERS);
+  const token = useApiKey();
 
   function close() {
     void setParams({ alias: null });
@@ -51,6 +54,26 @@ export function ConsentsPage() {
         <p className="text-muted-foreground text-sm">
           {t("CONSENT.PAGE_INTRO")}
         </p>
+        {!token.isLoggedIn && (
+          <div className="border-warning/40 bg-warning/10 flex flex-wrap items-center gap-3 rounded-lg border p-4">
+            <Icon
+              name="triangle-alert"
+              className="text-warning h-5 w-5 shrink-0"
+            />
+            <p className="text-foreground min-w-0 flex-1 text-sm">
+              {t("CONSENT.GUEST_NOTICE")}
+            </p>
+            <Link
+              href={{
+                pathname: "/login",
+                query: { [AUTH_REDIRECT_QUERY]: "/consents" },
+              }}
+              className="text-primary text-sm font-medium underline"
+            >
+              {t("CONSENT.GUEST_LOGIN")}
+            </Link>
+          </div>
+        )}
         <div className="bg-card space-y-2 rounded-lg border p-4">
           <h2 className="text-foreground text-sm font-medium">
             {t("OWN_PURPOSE.TITLE")}
