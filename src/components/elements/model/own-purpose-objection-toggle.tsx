@@ -34,8 +34,10 @@ export function OwnPurposeObjectionToggle() {
         <Label htmlFor="own-purpose-objection" className="text-sm">
           {t("OWN_PURPOSE.LABEL")}
         </Label>
+        {/* Green read as "good" and got the objection switched on by people who meant to allow providers. */}
         <Switch
           id="own-purpose-objection"
+          className="data-checked:bg-warning data-unchecked:bg-muted-foreground/40"
           checked={objects}
           onCheckedChange={change}
           disabled={!objectionQuery.isSuccess || setMutation.isPending}
