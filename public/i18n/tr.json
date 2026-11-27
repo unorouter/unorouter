@@ -5046,7 +5046,9 @@
     "CUSTOM_MEDIA_LOGIN": "Tarayıcın bu dosyayı sağlayıcıdan indiremedi. Uno'nun senin için alabilmesi için giriş yap.",
     "CUSTOM_PROVIDER_MISSING": "Bu modelin özel sağlayıcısı artık yok.",
     "REQUEST_TOO_LARGE": "Bu mesaj gönderilemeyecek kadar büyük. Mesajlar ekler dahil en fazla 25 MB olabilir.",
-    "LARGE_UPLOAD_LOGIN": "2 MB'tan büyük ekler göndermek için giriş yapın."
+    "LARGE_UPLOAD_LOGIN": "2 MB'tan büyük ekler göndermek için giriş yapın.",
+    "LOREBOOK_FILE_IS_CARD": "Bu dosya bir lorebook değil, karakter kartı. Karakterler bölümünden içe aktarın.",
+    "LOREBOOK_FILE_INVALID": "Bu dosyada okuyabileceğimiz bir lorebook girdisi yok."
   },
   "BADGE": {
     "TOKENS_SERVED": "token sunuldu",

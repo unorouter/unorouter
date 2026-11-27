@@ -5046,7 +5046,9 @@
     "CUSTOM_MEDIA_LOGIN": "瀏覽器無法從提供商下載此檔案。請登入，讓 Uno 幫你取得。",
     "CUSTOM_PROVIDER_MISSING": "此模型的自訂提供商已不存在。",
     "REQUEST_TOO_LARGE": "此訊息過大，無法傳送。訊息（含附件）最大為 25 MB。",
-    "LARGE_UPLOAD_LOGIN": "登入後才能傳送大於 2 MB 的附件。"
+    "LARGE_UPLOAD_LOGIN": "登入後才能傳送大於 2 MB 的附件。",
+    "LOREBOOK_FILE_IS_CARD": "此檔案是角色卡，不是知識庫。請在「角色」中匯入。",
+    "LOREBOOK_FILE_INVALID": "此檔案中沒有可讀取的知識庫條目。"
   },
   "BADGE": {
     "TOKENS_SERVED": "已服務 tokens",

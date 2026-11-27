@@ -5046,7 +5046,9 @@
     "CUSTOM_MEDIA_LOGIN": "Przeglądarka nie mogła pobrać tego pliku od dostawcy. Zaloguj się, aby Uno pobrało go za Ciebie.",
     "CUSTOM_PROVIDER_MISSING": "Własny dostawca tego modelu już nie istnieje.",
     "REQUEST_TOO_LARGE": "Ta wiadomość jest za duża, aby ją wysłać. Wiadomość może mieć maksymalnie 25 MB razem z załącznikami.",
-    "LARGE_UPLOAD_LOGIN": "Zaloguj się, aby wysyłać załączniki większe niż 2 MB."
+    "LARGE_UPLOAD_LOGIN": "Zaloguj się, aby wysyłać załączniki większe niż 2 MB.",
+    "LOREBOOK_FILE_IS_CARD": "Ten plik to karta postaci, a nie lorebook. Zaimportuj go w sekcji Postacie.",
+    "LOREBOOK_FILE_INVALID": "Ten plik nie zawiera wpisów lorebooka, które możemy odczytać."
   },
   "BADGE": {
     "TOKENS_SERVED": "obsłużone tokeny",

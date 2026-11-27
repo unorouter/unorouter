@@ -15,7 +15,7 @@ import {
 } from "@/lib/db/client/data/rp/rp";
 import type { LorebookRow } from "@/lib/db/schema/rows";
 import { queryKeys } from "@/lib/react-query/keys";
-import { uid } from "@/lib/utils/base";
+import { rec, uid } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 import type {
   LorebookBody,
@@ -81,14 +81,31 @@ export function useUpdateLorebookMutation() {
   });
 }
 
+// A card with an empty character_book reaches here when a download is labelled a lorebook.
+function isCharacterCard(raw: unknown): boolean {
+  const card = rec(raw);
+  const spec = card?.spec;
+  return (
+    (typeof spec === "string" && spec.startsWith("chara_card")) ||
+    typeof rec(card?.data)?.first_mes === "string"
+  );
+}
+
 export function useImportLorebookMutation() {
   return useApiMutation({
     mutationFn: async (file: File) => {
-      const raw = await readJsonFile(file, msg("ERRORS.REQUEST_FAILED"));
+      const raw = await readJsonFile(file, msg("ERRORS.LOREBOOK_FILE_INVALID"));
       const parsed = (
         await import("@/lib/ai/rp/lorebook-import")
       ).parseLorebookJson(raw, file.name.replace(/\.[^.]+$/, ""));
-      if (!parsed) throw new Error(msg("ERRORS.REQUEST_FAILED"));
+      if (!parsed)
+        throw new Error(
+          msg(
+            isCharacterCard(raw)
+              ? "ERRORS.LOREBOOK_FILE_IS_CARD"
+              : "ERRORS.LOREBOOK_FILE_INVALID",
+          ),
+        );
       return { id: await insertLorebook(parsed) };
     },
     invalidates: [queryKeys.lorebooks()],

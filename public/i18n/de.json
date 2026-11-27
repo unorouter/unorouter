@@ -5046,7 +5046,9 @@
     "CUSTOM_MEDIA_LOGIN": "Dein Browser konnte diese Datei nicht vom Anbieter laden. Melde dich an, damit Uno sie für dich abruft.",
     "CUSTOM_PROVIDER_MISSING": "Der eigene Anbieter für dieses Modell existiert nicht mehr.",
     "REQUEST_TOO_LARGE": "Diese Nachricht ist zu groß zum Senden. Nachrichten dürfen samt Anhängen höchstens 25 MB groß sein.",
-    "LARGE_UPLOAD_LOGIN": "Melde dich an, um Anhänge über 2 MB zu senden."
+    "LARGE_UPLOAD_LOGIN": "Melde dich an, um Anhänge über 2 MB zu senden.",
+    "LOREBOOK_FILE_IS_CARD": "Diese Datei ist eine Charakterkarte, kein Lorebook. Importiere sie unter Charaktere.",
+    "LOREBOOK_FILE_INVALID": "Diese Datei enthält keine Lorebook-Einträge, die wir lesen können."
   },
   "BADGE": {
     "TOKENS_SERVED": "Tokens verarbeitet",

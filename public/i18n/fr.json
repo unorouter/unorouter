@@ -5046,7 +5046,9 @@
     "CUSTOM_MEDIA_LOGIN": "Ton navigateur n’a pas pu télécharger ce fichier depuis le fournisseur. Connecte-toi pour qu’Uno le récupère pour toi.",
     "CUSTOM_PROVIDER_MISSING": "Le fournisseur personnalisé de ce modèle n’existe plus.",
     "REQUEST_TOO_LARGE": "Ce message est trop volumineux pour être envoyé. Un message peut faire jusqu'à 25 Mo, pièces jointes comprises.",
-    "LARGE_UPLOAD_LOGIN": "Connectez-vous pour envoyer des pièces jointes de plus de 2 Mo."
+    "LARGE_UPLOAD_LOGIN": "Connectez-vous pour envoyer des pièces jointes de plus de 2 Mo.",
+    "LOREBOOK_FILE_IS_CARD": "Ce fichier est une fiche de personnage, pas un lorebook. Importez-le dans Personnages.",
+    "LOREBOOK_FILE_INVALID": "Ce fichier ne contient aucune entrée de lorebook lisible."
   },
   "BADGE": {
     "TOKENS_SERVED": "jetons servis",

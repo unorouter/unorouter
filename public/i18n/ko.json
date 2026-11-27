@@ -5046,7 +5046,9 @@
     "CUSTOM_MEDIA_LOGIN": "브라우저가 공급자에서 이 파일을 내려받지 못했습니다. 로그인하면 Uno가 대신 가져옵니다.",
     "CUSTOM_PROVIDER_MISSING": "이 모델의 사용자 지정 공급자가 더 이상 없습니다.",
     "REQUEST_TOO_LARGE": "이 메시지는 너무 커서 보낼 수 없습니다. 첨부 파일을 포함해 최대 25MB까지 보낼 수 있습니다.",
-    "LARGE_UPLOAD_LOGIN": "2MB보다 큰 첨부 파일을 보내려면 로그인하세요."
+    "LARGE_UPLOAD_LOGIN": "2MB보다 큰 첨부 파일을 보내려면 로그인하세요.",
+    "LOREBOOK_FILE_IS_CARD": "이 파일은 로어북이 아니라 캐릭터 카드입니다. 캐릭터에서 가져오세요.",
+    "LOREBOOK_FILE_INVALID": "이 파일에는 읽을 수 있는 로어북 항목이 없습니다."
   },
   "BADGE": {
     "TOKENS_SERVED": "처리한 토큰",

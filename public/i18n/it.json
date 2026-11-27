@@ -5046,7 +5046,9 @@
     "CUSTOM_MEDIA_LOGIN": "Il tuo browser non è riuscito a scaricare questo file dal provider. Accedi così Uno può recuperarlo per te.",
     "CUSTOM_PROVIDER_MISSING": "Il provider personalizzato di questo modello non esiste più.",
     "REQUEST_TOO_LARGE": "Questo messaggio è troppo grande per essere inviato. I messaggi possono arrivare a 25 MB, allegati inclusi.",
-    "LARGE_UPLOAD_LOGIN": "Accedi per inviare allegati più grandi di 2 MB."
+    "LARGE_UPLOAD_LOGIN": "Accedi per inviare allegati più grandi di 2 MB.",
+    "LOREBOOK_FILE_IS_CARD": "Questo file è una scheda personaggio, non un lorebook. Importalo in Personaggi.",
+    "LOREBOOK_FILE_INVALID": "Questo file non contiene voci di lorebook leggibili."
   },
   "BADGE": {
     "TOKENS_SERVED": "token serviti",

@@ -5046,7 +5046,9 @@
     "CUSTOM_MEDIA_LOGIN": "Browsermu tidak dapat mengunduh file ini dari penyedia. Masuk agar Uno dapat mengambilnya untukmu.",
     "CUSTOM_PROVIDER_MISSING": "Penyedia khusus untuk model ini sudah tidak ada.",
     "REQUEST_TOO_LARGE": "Pesan ini terlalu besar untuk dikirim. Ukuran pesan maksimal 25 MB, termasuk lampiran.",
-    "LARGE_UPLOAD_LOGIN": "Masuk untuk mengirim lampiran lebih dari 2 MB."
+    "LARGE_UPLOAD_LOGIN": "Masuk untuk mengirim lampiran lebih dari 2 MB.",
+    "LOREBOOK_FILE_IS_CARD": "File ini adalah kartu karakter, bukan lorebook. Impor di bagian Karakter.",
+    "LOREBOOK_FILE_INVALID": "File ini tidak berisi entri lorebook yang bisa kami baca."
   },
   "BADGE": {
     "TOKENS_SERVED": "token dilayani",

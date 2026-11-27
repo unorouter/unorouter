@@ -5046,7 +5046,9 @@
     "CUSTOM_MEDIA_LOGIN": "Tu navegador no pudo descargar este archivo del proveedor. Inicia sesión para que Uno lo obtenga por ti.",
     "CUSTOM_PROVIDER_MISSING": "El proveedor personalizado de este modelo ya no existe.",
     "REQUEST_TOO_LARGE": "Este mensaje es demasiado grande para enviarlo. Los mensajes pueden ocupar hasta 25 MB, incluidos los adjuntos.",
-    "LARGE_UPLOAD_LOGIN": "Inicia sesión para enviar adjuntos de más de 2 MB."
+    "LARGE_UPLOAD_LOGIN": "Inicia sesión para enviar adjuntos de más de 2 MB.",
+    "LOREBOOK_FILE_IS_CARD": "Este archivo es una tarjeta de personaje, no un lorebook. Impórtalo en Personajes.",
+    "LOREBOOK_FILE_INVALID": "Este archivo no tiene entradas de lorebook que podamos leer."
   },
   "BADGE": {
     "TOKENS_SERVED": "tokens procesados",

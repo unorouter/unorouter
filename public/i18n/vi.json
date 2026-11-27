@@ -5046,7 +5046,9 @@
     "CUSTOM_MEDIA_LOGIN": "Trình duyệt không thể tải tệp này từ nhà cung cấp. Hãy đăng nhập để Uno tải giúp bạn.",
     "CUSTOM_PROVIDER_MISSING": "Nhà cung cấp tùy chỉnh của mô hình này không còn tồn tại.",
     "REQUEST_TOO_LARGE": "Tin nhắn này quá lớn để gửi. Tin nhắn có thể tối đa 25 MB, bao gồm cả tệp đính kèm.",
-    "LARGE_UPLOAD_LOGIN": "Đăng nhập để gửi tệp đính kèm lớn hơn 2 MB."
+    "LARGE_UPLOAD_LOGIN": "Đăng nhập để gửi tệp đính kèm lớn hơn 2 MB.",
+    "LOREBOOK_FILE_IS_CARD": "Tệp này là thẻ nhân vật, không phải lorebook. Hãy nhập nó ở mục Nhân vật.",
+    "LOREBOOK_FILE_INVALID": "Tệp này không có mục lorebook nào mà chúng tôi đọc được."
   },
   "BADGE": {
     "TOKENS_SERVED": "token đã phục vụ",
