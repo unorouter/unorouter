@@ -6973,6 +6973,7 @@
     "TAB_PROVIDERS": "Anbieter",
     "TAB_MODELS": "Modelle",
     "COVERED_BY_PROVIDERS": "Durch Einwilligungen für Anbieter abgedeckt",
+    "SIGNED_IN_NOTICE": "Angemeldet als {name}. Einwilligungen, die du hier gibst, gelten für dieses Konto und alle seine API-Schlüssel.",
     "GUEST_NOTICE": "Du bist nicht angemeldet. Einwilligungen, die du hier gibst, gelten nur für den Chat in diesem Browser, nicht für deinen API-Schlüssel. Melde dich mit dem Konto an, zu dem dein Schlüssel gehört, und willige dann ein.",
     "GUEST_LOGIN": "Anmelden"
   },

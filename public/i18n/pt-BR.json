@@ -6973,6 +6973,7 @@
     "TAB_PROVIDERS": "Provedores",
     "TAB_MODELS": "Modelos",
     "COVERED_BY_PROVIDERS": "Coberto por consentimentos a provedores",
+    "SIGNED_IN_NOTICE": "Conectado como {name}. Os consentimentos que você der aqui valem para esta conta e todas as chaves de API dela.",
     "GUEST_NOTICE": "Você não está conectado. Os consentimentos dados aqui valem só para o chat neste navegador, não para sua chave de API. Entre com a conta à qual sua chave pertence e depois dê o consentimento.",
     "GUEST_LOGIN": "Entrar"
   },

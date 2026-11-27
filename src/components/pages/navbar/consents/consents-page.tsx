@@ -3,6 +3,7 @@
 import { OwnPurposeObjectionToggle } from "@/components/elements/model/own-purpose-objection-toggle";
 import { ProviderConsentDialog } from "@/components/elements/model/provider-consent-panel";
 import { Icon } from "@/components/ui/icon";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { useApiKey } from "@/hooks/ui/use-api-key";
 import { Link } from "@/i18n/navigation";
 import type { IconName } from "@/lib/config/icon-map";
@@ -40,6 +41,7 @@ export function ConsentsPage() {
   const t = useTranslations();
   const [params, setParams] = useQueryStates(PARSERS);
   const token = useApiKey();
+  const authQuery = useAuthQuery();
 
   function close() {
     void setParams({ alias: null });
@@ -54,6 +56,19 @@ export function ConsentsPage() {
         <p className="text-muted-foreground text-sm">
           {t("CONSENT.PAGE_INTRO")}
         </p>
+        {authQuery.data && (
+          <div className="border-primary/40 bg-primary/10 flex items-center gap-3 rounded-lg border p-4">
+            <Icon
+              name="circle-check"
+              className="text-primary h-5 w-5 shrink-0"
+            />
+            <p className="text-foreground min-w-0 flex-1 text-sm">
+              {t("CONSENT.SIGNED_IN_NOTICE", {
+                name: authQuery.data.display_name || authQuery.data.username,
+              })}
+            </p>
+          </div>
+        )}
         {!token.isLoggedIn && (
           <div className="border-warning/40 bg-warning/10 flex flex-wrap items-center gap-3 rounded-lg border p-4">
             <Icon

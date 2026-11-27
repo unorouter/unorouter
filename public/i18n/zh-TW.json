@@ -6973,6 +6973,7 @@
     "TAB_PROVIDERS": "供應商",
     "TAB_MODELS": "模型",
     "COVERED_BY_PROVIDERS": "已由對供應商的同意涵蓋",
+    "SIGNED_IN_NOTICE": "目前登入帳號：{name}。你在這裡給出的同意適用於此帳號及其所有 API 金鑰。",
     "GUEST_NOTICE": "你尚未登入。在這裡給予的同意只適用於此瀏覽器中的聊天，不適用於你的 API 金鑰。請先用該金鑰所屬的帳戶登入，再給予同意。",
     "GUEST_LOGIN": "登入"
   },

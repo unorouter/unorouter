@@ -6973,6 +6973,7 @@
     "TAB_PROVIDERS": "Sağlayıcılar",
     "TAB_MODELS": "Modeller",
     "COVERED_BY_PROVIDERS": "Sağlayıcı onaylarıyla kapsanıyor",
+    "SIGNED_IN_NOTICE": "{name} olarak giriş yapıldı. Burada verdiğin onaylar bu hesap ve tüm API anahtarları için geçerlidir.",
     "GUEST_NOTICE": "Giriş yapmadın. Burada verdiğin onaylar yalnızca bu tarayıcıdaki sohbet için geçerlidir, API anahtarın için değil. Anahtarının ait olduğu hesapla giriş yap, sonra onay ver.",
     "GUEST_LOGIN": "Giriş yap"
   },

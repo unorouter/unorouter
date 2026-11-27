@@ -6973,6 +6973,7 @@
     "TAB_PROVIDERS": "Penyedia",
     "TAB_MODELS": "Model",
     "COVERED_BY_PROVIDERS": "Tercakup oleh persetujuan untuk penyedia",
+    "SIGNED_IN_NOTICE": "Masuk sebagai {name}. Persetujuan yang kamu berikan di sini berlaku untuk akun ini dan semua kunci API-nya.",
     "GUEST_NOTICE": "Kamu belum masuk. Persetujuan yang kamu berikan di sini hanya berlaku untuk chat di browser ini, bukan untuk kunci API kamu. Masuk dengan akun pemilik kunci itu, lalu berikan persetujuan.",
     "GUEST_LOGIN": "Masuk"
   },

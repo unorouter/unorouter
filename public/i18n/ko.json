@@ -6973,6 +6973,7 @@
     "TAB_PROVIDERS": "제공자",
     "TAB_MODELS": "모델",
     "COVERED_BY_PROVIDERS": "제공자 동의로 포함됨",
+    "SIGNED_IN_NOTICE": "{name}(으)로 로그인됨. 여기서 하는 동의는 이 계정과 이 계정의 모든 API 키에 적용됩니다.",
     "GUEST_NOTICE": "로그인하지 않았습니다. 여기서 한 동의는 이 브라우저의 채팅에만 적용되며 API 키에는 적용되지 않습니다. 키가 속한 계정으로 로그인한 뒤 동의하세요.",
     "GUEST_LOGIN": "로그인"
   },

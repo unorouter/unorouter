@@ -6973,6 +6973,7 @@
     "TAB_PROVIDERS": "Dostawcy",
     "TAB_MODELS": "Modele",
     "COVERED_BY_PROVIDERS": "Objęte zgodami dla dostawców",
+    "SIGNED_IN_NOTICE": "Zalogowano jako {name}. Zgody udzielone tutaj dotyczą tego konta i wszystkich jego kluczy API.",
     "GUEST_NOTICE": "Nie jesteś zalogowany. Zgody udzielone tutaj dotyczą tylko czatu w tej przeglądarce, a nie twojego klucza API. Zaloguj się na konto, do którego należy twój klucz, i dopiero wtedy wyraź zgodę.",
     "GUEST_LOGIN": "Zaloguj się"
   },

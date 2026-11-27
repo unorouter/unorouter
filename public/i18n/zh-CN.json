@@ -6973,6 +6973,7 @@
     "TAB_PROVIDERS": "提供商",
     "TAB_MODELS": "模型",
     "COVERED_BY_PROVIDERS": "已由对提供商的同意涵盖",
+    "SIGNED_IN_NOTICE": "当前登录账号：{name}。你在这里给出的同意适用于该账号及其所有 API 密钥。",
     "GUEST_NOTICE": "你尚未登录。在这里给出的同意只适用于此浏览器中的聊天，不适用于你的 API 密钥。请先用该密钥所属的账户登录，再给出同意。",
     "GUEST_LOGIN": "登录"
   },

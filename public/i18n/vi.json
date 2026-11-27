@@ -6973,6 +6973,7 @@
     "TAB_PROVIDERS": "Nhà cung cấp",
     "TAB_MODELS": "Mô hình",
     "COVERED_BY_PROVIDERS": "Đã được bao gồm bởi sự đồng ý cho nhà cung cấp",
+    "SIGNED_IN_NOTICE": "Đang đăng nhập với tên {name}. Các đồng ý bạn đưa ra ở đây áp dụng cho tài khoản này và mọi khóa API của nó.",
     "GUEST_NOTICE": "Bạn chưa đăng nhập. Sự đồng ý bạn đưa ra ở đây chỉ áp dụng cho chat trong trình duyệt này, không áp dụng cho khóa API của bạn. Hãy đăng nhập bằng tài khoản sở hữu khóa, rồi đồng ý.",
     "GUEST_LOGIN": "Đăng nhập"
   },
