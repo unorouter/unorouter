@@ -41,12 +41,20 @@ export function resumableFetch(inner: typeof fetch): typeof fetch {
 
     // Stop and regenerate end the generation on the server too; a dropped
     // connection is the only thing that leaves it running.
-    const stopServer = () => {
+    const stopServer = (via: "signal" | "cancel", reason?: unknown) => {
       if (completed || stopped) return;
       stopped = true;
+      logChatDebug("stream.stop_server", {
+        via,
+        reason: String(reason ?? signal?.reason ?? "").slice(0, 200),
+        received,
+        visible: document.visibilityState === "visible",
+        stack: (new Error().stack ?? "").split("\n").slice(2, 12).join("\n"),
+      });
       void fetch(path, { method: "DELETE", keepalive: true });
     };
-    signal?.addEventListener("abort", stopServer, { once: true });
+    const onAbort = () => stopServer("signal");
+    signal?.addEventListener("abort", onAbort, { once: true });
 
     const onVisible = () => {
       if (document.visibilityState !== "visible" || completed || broken) return;
@@ -57,7 +65,7 @@ export function resumableFetch(inner: typeof fetch): typeof fetch {
     document.addEventListener("visibilitychange", onVisible);
     const settle = () => {
       document.removeEventListener("visibilitychange", onVisible);
-      signal?.removeEventListener("abort", stopServer);
+      signal?.removeEventListener("abort", onAbort);
     };
 
     const resume = async () => {
@@ -115,7 +123,7 @@ export function resumableFetch(inner: typeof fetch): typeof fetch {
         }
       },
       cancel(reason) {
-        stopServer();
+        stopServer("cancel", reason);
         settle();
         reader.cancel(reason).catch(() => {});
       },

@@ -398,7 +398,12 @@ async function runClientStream(args: {
 
   args.options.abortSignal?.addEventListener(
     "abort",
-    () => timer.end("aborted", { streamedChars, streamedReasoning }),
+    () =>
+      timer.end("aborted", {
+        streamedChars,
+        streamedReasoning,
+        reason: String(args.options.abortSignal?.reason ?? "").slice(0, 200),
+      }),
     { once: true },
   );
 

@@ -255,6 +255,19 @@ function ChatRuntimeHook() {
     },
   });
 
+  // useChat stops a chat it owns on unmount, which ends a reply still streaming.
+  const statusRef = useRef(chat.status);
+  statusRef.current = chat.status;
+  useEffect(
+    () => () =>
+      logChatDebug("thread.unmount", {
+        threadId,
+        remoteId: remoteIdRef.current,
+        status: statusRef.current,
+      }),
+    [threadId],
+  );
+
   const wrappedChat: typeof chat = {
     ...chat,
     sendMessage: async (...args: Parameters<typeof chat.sendMessage>) => {
