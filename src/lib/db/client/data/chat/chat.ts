@@ -453,6 +453,22 @@ export async function spliceDeleteLocalMessage(convId: string, msgId: string) {
     });
   }
   await deleteLocalMessage(msgId);
+  // Otherwise every remaining sibling stays inactive and the thread ends above them.
+  if (target?.isActiveBranch) {
+    const siblings = msgs
+      .filter(
+        (m) =>
+          m.id !== msgId &&
+          m.role === target.role &&
+          (m.parentId ?? null) === newParentId,
+      )
+      .sort((a, b) => a.branchIndex - b.branchIndex);
+    const next =
+      keep ??
+      siblings.filter((m) => m.branchIndex < target.branchIndex).at(-1) ??
+      siblings[0];
+    if (next) await setLocalActiveBranch(convId, next.id);
+  }
   await bumpLocalConvUpdatedAt(convId);
 }
 
