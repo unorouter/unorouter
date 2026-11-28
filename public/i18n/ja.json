@@ -5262,7 +5262,30 @@
     "TABS": {
       "TEST": "テスト",
       "HISTORY": "履歴",
-      "RANKINGS": "ランキング"
+      "RANKINGS": "ランキング",
+      "COMPARE": "比較"
+    },
+    "COMPARE": {
+      "META_TITLE": "プロバイダー比較｜{appName}",
+      "TITLE": "プロバイダーを比較",
+      "DESC": "複数のエンドポイントやモデルを一度にテストし、結果を並べて比較できます。",
+      "DUPLICATE": "行を複製",
+      "REMOVE": "行を削除",
+      "ADD_ROW": "行を追加",
+      "PASTE": "リストを貼り付け",
+      "PASTE_HINT": "1行に1エンドポイント。ベースURL、キー、モデルを | または空白で区切ります。キーは省略できます。",
+      "PASTE_APPLY": "行を追加",
+      "RUN_ALL": "{count}件のエンドポイントをテスト",
+      "RUNNING": "{total}件中{done}件をテスト中",
+      "KEYS_LOCAL": "テストはブラウザ内で同時に3件ずつ実行されます。キーはこのページから出ません。ただしブラウザからのリクエストをブロックするエンドポイントは当社サーバー経由でテストします。",
+      "COL_ENDPOINT": "エンドポイント",
+      "COL_VERDICT": "判定",
+      "COL_CHECKS": "チェック",
+      "COL_LATENCY": "時間",
+      "COL_DETECTED": "検出モデル",
+      "STATUS_INVALID": "URLまたはモデルが未入力",
+      "STATUS_RUNNING": "テスト中",
+      "STATUS_QUEUED": "待機中"
     },
     "PROVIDER": {
       "ANTHROPIC": "Anthropic Messages",

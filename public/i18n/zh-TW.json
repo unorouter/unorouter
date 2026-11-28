@@ -5262,7 +5262,30 @@
     "TABS": {
       "TEST": "檢測",
       "HISTORY": "歷史",
-      "RANKINGS": "排行榜"
+      "RANKINGS": "排行榜",
+      "COMPARE": "比較"
+    },
+    "COMPARE": {
+      "META_TITLE": "比較供應商｜{appName}",
+      "TITLE": "比較供應商",
+      "DESC": "同時測試多個端點或模型，並排比較結果。",
+      "DUPLICATE": "複製此列",
+      "REMOVE": "刪除此列",
+      "ADD_ROW": "新增一列",
+      "PASTE": "貼上清單",
+      "PASTE_HINT": "每行一個端點：基礎 URL、金鑰和模型，用 | 或空格分隔。金鑰可以省略。",
+      "PASTE_APPLY": "新增這些列",
+      "RUN_ALL": "測試 {count} 個端點",
+      "RUNNING": "正在測試第 {done} 個，共 {total} 個",
+      "KEYS_LOCAL": "測試在你的瀏覽器中執行，每次 3 個。金鑰不會離開此頁面，只有阻擋瀏覽器請求的端點會透過我們的伺服器測試。",
+      "COL_ENDPOINT": "端點",
+      "COL_VERDICT": "結論",
+      "COL_CHECKS": "檢查",
+      "COL_LATENCY": "耗時",
+      "COL_DETECTED": "偵測到的模型",
+      "STATUS_INVALID": "缺少 URL 或模型",
+      "STATUS_RUNNING": "測試中",
+      "STATUS_QUEUED": "等待中"
     },
     "PROVIDER": {
       "ANTHROPIC": "Anthropic Messages",

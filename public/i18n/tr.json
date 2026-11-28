@@ -5262,7 +5262,30 @@
     "TABS": {
       "TEST": "Test",
       "HISTORY": "Gecmis",
-      "RANKINGS": "Siralama"
+      "RANKINGS": "Siralama",
+      "COMPARE": "Karşılaştır"
+    },
+    "COMPARE": {
+      "META_TITLE": "Sağlayıcıları karşılaştır | {appName}",
+      "TITLE": "Sağlayıcıları karşılaştır",
+      "DESC": "Birden fazla uç noktayı veya modeli aynı anda test et ve sonuçları yan yana karşılaştır.",
+      "DUPLICATE": "Satırı çoğalt",
+      "REMOVE": "Satırı kaldır",
+      "ADD_ROW": "Satır ekle",
+      "PASTE": "Liste yapıştır",
+      "PASTE_HINT": "Her satıra bir uç nokta: temel URL, anahtar ve model, | veya boşlukla ayrılmış. Anahtar boş bırakılabilir.",
+      "PASTE_APPLY": "Satırları ekle",
+      "RUN_ALL": "{count, plural, one {# uç noktayı} other {# uç noktayı}} test et",
+      "RUNNING": "{total} içinden {done} test ediliyor",
+      "KEYS_LOCAL": "Testler tarayıcında, aynı anda 3 tane çalışır. Anahtarlar bu sayfadan çıkmaz, tarayıcı isteklerini engelleyen uç noktalar hariç. Onlar sunucumuz üzerinden test edilir.",
+      "COL_ENDPOINT": "Uç nokta",
+      "COL_VERDICT": "Sonuç",
+      "COL_CHECKS": "Kontroller",
+      "COL_LATENCY": "Süre",
+      "COL_DETECTED": "Tespit edilen model",
+      "STATUS_INVALID": "URL veya model eksik",
+      "STATUS_RUNNING": "Test ediliyor",
+      "STATUS_QUEUED": "Bekliyor"
     },
     "PROVIDER": {
       "ANTHROPIC": "Anthropic Messages",

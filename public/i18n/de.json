@@ -5262,7 +5262,30 @@
     "TABS": {
       "TEST": "Test",
       "HISTORY": "Verlauf",
-      "RANKINGS": "Rangliste"
+      "RANKINGS": "Rangliste",
+      "COMPARE": "Vergleich"
+    },
+    "COMPARE": {
+      "META_TITLE": "Anbieter vergleichen | {appName}",
+      "TITLE": "Anbieter vergleichen",
+      "DESC": "Teste mehrere Endpunkte oder Modelle gleichzeitig und vergleiche die Ergebnisse nebeneinander.",
+      "DUPLICATE": "Zeile duplizieren",
+      "REMOVE": "Zeile entfernen",
+      "ADD_ROW": "Zeile hinzufügen",
+      "PASTE": "Liste einfügen",
+      "PASTE_HINT": "Ein Endpunkt pro Zeile: Basis-URL, Schlüssel und Modell, getrennt durch | oder Leerzeichen. Der Schlüssel kann fehlen.",
+      "PASTE_APPLY": "Zeilen hinzufügen",
+      "RUN_ALL": "{count, plural, one {# Endpunkt} other {# Endpunkte}} testen",
+      "RUNNING": "Teste {done} von {total}",
+      "KEYS_LOCAL": "Die Tests laufen in deinem Browser, je 3 gleichzeitig. Schlüssel verlassen diese Seite nicht, außer bei Endpunkten, die Browseranfragen blockieren. Diese werden über unseren Server getestet.",
+      "COL_ENDPOINT": "Endpunkt",
+      "COL_VERDICT": "Ergebnis",
+      "COL_CHECKS": "Prüfungen",
+      "COL_LATENCY": "Zeit",
+      "COL_DETECTED": "Erkanntes Modell",
+      "STATUS_INVALID": "URL oder Modell fehlt",
+      "STATUS_RUNNING": "Wird getestet",
+      "STATUS_QUEUED": "Wartet"
     },
     "PROVIDER": {
       "ANTHROPIC": "Anthropic Messages",

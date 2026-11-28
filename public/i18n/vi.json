@@ -5262,7 +5262,30 @@
     "TABS": {
       "TEST": "Kiem tra",
       "HISTORY": "Lich su",
-      "RANKINGS": "Xep hang"
+      "RANKINGS": "Xep hang",
+      "COMPARE": "So sánh"
+    },
+    "COMPARE": {
+      "META_TITLE": "So sánh nhà cung cấp | {appName}",
+      "TITLE": "So sánh nhà cung cấp",
+      "DESC": "Kiểm tra nhiều endpoint hoặc mô hình cùng lúc và so sánh kết quả cạnh nhau.",
+      "DUPLICATE": "Nhân bản dòng",
+      "REMOVE": "Xóa dòng",
+      "ADD_ROW": "Thêm dòng",
+      "PASTE": "Dán danh sách",
+      "PASTE_HINT": "Mỗi dòng một endpoint: URL gốc, khóa và mô hình, ngăn cách bằng | hoặc dấu cách. Có thể bỏ trống khóa.",
+      "PASTE_APPLY": "Thêm các dòng",
+      "RUN_ALL": "Kiểm tra {count, plural, other {# endpoint}}",
+      "RUNNING": "Đang kiểm tra {done} / {total}",
+      "KEYS_LOCAL": "Các bài kiểm tra chạy trong trình duyệt của bạn, mỗi lần 3 cái. Khóa không rời khỏi trang này, trừ các endpoint chặn yêu cầu từ trình duyệt, những endpoint đó được kiểm tra qua máy chủ của chúng tôi.",
+      "COL_ENDPOINT": "Endpoint",
+      "COL_VERDICT": "Kết luận",
+      "COL_CHECKS": "Kiểm tra",
+      "COL_LATENCY": "Thời gian",
+      "COL_DETECTED": "Mô hình phát hiện",
+      "STATUS_INVALID": "Thiếu URL hoặc mô hình",
+      "STATUS_RUNNING": "Đang kiểm tra",
+      "STATUS_QUEUED": "Đang chờ"
     },
     "PROVIDER": {
       "ANTHROPIC": "Anthropic Messages",

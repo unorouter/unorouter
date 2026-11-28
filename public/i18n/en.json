@@ -5262,7 +5262,30 @@
     "TABS": {
       "TEST": "Test",
       "HISTORY": "History",
-      "RANKINGS": "Rankings"
+      "RANKINGS": "Rankings",
+      "COMPARE": "Compare"
+    },
+    "COMPARE": {
+      "META_TITLE": "Compare Providers | {appName}",
+      "TITLE": "Compare providers",
+      "DESC": "Test several endpoints or models at once and compare the results side by side.",
+      "DUPLICATE": "Duplicate row",
+      "REMOVE": "Remove row",
+      "ADD_ROW": "Add row",
+      "PASTE": "Paste list",
+      "PASTE_HINT": "One endpoint per line: base URL, key and model, separated by | or spaces. The key can be left out.",
+      "PASTE_APPLY": "Add rows",
+      "RUN_ALL": "Test {count, plural, one {# endpoint} other {# endpoints}}",
+      "RUNNING": "Testing {done} of {total}",
+      "KEYS_LOCAL": "Tests run from your browser, 3 at a time. Keys never leave this page, except for endpoints that block browser requests, which are tested through our server.",
+      "COL_ENDPOINT": "Endpoint",
+      "COL_VERDICT": "Verdict",
+      "COL_CHECKS": "Checks",
+      "COL_LATENCY": "Time",
+      "COL_DETECTED": "Detected model",
+      "STATUS_INVALID": "Missing URL or model",
+      "STATUS_RUNNING": "Testing",
+      "STATUS_QUEUED": "Waiting"
     },
     "PROVIDER": {
       "ANTHROPIC": "Anthropic Messages",

@@ -5262,7 +5262,30 @@
     "TABS": {
       "TEST": "Uji",
       "HISTORY": "Riwayat",
-      "RANKINGS": "Peringkat"
+      "RANKINGS": "Peringkat",
+      "COMPARE": "Bandingkan"
+    },
+    "COMPARE": {
+      "META_TITLE": "Bandingkan penyedia | {appName}",
+      "TITLE": "Bandingkan penyedia",
+      "DESC": "Uji beberapa endpoint atau model sekaligus dan bandingkan hasilnya berdampingan.",
+      "DUPLICATE": "Duplikat baris",
+      "REMOVE": "Hapus baris",
+      "ADD_ROW": "Tambah baris",
+      "PASTE": "Tempel daftar",
+      "PASTE_HINT": "Satu endpoint per baris: URL dasar, kunci, dan model, dipisah | atau spasi. Kunci boleh dikosongkan.",
+      "PASTE_APPLY": "Tambah baris",
+      "RUN_ALL": "Uji {count, plural, other {# endpoint}}",
+      "RUNNING": "Menguji {done} dari {total}",
+      "KEYS_LOCAL": "Pengujian berjalan di browsermu, 3 sekaligus. Kunci tidak keluar dari halaman ini, kecuali untuk endpoint yang memblokir permintaan browser, yang diuji lewat server kami.",
+      "COL_ENDPOINT": "Endpoint",
+      "COL_VERDICT": "Hasil",
+      "COL_CHECKS": "Pemeriksaan",
+      "COL_LATENCY": "Waktu",
+      "COL_DETECTED": "Model terdeteksi",
+      "STATUS_INVALID": "URL atau model belum diisi",
+      "STATUS_RUNNING": "Menguji",
+      "STATUS_QUEUED": "Menunggu"
     },
     "PROVIDER": {
       "ANTHROPIC": "Anthropic Messages",

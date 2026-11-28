@@ -22,6 +22,11 @@ const SUB_NAV: {
     icon: "shield-check",
   },
   {
+    href: "/ai-api-model-tester/compare",
+    labelKey: "MODEL_TESTER.TABS.COMPARE",
+    icon: "columns-3",
+  },
+  {
     href: "/ai-api-model-tester/history",
     labelKey: "MODEL_TESTER.TABS.HISTORY",
     icon: "scroll-text",

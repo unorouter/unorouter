@@ -5262,7 +5262,30 @@
     "TABS": {
       "TEST": "테스트",
       "HISTORY": "기록",
-      "RANKINGS": "순위"
+      "RANKINGS": "순위",
+      "COMPARE": "비교"
+    },
+    "COMPARE": {
+      "META_TITLE": "제공업체 비교 | {appName}",
+      "TITLE": "제공업체 비교",
+      "DESC": "여러 엔드포인트나 모델을 한 번에 테스트하고 결과를 나란히 비교하세요.",
+      "DUPLICATE": "행 복제",
+      "REMOVE": "행 삭제",
+      "ADD_ROW": "행 추가",
+      "PASTE": "목록 붙여넣기",
+      "PASTE_HINT": "한 줄에 엔드포인트 하나. 기본 URL, 키, 모델을 | 또는 공백으로 구분하세요. 키는 생략할 수 있습니다.",
+      "PASTE_APPLY": "행 추가",
+      "RUN_ALL": "엔드포인트 {count}개 테스트",
+      "RUNNING": "{total}개 중 {done}개 테스트 중",
+      "KEYS_LOCAL": "테스트는 브라우저에서 한 번에 3개씩 실행됩니다. 키는 이 페이지를 벗어나지 않으며, 브라우저 요청을 차단하는 엔드포인트만 저희 서버를 통해 테스트합니다.",
+      "COL_ENDPOINT": "엔드포인트",
+      "COL_VERDICT": "판정",
+      "COL_CHECKS": "검사",
+      "COL_LATENCY": "시간",
+      "COL_DETECTED": "감지된 모델",
+      "STATUS_INVALID": "URL 또는 모델 없음",
+      "STATUS_RUNNING": "테스트 중",
+      "STATUS_QUEUED": "대기 중"
     },
     "PROVIDER": {
       "ANTHROPIC": "Anthropic Messages",

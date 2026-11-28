@@ -5262,7 +5262,30 @@
     "TABS": {
       "TEST": "Test",
       "HISTORY": "Historia",
-      "RANKINGS": "Ranking"
+      "RANKINGS": "Ranking",
+      "COMPARE": "Porównaj"
+    },
+    "COMPARE": {
+      "META_TITLE": "Porównaj dostawców | {appName}",
+      "TITLE": "Porównaj dostawców",
+      "DESC": "Przetestuj kilka endpointów lub modeli naraz i porównaj wyniki obok siebie.",
+      "DUPLICATE": "Duplikuj wiersz",
+      "REMOVE": "Usuń wiersz",
+      "ADD_ROW": "Dodaj wiersz",
+      "PASTE": "Wklej listę",
+      "PASTE_HINT": "Jeden endpoint na linię: bazowy URL, klucz i model, oddzielone | lub spacjami. Klucz można pominąć.",
+      "PASTE_APPLY": "Dodaj wiersze",
+      "RUN_ALL": "Testuj {count, plural, one {# endpoint} few {# endpointy} many {# endpointów} other {# endpointu}}",
+      "RUNNING": "Testowanie {done} z {total}",
+      "KEYS_LOCAL": "Testy działają w Twojej przeglądarce, po 3 naraz. Klucze nie opuszczają tej strony, poza endpointami blokującymi żądania przeglądarki, które testujemy przez nasz serwer.",
+      "COL_ENDPOINT": "Endpoint",
+      "COL_VERDICT": "Werdykt",
+      "COL_CHECKS": "Testy",
+      "COL_LATENCY": "Czas",
+      "COL_DETECTED": "Wykryty model",
+      "STATUS_INVALID": "Brak URL lub modelu",
+      "STATUS_RUNNING": "Testowanie",
+      "STATUS_QUEUED": "Oczekuje"
     },
     "PROVIDER": {
       "ANTHROPIC": "Anthropic Messages",

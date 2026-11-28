@@ -5262,7 +5262,30 @@
     "TABS": {
       "TEST": "בדיקה",
       "HISTORY": "היסטוריה",
-      "RANKINGS": "דירוג"
+      "RANKINGS": "דירוג",
+      "COMPARE": "השוואה"
+    },
+    "COMPARE": {
+      "META_TITLE": "השוואת ספקים | {appName}",
+      "TITLE": "השוואת ספקים",
+      "DESC": "בדקו כמה נקודות קצה או מודלים בבת אחת והשוו את התוצאות זו לצד זו.",
+      "DUPLICATE": "שכפול שורה",
+      "REMOVE": "הסרת שורה",
+      "ADD_ROW": "הוספת שורה",
+      "PASTE": "הדבקת רשימה",
+      "PASTE_HINT": "נקודת קצה אחת בכל שורה: כתובת בסיס, מפתח ומודל, מופרדים ב־| או ברווחים. אפשר להשמיט את המפתח.",
+      "PASTE_APPLY": "הוספת השורות",
+      "RUN_ALL": "בדיקת {count, plural, one {נקודת קצה אחת} other {# נקודות קצה}}",
+      "RUNNING": "בודק {done} מתוך {total}",
+      "KEYS_LOCAL": "הבדיקות רצות בדפדפן שלך, 3 בכל פעם. המפתחות לא יוצאים מהדף הזה, מלבד נקודות קצה שחוסמות בקשות דפדפן, שנבדקות דרך השרת שלנו.",
+      "COL_ENDPOINT": "נקודת קצה",
+      "COL_VERDICT": "תוצאה",
+      "COL_CHECKS": "בדיקות",
+      "COL_LATENCY": "זמן",
+      "COL_DETECTED": "מודל שזוהה",
+      "STATUS_INVALID": "חסרים כתובת או מודל",
+      "STATUS_RUNNING": "בבדיקה",
+      "STATUS_QUEUED": "ממתין"
     },
     "PROVIDER": {
       "ANTHROPIC": "Anthropic Messages",
