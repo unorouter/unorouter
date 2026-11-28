@@ -3393,6 +3393,11 @@
       "REASONING_MAX": "最高",
       "PROMPT_CACHE": "提示缓存",
       "PROMPT_CACHE_DESC": "自动：按原样发送请求。开启：为提示开头添加缓存标记，部分提供商需要该标记才会缓存，重复的上下文因此更便宜。关闭：每个请求都从头开始，不会缓存任何内容，所有输入 token 都按全价计费。",
+      "PRICE_LIMIT": "价格上限",
+      "MAX_INPUT_PRICE": "每百万 token 最高输入价格",
+      "MAX_OUTPUT_PRICE": "每百万 token 最高输出价格",
+      "PRICE_LIMIT_PLACEHOLDER": "不限",
+      "PRICE_LIMIT_DESC": "发往更贵供应商的请求会在扣费前被拦截，因此涨价或切换到昂贵供应商都不会耗尽你的额度。留空表示不限。",
       "PROMPT_CACHE_AUTO": "自动",
       "PROMPT_CACHE_ON": "开启",
       "PROMPT_CACHE_OFF": "关闭"

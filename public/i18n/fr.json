@@ -3393,6 +3393,11 @@
       "REASONING_MAX": "Maximal",
       "PROMPT_CACHE": "Cache des prompts",
       "PROMPT_CACHE_DESC": "Auto envoie les requêtes telles quelles. Activé marque le début du prompt pour la mise en cache, dont certains fournisseurs ont besoin avant de mettre quoi que ce soit en cache ; le contexte répété coûte alors moins cher. Désactivé fait repartir chaque requête de zéro : rien n'est mis en cache et chaque token d'entrée est facturé au prix plein.",
+      "PRICE_LIMIT": "Limite de prix",
+      "MAX_INPUT_PRICE": "Prix max. en entrée pour 1M de tokens",
+      "MAX_OUTPUT_PRICE": "Prix max. en sortie pour 1M de tokens",
+      "PRICE_LIMIT_PLACEHOLDER": "Aucune limite",
+      "PRICE_LIMIT_DESC": "Les requêtes vers des fournisseurs plus chers sont bloquées avant tout débit, ainsi une hausse de prix ou un repli vers un fournisseur coûteux ne peut pas vider vos crédits. Laissez vide pour aucune limite.",
       "PROMPT_CACHE_AUTO": "Auto",
       "PROMPT_CACHE_ON": "Activé",
       "PROMPT_CACHE_OFF": "Désactivé"

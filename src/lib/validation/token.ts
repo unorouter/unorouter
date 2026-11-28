@@ -29,6 +29,8 @@ export const tokenFormSchema = t.Object({
       default: "auto",
     },
   ),
+  max_input_price: t.Number({ default: 0, minimum: 0 }),
+  max_output_price: t.Number({ default: 0, minimum: 0 }),
   group_mapping: t.Record(
     t.String(),
     t.Object({

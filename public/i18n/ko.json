@@ -3393,6 +3393,11 @@
       "REASONING_MAX": "최대",
       "PROMPT_CACHE": "프롬프트 캐싱",
       "PROMPT_CACHE_DESC": "자동은 요청을 그대로 보냅니다. 켜기는 프롬프트 앞부분을 캐싱 대상으로 표시하며, 일부 제공업체는 이 표시가 있어야 캐싱합니다. 반복되는 컨텍스트 비용이 줄어듭니다. 끄기는 모든 요청을 처음부터 시작하게 하므로 아무것도 캐싱되지 않고 모든 입력 토큰이 정가로 청구됩니다.",
+      "PRICE_LIMIT": "가격 한도",
+      "MAX_INPUT_PRICE": "100만 토큰당 최대 입력 가격",
+      "MAX_OUTPUT_PRICE": "100만 토큰당 최대 출력 가격",
+      "PRICE_LIMIT_PLACEHOLDER": "제한 없음",
+      "PRICE_LIMIT_DESC": "이보다 비싼 제공업체로 가는 요청은 요금이 부과되기 전에 차단되므로, 가격 인상이나 비싼 제공업체로의 전환으로 크레딧이 소진되지 않습니다. 제한하지 않으려면 비워 두세요.",
       "PROMPT_CACHE_AUTO": "자동",
       "PROMPT_CACHE_ON": "켜기",
       "PROMPT_CACHE_OFF": "끄기"

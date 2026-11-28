@@ -3393,6 +3393,11 @@
       "REASONING_MAX": "Massimo",
       "PROMPT_CACHE": "Cache dei prompt",
       "PROMPT_CACHE_DESC": "Auto invia le richieste così come sono. Attivo segna l'inizio del prompt per la cache, di cui alcuni provider hanno bisogno prima di memorizzare qualcosa; il contesto ripetuto costa così meno. Disattivo fa ripartire da zero ogni richiesta, quindi nulla viene memorizzato e ogni token di input è addebitato a prezzo pieno.",
+      "PRICE_LIMIT": "Limite di prezzo",
+      "MAX_INPUT_PRICE": "Prezzo max in input per 1M di token",
+      "MAX_OUTPUT_PRICE": "Prezzo max in output per 1M di token",
+      "PRICE_LIMIT_PLACEHOLDER": "Nessun limite",
+      "PRICE_LIMIT_DESC": "Le richieste a provider che costano di più vengono bloccate prima di addebitare qualcosa, così un aumento di prezzo o il passaggio a un provider costoso non può esaurire i tuoi crediti. Lascia vuoto per nessun limite.",
       "PROMPT_CACHE_AUTO": "Auto",
       "PROMPT_CACHE_ON": "Attivo",
       "PROMPT_CACHE_OFF": "Disattivo"

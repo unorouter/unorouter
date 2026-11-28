@@ -88,6 +88,8 @@ async function createAutoToken(
       auto_groups: null,
       allow_user_quota_query: null,
       prompt_cache: null,
+      max_input_price: null,
+      max_output_price: null,
     },
     { headers },
   );

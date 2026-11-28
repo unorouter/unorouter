@@ -3393,6 +3393,11 @@
       "REASONING_MAX": "最高",
       "PROMPT_CACHE": "提示快取",
       "PROMPT_CACHE_DESC": "自動：按原樣傳送請求。開啟：為提示開頭加上快取標記，部分供應商需要此標記才會快取，重複的上下文因此更便宜。關閉：每個請求都從頭開始，不會快取任何內容，所有輸入 token 都按全價計費。",
+      "PRICE_LIMIT": "價格上限",
+      "MAX_INPUT_PRICE": "每百萬 token 最高輸入價格",
+      "MAX_OUTPUT_PRICE": "每百萬 token 最高輸出價格",
+      "PRICE_LIMIT_PLACEHOLDER": "不限",
+      "PRICE_LIMIT_DESC": "發往更貴供應商的請求會在扣費前被攔截，因此漲價或切換到昂貴供應商都不會耗盡你的額度。留空表示不限。",
       "PROMPT_CACHE_AUTO": "自動",
       "PROMPT_CACHE_ON": "開啟",
       "PROMPT_CACHE_OFF": "關閉"

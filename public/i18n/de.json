@@ -3393,6 +3393,11 @@
       "REASONING_MAX": "Maximal",
       "PROMPT_CACHE": "Prompt-Caching",
       "PROMPT_CACHE_DESC": "Auto sendet Anfragen unverändert. Ein markiert den Anfang des Prompts für das Caching, das manche Anbieter brauchen, bevor sie etwas zwischenspeichern; wiederholter Kontext kostet dann weniger. Aus lässt jede Anfrage neu beginnen, sodass nichts zwischengespeichert und jedes Eingabe-Token zum vollen Preis abgerechnet wird.",
+      "PRICE_LIMIT": "Preislimit",
+      "MAX_INPUT_PRICE": "Max. Eingabepreis pro 1 Mio. Tokens",
+      "MAX_OUTPUT_PRICE": "Max. Ausgabepreis pro 1 Mio. Tokens",
+      "PRICE_LIMIT_PLACEHOLDER": "Kein Limit",
+      "PRICE_LIMIT_DESC": "Anfragen an Anbieter, die mehr kosten, werden blockiert, bevor etwas abgerechnet wird. So können eine Preiserhöhung oder ein Ausweichen auf einen teuren Anbieter dein Guthaben nicht aufbrauchen. Leer lassen für kein Limit.",
       "PROMPT_CACHE_AUTO": "Auto",
       "PROMPT_CACHE_ON": "Ein",
       "PROMPT_CACHE_OFF": "Aus"

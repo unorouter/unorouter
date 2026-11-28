@@ -3393,6 +3393,11 @@
       "REASONING_MAX": "Maksimal",
       "PROMPT_CACHE": "Cache prompt",
       "PROMPT_CACHE_DESC": "Otomatis mengirim permintaan apa adanya. Aktif menandai awal prompt untuk cache, yang dibutuhkan sebagian penyedia sebelum menyimpan apa pun; konteks yang berulang jadi lebih murah. Nonaktif membuat setiap permintaan mulai dari awal, sehingga tidak ada yang disimpan di cache dan setiap token input ditagih harga penuh.",
+      "PRICE_LIMIT": "Batas harga",
+      "MAX_INPUT_PRICE": "Harga input maks. per 1 juta token",
+      "MAX_OUTPUT_PRICE": "Harga output maks. per 1 juta token",
+      "PRICE_LIMIT_PLACEHOLDER": "Tanpa batas",
+      "PRICE_LIMIT_DESC": "Permintaan ke penyedia yang lebih mahal diblokir sebelum ada biaya, jadi kenaikan harga atau peralihan ke penyedia mahal tidak bisa menghabiskan kreditmu. Biarkan kosong jika tanpa batas.",
       "PROMPT_CACHE_AUTO": "Otomatis",
       "PROMPT_CACHE_ON": "Aktif",
       "PROMPT_CACHE_OFF": "Nonaktif"

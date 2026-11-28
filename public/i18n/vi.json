@@ -3393,6 +3393,11 @@
       "REASONING_MAX": "Tối đa",
       "PROMPT_CACHE": "Bộ nhớ đệm prompt",
       "PROMPT_CACHE_DESC": "Tự động gửi yêu cầu nguyên vẹn. Bật đánh dấu phần đầu prompt để lưu đệm, điều mà một số nhà cung cấp cần trước khi lưu bất cứ thứ gì; ngữ cảnh lặp lại khi đó sẽ rẻ hơn. Tắt khiến mỗi yêu cầu bắt đầu lại từ đầu, nên không có gì được lưu đệm và mọi token đầu vào đều tính giá đầy đủ.",
+      "PRICE_LIMIT": "Giới hạn giá",
+      "MAX_INPUT_PRICE": "Giá đầu vào tối đa mỗi 1 triệu token",
+      "MAX_OUTPUT_PRICE": "Giá đầu ra tối đa mỗi 1 triệu token",
+      "PRICE_LIMIT_PLACEHOLDER": "Không giới hạn",
+      "PRICE_LIMIT_DESC": "Yêu cầu tới các nhà cung cấp đắt hơn sẽ bị chặn trước khi tính phí, nên việc tăng giá hay chuyển sang nhà cung cấp đắt tiền không thể làm cạn tín dụng của bạn. Để trống nếu không giới hạn.",
       "PROMPT_CACHE_AUTO": "Tự động",
       "PROMPT_CACHE_ON": "Bật",
       "PROMPT_CACHE_OFF": "Tắt"

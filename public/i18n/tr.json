@@ -3393,6 +3393,11 @@
       "REASONING_MAX": "Maksimum",
       "PROMPT_CACHE": "İstem önbelleği",
       "PROMPT_CACHE_DESC": "Otomatik, istekleri olduğu gibi gönderir. Açık, istemin başını önbellek için işaretler; bazı sağlayıcılar bir şeyi önbelleğe almadan önce buna ihtiyaç duyar ve tekrarlanan bağlam daha ucuza gelir. Kapalı, her isteğin sıfırdan başlamasını sağlar; hiçbir şey önbelleğe alınmaz ve her giriş tokenı tam fiyattan ücretlendirilir.",
+      "PRICE_LIMIT": "Fiyat sınırı",
+      "MAX_INPUT_PRICE": "1M token başına maks. girdi fiyatı",
+      "MAX_OUTPUT_PRICE": "1M token başına maks. çıktı fiyatı",
+      "PRICE_LIMIT_PLACEHOLDER": "Sınır yok",
+      "PRICE_LIMIT_DESC": "Daha pahalı sağlayıcılara giden istekler hiçbir ücret alınmadan engellenir, böylece bir fiyat artışı ya da pahalı bir sağlayıcıya geçiş kredilerini tüketemez. Sınır istemiyorsan boş bırak.",
       "PROMPT_CACHE_AUTO": "Otomatik",
       "PROMPT_CACHE_ON": "Açık",
       "PROMPT_CACHE_OFF": "Kapalı"

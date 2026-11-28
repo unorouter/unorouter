@@ -133,6 +133,8 @@ export function TokenDialog(props: TokenDialogProps) {
         prompt_cache: isPromptCache(props.token.prompt_cache)
           ? props.token.prompt_cache
           : "auto",
+        max_input_price: props.token.max_input_price ?? 0,
+        max_output_price: props.token.max_output_price ?? 0,
       });
     } else {
       form.reset(formDefaults(tokenFormSchema));
@@ -203,6 +205,8 @@ export function TokenDialog(props: TokenDialogProps) {
           ? ""
           : data.default_reasoning_effort,
       prompt_cache: data.prompt_cache === "auto" ? "" : data.prompt_cache,
+      max_input_price: data.max_input_price,
+      max_output_price: data.max_output_price,
     };
 
     if (isEdit) {
@@ -489,6 +493,91 @@ export function TokenDialog(props: TokenDialogProps) {
                   />
                   <p className="text-muted-foreground text-[11px]">
                     {t("TOKEN.FORM.PROMPT_CACHE_DESC")}
+                  </p>
+                </div>
+              </div>
+
+              <Separator />
+
+              <div>
+                <SectionTitle
+                  icon="wallet"
+                  label={t("TOKEN.FORM.PRICE_LIMIT")}
+                />
+
+                <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-3 sm:flex-row">
+                    <FormField
+                      control={form.control}
+                      name="max_input_price"
+                      render={({ field }) => (
+                        <FormItem className="flex-1">
+                          <FormLabel>
+                            {t("TOKEN.FORM.MAX_INPUT_PRICE")}
+                          </FormLabel>
+                          <FormControl>
+                            <div className="relative">
+                              <span className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 font-mono text-sm">
+                                $
+                              </span>
+                              <Input
+                                type="number"
+                                inputMode="decimal"
+                                step="0.01"
+                                min="0"
+                                className="pl-7"
+                                placeholder={t(
+                                  "TOKEN.FORM.PRICE_LIMIT_PLACEHOLDER",
+                                )}
+                                value={field.value > 0 ? field.value : ""}
+                                onChange={(e) => {
+                                  const dollars = Number(e.target.value);
+                                  if (Number.isNaN(dollars)) return;
+                                  field.onChange(Math.max(0, dollars));
+                                }}
+                              />
+                            </div>
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="max_output_price"
+                      render={({ field }) => (
+                        <FormItem className="flex-1">
+                          <FormLabel>
+                            {t("TOKEN.FORM.MAX_OUTPUT_PRICE")}
+                          </FormLabel>
+                          <FormControl>
+                            <div className="relative">
+                              <span className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 font-mono text-sm">
+                                $
+                              </span>
+                              <Input
+                                type="number"
+                                inputMode="decimal"
+                                step="0.01"
+                                min="0"
+                                className="pl-7"
+                                placeholder={t(
+                                  "TOKEN.FORM.PRICE_LIMIT_PLACEHOLDER",
+                                )}
+                                value={field.value > 0 ? field.value : ""}
+                                onChange={(e) => {
+                                  const dollars = Number(e.target.value);
+                                  if (Number.isNaN(dollars)) return;
+                                  field.onChange(Math.max(0, dollars));
+                                }}
+                              />
+                            </div>
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <p className="text-muted-foreground text-[11px]">
+                    {t("TOKEN.FORM.PRICE_LIMIT_DESC")}
                   </p>
                 </div>
               </div>

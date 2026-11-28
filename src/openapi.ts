@@ -204,6 +204,10 @@ export interface CreateTokenRequest {
   group: string;
   /** @nullable */
   group_mapping: string | null;
+  /** @nullable */
+  max_input_price: number | null;
+  /** @nullable */
+  max_output_price: number | null;
   model_limits: string;
   model_limits_enabled: boolean;
   name: string;
@@ -1395,6 +1399,8 @@ export interface TokenResponse {
   group_mapping: string;
   id: number;
   key: string;
+  max_input_price: number;
+  max_output_price: number;
   model_limits: string;
   model_limits_enabled: boolean;
   name: string;
@@ -1888,6 +1894,7 @@ export interface StatusData {
   chats: StatusDataChatsItem[] | null;
   checkin_enabled: boolean;
   consent_enforced: boolean;
+  consent_enforced_since: number;
   custom_currency_exchange_rate: number;
   custom_currency_symbol: string;
   /** @nullable */
@@ -2442,6 +2449,10 @@ export interface UpdateTokenRequest {
   /** @nullable */
   group_mapping: string | null;
   id: number;
+  /** @nullable */
+  max_input_price: number | null;
+  /** @nullable */
+  max_output_price: number | null;
   model_limits: string;
   model_limits_enabled: boolean;
   name: string;

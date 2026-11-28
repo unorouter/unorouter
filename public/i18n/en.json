@@ -3393,6 +3393,11 @@
       "REASONING_MAX": "Max",
       "PROMPT_CACHE": "Prompt caching",
       "PROMPT_CACHE_DESC": "Auto sends requests as they are. On marks the start of the prompt for caching, which some providers need before they cache anything; repeated context then costs less. Off makes every request start fresh, so nothing is cached and every input token is billed at full price.",
+      "PRICE_LIMIT": "Price limit",
+      "MAX_INPUT_PRICE": "Max input price per 1M tokens",
+      "MAX_OUTPUT_PRICE": "Max output price per 1M tokens",
+      "PRICE_LIMIT_PLACEHOLDER": "No limit",
+      "PRICE_LIMIT_DESC": "Requests to providers that cost more than this are blocked before anything is charged, so a price rise or a fallback to an expensive provider cannot drain your credits. Leave empty for no limit.",
       "PROMPT_CACHE_AUTO": "Auto",
       "PROMPT_CACHE_ON": "On",
       "PROMPT_CACHE_OFF": "Off"

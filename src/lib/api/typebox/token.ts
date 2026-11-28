@@ -22,6 +22,8 @@ export const createTokenBody = t.Object({
   allow_user_quota_query: t.Optional(t.Nullable(t.Boolean())),
   default_reasoning_effort: t.Optional(t.String()),
   prompt_cache: t.Optional(t.String()),
+  max_input_price: t.Optional(t.Number({ minimum: 0 })),
+  max_output_price: t.Optional(t.Number({ minimum: 0 })),
 });
 
 export const updateTokenBody = t.Object({
@@ -41,6 +43,8 @@ export const updateTokenBody = t.Object({
   allow_user_quota_query: t.Optional(t.Nullable(t.Boolean())),
   default_reasoning_effort: t.Optional(t.String()),
   prompt_cache: t.Optional(t.String()),
+  max_input_price: t.Optional(t.Number({ minimum: 0 })),
+  max_output_price: t.Optional(t.Number({ minimum: 0 })),
 });
 
 export const tokenIdParams = t.Object({
