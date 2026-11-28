@@ -1641,7 +1641,7 @@
       "Q1": "How does {appName} pricing work?",
       "A1": "You pay per token consumed. Each model has its own input, output and cache rate, billed from your account credit. There is no monthly subscription required for Pay As You Go.",
       "Q2": "Do I need a subscription?",
-      "A2": "No. Pay As You Go is fully self-serve, top up once and consume any model. Subscriptions give better value (up to 1.75x credit multiplier) if your usage is predictable.",
+      "A2": "No. Pay As You Go is fully self-serve, top up once and consume any model. Subscriptions give better value (up to 2x credit multiplier) if your usage is predictable.",
       "Q3": "Is the API compatible with OpenAI?",
       "A3": "Yes. {appName} exposes an OpenAI-compatible endpoint for chat completions, plus Anthropic and Gemini compatible endpoints. Point any OpenAI SDK at our base URL and use your {appName} API key.",
       "Q4": "Which models are included?",

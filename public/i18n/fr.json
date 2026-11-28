@@ -1641,7 +1641,7 @@
       "Q1": "Comment fonctionne la tarification de {appName} ?",
       "A1": "Vous payez par jeton consommé. Chaque modèle a son propre tarif d'entrée, de sortie et de cache, débité depuis votre crédit. Aucun abonnement mensuel n'est requis pour le paiement à l'usage.",
       "Q2": "Ai-je besoin d'un abonnement ?",
-      "A2": "Non. Le paiement à l'usage est entièrement en libre-service : rechargez une fois et consommez n'importe quel modèle. Les abonnements offrent une meilleure valeur (jusqu'à 1,75x de multiplicateur de crédit) si votre usage est prévisible.",
+      "A2": "Non. Le paiement à l'usage est entièrement en libre-service : rechargez une fois et consommez n'importe quel modèle. Les abonnements offrent une meilleure valeur (jusqu'à 2x de multiplicateur de crédit) si votre usage est prévisible.",
       "Q3": "L'API est-elle compatible avec OpenAI ?",
       "A3": "Oui. {appName} expose un point d'accès compatible OpenAI pour les chat completions, ainsi que des points d'accès compatibles Anthropic et Gemini. Pointez n'importe quel SDK OpenAI vers notre URL de base et utilisez votre clé API {appName}.",
       "Q4": "Quels modèles sont inclus ?",

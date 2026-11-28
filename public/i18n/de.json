@@ -1641,7 +1641,7 @@
       "Q1": "Wie funktioniert das {appName}-Pricing?",
       "A1": "Du zahlst pro verbrauchtem Token. Jedes Modell hat eigene Raten für Input, Output und Cache, die von deinem Kontoguthaben abgezogen werden. Für Pay As You Go ist kein Abonnement erforderlich.",
       "Q2": "Brauche ich ein Abonnement?",
-      "A2": "Nein. Pay As You Go funktioniert vollständig selbstbedient: einmal aufladen und jedes Modell nutzen. Abonnements bieten besseren Wert (bis zu 1,75-facher Guthabenmultiplikator), wenn deine Nutzung planbar ist.",
+      "A2": "Nein. Pay As You Go funktioniert vollständig selbstbedient: einmal aufladen und jedes Modell nutzen. Abonnements bieten besseren Wert (bis zu 2-facher Guthabenmultiplikator), wenn deine Nutzung planbar ist.",
       "Q3": "Ist die API mit OpenAI kompatibel?",
       "A3": "Ja. {appName} bietet einen OpenAI-kompatiblen Endpunkt für Chat Completions sowie Anthropic- und Gemini-kompatible Endpunkte. Richte jedes OpenAI-SDK auf unsere Basis-URL aus und verwende deinen {appName}-API-Schlüssel.",
       "Q4": "Welche Modelle sind enthalten?",

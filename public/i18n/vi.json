@@ -1641,7 +1641,7 @@
       "Q1": "Giá cả {appName} hoạt động ra sao?",
       "A1": "Bạn trả phí theo token tiêu thụ. Mỗi mô hình có mức giá đầu vào, đầu ra và bộ nhớ đệm riêng, trừ vào tín dụng tài khoản của bạn. Không bắt buộc thuê bao hàng tháng đối với Trả theo nhu cầu.",
       "Q2": "Tôi có cần đăng ký thuê bao không?",
-      "A2": "Không. Trả theo nhu cầu hoàn toàn tự phục vụ, nạp tiền một lần và dùng mọi mô hình. Thuê bao cho giá trị tốt hơn (hệ số nhân tín dụng tới 1.75x) nếu mức sử dụng của bạn có thể dự đoán.",
+      "A2": "Không. Trả theo nhu cầu hoàn toàn tự phục vụ, nạp tiền một lần và dùng mọi mô hình. Thuê bao cho giá trị tốt hơn (hệ số nhân tín dụng tới 2x) nếu mức sử dụng của bạn có thể dự đoán.",
       "Q3": "API có tương thích với OpenAI không?",
       "A3": "Có. {appName} cung cấp endpoint tương thích OpenAI cho chat completions, cùng với endpoint tương thích Anthropic và Gemini. Trỏ bất kỳ SDK OpenAI nào đến base URL của chúng tôi và dùng API key {appName} của bạn.",
       "Q4": "Gói bao gồm mô hình nào?",

@@ -1641,7 +1641,7 @@
       "Q1": "{appName} fiyatlandırma nasıl çalışır?",
       "A1": "Tüketilen token başına ödersiniz. Her modelin kendi girdi, çıktı ve cache oranı vardır, hesap kredinizden faturalandırılır. Pay As You Go için aylık abonelik gerekmez.",
       "Q2": "Abonelik gerekli mi?",
-      "A2": "Hayır. Pay As You Go tamamen self-servistir, bir kez yükleyin ve herhangi bir modeli tüketin. Aboneler kullanımınız öngörülebilirse daha iyi değer verir (1.75x kredi çarpanına kadar).",
+      "A2": "Hayır. Pay As You Go tamamen self-servistir, bir kez yükleyin ve herhangi bir modeli tüketin. Aboneler kullanımınız öngörülebilirse daha iyi değer verir (2x kredi çarpanına kadar).",
       "Q3": "API OpenAI ile uyumlu mu?",
       "A3": "Evet. {appName} chat completion için bir OpenAI uyumlu endpoint, ayrıca Anthropic ve Gemini uyumlu endpointler sunar. Herhangi bir OpenAI SDK'yı base URL'mize yönlendirin ve {appName} API anahtarınızı kullanın.",
       "Q4": "Hangi modeller dahil?",

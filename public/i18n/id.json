@@ -1641,7 +1641,7 @@
       "Q1": "Bagaimana harga {appName} bekerja?",
       "A1": "Anda membayar per token yang dikonsumsi. Setiap model memiliki tarif input, output, dan cache sendiri, ditagih dari kredit akun Anda. Tidak ada langganan bulanan yang diperlukan untuk Pay As You Go.",
       "Q2": "Apakah saya perlu langganan?",
-      "A2": "Tidak. Pay As You Go sepenuhnya swalayan, isi ulang sekali dan konsumsi model apa pun. Langganan memberikan nilai lebih baik (hingga pengganda kredit 1,75x) jika penggunaan Anda dapat diprediksi.",
+      "A2": "Tidak. Pay As You Go sepenuhnya swalayan, isi ulang sekali dan konsumsi model apa pun. Langganan memberikan nilai lebih baik (hingga pengganda kredit 2x) jika penggunaan Anda dapat diprediksi.",
       "Q3": "Apakah API kompatibel dengan OpenAI?",
       "A3": "Ya. {appName} mengekspos endpoint kompatibel OpenAI untuk chat completion, plus endpoint kompatibel Anthropic dan Gemini. Arahkan SDK OpenAI mana pun ke base URL kami dan gunakan kunci API {appName} Anda.",
       "Q4": "Model mana yang termasuk?",

@@ -1641,7 +1641,7 @@
       "Q1": "¿Cómo funcionan los precios de {appName}?",
       "A1": "Pagas por token consumido. Cada modelo tiene su propia tarifa de entrada, salida y caché, facturada desde tu crédito de cuenta. No se requiere suscripción mensual para Pago por Uso.",
       "Q2": "¿Necesito una suscripción?",
-      "A2": "No. Pago por Uso es totalmente autoservicio, recarga una vez y consume cualquier modelo. Las suscripciones dan mejor valor (hasta multiplicador 1.75x de crédito) si tu uso es predecible.",
+      "A2": "No. Pago por Uso es totalmente autoservicio, recarga una vez y consume cualquier modelo. Las suscripciones dan mejor valor (hasta multiplicador 2x de crédito) si tu uso es predecible.",
       "Q3": "¿La API es compatible con OpenAI?",
       "A3": "Sí. {appName} expone un endpoint compatible con OpenAI para completaciones de chat, además de endpoints compatibles con Anthropic y Gemini. Apunta cualquier SDK de OpenAI a nuestra URL base y usa tu clave API de {appName}.",
       "Q4": "¿Qué modelos están incluidos?",

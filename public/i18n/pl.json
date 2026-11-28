@@ -1641,7 +1641,7 @@
       "Q1": "Jak działa cennik {appName}?",
       "A1": "Płacisz za zużyty token. Każdy model ma własną stawkę wejścia, wyjścia i cache, rozliczaną z kredytu konta. Brak miesięcznej subskrypcji wymaganej dla Pay As You Go.",
       "Q2": "Czy potrzebuję subskrypcji?",
-      "A2": "Nie. Pay As You Go jest w pełni samoobsługowe, doładuj raz i konsumuj dowolny model. Subskrypcje dają lepszą wartość (do 1.75x mnożnika kredytu), jeśli twoje użycie jest przewidywalne.",
+      "A2": "Nie. Pay As You Go jest w pełni samoobsługowe, doładuj raz i konsumuj dowolny model. Subskrypcje dają lepszą wartość (do 2x mnożnika kredytu), jeśli twoje użycie jest przewidywalne.",
       "Q3": "Czy API jest kompatybilne z OpenAI?",
       "A3": "Tak. {appName} wystawia endpoint kompatybilny z OpenAI dla chat completions, plus endpointy kompatybilne z Anthropic i Gemini. Skieruj dowolny SDK OpenAI na nasz bazowy URL i użyj klucza API {appName}.",
       "Q4": "Które modele są w cenie?",

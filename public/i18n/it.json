@@ -1641,7 +1641,7 @@
       "Q1": "Come funzionano i prezzi di {appName}?",
       "A1": "Paghi per token consumato. Ogni modello ha la sua tariffa di input, output e cache, fatturata dal credito del tuo account. Non è richiesto alcun abbonamento mensile per Pagamento a consumo.",
       "Q2": "Ho bisogno di un abbonamento?",
-      "A2": "No. Pagamento a consumo è completamente self-service, ricarica una volta e consuma qualsiasi modello. Gli abbonamenti danno maggior valore (fino a moltiplicatore 1.75x del credito) se il tuo utilizzo è prevedibile.",
+      "A2": "No. Pagamento a consumo è completamente self-service, ricarica una volta e consuma qualsiasi modello. Gli abbonamenti danno maggior valore (fino a moltiplicatore 2x del credito) se il tuo utilizzo è prevedibile.",
       "Q3": "L'API è compatibile con OpenAI?",
       "A3": "Sì. {appName} espone un endpoint compatibile con OpenAI per chat completion, più endpoint compatibili con Anthropic e Gemini. Punta qualsiasi SDK OpenAI al nostro URL base e usa la tua chiave API {appName}.",
       "Q4": "Quali modelli sono inclusi?",
